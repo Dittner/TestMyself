@@ -124,6 +124,8 @@ public class ConsoleTarget extends LineFormattedTarget {
 		var ns:Namespace = appDescriptor.namespace();
 		var appCopyright:String = appDescriptor.ns::filename;
 		var appVersion:String = appDescriptor.ns::versionNumber;
+
+		var all:Array = Cc.instance.getAllLog().split("\n");
 		var message:String = Capabilities.os + "\n" + Capabilities.version + "\n" + Capabilities.cpuArchitecture + "\n" + "Debugger: " + Capabilities.isDebugger + "\n" + logDate.toDateString() + "   " + logDate.toLocaleTimeString() + "\n" + "appId:" + appCopyright + "\n" + "version:" + appVersion + "\n" + all.length + "/" + Cc.config.maxLines;
 		Cc.add(message);
 	}
