@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         height="100%" width="100%">
+    <fx:Script><![CDATA[
+        import dittner.testmyself.view.common.renderer.SeparatorItemRenderer;
+        import dittner.testmyself.view.common.renderer.SeparatorVo;
+        import dittner.testmyself.view.core.ViewBase;
+        import dittner.testmyself.view.core.ViewInfo;
+        import dittner.testmyself.view.main.components.ViewListItemRenderer;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  viewListProvider
+        //--------------------------------------
+        private var _viewListProvider:ArrayCollection;
+        [Bindable("viewListProviderChanged")]
+        public function get viewListProvider():ArrayCollection {return _viewListProvider;}
+        public function set viewListProvider(value:ArrayCollection):void {
+            if (_viewListProvider != value) {
+                _viewListProvider = value;
+                dispatchEvent(new Event("viewListProviderChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  selectedViewInfo
+        //--------------------------------------
+        private var _selectedViewInfo:ViewInfo;
+        [Bindable("selectedViewInfoChanged")]
+        public function get selectedViewInfo():ViewInfo {return _selectedViewInfo;}
+        public function set selectedViewInfo(value:ViewInfo):void {
+            if (_selectedViewInfo != value) {
+                _selectedViewInfo = value;
+                dispatchEvent(new Event("selectedViewInfoChanged"));
+            }
+        }
+
+        private function viewRendererFunction(item:Object):IFactory {
+            if (item is ViewInfo) return new ClassFactory(ViewListItemRenderer);
+            else if (item is SeparatorVo) return new ClassFactory(SeparatorItemRenderer);
+            else throw new Error("Unknown item type for view's renderer: " + item.toString() + "!");
+        }
+
+        public function addView(view:ViewBase):void {
+            viewCont.addElement(view);
+            fadeEffect.play();
+        }
+
+        public function removeView():void {
+            if (fadeEffect.isPlaying) fadeEffect.stop();
+            viewCont.removeAllElements();
+        }
+
+        public function showListView():void {
+            viewList.mouseEnabled = true;
+            viewList.mouseChildren = true;
+            viewList.alpha = 1;
+        }
+
+        public function hideListView():void {
+            viewList.mouseEnabled = false;
+            viewList.mouseChildren = false;
+            viewList.alpha = 0.5;
+        }
+        ]]></fx:Script>
+
+    <fx:Declarations>
+        <s:Fade id="fadeEffect"
+                alphaFrom="0"
+                alphaTo="1"
+                duration="1000"
+                target="{viewCont}"/>
+    </fx:Declarations>
+
+    <s:Group id="viewCont"
+             left="66" right="0"
+             height="100%"/>
+
+    <s:Rect width="66" height="100%">
+        <s:fill>
+            <s:SolidColor color="#000000"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:List id="viewList"
+            width="66" height="100%"
+            minWidth="0"
+            dataProvider="{viewListProvider}"
+            selectedItem="{selectedViewInfo}"
+            contentBackgroundAlpha="0"
+            borderVisible="false"
+            itemRendererFunction="viewRendererFunction">
+        <s:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </s:layout>
+    </s:List>
+
+</s:Group>

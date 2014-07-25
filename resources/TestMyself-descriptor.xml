@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/14.0">
+
+    <id>dittner.testmyself</id>
+    <filename>TestMyself</filename>
+    <name>TestMyself</name>
+
+    <versionNumber>1.1.0</versionNumber>
+    <versionLabel>1.1</versionLabel>
+
+    <initialWindow>
+        <content></content>
+        <minimizable>true</minimizable>
+        <maximizable>true</maximizable>
+        <resizable>true</resizable>
+        <width>1280</width>
+        <height>800</height>
+        <minSize>1000 700</minSize>
+        <aspectRatio>landscape</aspectRatio>
+        <autoOrients>false</autoOrients>
+        <fullScreen>true</fullScreen>
+        <visible>true</visible>
+        <softKeyboardBehavior>none</softKeyboardBehavior>
+        <renderMode>gpu</renderMode>
+    </initialWindow>
+
+  <supportedProfiles>mobileDevice</supportedProfiles>
+  
+  <!--<icon>
+        <image16x16></image16x16>
+        <image29x29></image29x29>
+        <image32x32></image32x32>
+        <image36x36></image36x36>
+        <image48x48></image48x48>
+        <image50x50></image50x50>
+        <image57x57></image57x57>
+        <image58x58></image58x58>
+        <image72x72></image72x72>
+        <image96x96></image96x96>
+        <image100x100></image100x100>
+        <image114x114></image114x114>
+        <image128x128></image128x128>
+        <image144x144></image144x144>
+        <image512x512></image512x512>
+        <image732x412></image732x412>
+        <image1024x1024></image1024x1024>
+    </icon>-->
+  <!--<icon>
+        <image16x16></image16x16>
+        <image32x32></image32x32>
+        <image48x48></image48x48>
+        <image128x128></image128x128>
+    </icon>-->
+
+  <!--<iPhone>
+    <InfoAdditions><![CDATA[<key>UIDeviceFamily</key>
+                <array>
+                    <string>2</string>
+                </array>
+
+                <key>UIRequiredDeviceCapabilities</key>
+                <array>
+                    <string>microphone</string>
+                </array>
+
+                <key>UIPrerenderedIcon</key>
+                <true/>
+
+                <key>UIFileSharingEnabled</key>
+                <true/>]]></InfoAdditions>
+    <requestedDisplayResolution>standard</requestedDisplayResolution>
+    <forceCPURenderModeForDevices>iPad1,1 iPad2,1 iPad2,2 iPad2,3 iPad2,4 iPad2,5 iPad2,6 iPad2,7 iPad2,8 iPad2,9 iPad3,1 iPad3,2 iPad3,3 iPad3,4 iPad3,5 iPad3,6 iPad3,7 iPad4,1 iPad4,2 iPad4,3 iPad4,2 iPad4,3 iPad4,4 Pad4,5 Pad4,6 Pad4,7</forceCPURenderModeForDevices>
+  </iPhone>-->
+</application>
+
