@@ -6,6 +6,7 @@ public class SeparatorItemRenderer extends ItemRendererBase {
 	public function SeparatorItemRenderer() {
 		super();
 		mouseEnabled = mouseChildren = false;
+		percentHeight = 100;
 	}
 
 	private function get separator():SeparatorVo {
@@ -14,7 +15,8 @@ public class SeparatorItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : 0;
-		measuredHeight = measuredMinHeight = separator ? separator.thickness + separator.gap * 2 : 0;
+		measuredMinHeight = 0;
+		measuredHeight = parent ? parent.height : separator ? separator.thickness + separator.gap * 2 : 0;
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {

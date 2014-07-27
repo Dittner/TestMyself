@@ -1,7 +1,7 @@
 package dittner.testmyself.command.view {
 import dittner.testmyself.message.ViewMsg;
-import dittner.testmyself.view.core.IViewFactory;
-import dittner.testmyself.view.core.ViewInfo;
+import dittner.testmyself.service.helpers.viewFactory.IViewFactory;
+import dittner.testmyself.service.helpers.viewFactory.ViewInfo;
 
 import mvcexpress.mvc.Command;
 

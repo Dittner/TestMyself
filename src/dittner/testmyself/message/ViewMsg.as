@@ -6,8 +6,8 @@ public class ViewMsg {
 	public static const ON_SELECTED_VIEW:String = "onSelectedView";
 	public static const ON_ALL_VIEW_INFOS:String = "onAllViewInfos";
 
-	public static const SHOW_VIEW_LIST:String = "showViewList";
-	public static const HIDE_VIEW_LIST:String = "hideViewList";
+	public static const LOCK_VIEWS:String = "lockViews";
+	public static const UNLOCK_VIEWS:String = "unlockViews";
 
 }
 }

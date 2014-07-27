@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:busyindicator="dittner.testmyself.view.common.busyIndicator.*"
+         xmlns:common="dittner.testmyself.view.common.*"
          height="100%" width="100%">
     <fx:Script><![CDATA[
         import dittner.testmyself.view.common.renderer.SeparatorItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorVo;
         import dittner.testmyself.view.core.ViewBase;
-        import dittner.testmyself.view.core.ViewInfo;
+        import dittner.testmyself.service.helpers.viewFactory.ViewInfo;
         import dittner.testmyself.view.main.components.ViewListItemRenderer;
+        import dittner.testmyself.view.utils.AppColors;
 
         import mx.collections.ArrayCollection;
 
@@ -53,18 +56,20 @@
             viewCont.removeAllElements();
         }
 
-        public function showListView():void {
-            viewList.mouseEnabled = true;
-            viewList.mouseChildren = true;
-            viewList.alpha = 1;
+        public function lock():void {
+            setCurrentState("lock");
         }
 
-        public function hideListView():void {
-            viewList.mouseEnabled = false;
-            viewList.mouseChildren = false;
-            viewList.alpha = 0.5;
+        public function unlock():void {
+            setCurrentState("normal");
         }
         ]]></fx:Script>
+
+    <s:states>
+        <s:State name="disabled"/>
+        <s:State name="normal"/>
+        <s:State name="lock"/>
+    </s:states>
 
     <fx:Declarations>
         <s:Fade id="fadeEffect"
@@ -74,27 +79,46 @@
                 target="{viewCont}"/>
     </fx:Declarations>
 
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="{AppColors.BG_DARK}"/>
+        </s:fill>
+    </s:Rect>
+
     <s:Group id="viewCont"
              left="66" right="0"
              height="100%"/>
 
     <s:Rect width="66" height="100%">
         <s:fill>
-            <s:SolidColor color="#000000"/>
+            <s:SolidColor color="{AppColors.VIEW_LIST_BG}"/>
         </s:fill>
     </s:Rect>
 
-    <s:List id="viewList"
-            width="66" height="100%"
-            minWidth="0"
-            dataProvider="{viewListProvider}"
-            selectedItem="{selectedViewInfo}"
-            contentBackgroundAlpha="0"
-            borderVisible="false"
-            itemRendererFunction="viewRendererFunction">
-        <s:layout>
-            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-        </s:layout>
-    </s:List>
+    <common:SelectableDataGroup id="viewList"
+                                width="66" height="100%"
+                                minWidth="0"
+                                dataProvider="{viewListProvider}"
+                                selectedItem="{selectedViewInfo}"
+                                contentBackgroundAlpha="0"
+                                autoLayout="true"
+                                itemRendererFunction="viewRendererFunction">
+        <common:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false" variableRowHeight="true"/>
+        </common:layout>
+    </common:SelectableDataGroup>
+
+
+    <s:Group width="100%" height="100%">
+        <s:Rect width="100%" height="100%"
+                visible="false" visible.lock="true">
+            <s:fill>
+                <s:SolidColor color="#aaAAaa" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <busyindicator:WatchBusyIndicator verticalCenter="0" horizontalCenter="0"
+                                          visible="false" visible.lock="true"/>
+    </s:Group>
 
 </s:Group>

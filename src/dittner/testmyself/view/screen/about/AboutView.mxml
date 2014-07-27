@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<core:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+               xmlns:components="dittner.testmyself.view.screen.about.components.*" xmlns:core="dittner.testmyself.view.core.*"
+               showHeader="false"
+               showBackground="false">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.model.vo.DataBaseInfoVo;
+        import dittner.testmyself.view.utils.AppColors;
+        import dittner.testmyself.view.utils.FontName;
+
+        [Embed(source='/assets/about_bg.png')]
+        private static var bgClass:Class;
+        private var bg:Bitmap;
+        public var clippedBgWidth:Number;
+
+        private static const ABOUT:String = "Это инструмент, автоматизирующий процессы тестирования и обработки результатов тестов, представляющий собой удобный интерфейс для ввода и визуализации данных. Предназначен для самостоятельного контроля знаний учеников, изучающих иностранные языки. Текущая версия программного продукта предназначена для контроля знаний немецкого языка.";
+
+        //--------------------------------------
+        //  dataBaseInfo
+        //--------------------------------------
+        private var _dataBaseInfo:DataBaseInfoVo;
+        [Bindable("dataBaseInfoChanged")]
+        public function get dataBaseInfo():DataBaseInfoVo {return _dataBaseInfo;}
+        public function set dataBaseInfo(value:DataBaseInfoVo):void {
+            if (_dataBaseInfo != value) {
+                _dataBaseInfo = value;
+                dispatchEvent(new Event("dataBaseInfoChanged"));
+            }
+        }
+
+        override protected function createChildren():void {
+            super.createChildren();
+            bg = new bgClass() as Bitmap;
+            bgCont.addChild(bg);
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            var bgScale:Number = height / bg.bitmapData.height;
+            bg.height = h;
+            bg.width = bg.bitmapData.width * bgScale;
+            bg.x = (w - bg.width) / 2;
+            clippedBgWidth = Math.min(w, bg.width);
+            rightPanel.x = Math.ceil(clippedBgWidth < bg.width ? clippedBgWidth - rightPanel.width : clippedBgWidth - rightPanel.width + bg.x);
+        }
+        ]]></fx:Script>
+
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="{AppColors.BG_DARK}"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:Group width="100%" height="100%">
+        <mx:UIComponent id="bgCont"/>
+        <s:filters>
+            <s:GlowFilter inner="false" color="0" alpha=".75" strength="1" quality="1" blurX="30"/>
+        </s:filters>
+    </s:Group>
+
+    <s:Group id="rightPanel" width="500" height="100%">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="#000000" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <s:VGroup width="100%" height="100%" right="0"
+                  verticalAlign="bottom" horizontalAlign="center"
+                  paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="150" gap="0">
+
+            <s:Spacer height="10%"/>
+
+            <s:BitmapImage source="@Embed('/assets/logo.png')"/>
+
+            <s:Spacer height="10%"/>
+
+            <s:Label fontFamily="{FontName.HELVETICA_NEUE_ULTRALIGHT}"
+                     width="100%"
+                     fontSize="50" color="#FFCC00"
+                     text="Система самостоятельного тестирования знаний немецкого языка"/>
+
+            <s:Spacer height="10%"/>
+
+            <s:Label fontFamily="{FontName.HELVETICA_NEUE_REGULAR}"
+                     fontWeight="bold"
+                     width="100%"
+                     fontSize="14" color="#ddDDdd"
+                     text="TestMyself">
+                <s:filters>
+                    <s:DropShadowFilter color="0" alpha=".5" angle="120" blurX="1" blurY="1" distance="1"/>
+                </s:filters>
+            </s:Label>
+            <s:Label fontFamily="{FontName.HELVETICA_NEUE_REGULAR}"
+                     width="100%"
+                     fontSize="14" color="#ddDDdd"
+                     verticalAlign="middle"
+                     text="{ABOUT}">
+                <s:filters>
+                    <s:DropShadowFilter color="0" alpha=".5" angle="120" blurX="1" blurY="1" distance="1"/>
+                </s:filters>
+            </s:Label>
+        </s:VGroup>
+
+        <components:DataBaseInfoBoard width="500" right="0" height="130" bottom="0"
+                                      info="{dataBaseInfo}"/>
+    </s:Group>
+
+
+</core:ViewBase>

@@ -1,13 +1,14 @@
 package dittner.testmyself.view.main {
 
 import dittner.testmyself.message.ViewMsg;
+import dittner.testmyself.view.common.SelectableDataGroup;
 import dittner.testmyself.view.core.ViewBase;
+
+import flash.events.Event;
 
 import mvcexpress.mvc.Mediator;
 
 import mx.collections.ArrayCollection;
-
-import spark.events.IndexChangeEvent;
 
 public class MainViewMediator extends Mediator {
 
@@ -17,16 +18,16 @@ public class MainViewMediator extends Mediator {
 	private var curView:ViewBase;
 
 	override protected function onRegister():void {
-		mainView.viewList.addEventListener(IndexChangeEvent.CHANGE, selectedViewChangedHandler);
+		mainView.viewList.addEventListener(SelectableDataGroup.SELECTED, selectedViewChangedHandler);
 		addHandler(ViewMsg.ON_SELECTED_VIEW, showSelectedView);
 		addHandler(ViewMsg.ON_ALL_VIEW_INFOS, showViewListData);
-		addHandler(ViewMsg.SHOW_VIEW_LIST, showViewList);
-		addHandler(ViewMsg.HIDE_VIEW_LIST, hideViewList);
+		addHandler(ViewMsg.LOCK_VIEWS, lock);
+		addHandler(ViewMsg.UNLOCK_VIEWS, unlock);
 		sendMessage(ViewMsg.GET_SELECTED_VIEW);
 		sendMessage(ViewMsg.GET_ALL_VIEW_INFOS);
 	}
 
-	private function selectedViewChangedHandler(event:IndexChangeEvent):void {
+	private function selectedViewChangedHandler(event:Event):void {
 		sendMessage(ViewMsg.GET_SELECTED_VIEW, mainView.viewList.selectedItem);
 	}
 
@@ -55,12 +56,12 @@ public class MainViewMediator extends Mediator {
 		mainView.viewListProvider = new ArrayCollection(viewInfos);
 	}
 
-	private function showViewList(params:Object):void {
-		mainView.showListView();
+	private function lock(params:Object):void {
+		mainView.lock();
 	}
 
-	private function hideViewList(params:Object):void {
-		mainView.hideListView();
+	private function unlock(params:Object):void {
+		mainView.unlock();
 	}
 
 }

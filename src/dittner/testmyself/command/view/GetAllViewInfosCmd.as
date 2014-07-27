@@ -1,6 +1,6 @@
 package dittner.testmyself.command.view {
 import dittner.testmyself.message.ViewMsg;
-import dittner.testmyself.view.core.IViewFactory;
+import dittner.testmyself.service.helpers.viewFactory.IViewFactory;
 
 import mvcexpress.mvc.Command;
 

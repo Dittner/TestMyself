@@ -1,7 +1,8 @@
 package dittner.testmyself.view.main.components {
+import dittner.testmyself.service.helpers.viewFactory.ViewInfo;
 import dittner.testmyself.view.common.renderer.ItemRendererBase;
-import dittner.testmyself.view.common.tooltip.ToolTiper;
-import dittner.testmyself.view.core.ViewInfo;
+import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
+import dittner.testmyself.view.common.tooltip.ToolTipPos;
 import dittner.testmyself.view.utils.AppColors;
 
 import flash.display.Bitmap;
@@ -12,7 +13,7 @@ import flash.geom.Point;
 
 public class ViewListItemRenderer extends ItemRendererBase {
 	private static const ICON_ALPHA_OUT:Number = 0.5;
-	private static const ICON_ALPHA_SELECTED:Number = 1;
+	private static const ICON_ALPHA_SELECTED:Number = 0.75;
 
 	private static const VGAP:Number = 20;
 
@@ -78,22 +79,22 @@ public class ViewListItemRenderer extends ItemRendererBase {
 		icon.x = (w - icon.width) / 2;
 		icon.y = (h - icon.height) / 2;
 
-		alpha = enabled ? 1 : 0.5;
+		icon.blendMode = selected ? BlendMode.INVERT : BlendMode.NORMAL;
 	}
 
 	private function overHandler(event:MouseEvent):void {
 		if (!selected) {
 			icon.alpha = 1;
+			var topLeftPoint:Point = this.localToGlobal(new Point(0, 0));
+			ManualToolTipManager.show(viewInfo.description, topLeftPoint.x + getExplicitOrMeasuredWidth() + 10, topLeftPoint.y + getExplicitOrMeasuredHeight() / 2, ToolTipPos.LEFT);
 		}
-		var topLeftPoint:Point = this.localToGlobal(new Point(0, 0));
-		ToolTiper.show(viewInfo.description, topLeftPoint.x + getExplicitOrMeasuredWidth() + 10, topLeftPoint.y + getExplicitOrMeasuredHeight() / 2);
 	}
 
 	private function outHandler(event:MouseEvent):void {
 		if (!selected) {
 			icon.alpha = ICON_ALPHA_OUT;
 		}
-		ToolTiper.hide();
+		ManualToolTipManager.hide();
 	}
 }
 }

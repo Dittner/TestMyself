@@ -1,5 +1,5 @@
 package dittner.testmyself.service {
-import dittner.testmyself.message.DataBaseInfoMsg;
+import dittner.testmyself.message.ServiceMsg;
 import dittner.testmyself.model.model_internal;
 import dittner.testmyself.model.vo.DataBaseInfoVo;
 import dittner.testmyself.utils.pendingInvoke.doLaterInMSec;
@@ -14,7 +14,7 @@ public class DataBaseInfoService extends Proxy {
 	}
 
 	public function load():void {
-		doLaterInMSec(sendFakeData, 2000);
+		doLaterInMSec(sendFakeData, 500);
 	}
 
 	private function sendFakeData():void {
@@ -24,7 +24,7 @@ public class DataBaseInfoService extends Proxy {
 		info._strongVerbsNum = 143;
 		info._examplesNum = 3456;
 		info._audioRecordsNum = 12456;
-		sendMessage(DataBaseInfoMsg.ON_DATA_BASE_INFO, info);
+		sendMessage(ServiceMsg.ON_DATA_BASE_INFO, info);
 	}
 
 	override protected function onRegister():void {}
