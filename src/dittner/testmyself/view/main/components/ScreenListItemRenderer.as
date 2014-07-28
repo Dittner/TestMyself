@@ -3,7 +3,7 @@ import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
 import dittner.testmyself.view.common.renderer.ItemRendererBase;
 import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
 import dittner.testmyself.view.common.tooltip.ToolTipPos;
-import dittner.testmyself.view.utils.AppColors;
+import dittner.testmyself.view.common.utils.AppColors;
 
 import flash.display.Bitmap;
 import flash.display.BlendMode;

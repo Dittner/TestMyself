@@ -4,7 +4,7 @@ import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
 
 import mvcexpress.mvc.Command;
 
-public class NotifySelectedScreenChangedCmd extends Command {
+public class SelectScreenCmd extends Command {
 
 	[Inject]
 	public var mainModel:MainModel;

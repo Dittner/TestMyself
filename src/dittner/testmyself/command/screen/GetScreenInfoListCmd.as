@@ -10,7 +10,7 @@ public class GetScreenInfoListCmd extends Command {
 	public var screenFactory:IScreenFactory;
 
 	public function execute(params:Object):void {
-		sendMessage(ScreenMsg.ON_SCREEN_INFO_LIST, screenFactory.screenInfos);
+		sendMessage(ScreenMsg.ON_SCREEN_INFO_LIST, screenFactory.screens);
 	}
 
 }

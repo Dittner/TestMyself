@@ -5,7 +5,7 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
-        import dittner.testmyself.view.utils.FontName;
+        import dittner.testmyself.view.common.utils.FontName;
 
         //--------------------------------------
         //  selectedTool

@@ -1,4 +1,4 @@
-package dittner.testmyself.view.screen.about {
+package dittner.testmyself.view.about {
 import dittner.testmyself.message.ServiceMsg;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.model.vo.DataBaseInfoVo;

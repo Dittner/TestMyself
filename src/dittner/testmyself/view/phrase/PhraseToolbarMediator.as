@@ -1,8 +1,9 @@
-package dittner.testmyself.view.screen.phrase {
-import dittner.testmyself.message.ToolMsg;
+package dittner.testmyself.view.phrase {
+import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.service.helpers.toolFactory.ToolId;
 import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
 import dittner.testmyself.view.common.SelectableDataGroup;
+import dittner.testmyself.view.common.toobar.Toolbar;
 
 import flash.events.Event;
 
@@ -10,19 +11,23 @@ import mvcexpress.mvc.Mediator;
 
 import mx.collections.ArrayCollection;
 
-public class PhraseMediator extends Mediator {
+public class PhraseToolbarMediator extends Mediator {
 
 	[Inject]
-	public var view:PhraseView;
+	public var view:Toolbar;
 
 	private var toolHash:Object;
 	override protected function onRegister():void {
-		view.toolbar.addEventListener(SelectableDataGroup.SELECTED, toolSelectedHandler);
-		addHandler(ToolMsg.ON_TOOLS_FOR_PHRASE, parseTools);
-		sendMessage(ToolMsg.GET_TOOLS_FOR_PHRASE);
+		view.addEventListener(SelectableDataGroup.SELECTED, toolSelectedHandler);
+		addHandler(PhraseMsg.ON_TOOLS, updateTools);
+		sendMessage(PhraseMsg.GET_TOOLS);
 	}
 
-	private function parseTools(toolInfos:Array):void {
+	private function toolSelectedHandler(event:Event):void {
+		sendMessage(PhraseMsg.SELECT_TOOL, view.selectedItem);
+	}
+
+	private function updateTools(toolInfos:Array):void {
 		toolHash = {};
 		for each(var tool:ToolInfo in toolInfos) {
 			toolHash[tool.id] = tool;
@@ -34,7 +39,7 @@ public class PhraseMediator extends Mediator {
 		deactivateTool(ToolId.EDIT);
 		deactivateTool(ToolId.DELETE);
 
-		view.toolProvider = new ArrayCollection(toolInfos);
+		view.dataProvider = new ArrayCollection(toolInfos);
 	}
 
 	private function activateTool(toolId:uint):void {
@@ -48,13 +53,9 @@ public class PhraseMediator extends Mediator {
 	}
 
 	override protected function onRemove():void {
-		view.toolbar.removeEventListener(SelectableDataGroup.SELECTED, toolSelectedHandler);
+		view.removeEventListener(SelectableDataGroup.SELECTED, toolSelectedHandler);
 		removeAllHandlers();
-		toolHash = null;
-	}
-
-	private function toolSelectedHandler(event:Event):void {
-		view.activateEditMode();
+		view.dataProvider = null;
 	}
 }
 }

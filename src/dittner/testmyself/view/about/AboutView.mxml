@@ -2,15 +2,15 @@
 <core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/mx"
-               xmlns:components="dittner.testmyself.view.screen.about.components.*"
-               xmlns:core="dittner.testmyself.view.core.*"
+               xmlns:components="dittner.testmyself.view.about.components.*"
+               xmlns:core="dittner.testmyself.view.common.screen.*"
                showHeader="false"
                showBackground="false">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.model.vo.DataBaseInfoVo;
-        import dittner.testmyself.view.utils.AppColors;
-        import dittner.testmyself.view.utils.FontName;
+        import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.common.utils.FontName;
 
         [Embed(source='/assets/about_bg.png')]
         private static var bgClass:Class;

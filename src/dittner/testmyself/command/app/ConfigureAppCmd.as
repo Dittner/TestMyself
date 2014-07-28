@@ -1,12 +1,13 @@
 package dittner.testmyself.command.app {
+import dittner.testmyself.command.phrase.GetToolsForPhraseCmd;
+import dittner.testmyself.command.phrase.SelectPhraseToolCmd;
 import dittner.testmyself.command.screen.GetScreenInfoListCmd;
 import dittner.testmyself.command.screen.GetSelectedScreenViewCmd;
-import dittner.testmyself.command.screen.NotifySelectedScreenChangedCmd;
+import dittner.testmyself.command.screen.SelectScreenCmd;
 import dittner.testmyself.command.service.GetDataBaseInfoCmd;
-import dittner.testmyself.command.tool.GetToolsForPhraseCmd;
+import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.message.ServiceMsg;
-import dittner.testmyself.message.ToolMsg;
 import dittner.testmyself.model.MainModel;
 import dittner.testmyself.model.language.ILanguage;
 import dittner.testmyself.model.language.Language;
@@ -16,10 +17,10 @@ import dittner.testmyself.service.helpers.screenFactory.IScreenFactory;
 import dittner.testmyself.service.helpers.screenFactory.ScreenFactory;
 import dittner.testmyself.service.helpers.toolFactory.IToolFactory;
 import dittner.testmyself.service.helpers.toolFactory.ToolFactory;
-import dittner.testmyself.view.screen.about.AboutMediator;
-import dittner.testmyself.view.screen.about.AboutView;
-import dittner.testmyself.view.screen.phrase.PhraseMediator;
-import dittner.testmyself.view.screen.phrase.PhraseView;
+import dittner.testmyself.view.about.AboutMediator;
+import dittner.testmyself.view.about.AboutView;
+import dittner.testmyself.view.phrase.PhraseMediator;
+import dittner.testmyself.view.phrase.PhraseView;
 import dittner.testmyself.view.template.TemplateMediator;
 import dittner.testmyself.view.template.TemplateView;
 
@@ -31,9 +32,11 @@ public class ConfigureAppCmd extends Command {
 		//map commands
 		commandMap.map(ScreenMsg.GET_SELECTED_SCREEN_VIEW, GetSelectedScreenViewCmd);
 		commandMap.map(ScreenMsg.GET_SCREEN_INFO_LIST, GetScreenInfoListCmd);
-		commandMap.map(ScreenMsg.NOTIFY_SELECTED_SCREEN_CHANGED, NotifySelectedScreenChangedCmd);
+		commandMap.map(ScreenMsg.SELECT_SCREEN, SelectScreenCmd);
 		commandMap.map(ServiceMsg.GET_DATA_BASE_INFO, GetDataBaseInfoCmd);
-		commandMap.map(ToolMsg.GET_TOOLS_FOR_PHRASE, GetToolsForPhraseCmd);
+		//-------------------- PHRASE ------------------
+		commandMap.map(PhraseMsg.GET_TOOLS, GetToolsForPhraseCmd);
+		commandMap.map(PhraseMsg.SELECT_TOOL, SelectPhraseToolCmd);
 
 		//map models and services
 		proxyMap.map(createLanguage(), null, ILanguage);

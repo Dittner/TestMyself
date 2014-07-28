@@ -1,4 +1,4 @@
-package dittner.testmyself.view.core {
+package dittner.testmyself.view.common.screen {
 import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
 
 import flash.events.Event;

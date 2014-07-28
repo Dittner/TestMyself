@@ -3,7 +3,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark">
     <fx:Script><![CDATA[
         import dittner.testmyself.model.vo.DataBaseInfoVo;
-        import dittner.testmyself.view.utils.FontName;
+        import dittner.testmyself.view.common.utils.FontName;
 
         //--------------------------------------
         //  info

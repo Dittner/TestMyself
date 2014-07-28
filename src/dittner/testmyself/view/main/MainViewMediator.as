@@ -2,7 +2,7 @@ package dittner.testmyself.view.main {
 
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.view.common.SelectableDataGroup;
-import dittner.testmyself.view.core.ScreenBase;
+import dittner.testmyself.view.common.screen.ScreenBase;
 
 import flash.events.Event;
 
@@ -28,7 +28,7 @@ public class MainViewMediator extends Mediator {
 	}
 
 	private function selectedScreenChangedHandler(event:Event):void {
-		sendMessage(ScreenMsg.NOTIFY_SELECTED_SCREEN_CHANGED, mainView.screenList.selectedItem);
+		sendMessage(ScreenMsg.SELECT_SCREEN, mainView.screenList.selectedItem);
 		sendMessage(ScreenMsg.GET_SELECTED_SCREEN_VIEW, mainView.screenList.selectedItem);
 	}
 

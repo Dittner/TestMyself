@@ -1,5 +1,5 @@
 package dittner.testmyself.service.helpers.toolFactory {
-import dittner.testmyself.view.core.screen_internal;
+import dittner.testmyself.view.common.screen.screen_internal;
 
 import flash.display.BitmapData;
 import flash.events.Event;

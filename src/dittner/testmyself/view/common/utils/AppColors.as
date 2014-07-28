@@ -1,4 +1,4 @@
-package dittner.testmyself.view.utils {
+package dittner.testmyself.view.common.utils {
 public class AppColors {
 
 	public static const BG:uint = 0xdfdfe8;

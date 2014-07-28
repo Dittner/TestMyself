@@ -72,7 +72,7 @@ public class ToolFactory extends Proxy implements IToolFactory {
 		return bitmapData;
 	}
 
-	public function generateInfos(toolIds:Array):Array {
+	public function generate(toolIds:Array):Array {
 		var tools:Array = [];
 		for each(var toolId:uint in toolIds) {
 			if (!toolInfosHash[toolId]) throw new Error("Unknown tool id:" + toolId + ", can not generate tool!");

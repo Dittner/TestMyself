@@ -1,28 +1,12 @@
 <?xml version="1.0"?>
 <core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-                 xmlns:core="dittner.testmyself.view.core.*"
-                 xmlns:common="dittner.testmyself.view.common.*"
-                 xmlns:components="dittner.testmyself.view.screen.phrase.components.*"
-                 xmlns:s="library://ns.adobe.com/flex/spark">
+                 xmlns:core="dittner.testmyself.view.common.screen.*"
+                 xmlns:s="library://ns.adobe.com/flex/spark"
+                 xmlns:toobar="dittner.testmyself.view.common.toobar.*"
+                 xmlns:phrase="dittner.testmyself.view.phrase.*">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
         import dittner.testmyself.view.common.renderer.ToolItemRenderer;
-
-        import mx.collections.ArrayCollection;
-
-        //--------------------------------------
-        //  toolsProvider
-        //--------------------------------------
-        private var _toolProvider:ArrayCollection;
-        [Bindable("toolProviderChanged")]
-        public function get toolProvider():ArrayCollection {return _toolProvider;}
-        public function set toolProvider(value:ArrayCollection):void {
-            if (_toolProvider != value) {
-                _toolProvider = value;
-                dispatchEvent(new Event("toolProviderChanged"));
-            }
-        }
 
         private function toolbarSelectedToolHandler(event:Event):void {
             if (toolbar.selectedItem) {
@@ -53,15 +37,14 @@
         <s:State name="edit"/>
     </core:states>
 
-    <common:SelectableDataGroup id="toolbar"
-                                height="{headerHeight}" right="20"
-                                dataProvider="{toolProvider}"
-                                itemRenderer="dittner.testmyself.view.common.renderer.ToolItemRenderer"
-                                selectedItemChange="toolbarSelectedToolHandler(event)">
-        <common:layout>
+    <toobar:Toolbar id="toolbar"
+                    height="{headerHeight}" right="20"
+                    itemRenderer="dittner.testmyself.view.common.renderer.ToolItemRenderer"
+                    selectedItemChange="toolbarSelectedToolHandler(event)">
+        <toobar:layout>
             <s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="right"/>
-        </common:layout>
-    </common:SelectableDataGroup>
+        </toobar:layout>
+    </toobar:Toolbar>
 
     <s:Group width="100%" height="100%"
              visible.edit="true" visible="false"
@@ -72,10 +55,11 @@
             </s:fill>
         </s:Rect>
 
-        <components:PhraseEditor id="editor"
-                                 toolInfo="{toolbar.selectedItem as ToolInfo}"
-                                 left="20" right="20" top="{headerHeight}"
-                                 bottom="20"/>
+        <phrase:PhraseEditor id="editor"
+                             left="20"
+                             right="20"
+                             top="{headerHeight}"
+                             bottom="20"/>
     </s:Group>
 
 

@@ -1,11 +1,11 @@
 package dittner.testmyself.service.helpers.screenFactory {
 import dittner.testmyself.view.common.renderer.SeparatorVo;
-import dittner.testmyself.view.core.ScreenBase;
-import dittner.testmyself.view.core.screen_internal;
-import dittner.testmyself.view.screen.about.AboutView;
-import dittner.testmyself.view.screen.phrase.PhraseView;
+import dittner.testmyself.view.common.screen.ScreenBase;
+import dittner.testmyself.view.common.screen.screen_internal;
+import dittner.testmyself.view.about.AboutView;
+import dittner.testmyself.view.phrase.PhraseView;
 import dittner.testmyself.view.template.TemplateView;
-import dittner.testmyself.view.utils.AppColors;
+import dittner.testmyself.view.common.utils.AppColors;
 
 import flash.display.BitmapData;
 
@@ -39,48 +39,48 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 		createScreenInfos();
 	}
 
-	private var screenInfosHash:Object;
-	private var _screenInfos:Array;
-	public function get screenInfos():Array {
-		return _screenInfos;
+	private var screensHash:Object;
+	private var _screens:Array;
+	public function get screens():Array {
+		return _screens;
 	}
 
 	private function createScreenInfos():void {
-		_screenInfos = [];
-		screenInfosHash = {};
+		_screens = [];
+		screensHash = {};
 		var info:ScreenInfo;
 
 		info = new ScreenInfo(ScreenId.ABOUT, "", "Главный экран с описанием программы и базы данных", getIcon(ScreenId.ABOUT));
-		_screenInfos.push(info);
-		screenInfosHash[info.id] = info;
+		_screens.push(info);
+		screensHash[info.id] = info;
 
-		_screenInfos.push(createScreenItemSeparator());
+		_screens.push(createScreenItemSeparator());
 
 		info = new ScreenInfo(ScreenId.WORD, "Список слов", "Экран со списком слов", getIcon(ScreenId.WORD));
-		_screenInfos.push(info);
-		screenInfosHash[info.id] = info;
+		_screens.push(info);
+		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.PHRASE, "Список фраз и предложений", "Экран со списком фраз и предложений", getIcon(ScreenId.PHRASE));
-		_screenInfos.push(info);
-		screenInfosHash[info.id] = info;
+		_screens.push(info);
+		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.VERB, "Таблица сильных глаголов", "Экран с таблицей сильных глаголов", getIcon(ScreenId.VERB));
-		_screenInfos.push(info);
-		screenInfosHash[info.id] = info;
+		_screens.push(info);
+		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.TEST, "Тестирование", "Экран тестирования", getIcon(ScreenId.TEST));
-		_screenInfos.push(info);
-		screenInfosHash[info.id] = info;
+		_screens.push(info);
+		screensHash[info.id] = info;
 
-		_screenInfos.push(createScreenItemSeparator());
+		_screens.push(createScreenItemSeparator());
 
 		info = new ScreenInfo(ScreenId.SEARCH, "Поиск", "Экран поиска слов в базе данных", getIcon(ScreenId.SEARCH));
-		_screenInfos.push(info);
-		screenInfosHash[info.id] = info;
+		_screens.push(info);
+		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.SETTINGS, "Настройки", "Экран с настройками программы", getIcon(ScreenId.SETTINGS));
-		_screenInfos.push(info);
-		screenInfosHash[info.id] = info;
+		_screens.push(info);
+		screensHash[info.id] = info;
 	}
 
 	private function createScreenItemSeparator():SeparatorVo {
@@ -147,7 +147,7 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 				throw new Error("Unknown screen ID:" + screenId);
 		}
 
-		screen._info = screenInfosHash[screenId];
+		screen._info = screensHash[screenId];
 		return screen;
 	}
 

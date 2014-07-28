@@ -10,9 +10,9 @@
         import dittner.testmyself.view.common.popup.SimplePopup;
         import dittner.testmyself.view.common.renderer.SeparatorItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorVo;
-        import dittner.testmyself.view.core.ScreenBase;
+        import dittner.testmyself.view.common.screen.ScreenBase;
         import dittner.testmyself.view.main.components.ScreenListItemRenderer;
-        import dittner.testmyself.view.utils.AppColors;
+        import dittner.testmyself.view.common.utils.AppColors;
 
         import mx.collections.ArrayCollection;
 

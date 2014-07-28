@@ -1,6 +1,6 @@
 package dittner.testmyself.view.common.editor {
-import dittner.testmyself.view.utils.AppColors;
-import dittner.testmyself.view.utils.FontName;
+import dittner.testmyself.view.common.utils.AppColors;
+import dittner.testmyself.view.common.utils.FontName;
 
 import flash.display.Graphics;
 import flash.text.TextField;

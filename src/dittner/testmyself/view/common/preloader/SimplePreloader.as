@@ -1,5 +1,5 @@
 package dittner.testmyself.view.common.preloader {
-import dittner.testmyself.view.utils.FontName;
+import dittner.testmyself.view.common.utils.FontName;
 
 import flash.display.Sprite;
 import flash.events.Event;
