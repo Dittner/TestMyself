@@ -1,5 +1,5 @@
-package dittner.testmyself.service.helpers.viewFactory {
-public class ViewId {
+package dittner.testmyself.service.helpers.screenFactory {
+public class ScreenId {
 	public static const ABOUT:uint = 0;
 	public static const WORD:uint = 1;
 	public static const PHRASE:uint = 2;

@@ -127,6 +127,15 @@ public class SelectableDataGroup extends DataGroup {
 			IItemRenderer(renderer).selected = (data == _selectedItem);
 	}
 
+	public function getSelectedRenderer():IItemRenderer {
+		if (selectedItem) {
+			for each(var renderer:IItemRenderer in renderers) {
+				if (renderer.data == selectedItem) return renderer;
+			}
+		}
+		return null;
+	}
+
 	//--------------------------------------------------------------------------
 	//
 	//  Protected methods

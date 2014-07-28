@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<core:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:core="dittner.testmyself.view.core.*">
 
@@ -13,4 +13,4 @@
              fontSize="40" color="#888888"
              text="Экран находится в разработке"/>
 
-</core:ViewBase>
+</core:ScreenBase>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                 xmlns:core="dittner.testmyself.view.core.*"
+                 xmlns:common="dittner.testmyself.view.common.*"
+                 xmlns:components="dittner.testmyself.view.screen.phrase.components.*"
+                 xmlns:s="library://ns.adobe.com/flex/spark">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
+        import dittner.testmyself.view.common.renderer.ToolItemRenderer;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  toolsProvider
+        //--------------------------------------
+        private var _toolProvider:ArrayCollection;
+        [Bindable("toolProviderChanged")]
+        public function get toolProvider():ArrayCollection {return _toolProvider;}
+        public function set toolProvider(value:ArrayCollection):void {
+            if (_toolProvider != value) {
+                _toolProvider = value;
+                dispatchEvent(new Event("toolProviderChanged"));
+            }
+        }
+
+        private function toolbarSelectedToolHandler(event:Event):void {
+            if (toolbar.selectedItem) {
+                var renderer:ToolItemRenderer = toolbar.getSelectedRenderer() as ToolItemRenderer;
+                if (renderer) {
+                    const topLeftPoint:Point = renderer.localToGlobal(new Point(0, 0));
+                    const arrowPosX:Number = topLeftPoint.x + renderer.getExplicitOrMeasuredWidth() / 2;
+                    const arrowPosY:Number = topLeftPoint.y + renderer.getExplicitOrMeasuredHeight();
+
+                    editor.arrowPos = editor.globalToLocal(new Point(arrowPosX, arrowPosY));
+                }
+            }
+        }
+
+        public function activateEditMode():void {
+            setCurrentState("edit");
+        }
+
+        public function deactivateEditMode():void {
+            setCurrentState("normal");
+            toolbar.selectedItem = null;
+        }
+        ]]></fx:Script>
+
+    <core:states>
+        <s:State name="disabled"/>
+        <s:State name="normal"/>
+        <s:State name="edit"/>
+    </core:states>
+
+    <common:SelectableDataGroup id="toolbar"
+                                height="{headerHeight}" right="20"
+                                dataProvider="{toolProvider}"
+                                itemRenderer="dittner.testmyself.view.common.renderer.ToolItemRenderer"
+                                selectedItemChange="toolbarSelectedToolHandler(event)">
+        <common:layout>
+            <s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="right"/>
+        </common:layout>
+    </common:SelectableDataGroup>
+
+    <s:Group width="100%" height="100%"
+             visible.edit="true" visible="false"
+             mouseEnabled.edit="true" mouseEnabled="false">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="0" alpha=".25"/>
+            </s:fill>
+        </s:Rect>
+
+        <components:PhraseEditor id="editor"
+                                 toolInfo="{toolbar.selectedItem as ToolInfo}"
+                                 left="20" right="20" top="{headerHeight}"
+                                 bottom="20"/>
+    </s:Group>
+
+
+</core:ScreenBase>

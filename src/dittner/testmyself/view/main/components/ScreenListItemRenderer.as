@@ -1,5 +1,5 @@
 package dittner.testmyself.view.main.components {
-import dittner.testmyself.service.helpers.viewFactory.ViewInfo;
+import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
 import dittner.testmyself.view.common.renderer.ItemRendererBase;
 import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
 import dittner.testmyself.view.common.tooltip.ToolTipPos;
@@ -11,13 +11,13 @@ import flash.display.Graphics;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 
-public class ViewListItemRenderer extends ItemRendererBase {
+public class ScreenListItemRenderer extends ItemRendererBase {
 	private static const ICON_ALPHA_OUT:Number = 0.5;
 	private static const ICON_ALPHA_SELECTED:Number = 0.75;
 
 	private static const VGAP:Number = 20;
 
-	public function ViewListItemRenderer() {
+	public function ScreenListItemRenderer() {
 		super();
 		addEventListener(MouseEvent.MOUSE_OVER, overHandler);
 		addEventListener(MouseEvent.MOUSE_OUT, outHandler);
@@ -31,8 +31,8 @@ public class ViewListItemRenderer extends ItemRendererBase {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private function get viewInfo():ViewInfo {
-		return data as ViewInfo;
+	private function get screenInfo():ScreenInfo {
+		return data as ScreenInfo;
 	}
 
 	override public function set data(value:Object):void {
@@ -58,7 +58,7 @@ public class ViewListItemRenderer extends ItemRendererBase {
 
 	override protected function commitProperties():void {
 		super.commitProperties();
-		if (viewInfo) icon.bitmapData = viewInfo.icon;
+		if (screenInfo) icon.bitmapData = screenInfo.icon;
 	}
 
 	override protected function measure():void {
@@ -86,7 +86,7 @@ public class ViewListItemRenderer extends ItemRendererBase {
 		if (!selected) {
 			icon.alpha = 1;
 			var topLeftPoint:Point = this.localToGlobal(new Point(0, 0));
-			ManualToolTipManager.show(viewInfo.description, topLeftPoint.x + getExplicitOrMeasuredWidth() + 10, topLeftPoint.y + getExplicitOrMeasuredHeight() / 2, ToolTipPos.LEFT);
+			ManualToolTipManager.show(screenInfo.description, topLeftPoint.x + getExplicitOrMeasuredWidth() + 10, topLeftPoint.y + getExplicitOrMeasuredHeight() / 2, ToolTipPos.LEFT);
 		}
 	}
 

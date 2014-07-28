@@ -5,19 +5,19 @@ import mvcexpress.mvc.Proxy;
 
 public class ToolFactory extends Proxy implements IToolFactory {
 	[Embed(source='/assets/tools/add.png')]
-	protected static const AddIconClass:Class;
+	private static const AddIconClass:Class;
 
 	[Embed(source='/assets/tools/edit.png')]
-	protected static const EditIconClass:Class;
+	private static const EditIconClass:Class;
 
 	[Embed(source='/assets/tools/recycle_bin.png')]
-	protected static const DeleteIconClass:Class;
+	private static const DeleteIconClass:Class;
 
 	[Embed(source='/assets/tools/trans_inversion.png')]
-	protected static const TransInversionIconClass:Class;
+	private static const TransInversionIconClass:Class;
 
 	[Embed(source='/assets/tools/filter.png')]
-	protected static const FilterIconClass:Class;
+	private static const FilterIconClass:Class;
 
 	public function ToolFactory() {
 		super();

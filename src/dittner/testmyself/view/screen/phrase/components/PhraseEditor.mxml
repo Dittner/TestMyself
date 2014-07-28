@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<editor:EditorBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                   xmlns:s="library://ns.adobe.com/flex/spark"
+                   xmlns:editor="dittner.testmyself.view.common.editor.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
+        import dittner.testmyself.view.utils.FontName;
+
+        //--------------------------------------
+        //  selectedTool
+        //--------------------------------------
+        private var _selectedTool:ToolInfo;
+        [Bindable("selectedToolChanged")]
+        public function get selectedTool():ToolInfo {return _selectedTool;}
+        public function set selectedTool(value:ToolInfo):void {
+            if (_selectedTool != value) {
+                _selectedTool = value;
+                dispatchEvent(new Event("selectedToolChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+
+    <s:Label id="title"
+             left="15" right="15" height="100%"
+             verticalAlign="middle"
+             fontFamily="{FontName.HELVETICA_NEUE_ULTRALIGHT}"
+             fontSize="30" color="#ccCCcc"
+             text="Редактор в разработке"/>
+
+
+</editor:EditorBase>

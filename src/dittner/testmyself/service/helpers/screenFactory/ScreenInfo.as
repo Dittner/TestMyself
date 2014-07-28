@@ -1,8 +1,8 @@
-package dittner.testmyself.service.helpers.viewFactory {
+package dittner.testmyself.service.helpers.screenFactory {
 import flash.display.BitmapData;
 
-public class ViewInfo {
-	public function ViewInfo(id:uint, title:String, description:String, icon:BitmapData) {
+public class ScreenInfo {
+	public function ScreenInfo(id:uint, title:String, description:String, icon:BitmapData) {
 		_id = id;
 		_title = title;
 		_description = description;

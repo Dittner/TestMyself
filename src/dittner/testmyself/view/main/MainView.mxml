@@ -3,57 +3,59 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:busyindicator="dittner.testmyself.view.common.busyIndicator.*"
          xmlns:common="dittner.testmyself.view.common.*"
-         height="100%" width="100%">
+         height="100%" width="100%"
+         addedToStage="addedToStageHandler(event)">
     <fx:Script><![CDATA[
+        import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
+        import dittner.testmyself.view.common.popup.SimplePopup;
         import dittner.testmyself.view.common.renderer.SeparatorItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorVo;
-        import dittner.testmyself.view.core.ViewBase;
-        import dittner.testmyself.service.helpers.viewFactory.ViewInfo;
-        import dittner.testmyself.view.main.components.ViewListItemRenderer;
+        import dittner.testmyself.view.core.ScreenBase;
+        import dittner.testmyself.view.main.components.ScreenListItemRenderer;
         import dittner.testmyself.view.utils.AppColors;
 
         import mx.collections.ArrayCollection;
 
         //--------------------------------------
-        //  viewListProvider
+        //  screenListProvider
         //--------------------------------------
-        private var _viewListProvider:ArrayCollection;
-        [Bindable("viewListProviderChanged")]
-        public function get viewListProvider():ArrayCollection {return _viewListProvider;}
-        public function set viewListProvider(value:ArrayCollection):void {
-            if (_viewListProvider != value) {
-                _viewListProvider = value;
-                dispatchEvent(new Event("viewListProviderChanged"));
+        private var _screenListProvider:ArrayCollection;
+        [Bindable("screenListProviderChanged")]
+        public function get screenListProvider():ArrayCollection {return _screenListProvider;}
+        public function set screenListProvider(value:ArrayCollection):void {
+            if (_screenListProvider != value) {
+                _screenListProvider = value;
+                dispatchEvent(new Event("screenListProviderChanged"));
             }
         }
 
         //--------------------------------------
-        //  selectedViewInfo
+        //  selectedScreenInfo
         //--------------------------------------
-        private var _selectedViewInfo:ViewInfo;
-        [Bindable("selectedViewInfoChanged")]
-        public function get selectedViewInfo():ViewInfo {return _selectedViewInfo;}
-        public function set selectedViewInfo(value:ViewInfo):void {
-            if (_selectedViewInfo != value) {
-                _selectedViewInfo = value;
-                dispatchEvent(new Event("selectedViewInfoChanged"));
+        private var _selectedScreenInfo:ScreenInfo;
+        [Bindable("selectedScreenInfoChanged")]
+        public function get selectedScreenInfo():ScreenInfo {return _selectedScreenInfo;}
+        public function set selectedScreenInfo(value:ScreenInfo):void {
+            if (_selectedScreenInfo != value) {
+                _selectedScreenInfo = value;
+                dispatchEvent(new Event("selectedScreenInfoChanged"));
             }
         }
 
-        private function viewRendererFunction(item:Object):IFactory {
-            if (item is ViewInfo) return new ClassFactory(ViewListItemRenderer);
+        private function screenRendererFunc(item:Object):IFactory {
+            if (item is ScreenInfo) return new ClassFactory(ScreenListItemRenderer);
             else if (item is SeparatorVo) return new ClassFactory(SeparatorItemRenderer);
-            else throw new Error("Unknown item type for view's renderer: " + item.toString() + "!");
+            else throw new Error("Unknown screen item type:" + item.toString() + "!");
         }
 
-        public function addView(view:ViewBase):void {
-            viewCont.addElement(view);
+        public function addScreen(screen:ScreenBase):void {
+            screenCont.addElement(screen);
             fadeEffect.play();
         }
 
-        public function removeView():void {
+        public function removeScreen():void {
             if (fadeEffect.isPlaying) fadeEffect.stop();
-            viewCont.removeAllElements();
+            screenCont.removeAllElements();
         }
 
         public function lock():void {
@@ -62,6 +64,12 @@
 
         public function unlock():void {
             setCurrentState("normal");
+        }
+
+        private function addedToStageHandler(event:Event):void {
+            SimplePopup.container.percentHeight = 100;
+            SimplePopup.container.percentWidth = 100;
+            popupLayer.addElement(SimplePopup.container);
         }
         ]]></fx:Script>
 
@@ -76,7 +84,7 @@
                 alphaFrom="0"
                 alphaTo="1"
                 duration="1000"
-                target="{viewCont}"/>
+                target="{screenCont}"/>
     </fx:Declarations>
 
     <s:Rect width="100%" height="100%">
@@ -85,31 +93,32 @@
         </s:fill>
     </s:Rect>
 
-    <s:Group id="viewCont"
+    <s:Group id="screenCont"
              left="66" right="0"
              height="100%"/>
 
     <s:Rect width="66" height="100%">
         <s:fill>
-            <s:SolidColor color="{AppColors.VIEW_LIST_BG}"/>
+            <s:SolidColor color="{AppColors.SCREEN_LIST_BG}"/>
         </s:fill>
     </s:Rect>
 
-    <common:SelectableDataGroup id="viewList"
+    <common:SelectableDataGroup id="screenList"
                                 width="66" height="100%"
                                 minWidth="0"
-                                dataProvider="{viewListProvider}"
-                                selectedItem="{selectedViewInfo}"
+                                dataProvider="{screenListProvider}"
+                                selectedItem="{selectedScreenInfo}"
                                 contentBackgroundAlpha="0"
                                 autoLayout="true"
-                                itemRendererFunction="viewRendererFunction">
+                                itemRendererFunction="screenRendererFunc">
         <common:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false" variableRowHeight="true"/>
         </common:layout>
     </common:SelectableDataGroup>
 
+    <s:Group id="popupLayer" width="100%" height="100%"/>
 
-    <s:Group width="100%" height="100%">
+    <s:Group id="busyIndicatorLayer" width="100%" height="100%">
         <s:Rect width="100%" height="100%"
                 visible="false" visible.lock="true">
             <s:fill>

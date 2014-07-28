@@ -1,10 +1,7 @@
 package dittner.testmyself.message {
 public class ToolMsg {
 
-	public static const GET_SELECTED_TOOL_VIEW:String = "getSelectedToolView";
-	public static const ON_SELECTED_TOOL_VIEW:String = "onSelectedToolView";
-
-	public static const GET_PHRASES_TOOLS:String = "getPhrasesTools";
-	public static const ON_PHRASES_TOOLS:String = "onPhrasesTools";
+	public static const GET_TOOLS_FOR_PHRASE:String = "getToolsForPhrase";
+	public static const ON_TOOLS_FOR_PHRASE:String = "onToolsForPhrase";
 }
 }
