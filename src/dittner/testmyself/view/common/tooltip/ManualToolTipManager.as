@@ -41,7 +41,7 @@ public class ManualToolTipManager {
 	}
 
 	public static function hide():void {
-		if(pendingTimer) pendingTimer.stop();
+		if (pendingTimer) pendingTimer.stop();
 		if (shown) {
 			shown = false;
 			TestMyselfApp.root.removeElement(toolTip as IVisualElement);

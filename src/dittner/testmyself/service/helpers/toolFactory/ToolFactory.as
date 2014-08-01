@@ -42,7 +42,7 @@ public class ToolFactory extends Proxy implements IToolFactory {
 		info = new ToolInfo(ToolId.TRANS_INVERSION, "Инвертировать перевод", getIcon(ToolId.TRANS_INVERSION));
 		toolInfosHash[info.id] = info;
 
-		info = new ToolInfo(ToolId.FILTER, "Фильтровать по группам", getIcon(ToolId.FILTER));
+		info = new ToolInfo(ToolId.FILTER, "Фильтровать по темам", getIcon(ToolId.FILTER));
 		toolInfosHash[info.id] = info;
 	}
 

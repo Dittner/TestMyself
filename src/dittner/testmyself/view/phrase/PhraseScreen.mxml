@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                 xmlns:s="library://ns.adobe.com/flex/spark"
+                 xmlns:toobar="dittner.testmyself.view.common.toobar.*"
+                 xmlns:phrase="dittner.testmyself.view.phrase.*"
+                 xmlns:core="dittner.testmyself.view.common.screen.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.view.common.renderer.ToolItemRenderer;
+        import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.common.utils.Fonts;
+
+        private function toolbarSelectedToolHandler(event:Event):void {
+            if (toolbar.selectedItem) {
+                var renderer:ToolItemRenderer = toolbar.getSelectedRenderer() as ToolItemRenderer;
+                if (renderer) {
+                    const topLeftPoint:Point = renderer.localToGlobal(new Point(0, 0));
+                    const arrowPosX:Number = topLeftPoint.x + renderer.getExplicitOrMeasuredWidth() / 2;
+                    const arrowPosY:Number = topLeftPoint.y + renderer.getExplicitOrMeasuredHeight();
+
+                    editor.arrowPos = editor.globalToLocal(new Point(arrowPosX, arrowPosY));
+                }
+            }
+        }
+
+        public function activateEditMode():void {
+            setCurrentState("edit");
+        }
+
+        public function deactivateEditMode():void {
+            setCurrentState("normal");
+            toolbar.selectedItem = null;
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            editor.width = Math.min((w - 2 * padding), 1000);
+            editor.x = w - editor.width - padding;
+        }
+        ]]></fx:Script>
+
+    <core:states>
+        <s:State name="disabled"/>
+        <s:State name="normal"/>
+        <s:State name="edit"/>
+    </core:states>
+
+    <!--screen bg-->
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_CONTENT_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <!--header bg-->
+    <s:Rect width="100%" height="{headerHeight}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:HGroup width="100%" height="{headerHeight}"
+              verticalAlign="middle"
+              paddingLeft="{padding}" paddingRight="{padding}">
+
+        <s:Label text="{title}"
+                 fontFamily="{Fonts.VERDANA}"
+                 fontSize="16"
+                 paddingTop="2"
+                 width="100%"
+                 color="#54545d"/>
+
+        <toobar:Toolbar id="toolbar"
+                        height="{headerHeight}"
+                        itemRenderer="dittner.testmyself.view.common.renderer.ToolItemRenderer"
+                        selectedItemChange="toolbarSelectedToolHandler(event)">
+            <toobar:layout>
+                <s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="right"/>
+            </toobar:layout>
+        </toobar:Toolbar>
+    </s:HGroup>
+
+
+    <s:Group width="100%" height="100%"
+             visible.edit="true" visible="false"
+             mouseEnabled.edit="true" mouseEnabled="false">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.EDITOR_BORDER}" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <phrase:PhraseEditor id="editor"
+                             bottom="{padding}"
+                             top="{headerHeight}"/>
+    </s:Group>
+
+
+</core:ScreenBase>

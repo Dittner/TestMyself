@@ -37,7 +37,6 @@ public class PhraseModel extends Proxy {
 	//
 	//----------------------------------------------------------------------------------------------
 
-
 	//--------------------------------------
 	//  selectedPhrase
 	//--------------------------------------
@@ -54,7 +53,6 @@ public class PhraseModel extends Proxy {
 	//  selectedTool
 	//--------------------------------------
 	private var _selectedTool:ToolInfo;
-	[Bindable("selectedToolChanged")]
 	public function get selectedTool():ToolInfo {return _selectedTool;}
 	public function set selectedTool(value:ToolInfo):void {
 		if (_selectedTool != value) {
@@ -73,6 +71,11 @@ public class PhraseModel extends Proxy {
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
+
+	public function clear():void {
+		_selectedTool = null;
+		_selectedPhrase = null;
+	}
 
 	override protected function onRegister():void {
 		trace("PhraseModel onRegister");

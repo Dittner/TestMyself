@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark"
+             height="14"
+        >
+    <fx:Metadata>
+        [HostComponent("spark.components.Button")]
+    </fx:Metadata>
+
+    <s:states>
+        <s:State name="disabled"/>
+        <s:State name="down"/>
+        <s:State name="over"/>
+        <s:State name="up"/>
+    </s:states>
+
+    <s:BitmapImage
+            id="bg"
+            source.up="@Embed(source='/assets/voiceRecording/bar.png',
+            scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
+            source.down="@Embed(source='/assets/voiceRecording/bar.png',
+            scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
+            source.disabled="@Embed(source='/assets/voiceRecording/bar.png',
+            scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
+            height="14"
+            width="100%"
+            />
+
+</s:SparkSkin>

@@ -11,8 +11,8 @@
         import dittner.testmyself.view.common.renderer.SeparatorItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorVo;
         import dittner.testmyself.view.common.screen.ScreenBase;
-        import dittner.testmyself.view.main.components.ScreenListItemRenderer;
         import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.main.components.ScreenListItemRenderer;
 
         import mx.collections.ArrayCollection;
 
@@ -94,7 +94,7 @@
     </s:Rect>
 
     <s:Group id="screenCont"
-             left="66" right="0"
+             left="86" right="0"
              height="100%"/>
 
     <s:Rect width="66" height="100%">
@@ -126,7 +126,7 @@
             </s:fill>
         </s:Rect>
 
-        <busyindicator:WatchBusyIndicator verticalCenter="0" horizontalCenter="0"
+        <busyindicator:ClockBusyIndicator verticalCenter="0" horizontalCenter="0"
                                           visible="false" visible.lock="true"/>
     </s:Group>
 

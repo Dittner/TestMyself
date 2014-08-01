@@ -1,0 +1,75 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace input "dittner.testmyself.view.common.input.*";
+@namespace list "dittner.testmyself.view.common.list.*";
+
+@font-face {
+    src: url("/fonts/VantaThin.ttf");
+    font-family: VantaThin;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/verdana.ttf");
+    font-family: Verdana;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/verdanab.ttf");
+    font-family: Verdana;
+    font-weight: bold;
+    embedAsCFF: true;
+}
+
+/*mx*/
+@font-face {
+    src: url("/fonts/verdana.ttf");
+    font-family: VerdanaMX;
+    embedAsCFF: false;
+}
+
+global {
+    fontSize: 14px;
+    fontFamily: Verdana;
+    fontWeight: normal;
+    contentBackgroundAlpha: 0;
+    backgroundColor: 0;
+    backgroundAlpha: 0;
+}
+
+s|Button {
+    fontSize: 14px;
+    fontFamily: Verdana;
+    fontWeight: normal;
+}
+
+
+/************************** INPUT **************************/
+
+input|TextInputForm {
+    skinClass: ClassReference("dittner.testmyself.view.common.input.TextInputFormSkin");
+    borderVisible: false;
+    focusSkin: ClassReference("mx.core.UIComponent");
+    fontFamily: VerdanaMX;
+    fontSize: 14px;
+    color: #666666;
+}
+
+input|TextAreaForm {
+    skinClass: ClassReference("dittner.testmyself.view.common.input.TextAreaFormSkin");
+    borderVisible: false;
+    focusSkin: ClassReference("mx.core.UIComponent");
+    fontFamily: VerdanaMX;
+    fontSize: 14px;
+    color: #666666;
+}
+
+/************************** LIST **************************/
+list|ListForm {
+    skinClass: ClassReference("dittner.testmyself.view.common.list.ListFormSkin");
+    borderVisible: false;
+    focusSkin: ClassReference("mx.core.UIComponent");
+    fontFamily: Verdana;
+    fontSize: 14px;
+    color: #666666;
+}

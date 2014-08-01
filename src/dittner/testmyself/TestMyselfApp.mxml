@@ -4,8 +4,8 @@
         xmlns:s="library://ns.adobe.com/flex/spark"
         frameRate="30"
         usePreloader="true"
-        backgroundColor="0xdbdbed"
-        preloader="dittner.testmyself.view.common.preloader.SimplePreloader"
+        preloader="dittner.testmyself.view.common.preloader.ClockPreloader"
+        backgroundColor="0x3d3f4b"
         initialize="initializeHandler(event)"
         creationComplete="creationCompleteHandler(event)"
         uncaughtError="uncaughtErrorHandler(event)"
@@ -15,6 +15,7 @@
         import dittner.testmyself.model.language.Language;
         import dittner.testmyself.view.common.tooltip.ManualToolTip;
         import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
+        import dittner.testmyself.view.common.utils.TextFieldFactory;
 
         import mx.events.FlexEvent;
         import mx.logging.Log;
@@ -24,11 +25,13 @@
 
         private function initializeHandler(event:FlexEvent):void {
             TestMyselfApp.root = this;
+            TextFieldFactory.useEmbedFonts = true;
+        }
+
+        private function creationCompleteHandler(event:FlexEvent):void {
             mainModule = new MainModule(Language.DE);
             mainModule.start(this);
         }
-
-        private function creationCompleteHandler(event:FlexEvent):void {}
 
         private function addedToStageHandler(event:Event):void {
             ManualToolTipManager.toolTip = new ManualToolTip();
@@ -45,5 +48,6 @@
         }
         ]]></fx:Script>
 
+    <fx:Style source="/TestMyselfStyle.css"/>
 
 </s:Application>

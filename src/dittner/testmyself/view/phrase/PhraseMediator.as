@@ -6,7 +6,7 @@ import mvcexpress.mvc.Mediator;
 public class PhraseMediator extends Mediator {
 
 	[Inject]
-	public var view:PhraseView;
+	public var view:PhraseScreen;
 
 	override protected function onRegister():void {
 		addHandler(PhraseMsg.TOOL_SELECTED_NOTIFICATION, toolSelectedHandler);
@@ -18,6 +18,7 @@ public class PhraseMediator extends Mediator {
 		removeAllHandlers();
 		mediatorMap.unmediate(view.toolbar, PhraseToolbarMediator);
 		mediatorMap.unmediate(view.editor, PhraseEditorMediator);
+		sendMessage(PhraseMsg.CLEAR_MODEL);
 	}
 
 	private function toolSelectedHandler(tool:*):void {

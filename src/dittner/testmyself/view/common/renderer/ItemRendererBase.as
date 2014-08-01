@@ -1,5 +1,10 @@
 package dittner.testmyself.view.common.renderer {
+import dittner.testmyself.view.common.utils.TextFieldFactory;
+
+import flash.events.Event;
+import flash.events.MouseEvent;
 import flash.text.TextField;
+import flash.text.TextFormat;
 
 import mx.core.UIComponent;
 
@@ -10,6 +15,7 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	public function ItemRendererBase() {
 		super();
 		percentWidth = 100;
+		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	}
 
 	//----------------------------------
@@ -67,22 +73,51 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 		}
 	}
 
+	//--------------------------------------
+	//  hovered
+	//--------------------------------------
+	private var _hovered:Boolean;
+	[Bindable("hoveredChanged")]
+	public function get hovered():Boolean {return _hovered;}
+	public function set hovered(value:Boolean):void {
+		if (_hovered != value) {
+			_hovered = value;
+			invalidateDisplayList();
+			dispatchEvent(new Event("hoveredChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
 
-	protected function createTextField():TextField {
-		var textField:TextField = new TextField();
-		textField.selectable = false;
-		textField.multiline = true;
-		textField.wordWrap = true;
-		textField.mouseEnabled = false;
-		textField.mouseWheelEnabled = false;
-		return textField;
+	protected function createTextField(textFormat:TextFormat, multiline:Boolean = false):TextField {
+		return TextFieldFactory.create(textFormat, multiline);
 	}
 
+	private function addedToStageHandler(event:Event):void {
+		removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+		addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
+		addEventListener(MouseEvent.MOUSE_OVER, overHandler);
+		addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+	}
+
+	protected function overHandler(event:MouseEvent):void {
+		hovered = true;
+	}
+
+	protected function outHandler(event:MouseEvent):void {
+		hovered = false;
+	}
+
+	private function removedFromStageHandler(event:Event):void {
+		removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
+		removeEventListener(MouseEvent.MOUSE_OVER, overHandler);
+		removeEventListener(MouseEvent.MOUSE_OUT, outHandler);
+		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	}
 }
 }
 

@@ -1,6 +1,6 @@
 package dittner.testmyself.view.about {
-import dittner.testmyself.message.ServiceMsg;
 import dittner.testmyself.message.ScreenMsg;
+import dittner.testmyself.message.ServiceMsg;
 import dittner.testmyself.model.vo.DataBaseInfoVo;
 
 import mvcexpress.mvc.Mediator;
@@ -8,7 +8,7 @@ import mvcexpress.mvc.Mediator;
 public class AboutMediator extends Mediator {
 
 	[Inject]
-	public var view:AboutView;
+	public var view:AboutScreen;
 
 	override protected function onRegister():void {
 		sendMessage(ScreenMsg.LOCK_SCREEN_LIST);

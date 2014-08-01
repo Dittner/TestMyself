@@ -9,12 +9,12 @@ public class MainModel extends Proxy {
 	//--------------------------------------
 	//  activeScreenInfo
 	//--------------------------------------
-	private var _activeScreenInfo:ScreenInfo;
-	public function get activeScreenInfo():ScreenInfo {return _activeScreenInfo;}
-	public function set activeScreenInfo(value:ScreenInfo):void {
-		if (_activeScreenInfo != value) {
-			_activeScreenInfo = value;
-			sendMessage(ScreenMsg.SCREEN_SELECTED_NOTIFICATION, value);
+	private var _selectedScreenInfo:ScreenInfo;
+	public function get selectedScreenInfo():ScreenInfo {return _selectedScreenInfo;}
+	public function set selectedScreenInfo(value:ScreenInfo):void {
+		if (_selectedScreenInfo != value) {
+			_selectedScreenInfo = value;
+			sendMessage(ScreenMsg.SCREEN_INFO_SELECTED_NOTIFICATION, value);
 		}
 	}
 

@@ -4,7 +4,7 @@ import mvcexpress.mvc.Mediator;
 public class TemplateMediator extends Mediator {
 
 	[Inject]
-	public var view:TemplateView;
+	public var view:TemplateScreen;
 
 	override protected function onRegister():void {
 

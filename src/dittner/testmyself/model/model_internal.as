@@ -1,3 +1,3 @@
 package dittner.testmyself.model {
-    public namespace model_internal = "dittner.testmyself.model-internal";
+public namespace model_internal = "dittner.testmyself.model-internal";
 }

@@ -5,10 +5,11 @@
          addedToStage="addedToStageHandler(event)"
          removedFromStage="removedFromStageHandler(event)"
          mouseChildren="false" mouseEnabled="false"
-         width="250" maxWidth="250" minWidth="250">
+         maxWidth="200" minWidth="200">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.view.common.utils.FontName;
+        import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.common.utils.Fonts;
 
         //--------------------------------------
         //  text
@@ -30,17 +31,8 @@
             var arrowPos:Point = getArrowPosition(arrowDirection);
             x = stageX - arrowPos.x;
             y = stageY - arrowPos.y;
-
-            /*if (stageY - arrowPos.y < 0) {
-             toolTip.y = 0;
-             }
-             else if (stageY + toolTip.height > TestMyselfApp.root.height) {
-             toolTip.y = TestMyselfApp.root.height - toolTip.height;
-             }
-             else {
-             toolTip.y = stageY - arrowPos.y;
-             }*/
         }
+
         //--------------------------------------
         //  position
         //--------------------------------------
@@ -128,16 +120,18 @@
     </s:states>
 
     <s:BitmapImage width="100%" height="100%"
-                   source.leftArrow="@Embed(source='/assets/tooltip/tooltip_left.png', scaleGridLeft='37', scaleGridRight='38', scaleGridTop='52', scaleGridBottom='53')"
-                   source.topArrow="@Embed(source='/assets/tooltip/tooltip_top.png', scaleGridLeft='19', scaleGridRight='20', scaleGridTop='30', scaleGridBottom='31')"
-                   source.rightArrow="@Embed(source='/assets/tooltip/tooltip_right.png', scaleGridLeft='37', scaleGridRight='38', scaleGridTop='52', scaleGridBottom='53')"
-                   source.bottomArrow="@Embed(source='/assets/tooltip/tooltip_right.png', scaleGridLeft='19', scaleGridRight='20', scaleGridTop='30', scaleGridBottom='31')"
+                   smooth="true"
+                   source.leftArrow="@Embed(source='/assets/tooltip/tooltip_left.png', scaleGridLeft='37', scaleGridRight='38', scaleGridTop='46', scaleGridBottom='47')"
+                   source.topArrow="@Embed(source='/assets/tooltip/tooltip_top.png', scaleGridLeft='27', scaleGridRight='29', scaleGridTop='30', scaleGridBottom='31')"
+                   source.rightArrow="@Embed(source='/assets/tooltip/tooltip_right.png', scaleGridLeft='37', scaleGridRight='38', scaleGridTop='48', scaleGridBottom='49')"
+                   source.bottomArrow="@Embed(source='/assets/tooltip/tooltip_right.png', scaleGridLeft='26', scaleGridRight='27', scaleGridTop='30', scaleGridBottom='31')"
             />
 
-    <s:Label left="20" right="20" top="20" bottom="20"
+    <s:Label left="25" right="25" top="25" bottom="25"
              verticalAlign="middle"
-             fontFamily="{FontName.HELVETICA_NEUE_REGULAR}"
+             textAlign="center"
+             fontFamily="{Fonts.VERDANA}"
              fontSize="14"
-             color="#30323e"
+             color="{AppColors.TEXT_YELLOW}"
              text="{text}"/>
 </s:Group>

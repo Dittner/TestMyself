@@ -1,51 +1,26 @@
 package dittner.testmyself.view.common.screen {
-import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
-
 import flash.events.Event;
 
-import spark.components.SkinnableContainer;
+import spark.components.Group;
 
-use namespace screen_internal;
-
-public class ScreenBase extends SkinnableContainer {
+public class ScreenBase extends Group {
 	public function ScreenBase() {
 		super();
-		setStyle("skinClass", ScreenBaseSkin);
 	}
 
 	//--------------------------------------
-	//  info
+	//  title
 	//--------------------------------------
-	screen_internal var _info:ScreenInfo;
-	public function get info():ScreenInfo {return _info;}
-
-	//--------------------------------------
-	//  showBackground
-	//--------------------------------------
-	private var _showBackground:Boolean = true;
-	[Bindable("showBackgroundChanged")]
-	public function get showBackground():Boolean {return _showBackground;}
-	public function set showBackground(value:Boolean):void {
-		if (_showBackground != value) {
-			_showBackground = value;
-			if(skin) skin.invalidateDisplayList();
-			dispatchEvent(new Event("showBackgroundChanged"));
+	private var _title:String;
+	[Bindable("titleChanged")]
+	public function get title():String {return _title;}
+	public function set title(value:String):void {
+		if (_title != value) {
+			_title = value;
+			dispatchEvent(new Event("titleChanged"));
 		}
 	}
 
-	//--------------------------------------
-	//  showHeader
-	//--------------------------------------
-	private var _showHeader:Boolean = true;
-	[Bindable("showHeaderChanged")]
-	public function get showHeader():Boolean {return _showHeader;}
-	public function set showHeader(value:Boolean):void {
-		if (_showHeader != value) {
-			_showHeader = value;
-			if(skin) skin.invalidateDisplayList();
-			dispatchEvent(new Event("showHeaderChanged"));
-		}
-	}
 	//--------------------------------------
 	//  headerHeight
 	//--------------------------------------
@@ -55,7 +30,6 @@ public class ScreenBase extends SkinnableContainer {
 	public function set headerHeight(value:Number):void {
 		if (_headerHeight != value) {
 			_headerHeight = value;
-			if(skin) skin.invalidateDisplayList();
 			dispatchEvent(new Event("headerHeightChanged"));
 		}
 	}
@@ -69,10 +43,8 @@ public class ScreenBase extends SkinnableContainer {
 	public function set padding(value:Number):void {
 		if (_padding != value) {
 			_padding = value;
-			if(skin) skin.invalidateDisplayList();
 			dispatchEvent(new Event("paddingChanged"));
 		}
 	}
-
 }
 }

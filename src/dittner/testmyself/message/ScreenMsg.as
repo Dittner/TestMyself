@@ -11,7 +11,7 @@ public class ScreenMsg {
 	public static const UNLOCK_SCREEN_LIST:String = "unlockScreenList";
 
 	public static const SELECT_SCREEN:String = "selectScreen";
-	public static const SCREEN_SELECTED_NOTIFICATION:String = "screenSelectedNotification";
+	public static const SCREEN_INFO_SELECTED_NOTIFICATION:String = "screenInfoSelectedNotification";
 
 }
 }

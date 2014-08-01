@@ -4,7 +4,6 @@ import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
 import dittner.testmyself.view.common.tooltip.ToolTipPos;
 
 import flash.display.Bitmap;
-import flash.display.BlendMode;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;
@@ -17,8 +16,6 @@ public class ToolItemRenderer extends ItemRendererBase {
 
 	public function ToolItemRenderer() {
 		super();
-		addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
-		addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
 	}
 
 	private var icon:Bitmap;
@@ -78,39 +75,34 @@ public class ToolItemRenderer extends ItemRendererBase {
 		if (toolInfo.active) {
 			if (selected) {
 				icon.alpha = ICON_ALPHA_SELECTED;
-				icon.blendMode = BlendMode.INVERT;
 			}
 			else if (hovered) {
 				icon.alpha = ICON_ALPHA_HOVER;
-				icon.blendMode = BlendMode.NORMAL;
 			}
 			else {
 				icon.alpha = ICON_ALPHA_OUT;
-				icon.blendMode = BlendMode.NORMAL;
 			}
 			mouseEnabled = mouseChildren = true;
 		}
 		else {
 			icon.alpha = ICON_ALPHA_INACTIVE;
-			icon.blendMode = BlendMode.NORMAL;
 			mouseEnabled = mouseChildren = false;
 		}
 	}
 
-	private var hovered:Boolean = false;
-	private function mouseOverHandler(event:MouseEvent):void {
-		hovered = true;
+	private static const ZERO_POINT:Point = new Point(0, 0);
+	override protected function overHandler(event:MouseEvent):void {
 		if (!selected) {
-			var topLeftPoint:Point = this.localToGlobal(new Point(0, 0));
+			var topLeftPoint:Point = this.localToGlobal(ZERO_POINT);
 			ManualToolTipManager.show(toolInfo.description, topLeftPoint.x + getExplicitOrMeasuredWidth() / 2, topLeftPoint.y + getExplicitOrMeasuredHeight(), ToolTipPos.TOP);
 		}
-		updateState();
+		super.overHandler(event);
 	}
 
-	private function mouseOutHandler(event:MouseEvent):void {
-		hovered = false;
+	override protected function outHandler(event:MouseEvent):void {
 		ManualToolTipManager.hide();
 		updateState();
+		super.outHandler(event);
 	}
 
 	private function toolInfoActiveChanged(event:Event):void {

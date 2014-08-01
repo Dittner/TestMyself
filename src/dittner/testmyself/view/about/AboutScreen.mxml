@@ -1,16 +1,14 @@
 <?xml version="1.0"?>
 <core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-               xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:mx="library://ns.adobe.com/flex/mx"
-               xmlns:components="dittner.testmyself.view.about.components.*"
-               xmlns:core="dittner.testmyself.view.common.screen.*"
-               showHeader="false"
-               showBackground="false">
+                 xmlns:s="library://ns.adobe.com/flex/spark"
+                 xmlns:mx="library://ns.adobe.com/flex/mx"
+                 xmlns:components="dittner.testmyself.view.about.components.*"
+                 xmlns:core="dittner.testmyself.view.common.screen.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.model.vo.DataBaseInfoVo;
         import dittner.testmyself.view.common.utils.AppColors;
-        import dittner.testmyself.view.common.utils.FontName;
+        import dittner.testmyself.view.common.utils.Fonts;
 
         [Embed(source='/assets/about_bg.png')]
         private static var bgClass:Class;
@@ -65,48 +63,49 @@
     <s:Group id="rightPanel" width="500" height="100%">
         <s:Rect width="100%" height="100%">
             <s:fill>
-                <s:SolidColor color="#000000" alpha=".5"/>
+                <s:SolidColor color="#000000" alpha=".6"/>
             </s:fill>
         </s:Rect>
 
         <s:VGroup width="100%" height="100%" right="0"
                   verticalAlign="bottom" horizontalAlign="center"
-                  paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="150" gap="0">
+                  paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="140" gap="0">
 
             <s:Spacer height="10%"/>
 
-            <s:BitmapImage source="@Embed('/assets/logo.png')"/>
+            <s:BitmapImage source="@Embed('/assets/logoWhite150x150.png')"/>
 
             <s:Spacer height="10%"/>
 
-            <s:Label fontFamily="{FontName.HELVETICA_NEUE_ULTRALIGHT}"
+            <s:Label fontFamily="{Fonts.VANTA_THIN}"
+                     fontSize="45"
+                     color="{AppColors.TEXT_YELLOW}"
                      width="100%"
-                     fontSize="50" color="#FFCC00"
                      text="Система самостоятельного тестирования знаний немецкого языка"/>
+            <!--text="СИСТЕМА САМОСТОЯТЕЛЬНОГО ТЕСТИРОВАНИЯ ЗНАНИЙ НЕМЕЦКОГО ЯЗЫКА"/>-->
 
+
+            <!--<s:filters>
+                <s:DropShadowFilter color="0" alpha=".5" angle="120" blurX="1" blurY="1" distance="1"/>
+            </s:filters>-->
             <s:Spacer height="10%"/>
 
-            <s:Label fontFamily="{FontName.HELVETICA_NEUE_REGULAR}"
+            <s:Label fontFamily="{Fonts.VERDANA}"
+                     fontSize="12"
                      fontWeight="bold"
                      width="100%"
-                     fontSize="14" color="#ddDDdd"
-                     text="TestMyself">
-                <s:filters>
-                    <s:DropShadowFilter color="0" alpha=".5" angle="120" blurX="1" blurY="1" distance="1"/>
-                </s:filters>
-            </s:Label>
-            <s:Label fontFamily="{FontName.HELVETICA_NEUE_REGULAR}"
+                     color="#ddDDdd"
+                     text="TestMyself" paddingBottom="5"/>
+
+            <s:Label fontFamily="{Fonts.VERDANA}"
+                     fontSize="12"
                      width="100%"
-                     fontSize="14" color="#ddDDdd"
+                     color="#ddDDdd"
                      verticalAlign="middle"
-                     text="{ABOUT}">
-                <s:filters>
-                    <s:DropShadowFilter color="0" alpha=".5" angle="120" blurX="1" blurY="1" distance="1"/>
-                </s:filters>
-            </s:Label>
+                     text="{ABOUT}"/>
         </s:VGroup>
 
-        <components:DataBaseInfoBoard width="500" right="0" height="130" bottom="0"
+        <components:DataBaseInfoBoard width="500" right="0" height="120" bottom="0"
                                       info="{dataBaseInfo}"/>
     </s:Group>
 

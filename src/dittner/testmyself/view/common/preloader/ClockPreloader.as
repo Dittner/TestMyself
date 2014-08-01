@@ -1,33 +1,30 @@
 package dittner.testmyself.view.common.preloader {
-import dittner.testmyself.view.common.utils.FontName;
-
+import flash.display.MovieClip;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
 import flash.events.TimerEvent;
-import flash.text.TextField;
-import flash.text.TextFormat;
 import flash.utils.Timer;
 import flash.utils.getTimer;
-
-import flashx.textLayout.formats.TextAlign;
 
 import mx.core.SpriteAsset;
 import mx.events.FlexEvent;
 import mx.preloaders.IPreloaderDisplay;
 import mx.preloaders.Preloader;
 
-public final class SimplePreloader extends SpriteAsset implements IPreloaderDisplay {
+public final class ClockPreloader extends SpriteAsset implements IPreloaderDisplay {
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.HELVETICA_NEUE_ULTRALIGHT, 40, 0x4e4f61);
+	[Embed(source='/swf/clockBusyIndicator.swf')]
+	private var ClockClass:Class;
+
 	private static const MINIMUM_DISPLAY_TIME:uint = 3000;
 
-	public function SimplePreloader(color:uint = 0xFFffFF):void {
+	public function ClockPreloader(color:uint = 0xFFffFF):void {
 		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	}
 
+	private var clock:MovieClip;
 	private var minDisplayTimer:Timer;
-	private var titleTf:TextField;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -126,31 +123,24 @@ public final class SimplePreloader extends SpriteAsset implements IPreloaderDisp
 	//----------------------------------------------------------------------------------------------
 
 	public function initialize():void {
+		start();
+	}
+
+	private function start(duration:Number = 50):void {
 		createChildren();
 		visible = true;
 	}
 
 	protected function createChildren():void {
-		if (!titleTf) {
-			titleTf = new TextField();
-			titleTf.selectable = false;
-			titleTf.multiline = true;
-			titleTf.wordWrap = true;
-			titleTf.mouseEnabled = false;
-			titleTf.mouseWheelEnabled = false;
-			TITLE_FORMAT.align = TextAlign.CENTER;
-			titleTf.defaultTextFormat = TITLE_FORMAT;
-			titleTf.width = 400;
-			titleTf.height = 400;
-			addChild(titleTf);
-			updateTitlePos();
-		}
+		clock = new ClockClass;
+		updateClockPos();
+		addChild(clock);
 	}
 
-	private function updateTitlePos():void {
-		if (titleTf) {
-			titleTf.x = (fullScreenWidth - titleTf.textWidth) / 2;
-			titleTf.y = (fullScreenHeight - titleTf.textHeight) / 2;
+	private function updateClockPos():void {
+		if (clock) {
+			clock.x = (fullScreenWidth - clock.width) / 2;
+			clock.y = (fullScreenHeight - clock.height) / 2;
 		}
 	}
 
@@ -164,27 +154,12 @@ public final class SimplePreloader extends SpriteAsset implements IPreloaderDisp
 
 			minDisplayTimer.stop();
 			minDisplayTimer.removeEventListener(TimerEvent.TIMER, timerHandler);
-			minDisplayTimer.addEventListener(TimerEvent.TIMER_COMPLETE, progressCompleteHandler);
-			minDisplayTimer.delay = 1000;
-			minDisplayTimer.repeatCount = 1;
-			minDisplayTimer.reset();
-			minDisplayTimer.start();
+
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		if (res > _lastRes) {
 			_lastRes = res;
 		}
-		updateTitleText();
-		updateTitlePos();
-	}
-
-	protected function progressCompleteHandler(event:TimerEvent):void {
-		dispatchEvent(new Event(Event.COMPLETE));
-	}
-
-	private function updateTitleText():void {
-		titleTf.text = "Иницализация\n" + Math.floor(_lastRes) + "%";
-		titleTf.width = titleTf.textWidth + 10;
-		titleTf.height = titleTf.textHeight + 10;
 	}
 
 	protected function progressEventHandler(event:ProgressEvent):void {
@@ -207,8 +182,7 @@ public final class SimplePreloader extends SpriteAsset implements IPreloaderDisp
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		fullScreenHeight = stage.fullScreenHeight;
 		fullScreenWidth = stage.fullScreenWidth;
-		updateTitlePos();
+		updateClockPos();
 	}
-
 }
 }

@@ -37,8 +37,6 @@ public class MainViewMediator extends Mediator {
 	}
 
 	private function showSelectedScreen(screen:ScreenBase):void {
-		if (curScreen && curScreen.info.id == screen.info.id) return;
-
 		if (curScreen) {
 			mediatorMap.unmediate(curScreen);
 			mainView.removeScreen();
@@ -50,7 +48,6 @@ public class MainViewMediator extends Mediator {
 		mediatorMap.mediate(screen);
 
 		curScreen = screen;
-		mainView.selectedScreenInfo = curScreen.info;
 	}
 
 	private function showScreenInfoList(screenInfos:Array):void {

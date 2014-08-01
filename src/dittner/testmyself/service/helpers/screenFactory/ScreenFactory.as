@@ -1,17 +1,14 @@
 package dittner.testmyself.service.helpers.screenFactory {
+import dittner.testmyself.view.about.AboutScreen;
 import dittner.testmyself.view.common.renderer.SeparatorVo;
 import dittner.testmyself.view.common.screen.ScreenBase;
-import dittner.testmyself.view.common.screen.screen_internal;
-import dittner.testmyself.view.about.AboutView;
-import dittner.testmyself.view.phrase.PhraseView;
-import dittner.testmyself.view.template.TemplateView;
 import dittner.testmyself.view.common.utils.AppColors;
+import dittner.testmyself.view.phrase.PhraseScreen;
+import dittner.testmyself.view.template.TemplateScreen;
 
 import flash.display.BitmapData;
 
 import mvcexpress.mvc.Proxy;
-
-use namespace screen_internal;
 
 public class ScreenFactory extends Proxy implements IScreenFactory {
 	[Embed(source='/assets/screen/about.png')]
@@ -50,35 +47,35 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 		screensHash = {};
 		var info:ScreenInfo;
 
-		info = new ScreenInfo(ScreenId.ABOUT, "", "Главный экран с описанием программы и базы данных", getIcon(ScreenId.ABOUT));
+		info = new ScreenInfo(ScreenId.ABOUT, "", "Описание программы и базы данных", getIcon(ScreenId.ABOUT));
 		_screens.push(info);
 		screensHash[info.id] = info;
 
 		_screens.push(createScreenItemSeparator());
 
-		info = new ScreenInfo(ScreenId.WORD, "Список слов", "Экран со списком слов", getIcon(ScreenId.WORD));
+		info = new ScreenInfo(ScreenId.WORD, "СЛОВАРЬ СЛОВ", "Словарь слов", getIcon(ScreenId.WORD));
 		_screens.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenId.PHRASE, "Список фраз и предложений", "Экран со списком фраз и предложений", getIcon(ScreenId.PHRASE));
+		info = new ScreenInfo(ScreenId.PHRASE, "СЛОВАРЬ ФРАЗ И ПРЕДЛОЖЕНИЙ", "Словарь фраз и предложений", getIcon(ScreenId.PHRASE));
 		_screens.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenId.VERB, "Таблица сильных глаголов", "Экран с таблицей сильных глаголов", getIcon(ScreenId.VERB));
+		info = new ScreenInfo(ScreenId.VERB, "ТАБЛИЦА СИЛЬНЫХ ГЛАГОЛОВ", "Таблица сильных глаголов", getIcon(ScreenId.VERB));
 		_screens.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenId.TEST, "Тестирование", "Экран тестирования", getIcon(ScreenId.TEST));
+		info = new ScreenInfo(ScreenId.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenId.TEST));
 		_screens.push(info);
 		screensHash[info.id] = info;
 
 		_screens.push(createScreenItemSeparator());
 
-		info = new ScreenInfo(ScreenId.SEARCH, "Поиск", "Экран поиска слов в базе данных", getIcon(ScreenId.SEARCH));
+		info = new ScreenInfo(ScreenId.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenId.SEARCH));
 		_screens.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenId.SETTINGS, "Настройки", "Экран с настройками программы", getIcon(ScreenId.SETTINGS));
+		info = new ScreenInfo(ScreenId.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenId.SETTINGS));
 		_screens.push(info);
 		screensHash[info.id] = info;
 	}
@@ -123,31 +120,31 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 		var screen:ScreenBase;
 		switch (screenId) {
 			case ScreenId.ABOUT :
-				screen = new AboutView();
+				screen = new AboutScreen();
 				break;
 			case ScreenId.WORD :
-				screen = new TemplateView();
+				screen = new TemplateScreen();
 				break;
 			case ScreenId.PHRASE :
-				screen = new PhraseView();
+				screen = new PhraseScreen();
 				break;
 			case ScreenId.VERB :
-				screen = new TemplateView();
+				screen = new TemplateScreen();
 				break;
 			case ScreenId.TEST :
-				screen = new TemplateView();
+				screen = new TemplateScreen();
 				break;
 			case ScreenId.SEARCH :
-				screen = new TemplateView();
+				screen = new TemplateScreen();
 				break;
 			case ScreenId.SETTINGS :
-				screen = new TemplateView();
+				screen = new TemplateScreen();
 				break;
 			default :
 				throw new Error("Unknown screen ID:" + screenId);
 		}
 
-		screen._info = screensHash[screenId];
+		screen.title = screensHash[screenId].title;
 		return screen;
 	}
 

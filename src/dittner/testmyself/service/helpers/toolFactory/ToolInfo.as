@@ -1,11 +1,7 @@
 package dittner.testmyself.service.helpers.toolFactory {
-import dittner.testmyself.view.common.screen.screen_internal;
-
 import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.EventDispatcher;
-
-use namespace screen_internal;
 
 public class ToolInfo extends EventDispatcher {
 	public static const ACTIVE_CHANGED_EVENT:String = "activeChanged";

@@ -10,7 +10,7 @@ public class SelectScreenCmd extends Command {
 	public var mainModel:MainModel;
 
 	public function execute(params:Object):void {
-		mainModel.activeScreenInfo = params as ScreenInfo;
+		mainModel.selectedScreenInfo = params as ScreenInfo;
 	}
 
 }

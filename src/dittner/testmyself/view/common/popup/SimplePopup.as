@@ -71,7 +71,6 @@ public class SimplePopup extends EventDispatcher {
 	[Bindable("isShownChanged")]
 	public function get isModalWindowShown():Boolean {return isShown && modalWindowBg.visible;}
 
-
 	//--------------------------------------
 	//  content
 	//--------------------------------------

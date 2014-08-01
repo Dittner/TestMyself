@@ -3,7 +3,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark">
     <fx:Script><![CDATA[
         import dittner.testmyself.model.vo.DataBaseInfoVo;
-        import dittner.testmyself.view.common.utils.FontName;
+        import dittner.testmyself.view.common.utils.Fonts;
 
         //--------------------------------------
         //  info
@@ -43,15 +43,19 @@
         </s:fill>
     </s:Rect>
 
-    <s:Label fontFamily="{FontName.HELVETICA_NEUE_REGULAR}"
-             fontWeight="bold"
-             left="20" right="20" top="10"
-             fontSize="14" color="#666666"
-             text="База данных"/>
+    <s:VGroup top="15" left="20" right="20" gap="0">
+        <s:Label fontFamily="{Fonts.VERDANA}"
+                 fontSize="12"
+                 fontWeight="bold"
+                 paddingBottom="5"
+                 color="#666666"
+                 text="База данных"/>
 
-    <s:Label id="infoLbl" fontFamily="{FontName.HELVETICA_NEUE_REGULAR}"
-             left="20" top="25" right="20"
-             fontSize="14" color="#666666"
-             verticalAlign="middle"/>
+        <s:Label id="infoLbl"
+                 fontFamily="{Fonts.VERDANA}"
+                 fontSize="12"
+                 color="#666666"/>
+    </s:VGroup>
+
 
 </s:Group>

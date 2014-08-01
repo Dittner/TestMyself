@@ -19,8 +19,6 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 
 	public function ScreenListItemRenderer() {
 		super();
-		addEventListener(MouseEvent.MOUSE_OVER, overHandler);
-		addEventListener(MouseEvent.MOUSE_OUT, outHandler);
 	}
 
 	private var icon:Bitmap;
@@ -82,7 +80,7 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 		icon.blendMode = selected ? BlendMode.INVERT : BlendMode.NORMAL;
 	}
 
-	private function overHandler(event:MouseEvent):void {
+	override protected function overHandler(event:MouseEvent):void {
 		if (!selected) {
 			icon.alpha = 1;
 			var topLeftPoint:Point = this.localToGlobal(new Point(0, 0));
@@ -90,7 +88,7 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 		}
 	}
 
-	private function outHandler(event:MouseEvent):void {
+	override protected function outHandler(event:MouseEvent):void {
 		if (!selected) {
 			icon.alpha = ICON_ALPHA_OUT;
 		}
