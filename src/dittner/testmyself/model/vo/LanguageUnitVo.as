@@ -5,7 +5,7 @@ public class LanguageUnitVo {
 
 	public var id:String = "";
 	public var content:TransUnitVo;
-	public var groups:Array;
+	public var themes:Array;
 	public var examples:Array;
 }
 }

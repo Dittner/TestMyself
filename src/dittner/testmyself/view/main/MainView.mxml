@@ -94,7 +94,7 @@
     </s:Rect>
 
     <s:Group id="screenCont"
-             left="86" right="0"
+             left="66" right="0"
              height="100%"/>
 
     <s:Rect width="66" height="100%">

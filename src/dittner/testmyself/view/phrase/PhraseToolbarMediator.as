@@ -1,17 +1,17 @@
 package dittner.testmyself.view.phrase {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.service.helpers.toolFactory.ToolId;
-import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
+import dittner.testmyself.service.helpers.toolFactory.Tool;
 import dittner.testmyself.view.common.SelectableDataGroup;
+import dittner.testmyself.view.common.mediator.RequestOperationMessage;
+import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.toobar.Toolbar;
 
 import flash.events.Event;
 
-import mvcexpress.mvc.Mediator;
-
 import mx.collections.ArrayCollection;
 
-public class PhraseToolbarMediator extends Mediator {
+public class PhraseToolbarMediator extends SmartMediator {
 
 	[Inject]
 	public var view:Toolbar;
@@ -19,17 +19,16 @@ public class PhraseToolbarMediator extends Mediator {
 	private var toolHash:Object;
 	override protected function onRegister():void {
 		view.addEventListener(SelectableDataGroup.SELECTED, toolSelectedHandler);
-		addHandler(PhraseMsg.ON_TOOLS, updateTools);
-		sendMessage(PhraseMsg.GET_TOOLS);
+		requestData(PhraseMsg.GET_TOOLS, new RequestOperationMessage(onToolsLoaded));
 	}
 
 	private function toolSelectedHandler(event:Event):void {
-		sendMessage(PhraseMsg.SELECT_TOOL, view.selectedItem);
+		sendMessage(PhraseMsg.SELECT_TOOL, view.selectedItem ? view.selectedItem : Tool.NULL);
 	}
 
-	private function updateTools(toolInfos:Array):void {
+	private function onToolsLoaded(tools:Array):void {
 		toolHash = {};
-		for each(var tool:ToolInfo in toolInfos) {
+		for each(var tool:Tool in tools) {
 			toolHash[tool.id] = tool;
 		}
 
@@ -37,18 +36,18 @@ public class PhraseToolbarMediator extends Mediator {
 		activateTool(ToolId.TRANS_INVERSION);
 		activateTool(ToolId.FILTER);
 		deactivateTool(ToolId.EDIT);
-		deactivateTool(ToolId.DELETE);
+		deactivateTool(ToolId.REMOVE);
 
-		view.dataProvider = new ArrayCollection(toolInfos);
+		view.dataProvider = new ArrayCollection(tools);
 	}
 
 	private function activateTool(toolId:uint):void {
-		var tool:ToolInfo = toolHash[toolId];
+		var tool:Tool = toolHash[toolId];
 		if (tool) tool.active = true;
 	}
 
 	private function deactivateTool(toolId:uint):void {
-		var tool:ToolInfo = toolHash[toolId];
+		var tool:Tool = toolHash[toolId];
 		if (tool) tool.active = false;
 	}
 

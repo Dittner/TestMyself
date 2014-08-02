@@ -110,7 +110,6 @@ public class AudioRecordPlayer extends SkinnableComponent {
 	public function get audioComment():ByteArray {
 		return _audioComment;
 	}
-
 	public function set audioComment(value:ByteArray):void {
 		if (_audioComment != value) {
 			_audioComment = value;
@@ -156,6 +155,21 @@ public class AudioRecordPlayer extends SkinnableComponent {
 			internalState = RECORDED;
 		}
 	}
+
+	public function stopPlaying():void {
+		if (!recorder.playing) return;
+
+		recorder.pause();
+		recorder.playbackFramesPosition = 0;
+		internalState = RECORDED;
+	}
+
+	public function removeRecord():void {
+		recorder.removeRecord();
+		dispatchEvent(new VoiceCommentEvent(VoiceCommentEvent.REMOVE_COMMENT_CLICK));
+		internalState = NORMAL;
+	}
+
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -246,9 +260,7 @@ public class AudioRecordPlayer extends SkinnableComponent {
 	}
 
 	private function removeRecordBtn_clickHandler(event:MouseEvent):void {
-		recorder.removeRecord();
-		dispatchEvent(new VoiceCommentEvent(VoiceCommentEvent.REMOVE_COMMENT_CLICK));
-		internalState = NORMAL;
+		removeRecord();
 	}
 
 	private function pauseBtn_clickHandler(event:MouseEvent):void {

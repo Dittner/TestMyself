@@ -6,14 +6,33 @@
          xmlns:input="dittner.testmyself.view.common.input.*"
          xmlns:list="dittner.testmyself.view.common.list.*"
          xmlns:button="dittner.testmyself.view.common.button.*"
-         implements="dittner.testmyself.view.common.editor.IEditor">
+         xmlns:common="dittner.testmyself.view.common.*"
+         implements="dittner.testmyself.view.common.editor.IEditor"
+         removedFromStage="removedFromStageHandler(event)">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.service.helpers.toolFactory.ToolId;
-        import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
+        import dittner.testmyself.model.vo.LanguageUnitVo;
+        import dittner.testmyself.model.vo.ThemeVo;
+        import dittner.testmyself.view.common.renderer.NewThemeItemRenderer;
+        import dittner.testmyself.view.common.renderer.SeparatorThemeItemRenderer;
+        import dittner.testmyself.view.common.renderer.ThemeItemRenderer;
         import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.phrase.components.ThemeRendererData;
 
         import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  title
+        //--------------------------------------
+        private var _title:String = "";
+        [Bindable("titleChanged")]
+        public function get title():String {return _title;}
+        public function set title(value:String):void {
+            if (_title != value) {
+                _title = value;
+                dispatchEvent(new Event("titleChanged"));
+            }
+        }
 
         //--------------------------------------
         //  themes
@@ -29,20 +48,6 @@
         }
 
         //--------------------------------------
-        //  toolInfo
-        //--------------------------------------
-        private var _toolInfo:ToolInfo;
-        [Bindable("toolInfoChanged")]
-        public function get toolInfo():ToolInfo {return _toolInfo;}
-        public function set toolInfo(value:ToolInfo):void {
-            if (_toolInfo != value) {
-                _toolInfo = value;
-                if (toolInfo.id == ToolId.ADD) setCurrentState("add");
-                dispatchEvent(new Event("toolInfoChanged"));
-            }
-        }
-
-        //--------------------------------------
         //  arrowPos
         //--------------------------------------
         private var _arrowPos:Point;
@@ -50,8 +55,55 @@
         public function get arrowPos():Point {return _arrowPos;}
         public function set arrowPos(value:Point):void {
             if (_arrowPos != value) {
-                _arrowPos = value;
+                _arrowPos = globalToLocal(value);
                 dispatchEvent(new Event("arrowPosChanged"));
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        public function add():void {
+            setCurrentState("add");
+        }
+
+        public function edit(vo:LanguageUnitVo):void {
+            setCurrentState("edit");
+        }
+
+        public function remove(vo:LanguageUnitVo):void {
+            setCurrentState("remove");
+        }
+
+        public function close():void {
+            if (isOpen) {
+                clear();
+                setCurrentState("normal");
+            }
+        }
+
+        public function isOpen():Boolean {
+            return currentState == "add" || currentState == "edit" || currentState == "remove";
+        }
+
+        private function clear():void {
+            if (originArea) originArea.text = "";
+            if (translationArea) translationArea.text = "";
+            if (createThemeInput) createThemeInput.text = "";
+            if (audioRecorder) {
+                audioRecorder.stopRecording();
+                audioRecorder.stopPlaying();
+                audioRecorder.removeRecord();
+            }
+        }
+
+        public function notifyInvalidData(msg:String):void {
+            if (invalidNotifier) {
+                invalidNotifier.text = msg;
+                invalidNotifier.show();
             }
         }
 
@@ -67,31 +119,31 @@
         override protected function updateDisplayList(w:Number, h:Number):void {
             super.updateDisplayList(w, h);
 
-            initialArea.x = PAD;
-            initialArea.y = HEADER_HEI + PAD_TOP;
-            initialArea.height = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - 2 * VGAP - RECORDER_HEI) / 2;
-            initialArea.width = w - 2 * PAD - HGAP - THEMES_LIST_WID;
+            originArea.x = PAD;
+            originArea.y = HEADER_HEI + PAD_TOP;
+            originArea.height = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - 2 * VGAP - RECORDER_HEI) / 2;
+            originArea.width = w - 2 * PAD - HGAP - THEMES_LIST_WID;
 
-            translationArea.x = initialArea.x;
-            translationArea.y = initialArea.y + initialArea.height + VGAP;
-            translationArea.height = initialArea.height;
-            translationArea.width = initialArea.width;
+            translationArea.x = originArea.x;
+            translationArea.y = originArea.y + originArea.height + VGAP;
+            translationArea.height = originArea.height;
+            translationArea.width = originArea.width;
 
             audioRecorder.x = PAD;
-            audioRecorder.y = initialArea.y + 2 * initialArea.height + 2 * VGAP;
-            audioRecorder.width = initialArea.width;
+            audioRecorder.y = originArea.y + 2 * originArea.height + 2 * VGAP;
+            audioRecorder.width = originArea.width;
             audioRecorder.height = RECORDER_HEI;
 
             themesList.x = translationArea.x + translationArea.width + HGAP;
             themesList.y = HEADER_HEI + PAD_TOP;
-            themesList.height = 2 * initialArea.height + VGAP;
+            themesList.height = 2 * originArea.height + VGAP;
 
             createThemeInput.x = themesList.x;
             createThemeInput.y = themesList.y + themesList.height + VGAP;
-            createThemeInput.width = themesList.width - addBtn.width + 1;
+            createThemeInput.width = themesList.width - addNewThemeBtn.width + 1;
 
-            addBtn.x = createThemeInput.x + createThemeInput.width - 1;
-            addBtn.y = createThemeInput.y + 20;
+            addNewThemeBtn.x = createThemeInput.x + createThemeInput.width - 1;
+            addNewThemeBtn.y = createThemeInput.y + 20;
 
             applyBtn.width = themesList.width;
             applyBtn.right = PAD;
@@ -101,6 +153,64 @@
             cancelBtn.bottom = applyBtn.bottom;
             cancelBtn.width = applyBtn.width;
             cancelBtn.height = applyBtn.height;
+
+            invalidNotifier.left = PAD;
+            invalidNotifier.right = cancelBtn.width + cancelBtn.right + HGAP;
+            invalidNotifier.bottom = applyBtn.bottom;
+            invalidNotifier.height = applyBtn.height;
+        }
+
+        private function themesRendererFunc(item:Object):IFactory {
+            var themeData:ThemeRendererData = item as ThemeRendererData;
+            if (themeData) {
+                if (themeData.isNew) return new ClassFactory(NewThemeItemRenderer);
+                else if (themeData.isSeparator) return new ClassFactory(SeparatorThemeItemRenderer);
+                else return new ClassFactory(ThemeItemRenderer);
+            }
+            else throw new Error("Unknown theme item type:" + item.toString() + "!");
+        }
+
+        private static var themeRendererSeparator:ThemeRendererData;
+        private var hasNewThemesSeparator:Boolean = false;
+        private function addNewThemeBtnClickHandler(event:MouseEvent):void {
+            var newThemeName:String = createThemeInput.text;
+            if (validateNewTheme(newThemeName)) {
+                var vo:ThemeVo = new ThemeVo();
+                vo.name = newThemeName;
+                var newTheme:ThemeRendererData = new ThemeRendererData(vo);
+                newTheme.isNew = true;
+
+                if (!hasNewThemesSeparator) {
+                    hasNewThemesSeparator = true;
+
+                    if (!themeRendererSeparator) {
+                        themeRendererSeparator = new ThemeRendererData(new ThemeVo());
+                        themeRendererSeparator.isSeparator = true;
+                    }
+                    themes.addItem(themeRendererSeparator);
+                }
+
+                themes.addItem(newTheme);
+                createThemeInput.text = "";
+            }
+            else {
+                notifyInvalidData('Не удалось добавить тему, так как тема с названием "' + newThemeName + '" уже находится в списке!');
+            }
+        }
+
+        private function validateNewTheme(themeName:String):Boolean {
+            for each(var themeData:ThemeRendererData in themes) {
+                if (themeData.theme.name == themeName) return false;
+            }
+            return true;
+        }
+
+        private function applyButtonEnabled(originText:String, translateText:String, audioRecording:Boolean):Boolean {
+            return originText && translateText && !audioRecording;
+        }
+
+        private function removedFromStageHandler(event:Event):void {
+            close();
         }
         ]]></fx:Script>
 
@@ -114,41 +224,8 @@
 
 
     <editor:EditorBg width="100%" height="100%"
-                     title="{toolInfo.description}"
+                     title="{title}"
                      arrowPos="{arrowPos}"/>
-
-    <!--ADD EDIT MODE-->
-
-
-    <input:TextAreaForm id="initialArea"
-                        title="Исходный текст"/>
-
-    <input:TextAreaForm id="translationArea"
-                        title="Перевод"/>
-
-
-    <audio:AudioRecordPlayer id="audioRecorder"
-                             height="{RECORDER_HEI}"
-                             skinClass="dittner.testmyself.view.common.audio.skins.AudioRecordPlayerSkin"/>
-
-    <list:ListForm id="themesList"
-                   width="{THEMES_LIST_WID}"
-                   dataProvider="{themes}"
-                   title="Список тем"
-                   itemRenderer="dittner.testmyself.view.common.renderer.ThemeItemRenderer"
-                   allowMultipleSelection="true">
-        <list:layout>
-            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-        </list:layout>
-    </list:ListForm>
-
-    <input:TextInputForm id="createThemeInput"
-                         title="Название новой темы"/>
-
-    <button:BitmapButton id="addBtn"
-                         enabled="{createThemeInput.text != ''}"
-                         upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
-                         downImage="@Embed(source='/assets/button/add_element_btn_down.png')"/>
 
     <s:Rect left="{EditorBg.BORDER_THICKNESS}"
             right="{EditorBg.BORDER_THICKNESS}"
@@ -159,11 +236,57 @@
         </s:fill>
     </s:Rect>
 
+
+    <!--ADD EDIT MODE-->
+
+    <s:Group width="100%" height="100%"
+             visible.add="true"
+             visible.edit="true"
+             visible="false">
+
+        <input:TextAreaForm id="originArea"
+                            title="Исходный текст"/>
+
+        <input:TextAreaForm id="translationArea"
+                            title="Перевод"/>
+
+
+        <audio:AudioRecordPlayer id="audioRecorder"
+                                 height="{RECORDER_HEI}"
+                                 skinClass="dittner.testmyself.view.common.audio.skins.AudioRecordPlayerSkin"/>
+
+        <list:ListForm id="themesList"
+                       width="{THEMES_LIST_WID}"
+                       dataProvider="{themes}"
+                       title="Список тем"
+                       itemRendererFunction="themesRendererFunc"
+                       allowMultipleSelection="true">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:ListForm>
+
+        <input:TextInputForm id="createThemeInput"
+                             title="Название новой темы"/>
+
+        <button:BitmapButton id="addNewThemeBtn"
+                             enabled="{createThemeInput.text != ''}"
+                             upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
+                             downImage="@Embed(source='/assets/button/add_element_btn_down.png')"
+                             click="addNewThemeBtnClickHandler(event)"/>
+
+        <common:InvalidNotifier id="invalidNotifier"/>
+    </s:Group>
+
+
     <button:CancelButton id="cancelBtn"
                          label="Отменить"/>
 
     <button:ApplyButton id="applyBtn"
-                        label="Создать"/>
+                        label.add="Создать"
+                        label.edit="Сохранить"
+                        label.remove="Удалить"
+                        enabled="{applyButtonEnabled(originArea.text, translationArea.text, audioRecorder.recording)}"/>
 
 
     <!--REMOVE MODE--><!--    <s:VGroup includeIn="remove"
@@ -172,15 +295,7 @@
         <s:Label color="#ffFFff" fontSize="30" fontWeight="bold"
                  horizontalCenter="0" top="20" maxWidth="300" maxDisplayedLines="1"
                  text="{hostComponent.collocation.name}"/>
-    </s:VGroup>
-
-
-    <s:HGroup right="20" bottom="10" gap="20">
-        <redactor:RedactorButton id="applyBtn"
-                                 styleName="applyStyle"
-                                 label.add="Добавить" label.edit="Сохранить" label.remove="Удалить" label="Применить"/>
-        <redactor:RedactorButton id="cancelBtn" enabled.normal="false" styleName="cancelStyle" label="Отмена"/>
-    </s:HGroup>-->
+    </s:VGroup>-->
 
 
 </s:Group>

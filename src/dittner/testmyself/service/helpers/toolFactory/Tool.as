@@ -3,10 +3,11 @@ import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
-public class ToolInfo extends EventDispatcher {
+public class Tool extends EventDispatcher {
 	public static const ACTIVE_CHANGED_EVENT:String = "activeChanged";
+	public static const NULL:Tool = new Tool(ToolId.NULL, "", null);
 
-	public function ToolInfo(id:uint, description:String, icon:BitmapData) {
+	public function Tool(id:uint, description:String, icon:BitmapData) {
 		_id = id;
 		_description = description;
 		_icon = icon;
@@ -15,7 +16,7 @@ public class ToolInfo extends EventDispatcher {
 	private var _id:uint;
 	public function get id():uint {return _id;}
 
-	private var _description:String;
+	private var _description:String = "";
 	public function get description():String {return _description;}
 
 	private var _icon:BitmapData;

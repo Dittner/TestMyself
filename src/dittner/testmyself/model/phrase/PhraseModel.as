@@ -1,9 +1,8 @@
 package dittner.testmyself.model.phrase {
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.model.vo.LanguageUnitVo;
 import dittner.testmyself.service.helpers.toolFactory.IToolFactory;
+import dittner.testmyself.service.helpers.toolFactory.Tool;
 import dittner.testmyself.service.helpers.toolFactory.ToolId;
-import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
 
 import mvcexpress.mvc.Proxy;
 
@@ -19,7 +18,7 @@ public class PhraseModel extends Proxy {
 	//----------------------------------------------------------------------------------------------
 
 	private static const TOOL_IDS:Array = [
-		ToolId.ADD, ToolId.EDIT, ToolId.DELETE, ToolId.TRANS_INVERSION, ToolId.FILTER];
+		ToolId.ADD, ToolId.EDIT, ToolId.REMOVE, ToolId.TRANS_INVERSION, ToolId.FILTER];
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -40,9 +39,9 @@ public class PhraseModel extends Proxy {
 	//--------------------------------------
 	//  selectedPhrase
 	//--------------------------------------
-	private var _selectedPhrase:LanguageUnitVo;
-	public function get selectedPhrase():LanguageUnitVo {return _selectedPhrase;}
-	public function set selectedPhrase(value:LanguageUnitVo):void {
+	private var _selectedPhrase:PhraseVo;
+	public function get selectedPhrase():PhraseVo {return _selectedPhrase;}
+	public function set selectedPhrase(value:PhraseVo):void {
 		if (_selectedPhrase != value) {
 			_selectedPhrase = value;
 			sendMessage(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, selectedPhrase);
@@ -52,9 +51,9 @@ public class PhraseModel extends Proxy {
 	//--------------------------------------
 	//  selectedTool
 	//--------------------------------------
-	private var _selectedTool:ToolInfo;
-	public function get selectedTool():ToolInfo {return _selectedTool;}
-	public function set selectedTool(value:ToolInfo):void {
+	private var _selectedTool:Tool = Tool.NULL;
+	public function get selectedTool():Tool {return _selectedTool;}
+	public function set selectedTool(value:Tool):void {
 		if (_selectedTool != value) {
 			_selectedTool = value;
 			sendMessage(PhraseMsg.TOOL_SELECTED_NOTIFICATION, selectedTool);
@@ -73,7 +72,7 @@ public class PhraseModel extends Proxy {
 	//----------------------------------------------------------------------------------------------
 
 	public function clear():void {
-		_selectedTool = null;
+		_selectedTool = Tool.NULL;
 		_selectedPhrase = null;
 	}
 

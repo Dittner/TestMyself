@@ -67,19 +67,19 @@
         private function getArrowPosition(direction:String):Point {
             switch (direction) {
                 case ToolTipPos.TOP :
-                    arrowPos.x = width - 37;
+                    arrowPos.x = getExplicitOrMeasuredWidth() - 37;
                     arrowPos.y = 2;
                     break;
                 case ToolTipPos.BOTTOM :
-                    arrowPos.x = width - 37;
-                    arrowPos.y = height - 2;
+                    arrowPos.x = getExplicitOrMeasuredWidth() - 37;
+                    arrowPos.y = getExplicitOrMeasuredHeight() - 2;
                     break;
                 case ToolTipPos.LEFT :
                     arrowPos.x = 2;
                     arrowPos.y = 37;
                     break;
                 case ToolTipPos.RIGHT :
-                    arrowPos.x = width - 2;
+                    arrowPos.x = getExplicitOrMeasuredWidth() - 2;
                     arrowPos.y = 37;
                     break;
                 default :

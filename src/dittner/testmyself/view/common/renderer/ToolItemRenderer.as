@@ -1,5 +1,5 @@
 package dittner.testmyself.view.common.renderer {
-import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
+import dittner.testmyself.service.helpers.toolFactory.Tool;
 import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
 import dittner.testmyself.view.common.tooltip.ToolTipPos;
 
@@ -26,15 +26,15 @@ public class ToolItemRenderer extends ItemRendererBase {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private function get toolInfo():ToolInfo {
-		return data as ToolInfo;
+	private function get tool():Tool {
+		return data as Tool;
 	}
 
 	override public function set data(value:Object):void {
 		if (data != value) {
-			if (toolInfo) toolInfo.removeEventListener(ToolInfo.ACTIVE_CHANGED_EVENT, toolInfoActiveChanged);
+			if (tool) tool.removeEventListener(Tool.ACTIVE_CHANGED_EVENT, toolActiveChanged);
 			super.data = value;
-			if (toolInfo) toolInfo.addEventListener(ToolInfo.ACTIVE_CHANGED_EVENT, toolInfoActiveChanged);
+			if (tool) tool.addEventListener(Tool.ACTIVE_CHANGED_EVENT, toolActiveChanged);
 			invalidateProperties();
 			invalidateSize();
 		}
@@ -55,7 +55,7 @@ public class ToolItemRenderer extends ItemRendererBase {
 
 	override protected function commitProperties():void {
 		super.commitProperties();
-		if (toolInfo) icon.bitmapData = toolInfo.icon;
+		if (tool) icon.bitmapData = tool.icon;
 	}
 
 	override protected function measure():void {
@@ -72,7 +72,7 @@ public class ToolItemRenderer extends ItemRendererBase {
 	}
 
 	private function updateState():void {
-		if (toolInfo.active) {
+		if (tool.active) {
 			if (selected) {
 				icon.alpha = ICON_ALPHA_SELECTED;
 			}
@@ -94,7 +94,7 @@ public class ToolItemRenderer extends ItemRendererBase {
 	override protected function overHandler(event:MouseEvent):void {
 		if (!selected) {
 			var topLeftPoint:Point = this.localToGlobal(ZERO_POINT);
-			ManualToolTipManager.show(toolInfo.description, topLeftPoint.x + getExplicitOrMeasuredWidth() / 2, topLeftPoint.y + getExplicitOrMeasuredHeight(), ToolTipPos.TOP);
+			ManualToolTipManager.show(tool.description, topLeftPoint.x + getExplicitOrMeasuredWidth() / 2, topLeftPoint.y + getExplicitOrMeasuredHeight(), ToolTipPos.TOP);
 		}
 		super.overHandler(event);
 	}
@@ -105,7 +105,7 @@ public class ToolItemRenderer extends ItemRendererBase {
 		super.outHandler(event);
 	}
 
-	private function toolInfoActiveChanged(event:Event):void {
+	private function toolActiveChanged(event:Event):void {
 		updateState();
 	}
 }

@@ -139,8 +139,8 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 
 	private function updateClockPos():void {
 		if (clock) {
-			clock.x = (fullScreenWidth - clock.width) / 2;
-			clock.y = (fullScreenHeight - clock.height) / 2;
+			clock.x = Math.floor(fullScreenWidth - clock.width >> 1);
+			clock.y = Math.floor(fullScreenHeight - clock.height >> 1);
 		}
 	}
 

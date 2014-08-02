@@ -4,22 +4,29 @@ import dittner.testmyself.view.common.utils.Fonts;
 import dittner.testmyself.view.phrase.components.ThemeRendererData;
 
 import flash.display.Graphics;
+import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class ThemeItemRenderer extends ItemRendererBase {
-	private static const THEME_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_GRAY);
+import mx.core.UIComponent;
+
+import spark.components.DataGroup;
+
+public class NewThemeItemRenderer extends ItemRendererBase {
 	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
-	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;
 	private static const SELECTED_COLOR:uint = AppColors.LIST_ITEM_SELECTION;
 
-	public function ThemeItemRenderer() {
+	[Embed(source="/assets/button/delete_white_btn.png")]
+	private static const DeleteBtnIconClass:Class;
+
+	public function NewThemeItemRenderer() {
 		super();
 		percentWidth = 100;
 	}
 
 	private var themeName:TextField;
+	private var deleteBtnIcon:UIComponent;
 
 	private function get themeData():ThemeRendererData {
 		return data as ThemeRendererData;
@@ -27,8 +34,14 @@ public class ThemeItemRenderer extends ItemRendererBase {
 
 	override protected function createChildren():void {
 		super.createChildren();
-		themeName = createTextField(THEME_FORMAT);
+		themeName = createTextField(SELECTED_THEME_FORMAT);
 		addChild(themeName);
+
+		deleteBtnIcon = new UIComponent();
+		deleteBtnIcon.addChild(new DeleteBtnIconClass());
+		deleteBtnIcon.addEventListener(MouseEvent.CLICK, deleteClickHandler);
+
+		addChild(deleteBtnIcon);
 	}
 
 	override protected function commitProperties():void {
@@ -49,39 +62,27 @@ public class ThemeItemRenderer extends ItemRendererBase {
 		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
 		g.clear();
-		var bgColor:uint = 0;
-		var bgAlpha:Number = 1;
 
-		if (selected) {
-			bgColor = SELECTED_COLOR;
-			themeName.setTextFormat(SELECTED_THEME_FORMAT);
-		}
-		else if (hovered) {
-			bgColor = HOVER_COLOR;
-			themeName.setTextFormat(THEME_FORMAT);
-		}
-		else {
-			bgColor = 0xffFFff;
-			bgAlpha = 0.00001;
-			themeName.setTextFormat(THEME_FORMAT);
-		}
-
-		g.beginFill(bgColor, bgAlpha);
+		g.beginFill(SELECTED_COLOR, 1);
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		g.lineStyle(1, selected ? 0x555555 : 0xccCCcc, 1);
+		g.lineStyle(1, 0x555555);
 		g.moveTo(0, h - 1);
 		g.lineTo(w, h - 1);
 
 		themeName.x = themeName.y = PADDING;
 		themeName.width = w - 2 * PADDING;
 		themeName.height = h - 2 * PADDING;
+
+		deleteBtnIcon.x = w - PADDING - 20;
+		deleteBtnIcon.y = (h - 20 >> 1) + 1;
 	}
 
-	override public function set selected(value:Boolean):void {
-		if (themeData) themeData.selected = value;
-		super.selected = value;
+	private function deleteClickHandler(event:MouseEvent):void {
+		if (parent is DataGroup) {
+			(parent as DataGroup).dataProvider.removeItemAt(itemIndex);
+		}
 	}
 }
 }

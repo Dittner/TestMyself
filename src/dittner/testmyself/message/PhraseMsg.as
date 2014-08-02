@@ -7,16 +7,11 @@ public class PhraseMsg {
 	public static const SELECT_TOOL:String = "selectTool";
 	public static const TOOL_SELECTED_NOTIFICATION:String = "toolSelectedNotification";
 
-	public static const GET_TOOLS:String = "getTools";
-	public static const ON_TOOLS:String = "onTools";
-
-	public static const GET_THEMES:String = "getThemes";
-	public static const ON_THEMES:String = "onThemes";
-
-	public static const GET_PHRASES:String = "getPhrases";
-	public static const ON_PHRASES:String = "onPhrases";
-
 	public static const CLEAR_MODEL:String = "clearModel";
+
+	public static const GET_TOOLS:String = "getTools";
+	public static const GET_THEMES:String = "getThemes";
+	public static const GET_PHRASES:String = "getPhrases";
 
 }
 }

@@ -21,29 +21,29 @@ public class ToolFactory extends Proxy implements IToolFactory {
 
 	public function ToolFactory() {
 		super();
-		createToolInfos();
+		createTools();
 	}
 
-	private var toolInfosHash:Object;
+	private var toolHash:Object;
 
-	private function createToolInfos():void {
-		toolInfosHash = {};
-		var info:ToolInfo;
+	private function createTools():void {
+		toolHash = {};
+		var info:Tool;
 
-		info = new ToolInfo(ToolId.ADD, "Добавить новый элемент", getIcon(ToolId.ADD));
-		toolInfosHash[info.id] = info;
+		info = new Tool(ToolId.ADD, "Добавить новый элемент", getIcon(ToolId.ADD));
+		toolHash[info.id] = info;
 
-		info = new ToolInfo(ToolId.EDIT, "Редактировать выбранный элемент", getIcon(ToolId.EDIT));
-		toolInfosHash[info.id] = info;
+		info = new Tool(ToolId.EDIT, "Редактировать выбранный элемент", getIcon(ToolId.EDIT));
+		toolHash[info.id] = info;
 
-		info = new ToolInfo(ToolId.DELETE, "Удалить выбранный элемент", getIcon(ToolId.DELETE));
-		toolInfosHash[info.id] = info;
+		info = new Tool(ToolId.REMOVE, "Удалить выбранный элемент", getIcon(ToolId.REMOVE));
+		toolHash[info.id] = info;
 
-		info = new ToolInfo(ToolId.TRANS_INVERSION, "Инвертировать перевод", getIcon(ToolId.TRANS_INVERSION));
-		toolInfosHash[info.id] = info;
+		info = new Tool(ToolId.TRANS_INVERSION, "Инвертировать перевод", getIcon(ToolId.TRANS_INVERSION));
+		toolHash[info.id] = info;
 
-		info = new ToolInfo(ToolId.FILTER, "Фильтровать по темам", getIcon(ToolId.FILTER));
-		toolInfosHash[info.id] = info;
+		info = new Tool(ToolId.FILTER, "Фильтровать по темам", getIcon(ToolId.FILTER));
+		toolHash[info.id] = info;
 	}
 
 	private function getIcon(toolId:uint):BitmapData {
@@ -56,7 +56,7 @@ public class ToolFactory extends Proxy implements IToolFactory {
 			case ToolId.EDIT :
 				IconClass = EditIconClass;
 				break;
-			case ToolId.DELETE :
+			case ToolId.REMOVE :
 				IconClass = DeleteIconClass;
 				break;
 			case ToolId.TRANS_INVERSION :
@@ -75,8 +75,8 @@ public class ToolFactory extends Proxy implements IToolFactory {
 	public function generate(toolIds:Array):Array {
 		var tools:Array = [];
 		for each(var toolId:uint in toolIds) {
-			if (!toolInfosHash[toolId]) throw new Error("Unknown tool id:" + toolId + ", can not generate tool!");
-			else tools.push(toolInfosHash[toolId]);
+			if (!toolHash[toolId]) throw new Error("Unknown tool id:" + toolId + ", can not generate tool!");
+			else tools.push(toolHash[toolId]);
 		}
 		return tools;
 	}

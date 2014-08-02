@@ -11,14 +11,14 @@ public class AboutMediator extends Mediator {
 	public var view:AboutScreen;
 
 	override protected function onRegister():void {
-		sendMessage(ScreenMsg.LOCK_SCREEN_LIST);
+		sendMessage(ScreenMsg.LOCK_UI);
 		addHandler(ServiceMsg.ON_DATA_BASE_INFO, showDataBaseInfo);
 		sendMessage(ServiceMsg.GET_DATA_BASE_INFO);
 	}
 
 	private function showDataBaseInfo(dataBaseInfo:DataBaseInfoVo):void {
 		view.dataBaseInfo = dataBaseInfo;
-		sendMessage(ScreenMsg.UNLOCK_SCREEN_LIST);
+		sendMessage(ScreenMsg.UNLOCK_UI);
 	}
 
 	override protected function onRemove():void {

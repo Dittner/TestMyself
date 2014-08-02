@@ -37,46 +37,46 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 	}
 
 	private var screensHash:Object;
-	private var _screens:Array;
-	public function get screens():Array {
-		return _screens;
+	private var _screenInfos:Array;
+	public function get screenInfos():Array {
+		return _screenInfos;
 	}
 
 	private function createScreenInfos():void {
-		_screens = [];
+		_screenInfos = [];
 		screensHash = {};
 		var info:ScreenInfo;
 
 		info = new ScreenInfo(ScreenId.ABOUT, "", "Описание программы и базы данных", getIcon(ScreenId.ABOUT));
-		_screens.push(info);
+		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		_screens.push(createScreenItemSeparator());
+		_screenInfos.push(createScreenItemSeparator());
 
 		info = new ScreenInfo(ScreenId.WORD, "СЛОВАРЬ СЛОВ", "Словарь слов", getIcon(ScreenId.WORD));
-		_screens.push(info);
+		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.PHRASE, "СЛОВАРЬ ФРАЗ И ПРЕДЛОЖЕНИЙ", "Словарь фраз и предложений", getIcon(ScreenId.PHRASE));
-		_screens.push(info);
+		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.VERB, "ТАБЛИЦА СИЛЬНЫХ ГЛАГОЛОВ", "Таблица сильных глаголов", getIcon(ScreenId.VERB));
-		_screens.push(info);
+		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenId.TEST));
-		_screens.push(info);
+		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		_screens.push(createScreenItemSeparator());
+		_screenInfos.push(createScreenItemSeparator());
 
 		info = new ScreenInfo(ScreenId.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenId.SEARCH));
-		_screens.push(info);
+		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		info = new ScreenInfo(ScreenId.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenId.SETTINGS));
-		_screens.push(info);
+		_screenInfos.push(info);
 		screensHash[info.id] = info;
 	}
 
@@ -146,10 +146,6 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 
 		screen.title = screensHash[screenId].title;
 		return screen;
-	}
-
-	public function generateFirstScreen():ScreenBase {
-		return generate(ScreenId.ABOUT);
 	}
 
 }

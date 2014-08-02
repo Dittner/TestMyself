@@ -1,20 +1,19 @@
 package dittner.testmyself.model {
-import dittner.testmyself.message.ScreenMsg;
-import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
+import dittner.testmyself.service.helpers.screenFactory.ScreenId;
 
 import mvcexpress.mvc.Proxy;
 
 public class MainModel extends Proxy {
 
+
 	//--------------------------------------
-	//  activeScreenInfo
+	//  selectedScreenId
 	//--------------------------------------
-	private var _selectedScreenInfo:ScreenInfo;
-	public function get selectedScreenInfo():ScreenInfo {return _selectedScreenInfo;}
-	public function set selectedScreenInfo(value:ScreenInfo):void {
-		if (_selectedScreenInfo != value) {
-			_selectedScreenInfo = value;
-			sendMessage(ScreenMsg.SCREEN_INFO_SELECTED_NOTIFICATION, value);
+	private var _selectedScreenId:uint = ScreenId.ABOUT;
+	public function get selectedScreenId():uint {return _selectedScreenId;}
+	public function set selectedScreenId(value:uint):void {
+		if (_selectedScreenId != value) {
+			_selectedScreenId = value;
 		}
 	}
 

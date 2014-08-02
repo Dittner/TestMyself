@@ -2,15 +2,15 @@ package dittner.testmyself.view.main {
 
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.view.common.SelectableDataGroup;
+import dittner.testmyself.view.common.mediator.RequestOperationMessage;
+import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.screen.ScreenBase;
 
 import flash.events.Event;
 
-import mvcexpress.mvc.Mediator;
-
 import mx.collections.ArrayCollection;
 
-public class MainViewMediator extends Mediator {
+public class MainViewMediator extends SmartMediator {
 
 	[Inject]
 	public var mainView:MainView;
@@ -18,18 +18,19 @@ public class MainViewMediator extends Mediator {
 	private var curScreen:ScreenBase;
 
 	override protected function onRegister():void {
+		requestData(ScreenMsg.GET_SCREEN_INFO_LIST, new RequestOperationMessage(showScreenInfoList));
+		requestData(ScreenMsg.GET_SELECTED_SCREEN_VIEW, new RequestOperationMessage(showSelectedScreen));
+
+		addHandler(ScreenMsg.LOCK_UI, lock);
+		addHandler(ScreenMsg.UNLOCK_UI, unlock);
+
 		mainView.screenList.addEventListener(SelectableDataGroup.SELECTED, selectedScreenChangedHandler);
-		addHandler(ScreenMsg.ON_SELECTED_SCREEN_VIEW, showSelectedScreen);
-		addHandler(ScreenMsg.ON_SCREEN_INFO_LIST, showScreenInfoList);
-		addHandler(ScreenMsg.LOCK_SCREEN_LIST, lock);
-		addHandler(ScreenMsg.UNLOCK_SCREEN_LIST, unlock);
-		sendMessage(ScreenMsg.GET_SELECTED_SCREEN_VIEW);
-		sendMessage(ScreenMsg.GET_SCREEN_INFO_LIST);
 	}
 
 	private function selectedScreenChangedHandler(event:Event):void {
-		sendMessage(ScreenMsg.SELECT_SCREEN, mainView.screenList.selectedItem);
-		sendMessage(ScreenMsg.GET_SELECTED_SCREEN_VIEW, mainView.screenList.selectedItem);
+		var selectedScreenId:uint = mainView.screenList.selectedItem.id;
+		sendMessage(ScreenMsg.SELECT_SCREEN, selectedScreenId);
+		requestData(ScreenMsg.GET_SELECTED_SCREEN_VIEW, new RequestOperationMessage(showSelectedScreen));
 	}
 
 	override protected function onRemove():void {

@@ -1,14 +1,18 @@
 package dittner.testmyself.view.common.editor {
-import dittner.testmyself.service.helpers.toolFactory.ToolInfo;
+import dittner.testmyself.model.vo.LanguageUnitVo;
 
 import flash.geom.Point;
 
 import mx.collections.ArrayCollection;
+import mx.core.IVisualElement;
 
-public interface IEditor {
+public interface IEditor extends IVisualElement {
 
-	function get toolInfo():ToolInfo;
-	function set toolInfo(value:ToolInfo):void;
+	function add():void;
+	function edit(vo:LanguageUnitVo):void;
+	function remove(vo:LanguageUnitVo):void;
+	function close():void;
+	function notifyInvalidData(msg:String):void
 
 	function get arrowPos():Point;
 	function set arrowPos(value:Point):void;

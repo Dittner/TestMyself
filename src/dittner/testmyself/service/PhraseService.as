@@ -1,8 +1,8 @@
 package dittner.testmyself.service {
-import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.model_internal;
 import dittner.testmyself.model.vo.ThemeVo;
 import dittner.testmyself.utils.pendingInvoke.doLaterInMSec;
+import dittner.testmyself.view.common.mediator.IOperationMessage;
 
 import mvcexpress.mvc.Proxy;
 
@@ -14,11 +14,20 @@ public class PhraseService extends Proxy {
 		super();
 	}
 
-	public function loadThemes():void {
-		doLaterInMSec(sendFakeData, 500);
+	private var loadThemesOperations:Vector.<IOperationMessage> = new <IOperationMessage>[];
+	private var isThemesLoading:Boolean = false;
+
+	public function loadThemes(op:IOperationMessage):void {
+		loadThemesOperations.push(op);
+		if (!isThemesLoading) {
+			isThemesLoading = true;
+			doLaterInMSec(sendFakeData, 500);
+		}
 	}
 
 	private function sendFakeData():void {
+		isThemesLoading = false;
+
 		var themes:Array = [];
 		var vo:ThemeVo;
 
@@ -42,7 +51,10 @@ public class PhraseService extends Proxy {
 		vo.name = "Large text";
 		themes.push(vo);
 
-		sendMessage(PhraseMsg.ON_THEMES, themes);
+		for each(var op:IOperationMessage in loadThemesOperations) {
+			op.complete(themes);
+		}
+		loadThemesOperations.length = 0;
 	}
 
 	override protected function onRegister():void {}
