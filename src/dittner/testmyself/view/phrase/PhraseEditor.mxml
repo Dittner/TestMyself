@@ -173,6 +173,8 @@
         private static var themeRendererSeparator:ThemeRendererData;
         private var hasNewThemesSeparator:Boolean = false;
         private function addNewThemeBtnClickHandler(event:MouseEvent):void {
+            if (!createThemeInput.text) return;
+
             var newThemeName:String = createThemeInput.text;
             if (validateNewTheme(newThemeName)) {
                 var vo:ThemeVo = new ThemeVo();
@@ -270,7 +272,7 @@
                              title="Название новой темы"/>
 
         <button:BitmapButton id="addNewThemeBtn"
-                             enabled="{createThemeInput.text != ''}"
+                             description="Создать новую тему"
                              upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
                              downImage="@Embed(source='/assets/button/add_element_btn_down.png')"
                              click="addNewThemeBtnClickHandler(event)"/>

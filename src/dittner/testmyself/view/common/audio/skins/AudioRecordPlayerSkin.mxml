@@ -58,7 +58,8 @@
                          visible.recorded="false"
                          visible.playing="false"
                          top="30"
-                         left="10"/>
+                         left="10"
+                         description="Начать запись голоса"/>
 
     <s:Label text="Плеер не содержит аудиозаписи"
              top="30" bottom="10"
@@ -134,7 +135,8 @@
                              upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
                              downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
                              top="30"
-                             right="10"/>
+                             right="10"
+                             description="Удалить аудиозапись"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
                  top="40" left="50"

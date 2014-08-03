@@ -5,11 +5,13 @@
          addedToStage="addedToStageHandler(event)"
          removedFromStage="removedFromStageHandler(event)"
          mouseChildren="false" mouseEnabled="false"
-         maxWidth="200" minWidth="200">
+         maxWidth="250" minWidth="250">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;
+
+        import mx.core.FlexGlobals;
 
         //--------------------------------------
         //  text
@@ -24,13 +26,46 @@
             }
         }
 
-        public function orient(stageX:Number, stageY:Number, arrowDirection:String):void {
-            setArrowDirection(arrowDirection);
+        private function get appStage():Stage {
+            return FlexGlobals.topLevelApplication.stage;
+        }
+
+        public function orient(globalBounds:Rectangle):void {
             validateSize();
 
+            var arrowDirection:String;
+
+            if (globalBounds.x < getExplicitOrMeasuredWidth() + 5) {
+                arrowDirection = ToolTipPos.LEFT;
+            }
+            else if (globalBounds.x > appStage.fullScreenWidth - 50) {
+                arrowDirection = globalBounds.y < getExplicitOrMeasuredHeight() ? ToolTipPos.TOP : ToolTipPos.RIGHT;
+            }
+            else {
+                arrowDirection = globalBounds.y < appStage.fullScreenHeight / 2 ? ToolTipPos.TOP : ToolTipPos.BOTTOM;
+            }
+
+            setArrowDirection(arrowDirection);
+
+
             var arrowPos:Point = getArrowPosition(arrowDirection);
-            x = stageX - arrowPos.x;
-            y = stageY - arrowPos.y;
+            if (arrowDirection == ToolTipPos.LEFT) {
+                x = globalBounds.x + globalBounds.width + arrowPos.x + 5;
+                y = globalBounds.y + globalBounds.height / 2 - arrowPos.y;
+            }
+            else if (arrowDirection == ToolTipPos.TOP) {
+                x = globalBounds.x + globalBounds.width / 2 - arrowPos.x;
+                y = globalBounds.y + globalBounds.height + arrowPos.y;
+            }
+            else if (arrowDirection == ToolTipPos.RIGHT) {
+                x = globalBounds.x - arrowPos.x;
+                y = globalBounds.y + globalBounds.height / 2 - arrowPos.y - 5;
+            }
+            else if (arrowDirection == ToolTipPos.BOTTOM) {
+                x = globalBounds.x + globalBounds.width / 2 - arrowPos.x;
+                y = globalBounds.y - arrowPos.y;
+            }
+
         }
 
         //--------------------------------------
@@ -124,14 +159,19 @@
                    source.leftArrow="@Embed(source='/assets/tooltip/tooltip_left.png', scaleGridLeft='37', scaleGridRight='38', scaleGridTop='46', scaleGridBottom='47')"
                    source.topArrow="@Embed(source='/assets/tooltip/tooltip_top.png', scaleGridLeft='27', scaleGridRight='29', scaleGridTop='30', scaleGridBottom='31')"
                    source.rightArrow="@Embed(source='/assets/tooltip/tooltip_right.png', scaleGridLeft='37', scaleGridRight='38', scaleGridTop='48', scaleGridBottom='49')"
-                   source.bottomArrow="@Embed(source='/assets/tooltip/tooltip_right.png', scaleGridLeft='26', scaleGridRight='27', scaleGridTop='30', scaleGridBottom='31')"
+                   source.bottomArrow="@Embed(source='/assets/tooltip/tooltip_bottom.png', scaleGridLeft='26', scaleGridRight='27', scaleGridTop='30', scaleGridBottom='31')"
             />
 
     <s:Label left="25" right="25" top="25" bottom="25"
              verticalAlign="middle"
              textAlign="center"
              fontFamily="{Fonts.VERDANA}"
+             fontWeight="bold"
              fontSize="14"
-             color="{AppColors.TEXT_YELLOW}"
-             text="{text}"/>
+             color="{AppColors.TEXT_WHITE}"
+             text="{text}">
+        <s:filters>
+            <s:DropShadowFilter color="0" alpha="1" angle="-90" blurX="1" blurY="1" distance="1"/>
+        </s:filters>
+    </s:Label>
 </s:Group>

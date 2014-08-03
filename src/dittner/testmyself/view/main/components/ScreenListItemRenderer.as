@@ -2,7 +2,6 @@ package dittner.testmyself.view.main.components {
 import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
 import dittner.testmyself.view.common.renderer.ItemRendererBase;
 import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
-import dittner.testmyself.view.common.tooltip.ToolTipPos;
 import dittner.testmyself.view.common.utils.AppColors;
 
 import flash.display.Bitmap;
@@ -10,6 +9,7 @@ import flash.display.BlendMode;
 import flash.display.Graphics;
 import flash.events.MouseEvent;
 import flash.geom.Point;
+import flash.geom.Rectangle;
 
 public class ScreenListItemRenderer extends ItemRendererBase {
 	private static const ICON_ALPHA_OUT:Number = 0.5;
@@ -80,11 +80,14 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 		icon.blendMode = selected ? BlendMode.INVERT : BlendMode.NORMAL;
 	}
 
+	private static const ZERO_POINT:Point = new Point();
 	override protected function overHandler(event:MouseEvent):void {
 		if (!selected) {
 			icon.alpha = 1;
-			var topLeftPoint:Point = this.localToGlobal(new Point(0, 0));
-			ManualToolTipManager.show(screenInfo.description, topLeftPoint.x + getExplicitOrMeasuredWidth() + 10, topLeftPoint.y + getExplicitOrMeasuredHeight() / 2, ToolTipPos.LEFT);
+			var topLeftPoint:Point = this.localToGlobal(ZERO_POINT);
+			var bounds:Rectangle = new Rectangle(topLeftPoint.x, topLeftPoint.y, getExplicitOrMeasuredWidth(), getExplicitOrMeasuredHeight());
+
+			ManualToolTipManager.show(screenInfo.description, bounds);
 		}
 	}
 

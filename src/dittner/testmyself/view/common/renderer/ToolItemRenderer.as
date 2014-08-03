@@ -1,12 +1,12 @@
 package dittner.testmyself.view.common.renderer {
 import dittner.testmyself.service.helpers.toolFactory.Tool;
 import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
-import dittner.testmyself.view.common.tooltip.ToolTipPos;
 
 import flash.display.Bitmap;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;
+import flash.geom.Rectangle;
 
 public class ToolItemRenderer extends ItemRendererBase {
 	private static const ICON_ALPHA_OUT:Number = 0.75;
@@ -90,11 +90,13 @@ public class ToolItemRenderer extends ItemRendererBase {
 		}
 	}
 
-	private static const ZERO_POINT:Point = new Point(0, 0);
+	private static const ZERO_POINT:Point = new Point();
 	override protected function overHandler(event:MouseEvent):void {
 		if (!selected) {
 			var topLeftPoint:Point = this.localToGlobal(ZERO_POINT);
-			ManualToolTipManager.show(tool.description, topLeftPoint.x + getExplicitOrMeasuredWidth() / 2, topLeftPoint.y + getExplicitOrMeasuredHeight(), ToolTipPos.TOP);
+			var bounds:Rectangle = new Rectangle(topLeftPoint.x, topLeftPoint.y, getExplicitOrMeasuredWidth(), getExplicitOrMeasuredHeight());
+
+			ManualToolTipManager.show(tool.description, bounds);
 		}
 		super.overHandler(event);
 	}
