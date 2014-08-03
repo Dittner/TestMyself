@@ -10,7 +10,7 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
+        import dittner.testmyself.view.common.tooltip.CustomToolTipManager;
 
         private var _description:String = "";
         [Bindable("descriptionChanged")]
@@ -22,17 +22,12 @@
             }
         }
 
-        private static const ZERO_POINT:Point = new Point();
         private function mouseOverHandler(event:MouseEvent):void {
-            if (description) {
-                var topLeftPoint:Point = this.localToGlobal(ZERO_POINT);
-                var bounds:Rectangle = new Rectangle(topLeftPoint.x, topLeftPoint.y, getExplicitOrMeasuredWidth(), getExplicitOrMeasuredHeight());
-                ManualToolTipManager.show(description, bounds);
-            }
+            if (description) CustomToolTipManager.show(description, this);
         }
 
         private function mouseOutHandler(event:MouseEvent):void {
-            ManualToolTipManager.hide();
+            CustomToolTipManager.hide();
         }
         ]]></fx:Script>
 

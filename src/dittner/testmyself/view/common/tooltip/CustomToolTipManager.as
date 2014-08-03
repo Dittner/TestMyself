@@ -2,19 +2,27 @@ package dittner.testmyself.view.common.tooltip {
 import dittner.testmyself.TestMyselfApp;
 
 import flash.events.TimerEvent;
+import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.utils.Timer;
 
+import mx.core.IUIComponent;
+
 import mx.core.IVisualElement;
 
-public class ManualToolTipManager {
-	public static var toolTip:IManualToolTip;
+public class CustomToolTipManager {
+	public static var toolTip:IToolTip;
 
 	private static var shown:Boolean = false;
 	private static var pendingTimer:Timer;
+	private static const ZERO_POINT:Point = new Point();
 
-	public static function show(text:String, globalBounds:Rectangle):void {
+	public static function show(text:String, host:IUIComponent):void {
 		if (toolTip) {
+
+			var topLeftPoint:Point = host.localToGlobal(ZERO_POINT);
+			var globalBounds:Rectangle = new Rectangle(topLeftPoint.x, topLeftPoint.y, host.getExplicitOrMeasuredWidth(), host.getExplicitOrMeasuredHeight());
+
 			if (!pendingTimer) {
 				pendingTimer = new Timer(1500, 1);
 				pendingTimer.addEventListener(TimerEvent.TIMER_COMPLETE, pendingTimeFinished);

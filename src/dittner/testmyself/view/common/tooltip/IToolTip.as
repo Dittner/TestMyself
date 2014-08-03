@@ -3,7 +3,7 @@ import flash.geom.Rectangle;
 
 import mx.core.IUIComponent;
 
-public interface IManualToolTip extends IUIComponent {
+public interface IToolTip extends IUIComponent {
 	function get text():String;
 	function set text(value:String):void;
 

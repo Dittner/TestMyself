@@ -13,8 +13,8 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.model.language.Language;
-        import dittner.testmyself.view.common.tooltip.ManualToolTip;
-        import dittner.testmyself.view.common.tooltip.ManualToolTipManager;
+        import dittner.testmyself.view.common.tooltip.CustomToolTip;
+        import dittner.testmyself.view.common.tooltip.CustomToolTipManager;
         import dittner.testmyself.view.common.utils.TextFieldFactory;
 
         import mx.events.FlexEvent;
@@ -34,7 +34,7 @@
         }
 
         private function addedToStageHandler(event:Event):void {
-            ManualToolTipManager.toolTip = new ManualToolTip();
+            CustomToolTipManager.toolTip = new CustomToolTip();
         }
 
         private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {
