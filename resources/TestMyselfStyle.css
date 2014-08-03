@@ -3,7 +3,7 @@
 @namespace list "dittner.testmyself.view.common.list.*";
 
 @font-face {
-    src: url("/fonts/VantaThin.ttf");
+    src: url("/fonts/vantathin.ttf");
     font-family: VantaThin;
     embedAsCFF: true;
 }
@@ -13,7 +13,6 @@
     font-family: Verdana;
     embedAsCFF: true;
 }
-
 @font-face {
     src: url("/fonts/verdanab.ttf");
     font-family: Verdana;
@@ -21,12 +20,46 @@
     embedAsCFF: true;
 }
 
-/*mx*/
+
+@font-face {
+    src: url("/fonts/tahoma.ttf");
+    font-family: Tahoma;
+    embedAsCFF: true;
+}
+@font-face {
+    src: url("/fonts/tahomab.ttf");
+    font-family: Tahoma;
+    font-weight: bold;
+    embedAsCFF: true;
+}
+
+/**************************** MX **************************/
+
 @font-face {
     src: url("/fonts/verdana.ttf");
     font-family: VerdanaMX;
     embedAsCFF: false;
 }
+@font-face {
+    src: url("/fonts/verdanab.ttf");
+    font-family: VerdanaMX;
+    font-weight: bold;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/tahoma.ttf");
+    font-family: TahomaMX;
+    embedAsCFF: false;
+}
+@font-face {
+    src: url("/fonts/tahomab.ttf");
+    font-family: TahomaMX;
+    font-weight: bold;
+    embedAsCFF: false;
+}
+
+/***********************************************************/
 
 global {
     fontSize: 14px;

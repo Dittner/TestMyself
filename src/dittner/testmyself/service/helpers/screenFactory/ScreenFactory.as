@@ -71,9 +71,9 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 
 		_screenInfos.push(createScreenItemSeparator());
 
-		info = new ScreenInfo(ScreenId.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenId.SEARCH));
+		/*info = new ScreenInfo(ScreenId.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenId.SEARCH));
 		_screenInfos.push(info);
-		screensHash[info.id] = info;
+		screensHash[info.id] = info;*/
 
 		info = new ScreenInfo(ScreenId.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenId.SETTINGS));
 		_screenInfos.push(info);

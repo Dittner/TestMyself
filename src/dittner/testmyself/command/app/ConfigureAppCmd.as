@@ -1,7 +1,9 @@
 package dittner.testmyself.command.app {
 import dittner.testmyself.command.phrase.ClearPhraseModelCmd;
+import dittner.testmyself.command.phrase.GetPhrasesCmd;
 import dittner.testmyself.command.phrase.GetThemesForPhraseCmd;
 import dittner.testmyself.command.phrase.GetToolsForPhraseCmd;
+import dittner.testmyself.command.phrase.SelectPhraseCmd;
 import dittner.testmyself.command.phrase.SelectPhraseToolCmd;
 import dittner.testmyself.command.screen.GetScreenInfoListCmd;
 import dittner.testmyself.command.screen.GetSelectedScreenViewCmd;
@@ -38,10 +40,12 @@ public class ConfigureAppCmd extends Command {
 		commandMap.map(ScreenMsg.SELECT_SCREEN, SelectScreenCmd);
 		commandMap.map(ServiceMsg.GET_DATA_BASE_INFO, GetDataBaseInfoCmd);
 		//-------------------- PHRASE ------------------
-		commandMap.map(PhraseMsg.GET_TOOLS, GetToolsForPhraseCmd);
 		commandMap.map(PhraseMsg.SELECT_TOOL, SelectPhraseToolCmd);
+		commandMap.map(PhraseMsg.SELECT_PHRASE, SelectPhraseCmd);
 		commandMap.map(PhraseMsg.CLEAR_MODEL, ClearPhraseModelCmd);
 		commandMap.map(PhraseMsg.GET_THEMES, GetThemesForPhraseCmd);
+		commandMap.map(PhraseMsg.GET_TOOLS, GetToolsForPhraseCmd);
+		commandMap.map(PhraseMsg.GET_PHRASES, GetPhrasesCmd);
 
 		//map models and services
 		proxyMap.map(createLanguage(), null, ILanguage);

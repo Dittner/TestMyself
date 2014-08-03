@@ -16,7 +16,7 @@ public class EditorBg extends UIComponent {
 		super();
 	}
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.EDITOR_HEADER_MX, 16, AppColors.TEXT_GRAY_LIGHT);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 16, AppColors.TEXT_GRAY_LIGHT);
 	public static const HEADER_HEIGHT:uint = 40;
 	private static const ARROW_SIZE:uint = 10;
 	public static const PADDING:uint = 20;

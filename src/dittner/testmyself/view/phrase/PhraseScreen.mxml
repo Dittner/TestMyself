@@ -2,7 +2,9 @@
 <core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                  xmlns:s="library://ns.adobe.com/flex/spark"
                  xmlns:toobar="dittner.testmyself.view.common.toobar.*"
-                 xmlns:core="dittner.testmyself.view.common.screen.*" xmlns:phrase="dittner.testmyself.view.phrase.*"
+                 xmlns:core="dittner.testmyself.view.common.screen.*"
+                 xmlns:phrase="dittner.testmyself.view.phrase.*"
+                 xmlns:components="dittner.testmyself.view.phrase.components.*"
                  maxWidth="{AppSizes.SCREEN_MAX_WIDTH}"
                  currentState="inactive"
                  horizontalCenter="0">
@@ -13,19 +15,6 @@
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.AppSizes;
         import dittner.testmyself.view.common.utils.Fonts;
-
-        private function toolbarSelectedToolHandler(event:Event):void {
-            if (toolbar.selectedItem) {
-                var renderer:ToolItemRenderer = toolbar.getSelectedRenderer() as ToolItemRenderer;
-                if (renderer) {
-                    const topLeftPoint:Point = renderer.localToGlobal(new Point(0, 0));
-                    const arrowPosX:Number = topLeftPoint.x + renderer.getExplicitOrMeasuredWidth() / 2;
-                    const arrowPosY:Number = topLeftPoint.y + renderer.getExplicitOrMeasuredHeight();
-
-                    arrowPos = new Point(arrowPosX, arrowPosY);
-                }
-            }
-        }
 
         //--------------------------------------
         //  arrowPos
@@ -39,6 +28,12 @@
                 dispatchEvent(new Event("arrowPosChanged"));
             }
         }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
 
         public function activate():void {
             if (currentState == "inactive") setCurrentState("normal");
@@ -58,6 +53,19 @@
             if (editor) {
                 editor.width = Math.min((w - 2 * padding), AppSizes.EDITOR_MAX_WIDTH);
                 editor.x = w - editor.width - padding;
+            }
+        }
+
+        private function toolbarSelectedToolHandler(event:Event):void {
+            if (toolbar.selectedItem) {
+                var renderer:ToolItemRenderer = toolbar.getSelectedRenderer() as ToolItemRenderer;
+                if (renderer) {
+                    const topLeftPoint:Point = renderer.localToGlobal(new Point(0, 0));
+                    const arrowPosX:Number = topLeftPoint.x + renderer.getExplicitOrMeasuredWidth() / 2;
+                    const arrowPosY:Number = topLeftPoint.y + renderer.getExplicitOrMeasuredHeight();
+
+                    arrowPos = new Point(arrowPosX, arrowPosY);
+                }
             }
         }
         ]]></fx:Script>
@@ -104,6 +112,23 @@
             </toobar:layout>
         </toobar:Toolbar>
     </s:HGroup>
+
+    <s:Scroller left="{padding}" right="{padding}" top="{headerHeight+padding}" bottom="{padding}"
+                excludeFrom="inactive"
+                minViewportInset="1"
+                hasFocusableChildren="false">
+        <s:Group width="100%">
+            <components:LanguageUnitList id="list"
+                                         width="100%"
+                                         contentBackgroundAlpha="0"
+                                         itemRenderer="dittner.testmyself.view.phrase.components.PhraseRenderer">
+                <components:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+                </components:layout>
+            </components:LanguageUnitList>
+        </s:Group>
+
+    </s:Scroller>
 
 
     <s:Group width="100%" height="100%"

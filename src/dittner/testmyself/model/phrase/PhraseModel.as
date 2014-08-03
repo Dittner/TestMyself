@@ -51,7 +51,7 @@ public class PhraseModel extends Proxy {
 	//--------------------------------------
 	//  selectedTool
 	//--------------------------------------
-	private var _selectedTool:Tool = Tool.NULL;
+	private var _selectedTool:Tool;
 	public function get selectedTool():Tool {return _selectedTool;}
 	public function set selectedTool(value:Tool):void {
 		if (_selectedTool != value) {
@@ -73,11 +73,11 @@ public class PhraseModel extends Proxy {
 
 	public function clear():void {
 		_selectedTool = Tool.NULL;
-		_selectedPhrase = null;
+		_selectedPhrase = PhraseVo.NULL;
 	}
 
 	override protected function onRegister():void {
-		trace("PhraseModel onRegister");
+		clear();
 	}
 	override protected function onRemove():void {
 		trace("PhraseModel onRemove");

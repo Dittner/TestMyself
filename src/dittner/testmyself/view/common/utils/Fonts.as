@@ -3,8 +3,11 @@ public class Fonts {
 
 	public static const VERDANAMX:String = "VerdanaMX";
 	public static const VERDANA:String = "Verdana";
+
+	public static const TAHOMA:String = "Tahoma";
+	public static const TAHOMAMX:String = "TahomaMX";
+
 	public static const VANTA_THIN:String = "VantaThin";
-	public static const EDITOR_HEADER_MX:String = "VerdanaMX";
 
 }
 }

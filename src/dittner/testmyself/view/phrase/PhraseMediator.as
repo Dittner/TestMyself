@@ -22,6 +22,7 @@ public class PhraseMediator extends Mediator {
 		addHandler(PhraseMsg.TOOL_SELECTED_NOTIFICATION, toolSelectedHandler);
 		mediatorMap.mediateWith(view.toolbar, PhraseToolbarMediator);
 		mediatorMap.mediateWith(view.editor, PhraseEditorMediator);
+		mediatorMap.mediateWith(view.list, PhraseListMediator);
 		sendMessage(ScreenMsg.UNLOCK_UI);
 	}
 
@@ -29,6 +30,7 @@ public class PhraseMediator extends Mediator {
 		removeAllHandlers();
 		mediatorMap.unmediate(view.toolbar, PhraseToolbarMediator);
 		mediatorMap.unmediate(view.editor, PhraseEditorMediator);
+		mediatorMap.unmediate(view.list, PhraseListMediator);
 		sendMessage(PhraseMsg.CLEAR_MODEL);
 	}
 

@@ -93,8 +93,12 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	protected function createTextField(textFormat:TextFormat, multiline:Boolean = false):TextField {
-		return TextFieldFactory.create(textFormat, multiline);
+	protected function createTextField(textFormat:TextFormat):TextField {
+		return TextFieldFactory.create(textFormat, false);
+	}
+
+	protected function createMultilineTextField(textFormat:TextFormat):TextField {
+		return TextFieldFactory.create(textFormat, true);
 	}
 
 	private function addedToStageHandler(event:Event):void {

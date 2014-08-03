@@ -1,6 +1,8 @@
 package dittner.testmyself.service {
 import dittner.testmyself.model.model_internal;
+import dittner.testmyself.model.phrase.PhraseVo;
 import dittner.testmyself.model.vo.ThemeVo;
+import dittner.testmyself.model.vo.TransUnitVo;
 import dittner.testmyself.utils.pendingInvoke.doLaterInMSec;
 import dittner.testmyself.view.common.mediator.IOperationMessage;
 
@@ -15,17 +17,27 @@ public class PhraseService extends Proxy {
 	}
 
 	private var loadThemesOperations:Vector.<IOperationMessage> = new <IOperationMessage>[];
+	private var loadPhrasesOperations:Vector.<IOperationMessage> = new <IOperationMessage>[];
 	private var isThemesLoading:Boolean = false;
+	private var isPhrasesLoading:Boolean = false;
 
 	public function loadThemes(op:IOperationMessage):void {
 		loadThemesOperations.push(op);
 		if (!isThemesLoading) {
 			isThemesLoading = true;
-			doLaterInMSec(sendFakeData, 500);
+			doLaterInMSec(sendFakeThemes, 500);
 		}
 	}
 
-	private function sendFakeData():void {
+	public function loadPhrases(op:IOperationMessage):void {
+		loadPhrasesOperations.push(op);
+		if (!isPhrasesLoading) {
+			isPhrasesLoading = true;
+			doLaterInMSec(sendFakePhrases, 500);
+		}
+	}
+
+	private function sendFakeThemes():void {
 		isThemesLoading = false;
 
 		var themes:Array = [];
@@ -55,6 +67,53 @@ public class PhraseService extends Proxy {
 			op.complete(themes);
 		}
 		loadThemesOperations.length = 0;
+	}
+
+	private function sendFakePhrases():void {
+		isPhrasesLoading = false;
+
+		var phrases:Array = [];
+		var vo:PhraseVo;
+
+		vo = new PhraseVo();
+		vo.id = "1";
+		vo.content = new TransUnitVo();
+		vo.content.origin = "Wir kommen nie zu Gedanken. Sie kommen zu uns. (Heidegger)";
+		vo.content.translation = "Мы никогда не приходим к мыслям. Они приходят к нам.";
+		phrases.push(vo);
+
+		vo = new PhraseVo();
+		vo.id = "2";
+		vo.content = new TransUnitVo();
+		vo.content.origin = "Wer fremde Sprache nicht kennt, weiss nichts von seiner eigenen. (Goethe)";
+		vo.content.translation = "Тот, кому чужды иностранные языки – ничего не смыслит в собственном языке.";
+		phrases.push(vo);
+
+		vo = new PhraseVo();
+		vo.id = "3";
+		vo.content = new TransUnitVo();
+		vo.content.origin = "Die Wahrheit bedarf nicht viele Worte, die Luge kann nie genug haben…";
+		vo.content.translation = "Истина не многословна, для лжи слов всегда недостаточно…";
+		phrases.push(vo);
+
+		vo = new PhraseVo();
+		vo.id = "4";
+		vo.content = new TransUnitVo();
+		vo.content.origin = "Was mich nicht umbringt, macht mich stärker. (Nietzsche)";
+		vo.content.translation = "Что меня не убивает - делает меня сильнее.";
+		phrases.push(vo);
+
+		vo = new PhraseVo();
+		vo.id = "5";
+		vo.content = new TransUnitVo();
+		vo.content.origin = "Entweder kommst du heute eine Stufe höher, oder du sammelst deine Kräfte, damit du morgen höher steigst. (Nietzsche)";
+		vo.content.translation = "Либо вы поднимитесь вверх на одну ступень сегодня, или соберитесь с силами, чтобы подняться на эту ступень завтра";
+		phrases.push(vo);
+
+		for each(var op:IOperationMessage in loadPhrasesOperations) {
+			op.complete(phrases);
+		}
+		loadPhrasesOperations.length = 0;
 	}
 
 	override protected function onRegister():void {}

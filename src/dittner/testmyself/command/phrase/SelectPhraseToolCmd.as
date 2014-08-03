@@ -7,10 +7,10 @@ import mvcexpress.mvc.Command;
 public class SelectPhraseToolCmd extends Command {
 
 	[Inject]
-	public var mainModel:PhraseModel;
+	public var model:PhraseModel;
 
 	public function execute(tool:Tool):void {
-		mainModel.selectedTool = tool;
+		model.selectedTool = tool;
 	}
 
 }

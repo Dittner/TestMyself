@@ -85,9 +85,6 @@
             <!--text="СИСТЕМА САМОСТОЯТЕЛЬНОГО ТЕСТИРОВАНИЯ ЗНАНИЙ НЕМЕЦКОГО ЯЗЫКА"/>-->
 
 
-            <!--<s:filters>
-                <s:DropShadowFilter color="0" alpha=".5" angle="120" blurX="1" blurY="1" distance="1"/>
-            </s:filters>-->
             <s:Spacer height="10%"/>
 
             <s:Label fontFamily="{Fonts.VERDANA}"

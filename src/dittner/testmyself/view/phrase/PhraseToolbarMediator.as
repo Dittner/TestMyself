@@ -1,7 +1,8 @@
 package dittner.testmyself.view.phrase {
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.service.helpers.toolFactory.ToolId;
+import dittner.testmyself.model.phrase.PhraseVo;
 import dittner.testmyself.service.helpers.toolFactory.Tool;
+import dittner.testmyself.service.helpers.toolFactory.ToolId;
 import dittner.testmyself.view.common.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestOperationMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
@@ -20,6 +21,7 @@ public class PhraseToolbarMediator extends SmartMediator {
 	override protected function onRegister():void {
 		view.addEventListener(SelectableDataGroup.SELECTED, toolSelectedHandler);
 		requestData(PhraseMsg.GET_TOOLS, new RequestOperationMessage(onToolsLoaded));
+		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
 	}
 
 	private function toolSelectedHandler(event:Event):void {
@@ -49,6 +51,17 @@ public class PhraseToolbarMediator extends SmartMediator {
 	private function deactivateTool(toolId:uint):void {
 		var tool:Tool = toolHash[toolId];
 		if (tool) tool.active = false;
+	}
+
+	private function phraseSelectedHandler(phrase:PhraseVo):void {
+		if (phrase != PhraseVo.NULL) {
+			activateTool(ToolId.EDIT);
+			activateTool(ToolId.REMOVE);
+		}
+		else {
+			deactivateTool(ToolId.EDIT);
+			deactivateTool(ToolId.REMOVE);
+		}
 	}
 
 	override protected function onRemove():void {
