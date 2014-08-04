@@ -1,11 +1,12 @@
-package dittner.testmyself.view.phrase {
+package dittner.testmyself.view.phrase.editor {
+import dittner.testmyself.view.phrase.*;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.vo.ThemeVo;
-import dittner.testmyself.service.helpers.toolFactory.ToolId;
-import dittner.testmyself.service.helpers.toolFactory.Tool;
 import dittner.testmyself.view.common.mediator.RequestOperationMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
-import dittner.testmyself.view.phrase.components.ThemeRendererData;
+import dittner.testmyself.view.common.toobar.ToolAction;
+import dittner.testmyself.view.common.toobar.ToolActionName;
+import dittner.testmyself.view.phrase.common.ThemeRendererData;
 
 import flash.events.MouseEvent;
 
@@ -18,7 +19,7 @@ public class PhraseEditorMediator extends SmartMediator {
 
 	override protected function onRegister():void {
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
-		addHandler(PhraseMsg.TOOL_SELECTED_NOTIFICATION, toolSelectedHandler);
+		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
 		requestData(PhraseMsg.GET_THEMES, new RequestOperationMessage(onThemesLoaded));
 	}
 
@@ -37,21 +38,21 @@ public class PhraseEditorMediator extends SmartMediator {
 		return items;
 	}
 
-	private function toolSelectedHandler(tool:Tool):void {
-		switch (tool.id) {
-			case(ToolId.ADD) :
+	private function toolActionSelectedHandler(toolAction:String):void {
+		switch (toolAction) {
+			case(ToolAction.ADD) :
 				view.add();
 				break;
-			case(ToolId.EDIT) :
+			case(ToolAction.EDIT) :
 				view.edit(null);
 				break;
-			case(ToolId.REMOVE) :
+			case(ToolAction.REMOVE) :
 				view.remove(null);
 				break;
 			default :
 				view.close();
 		}
-		view.title = tool.description;
+		view.title = ToolActionName.getNameById(toolAction);
 	}
 
 	override protected function onRemove():void {
@@ -61,7 +62,6 @@ public class PhraseEditorMediator extends SmartMediator {
 
 	private function cancelHandler(event:MouseEvent):void {
 		view.close();
-		sendMessage(PhraseMsg.SELECT_TOOL, Tool.NULL);
 	}
 }
 }

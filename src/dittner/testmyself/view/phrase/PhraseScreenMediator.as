@@ -1,13 +1,15 @@
 package dittner.testmyself.view.phrase {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
-import dittner.testmyself.service.helpers.toolFactory.Tool;
-import dittner.testmyself.service.helpers.toolFactory.ToolId;
 import dittner.testmyself.utils.pendingInvoke.doLaterInFrames;
+import dittner.testmyself.view.common.toobar.ToolAction;
+import dittner.testmyself.view.phrase.editor.PhraseEditorMediator;
+import dittner.testmyself.view.phrase.list.PhraseListMediator;
+import dittner.testmyself.view.phrase.toolbar.PhraseToolbarMediator;
 
 import mvcexpress.mvc.Mediator;
 
-public class PhraseMediator extends Mediator {
+public class PhraseScreenMediator extends Mediator {
 
 	[Inject]
 	public var view:PhraseScreen;
@@ -19,7 +21,7 @@ public class PhraseMediator extends Mediator {
 
 	private function activateScreen():void {
 		view.activate();
-		addHandler(PhraseMsg.TOOL_SELECTED_NOTIFICATION, toolSelectedHandler);
+		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
 		mediatorMap.mediateWith(view.toolbar, PhraseToolbarMediator);
 		mediatorMap.mediateWith(view.editor, PhraseEditorMediator);
 		mediatorMap.mediateWith(view.list, PhraseListMediator);
@@ -34,8 +36,12 @@ public class PhraseMediator extends Mediator {
 		sendMessage(PhraseMsg.CLEAR_MODEL);
 	}
 
-	private function toolSelectedHandler(tool:Tool):void {
-		if (tool.id == ToolId.ADD || tool.id == ToolId.EDIT || tool.id == ToolId.REMOVE) view.showEditor();
+	private function toolActionSelectedHandler(toolAction:String):void {
+		if (toolAction == ToolAction.ADD ||
+				toolAction == ToolAction.EDIT ||
+				toolAction == ToolAction.REMOVE) {
+			view.showEditor();
+		}
 		else view.hideEditor();
 	}
 }

@@ -1,4 +1,4 @@
-package dittner.testmyself.view.phrase.components {
+package dittner.testmyself.view.phrase.common {
 import dittner.testmyself.model.vo.ThemeVo;
 
 public class ThemeRendererData {

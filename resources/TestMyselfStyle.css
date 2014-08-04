@@ -21,18 +21,6 @@
 }
 
 
-@font-face {
-    src: url("/fonts/tahoma.ttf");
-    font-family: Tahoma;
-    embedAsCFF: true;
-}
-@font-face {
-    src: url("/fonts/tahomab.ttf");
-    font-family: Tahoma;
-    font-weight: bold;
-    embedAsCFF: true;
-}
-
 /**************************** MX **************************/
 
 @font-face {
@@ -47,17 +35,6 @@
     embedAsCFF: false;
 }
 
-@font-face {
-    src: url("/fonts/tahoma.ttf");
-    font-family: TahomaMX;
-    embedAsCFF: false;
-}
-@font-face {
-    src: url("/fonts/tahomab.ttf");
-    font-family: TahomaMX;
-    font-weight: bold;
-    embedAsCFF: false;
-}
 
 /***********************************************************/
 

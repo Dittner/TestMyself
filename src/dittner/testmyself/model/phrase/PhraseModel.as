@@ -1,24 +1,9 @@
 package dittner.testmyself.model.phrase {
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.service.helpers.toolFactory.IToolFactory;
-import dittner.testmyself.service.helpers.toolFactory.Tool;
-import dittner.testmyself.service.helpers.toolFactory.ToolId;
 
 import mvcexpress.mvc.Proxy;
 
 public class PhraseModel extends Proxy {
-
-	[Inject]
-	public var toolFactory:IToolFactory;
-
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Const
-	//
-	//----------------------------------------------------------------------------------------------
-
-	private static const TOOL_IDS:Array = [
-		ToolId.ADD, ToolId.EDIT, ToolId.REMOVE, ToolId.TRANS_INVERSION, ToolId.FILTER];
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -48,23 +33,6 @@ public class PhraseModel extends Proxy {
 		}
 	}
 
-	//--------------------------------------
-	//  selectedTool
-	//--------------------------------------
-	private var _selectedTool:Tool;
-	public function get selectedTool():Tool {return _selectedTool;}
-	public function set selectedTool(value:Tool):void {
-		if (_selectedTool != value) {
-			_selectedTool = value;
-			sendMessage(PhraseMsg.TOOL_SELECTED_NOTIFICATION, selectedTool);
-		}
-	}
-
-	//--------------------------------------
-	//  tools
-	//--------------------------------------
-	public function getTools():Array {return toolFactory.generate(TOOL_IDS);}
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -72,7 +40,6 @@ public class PhraseModel extends Proxy {
 	//----------------------------------------------------------------------------------------------
 
 	public function clear():void {
-		_selectedTool = Tool.NULL;
 		_selectedPhrase = PhraseVo.NULL;
 	}
 

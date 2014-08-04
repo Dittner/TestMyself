@@ -1,4 +1,4 @@
-package dittner.testmyself.view.phrase.components {
+package dittner.testmyself.view.phrase.common {
 import dittner.testmyself.view.common.renderer.*;
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
@@ -8,12 +8,12 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class PhraseRenderer extends ItemRendererBase {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.TAHOMAMX, 20, AppColors.TEXT_BLACK, true);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.TAHOMAMX, 16, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 18, AppColors.TEXT_BLACK, true);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 16, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 
-	private static const PAD:uint = 10;
+	private static const PAD:uint = 20;
 	private static const GAP:uint = 10;
 	private static const SELECTED_COLOR:uint = AppColors.LIST_LANG_UNIT_SELECTED;
 
@@ -119,8 +119,8 @@ public class PhraseRenderer extends ItemRendererBase {
 		g.endFill();
 
 		g.lineStyle(1, 0xffFFff);
-		g.moveTo(0, h - 1);
-		g.lineTo(w, h - 1);
+		g.moveTo(PAD / 2, h - 1);
+		g.lineTo(w - PAD, h - 1);
 
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 		if (descriptionTf.visible) {

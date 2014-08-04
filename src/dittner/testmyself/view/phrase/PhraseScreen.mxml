@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
 <core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                  xmlns:s="library://ns.adobe.com/flex/spark"
-                 xmlns:toobar="dittner.testmyself.view.common.toobar.*"
                  xmlns:core="dittner.testmyself.view.common.screen.*"
-                 xmlns:phrase="dittner.testmyself.view.phrase.*"
-                 xmlns:components="dittner.testmyself.view.phrase.components.*"
+                 xmlns:list="dittner.testmyself.view.phrase.list.*"
+                 xmlns:toolbar="dittner.testmyself.view.phrase.toolbar.*"
+                 xmlns:editor="dittner.testmyself.view.phrase.editor.*"
                  maxWidth="{AppSizes.SCREEN_MAX_WIDTH}"
                  currentState="inactive"
                  horizontalCenter="0">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.service.helpers.toolFactory.Tool;
-        import dittner.testmyself.view.common.renderer.ToolItemRenderer;
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.AppSizes;
         import dittner.testmyself.view.common.utils.Fonts;
@@ -45,7 +43,6 @@
 
         public function hideEditor():void {
             setCurrentState("normal");
-            toolbar.selectedItem = Tool.NULL;
         }
 
         override protected function updateDisplayList(w:Number, h:Number):void {
@@ -57,16 +54,16 @@
         }
 
         private function toolbarSelectedToolHandler(event:Event):void {
-            if (toolbar.selectedItem) {
-                var renderer:ToolItemRenderer = toolbar.getSelectedRenderer() as ToolItemRenderer;
-                if (renderer) {
-                    const topLeftPoint:Point = renderer.localToGlobal(new Point(0, 0));
-                    const arrowPosX:Number = topLeftPoint.x + renderer.getExplicitOrMeasuredWidth() / 2;
-                    const arrowPosY:Number = topLeftPoint.y + renderer.getExplicitOrMeasuredHeight();
+            /*if (toolbar.selectedItem) {
+             var renderer:ToolItemRenderer = toolbar.getSelectedRenderer() as ToolItemRenderer;
+             if (renderer) {
+             const topLeftPoint:Point = renderer.localToGlobal(new Point(0, 0));
+             const arrowPosX:Number = topLeftPoint.x + renderer.getExplicitOrMeasuredWidth() / 2;
+             const arrowPosY:Number = topLeftPoint.y + renderer.getExplicitOrMeasuredHeight();
 
-                    arrowPos = new Point(arrowPosX, arrowPosY);
-                }
-            }
+             arrowPos = new Point(arrowPosX, arrowPosY);
+             }
+             }*/
         }
         ]]></fx:Script>
 
@@ -102,30 +99,25 @@
                  width="100%"
                  color="#54545d"/>
 
-        <toobar:Toolbar id="toolbar"
-                        excludeFrom="inactive"
-                        height="{headerHeight}"
-                        itemRenderer="dittner.testmyself.view.common.renderer.ToolItemRenderer"
-                        selectedItemChange="toolbarSelectedToolHandler(event)">
-            <toobar:layout>
-                <s:HorizontalLayout gap="0" verticalAlign="middle" useVirtualLayout="false" horizontalAlign="right"/>
-            </toobar:layout>
-        </toobar:Toolbar>
+        <toolbar:PhraseToolbar id="toolbar"
+                               excludeFrom="inactive"
+                               width="100%"
+                               height="{headerHeight}"/>
     </s:HGroup>
 
-    <s:Scroller left="{padding}" right="{padding}" top="{headerHeight+padding}" bottom="{padding}"
+    <s:Scroller left="0" right="0" top="{headerHeight+padding}" bottom="{padding}"
                 excludeFrom="inactive"
                 minViewportInset="1"
                 hasFocusableChildren="false">
         <s:Group width="100%">
-            <components:LanguageUnitList id="list"
-                                         width="100%"
-                                         contentBackgroundAlpha="0"
-                                         itemRenderer="dittner.testmyself.view.phrase.components.PhraseRenderer">
-                <components:layout>
+            <list:LanguageUnitList id="list"
+                                   width="100%"
+                                   contentBackgroundAlpha="0"
+                                   itemRenderer="dittner.testmyself.view.phrase.common.PhraseRenderer">
+                <list:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-                </components:layout>
-            </components:LanguageUnitList>
+                </list:layout>
+            </list:LanguageUnitList>
         </s:Group>
 
     </s:Scroller>
@@ -141,7 +133,7 @@
             </s:fill>
         </s:Rect>
 
-        <phrase:PhraseEditor id="editor"
+        <editor:PhraseEditor id="editor"
                              arrowPos="{arrowPos}"
                              bottom="{padding}"
                              top="{headerHeight}"/>

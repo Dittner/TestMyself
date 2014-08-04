@@ -1,14 +1,12 @@
-package dittner.testmyself.view.phrase {
+package dittner.testmyself.view.phrase.list {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.PhraseVo;
-import dittner.testmyself.service.helpers.toolFactory.Tool;
-import dittner.testmyself.service.helpers.toolFactory.ToolId;
 import dittner.testmyself.view.common.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestOperationMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.mediator.mediator_internal;
-import dittner.testmyself.view.phrase.components.LanguageUnitList;
-import dittner.testmyself.view.phrase.components.PhraseRendererData;
+import dittner.testmyself.view.common.toobar.ToolAction;
+import dittner.testmyself.view.phrase.common.PhraseRendererData;
 
 import flash.events.Event;
 
@@ -25,7 +23,7 @@ public class PhraseListMediator extends SmartMediator {
 
 	override protected function onRegister():void {
 		view.addEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
-		addHandler(PhraseMsg.TOOL_SELECTED_NOTIFICATION, toolSelectedHandler);
+		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
 		requestData(PhraseMsg.GET_PHRASES, new RequestOperationMessage(onPhrasesLoaded));
 	}
 
@@ -50,12 +48,17 @@ public class PhraseListMediator extends SmartMediator {
 		return items;
 	}
 
-	private function toolSelectedHandler(tool:Tool):void {
-		switch (tool.id) {
-			case(ToolId.TRANS_INVERSION) :
-				for each(var item:PhraseRendererData in wrappedPhrases) {
-					item.transInverted = !item.transInverted;
-				}
+	private function toolActionSelectedHandler(toolId:String):void {
+		var item:PhraseRendererData;
+		switch (toolId) {
+			case(ToolAction.TRANS_INVERT) :
+				for each(item in wrappedPhrases) item.transInverted = !item.transInverted;
+				break;
+			case(ToolAction.HOR_LAYOUT) :
+				for each(item in wrappedPhrases) item.horizontalLayout = true;
+				break;
+			case(ToolAction.VER_LAYOUT) :
+				for each(item in wrappedPhrases) item.horizontalLayout = false;
 				break;
 		}
 	}

@@ -1,7 +1,7 @@
 package dittner.testmyself.view.common.renderer {
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
-import dittner.testmyself.view.phrase.components.ThemeRendererData;
+import dittner.testmyself.view.phrase.common.ThemeRendererData;
 
 import flash.display.Graphics;
 import flash.events.MouseEvent;

@@ -17,7 +17,7 @@
         import dittner.testmyself.view.common.renderer.SeparatorThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.ThemeItemRenderer;
         import dittner.testmyself.view.common.utils.AppColors;
-        import dittner.testmyself.view.phrase.components.ThemeRendererData;
+        import dittner.testmyself.view.phrase.common.ThemeRendererData;
 
         import mx.collections.ArrayCollection;
 

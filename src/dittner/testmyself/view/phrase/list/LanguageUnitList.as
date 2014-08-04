@@ -1,4 +1,4 @@
-package dittner.testmyself.view.phrase.components {
+package dittner.testmyself.view.phrase.list {
 import dittner.testmyself.view.common.SelectableDataGroup;
 
 public class LanguageUnitList extends SelectableDataGroup{
