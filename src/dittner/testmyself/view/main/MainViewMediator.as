@@ -1,6 +1,7 @@
 package dittner.testmyself.view.main {
 
 import dittner.testmyself.message.ScreenMsg;
+import dittner.testmyself.service.helpers.screenFactory.ScreenId;
 import dittner.testmyself.view.common.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestOperationMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
@@ -15,22 +16,22 @@ public class MainViewMediator extends SmartMediator {
 	[Inject]
 	public var mainView:MainView;
 
-	private var curScreen:ScreenBase;
+	private var selectedScreen:ScreenBase;
+	private var selectedScreenID:uint = ScreenId.ABOUT;
 
 	override protected function onRegister():void {
 		addHandler(ScreenMsg.LOCK_UI, lock);
 		addHandler(ScreenMsg.UNLOCK_UI, unlock);
 
 		requestData(ScreenMsg.GET_SCREEN_INFO_LIST, new RequestOperationMessage(showScreenInfoList));
-		requestData(ScreenMsg.GET_SELECTED_SCREEN_VIEW, new RequestOperationMessage(showSelectedScreen));
+		requestData(ScreenMsg.GENERATE_SCREEN, new RequestOperationMessage(showSelectedScreen, selectedScreenID));
 
 		mainView.screenList.addEventListener(SelectableDataGroup.SELECTED, selectedScreenChangedHandler);
 	}
 
 	private function selectedScreenChangedHandler(event:Event):void {
-		var selectedScreenId:uint = mainView.screenList.selectedItem.id;
-		sendMessage(ScreenMsg.SELECT_SCREEN, selectedScreenId);
-		requestData(ScreenMsg.GET_SELECTED_SCREEN_VIEW, new RequestOperationMessage(showSelectedScreen));
+		selectedScreenID = mainView.screenList.selectedItem.id;
+		requestData(ScreenMsg.GENERATE_SCREEN, new RequestOperationMessage(showSelectedScreen, selectedScreenID));
 	}
 
 	override protected function onRemove():void {
@@ -38,8 +39,8 @@ public class MainViewMediator extends SmartMediator {
 	}
 
 	private function showSelectedScreen(screen:ScreenBase):void {
-		if (curScreen) {
-			mediatorMap.unmediate(curScreen);
+		if (selectedScreen) {
+			mediatorMap.unmediate(selectedScreen);
 			mainView.removeScreen();
 		}
 
@@ -48,7 +49,7 @@ public class MainViewMediator extends SmartMediator {
 		mainView.addScreen(screen);
 		mediatorMap.mediate(screen);
 
-		curScreen = screen;
+		selectedScreen = screen;
 	}
 
 	private function showScreenInfoList(screenInfos:Array):void {
