@@ -7,7 +7,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class SeparatorThemeItemRenderer extends ItemRendererBase {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_GRAY_LIGHT);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT);
 
 	public function SeparatorThemeItemRenderer() {
 		super();

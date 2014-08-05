@@ -2,7 +2,6 @@ package dittner.testmyself.view.phrase {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.utils.pendingInvoke.doLaterInFrames;
-import dittner.testmyself.view.common.toobar.ToolAction;
 import dittner.testmyself.view.phrase.editor.PhraseEditorMediator;
 import dittner.testmyself.view.phrase.list.PhraseListMediator;
 import dittner.testmyself.view.phrase.toolbar.PhraseToolbarMediator;
@@ -21,7 +20,8 @@ public class PhraseScreenMediator extends Mediator {
 
 	private function activateScreen():void {
 		view.activate();
-		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
+		addHandler(PhraseMsg.EDITOR_ACTIVATED_NOTIFICATION, showEditor);
+		addHandler(PhraseMsg.EDITOR_DEACTIVATED_NOTIFICATION, hideEditor);
 		mediatorMap.mediateWith(view.toolbar, PhraseToolbarMediator);
 		mediatorMap.mediateWith(view.editor, PhraseEditorMediator);
 		mediatorMap.mediateWith(view.list, PhraseListMediator);
@@ -36,13 +36,12 @@ public class PhraseScreenMediator extends Mediator {
 		sendMessage(PhraseMsg.CLEAR_MODEL);
 	}
 
-	private function toolActionSelectedHandler(toolAction:String):void {
-		if (toolAction == ToolAction.ADD ||
-				toolAction == ToolAction.EDIT ||
-				toolAction == ToolAction.REMOVE) {
-			view.showEditor();
-		}
-		else view.hideEditor();
+	private function showEditor(params:* = null):void {
+		view.showEditor();
 	}
+	private function hideEditor(params:* = null):void {
+		view.hideEditor();
+	}
+
 }
 }

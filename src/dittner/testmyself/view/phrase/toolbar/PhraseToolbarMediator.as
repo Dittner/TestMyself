@@ -28,7 +28,8 @@ public class PhraseToolbarMediator extends SmartMediator {
 		view.removeBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.filterBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.transInvertBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
-		view.layoutBtn.addEventListener(Event.CHANGE, viewControlClickHandler);
+		view.verLayoutBtn.addEventListener(Event.CHANGE, viewControlClickHandler);
+		view.hideDetailsBtn.addEventListener(Event.CHANGE, viewControlClickHandler);
 	}
 
 	private function viewControlClickHandler(event:Event):void {
@@ -49,8 +50,11 @@ public class PhraseToolbarMediator extends SmartMediator {
 			case(view.transInvertBtn) :
 				selectedAction = ToolAction.TRANS_INVERT;
 				break;
-			case(view.layoutBtn) :
-				selectedAction = view.layoutBtn.selected ? ToolAction.VER_LAYOUT : ToolAction.HOR_LAYOUT;
+			case(view.verLayoutBtn) :
+				selectedAction = view.verLayoutBtn.selected ? ToolAction.VER_LAYOUT : ToolAction.HOR_LAYOUT;
+				break;
+			case(view.hideDetailsBtn) :
+				selectedAction = view.hideDetailsBtn.selected ? ToolAction.HIDE_DETAILS : ToolAction.SHOW_DETAILS;
 				break;
 		}
 		if (selectedAction)
@@ -79,7 +83,8 @@ public class PhraseToolbarMediator extends SmartMediator {
 		view.removeBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.filterBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.transInvertBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
-		view.layoutBtn.removeEventListener(Event.CHANGE, viewControlClickHandler);
+		view.verLayoutBtn.removeEventListener(Event.CHANGE, viewControlClickHandler);
+		view.hideDetailsBtn.removeEventListener(Event.CHANGE, viewControlClickHandler);
 	}
 
 }

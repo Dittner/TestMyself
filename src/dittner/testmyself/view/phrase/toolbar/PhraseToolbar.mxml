@@ -38,12 +38,17 @@
         </s:Rect>
     </s:Group>
 
-
-    <button:ToolToggleButton id="layoutBtn"
+    <button:ToolToggleButton id="verLayoutBtn"
                              selected="true"
                              description="Изменить макет словаря"
                              selectedImage="@Embed(source='/assets/tools/layout_vertical.png')"
                              image="@Embed(source='/assets/tools/layout_horizontal.png')"/>
+
+    <button:ToolToggleButton id="hideDetailsBtn"
+                             selected="true"
+                             description="Показать/скрыть перевод в каждой строке"
+                             selectedImage="@Embed(source='/assets/tools/collapse.png')"
+                             image="@Embed(source='/assets/tools/expand.png')"/>
 
     <button:ToolButton id="transInvertBtn"
                        description="Инвертировать перевод"

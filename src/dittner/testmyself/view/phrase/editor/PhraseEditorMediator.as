@@ -1,5 +1,4 @@
 package dittner.testmyself.view.phrase.editor {
-import dittner.testmyself.view.phrase.*;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.vo.ThemeVo;
 import dittner.testmyself.view.common.mediator.RequestOperationMessage;
@@ -39,6 +38,7 @@ public class PhraseEditorMediator extends SmartMediator {
 	}
 
 	private function toolActionSelectedHandler(toolAction:String):void {
+		var activateEditor:Boolean = true;
 		switch (toolAction) {
 			case(ToolAction.ADD) :
 				view.add();
@@ -50,9 +50,12 @@ public class PhraseEditorMediator extends SmartMediator {
 				view.remove(null);
 				break;
 			default :
+				activateEditor = false;
 				view.close();
+				break;
 		}
 		view.title = ToolActionName.getNameById(toolAction);
+		sendMessage(activateEditor ? PhraseMsg.EDITOR_ACTIVATED_NOTIFICATION : PhraseMsg.EDITOR_DEACTIVATED_NOTIFICATION);
 	}
 
 	override protected function onRemove():void {
@@ -62,6 +65,7 @@ public class PhraseEditorMediator extends SmartMediator {
 
 	private function cancelHandler(event:MouseEvent):void {
 		view.close();
+		sendMessage(PhraseMsg.EDITOR_DEACTIVATED_NOTIFICATION);
 	}
 }
 }

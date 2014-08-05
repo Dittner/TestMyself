@@ -66,7 +66,7 @@ public class PhraseRenderer extends ItemRendererBase {
 		if (phraseData) {
 			titleTf.text = phraseData.transInverted ? phraseData.translation : phraseData.origin;
 			descriptionTf.text = phraseData.transInverted ? phraseData.origin : phraseData.translation;
-			descriptionTf.visible = phraseData.expanded || selected;
+			descriptionTf.visible = phraseData.showDetails || selected;
 		}
 		else {
 			titleTf.text = "";
@@ -126,6 +126,12 @@ public class PhraseRenderer extends ItemRendererBase {
 		if (descriptionTf.visible) {
 			descriptionTf.x = (phraseData.horizontalLayout ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = (phraseData.horizontalLayout ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
+
+			if (phraseData.horizontalLayout) {
+				g.lineStyle(1, 0xffFFff);
+				g.moveTo(w / 2 - PAD / 2, 0);
+				g.lineTo(w / 2 - PAD / 2, h - 1);
+			}
 		}
 	}
 

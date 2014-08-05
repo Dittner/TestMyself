@@ -71,7 +71,7 @@
              visible.playing="false"
              textAlign="center"
              fontSize="14"
-             color="{AppColors.TEXT_GRAY_LIGHT}"/>
+             color="{AppColors.TEXT}"/>
 
 
     <s:Group width="100%"

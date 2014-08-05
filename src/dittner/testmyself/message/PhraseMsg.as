@@ -7,6 +7,8 @@ public class PhraseMsg {
 	public static const TOOL_ACTION_SELECTED_NOTIFICATION:String = "toolActionSelectedNotification";
 
 	public static const CLEAR_MODEL:String = "clearModel";
+	public static const EDITOR_ACTIVATED_NOTIFICATION:String = "editorActivatedNotification";
+	public static const EDITOR_DEACTIVATED_NOTIFICATION:String = "editorDeactivatedNotification";
 
 	public static const GET_THEMES:String = "getThemes";
 	public static const GET_PHRASES:String = "getPhrases";

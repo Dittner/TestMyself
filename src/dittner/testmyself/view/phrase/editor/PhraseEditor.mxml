@@ -7,8 +7,7 @@
          xmlns:list="dittner.testmyself.view.common.list.*"
          xmlns:button="dittner.testmyself.view.common.button.*"
          xmlns:common="dittner.testmyself.view.common.*"
-         implements="dittner.testmyself.view.common.editor.IEditor"
-         removedFromStage="removedFromStageHandler(event)">
+         implements="dittner.testmyself.view.common.editor.IEditor">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.model.vo.LanguageUnitVo;
@@ -47,19 +46,6 @@
             }
         }
 
-        //--------------------------------------
-        //  arrowPos
-        //--------------------------------------
-        private var _arrowPos:Point;
-        [Bindable("arrowPosChanged")]
-        public function get arrowPos():Point {return _arrowPos;}
-        public function set arrowPos(value:Point):void {
-            if (_arrowPos != value) {
-                _arrowPos = globalToLocal(value);
-                dispatchEvent(new Event("arrowPosChanged"));
-            }
-        }
-
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -67,15 +53,15 @@
         //----------------------------------------------------------------------------------------------
 
         public function add():void {
-            setCurrentState("add");
+            currentState = "add";
         }
 
         public function edit(vo:LanguageUnitVo):void {
-            setCurrentState("edit");
+            currentState = "edit";
         }
 
         public function remove(vo:LanguageUnitVo):void {
-            setCurrentState("remove");
+            currentState = "remove";
         }
 
         public function close():void {
@@ -210,10 +196,6 @@
         private function applyButtonEnabled(originText:String, translateText:String, audioRecording:Boolean):Boolean {
             return originText && translateText && !audioRecording;
         }
-
-        private function removedFromStageHandler(event:Event):void {
-            close();
-        }
         ]]></fx:Script>
 
     <s:states>
@@ -227,7 +209,9 @@
 
     <editor:EditorBg width="100%" height="100%"
                      title="{title}"
-                     arrowPos="{arrowPos}"/>
+                     mode.add="add"
+                     mode.edit="edit"
+                     mode.remove="remove"/>
 
     <s:Rect left="{EditorBg.BORDER_THICKNESS}"
             right="{EditorBg.BORDER_THICKNESS}"

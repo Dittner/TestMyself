@@ -14,19 +14,6 @@
         import dittner.testmyself.view.common.utils.AppSizes;
         import dittner.testmyself.view.common.utils.Fonts;
 
-        //--------------------------------------
-        //  arrowPos
-        //--------------------------------------
-        private var _arrowPos:Point;
-        [Bindable("arrowPosChanged")]
-        public function get arrowPos():Point {return _arrowPos;}
-        public function set arrowPos(value:Point):void {
-            if (_arrowPos != value) {
-                _arrowPos = value;
-                dispatchEvent(new Event("arrowPosChanged"));
-            }
-        }
-
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -53,18 +40,6 @@
             }
         }
 
-        private function toolbarSelectedToolHandler(event:Event):void {
-            /*if (toolbar.selectedItem) {
-             var renderer:ToolItemRenderer = toolbar.getSelectedRenderer() as ToolItemRenderer;
-             if (renderer) {
-             const topLeftPoint:Point = renderer.localToGlobal(new Point(0, 0));
-             const arrowPosX:Number = topLeftPoint.x + renderer.getExplicitOrMeasuredWidth() / 2;
-             const arrowPosY:Number = topLeftPoint.y + renderer.getExplicitOrMeasuredHeight();
-
-             arrowPos = new Point(arrowPosX, arrowPosY);
-             }
-             }*/
-        }
         ]]></fx:Script>
 
     <core:states>
@@ -129,12 +104,11 @@
              mouseEnabled.edit="true" mouseEnabled="false">
         <s:Rect width="100%" height="100%">
             <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_BORDER}" alpha=".5"/>
+                <s:SolidColor color="{AppColors.EDITOR_BORDER}" alpha=".25"/>
             </s:fill>
         </s:Rect>
 
         <editor:PhraseEditor id="editor"
-                             arrowPos="{arrowPos}"
                              bottom="{padding}"
                              top="{headerHeight}"/>
     </s:Group>

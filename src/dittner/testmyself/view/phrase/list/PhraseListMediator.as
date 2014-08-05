@@ -60,6 +60,12 @@ public class PhraseListMediator extends SmartMediator {
 			case(ToolAction.VER_LAYOUT) :
 				for each(item in wrappedPhrases) item.horizontalLayout = false;
 				break;
+			case(ToolAction.HIDE_DETAILS) :
+				for each(item in wrappedPhrases) item.showDetails = false;
+				break;
+			case(ToolAction.SHOW_DETAILS) :
+				for each(item in wrappedPhrases) item.showDetails = true;
+				break;
 		}
 	}
 

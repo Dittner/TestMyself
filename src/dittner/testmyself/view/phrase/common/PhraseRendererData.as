@@ -40,13 +40,13 @@ public class PhraseRendererData {
 	}
 
 	//--------------------------------------
-	//  expanded
+	//  showDetails
 	//--------------------------------------
-	private var _expanded:Boolean = false;
-	public function get expanded():Boolean {return _expanded;}
-	public function set expanded(value:Boolean):void {
-		if (_expanded != value) {
-			_expanded = value;
+	private var _showDetails:Boolean = false;
+	public function get showDetails():Boolean {return _showDetails;}
+	public function set showDetails(value:Boolean):void {
+		if (_showDetails != value) {
+			_showDetails = value;
 			if (dataChangedCallback != null) dataChangedCallback();
 		}
 	}
