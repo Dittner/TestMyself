@@ -1,7 +1,7 @@
 package dittner.testmyself.service {
 import dittner.testmyself.message.ServiceMsg;
 import dittner.testmyself.model.model_internal;
-import dittner.testmyself.model.vo.DataBaseInfoVo;
+import dittner.testmyself.model.common.DataBaseInfoVo;
 import dittner.testmyself.utils.pendingInvoke.doLaterInMSec;
 
 import mvcexpress.mvc.Proxy;

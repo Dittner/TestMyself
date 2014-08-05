@@ -6,7 +6,7 @@
                  xmlns:core="dittner.testmyself.view.common.screen.*">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.model.vo.DataBaseInfoVo;
+        import dittner.testmyself.model.common.DataBaseInfoVo;
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;
 

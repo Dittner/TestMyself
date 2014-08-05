@@ -1,11 +1,11 @@
 package dittner.testmyself.view.about {
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.message.ServiceMsg;
-import dittner.testmyself.model.vo.DataBaseInfoVo;
+import dittner.testmyself.model.common.DataBaseInfoVo;
 
 import mvcexpress.mvc.Mediator;
 
-public class AboutMediator extends Mediator {
+public class AboutScreenMediator extends Mediator {
 
 	[Inject]
 	public var view:AboutScreen;

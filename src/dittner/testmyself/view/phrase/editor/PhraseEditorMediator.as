@@ -1,8 +1,8 @@
 package dittner.testmyself.view.phrase.editor {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.PhraseVo;
-import dittner.testmyself.model.vo.LanguageUnitVo;
-import dittner.testmyself.model.vo.ThemeVo;
+import dittner.testmyself.model.common.LanguageUnitVo;
+import dittner.testmyself.model.theme.ThemeVo;
 import dittner.testmyself.view.common.mediator.RequestOperationMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.toobar.ToolAction;

@@ -1,4 +1,4 @@
-package dittner.testmyself.model.vo {
+package dittner.testmyself.model.common {
 import dittner.testmyself.model.model_internal;
 
 use namespace model_internal;

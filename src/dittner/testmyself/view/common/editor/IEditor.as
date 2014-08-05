@@ -1,5 +1,5 @@
 package dittner.testmyself.view.common.editor {
-import dittner.testmyself.model.vo.LanguageUnitVo;
+import dittner.testmyself.model.common.LanguageUnitVo;
 
 import mx.collections.ArrayCollection;
 import mx.core.IVisualElement;

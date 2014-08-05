@@ -11,8 +11,8 @@
          maxHeight.remove="300">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.model.vo.LanguageUnitVo;
-        import dittner.testmyself.model.vo.ThemeVo;
+        import dittner.testmyself.model.common.LanguageUnitVo;
+        import dittner.testmyself.model.theme.ThemeVo;
         import dittner.testmyself.view.common.renderer.NewThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.ThemeItemRenderer;
@@ -63,8 +63,8 @@
         public function edit(vo:LanguageUnitVo):void {
             selectedPhrase = vo;
             currentState = "edit";
-            if (originArea) originArea.text = vo.content.origin
-            if (translationArea) translationArea.text = vo.content.translation;
+            if (originArea) originArea.text = vo.origin
+            if (translationArea) translationArea.text = vo.translation;
         }
 
         public function remove(vo:LanguageUnitVo):void {
@@ -307,6 +307,6 @@
              visible.remove="true" visible="false"
              color="{AppColors.TEXT_DARK}" fontSize="20" fontWeight="bold"
              textAlign="center" verticalAlign="middle"
-             text="{'«' + selectedPhrase.content.origin + '»'}"/>
+             text="{'«' + selectedPhrase.origin + '»'}"/>
 
 </s:Group>

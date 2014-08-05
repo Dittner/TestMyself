@@ -12,17 +12,15 @@ import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.message.ServiceMsg;
 import dittner.testmyself.model.MainModel;
-import dittner.testmyself.model.language.ILanguage;
-import dittner.testmyself.model.language.Language;
 import dittner.testmyself.model.phrase.PhraseModel;
 import dittner.testmyself.service.DataBaseInfoService;
 import dittner.testmyself.service.PhraseService;
 import dittner.testmyself.service.helpers.screenFactory.IScreenFactory;
 import dittner.testmyself.service.helpers.screenFactory.ScreenFactory;
-import dittner.testmyself.view.about.AboutMediator;
+import dittner.testmyself.view.about.AboutScreenMediator;
 import dittner.testmyself.view.about.AboutScreen;
-import dittner.testmyself.view.phrase.PhraseScreenMediator;
 import dittner.testmyself.view.phrase.PhraseScreen;
+import dittner.testmyself.view.phrase.PhraseScreenMediator;
 import dittner.testmyself.view.template.TemplateMediator;
 import dittner.testmyself.view.template.TemplateScreen;
 
@@ -44,7 +42,6 @@ public class ConfigureAppCmd extends Command {
 		commandMap.map(PhraseMsg.GET_SELECTED_PHRASE, GetSelectedPhraseCmd);
 
 		//map models and services
-		proxyMap.map(createLanguage(), null, ILanguage);
 		proxyMap.map(new ScreenFactory(), null, IScreenFactory);
 		proxyMap.map(new MainModel(), null, MainModel);
 		proxyMap.map(new PhraseModel(), null, PhraseModel);
@@ -52,15 +49,9 @@ public class ConfigureAppCmd extends Command {
 		proxyMap.map(new DataBaseInfoService());
 
 		//map views
-		mediatorMap.map(AboutScreen, AboutMediator);
+		mediatorMap.map(AboutScreen, AboutScreenMediator);
 		mediatorMap.map(PhraseScreen, PhraseScreenMediator);
 		mediatorMap.map(TemplateScreen, TemplateMediator);
-	}
-
-	private function createLanguage():Language {
-		var lang:Language = new Language();
-		lang.name = Language.DE;
-		return lang;
 	}
 
 }

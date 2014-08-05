@@ -9,8 +9,8 @@ import mx.core.IVisualElementContainer;
 
 public class MainModule extends ModuleCore {
 
-	public function MainModule(moduleName:String):void {
-		super(moduleName);
+	public function MainModule():void {
+		super();
 	}
 
 	override protected function onInit():void {

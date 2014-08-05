@@ -18,11 +18,11 @@ public class MainViewMediator extends SmartMediator {
 	private var curScreen:ScreenBase;
 
 	override protected function onRegister():void {
-		requestData(ScreenMsg.GET_SCREEN_INFO_LIST, new RequestOperationMessage(showScreenInfoList));
-		requestData(ScreenMsg.GET_SELECTED_SCREEN_VIEW, new RequestOperationMessage(showSelectedScreen));
-
 		addHandler(ScreenMsg.LOCK_UI, lock);
 		addHandler(ScreenMsg.UNLOCK_UI, unlock);
+
+		requestData(ScreenMsg.GET_SCREEN_INFO_LIST, new RequestOperationMessage(showScreenInfoList));
+		requestData(ScreenMsg.GET_SELECTED_SCREEN_VIEW, new RequestOperationMessage(showSelectedScreen));
 
 		mainView.screenList.addEventListener(SelectableDataGroup.SELECTED, selectedScreenChangedHandler);
 	}

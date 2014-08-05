@@ -20,12 +20,12 @@ public class PhraseRendererData {
 	//--------------------------------------
 	//  origin
 	//--------------------------------------
-	public function get origin():String {return _phrase.content.origin;}
+	public function get origin():String {return _phrase.origin;}
 
 	//--------------------------------------
 	//  translation
 	//--------------------------------------
-	public function get translation():String {return _phrase.content.translation;}
+	public function get translation():String {return _phrase.translation;}
 
 	//--------------------------------------
 	//  horizontalLayout

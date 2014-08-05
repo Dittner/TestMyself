@@ -12,7 +12,6 @@
         addedToStage="addedToStageHandler(event)">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.model.language.Language;
         import dittner.testmyself.view.common.tooltip.CustomToolTip;
         import dittner.testmyself.view.common.tooltip.CustomToolTipManager;
         import dittner.testmyself.view.common.utils.TextFieldFactory;
@@ -29,7 +28,7 @@
         }
 
         private function creationCompleteHandler(event:FlexEvent):void {
-            mainModule = new MainModule(Language.DE);
+            mainModule = new MainModule();
             mainModule.start(this);
         }
 

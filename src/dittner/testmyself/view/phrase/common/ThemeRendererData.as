@@ -1,5 +1,5 @@
 package dittner.testmyself.view.phrase.common {
-import dittner.testmyself.model.vo.ThemeVo;
+import dittner.testmyself.model.theme.ThemeVo;
 
 public class ThemeRendererData {
 	public function ThemeRendererData(theme:ThemeVo) {
