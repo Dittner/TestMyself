@@ -70,8 +70,8 @@ input|TextAreaForm {
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: VerdanaMX;
-    fontSize: 14px;
-    color: #666666;
+    fontSize: 16px;
+    color: #333333;
 }
 
 /************************** LIST **************************/
@@ -80,6 +80,6 @@ list|ListForm {
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: Verdana;
-    fontSize: 14px;
-    color: #666666;
+    fontSize: 16px;
+    color: #333333;
 }

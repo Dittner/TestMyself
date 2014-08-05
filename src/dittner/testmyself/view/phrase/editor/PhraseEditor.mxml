@@ -7,7 +7,8 @@
          xmlns:list="dittner.testmyself.view.common.list.*"
          xmlns:button="dittner.testmyself.view.common.button.*"
          xmlns:common="dittner.testmyself.view.common.*"
-         implements="dittner.testmyself.view.common.editor.IEditor">
+         implements="dittner.testmyself.view.common.editor.IEditor"
+         maxHeight.remove="300">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.model.vo.LanguageUnitVo;
@@ -19,6 +20,9 @@
         import dittner.testmyself.view.phrase.common.ThemeRendererData;
 
         import mx.collections.ArrayCollection;
+
+        [Bindable]
+        public var selectedPhrase:LanguageUnitVo;
 
         //--------------------------------------
         //  title
@@ -57,10 +61,14 @@
         }
 
         public function edit(vo:LanguageUnitVo):void {
+            selectedPhrase = vo;
             currentState = "edit";
+            if (originArea) originArea.text = vo.content.origin
+            if (translationArea) translationArea.text = vo.content.translation;
         }
 
         public function remove(vo:LanguageUnitVo):void {
+            selectedPhrase = vo;
             currentState = "remove";
         }
 
@@ -76,6 +84,7 @@
         }
 
         private function clear():void {
+            selectedPhrase = null;
             if (originArea) originArea.text = "";
             if (translationArea) translationArea.text = "";
             if (createThemeInput) createThemeInput.text = "";
@@ -144,6 +153,15 @@
             invalidNotifier.right = cancelBtn.width + cancelBtn.right + HGAP;
             invalidNotifier.bottom = applyBtn.bottom;
             invalidNotifier.height = applyBtn.height;
+
+            removeTitleLbl.left = PAD;
+            removeTitleLbl.right = PAD;
+            removeTitleLbl.top = HEADER_HEI + PAD_TOP;
+
+            removePhraseNameLbl.left = PAD;
+            removePhraseNameLbl.right = PAD;
+            removePhraseNameLbl.top = removeTitleLbl.y + removeTitleLbl.height + VGAP;
+            removePhraseNameLbl.bottom = FOOTER_HEI + VGAP;
         }
 
         private function themesRendererFunc(item:Object):IFactory {
@@ -193,7 +211,7 @@
             return true;
         }
 
-        private function applyButtonEnabled(originText:String, translateText:String, audioRecording:Boolean):Boolean {
+        private function applyBtnEnabled(originText:String, translateText:String, audioRecording:Boolean):Boolean {
             return originText && translateText && !audioRecording;
         }
         ]]></fx:Script>
@@ -207,7 +225,8 @@
     </s:states>
 
 
-    <editor:EditorBg width="100%" height="100%"
+    <editor:EditorBg width="100%"
+                     height="100%"
                      title="{title}"
                      mode.add="add"
                      mode.edit="edit"
@@ -272,16 +291,22 @@
                         label.add="Создать"
                         label.edit="Сохранить"
                         label.remove="Удалить"
-                        enabled="{applyButtonEnabled(originArea.text, translationArea.text, audioRecorder.recording)}"/>
+                        enabled.remove="true"
+                        enabled="{applyBtnEnabled(originArea.text, translationArea.text, audioRecorder.recording)}"/>
 
 
-    <!--REMOVE MODE--><!--    <s:VGroup includeIn="remove"
-              horizontalCenter="0" top="50" horizontalAlign="center">
-        <s:Label color="#ffFFff" fontSize="20" text="Вы действительно хотите безвозвратно удалить текст?"/>
-        <s:Label color="#ffFFff" fontSize="30" fontWeight="bold"
-                 horizontalCenter="0" top="20" maxWidth="300" maxDisplayedLines="1"
-                 text="{hostComponent.collocation.name}"/>
-    </s:VGroup>-->
+    <!--REMOVE MODE-->
 
+    <s:Label id="removeTitleLbl"
+             visible.remove="true" visible="false"
+             textAlign="center"
+             color="{AppColors.TEXT_DARK}" fontSize="16"
+             text="Вы действительно хотите безвозвратно удалить выбранный элемент?"/>
+
+    <s:Label id="removePhraseNameLbl"
+             visible.remove="true" visible="false"
+             color="{AppColors.TEXT_DARK}" fontSize="20" fontWeight="bold"
+             textAlign="center" verticalAlign="middle"
+             text="{'«' + selectedPhrase.content.origin + '»'}"/>
 
 </s:Group>

@@ -1,5 +1,7 @@
 package dittner.testmyself.view.phrase.editor {
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.phrase.PhraseVo;
+import dittner.testmyself.model.vo.LanguageUnitVo;
 import dittner.testmyself.model.vo.ThemeVo;
 import dittner.testmyself.view.common.mediator.RequestOperationMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
@@ -16,9 +18,12 @@ public class PhraseEditorMediator extends SmartMediator {
 	[Inject]
 	public var view:PhraseEditor;
 
+	private var selectedPhrase:LanguageUnitVo = PhraseVo.NULL;
+
 	override protected function onRegister():void {
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
+		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
 		requestData(PhraseMsg.GET_THEMES, new RequestOperationMessage(onThemesLoaded));
 	}
 
@@ -44,10 +49,10 @@ public class PhraseEditorMediator extends SmartMediator {
 				view.add();
 				break;
 			case(ToolAction.EDIT) :
-				view.edit(null);
+				view.edit(selectedPhrase);
 				break;
 			case(ToolAction.REMOVE) :
-				view.remove(null);
+				view.remove(selectedPhrase);
 				break;
 			default :
 				activateEditor = false;
@@ -58,14 +63,21 @@ public class PhraseEditorMediator extends SmartMediator {
 		sendMessage(activateEditor ? PhraseMsg.EDITOR_ACTIVATED_NOTIFICATION : PhraseMsg.EDITOR_DEACTIVATED_NOTIFICATION);
 	}
 
-	override protected function onRemove():void {
-		removeAllHandlers();
-		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
+	private function phraseSelectedHandler(vo:LanguageUnitVo):void {
+		selectedPhrase = vo;
+		if (view.isOpen()) throw new Error("Should not select new phrase when the old one is editing!")
 	}
 
 	private function cancelHandler(event:MouseEvent):void {
 		view.close();
 		sendMessage(PhraseMsg.EDITOR_DEACTIVATED_NOTIFICATION);
 	}
+
+	override protected function onRemove():void {
+		removeAllHandlers();
+		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
+		selectedPhrase = PhraseVo.NULL;
+	}
+
 }
 }
