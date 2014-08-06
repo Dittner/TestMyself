@@ -16,6 +16,7 @@ public class PhraseMsg {
 
 	/*SQL*/
 	public static const CREATE_DB:String = "createDB";
+	public static const ADD_PHRASE:String = "addPhrase";
 
 }
 }

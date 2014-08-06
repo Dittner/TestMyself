@@ -1,4 +1,4 @@
-CREATE TABLE main.phrase
+CREATE TABLE phrase
 (
 	id int PRIMARY KEY AUTOINCREMENT,
 	origin String NOT NULL,

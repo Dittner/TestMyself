@@ -12,7 +12,7 @@ import flash.filesystem.File;
 
 public class CreatePhraseDBCmd extends DeferredCommand {
 
-	[Embed(source="/dittner/testmyself/service/phrase/sql/CreatePhraseTable.sql", mimeType="application/octet-stream")]
+	[Embed(source="/dittner/testmyself/service/phrase/sql/CreatePhraseDBStatement.sql", mimeType="application/octet-stream")]
 	private static const CreatePhraseTableClass:Class;
 	private static const CREATE_PHRASE_TABLE:String = new CreatePhraseTableClass();
 

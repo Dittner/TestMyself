@@ -2,7 +2,7 @@ package dittner.testmyself.view.phrase.list {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.PhraseVo;
 import dittner.testmyself.view.common.SelectableDataGroup;
-import dittner.testmyself.view.common.mediator.RequestOperationMessage;
+import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.mediator.mediator_internal;
 import dittner.testmyself.view.common.toobar.ToolAction;
@@ -24,7 +24,7 @@ public class PhraseListMediator extends SmartMediator {
 	override protected function onRegister():void {
 		view.addEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
-		requestData(PhraseMsg.GET_PHRASES, new RequestOperationMessage(onPhrasesLoaded));
+		sendRequest(PhraseMsg.GET_PHRASES, new RequestMessage(onPhrasesLoaded));
 	}
 
 	private function phraseRenDataSelectedHandler(event:Event):void {

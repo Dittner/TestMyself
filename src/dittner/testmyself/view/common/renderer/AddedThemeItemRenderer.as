@@ -12,7 +12,7 @@ import mx.core.UIComponent;
 
 import spark.components.DataGroup;
 
-public class NewThemeItemRenderer extends ItemRendererBase {
+public class AddedThemeItemRenderer extends ItemRendererBase {
 	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const SELECTED_COLOR:uint = AppColors.LIST_ITEM_SELECTION;
@@ -20,7 +20,7 @@ public class NewThemeItemRenderer extends ItemRendererBase {
 	[Embed(source="/assets/button/delete_white_btn.png")]
 	private static const DeleteBtnIconClass:Class;
 
-	public function NewThemeItemRenderer() {
+	public function AddedThemeItemRenderer() {
 		super();
 		percentWidth = 100;
 	}

@@ -1,7 +1,7 @@
 package dittner.testmyself.view.common.mediator {
-public interface IOperationMessage {
+public interface IRequestMessage {
 	function get data():Object;
 	function get complete():Function;
-	function get fail():Function;
+	function get error():Function;
 }
 }

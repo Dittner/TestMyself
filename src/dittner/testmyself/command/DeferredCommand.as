@@ -29,10 +29,17 @@ public class DeferredCommand extends Command {
 
 	final public function dispatchComplete():void {
 		completeFunc();
+		destroy();
 	}
 
 	final public function dispatchError(msg:String = ""):void {
 		errorFunc(msg);
+		destroy();
+	}
+
+	/*abstract*/
+	public function destroy():void {
+
 	}
 }
 }

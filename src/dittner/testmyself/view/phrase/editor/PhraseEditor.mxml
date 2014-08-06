@@ -13,7 +13,7 @@
     <fx:Script><![CDATA[
         import dittner.testmyself.model.common.LanguageUnitVo;
         import dittner.testmyself.model.theme.ThemeVo;
-        import dittner.testmyself.view.common.renderer.NewThemeItemRenderer;
+        import dittner.testmyself.view.common.renderer.AddedThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.ThemeItemRenderer;
         import dittner.testmyself.view.common.utils.AppColors;
@@ -87,7 +87,7 @@
             selectedPhrase = null;
             if (originArea) originArea.text = "";
             if (translationArea) translationArea.text = "";
-            if (createThemeInput) createThemeInput.text = "";
+            if (addThemeInput) addThemeInput.text = "";
             if (audioRecorder) {
                 audioRecorder.stopRecording();
                 audioRecorder.stopPlaying();
@@ -133,12 +133,12 @@
             themesList.y = HEADER_HEI + PAD_TOP;
             themesList.height = 2 * originArea.height + VGAP;
 
-            createThemeInput.x = themesList.x;
-            createThemeInput.y = themesList.y + themesList.height + VGAP;
-            createThemeInput.width = themesList.width - addNewThemeBtn.width + 1;
+            addThemeInput.x = themesList.x;
+            addThemeInput.y = themesList.y + themesList.height + VGAP;
+            addThemeInput.width = themesList.width - addThemeBtn.width + 1;
 
-            addNewThemeBtn.x = createThemeInput.x + createThemeInput.width - 1;
-            addNewThemeBtn.y = createThemeInput.y + 20;
+            addThemeBtn.x = addThemeInput.x + addThemeInput.width - 1;
+            addThemeBtn.y = addThemeInput.y + 20;
 
             applyBtn.width = themesList.width;
             applyBtn.right = PAD;
@@ -167,7 +167,7 @@
         private function themesRendererFunc(item:Object):IFactory {
             var themeData:ThemeRendererData = item as ThemeRendererData;
             if (themeData) {
-                if (themeData.isNew) return new ClassFactory(NewThemeItemRenderer);
+                if (themeData.isNew) return new ClassFactory(AddedThemeItemRenderer);
                 else if (themeData.isSeparator) return new ClassFactory(SeparatorThemeItemRenderer);
                 else return new ClassFactory(ThemeItemRenderer);
             }
@@ -176,15 +176,15 @@
 
         private static var themeRendererSeparator:ThemeRendererData;
         private var hasNewThemesSeparator:Boolean = false;
-        private function addNewThemeBtnClickHandler(event:MouseEvent):void {
-            if (!createThemeInput.text) return;
+        private function addThemeBtnClickHandler(event:MouseEvent):void {
+            if (!addThemeInput.text) return;
 
-            var newThemeName:String = createThemeInput.text;
-            if (validateNewTheme(newThemeName)) {
+            var addedThemeName:String = addThemeInput.text;
+            if (validateAddedTheme(addedThemeName)) {
                 var vo:ThemeVo = new ThemeVo();
-                vo.name = newThemeName;
-                var newTheme:ThemeRendererData = new ThemeRendererData(vo);
-                newTheme.isNew = true;
+                vo.name = addedThemeName
+                var addedTheme:ThemeRendererData = new ThemeRendererData(vo);
+                addedTheme.isNew = true;
 
                 if (!hasNewThemesSeparator) {
                     hasNewThemesSeparator = true;
@@ -196,23 +196,23 @@
                     themes.addItem(themeRendererSeparator);
                 }
 
-                themes.addItem(newTheme);
-                createThemeInput.text = "";
+                themes.addItem(addedTheme);
+                addThemeInput.text = "";
             }
             else {
-                notifyInvalidData('Не удалось добавить тему, так как тема с названием "' + newThemeName + '" уже находится в списке!');
+                notifyInvalidData('Не удалось добавить тему, так как тема с названием "' + addedThemeName + '" уже находится в списке!');
             }
         }
 
-        private function validateNewTheme(themeName:String):Boolean {
+        private function validateAddedTheme(themeName:String):Boolean {
             for each(var themeData:ThemeRendererData in themes) {
                 if (themeData.theme.name == themeName) return false;
             }
             return true;
         }
 
-        private function applyBtnEnabled(originText:String, translateText:String, audioRecording:Boolean):Boolean {
-            return originText && translateText && !audioRecording;
+        private function applyBtnEnabled(audioRecording:Boolean):Boolean {
+            return !audioRecording;
         }
         ]]></fx:Script>
 
@@ -271,14 +271,14 @@
             </list:layout>
         </list:ListForm>
 
-        <input:TextInputForm id="createThemeInput"
+        <input:TextInputForm id="addThemeInput"
                              title="Название новой темы"/>
 
-        <button:BitmapButton id="addNewThemeBtn"
+        <button:BitmapButton id="addThemeBtn"
                              description="Создать новую тему"
                              upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
                              downImage="@Embed(source='/assets/button/add_element_btn_down.png')"
-                             click="addNewThemeBtnClickHandler(event)"/>
+                             click="addThemeBtnClickHandler(event)"/>
 
         <common:InvalidNotifier id="invalidNotifier"/>
     </s:Group>
@@ -292,7 +292,7 @@
                         label.edit="Сохранить"
                         label.remove="Удалить"
                         enabled.remove="true"
-                        enabled="{applyBtnEnabled(originArea.text, translationArea.text, audioRecorder.recording)}"/>
+                        enabled="{applyBtnEnabled(audioRecorder.recording)}"/>
 
 
     <!--REMOVE MODE-->

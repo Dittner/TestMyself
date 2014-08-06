@@ -3,7 +3,7 @@ package dittner.testmyself.view.main {
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.service.helpers.screenFactory.ScreenId;
 import dittner.testmyself.view.common.SelectableDataGroup;
-import dittner.testmyself.view.common.mediator.RequestOperationMessage;
+import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.screen.ScreenBase;
 
@@ -23,15 +23,15 @@ public class MainViewMediator extends SmartMediator {
 		addHandler(ScreenMsg.LOCK_UI, lock);
 		addHandler(ScreenMsg.UNLOCK_UI, unlock);
 
-		requestData(ScreenMsg.GET_SCREEN_INFO_LIST, new RequestOperationMessage(showScreenInfoList));
-		requestData(ScreenMsg.GENERATE_SCREEN, new RequestOperationMessage(showSelectedScreen, selectedScreenID));
+		sendRequest(ScreenMsg.GET_SCREEN_INFO_LIST, new RequestMessage(showScreenInfoList));
+		sendRequest(ScreenMsg.GENERATE_SCREEN, new RequestMessage(showSelectedScreen, null, selectedScreenID));
 
 		mainView.screenList.addEventListener(SelectableDataGroup.SELECTED, selectedScreenChangedHandler);
 	}
 
 	private function selectedScreenChangedHandler(event:Event):void {
 		selectedScreenID = mainView.screenList.selectedItem.id;
-		requestData(ScreenMsg.GENERATE_SCREEN, new RequestOperationMessage(showSelectedScreen, selectedScreenID));
+		sendRequest(ScreenMsg.GENERATE_SCREEN, new RequestMessage(showSelectedScreen, null, selectedScreenID));
 	}
 
 	override protected function onRemove():void {

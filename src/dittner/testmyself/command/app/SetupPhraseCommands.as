@@ -1,4 +1,5 @@
 package dittner.testmyself.command.app {
+import dittner.testmyself.command.phrase.AddPhraseCmd;
 import dittner.testmyself.command.phrase.ClearPhraseModelCmd;
 import dittner.testmyself.command.phrase.CreatePhraseDBCmd;
 import dittner.testmyself.command.phrase.GetPhrasesCmd;
@@ -19,6 +20,7 @@ public class SetupPhraseCommands extends Command {
 
 		/*sql*/
 		commandMap.map(PhraseMsg.CREATE_DB, CreatePhraseDBCmd);
+		commandMap.map(PhraseMsg.ADD_PHRASE, AddPhraseCmd);
 	}
 
 }

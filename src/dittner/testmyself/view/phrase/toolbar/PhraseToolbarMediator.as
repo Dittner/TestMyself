@@ -1,7 +1,7 @@
 package dittner.testmyself.view.phrase.toolbar {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.PhraseVo;
-import dittner.testmyself.view.common.mediator.RequestOperationMessage;
+import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.toobar.ToolAction;
 
@@ -18,7 +18,7 @@ public class PhraseToolbarMediator extends SmartMediator {
 		view.removeBtn.enabled = false;
 
 		addListeners();
-		requestData(PhraseMsg.GET_SELECTED_PHRASE, new RequestOperationMessage(phraseSelectedHandler));
+		sendRequest(PhraseMsg.GET_SELECTED_PHRASE, new RequestMessage(phraseSelectedHandler));
 		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
 	}
 

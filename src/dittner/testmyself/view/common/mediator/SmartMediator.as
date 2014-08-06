@@ -6,8 +6,8 @@ public class SmartMediator extends Mediator {
 		super();
 	}
 
-	public function requestData(type:String, loadMsg:IOperationMessage):void {
-		sendMessage(type, loadMsg);
+	public function sendRequest(type:String, msg:IRequestMessage):void {
+		sendMessage(type, msg);
 	}
 }
 }
