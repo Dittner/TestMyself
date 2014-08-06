@@ -79,7 +79,7 @@
 
             <s:Label fontFamily="{Fonts.VANTA_THIN}"
                      fontSize="45"
-                     color="{AppColors.TEXT_YELLOW}"
+                     color="{AppColors.YELLOW}"
                      width="100%"
                      text="Система самостоятельного тестирования знаний немецкого языка"/>
             <!--text="СИСТЕМА САМОСТОЯТЕЛЬНОГО ТЕСТИРОВАНИЯ ЗНАНИЙ НЕМЕЦКОГО ЯЗЫКА"/>-->

@@ -1,5 +1,7 @@
-package dittner.testmyself.service {
-import dittner.testmyself.model.model_internal;
+package dittner.testmyself.service.phrase {
+import com.probertson.data.SQLRunner;
+
+import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.PhraseVo;
 import dittner.testmyself.model.theme.ThemeVo;
 import dittner.testmyself.utils.pendingInvoke.doLaterInMSec;
@@ -7,12 +9,25 @@ import dittner.testmyself.view.common.mediator.IOperationMessage;
 
 import mvcexpress.mvc.Proxy;
 
-use namespace model_internal;
-
 public class PhraseService extends Proxy {
 
 	public function PhraseService() {
 		super();
+	}
+
+	public var sqlRunner:SQLRunner;
+	public function get isDataBaseCreated():Boolean {return sqlRunner != null;}
+
+	override protected function onRegister():void {
+		sendMessage(PhraseMsg.CREATE_DB);
+	}
+
+	override protected function onRemove():void {
+		sqlRunner.close(resultHandler);
+	}
+
+	private function resultHandler():void {
+		trace("resultHandler");
 	}
 
 	private var loadThemesOperations:Vector.<IOperationMessage> = new <IOperationMessage>[];
@@ -110,8 +125,5 @@ public class PhraseService extends Proxy {
 		loadPhrasesOperations.length = 0;
 	}
 
-	override protected function onRegister():void {}
-
-	override protected function onRemove():void {}
 }
 }

@@ -1,5 +1,5 @@
 package dittner.testmyself.command.phrase {
-import dittner.testmyself.service.PhraseService;
+import dittner.testmyself.service.phrase.PhraseService;
 import dittner.testmyself.view.common.mediator.IOperationMessage;
 
 import mvcexpress.mvc.Command;

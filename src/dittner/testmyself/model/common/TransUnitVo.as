@@ -3,7 +3,7 @@ public class TransUnitVo {
 	public function TransUnitVo() {}
 
 	public var id:String = "";
-	public var voiceId:String = "";
+	public var voiceID:String = "";
 	public var origin:String = "";
 	public var translation:String = "";
 }

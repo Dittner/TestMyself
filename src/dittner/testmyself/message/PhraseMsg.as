@@ -14,5 +14,8 @@ public class PhraseMsg {
 	public static const GET_PHRASES:String = "getPhrases";
 	public static const GET_SELECTED_PHRASE:String = "getSelectedPhrase";
 
+	/*SQL*/
+	public static const CREATE_DB:String = "createDB";
+
 }
 }
