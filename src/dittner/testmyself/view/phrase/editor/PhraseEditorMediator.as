@@ -1,8 +1,8 @@
 package dittner.testmyself.view.phrase.editor {
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.model.common.LanguageUnitVo;
-import dittner.testmyself.model.phrase.PhraseVo;
-import dittner.testmyself.model.theme.ThemeVo;
+import dittner.testmyself.model.phrase.PhraseSuite;
+import dittner.testmyself.model.phrase.Phrase;
+import dittner.testmyself.model.theme.Theme;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.toobar.ToolAction;
@@ -18,7 +18,7 @@ public class PhraseEditorMediator extends SmartMediator {
 	[Inject]
 	public var view:PhraseEditor;
 
-	private var selectedPhrase:LanguageUnitVo = PhraseVo.NULL;
+	private var selectedPhrase:Phrase = Phrase.NULL;
 	private var selectedToolAction:String = "";
 
 	override protected function onRegister():void {
@@ -37,7 +37,7 @@ public class PhraseEditorMediator extends SmartMediator {
 	private function wrapThemes(themes:Array):Array {
 		var items:Array = [];
 		var item:ThemeRendererData;
-		for each(var vo:ThemeVo in themes) {
+		for each(var vo:Theme in themes) {
 			item = new ThemeRendererData(vo);
 			items.push(item);
 		}
@@ -75,7 +75,7 @@ public class PhraseEditorMediator extends SmartMediator {
 		sendMessage(PhraseMsg.EDITOR_DEACTIVATED_NOTIFICATION);
 	}
 
-	private function phraseSelectedHandler(vo:LanguageUnitVo):void {
+	private function phraseSelectedHandler(vo:Phrase):void {
 		selectedPhrase = vo;
 		if (view.isOpen()) throw new Error("Should not select new phrase when the old one is editing!")
 	}
@@ -87,8 +87,7 @@ public class PhraseEditorMediator extends SmartMediator {
 	private function applyHandler(event:MouseEvent):void {
 		switch (selectedToolAction) {
 			case(ToolAction.ADD) :
-				var phrase:PhraseVo = createPhrase();
-				sendRequest(PhraseMsg.ADD_PHRASE, new RequestMessage(addPhraseCompleteHandler, addPhraseErrorHandler, phrase));
+				sendAddPhraseRequest();
 				break;
 			case(ToolAction.EDIT) :
 				close();
@@ -102,14 +101,29 @@ public class PhraseEditorMediator extends SmartMediator {
 		}
 	}
 
-	private function createPhrase():PhraseVo {
-		var phrase:PhraseVo = new PhraseVo();
+	private function sendAddPhraseRequest():void {
+		var suite:PhraseSuite = new PhraseSuite();
+		suite.phrase = createPhrase();
+		suite.themes = getSelectedThemes();
+		sendRequest(PhraseMsg.ADD_PHRASE, new RequestMessage(addPhraseCompleteHandler, addPhraseErrorHandler, suite));
+	}
+
+	private function createPhrase():Phrase {
+		var phrase:Phrase = new Phrase();
 		phrase.origin = view.originArea.text;
 		phrase.translation = view.translationArea.text;
 		return phrase;
 	}
 
-	private function addPhraseCompleteHandler(phrase:PhraseVo):void {
+	private function getSelectedThemes():Array {
+		var res:Array = [];
+		for each(var item:ThemeRendererData in view.themes) {
+			if (item.selected) res.push(item.theme);
+		}
+		return res;
+	}
+
+	private function addPhraseCompleteHandler(suite:PhraseSuite):void {
 		close();
 	}
 
@@ -121,7 +135,7 @@ public class PhraseEditorMediator extends SmartMediator {
 		removeAllHandlers();
 		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
-		selectedPhrase = PhraseVo.NULL;
+		selectedPhrase = Phrase.NULL;
 		selectedToolAction = "";
 	}
 

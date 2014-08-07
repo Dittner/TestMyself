@@ -6,7 +6,7 @@
          height="100%" width="100%"
          addedToStage="addedToStageHandler(event)">
     <fx:Script><![CDATA[
-        import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
+        import dittner.testmyself.service.screenFactory.ScreenInfo;
         import dittner.testmyself.view.common.popup.SimplePopup;
         import dittner.testmyself.view.common.renderer.SeparatorItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorVo;

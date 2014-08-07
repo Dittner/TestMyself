@@ -10,7 +10,7 @@ public class GetSelectedPhraseCmd extends Command {
 	public var model:PhraseModel;
 
 	public function execute(op:IRequestMessage):void {
-		op.complete(model.selectedPhrase);
+		op.completeSuccess(model.selectedPhrase);
 	}
 
 }

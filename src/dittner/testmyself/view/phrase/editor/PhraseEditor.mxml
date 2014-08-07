@@ -11,8 +11,8 @@
          maxHeight.remove="300">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.model.common.LanguageUnitVo;
-        import dittner.testmyself.model.theme.ThemeVo;
+        import dittner.testmyself.model.common.TransUnit;
+        import dittner.testmyself.model.theme.Theme;
         import dittner.testmyself.view.common.renderer.AddedThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.SeparatorThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.ThemeItemRenderer;
@@ -22,7 +22,7 @@
         import mx.collections.ArrayCollection;
 
         [Bindable]
-        public var selectedPhrase:LanguageUnitVo;
+        public var selectedPhrase:TransUnit;
 
         //--------------------------------------
         //  title
@@ -60,14 +60,14 @@
             currentState = "add";
         }
 
-        public function edit(vo:LanguageUnitVo):void {
+        public function edit(vo:TransUnit):void {
             selectedPhrase = vo;
             currentState = "edit";
             if (originArea) originArea.text = vo.origin
             if (translationArea) translationArea.text = vo.translation;
         }
 
-        public function remove(vo:LanguageUnitVo):void {
+        public function remove(vo:TransUnit):void {
             selectedPhrase = vo;
             currentState = "remove";
         }
@@ -181,16 +181,17 @@
 
             var addedThemeName:String = addThemeInput.text;
             if (validateAddedTheme(addedThemeName)) {
-                var vo:ThemeVo = new ThemeVo();
+                var vo:Theme = new Theme();
                 vo.name = addedThemeName
                 var addedTheme:ThemeRendererData = new ThemeRendererData(vo);
                 addedTheme.isNew = true;
+                addedTheme.selected = true;
 
                 if (!hasNewThemesSeparator) {
                     hasNewThemesSeparator = true;
 
                     if (!themeRendererSeparator) {
-                        themeRendererSeparator = new ThemeRendererData(new ThemeVo());
+                        themeRendererSeparator = new ThemeRendererData(new Theme());
                         themeRendererSeparator.isSeparator = true;
                     }
                     themes.addItem(themeRendererSeparator);

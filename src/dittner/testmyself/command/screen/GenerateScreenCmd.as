@@ -1,5 +1,5 @@
 package dittner.testmyself.command.screen {
-import dittner.testmyself.service.helpers.screenFactory.IScreenFactory;
+import dittner.testmyself.service.screenFactory.IScreenFactory;
 import dittner.testmyself.view.common.mediator.IRequestMessage;
 
 import mvcexpress.mvc.Command;
@@ -11,7 +11,7 @@ public class GenerateScreenCmd extends Command {
 
 	public function execute(op:IRequestMessage):void {
 		var screenID:uint = op.data as uint;
-		op.complete(screenFactory.generate(screenID));
+		op.completeSuccess(screenFactory.generate(screenID));
 	}
 
 }

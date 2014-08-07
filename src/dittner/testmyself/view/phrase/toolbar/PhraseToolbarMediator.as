@@ -1,6 +1,6 @@
 package dittner.testmyself.view.phrase.toolbar {
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.model.phrase.PhraseVo;
+import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.toobar.ToolAction;
@@ -61,8 +61,8 @@ public class PhraseToolbarMediator extends SmartMediator {
 			sendMessage(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, selectedAction);
 	}
 
-	private function phraseSelectedHandler(phrase:PhraseVo):void {
-		if (phrase != PhraseVo.NULL) {
+	private function phraseSelectedHandler(phrase:Phrase):void {
+		if (phrase != Phrase.NULL) {
 			view.editBtn.enabled = true;
 			view.removeBtn.enabled = true;
 		}

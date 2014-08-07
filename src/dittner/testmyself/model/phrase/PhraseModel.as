@@ -24,9 +24,9 @@ public class PhraseModel extends Proxy {
 	//--------------------------------------
 	//  selectedPhrase
 	//--------------------------------------
-	private var _selectedPhrase:PhraseVo;
-	public function get selectedPhrase():PhraseVo {return _selectedPhrase;}
-	public function set selectedPhrase(value:PhraseVo):void {
+	private var _selectedPhrase:Phrase;
+	public function get selectedPhrase():Phrase {return _selectedPhrase;}
+	public function set selectedPhrase(value:Phrase):void {
 		if (_selectedPhrase != value) {
 			_selectedPhrase = value;
 			sendMessage(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, selectedPhrase);
@@ -40,7 +40,7 @@ public class PhraseModel extends Proxy {
 	//----------------------------------------------------------------------------------------------
 
 	public function clear():void {
-		_selectedPhrase = PhraseVo.NULL;
+		_selectedPhrase = Phrase.NULL;
 	}
 
 	override protected function onRegister():void {

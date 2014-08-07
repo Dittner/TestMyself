@@ -1,7 +1,7 @@
 package dittner.testmyself.view.main {
 
 import dittner.testmyself.message.ScreenMsg;
-import dittner.testmyself.service.helpers.screenFactory.ScreenId;
+import dittner.testmyself.service.screenFactory.ScreenId;
 import dittner.testmyself.view.common.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;

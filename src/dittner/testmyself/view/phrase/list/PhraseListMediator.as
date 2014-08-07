@@ -1,6 +1,6 @@
 package dittner.testmyself.view.phrase.list {
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.model.phrase.PhraseVo;
+import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.view.common.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.SmartMediator;
@@ -17,7 +17,7 @@ use namespace mediator_internal;
 public class PhraseListMediator extends SmartMediator {
 
 	[Inject]
-	public var view:LanguageUnitList;
+	public var view:TransUnitList;
 
 	private var wrappedPhrases:Array = [];
 
@@ -29,7 +29,7 @@ public class PhraseListMediator extends SmartMediator {
 
 	private function phraseRenDataSelectedHandler(event:Event):void {
 		var selectedPhraseRenData:PhraseRendererData = view.selectedItem as PhraseRendererData;
-		var selectedPhrase:PhraseVo = selectedPhraseRenData ? selectedPhraseRenData.phrase : PhraseVo.NULL;
+		var selectedPhrase:Phrase = selectedPhraseRenData ? selectedPhraseRenData.phrase : Phrase.NULL;
 		sendMessage(PhraseMsg.SELECT_PHRASE, selectedPhrase);
 	}
 
@@ -41,7 +41,7 @@ public class PhraseListMediator extends SmartMediator {
 	private function wrapPhrases(phrases:Array):Array {
 		var items:Array = [];
 		var item:PhraseRendererData;
-		for each(var vo:PhraseVo in phrases) {
+		for each(var vo:Phrase in phrases) {
 			item = new PhraseRendererData(vo);
 			items.push(item);
 		}

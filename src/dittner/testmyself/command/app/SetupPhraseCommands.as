@@ -1,11 +1,11 @@
 package dittner.testmyself.command.app {
-import dittner.testmyself.command.phrase.AddPhraseCmd;
 import dittner.testmyself.command.phrase.ClearPhraseModelCmd;
 import dittner.testmyself.command.phrase.CreatePhraseDBCmd;
-import dittner.testmyself.command.phrase.GetPhrasesCmd;
+import dittner.testmyself.command.sql.phrase.GetPhrasesCmd;
 import dittner.testmyself.command.phrase.GetSelectedPhraseCmd;
 import dittner.testmyself.command.phrase.GetThemesForPhraseCmd;
 import dittner.testmyself.command.phrase.SelectPhraseCmd;
+import dittner.testmyself.command.sql.phrase.AddPhraseCmd;
 import dittner.testmyself.message.PhraseMsg;
 
 import mvcexpress.mvc.Command;

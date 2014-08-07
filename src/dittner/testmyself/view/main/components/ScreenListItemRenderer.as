@@ -1,5 +1,5 @@
 package dittner.testmyself.view.main.components {
-import dittner.testmyself.service.helpers.screenFactory.ScreenInfo;
+import dittner.testmyself.service.screenFactory.ScreenInfo;
 import dittner.testmyself.view.common.renderer.ItemRendererBase;
 import dittner.testmyself.view.common.tooltip.CustomToolTipManager;
 import dittner.testmyself.view.common.utils.AppColors;

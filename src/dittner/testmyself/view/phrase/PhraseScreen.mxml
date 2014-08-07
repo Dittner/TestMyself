@@ -85,14 +85,14 @@
                 minViewportInset="1"
                 hasFocusableChildren="false">
         <s:Group width="100%">
-            <list:LanguageUnitList id="list"
+            <list:TransUnitList id="list"
                                    width="100%"
                                    contentBackgroundAlpha="0"
                                    itemRenderer="dittner.testmyself.view.phrase.common.PhraseRenderer">
                 <list:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="false"/>
                 </list:layout>
-            </list:LanguageUnitList>
+            </list:TransUnitList>
         </s:Group>
 
     </s:Scroller>
