@@ -3,27 +3,22 @@ import dittner.testmyself.model.model_internal;
 
 use namespace model_internal;
 
-public class Theme {
+public class Theme implements ITheme {
 	public function Theme() {}
 
 	//--------------------------------------
 	//  id
 	//--------------------------------------
-	model_internal var _id:int = -1;
+	private var _id:int = -1;
 	public function get id():int {return _id;}
+	public function set id(value:int):void {_id = value;}
 
 	//--------------------------------------
 	//  name
 	//--------------------------------------
-	model_internal var nameChanged:Boolean = false;
-	model_internal var _name:String = "";
+	private var _name:String = "";
 	public function get name():String {return _name;}
-	public function set name(value:String):void {
-		if (_name != value) {
-			nameChanged = true;
-			_name = value;
-		}
-	}
+	public function set name(value:String):void {_name = value;}
 
 }
 }

@@ -2,7 +2,9 @@ package dittner.testmyself.view.phrase {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.utils.pendingInvoke.doLaterInFrames;
-import dittner.testmyself.view.phrase.editor.PhraseEditorMediator;
+import dittner.testmyself.view.phrase.form.PhraseCreatorMediator;
+import dittner.testmyself.view.phrase.form.PhraseEditorMediator;
+import dittner.testmyself.view.phrase.form.PhraseRemoverMediator;
 import dittner.testmyself.view.phrase.list.PhraseListMediator;
 import dittner.testmyself.view.phrase.toolbar.PhraseToolbarMediator;
 
@@ -15,15 +17,17 @@ public class PhraseScreenMediator extends Mediator {
 
 	override protected function onRegister():void {
 		sendMessage(ScreenMsg.LOCK_UI);
-		doLaterInFrames(activateScreen, 20);
+		doLaterInFrames(activateScreen, 10);
 	}
 
 	private function activateScreen():void {
 		view.activate();
-		addHandler(PhraseMsg.EDITOR_ACTIVATED_NOTIFICATION, showEditor);
-		addHandler(PhraseMsg.EDITOR_DEACTIVATED_NOTIFICATION, hideEditor);
+		addHandler(PhraseMsg.FORM_ACTIVATED_NOTIFICATION, showEditor);
+		addHandler(PhraseMsg.FORM_DEACTIVATED_NOTIFICATION, hideEditor);
 		mediatorMap.mediateWith(view.toolbar, PhraseToolbarMediator);
-		mediatorMap.mediateWith(view.editor, PhraseEditorMediator);
+		mediatorMap.mediateWith(view.form, PhraseCreatorMediator);
+		mediatorMap.mediateWith(view.form, PhraseEditorMediator);
+		mediatorMap.mediateWith(view.form, PhraseRemoverMediator);
 		mediatorMap.mediateWith(view.list, PhraseListMediator);
 		sendMessage(ScreenMsg.UNLOCK_UI);
 	}
@@ -31,9 +35,10 @@ public class PhraseScreenMediator extends Mediator {
 	override protected function onRemove():void {
 		removeAllHandlers();
 		mediatorMap.unmediate(view.toolbar, PhraseToolbarMediator);
-		mediatorMap.unmediate(view.editor, PhraseEditorMediator);
+		mediatorMap.unmediate(view.form, PhraseCreatorMediator);
+		mediatorMap.unmediate(view.form, PhraseEditorMediator);
+		mediatorMap.unmediate(view.form, PhraseRemoverMediator);
 		mediatorMap.unmediate(view.list, PhraseListMediator);
-		sendMessage(PhraseMsg.CLEAR_MODEL);
 	}
 
 	private function showEditor(params:* = null):void {

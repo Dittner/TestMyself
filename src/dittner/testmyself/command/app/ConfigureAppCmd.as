@@ -1,13 +1,13 @@
 package dittner.testmyself.command.app {
-import dittner.testmyself.command.screen.GenerateScreenCmd;
-import dittner.testmyself.command.screen.GetScreenInfoListCmd;
-import dittner.testmyself.command.dataBaseInfo.GetDataBaseInfoCmd;
+import dittner.testmyself.command.frontend.screen.GenerateScreenCmd;
+import dittner.testmyself.command.frontend.screen.GetScreenInfoListCmd;
+import dittner.testmyself.command.frontend.dataBaseInfo.GetDataBaseInfoCmd;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.message.ServiceMsg;
 import dittner.testmyself.model.phrase.PhraseModel;
 import dittner.testmyself.service.DataBaseInfoService;
-import dittner.testmyself.command.core.deferredComandManager.DeferredCommandManager;
-import dittner.testmyself.command.core.deferredComandManager.IDeferredCommandManager;
+import dittner.testmyself.command.core.deferredOperation.DeferredOperationManager;
+import dittner.testmyself.command.core.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.service.screenFactory.IScreenFactory;
 import dittner.testmyself.service.screenFactory.ScreenFactory;
 import dittner.testmyself.service.PhraseService;
@@ -31,7 +31,7 @@ public class ConfigureAppCmd extends Command {
 		commandMap.execute(SetupPhraseCommands);
 
 		//map models and services
-		proxyMap.map(new DeferredCommandManager(), null, IDeferredCommandManager);
+		proxyMap.map(new DeferredOperationManager(), null, IDeferredOperationManager);
 		proxyMap.map(new ScreenFactory(), null, IScreenFactory);
 		proxyMap.map(new PhraseModel(), null, PhraseModel);
 		proxyMap.map(new DataBaseInfoService());

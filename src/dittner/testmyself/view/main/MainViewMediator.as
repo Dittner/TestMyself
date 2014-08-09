@@ -4,14 +4,14 @@ import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.service.screenFactory.ScreenId;
 import dittner.testmyself.view.common.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMessage;
-import dittner.testmyself.view.common.mediator.SmartMediator;
+import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.screen.ScreenBase;
 
 import flash.events.Event;
 
 import mx.collections.ArrayCollection;
 
-public class MainViewMediator extends SmartMediator {
+public class MainViewMediator extends RequestMediator {
 
 	[Inject]
 	public var mainView:MainView;
@@ -56,12 +56,15 @@ public class MainViewMediator extends SmartMediator {
 		mainView.screenListProvider = new ArrayCollection(screenInfos);
 	}
 
+	private var lockRequestNum:int = 0;
 	private function lock(params:Object):void {
 		mainView.lock();
+		lockRequestNum++;
 	}
 
 	private function unlock(params:Object):void {
-		mainView.unlock();
+		if (lockRequestNum > 0) lockRequestNum--;
+		if (lockRequestNum == 0) mainView.unlock();
 	}
 
 }

@@ -4,7 +4,7 @@
                  xmlns:core="dittner.testmyself.view.common.screen.*"
                  xmlns:list="dittner.testmyself.view.phrase.list.*"
                  xmlns:toolbar="dittner.testmyself.view.phrase.toolbar.*"
-                 xmlns:editor="dittner.testmyself.view.phrase.editor.*"
+                 xmlns:editor="dittner.testmyself.view.phrase.form.*"
                  maxWidth="{AppSizes.SCREEN_MAX_WIDTH}"
                  currentState="inactive"
                  horizontalCenter="0">
@@ -34,12 +34,11 @@
 
         override protected function updateDisplayList(w:Number, h:Number):void {
             super.updateDisplayList(w, h);
-            if (editor) {
-                editor.width = Math.min((w - 2 * padding), AppSizes.EDITOR_MAX_WIDTH);
-                editor.x = w - editor.width - padding;
+            if (form) {
+                form.width = Math.min((w - 2 * padding), AppSizes.EDITOR_MAX_WIDTH);
+                form.x = w - form.width - padding;
             }
         }
-
         ]]></fx:Script>
 
     <core:states>
@@ -108,7 +107,7 @@
             </s:fill>
         </s:Rect>
 
-        <editor:PhraseEditor id="editor"
+        <editor:PhraseForm id="form"
                              bottom="{padding}"
                              top="{headerHeight}"/>
     </s:Group>

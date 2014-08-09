@@ -1,9 +1,10 @@
 package dittner.testmyself.view.phrase.list {
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.view.common.SelectableDataGroup;
+import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
-import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.mediator.mediator_internal;
 import dittner.testmyself.view.common.toobar.ToolAction;
 import dittner.testmyself.view.phrase.common.PhraseRendererData;
@@ -14,7 +15,7 @@ import mx.collections.ArrayCollection;
 
 use namespace mediator_internal;
 
-public class PhraseListMediator extends SmartMediator {
+public class PhraseListMediator extends RequestMediator {
 
 	[Inject]
 	public var view:TransUnitList;
@@ -24,12 +25,13 @@ public class PhraseListMediator extends SmartMediator {
 	override protected function onRegister():void {
 		view.addEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
+		addHandler(PhraseMsg.PHRASES_CHANGED_NOTIFICATION, onPhrasesLoaded);
 		sendRequest(PhraseMsg.GET_PHRASES, new RequestMessage(onPhrasesLoaded));
 	}
 
 	private function phraseRenDataSelectedHandler(event:Event):void {
 		var selectedPhraseRenData:PhraseRendererData = view.selectedItem as PhraseRendererData;
-		var selectedPhrase:Phrase = selectedPhraseRenData ? selectedPhraseRenData.phrase : Phrase.NULL;
+		var selectedPhrase:IPhrase = selectedPhraseRenData ? selectedPhraseRenData.phrase : Phrase.NULL;
 		sendMessage(PhraseMsg.SELECT_PHRASE, selectedPhrase);
 	}
 
@@ -41,7 +43,7 @@ public class PhraseListMediator extends SmartMediator {
 	private function wrapPhrases(phrases:Array):Array {
 		var items:Array = [];
 		var item:PhraseRendererData;
-		for each(var vo:Phrase in phrases) {
+		for each(var vo:IPhrase in phrases) {
 			item = new PhraseRendererData(vo);
 			items.push(item);
 		}
@@ -73,6 +75,7 @@ public class PhraseListMediator extends SmartMediator {
 		view.removeEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
 		removeAllHandlers();
 		view.dataProvider = null;
+		sendMessage(PhraseMsg.SELECT_PHRASE, Phrase.NULL);
 	}
 
 }

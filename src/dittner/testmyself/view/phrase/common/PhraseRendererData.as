@@ -1,11 +1,11 @@
 package dittner.testmyself.view.phrase.common {
-import dittner.testmyself.model.phrase.Phrase;
+import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.view.common.mediator.mediator_internal;
 
 use namespace mediator_internal;
 
 public class PhraseRendererData {
-	public function PhraseRendererData(phrase:Phrase) {
+	public function PhraseRendererData(phrase:IPhrase) {
 		_phrase = phrase;
 	}
 
@@ -14,8 +14,8 @@ public class PhraseRendererData {
 	//--------------------------------------
 	//  phrase
 	//--------------------------------------
-	private var _phrase:Phrase;
-	mediator_internal function get phrase():Phrase {return _phrase;}
+	private var _phrase:IPhrase;
+	mediator_internal function get phrase():IPhrase {return _phrase;}
 
 	//--------------------------------------
 	//  origin

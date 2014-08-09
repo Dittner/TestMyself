@@ -1,14 +1,15 @@
 package dittner.testmyself.view.phrase.toolbar {
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
+import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
-import dittner.testmyself.view.common.mediator.SmartMediator;
 import dittner.testmyself.view.common.toobar.ToolAction;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
 
-public class PhraseToolbarMediator extends SmartMediator {
+public class PhraseToolbarMediator extends RequestMediator {
 
 	[Inject]
 	public var view:PhraseToolbar;
@@ -61,7 +62,7 @@ public class PhraseToolbarMediator extends SmartMediator {
 			sendMessage(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, selectedAction);
 	}
 
-	private function phraseSelectedHandler(phrase:Phrase):void {
+	private function phraseSelectedHandler(phrase:IPhrase):void {
 		if (phrase != Phrase.NULL) {
 			view.editBtn.enabled = true;
 			view.removeBtn.enabled = true;
