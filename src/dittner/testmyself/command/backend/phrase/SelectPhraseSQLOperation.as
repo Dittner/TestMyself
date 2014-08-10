@@ -12,22 +12,19 @@ public class SelectPhraseSQLOperation extends DeferredOperation {
 	private static const SelectPhraseSQLClass:Class;
 	private static const SELECT_PHRASE_SQL:String = new SelectPhraseSQLClass();
 
-	public function SelectPhraseSQLOperation(sqlRunner:SQLRunner, completeCallback:Function) {
+	public function SelectPhraseSQLOperation(sqlRunner:SQLRunner) {
 		super();
-		this.completeCallback = completeCallback;
 		this.sqlRunner = sqlRunner;
 	}
 
 	private var sqlRunner:SQLRunner;
-	private var completeCallback:Function;
 
 	override public function process():void {
 		sqlRunner.execute(SELECT_PHRASE_SQL, null, phrasesLoadedHandler, Phrase);
 	}
 
 	private function phrasesLoadedHandler(result:SQLResult):void {
-		completeCallback(result.data);
-		dispatchComplete();
+		dispatchCompleteSuccess(result.data);
 	}
 }
 }

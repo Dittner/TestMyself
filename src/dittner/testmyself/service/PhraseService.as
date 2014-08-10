@@ -6,6 +6,7 @@ import dittner.testmyself.command.backend.phrase.CreatePhraseDataBaseSQLOperatio
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseThemeSQLOperation;
+import dittner.testmyself.command.core.deferredOperation.IDeferredOperation;
 import dittner.testmyself.command.core.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.phrase.PhraseModel;
@@ -44,22 +45,25 @@ public class PhraseService extends Proxy {
 		deferredOperationManager.push(new CreatePhraseDataBaseSQLOperation(this));
 	}
 
-	private var pendingAddPhrasesRequest:IRequestMessage;
 	public function addPhrase(requestMsg:IRequestMessage):void {
-		pendingAddPhrasesRequest = requestMsg;
-		deferredOperationManager.push(new InsertPhraseSQLOperation(sqlRunner, requestMsg.data.phrase, requestMsg.data.themes, phraseAdded, addPhraseFailed));
+		var op:IDeferredOperation = new InsertPhraseSQLOperation(sqlRunner, requestMsg.data.phrase, requestMsg.data.themes);
+		op.addCompleteCallback(phraseAdded);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.push(op);
 	}
 
-	private var pendingPhrasesRequest:IRequestMessage;
 	public function getPhrases(requestMsg:IRequestMessage = null):void {
-		pendingPhrasesRequest = requestMsg;
-		deferredOperationManager.push(new SelectPhraseSQLOperation(sqlRunner, phrasesLoaded));
+		var op:IDeferredOperation = new SelectPhraseSQLOperation(sqlRunner);
+		op.addCompleteCallback(phrasesLoaded);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.push(op);
 	}
 
-	private var pendingThemesRequest:IRequestMessage;
 	public function getThemes(requestMsg:IRequestMessage = null):void {
-		pendingThemesRequest = requestMsg;
-		deferredOperationManager.push(new SelectPhraseThemeSQLOperation(sqlRunner, phraseThemesLoaded));
+		var op:IDeferredOperation = new SelectPhraseThemeSQLOperation(sqlRunner);
+		op.addCompleteCallback(phraseThemesLoaded);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.push(op);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -68,35 +72,28 @@ public class PhraseService extends Proxy {
 	//
 	//----------------------------------------------------------------------------------------------
 
+	private function requestHandler(msg:IRequestMessage, op:IDeferredOperation):void {
+		if (!msg) return;
+
+		op.addCompleteCallback(function (res:Object):void {
+			msg.completeSuccess(res);
+		});
+		op.addErrorCallback(function (exc:CommandException):void {
+			msg.completeWithError(exc);
+		});
+	}
+
+	private function phraseAdded(phrase:Phrase):void {
+		reloadData();
+	}
+
 	private function phrasesLoaded(phrases:Array):void {
-		if (pendingPhrasesRequest) {
-			pendingPhrasesRequest.completeSuccess(phrases);
-			pendingPhrasesRequest = null;
-		}
+		if (phrases) phrases.reverse();
 		model.phrases = phrases;
 	}
 
 	private function phraseThemesLoaded(themes:Array):void {
-		if (pendingThemesRequest) {
-			pendingThemesRequest.completeSuccess(themes);
-			pendingThemesRequest = null;
-		}
 		model.themes = themes;
-	}
-
-	private function phraseAdded(phrase:Phrase):void {
-		if (pendingAddPhrasesRequest) {
-			pendingAddPhrasesRequest.completeSuccess(phrase);
-			pendingThemesRequest = null;
-		}
-		reloadData();
-	}
-
-	private function addPhraseFailed(msg:CommandException):void {
-		if (pendingAddPhrasesRequest) {
-			pendingAddPhrasesRequest.completeWithError(msg);
-			pendingAddPhrasesRequest = null;
-		}
 	}
 
 	private function reloadData():void {

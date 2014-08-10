@@ -28,6 +28,7 @@ public class DeferredOperationManager extends Proxy implements IDeferredOperatio
 			processingCmd = commandsQueue.shift();
 			trace("deferred deferredOperation: " + getQualifiedClassName(processingCmd) + ", start processing...");
 			processingCmd.addCompleteCallback(commandCompleteHandler);
+			processingCmd.addErrorCallback(commandCompleteHandler);
 			timeOutFuncIndex = doLaterInMSec(timeOutHandler, TIME_OUT);
 			processingCmd.process();
 		}
@@ -37,7 +38,7 @@ public class DeferredOperationManager extends Proxy implements IDeferredOperatio
 		return commandsQueue.length > 0;
 	}
 
-	private function commandCompleteHandler():void {
+	private function commandCompleteHandler(result:Object = null):void {
 		trace("deferred deferredOperation complete");
 		destroyProcessingCmd();
 		executeNextCommand();

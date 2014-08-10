@@ -12,22 +12,19 @@ public class SelectPhraseThemeSQLOperation extends DeferredOperation {
 	private static const SelectPhraseThemeSQLClass:Class;
 	private static const SELECT_PHRASE_THEME_SQL:String = new SelectPhraseThemeSQLClass();
 
-	public function SelectPhraseThemeSQLOperation(sqlRunner:SQLRunner, completeCallback:Function) {
+	public function SelectPhraseThemeSQLOperation(sqlRunner:SQLRunner) {
 		super();
-		this.completeCallback = completeCallback;
 		this.sqlRunner = sqlRunner;
 	}
 
 	private var sqlRunner:SQLRunner;
-	private var completeCallback:Function;
 
 	override public function process():void {
 		sqlRunner.execute(SELECT_PHRASE_THEME_SQL, null, phraseThemesLoadedHandler, Theme);
 	}
 
 	private function phraseThemesLoadedHandler(result:SQLResult):void {
-		completeCallback(result.data);
-		dispatchComplete();
+		dispatchCompleteSuccess(result.data);
 	}
 }
 }

@@ -29,19 +29,15 @@ public class InsertPhraseSQLOperation extends DeferredOperation {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	public function InsertPhraseSQLOperation(sqlRunner:SQLRunner, phrase:Phrase, phraseThemes:Array, completeCallback:Function, errorCallback:Function) {
+	public function InsertPhraseSQLOperation(sqlRunner:SQLRunner, phrase:Phrase, phraseThemes:Array) {
 		this.sqlRunner = sqlRunner;
 		this.phrase = phrase;
 		this.themes = phraseThemes;
-		this.completeCallback = completeCallback;
-		this.errorCallback = errorCallback;
 	}
 
 	private var sqlRunner:SQLRunner;
 	private var phrase:Phrase;
 	private var themes:Array;
-	private var completeCallback:Function;
-	private var errorCallback:Function;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -63,15 +59,13 @@ public class InsertPhraseSQLOperation extends DeferredOperation {
 			phaseRunner.execute();
 		}
 		catch (exc:CommandException) {
-			errorCallback(exc);
 			phaseRunner.destroy();
-			dispatchComplete();
+			dispatchCompletWithError(exc);
 		}
 	}
 
 	private function phaseRunnerCompleteSuccessHandler():void {
-		completeCallback(phrase);
-		dispatchComplete();
+		dispatchCompleteSuccess(phrase);
 	}
 
 }

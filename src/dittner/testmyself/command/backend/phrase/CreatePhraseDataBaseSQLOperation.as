@@ -55,15 +55,15 @@ public class CreatePhraseDataBaseSQLOperation extends DeferredOperation {
 
 			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);
 		}
-		else dispatchComplete();
+		else dispatchCompleteSuccess();
 	}
 
 	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchComplete();
+		dispatchCompleteSuccess();
 	}
 
 	private function executeError(error:SQLError):void {
-		dispatchComplete();
+		dispatchCompleteSuccess();
 		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Ошибка при создании БД: " + error.toString());
 	}
 
