@@ -1,5 +1,6 @@
-package dittner.testmyself.command.core.deferredOperation {
-import dittner.testmyself.command.backend.common.exception.CommandException;
+package dittner.testmyself.command.operation.deferredOperation {
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.result.CommandResult;
 
 public class DeferredOperation implements IDeferredOperation {
 	public function DeferredOperation() {}
@@ -20,13 +21,13 @@ public class DeferredOperation implements IDeferredOperation {
 	/*abstract*/
 	protected function destroy():void {}
 
-	final protected function dispatchCompleteSuccess(result:Object = null):void {
-		for each(var handler:Function in completeCallbackQueue) result ? handler(result) : handler();
+	final protected function dispatchCompleteSuccess(result:CommandResult):void {
+		for each(var handler:Function in completeCallbackQueue) handler(result);
 		completeCallbackQueue = null;
 		destroy();
 	}
 
-	final protected function dispatchCompletWithError(exc:CommandException):void {
+	final protected function dispatchCompleteWithError(exc:CommandException):void {
 		for each(var handler:Function in errorCallbackQueue) handler(exc);
 		errorCallbackQueue = null;
 		destroy();

@@ -1,7 +1,7 @@
 package dittner.testmyself.command.backend.phrase {
-import dittner.testmyself.command.backend.common.exception.CommandException;
-import dittner.testmyself.command.core.phaseOperation.PhaseOperation;
-import dittner.testmyself.command.core.deferredOperation.ErrorCode;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.phaseOperation.PhaseOperation;
+import dittner.testmyself.command.operation.deferredOperation.ErrorCode;
 import dittner.testmyself.model.phrase.Phrase;
 
 public class PhraseValidationPhase extends PhaseOperation {

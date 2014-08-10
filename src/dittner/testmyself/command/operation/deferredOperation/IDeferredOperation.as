@@ -1,4 +1,4 @@
-package dittner.testmyself.command.core.deferredOperation {
+package dittner.testmyself.command.operation.deferredOperation {
 
 public interface IDeferredOperation {
 	function addCompleteCallback(handler:Function):void;

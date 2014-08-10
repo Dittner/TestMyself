@@ -1,10 +1,11 @@
 package dittner.testmyself.view.main {
 
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.service.screenFactory.ScreenId;
 import dittner.testmyself.view.common.SelectableDataGroup;
-import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.RequestMediator;
+import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.screen.ScreenBase;
 
 import flash.events.Event;
@@ -38,7 +39,8 @@ public class MainViewMediator extends RequestMediator {
 		throw new Error("Don't remove MainMediator, don't unmediate MainView!");
 	}
 
-	private function showSelectedScreen(screen:ScreenBase):void {
+	private function showSelectedScreen(res:CommandResult):void {
+		var screen:ScreenBase = res.data as ScreenBase;
 		if (selectedScreen) {
 			mediatorMap.unmediate(selectedScreen);
 			mainView.removeScreen();
@@ -52,7 +54,8 @@ public class MainViewMediator extends RequestMediator {
 		selectedScreen = screen;
 	}
 
-	private function showScreenInfoList(screenInfos:Array):void {
+	private function showScreenInfoList(res:CommandResult):void {
+		var screenInfos:Array = res.data as Array;
 		mainView.screenListProvider = new ArrayCollection(screenInfos);
 	}
 

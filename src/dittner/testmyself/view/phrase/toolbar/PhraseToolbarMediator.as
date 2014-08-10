@@ -1,4 +1,5 @@
 package dittner.testmyself.view.phrase.toolbar {
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
@@ -20,7 +21,7 @@ public class PhraseToolbarMediator extends RequestMediator {
 
 		addListeners();
 		sendRequest(PhraseMsg.GET_SELECTED_PHRASE, new RequestMessage(phraseSelectedHandler));
-		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
+		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedNotificationHandler);
 	}
 
 	private function addListeners():void {
@@ -62,14 +63,18 @@ public class PhraseToolbarMediator extends RequestMediator {
 			sendMessage(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, selectedAction);
 	}
 
-	private function phraseSelectedHandler(phrase:IPhrase):void {
-		if (phrase != Phrase.NULL) {
-			view.editBtn.enabled = true;
-			view.removeBtn.enabled = true;
-		}
-		else {
+	private function phraseSelectedHandler(res:CommandResult):void {
+		phraseSelectedNotificationHandler(res.data as IPhrase);
+	}
+
+	private function phraseSelectedNotificationHandler(vo:IPhrase):void {
+		if (vo == Phrase.NULL) {
 			view.editBtn.enabled = false;
 			view.removeBtn.enabled = false;
+		}
+		else {
+			view.editBtn.enabled = true;
+			view.removeBtn.enabled = true;
 		}
 	}
 

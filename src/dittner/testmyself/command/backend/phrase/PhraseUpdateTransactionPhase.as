@@ -10,13 +10,13 @@ import dittner.testmyself.model.phrase.Phrase;
 import flash.data.SQLResult;
 import flash.errors.SQLError;
 
-public class PhraseInsertTransactionPhase extends PhaseOperation {
+public class PhraseUpdateTransactionPhase extends PhaseOperation {
 
-	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/InsertPhrase.sql", mimeType="application/octet-stream")]
-	private static const InsertPhraseSQLClass:Class;
-	private static const INSERT_PHRASE_SQL:String = new InsertPhraseSQLClass();
+	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/UpdatePhrase.sql", mimeType="application/octet-stream")]
+	private static const UpdatePhraseSQLClass:Class;
+	private static const UPDATE_PHRASE_SQL:String = new UpdatePhraseSQLClass();
 
-	public function PhraseInsertTransactionPhase(sqlRunner:SQLRunner, phrase:Phrase) {
+	public function PhraseUpdateTransactionPhase(sqlRunner:SQLRunner, phrase:Phrase) {
 		this.sqlRunner = sqlRunner;
 		this.phrase = phrase;
 	}
@@ -29,19 +29,13 @@ public class PhraseInsertTransactionPhase extends PhaseOperation {
 		sqlParams.origin = phrase.origin;
 		sqlParams.translation = phrase.translation;
 		sqlParams.audioRecordID = phrase.audioRecordID;
+		sqlParams.updatingPhraseID = phrase.id;
 
-		sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(INSERT_PHRASE_SQL, sqlParams)]), executeComplete, executeError);
+		sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(UPDATE_PHRASE_SQL, sqlParams)]), executeComplete, executeError);
 	}
 
 	private function executeComplete(results:Vector.<SQLResult>):void {
-		var result:SQLResult = results[0];
-		if (result.rowsAffected > 0) {
-			phrase.id = result.lastInsertRowID;
-			dispatchComplete();
-		}
-		else {
-			throw new CommandException(ErrorCode.TRANS_UNIT_ADDED_WITHOUT_ID, "База данных не вернула ID добавленной фразы");
-		}
+		dispatchComplete();
 	}
 
 	private function executeError(error:SQLError):void {

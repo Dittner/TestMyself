@@ -1,7 +1,7 @@
 package dittner.testmyself.view.common.renderer {
+import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
-import dittner.testmyself.view.phrase.common.ThemeRendererData;
 
 import flash.display.Graphics;
 import flash.events.MouseEvent;
@@ -28,8 +28,8 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	private var themeName:TextField;
 	private var deleteBtnIcon:UIComponent;
 
-	private function get themeData():ThemeRendererData {
-		return data as ThemeRendererData;
+	private function get theme():ITheme {
+		return data as ITheme;
 	}
 
 	override protected function createChildren():void {
@@ -48,7 +48,7 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 		super.commitProperties();
 		if (dataChanged) {
 			dataChanged = false;
-			themeName.text = themeData ? themeData.theme.name : "";
+			themeName.text = theme ? theme.name : "";
 		}
 	}
 

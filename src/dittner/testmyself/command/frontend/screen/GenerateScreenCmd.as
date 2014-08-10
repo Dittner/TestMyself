@@ -1,4 +1,5 @@
 package dittner.testmyself.command.frontend.screen {
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.service.screenFactory.IScreenFactory;
 import dittner.testmyself.view.common.mediator.IRequestMessage;
 
@@ -11,7 +12,7 @@ public class GenerateScreenCmd extends Command {
 
 	public function execute(op:IRequestMessage):void {
 		var screenID:uint = op.data as uint;
-		op.completeSuccess(screenFactory.generate(screenID));
+		op.completeSuccess(new CommandResult(screenFactory.generate(screenID)));
 	}
 
 }

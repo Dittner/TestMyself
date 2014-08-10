@@ -1,4 +1,4 @@
-package dittner.testmyself.command.backend.common.exception {
+package dittner.testmyself.command.operation.result {
 public class CommandException extends Error {
 	public function CommandException(msg:String, details:String) {
 		super(msg);

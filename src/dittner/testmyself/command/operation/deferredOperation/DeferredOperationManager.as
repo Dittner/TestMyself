@@ -1,4 +1,4 @@
-package dittner.testmyself.command.core.deferredOperation {
+package dittner.testmyself.command.operation.deferredOperation {
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.utils.pendingInvoke.clearDelay;
 import dittner.testmyself.utils.pendingInvoke.doLaterInMSec;
@@ -38,7 +38,7 @@ public class DeferredOperationManager extends Proxy implements IDeferredOperatio
 		return commandsQueue.length > 0;
 	}
 
-	private function commandCompleteHandler(result:Object = null):void {
+	private function commandCompleteHandler(res:* = null):void {
 		trace("deferred deferredOperation complete");
 		destroyProcessingCmd();
 		executeNextCommand();

@@ -1,4 +1,5 @@
 package dittner.testmyself.command.frontend.phrase {
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.model.phrase.PhraseModel;
 import dittner.testmyself.view.common.mediator.IRequestMessage;
 
@@ -10,7 +11,7 @@ public class GetSelectedPhraseCmd extends Command {
 	public var model:PhraseModel;
 
 	public function execute(op:IRequestMessage):void {
-		op.completeSuccess(model.selectedPhrase);
+		op.completeSuccess(new CommandResult(model.selectedPhrase));
 	}
 
 }

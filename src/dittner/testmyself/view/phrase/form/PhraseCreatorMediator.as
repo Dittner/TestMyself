@@ -1,13 +1,14 @@
 package dittner.testmyself.view.phrase.form {
-import dittner.testmyself.command.backend.common.exception.CommandException;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.Phrase;
+import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.model.theme.Theme;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.toobar.ToolAction;
 import dittner.testmyself.view.common.toobar.ToolActionName;
-import dittner.testmyself.view.phrase.common.ThemeRendererData;
 
 import flash.events.MouseEvent;
 
@@ -31,19 +32,9 @@ public class PhraseCreatorMediator extends RequestMediator {
 		}
 	}
 
-	private function onThemesLoaded(themes:Array):void {
-		var themeItems:Array = wrapThemes(themes);
+	private function onThemesLoaded(res:CommandResult):void {
+		var themeItems:Array = res.data as Array;
 		view.themes = new ArrayCollection(themeItems);
-	}
-
-	private function wrapThemes(themes:Array):Array {
-		var items:Array = [];
-		var item:ThemeRendererData;
-		for each(var vo:Theme in themes) {
-			item = new ThemeRendererData(vo);
-			items.push(item);
-		}
-		return items;
 	}
 
 	private function openForm():void {
@@ -88,13 +79,11 @@ public class PhraseCreatorMediator extends RequestMediator {
 
 	private function getSelectedThemes():Array {
 		var res:Array = [];
-		for each(var item:ThemeRendererData in view.themes) {
-			if (item.selected) res.push(item.theme);
-		}
+		for each(var theme:ITheme in view.themesList.selectedItems) res.push(theme);
 		return res;
 	}
 
-	private function addPhraseCompleteHandler(phrase:Phrase):void {
+	private function addPhraseCompleteHandler(res:CommandResult):void {
 		closeForm();
 	}
 
@@ -113,11 +102,7 @@ public class PhraseCreatorMediator extends RequestMediator {
 		if (validateAddedTheme(addedThemeName)) {
 			var vo:Theme = new Theme();
 			vo.name = addedThemeName;
-			var addedTheme:ThemeRendererData = new ThemeRendererData(vo);
-			addedTheme.isNew = true;
-			addedTheme.selected = true;
-
-			view.themes.addItem(addedTheme);
+			view.themes.addItem(vo);
 			view.addThemeInput.text = "";
 		}
 		else {
@@ -126,8 +111,8 @@ public class PhraseCreatorMediator extends RequestMediator {
 	}
 
 	private function validateAddedTheme(themeName:String):Boolean {
-		for each(var themeData:ThemeRendererData in view.themes) {
-			if (themeData.theme.name == themeName) return false;
+		for each(var theme:ITheme in view.themes) {
+			if (theme.name == themeName) return false;
 		}
 		return true;
 	}

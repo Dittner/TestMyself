@@ -2,9 +2,10 @@ package dittner.testmyself.command.backend.phrase {
 import com.probertson.data.QueuedStatement;
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.common.exception.CommandException;
-import dittner.testmyself.command.core.deferredOperation.DeferredOperation;
-import dittner.testmyself.command.core.deferredOperation.ErrorCode;
+import dittner.testmyself.command.operation.deferredOperation.DeferredOperation;
+import dittner.testmyself.command.operation.deferredOperation.ErrorCode;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.model.AppConfig;
 import dittner.testmyself.service.PhraseService;
 
@@ -55,15 +56,14 @@ public class CreatePhraseDataBaseSQLOperation extends DeferredOperation {
 
 			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);
 		}
-		else dispatchCompleteSuccess();
+		else dispatchCompleteSuccess(CommandResult.OK);
 	}
 
 	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchCompleteSuccess();
+		dispatchCompleteSuccess(CommandResult.OK);
 	}
 
 	private function executeError(error:SQLError):void {
-		dispatchCompleteSuccess();
 		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Ошибка при создании БД: " + error.toString());
 	}
 

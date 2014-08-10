@@ -3,14 +3,14 @@ package dittner.testmyself.command.backend.common {
 import com.probertson.data.QueuedStatement;
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.common.exception.CommandException;
+import dittner.testmyself.command.operation.result.CommandException;
 
-import dittner.testmyself.command.core.deferredOperation.ErrorCode;
+import dittner.testmyself.command.operation.deferredOperation.ErrorCode;
 
 import dittner.testmyself.model.common.TransUnit;
 import dittner.testmyself.model.model_internal;
 import dittner.testmyself.model.theme.Theme;
-import dittner.testmyself.command.core.phaseOperation.PhaseOperation;
+import dittner.testmyself.command.operation.phaseOperation.PhaseOperation;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;

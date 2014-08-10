@@ -1,4 +1,4 @@
-package dittner.testmyself.command.core.phaseOperation {
+package dittner.testmyself.command.operation.phaseOperation {
 public class PhaseOperation {
 	public function PhaseOperation() {
 	}

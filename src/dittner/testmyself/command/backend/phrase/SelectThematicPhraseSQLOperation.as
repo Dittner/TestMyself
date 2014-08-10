@@ -1,9 +1,10 @@
 package dittner.testmyself.command.backend.phrase {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.common.exception.CommandException;
-import dittner.testmyself.command.core.deferredOperation.DeferredOperation;
-import dittner.testmyself.command.core.deferredOperation.ErrorCode;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.operation.deferredOperation.DeferredOperation;
+import dittner.testmyself.command.operation.deferredOperation.ErrorCode;
 
 import flash.data.SQLResult;
 
@@ -27,14 +28,14 @@ public class SelectThematicPhraseSQLOperation extends DeferredOperation {
 			sqlRunner.execute(SELECT_THEMATIC_PHRASE_SQL, {selectedPhraseID: phraseID}, loadCompleteHandler);
 		}
 		else {
-			dispatchCompletWithError(new CommandException(ErrorCode.NULL_TRANS_UNIT, "Отсутствует ID фразы"));
+			dispatchCompleteWithError(new CommandException(ErrorCode.NULL_TRANS_UNIT, "Отсутствует ID фразы"));
 		}
 	}
 
 	private function loadCompleteHandler(result:SQLResult):void {
 		var themesID:Array = [];
 		for each(var item:Object in result.data) themesID.push(item.themeID);
-		dispatchCompleteSuccess(themesID);
+		dispatchCompleteSuccess(new CommandResult(themesID));
 	}
 }
 }

@@ -1,4 +1,5 @@
 package dittner.testmyself.view.phrase.list {
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
@@ -25,7 +26,7 @@ public class PhraseListMediator extends RequestMediator {
 	override protected function onRegister():void {
 		view.addEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
-		addHandler(PhraseMsg.PHRASES_CHANGED_NOTIFICATION, onPhrasesLoaded);
+		addHandler(PhraseMsg.PHRASES_CHANGED_NOTIFICATION, onPhrasesChanged);
 		sendRequest(PhraseMsg.GET_PHRASES, new RequestMessage(onPhrasesLoaded));
 	}
 
@@ -35,9 +36,17 @@ public class PhraseListMediator extends RequestMediator {
 		sendMessage(PhraseMsg.SELECT_PHRASE, selectedPhrase);
 	}
 
-	private function onPhrasesLoaded(phrases:Array):void {
+	private function onPhrasesChanged(phrases:Array):void {
+		updateViewList(phrases);
+	}
+	private function onPhrasesLoaded(res:CommandResult):void {
+		updateViewList(res.data as Array);
+	}
+
+	private function updateViewList(phrases:Array):void {
 		wrappedPhrases = wrapPhrases(phrases);
 		view.dataProvider = new ArrayCollection(wrappedPhrases);
+		sendMessage(PhraseMsg.SELECT_PHRASE, Phrase.NULL);
 	}
 
 	private function wrapPhrases(phrases:Array):Array {

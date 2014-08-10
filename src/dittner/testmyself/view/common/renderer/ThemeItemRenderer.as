@@ -1,7 +1,7 @@
 package dittner.testmyself.view.common.renderer {
+import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
-import dittner.testmyself.view.phrase.common.ThemeRendererData;
 
 import flash.display.Graphics;
 import flash.text.TextField;
@@ -21,8 +21,8 @@ public class ThemeItemRenderer extends ItemRendererBase {
 
 	private var themeName:TextField;
 
-	private function get themeData():ThemeRendererData {
-		return data as ThemeRendererData;
+	private function get theme():ITheme {
+		return data as ITheme;
 	}
 
 	override protected function createChildren():void {
@@ -35,7 +35,7 @@ public class ThemeItemRenderer extends ItemRendererBase {
 		super.commitProperties();
 		if (dataChanged) {
 			dataChanged = false;
-			themeName.text = themeData ? themeData.theme.name : "";
+			themeName.text = theme ? theme.name : "";
 		}
 	}
 
@@ -79,9 +79,5 @@ public class ThemeItemRenderer extends ItemRendererBase {
 		themeName.height = h - 2 * PADDING;
 	}
 
-	override public function set selected(value:Boolean):void {
-		if (themeData) themeData.selected = value;
-		super.selected = value;
-	}
 }
 }

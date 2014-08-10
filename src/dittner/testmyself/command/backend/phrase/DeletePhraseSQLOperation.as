@@ -1,19 +1,12 @@
 package dittner.testmyself.command.backend.phrase {
-import com.probertson.data.QueuedStatement;
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.common.exception.CommandException;
-import dittner.testmyself.command.core.deferredOperation.DeferredOperation;
-import dittner.testmyself.command.core.deferredOperation.ErrorCode;
-
-import flash.data.SQLResult;
-import flash.errors.SQLError;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.operation.deferredOperation.DeferredOperation;
+import dittner.testmyself.command.operation.phaseOperation.PhaseRunner;
 
 public class DeletePhraseSQLOperation extends DeferredOperation {
-
-	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/DeletePhrase.sql", mimeType="application/octet-stream")]
-	private static const DeletePhraseSQLClass:Class;
-	private static const DELETE_PHRASE_SQL:String = new DeletePhraseSQLClass();
 
 	public function DeletePhraseSQLOperation(sqlRunner:SQLRunner, phraseID:int) {
 		super();
@@ -25,21 +18,24 @@ public class DeletePhraseSQLOperation extends DeferredOperation {
 	private var phraseID:int;
 
 	override public function process():void {
-		if (phraseID) {
-			var statements:Vector.<QueuedStatement> = new <QueuedStatement>[];
-			statements.push(new QueuedStatement(DELETE_PHRASE_SQL, {deletingPhraseID: phraseID}));
-			sqlRunner.executeModify(statements, deleteCompleteHandler, deleteFailedHandler);
+		var phaseRunner:PhaseRunner = new PhaseRunner();
+		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
+		try {
+			phaseRunner.addPhase(DeletePhraseTransactionPhase, sqlRunner, phraseID);
+			phaseRunner.addPhase(DeleteThematicPhraseTransactionPhase, sqlRunner, phraseID);
+
+			phaseRunner.execute();
 		}
-		else dispatchCompletWithError(new CommandException(ErrorCode.NULL_TRANS_UNIT, "Отсутствует ID фразы"));
+		catch (exc:CommandException) {
+			phaseRunner.destroy();
+			dispatchCompleteWithError(exc);
+		}
 	}
 
-	private function deleteCompleteHandler(results:Vector.<SQLResult>):void {
-		dispatchCompleteSuccess(results);
+	private function phaseRunnerCompleteSuccessHandler():void {
+		dispatchCompleteSuccess(CommandResult.OK);
 	}
 
-	private function deleteFailedHandler(error:SQLError):void {
-		dispatchCompletWithError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
-	}
 }
 }

@@ -1,4 +1,4 @@
-package dittner.testmyself.command.core.phaseOperation {
+package dittner.testmyself.command.operation.phaseOperation {
 import dittner.testmyself.utils.ClassUtils;
 
 public class PhaseRunner {

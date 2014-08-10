@@ -1,32 +1,33 @@
 package dittner.testmyself.command.backend.common {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.core.phaseOperation.PhaseOperation;
-import dittner.testmyself.command.core.phaseOperation.PhaseRunner;
+import dittner.testmyself.command.operation.phaseOperation.PhaseOperation;
+import dittner.testmyself.command.operation.phaseOperation.PhaseRunner;
 import dittner.testmyself.model.theme.Theme;
 
 public class ThemesInsertTransactionPhase extends PhaseOperation {
-	public function ThemesInsertTransactionPhase(themes:Array, sqlRunner:SQLRunner, sqlStatement:String) {
-		this.themes = themes;
+
+	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/InsertPhraseTheme.sql", mimeType="application/octet-stream")]
+	private static const InsertPhraseThemeSQLClass:Class;
+	private static const INSERT_PHRASE_THEME_SQL:String = new InsertPhraseThemeSQLClass();
+
+	public function ThemesInsertTransactionPhase(sqlRunner:SQLRunner, themes:Array) {
 		this.sqlRunner = sqlRunner;
-		this.sqlStatement = sqlStatement;
+		this.themes = themes;
 	}
 
 	private var themes:Array;
 	private var sqlRunner:SQLRunner;
-	private var sqlStatement:String;
-
 	private var subPhaseRunner:PhaseRunner;
-	private var addedThemes:Vector.<Theme>;
 
 	override public function execute():void {
-		addedThemes = getAddedThemes();
+		var addedThemes:Vector.<Theme> = getAddedThemes();
 		if (addedThemes.length > 0) {
 			subPhaseRunner = new PhaseRunner();
 			subPhaseRunner.completeCallback = dispatchComplete;
 
 			for each(var theme:Theme in addedThemes) {
-				subPhaseRunner.addPhase(ThemeInsertTransactionSubPhase, theme, sqlRunner, sqlStatement);
+				subPhaseRunner.addPhase(ThemeInsertTransactionSubPhase, theme, sqlRunner, INSERT_PHRASE_THEME_SQL);
 			}
 			subPhaseRunner.execute();
 		}
@@ -50,8 +51,6 @@ public class ThemesInsertTransactionPhase extends PhaseOperation {
 		super.destroy();
 		themes = null;
 		sqlRunner = null;
-		addedThemes = null;
-		sqlStatement = null;
 		subPhaseRunner = null;
 	}
 }

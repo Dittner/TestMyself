@@ -1,15 +1,17 @@
 package dittner.testmyself.service {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.common.exception.CommandException;
 import dittner.testmyself.command.backend.phrase.CreatePhraseDataBaseSQLOperation;
 import dittner.testmyself.command.backend.phrase.DeletePhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseThemeSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectThematicPhraseSQLOperation;
-import dittner.testmyself.command.core.deferredOperation.IDeferredOperation;
-import dittner.testmyself.command.core.deferredOperation.IDeferredOperationManager;
+import dittner.testmyself.command.backend.phrase.UpdatePhraseSQLOperation;
+import dittner.testmyself.command.operation.deferredOperation.IDeferredOperation;
+import dittner.testmyself.command.operation.deferredOperation.IDeferredOperationManager;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.phrase.PhraseModel;
 import dittner.testmyself.view.common.mediator.IRequestMessage;
@@ -54,6 +56,13 @@ public class PhraseService extends Proxy {
 		deferredOperationManager.push(op);
 	}
 
+	public function updatePhrase(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new UpdatePhraseSQLOperation(sqlRunner, requestMsg.data.phrase, requestMsg.data.themes);
+		op.addCompleteCallback(phraseUpdated);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.push(op);
+	}
+
 	public function removePhrase(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new DeletePhraseSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
 		op.addCompleteCallback(phraseRemoved);
@@ -90,7 +99,7 @@ public class PhraseService extends Proxy {
 	private function requestHandler(msg:IRequestMessage, op:IDeferredOperation):void {
 		if (!msg) return;
 
-		op.addCompleteCallback(function (res:Object):void {
+		op.addCompleteCallback(function (res:CommandResult):void {
 			msg.completeSuccess(res);
 		});
 		op.addErrorCallback(function (exc:CommandException):void {
@@ -98,21 +107,25 @@ public class PhraseService extends Proxy {
 		});
 	}
 
-	private function phraseAdded(phrase:Phrase):void {
+	private function phraseAdded(res:CommandResult):void {
+		reloadData();
+
+	}
+	private function phraseUpdated(res:CommandResult):void {
 		reloadData();
 	}
 
-	private function phraseRemoved(result:*):void {
+	private function phraseRemoved(res:CommandResult):void {
 		reloadData();
 	}
 
-	private function phrasesLoaded(phrases:Array):void {
-		if (phrases) phrases.reverse();
-		model.phrases = phrases;
+	private function phrasesLoaded(res:CommandResult):void {
+		res.data.reverse();
+		model.phrases = res.data as Array;
 	}
 
-	private function phraseThemesLoaded(themes:Array):void {
-		model.themes = themes;
+	private function phraseThemesLoaded(res:CommandResult):void {
+		model.themes = res.data as Array;
 	}
 
 	private function reloadData():void {
