@@ -7,6 +7,7 @@ import dittner.testmyself.command.backend.phrase.DeletePhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseThemeSQLOperation;
+import dittner.testmyself.command.backend.phrase.SelectThematicPhraseSQLOperation;
 import dittner.testmyself.command.core.deferredOperation.IDeferredOperation;
 import dittner.testmyself.command.core.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.model.phrase.Phrase;
@@ -54,7 +55,7 @@ public class PhraseService extends Proxy {
 	}
 
 	public function removePhrase(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new DeletePhraseSQLOperation(sqlRunner, requestMsg.data as Phrase);
+		var op:IDeferredOperation = new DeletePhraseSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
 		op.addCompleteCallback(phraseRemoved);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.push(op);
@@ -70,6 +71,12 @@ public class PhraseService extends Proxy {
 	public function getThemes(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new SelectPhraseThemeSQLOperation(sqlRunner);
 		op.addCompleteCallback(phraseThemesLoaded);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.push(op);
+	}
+
+	public function getSelectedThemesID(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new SelectThematicPhraseSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.push(op);
 	}

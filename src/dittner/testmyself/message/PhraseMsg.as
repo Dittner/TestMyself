@@ -20,6 +20,7 @@ public class PhraseMsg {
 	public static const REMOVE_PHRASE:String = "removePhrase";
 	public static const GET_PHRASES:String = "getPhrases";
 	public static const GET_THEMES:String = "getThemes";
+	public static const GET_SELECTED_THEMES_ID:String = "getSelectedThemesID";
 
 }
 }

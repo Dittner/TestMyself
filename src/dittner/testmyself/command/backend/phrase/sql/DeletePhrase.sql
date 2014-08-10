@@ -1,2 +1,2 @@
 DELETE FROM phrase
-WHERE id = :deletingPhraseId
+WHERE id = :deletingPhraseID

@@ -58,6 +58,18 @@ public class PhraseEditorMediator extends RequestMediator {
 	private function onThemesLoaded(themes:Array):void {
 		var themeItems:Array = wrapThemes(themes);
 		view.themes = new ArrayCollection(themeItems);
+		sendRequest(PhraseMsg.GET_SELECTED_THEMES_ID, new RequestMessage(onSelectedThemesIDLoaded, null, selectedPhrase));
+	}
+
+	private function onSelectedThemesIDLoaded(themesID:Array):void {
+		if (view.themes && themesID && view.themes.length > 0 && themesID.length > 0) {
+			var isSelectedThemeHash:Object = {};
+			var selectedItems:Vector.<Object> = new Vector.<Object>();
+			for each(var id:int in themesID) isSelectedThemeHash[id] = true;
+			for each(var renData:ThemeRendererData in view.themes)
+				if (isSelectedThemeHash[renData.theme.id]) selectedItems.push(renData);
+			view.themesList.selectedItems = selectedItems;
+		}
 	}
 
 	private function wrapThemes(themes:Array):Array {

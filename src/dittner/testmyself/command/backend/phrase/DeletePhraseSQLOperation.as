@@ -5,7 +5,6 @@ import com.probertson.data.SQLRunner;
 import dittner.testmyself.command.backend.common.exception.CommandException;
 import dittner.testmyself.command.core.deferredOperation.DeferredOperation;
 import dittner.testmyself.command.core.deferredOperation.ErrorCode;
-import dittner.testmyself.model.phrase.IPhrase;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;
@@ -16,23 +15,23 @@ public class DeletePhraseSQLOperation extends DeferredOperation {
 	private static const DeletePhraseSQLClass:Class;
 	private static const DELETE_PHRASE_SQL:String = new DeletePhraseSQLClass();
 
-	public function DeletePhraseSQLOperation(sqlRunner:SQLRunner, phrase:IPhrase) {
+	public function DeletePhraseSQLOperation(sqlRunner:SQLRunner, phraseID:int) {
 		super();
 		this.sqlRunner = sqlRunner;
-		this.phrase = phrase;
+		this.phraseID = phraseID;
 	}
 
 	private var sqlRunner:SQLRunner;
-	private var phrase:IPhrase;
+	private var phraseID:int;
 
 	override public function process():void {
-		if (phrase && phrase.id) {
+		if (phraseID) {
 			var statements:Vector.<QueuedStatement> = new <QueuedStatement>[];
-			statements.push(new QueuedStatement(DELETE_PHRASE_SQL, {deletingPhraseId: phrase.id}));
+			statements.push(new QueuedStatement(DELETE_PHRASE_SQL, {deletingPhraseID: phraseID}));
 			sqlRunner.executeModify(statements, deleteCompleteHandler, deleteFailedHandler);
 
 		}
-		else dispatchCompletWithError(new CommandException(ErrorCode.NULL_TRANS_UNIT, "Отсутствует удаляемая фраза или не указан id"));
+		else dispatchCompletWithError(new CommandException(ErrorCode.NULL_TRANS_UNIT, "Отсутствует ID фразы"));
 	}
 
 	private function deleteCompleteHandler(results:Vector.<SQLResult>):void {
