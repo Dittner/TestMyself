@@ -28,7 +28,7 @@ public class PhraseInsertTransactionPhase extends PhaseOperation {
 		var sqlParams:Object = {};
 		sqlParams.origin = phrase.origin;
 		sqlParams.translation = phrase.translation;
-		sqlParams.audioRecordID = phrase.audioRecordID;
+		sqlParams.audioRecord = phrase.audioRecord;
 
 		sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(INSERT_PHRASE_SQL, sqlParams)]), executeComplete, executeError);
 	}

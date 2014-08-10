@@ -1,8 +1,8 @@
 package dittner.testmyself.command.backend.phrase {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.command.operation.deferredOperation.DeferredOperation;
+import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.model.phrase.Phrase;
 
 import flash.data.SQLResult;
@@ -25,7 +25,8 @@ public class SelectPhraseSQLOperation extends DeferredOperation {
 	}
 
 	private function phrasesLoadedHandler(result:SQLResult):void {
-		dispatchCompleteSuccess(new CommandResult(result.data));
+		var phrases:Array = result.data is Array ? result.data as Array : [];
+		dispatchCompleteSuccess(new CommandResult(phrases));
 	}
 }
 }

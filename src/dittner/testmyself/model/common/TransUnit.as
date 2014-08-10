@@ -13,20 +13,6 @@ public class TransUnit implements ITransUnit {
 	public function set id(value:int):void {_id = value;}
 
 	//--------------------------------------
-	//  audioRecordID
-	//--------------------------------------
-	private var _audioRecordID:int = -1;
-	public function get audioRecordID():int {return _audioRecordID;}
-	public function set audioRecordID(value:int):void {_audioRecordID = value;}
-
-	//--------------------------------------
-	//  audioRecord
-	//--------------------------------------
-	private var _audioRecord:ByteArray;
-	public function get audioRecord():ByteArray {return _audioRecord;}
-	public function set audioRecord(value:ByteArray):void {_audioRecord = value;}
-
-	//--------------------------------------
 	//  origin
 	//--------------------------------------
 	private var _origin:String = "";
@@ -39,5 +25,13 @@ public class TransUnit implements ITransUnit {
 	private var _translation:String;
 	public function get translation():String {return _translation;}
 	public function set translation(value:String):void {_translation = value;}
+
+	//--------------------------------------
+	//  audioRecord
+	//--------------------------------------
+	private var _audioRecord:ByteArray;
+	public function get audioRecord():ByteArray {return _audioRecord;}
+	public function set audioRecord(value:ByteArray):void {_audioRecord = value;}
+
 }
 }

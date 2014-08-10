@@ -5,102 +5,63 @@ import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.theme.ITheme;
-import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.toobar.ToolAction;
 import dittner.testmyself.view.common.toobar.ToolActionName;
 
 import flash.events.MouseEvent;
 
-import mx.collections.ArrayCollection;
-
-public class PhraseEditorMediator extends RequestMediator {
-
-	[Inject]
-	public var view:PhraseForm;
+public class PhraseEditorMediator extends PhraseFormMediator {
 
 	private var selectedPhrase:IPhrase = Phrase.NULL;
-	private var isEditing:Boolean = false;
 
 	override protected function onRegister():void {
-		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
+		super.onRegister();
 		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
 	}
 
-	private function toolActionSelectedHandler(toolAction:String):void {
-		if (!isEditing && toolAction == ToolAction.EDIT && selectedPhrase != Phrase.NULL) {
+	override protected function toolActionSelectedHandler(toolAction:String):void {
+		if (!isActive && toolAction == ToolAction.EDIT && selectedPhrase != Phrase.NULL) {
+			isActive = true;
+			form.edit(selectedPhrase.origin, selectedPhrase.translation, selectedPhrase.audioRecord);
+			form.title = ToolActionName.getNameById(ToolAction.EDIT);
 			openForm();
-			sendRequest(PhraseMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
+			loadThemes();
 		}
 	}
 
-	private function openForm():void {
-		isEditing = true;
-		view.edit(selectedPhrase.origin, selectedPhrase.translation);
-		view.title = ToolActionName.getNameById(ToolAction.EDIT);
-		sendMessage(PhraseMsg.FORM_ACTIVATED_NOTIFICATION);
-		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
-		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
-	}
-
-	private function cancelHandler(event:MouseEvent):void {
-		closeForm();
-	}
-
-	private function closeForm():void {
-		isEditing = false;
-		view.close();
-		sendMessage(PhraseMsg.FORM_DEACTIVATED_NOTIFICATION);
-		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
-		view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
-	}
-
-	private function onThemesLoaded(res:CommandResult):void {
-		var themes:Array = res.data as Array;
-		view.themes = new ArrayCollection(themes);
+	override protected function onThemesLoaded(res:CommandResult):void {
+		super.onThemesLoaded(res);
 		sendRequest(PhraseMsg.GET_SELECTED_THEMES_ID, new RequestMessage(onSelectedThemesIDLoaded, null, selectedPhrase));
 	}
 
 	private function onSelectedThemesIDLoaded(res:CommandResult):void {
 		var themesID:Array = res.data as Array;
-		if (view.themes && themesID && view.themes.length > 0 && themesID.length > 0) {
+		if (form.themes && themesID && form.themes.length > 0 && themesID.length > 0) {
 			var isSelectedThemeHash:Object = {};
 			var selectedItems:Vector.<Object> = new Vector.<Object>();
 			for each(var id:int in themesID) isSelectedThemeHash[id] = true;
-			for each(var theme:ITheme in view.themes)
+			for each(var theme:ITheme in form.themes)
 				if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
-			view.themesList.selectedItems = selectedItems;
+			form.themesList.selectedItems = selectedItems;
 		}
 	}
 
 	private function phraseSelectedHandler(vo:Phrase):void {
 		selectedPhrase = vo;
-		if (isEditing) throw new Error("Should not select new phrase when the old one is editing!")
+		if (isActive) throw new Error("Should not select new phrase when the old one is editing!")
 	}
 
-	private function applyHandler(event:MouseEvent):void {
+	override protected function applyHandler(event:MouseEvent):void {
 		sendUpdatePhraseRequest();
 	}
 
 	private function sendUpdatePhraseRequest():void {
 		var suite:Object = {};
 		suite.phrase = createPhrase();
+		suite.phrase.id = selectedPhrase.id;
 		suite.themes = getSelectedThemes();
 		sendRequest(PhraseMsg.UPDATE_PHRASE, new RequestMessage(updatePhraseCompleteHandler, updatePhraseErrorHandler, suite));
-	}
-
-	private function createPhrase():Phrase {
-		var phrase:Phrase = new Phrase();
-		phrase.id = selectedPhrase.id;
-		phrase.origin = view.originArea.text;
-		phrase.translation = view.translationArea.text;
-		return phrase;
-	}
-
-	private function getSelectedThemes():Array {
-		var res:Array = [];
-		for each(var theme:ITheme in view.themesList.selectedItems) res.push(theme);
-		return res;
 	}
 
 	private function updatePhraseCompleteHandler(res:CommandResult):void {
@@ -108,16 +69,7 @@ public class PhraseEditorMediator extends RequestMediator {
 	}
 
 	private function updatePhraseErrorHandler(exc:CommandException):void {
-		view.notifyInvalidData(exc.details);
+		form.notifyInvalidData(exc.details);
 	}
-
-	override protected function onRemove():void {
-		removeAllHandlers();
-		if (isEditing) {
-			isEditing = false;
-			closeForm();
-		}
-	}
-
 }
 }

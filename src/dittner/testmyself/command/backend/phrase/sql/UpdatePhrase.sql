@@ -2,5 +2,5 @@ UPDATE phrase
 SET
 	origin = :origin,
 	translation = :translation,
-	audioRecordID = :audioRecordID
+	audioRecord = :audioRecord
 WHERE id = :updatingPhraseID

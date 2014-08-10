@@ -2,11 +2,11 @@ INSERT INTO phrase
 (
 	origin,
 	translation,
-	audioRecordID
+	audioRecord
 )
 VALUES
 (
 	:origin,
 	:translation,
-	:audioRecordID
+	:audioRecord
 )

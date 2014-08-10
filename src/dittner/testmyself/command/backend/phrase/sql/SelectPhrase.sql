@@ -1,2 +1,2 @@
-SELECT id, origin, translation
+SELECT id, origin, translation, audioRecord
 FROM phrase

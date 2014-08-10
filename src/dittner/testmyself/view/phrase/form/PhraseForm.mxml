@@ -53,10 +53,11 @@
             currentState = "add";
         }
 
-        public function edit(origin:String, translation:String):void {
+        public function edit(origin:String, translation:String, audioRecord:ByteArray):void {
             currentState = "edit";
             if (originArea) originArea.text = origin
             if (translationArea) translationArea.text = translation;
+            if (audioRecorder) audioRecorder.audioComment = audioRecord;
         }
 
         public function remove(origin:String, translation:String):void {
