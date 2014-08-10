@@ -3,6 +3,7 @@ import com.probertson.data.SQLRunner;
 
 import dittner.testmyself.command.backend.common.exception.CommandException;
 import dittner.testmyself.command.backend.phrase.CreatePhraseDataBaseSQLOperation;
+import dittner.testmyself.command.backend.phrase.DeletePhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseThemeSQLOperation;
@@ -52,6 +53,13 @@ public class PhraseService extends Proxy {
 		deferredOperationManager.push(op);
 	}
 
+	public function removePhrase(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new DeletePhraseSQLOperation(sqlRunner, requestMsg.data as Phrase);
+		op.addCompleteCallback(phraseRemoved);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.push(op);
+	}
+
 	public function getPhrases(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new SelectPhraseSQLOperation(sqlRunner);
 		op.addCompleteCallback(phrasesLoaded);
@@ -84,6 +92,10 @@ public class PhraseService extends Proxy {
 	}
 
 	private function phraseAdded(phrase:Phrase):void {
+		reloadData();
+	}
+
+	private function phraseRemoved(result:*):void {
 		reloadData();
 	}
 

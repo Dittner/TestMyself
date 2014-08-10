@@ -32,7 +32,7 @@ public class PhraseRemoverMediator extends RequestMediator {
 	private function openForm():void {
 		isRemoving = true;
 		view.remove(selectedPhrase.origin, selectedPhrase.translation);
-		view.title = ToolActionName.getNameById(ToolAction.EDIT);
+		view.title = ToolActionName.getNameById(ToolAction.REMOVE);
 		sendMessage(PhraseMsg.FORM_ACTIVATED_NOTIFICATION);
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
@@ -63,7 +63,7 @@ public class PhraseRemoverMediator extends RequestMediator {
 		sendRequest(PhraseMsg.REMOVE_PHRASE, new RequestMessage(removePhraseCompleteHandler, removePhraseErrorHandler, selectedPhrase));
 	}
 
-	private function removePhraseCompleteHandler(phrase:Phrase):void {
+	private function removePhraseCompleteHandler(result:*):void {
 		closeForm();
 	}
 
