@@ -1,6 +1,7 @@
 package dittner.testmyself.view.phrase.form {
 import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.model.theme.Theme;
@@ -17,13 +18,20 @@ public class PhraseFormMediator extends RequestMediator {
 	public var form:PhraseForm;
 
 	protected var isActive:Boolean = false;
+	protected var selectedPhrase:IPhrase = Phrase.NULL;
 
 	override protected function onRegister():void {
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
+		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
 	}
 
 	//abstract
 	protected function toolActionSelectedHandler(toolAction:String):void {}
+
+	private function phraseSelectedHandler(vo:Phrase):void {
+		selectedPhrase = vo;
+		if (isActive) throw new Error("Should not select new phrase when the old one is editing!")
+	}
 
 	protected function loadThemes():void {
 		sendRequest(PhraseMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
@@ -66,7 +74,7 @@ public class PhraseFormMediator extends RequestMediator {
 	}
 
 	private function get hasAudio():Boolean {
-		if(!form.audioRecorder.recorder.recordedBytes) return false;
+		if (!form.audioRecorder.recorder.recordedBytes) return false;
 		return form.audioRecorder.recorder.recordedBytes.length > 0;
 	}
 

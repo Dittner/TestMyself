@@ -2,7 +2,6 @@ package dittner.testmyself.view.phrase.form {
 import dittner.testmyself.command.operation.result.CommandException;
 import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.view.common.mediator.RequestMessage;
@@ -12,13 +11,6 @@ import dittner.testmyself.view.common.toobar.ToolActionName;
 import flash.events.MouseEvent;
 
 public class PhraseEditorMediator extends PhraseFormMediator {
-
-	private var selectedPhrase:IPhrase = Phrase.NULL;
-
-	override protected function onRegister():void {
-		super.onRegister();
-		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
-	}
 
 	override protected function toolActionSelectedHandler(toolAction:String):void {
 		if (!isActive && toolAction == ToolAction.EDIT && selectedPhrase != Phrase.NULL) {
@@ -45,11 +37,6 @@ public class PhraseEditorMediator extends PhraseFormMediator {
 				if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
 			form.themesList.selectedItems = selectedItems;
 		}
-	}
-
-	private function phraseSelectedHandler(vo:Phrase):void {
-		selectedPhrase = vo;
-		if (isActive) throw new Error("Should not select new phrase when the old one is editing!")
 	}
 
 	override protected function applyHandler(event:MouseEvent):void {

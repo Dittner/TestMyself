@@ -23,6 +23,7 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	public function AddedThemeItemRenderer() {
 		super();
 		percentWidth = 100;
+		addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
 	}
 
 	private var themeName:TextField;
@@ -39,7 +40,7 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 
 		deleteBtnIcon = new UIComponent();
 		deleteBtnIcon.addChild(new DeleteBtnIconClass());
-		deleteBtnIcon.addEventListener(MouseEvent.CLICK, deleteClickHandler);
+		deleteBtnIcon.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
 
 		addChild(deleteBtnIcon);
 	}
@@ -79,10 +80,11 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 		deleteBtnIcon.y = (h - 20 >> 1) + 1;
 	}
 
-	private function deleteClickHandler(event:MouseEvent):void {
-		if (parent is DataGroup) {
-			(parent as DataGroup).dataProvider.removeItemAt(itemIndex);
+	private function downHandler(event:MouseEvent):void {
+		if (event.currentTarget == deleteBtnIcon) {
+			if (parent is DataGroup) (parent as DataGroup).dataProvider.removeItemAt(itemIndex);
 		}
+		else event.stopImmediatePropagation();
 	}
 }
 }
