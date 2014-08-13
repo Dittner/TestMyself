@@ -9,38 +9,64 @@
 }
 
 @font-face {
-    src: url("/fonts/verdana.ttf");
-    font-family: Verdana;
-    embedAsCFF: true;
-}
-@font-face {
-    src: url("/fonts/verdanab.ttf");
-    font-family: Verdana;
-    font-weight: bold;
+    src: url("/fonts/Roboto-Light.ttf");
+    font-family: RobotoLight;
     embedAsCFF: true;
 }
 
+@font-face {
+    src: url("/fonts/Roboto-Regular.ttf");
+    font-family: Roboto;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/Roboto-Bold.ttf");
+    font-family: Roboto;
+    fontWeight: bold;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/RobotoCondensed-Bold.ttf");
+    font-family: RobotoCond;
+    font-weight: bold;
+    embedAsCFF: true;
+}
 
 /**************************** MX **************************/
 
 @font-face {
-    src: url("/fonts/verdana.ttf");
-    font-family: VerdanaMX;
-    embedAsCFF: false;
-}
-@font-face {
-    src: url("/fonts/verdanab.ttf");
-    font-family: VerdanaMX;
-    font-weight: bold;
+    src: url("/fonts/Roboto-Regular.ttf");
+    font-family: RobotoMX;
     embedAsCFF: false;
 }
 
+@font-face {
+    src: url("/fonts/Roboto-Light.ttf");
+    font-family: RobotoLightMX;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/Roboto-Bold.ttf");
+    font-family: RobotoMX;
+    fontWeight: bold;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/RobotoCondensed-Bold.ttf");
+    font-family: RobotoCondMX;
+    font-weight: bold;
+    embedAsCFF: false;
+}
 
 /***********************************************************/
 
 global {
     fontSize: 14px;
-    fontFamily: Verdana;
+    fontFamily: Roboto;
     fontWeight: normal;
     contentBackgroundAlpha: 0;
     backgroundColor: 0;
@@ -49,10 +75,9 @@ global {
 
 s|Button {
     fontSize: 14px;
-    fontFamily: Verdana;
+    fontFamily: Roboto;
     fontWeight: normal;
 }
-
 
 /************************** INPUT **************************/
 
@@ -60,7 +85,7 @@ input|TextInputForm {
     skinClass: ClassReference("dittner.testmyself.view.common.input.TextInputFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: VerdanaMX;
+    fontFamily: RobotoMX;
     fontSize: 14px;
     color: #666666;
 }
@@ -69,7 +94,7 @@ input|TextAreaForm {
     skinClass: ClassReference("dittner.testmyself.view.common.input.TextAreaFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: VerdanaMX;
+    fontFamily: RobotoMX;
     fontSize: 16px;
     color: #333333;
 }
@@ -79,7 +104,7 @@ list|ListForm {
     skinClass: ClassReference("dittner.testmyself.view.common.list.ListFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: Verdana;
+    fontFamily: RobotoMX;
     fontSize: 16px;
     color: #333333;
 }

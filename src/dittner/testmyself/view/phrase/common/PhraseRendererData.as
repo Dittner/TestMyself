@@ -2,6 +2,8 @@ package dittner.testmyself.view.phrase.common {
 import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.view.common.mediator.mediator_internal;
 
+import flash.utils.ByteArray;
+
 use namespace mediator_internal;
 
 public class PhraseRendererData {
@@ -26,6 +28,11 @@ public class PhraseRendererData {
 	//  translation
 	//--------------------------------------
 	public function get translation():String {return _phrase.translation;}
+
+	//--------------------------------------
+	//  translation
+	//--------------------------------------
+	public function get audio():ByteArray {return _phrase.audioRecord;}
 
 	//--------------------------------------
 	//  horizontalLayout

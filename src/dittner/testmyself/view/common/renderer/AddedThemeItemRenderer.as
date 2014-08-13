@@ -13,7 +13,7 @@ import mx.core.UIComponent;
 import spark.components.DataGroup;
 
 public class AddedThemeItemRenderer extends ItemRendererBase {
-	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_WHITE);
+	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const SELECTED_COLOR:uint = AppColors.LIST_ITEM_SELECTION;
 

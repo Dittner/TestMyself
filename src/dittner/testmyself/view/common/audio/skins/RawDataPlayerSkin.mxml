@@ -6,12 +6,11 @@
         xmlns:button="dittner.testmyself.view.common.button.*">
 
     <fx:Metadata>
-        [HostComponent("dittner.testmyself.view.common.audio.AudioRecordPlayer")]
+        [HostComponent("dittner.testmyself.view.common.audio.RawDataPlayer")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
         import dittner.testmyself.view.common.utils.AppColors;
-        import dittner.testmyself.view.common.utils.Fonts;
 
         private var preloaderMask:Shape = new Shape();
         override protected function updateDisplayList(w:Number, h:Number):void {
@@ -34,21 +33,6 @@
         <s:State name="recorded"/>
         <s:State name="playing"/>
     </s:states>
-
-    <s:Label text="Запись голоса"
-             fontFamily="{Fonts.VERDANA}"
-             fontSize="14"
-             color="{AppColors.TEXT_DARK}"/>
-
-    <s:Rect width="100%" top="20" bottom="0">
-        <s:fill>
-            <s:SolidColor alpha="0"/>
-        </s:fill>
-        <s:stroke>
-            <s:Stroke color="{AppColors.INPUT_BORDER}"/>
-        </s:stroke>
-    </s:Rect>
-
 
     <button:BitmapButton id="recordBtn"
                          upImage="@Embed(source='/assets/voiceRecording/record_btn_up.png')"
@@ -139,7 +123,7 @@
                              description="Удалить аудиозапись"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
-                 top="40" left="50"
+                 top="37" left="50"
                  fontSize="14"
                  color="{AppColors.TEXT_DARK}"/>
 
@@ -147,7 +131,7 @@
     </s:Group>
     <s:Label visible="true" visible.normal="false"
              text="{hostComponent.recorder.timeLength}"
-             top="40" right="50"
+             top="37" right="50"
              left.recording="50"
              right.recording="auto"
              fontSize="14"

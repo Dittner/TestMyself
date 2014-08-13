@@ -1,5 +1,6 @@
 package dittner.testmyself.view.common.audio {
 import dittner.testmyself.utils.pendingInvalidation.invalidateOf;
+import dittner.testmyself.view.common.audio.utils.PlayerUtils;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -133,7 +134,7 @@ public class VoiceRecorder extends EventDispatcher {
 	[Bindable("playbackPositionChanged")]
 	public function get playbackTime():String {
 		const time:Number = recordedBytes.position / 4 / (microphone.rate * 1000);
-		return convertToHHMMSS(time);
+		return PlayerUtils.convertToHHMMSS(time);
 	}
 
 	//--------------------------------------
@@ -142,7 +143,7 @@ public class VoiceRecorder extends EventDispatcher {
 	[Bindable("recordedBytesLengthChanged")]
 	public function get timeLength():String {
 		const time:Number = recordedBytes.length / 4 / (microphone.rate * 1000);
-		return convertToHHMMSS(time);
+		return PlayerUtils.convertToHHMMSS(time);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -244,26 +245,4 @@ public class VoiceRecorder extends EventDispatcher {
 		return recordedBytes ? recordedBytes.length / 4 : 0;
 	}
 }
-}
-
-/**
- * http://www.codebelt.com/actionscript-3/as3-convert-seconds-to-hours-minutes-seconds/
- * */
-function convertToHHMMSS(seconds:Number):String {
-	var s:Number = seconds % 60;
-	var m:Number = Math.floor((seconds % 3600 ) / 60);
-	var h:Number = Math.floor(seconds / (60 * 60));
-
-	var hourStr:String = (h == 0) ? "" : doubleDigitFormat(h) + ":";
-	var minuteStr:String = doubleDigitFormat(m) + ":";
-	var secondsStr:String = doubleDigitFormat(s);
-
-	return hourStr + minuteStr + secondsStr;
-}
-
-function doubleDigitFormat(num:uint):String {
-	if (num < 10) {
-		return ("0" + num);
-	}
-	return String(num);
 }

@@ -8,8 +8,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ThemeItemRenderer extends ItemRendererBase {
-	private static const THEME_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_GRAY);
-	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_WHITE);
+	private static const THEME_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_GRAY);
+	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;
 	private static const SELECTED_COLOR:uint = AppColors.LIST_ITEM_SELECTION;

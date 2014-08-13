@@ -63,7 +63,7 @@
              left="{PAD}" right="{PAD}" top="{PAD}" bottom="{PAD}"
              textAlign="center" verticalAlign="middle"
              text="{text}"
-             fontFamily="{Fonts.VERDANA}"
+             fontFamily="{Fonts.ROBOTO}"
              fontSize="12"
              maxDisplayedLines="2"
              color="{AppColors.TEXT_RED}"/>

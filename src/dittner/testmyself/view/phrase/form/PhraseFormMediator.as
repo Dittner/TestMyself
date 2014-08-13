@@ -69,13 +69,13 @@ public class PhraseFormMediator extends RequestMediator {
 		var phrase:Phrase = new Phrase();
 		phrase.origin = form.originArea.text;
 		phrase.translation = form.translationArea.text;
-		phrase.audioRecord = hasAudio ? form.audioRecorder.recorder.recordedBytes : null;
+		phrase.audioRecord = hasAudio ? form.audioRecorder.recordedBytes : null;
 		return phrase;
 	}
 
 	private function get hasAudio():Boolean {
-		if (!form.audioRecorder.recorder.recordedBytes) return false;
-		return form.audioRecorder.recorder.recordedBytes.length > 0;
+		if (!form.audioRecorder.recordedBytes) return false;
+		return form.audioRecorder.recordedBytes.length > 0;
 	}
 
 	protected function getSelectedThemes():Array {

@@ -33,7 +33,7 @@ import spark.core.SpriteVisualElement;
 //
 //----------------------------------------------------------------------------------------------
 
-public class AudioRecordPlayer extends SkinnableComponent {
+public class RawDataPlayer extends SkinnableComponent {
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -55,7 +55,7 @@ public class AudioRecordPlayer extends SkinnableComponent {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	public function AudioRecordPlayer() {
+	public function RawDataPlayer() {
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -170,6 +170,11 @@ public class AudioRecordPlayer extends SkinnableComponent {
 		internalState = NORMAL;
 	}
 
+	public function clear():void {
+		stopRecording();
+		stopPlaying();
+		removeRecord();
+	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -226,12 +231,6 @@ public class AudioRecordPlayer extends SkinnableComponent {
 		}
 		return super.getCurrentSkinState();
 	}
-
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Methods
-	//
-	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	//

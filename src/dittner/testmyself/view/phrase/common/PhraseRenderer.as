@@ -3,14 +3,13 @@ import dittner.testmyself.view.common.renderer.*;
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
 
-import flash.display.BlendMode;
 import flash.display.Graphics;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class PhraseRenderer extends ItemRendererBase {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 18, AppColors.TEXT_BLACK, true);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 16, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK, true);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 
@@ -18,6 +17,7 @@ public class PhraseRenderer extends ItemRendererBase {
 	private static const GAP:uint = 10;
 	private static const SELECTED_COLOR:uint = AppColors.LIST_ITEM_SELECTION;
 	private static const COLOR:uint = AppColors.WHITE;
+	private static const SEP_COLOR:uint = 0xc5c5cd;
 
 	public function PhraseRenderer() {
 		super();
@@ -108,28 +108,29 @@ public class PhraseRenderer extends ItemRendererBase {
 
 		if (selected) {
 			g.beginFill(SELECTED_COLOR);
-			g.drawRect(PAD / 2, 0, w - PAD, h);
+			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}
 		else {
+			g.beginFill(COLOR, 1);
+			g.drawRect(0, 0, w, h);
+			g.endFill();
+
+			g.lineStyle(1, SEP_COLOR, 0.5);
+			g.moveTo(PAD, h);
+			g.lineTo(w - 2 * PAD, h);
+
 			if (phraseData.horizontalLayout && descriptionTf.visible) {
-				g.beginFill(COLOR);
-				g.drawRect(PAD / 2, 1, w / 2 - 1 - PAD / 2, h - 2);
-				g.drawRect(w / 2 + 1, 1, w / 2 - 1 - PAD / 2, h - 2);
-				g.endFill();
-			}
-			else {
-				g.beginFill(COLOR);
-				g.drawRect(PAD / 2, 1, w - PAD, h - 2);
-				g.endFill();
+				g.moveTo(w / 2, 0);
+				g.lineTo(w / 2, h);
 			}
 		}
 
-		titleTf.blendMode = selected ? BlendMode.INVERT : BlendMode.NORMAL;
+		titleTf.textColor = selected ? 0xffFFff : 0;
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
 		if (descriptionTf.visible) {
-			descriptionTf.blendMode = selected ? BlendMode.INVERT : BlendMode.NORMAL;
+			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = (phraseData.horizontalLayout ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = (phraseData.horizontalLayout ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
 		}
@@ -142,5 +143,6 @@ public class PhraseRenderer extends ItemRendererBase {
 		invalidateSize();
 		invalidateDisplayList();
 	}
+
 }
 }

@@ -78,30 +78,31 @@
             <s:Spacer height="10%"/>
 
             <s:Label fontFamily="{Fonts.VANTA_THIN}"
-                     fontSize="40"
+                     fontSize="45"
                      color="{AppColors.YELLOW}"
                      width="100%"
-                     text="СИСТЕМА САМОСТОЯТЕЛЬНОГО ТЕСТИРОВАНИЯ ЗНАНИЙ НЕМЕЦКОГО ЯЗЫКА"/>
-            <!-- text="Система самостоятельного тестирования знаний немецкого языка"/>-->
+                     text="Система самостоятельного тестирования знаний немецкого языка"/>
+            <!-- text="СИСТЕМА САМОСТОЯТЕЛЬНОГО ТЕСТИРОВАНИЯ ЗНАНИЙ НЕМЕЦКОГО ЯЗЫКА"/>-->
+
 
             <s:Spacer height="10%"/>
 
-            <s:Label fontFamily="{Fonts.VERDANA}"
-                     fontSize="12"
+            <s:Label fontFamily="{Fonts.ROBOTO}"
+                     fontSize="14"
                      fontWeight="bold"
                      width="100%"
                      color="#ddDDdd"
-                     text="TestMyself" paddingBottom="5"/>
+                     text="TestMyself" paddingBottom="0"/>
 
-            <s:Label fontFamily="{Fonts.VERDANA}"
-                     fontSize="12"
+            <s:Label fontFamily="{Fonts.ROBOTO_LIGHT}"
+                     fontSize="14"
                      width="100%"
                      color="#ddDDdd"
                      verticalAlign="middle"
                      text="{ABOUT}"/>
         </s:VGroup>
 
-        <components:DataBaseInfoBoard width="500" right="0" height="120" bottom="0"
+        <components:DataBaseInfoBoard width="500" right="0" height="125" bottom="0"
                                       info="{dataBaseInfo}"/>
     </s:Group>
 

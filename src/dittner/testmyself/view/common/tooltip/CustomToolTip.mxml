@@ -30,16 +30,23 @@
             return FlexGlobals.topLevelApplication.stage;
         }
 
+        private var globalBounds:Rectangle;
         public function orient(globalBounds:Rectangle):void {
-            validateSize();
+            this.globalBounds = globalBounds;
+            invalidateDisplayList();
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+
+            if (!globalBounds) return;
 
             var arrowDirection:String;
-
-            if (globalBounds.x < getExplicitOrMeasuredWidth() + 5) {
+            if (globalBounds.x < w + 5) {
                 arrowDirection = ToolTipPos.LEFT;
             }
             else if (globalBounds.x > appStage.fullScreenWidth - 50) {
-                arrowDirection = globalBounds.y < getExplicitOrMeasuredHeight() ? ToolTipPos.TOP : ToolTipPos.RIGHT;
+                arrowDirection = globalBounds.y < h ? ToolTipPos.TOP : ToolTipPos.RIGHT;
             }
             else {
                 arrowDirection = globalBounds.y < appStage.fullScreenHeight / 2 ? ToolTipPos.TOP : ToolTipPos.BOTTOM;
@@ -47,8 +54,7 @@
 
             setArrowDirection(arrowDirection);
 
-
-            var arrowPos:Point = getArrowPosition(arrowDirection);
+            var arrowPos:Point = getArrowPosition(arrowDirection, w, h);
             if (arrowDirection == ToolTipPos.LEFT) {
                 x = globalBounds.x + globalBounds.width + arrowPos.x + 5;
                 y = globalBounds.y + globalBounds.height / 2 - arrowPos.y;
@@ -65,7 +71,6 @@
                 x = globalBounds.x + globalBounds.width / 2 - arrowPos.x;
                 y = globalBounds.y - arrowPos.y;
             }
-
         }
 
         //--------------------------------------
@@ -99,22 +104,22 @@
         //  arrowLocalPos
         //--------------------------------------
         private var arrowPos:Point = new Point();
-        private function getArrowPosition(direction:String):Point {
+        private function getArrowPosition(direction:String, w:Number, h:Number):Point {
             switch (direction) {
                 case ToolTipPos.TOP :
-                    arrowPos.x = getExplicitOrMeasuredWidth() - 37;
+                    arrowPos.x = w - 37;
                     arrowPos.y = 2;
                     break;
                 case ToolTipPos.BOTTOM :
-                    arrowPos.x = getExplicitOrMeasuredWidth() - 37;
-                    arrowPos.y = getExplicitOrMeasuredHeight() - 2;
+                    arrowPos.x = w - 37;
+                    arrowPos.y = h - 2;
                     break;
                 case ToolTipPos.LEFT :
                     arrowPos.x = 2;
                     arrowPos.y = 37;
                     break;
                 case ToolTipPos.RIGHT :
-                    arrowPos.x = getExplicitOrMeasuredWidth() - 2;
+                    arrowPos.x = w - 2;
                     arrowPos.y = 37;
                     break;
                 default :
@@ -165,9 +170,9 @@
     <s:Label left="25" right="25" top="25" bottom="25"
              verticalAlign="middle"
              textAlign="center"
-             fontFamily="{Fonts.VERDANA}"
+             fontFamily="{Fonts.ROBOTO}"
              fontWeight="bold"
-             fontSize="14"
+             fontSize="16"
              color="{AppColors.TEXT_WHITE}"
              text="{text}">
         <s:filters>

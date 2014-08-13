@@ -11,7 +11,7 @@ import spark.skins.mobile.ListSkin;
 
 public class ListFormSkin extends ListSkin {
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_DARK);
 	private static const TITLE_HEIGHT:uint = 20;
 
 	[Embed(source="/assets/input/input_bg.png", scaleGridLeft='15', scaleGridRight='16', scaleGridTop='15', scaleGridBottom='16')]

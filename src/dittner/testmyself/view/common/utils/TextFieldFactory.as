@@ -23,7 +23,7 @@ public class TextFieldFactory {
 		textField.embedFonts = useEmbedFonts;
 		textField.antiAliasType = AntiAliasType.ADVANCED;
 		textField.gridFitType = GridFitType.PIXEL;
-		textField.sharpness = 100;
+		textField.sharpness = 0;
 		textField.defaultTextFormat = textFormat;
 		return textField;
 	}

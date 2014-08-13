@@ -17,7 +17,7 @@ public class DeferredOperationManager extends Proxy implements IDeferredOperatio
 	private var commandsQueue:Array = [];
 	private var timeOutFuncIndex:Number;
 
-	public function push(op:IDeferredOperation):void {
+	public function add(op:IDeferredOperation):void {
 		commandsQueue.push(op);
 		executeNextCommand();
 	}

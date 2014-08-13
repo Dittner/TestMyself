@@ -43,18 +43,17 @@
         </s:fill>
     </s:Rect>
 
-    <s:VGroup top="15" left="20" right="20" gap="0">
-        <s:Label fontFamily="{Fonts.VERDANA}"
-                 fontSize="12"
+    <s:VGroup top="10" left="20" right="20" gap="0">
+        <s:Label fontFamily="{Fonts.ROBOTO}"
+                 fontSize="14"
                  fontWeight="bold"
-                 paddingBottom="5"
-                 color="#666666"
+                 color="#333333"
                  text="База данных"/>
 
         <s:Label id="infoLbl"
-                 fontFamily="{Fonts.VERDANA}"
-                 fontSize="12"
-                 color="#666666"/>
+                 fontFamily="{Fonts.ROBOTO_LIGHT}"
+                 fontSize="14"
+                 color="#333333"/>
     </s:VGroup>
 
 

@@ -29,6 +29,7 @@ public class InsertPhraseSQLOperation extends DeferredOperation {
 		try {
 			phaseRunner.addPhase(PhraseValidationPhase, phrase);
 			phaseRunner.addPhase(ThemesValidationPhase, themes);
+			phaseRunner.addPhase(MP3EncodingPhase, phrase);
 			phaseRunner.addPhase(PhraseInsertTransactionPhase, sqlRunner, phrase);
 			phaseRunner.addPhase(ThemesInsertTransactionPhase, sqlRunner, themes);
 			phaseRunner.addPhase(ThematicTransUnitInsertTransactionPhase, sqlRunner, phrase, themes);

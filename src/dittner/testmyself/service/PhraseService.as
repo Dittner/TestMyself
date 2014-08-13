@@ -46,48 +46,48 @@ public class PhraseService extends Proxy {
 	//----------------------------------------------------------------------------------------------
 
 	private function createDB():void {
-		deferredOperationManager.push(new CreatePhraseDataBaseSQLOperation(this));
+		deferredOperationManager.add(new CreatePhraseDataBaseSQLOperation(this));
 	}
 
 	public function addPhrase(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new InsertPhraseSQLOperation(sqlRunner, requestMsg.data.phrase, requestMsg.data.themes);
 		op.addCompleteCallback(phraseAdded);
 		requestHandler(requestMsg, op);
-		deferredOperationManager.push(op);
+		deferredOperationManager.add(op);
 	}
 
 	public function updatePhrase(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new UpdatePhraseSQLOperation(sqlRunner, requestMsg.data.phrase, requestMsg.data.themes);
 		op.addCompleteCallback(phraseUpdated);
 		requestHandler(requestMsg, op);
-		deferredOperationManager.push(op);
+		deferredOperationManager.add(op);
 	}
 
 	public function removePhrase(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new DeletePhraseSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
 		op.addCompleteCallback(phraseRemoved);
 		requestHandler(requestMsg, op);
-		deferredOperationManager.push(op);
+		deferredOperationManager.add(op);
 	}
 
 	public function getPhrases(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new SelectPhraseSQLOperation(sqlRunner);
 		op.addCompleteCallback(phrasesLoaded);
 		requestHandler(requestMsg, op);
-		deferredOperationManager.push(op);
+		deferredOperationManager.add(op);
 	}
 
 	public function getThemes(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new SelectPhraseThemeSQLOperation(sqlRunner);
 		op.addCompleteCallback(phraseThemesLoaded);
 		requestHandler(requestMsg, op);
-		deferredOperationManager.push(op);
+		deferredOperationManager.add(op);
 	}
 
 	public function getSelectedThemesID(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new SelectThematicPhraseSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
 		requestHandler(requestMsg, op);
-		deferredOperationManager.push(op);
+		deferredOperationManager.add(op);
 	}
 
 	//----------------------------------------------------------------------------------------------

@@ -25,7 +25,7 @@ public class EditorBg extends UIComponent {
 
 	private var toolIcon:Bitmap;
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.VERDANAMX, 14, AppColors.TEXT_LIGHT, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 16, AppColors.TEXT_LIGHT, true);
 	public static const HEADER_HEIGHT:uint = 40;
 	public static const PAD:uint = 20;
 	public static const VOFFSET:uint = 10;
@@ -103,7 +103,7 @@ public class EditorBg extends UIComponent {
 		g.clear();
 
 		g.beginFill(AppColors.EDITOR_BORDER, 1);
-		g.drawRect(0, VOFFSET, w, h-VOFFSET);
+		g.drawRect(0, VOFFSET, w, h - VOFFSET);
 		g.endFill();
 
 		g.beginFill(AppColors.EDITOR_CONTENT_BG, 1);

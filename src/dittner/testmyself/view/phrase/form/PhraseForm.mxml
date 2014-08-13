@@ -57,7 +57,7 @@
             currentState = "edit";
             if (originArea) originArea.text = origin
             if (translationArea) translationArea.text = translation;
-            if (audioRecorder) audioRecorder.audioComment = audioRecord;
+            if (audioRecorder) audioRecorder.mp3Data = audioRecord;
         }
 
         public function remove(origin:String, translation:String):void {
@@ -80,11 +80,7 @@
             if (originArea) originArea.text = "";
             if (translationArea) translationArea.text = "";
             if (addThemeInput) addThemeInput.text = "";
-            if (audioRecorder) {
-                audioRecorder.stopRecording();
-                audioRecorder.stopPlaying();
-                audioRecorder.removeRecord();
-            }
+            if (audioRecorder) audioRecorder.clear();
             themes = new ArrayCollection();
         }
 
@@ -208,9 +204,8 @@
                             title="Перевод"/>
 
 
-        <audio:AudioRecordPlayer id="audioRecorder"
-                                 height="{RECORDER_HEI}"
-                                 skinClass="dittner.testmyself.view.common.audio.skins.AudioRecordPlayerSkin"/>
+        <audio:AudioRecorder id="audioRecorder"
+                             height="{RECORDER_HEI}"/>
 
         <list:ListForm id="themesList"
                        width="{THEMES_LIST_WID}"
@@ -243,7 +238,7 @@
                         label.edit="Сохранить"
                         label.remove="Удалить"
                         enabled.remove="true"
-                        enabled="{applyBtnEnabled(audioRecorder.recording)}"/>
+                        enabled="{applyBtnEnabled(audioRecorder.isRecording)}"/>
 
 
     <!--REMOVE MODE-->

@@ -57,6 +57,7 @@ public class MainViewMediator extends RequestMediator {
 	private function showScreenInfoList(res:CommandResult):void {
 		var screenInfos:Array = res.data as Array;
 		mainView.screenListProvider = new ArrayCollection(screenInfos);
+		mainView.screenList.selectedIndex = 0;
 	}
 
 	private var lockRequestNum:int = 0;
