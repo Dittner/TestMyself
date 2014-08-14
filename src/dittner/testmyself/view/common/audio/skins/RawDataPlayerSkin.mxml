@@ -41,12 +41,12 @@
                          visible.recording="false"
                          visible.recorded="false"
                          visible.playing="false"
-                         top="30"
+                         top="0"
                          left="10"
                          description="Начать запись голоса"/>
 
     <s:Label text="Плеер не содержит аудиозаписи"
-             top="30" bottom="10"
+             top="0" bottom="10"
              left="50" right="10"
              verticalAlign="middle"
              visible.normal="true"
@@ -67,11 +67,11 @@
         <button:BitmapButton id="stopBtn"
                              upImage="@Embed(source='/assets/voiceRecording/stop_record_btn_up.png')"
                              downImage="@Embed(source='/assets/voiceRecording/stop_record_btn_down.png')"
-                             top="30"
+                             top="0"
                              left="10"/>
 
         <s:SpriteVisualElement id="recordingAnimation"
-                               top="41" left="100" right="10"
+                               top="11" left="100" right="10"
                                mask="{preloaderMask}"/>
 
     </s:Group>
@@ -88,7 +88,7 @@
                              visible="false"
                              visible.recorded="true"
                              visible.playing="false"
-                             top="30"
+                             top="0"
                              left="10"/>
 
         <button:BitmapButton id="pauseBtn"
@@ -97,7 +97,7 @@
                              visible="false"
                              visible.recorded="false"
                              visible.playing="true"
-                             top="30"
+                             top="0"
                              left="10"/>
 
 
@@ -109,7 +109,7 @@
                                      value="@{hostComponent.recorder.playbackFramesPosition}"
                                      snapInterval="1"
                                      liveDragging="true"
-                                     top="33"
+                                     top="3"
                                      left="100"
                                      right="100"
                                      height="30"
@@ -118,12 +118,12 @@
         <button:BitmapButton id="removeRecordBtn"
                              upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
                              downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
-                             top="30"
+                             top="0"
                              right="10"
                              description="Удалить аудиозапись"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
-                 top="37" left="50"
+                 top="7" left="50"
                  fontSize="14"
                  color="{AppColors.TEXT_DARK}"/>
 
@@ -131,7 +131,7 @@
     </s:Group>
     <s:Label visible="true" visible.normal="false"
              text="{hostComponent.recorder.timeLength}"
-             top="37" right="50"
+             top="7" right="50"
              left.recording="50"
              right.recording="auto"
              fontSize="14"

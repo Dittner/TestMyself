@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:editor="dittner.testmyself.view.common.editor.*"
+         xmlns:list="dittner.testmyself.view.common.list.*"
+         xmlns:button="dittner.testmyself.view.common.button.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.view.common.editor.EditorBg;
+        import dittner.testmyself.view.common.utils.AppColors;
+
+        import mx.collections.ArrayCollection;
+
+        private static const FOOTER_HEI:uint = 50;
+
+        //--------------------------------------
+        //  themes
+        //--------------------------------------
+        private var _themes:ArrayCollection;
+        [Bindable("themesChanged")]
+        public function get themes():ArrayCollection {return _themes;}
+        public function set themes(value:ArrayCollection):void {
+            if (_themes != value) {
+                _themes = value;
+                dispatchEvent(new Event("themesChanged"));
+            }
+        }
+
+        public function close():void {
+            themes = null;
+        }
+
+        //--------------------------------------
+        //  hasThemes
+        //--------------------------------------
+
+        [Bindable("themesChanged")]
+        public function get hasThemes():Boolean {return themes && themes.length > 0;}
+        ]]></fx:Script>
+
+
+    <editor:EditorBg width="100%"
+                     height="100%"
+                     title="Фильтровать"
+                     mode="filter"/>
+
+    <s:Rect left="{EditorBg.BORDER_THICKNESS}"
+            right="{EditorBg.BORDER_THICKNESS}"
+            bottom="{EditorBg.BORDER_THICKNESS}"
+            height="{FOOTER_HEI}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <list:ListForm id="themesList"
+                   left="{EditorBg.BORDER_THICKNESS}"
+                   right="{EditorBg.BORDER_THICKNESS}"
+                   top="{EditorBg.HEADER_HEIGHT}"
+                   bottom="{FOOTER_HEI}"
+                   dataProvider="{themes}"
+                   title="Список тем"
+                   showTitle="false"
+                   itemRenderer="dittner.testmyself.view.common.renderer.ThemeItemRenderer"
+                   allowMultipleSelection="true">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <s:HGroup width="100%" height="{FOOTER_HEI}"
+              bottom="0"
+              paddingLeft="15" paddingRight="15" gap="15" verticalAlign="middle">
+        <button:CancelButton id="cancelBtn"
+                             width="100%"
+                             label="Отменить"/>
+
+        <button:ApplyButton id="applyBtn"
+                            width="100%"
+                            label="Применить"/>
+    </s:HGroup>
+
+
+    <s:Label text="Нет добавленных тем"
+             visible="{!hasThemes}"
+             fontSize="14"
+             color="{AppColors.TEXT}"
+             verticalCenter="0" horizontalCenter="0"/>
+
+</s:Group>

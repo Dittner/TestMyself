@@ -12,14 +12,19 @@ import flash.filesystem.FileStream;
 import flash.utils.ByteArray;
 
 public class MP3EncodingPhase extends PhaseOperation {
-	public function MP3EncodingPhase(transUnit:TransUnit) {
+	public function MP3EncodingPhase(transUnit:TransUnit, origin:TransUnit = null) {
 		this.transUnit = transUnit;
+		this.origin = origin;
 	}
 
 	private var transUnit:TransUnit;
+	private var origin:TransUnit;
 
 	override public function execute():void {
-		if (transUnit.audioRecord) {
+		if (origin && origin.audioRecord == transUnit.audioRecord) {
+			dispatchComplete();
+		}
+		else if (transUnit.audioRecord && transUnit.audioRecord.length > 100) {
 			try {
 				MP3Writer.encodeRawData(transUnit.audioRecord, encodeCompleteHandler);
 			}

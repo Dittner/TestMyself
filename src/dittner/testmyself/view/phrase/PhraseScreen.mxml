@@ -5,6 +5,8 @@
                  xmlns:list="dittner.testmyself.view.phrase.list.*"
                  xmlns:toolbar="dittner.testmyself.view.phrase.toolbar.*"
                  xmlns:editor="dittner.testmyself.view.phrase.form.*"
+                 xmlns:mp3="dittner.testmyself.view.common.audio.mp3.*"
+                 xmlns:filter="dittner.testmyself.view.common.filter.*"
                  maxWidth="{AppSizes.SCREEN_MAX_WIDTH}"
                  currentState="inactive"
                  horizontalCenter="0">
@@ -35,8 +37,8 @@
         override protected function updateDisplayList(w:Number, h:Number):void {
             super.updateDisplayList(w, h);
             if (form) {
-                form.width = Math.min((w - 2 * padding), AppSizes.EDITOR_MAX_WIDTH);
-                form.x = w - form.width - padding;
+                form.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                form.x = w - form.width;
             }
         }
         ]]></fx:Script>
@@ -52,18 +54,18 @@
     <s:Rect width="100%" height="100%">
         <s:fill>
             <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
-                          fillMode="repeat" repeat="true"/>
+                          fillMode="repeat"/>
         </s:fill>
     </s:Rect>
 
     <!--header bg-->
-    <s:Rect width="100%" height="{headerHeight}">
-        <s:fill>
+    <s:Rect width="100%" height="{HEADER_HEI}">
+    <s:fill>
             <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
         </s:fill>
     </s:Rect>
 
-    <s:HGroup width="100%" height="{headerHeight}"
+    <s:HGroup width="100%" height="{HEADER_HEI}"
               verticalAlign="middle"
               paddingLeft="{padding}" paddingRight="{padding}">
 
@@ -77,10 +79,10 @@
         <toolbar:PhraseToolbar id="toolbar"
                                excludeFrom="inactive"
                                width="100%"
-                               height="{headerHeight}"/>
+                               height="{HEADER_HEI}"/>
     </s:HGroup>
 
-    <s:Scroller left="-1" right="-1" top="{headerHeight+padding}" bottom="{padding}"
+    <s:Scroller left="-1" right="-1" top="{HEADER_HEI}" bottom="{FOOTER_HEI}"
                 excludeFrom="inactive"
                 minViewportInset="1"
                 hasFocusableChildren="false">
@@ -97,6 +99,23 @@
 
     </s:Scroller>
 
+    <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
+             excludeFrom="inactive">
+        <s:Rect width="100%" bottom="0" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+            </s:fill>
+        </s:Rect>
+
+        <mp3:MP3Player id="player"
+                       verticalCenter="0"
+                       left="0"
+                       width="50%"
+                       removeRecordEnabled="false"
+                       audioComment="{list.selectedItem.audio}"
+                       skinClass="dittner.testmyself.view.common.audio.skins.MP3PlayerSkin"/>
+    </s:Group>
+
 
     <s:Group width="100%" height="100%"
              excludeFrom="inactive"
@@ -104,13 +123,21 @@
              mouseEnabled.edit="true" mouseEnabled="false">
         <s:Rect width="100%" height="100%">
             <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_BORDER}" alpha=".75"/>
+                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
             </s:fill>
         </s:Rect>
 
         <editor:PhraseForm id="form"
-                           bottom="{padding}"
-                           top="{headerHeight}"/>
+                           visible="false"
+                           bottom="0"
+                           top="{HEADER_HEI}"/>
+
+        <filter:ThemeFilter id="filter"
+                            width="350"
+                            visible="false"
+                            right="0"
+                            bottom="0"
+                            top="{HEADER_HEI}"/>
     </s:Group>
 
 </core:ScreenBase>

@@ -129,10 +129,12 @@ public class PhraseRenderer extends ItemRendererBase {
 		titleTf.textColor = selected ? 0xffFFff : 0;
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
+		titleTf.alpha = phraseData.audio ? 1 : .6;
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = (phraseData.horizontalLayout ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = (phraseData.horizontalLayout ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
+			descriptionTf.alpha = phraseData.audio ? 1 : .6;
 		}
 	}
 

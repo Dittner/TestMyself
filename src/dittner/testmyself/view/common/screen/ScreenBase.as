@@ -1,4 +1,6 @@
 package dittner.testmyself.view.common.screen {
+import dittner.testmyself.view.common.utils.AppSizes;
+
 import flash.events.Event;
 
 import spark.components.Group;
@@ -7,6 +9,8 @@ public class ScreenBase extends Group {
 	public function ScreenBase() {
 		super();
 	}
+	public const HEADER_HEI:int = AppSizes.SCREEN_HEADER_HEIGHT;
+	public const FOOTER_HEI:int = 50;
 
 	//--------------------------------------
 	//  title
@@ -18,19 +22,6 @@ public class ScreenBase extends Group {
 		if (_title != value) {
 			_title = value;
 			dispatchEvent(new Event("titleChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  headerHeight
-	//--------------------------------------
-	private var _headerHeight:Number = 35;
-	[Bindable("headerHeightChanged")]
-	public function get headerHeight():Number {return _headerHeight;}
-	public function set headerHeight(value:Number):void {
-		if (_headerHeight != value) {
-			_headerHeight = value;
-			dispatchEvent(new Event("headerHeightChanged"));
 		}
 	}
 

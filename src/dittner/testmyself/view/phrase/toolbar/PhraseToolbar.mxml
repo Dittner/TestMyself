@@ -55,7 +55,7 @@
                        image="@Embed(source='/assets/tools/trans_inversion.png')"/>
 
     <button:ToolButton id="filterBtn"
-                       description="Инвертировать перевод"
+                       description="Фильтровать по темам"
                        image="@Embed(source='/assets/tools/filter.png')"/>
 
 </s:Group>

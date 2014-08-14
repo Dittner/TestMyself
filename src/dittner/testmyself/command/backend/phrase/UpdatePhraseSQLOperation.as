@@ -12,14 +12,16 @@ import dittner.testmyself.model.phrase.Phrase;
 
 public class UpdatePhraseSQLOperation extends DeferredOperation {
 
-	public function UpdatePhraseSQLOperation(sqlRunner:SQLRunner, phrase:Phrase, phraseThemes:Array) {
+	public function UpdatePhraseSQLOperation(sqlRunner:SQLRunner, phrase:Phrase, origin:Phrase, phraseThemes:Array) {
 		this.sqlRunner = sqlRunner;
 		this.phrase = phrase;
+		this.origin = origin;
 		this.themes = phraseThemes;
 	}
 
 	private var sqlRunner:SQLRunner;
 	private var phrase:Phrase;
+	private var origin:Phrase;
 	private var themes:Array;
 
 	override public function process():void {
@@ -29,7 +31,7 @@ public class UpdatePhraseSQLOperation extends DeferredOperation {
 		try {
 			phaseRunner.addPhase(PhraseValidationPhase, phrase);
 			phaseRunner.addPhase(ThemesValidationPhase, themes);
-			phaseRunner.addPhase(MP3EncodingPhase, phrase);
+			phaseRunner.addPhase(MP3EncodingPhase, phrase, origin);
 			phaseRunner.addPhase(PhraseUpdateTransactionPhase, sqlRunner, phrase);
 			phaseRunner.addPhase(DeleteThematicPhraseTransactionPhase, sqlRunner, phrase.id);
 			phaseRunner.addPhase(ThemesInsertTransactionPhase, sqlRunner, themes);

@@ -57,7 +57,7 @@ public class PhraseService extends Proxy {
 	}
 
 	public function updatePhrase(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new UpdatePhraseSQLOperation(sqlRunner, requestMsg.data.phrase, requestMsg.data.themes);
+		var op:IDeferredOperation = new UpdatePhraseSQLOperation(sqlRunner, requestMsg.data.phrase, requestMsg.data.origin, requestMsg.data.themes);
 		op.addCompleteCallback(phraseUpdated);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);

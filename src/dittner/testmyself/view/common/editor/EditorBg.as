@@ -1,5 +1,6 @@
 package dittner.testmyself.view.common.editor {
 import dittner.testmyself.view.common.utils.AppColors;
+import dittner.testmyself.view.common.utils.AppSizes;
 import dittner.testmyself.view.common.utils.Fonts;
 import dittner.testmyself.view.common.utils.TextFieldFactory;
 
@@ -22,13 +23,15 @@ public class EditorBg extends UIComponent {
 	private static const EditIconClass:Class;
 	[Embed(source='/assets/tools/recycle_bin_light.png')]
 	private static const RemoveIconClass:Class;
+	[Embed(source='/assets/tools/filter_light.png')]
+	private static const FilterIconClass:Class;
 
 	private var toolIcon:Bitmap;
 
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 16, AppColors.TEXT_LIGHT, true);
-	public static const HEADER_HEIGHT:uint = 40;
+	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
 	public static const PAD:uint = 20;
-	public static const VOFFSET:uint = 10;
+	public static const VOFFSET:uint = 0;
 	public static const BORDER_THICKNESS:uint = 5;
 
 	//--------------------------------------
@@ -49,7 +52,7 @@ public class EditorBg extends UIComponent {
 	//  mode
 	//--------------------------------------
 	private var _mode:String = "add";
-	[Inspectable(defaultValue="add", enumeration="add,edit,remove")]
+	[Inspectable(defaultValue="add", enumeration="add,edit,remove,filter")]
 	[Bindable("modeChanged")]
 	public function get mode():String {return _mode;}
 	public function set mode(value:String):void {
@@ -66,6 +69,7 @@ public class EditorBg extends UIComponent {
 		if (mode == "add") toolIcon = new AddIconClass();
 		else if (mode == "edit") toolIcon = new EditIconClass();
 		else if (mode == "remove") toolIcon = new RemoveIconClass();
+		else if (mode == "filter") toolIcon = new FilterIconClass();
 		if (toolIcon) addChild(toolIcon);
 	}
 

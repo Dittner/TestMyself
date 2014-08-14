@@ -47,6 +47,7 @@ public class PhraseEditorMediator extends PhraseFormMediator {
 		var suite:Object = {};
 		suite.phrase = createPhrase();
 		suite.phrase.id = selectedPhrase.id;
+		suite.origin = selectedPhrase;
 		suite.themes = getSelectedThemes();
 		sendRequest(PhraseMsg.UPDATE_PHRASE, new RequestMessage(updatePhraseCompleteHandler, updatePhraseErrorHandler, suite));
 	}

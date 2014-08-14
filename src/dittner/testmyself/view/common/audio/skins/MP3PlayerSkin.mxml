@@ -34,7 +34,7 @@
                          downImage="@Embed(source='/assets/voiceRecording/play_btn_down.png')"
                          visible="true" visible.playing="false"
                          enabled="true" enabled.normal="false"
-                         top="30"
+                         top="0"
                          left="10"
                          click="hostComponent.play()"/>
 
@@ -42,13 +42,13 @@
                          upImage="@Embed(source='/assets/voiceRecording/pause_btn_up.png')"
                          downImage="@Embed(source='/assets/voiceRecording/pause_btn_down.png')"
                          visible="false" visible.playing="true"
-                         top="30"
+                         top="0"
                          left="10"
                          click="hostComponent.pause()"/>
 
 
     <s:Label text="{secToStr(hostComponent.playbackTime)}"
-             top="37" left="50"
+             top="7" left="50"
              fontSize="14"
              color="{AppColors.TEXT_DARK}"/>
 
@@ -62,25 +62,26 @@
                                  value="@{hostComponent.playbackTime}"
                                  snapInterval="1"
                                  liveDragging="true"
-                                 top="33"
+                                 top="3"
                                  left="100"
                                  right="100"
                                  height="30"
                                  skinClass="dittner.testmyself.view.common.audio.skins.slider.RewindingSliderSkin"/>
 
-    <s:Label visible="true"
-             visible.normal="false"
-             text="{secToStr(hostComponent.soundDuration)}"
-             top="37" right="50"
+    <s:Label text="{secToStr(hostComponent.soundDuration)}"
+             text.normal="00:00"
+             top="7" right="50"
              fontSize="14"
              color="{AppColors.TEXT_DARK}"/>
 
     <button:BitmapButton id="removeRecordBtn"
                          upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
                          downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
-                         top="30"
+                         top="0"
                          right="10"
                          click="hostComponent.remove()"
+                         enabled="{hostComponent.removeRecordEnabled}"
+                         visible="{hostComponent.removeRecordEnabled}"
                          description="Удалить аудиозапись"/>
 
 

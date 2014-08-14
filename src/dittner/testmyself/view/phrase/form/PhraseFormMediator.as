@@ -43,6 +43,7 @@ public class PhraseFormMediator extends RequestMediator {
 	}
 
 	protected function openForm():void {
+		form.visible = true;
 		sendMessage(PhraseMsg.FORM_ACTIVATED_NOTIFICATION);
 		form.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		form.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
@@ -54,6 +55,7 @@ public class PhraseFormMediator extends RequestMediator {
 	}
 
 	protected function closeForm():void {
+		form.visible = false;
 		isActive = false;
 		form.close();
 		sendMessage(PhraseMsg.FORM_DEACTIVATED_NOTIFICATION);

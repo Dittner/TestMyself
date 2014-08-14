@@ -17,6 +17,7 @@ public class PhraseMsg {
 	/*SQL*/
 	public static const ADD_PHRASE:String = "addPhrase";
 	public static const UPDATE_PHRASE:String = "updatePhrase";
+	public static const UPDATE_PHRASE_FILTER:String = "updatePhraseFilter";
 	public static const REMOVE_PHRASE:String = "removePhrase";
 	public static const GET_PHRASES:String = "getPhrases";
 	public static const GET_THEMES:String = "getThemes";

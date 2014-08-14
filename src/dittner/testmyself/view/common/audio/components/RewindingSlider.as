@@ -33,7 +33,7 @@ public class RewindingSlider extends HSlider {
 		// convert to parent's coordinates.
 		var thumbPos:Point = track.localToGlobal(new Point(thumbPosTrackX, 0));
 		var thumbPosParentX:Number = thumb.parent.globalToLocal(thumbPos).x + 3 * (-1 + 2 * value / maximum);
-
+		if (isNaN(thumbPosParentX)) thumbPosParentX = -3;
 		thumb.setLayoutBoundsPosition(Math.round(thumbPosParentX), thumb.getLayoutBoundsY());
 	}
 
