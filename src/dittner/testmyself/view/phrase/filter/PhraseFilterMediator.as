@@ -1,6 +1,7 @@
 package dittner.testmyself.view.phrase.filter {
 import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.view.common.filter.ThemeFilter;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
@@ -73,7 +74,17 @@ public class PhraseFilterMediator extends RequestMediator {
 	}
 
 	private function onFilterLoaded(res:CommandResult):void {
-		view.themesList.selectedItems = res.data as Vector.<Object>;
+		var filter:Vector.<Object> = res.data as Vector.<Object>;
+
+		if (filter && filter.length > 0 && view.themes.length > 0) {
+			var theme:ITheme;
+			var isSelectedThemeHash:Object = {};
+			var selectedItems:Vector.<Object> = new Vector.<Object>();
+			for each(theme in filter) isSelectedThemeHash[theme.id] = true;
+			for each(theme in view.themes)
+				if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
+			view.themesList.selectedItems = selectedItems;
+		}
 	}
 
 }

@@ -70,7 +70,7 @@ public class ThemeItemRenderer extends ItemRendererBase {
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		g.lineStyle(1, selected ? 0x555555 : 0xccCCcc, 1);
+		g.lineStyle(1, selected ? 0x888888 : 0xccCCcc, .75);
 		g.moveTo(0, h - 1);
 		g.lineTo(w, h - 1);
 

@@ -71,7 +71,7 @@ public class PhraseService extends Proxy {
 	}
 
 	public function getPhrases(requestMsg:IRequestMessage = null):void {
-		var op:IDeferredOperation = new SelectPhraseSQLOperation(sqlRunner);
+		var op:IDeferredOperation = new SelectPhraseSQLOperation(sqlRunner, model.filter);
 		op.addCompleteCallback(phrasesLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -128,7 +128,7 @@ public class PhraseService extends Proxy {
 		model.themes = res.data as Array;
 	}
 
-	private function reloadData():void {
+	public function reloadData():void {
 		getPhrases();
 		getThemes();
 	}
