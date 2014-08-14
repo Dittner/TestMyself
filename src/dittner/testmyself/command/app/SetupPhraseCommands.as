@@ -1,5 +1,6 @@
 package dittner.testmyself.command.app {
 import dittner.testmyself.command.frontend.phrase.AddPhraseCmd;
+import dittner.testmyself.command.frontend.phrase.GetPhraseDBInfoCmd;
 import dittner.testmyself.command.frontend.phrase.GetPhraseFilterCmd;
 import dittner.testmyself.command.frontend.phrase.GetPhrasesCmd;
 import dittner.testmyself.command.frontend.phrase.GetSelectedPhraseCmd;
@@ -27,6 +28,7 @@ public class SetupPhraseCommands extends Command {
 		commandMap.map(PhraseMsg.GET_PHRASES, GetPhrasesCmd);
 		commandMap.map(PhraseMsg.GET_THEMES, GetThemesCmd);
 		commandMap.map(PhraseMsg.GET_SELECTED_THEMES_ID, GetSelectedPhraseThemesIDCmd);
+		commandMap.map(PhraseMsg.GET_DATA_BASE_INFO, GetPhraseDBInfoCmd);
 	}
 
 }

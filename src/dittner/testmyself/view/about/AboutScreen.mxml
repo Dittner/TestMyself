@@ -6,7 +6,6 @@
                  xmlns:core="dittner.testmyself.view.common.screen.*">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.model.common.DataBaseInfoVo;
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;
 
@@ -16,19 +15,6 @@
         public var clippedBgWidth:Number;
 
         private static const ABOUT:String = "Это инструмент, автоматизирующий процессы тестирования и обработки результатов тестов, представляющий собой удобный интерфейс для ввода и визуализации данных. Предназначен для самостоятельного контроля знаний учеников, изучающих иностранные языки. Текущая версия программного продукта предназначена для контроля знаний немецкого языка.";
-
-        //--------------------------------------
-        //  dataBaseInfo
-        //--------------------------------------
-        private var _dataBaseInfo:DataBaseInfoVo;
-        [Bindable("dataBaseInfoChanged")]
-        public function get dataBaseInfo():DataBaseInfoVo {return _dataBaseInfo;}
-        public function set dataBaseInfo(value:DataBaseInfoVo):void {
-            if (_dataBaseInfo != value) {
-                _dataBaseInfo = value;
-                dispatchEvent(new Event("dataBaseInfoChanged"));
-            }
-        }
 
         override protected function createChildren():void {
             super.createChildren();
@@ -102,8 +88,8 @@
                      text="{ABOUT}"/>
         </s:VGroup>
 
-        <components:DataBaseInfoBoard width="500" right="0" height="125" bottom="0"
-                                      info="{dataBaseInfo}"/>
+        <components:DataBaseInfoBoard id="dataBaseInfoBoard"
+                                      width="500" right="0" height="125" bottom="0"/>
     </s:Group>
 
 

@@ -24,6 +24,7 @@ public class PhraseMsg {
 	public static const GET_PHRASES:String = "getPhrases";
 	public static const GET_THEMES:String = "getThemes";
 	public static const GET_SELECTED_THEMES_ID:String = "getSelectedThemesID";
+	public static const GET_DATA_BASE_INFO:String = "getDataBaseInfo";
 
 }
 }

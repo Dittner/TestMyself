@@ -1,6 +1,7 @@
 package dittner.testmyself.service {
 import com.probertson.data.SQLRunner;
 
+import dittner.testmyself.command.backend.common.GetPhraseDBInfoOperation;
 import dittner.testmyself.command.backend.phrase.CreatePhraseDataBaseSQLOperation;
 import dittner.testmyself.command.backend.phrase.DeletePhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
@@ -86,6 +87,12 @@ public class PhraseService extends Proxy {
 
 	public function getSelectedThemesID(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new SelectPhraseFilterSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function getDBInfo(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new GetPhraseDBInfoOperation(sqlRunner);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

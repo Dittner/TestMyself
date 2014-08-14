@@ -1,28 +1,26 @@
 package dittner.testmyself.view.about {
+import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
-import dittner.testmyself.message.ServiceMsg;
-import dittner.testmyself.model.common.DataBaseInfoVo;
+import dittner.testmyself.model.common.DataBaseInfo;
+import dittner.testmyself.view.common.mediator.RequestMediator;
+import dittner.testmyself.view.common.mediator.RequestMessage;
 
-import mvcexpress.mvc.Mediator;
-
-public class AboutScreenMediator extends Mediator {
+public class AboutScreenMediator extends RequestMediator {
 
 	[Inject]
 	public var view:AboutScreen;
 
 	override protected function onRegister():void {
 		sendMessage(ScreenMsg.LOCK_UI);
-		addHandler(ServiceMsg.ON_DATA_BASE_INFO, showDataBaseInfo);
-		sendMessage(ServiceMsg.GET_DATA_BASE_INFO);
+		sendRequest(PhraseMsg.GET_DATA_BASE_INFO, new RequestMessage(phraseDBInfoLoaded));
 	}
 
-	private function showDataBaseInfo(dataBaseInfo:DataBaseInfoVo):void {
-		view.dataBaseInfo = dataBaseInfo;
+	private function phraseDBInfoLoaded(res:CommandResult):void {
+		view.dataBaseInfoBoard.phraseInfo = res.data as DataBaseInfo;
 		sendMessage(ScreenMsg.UNLOCK_UI);
 	}
 
-	override protected function onRemove():void {
-		view.dataBaseInfo = null;
-	}
+	override protected function onRemove():void {}
 }
 }
