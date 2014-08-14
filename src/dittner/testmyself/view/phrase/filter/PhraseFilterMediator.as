@@ -10,7 +10,7 @@ import flash.events.MouseEvent;
 
 import mx.collections.ArrayCollection;
 
-public class PhraseThemeFilterMediator extends RequestMediator {
+public class PhraseFilterMediator extends RequestMediator {
 
 	[Inject]
 	public var view:ThemeFilter;
@@ -50,15 +50,12 @@ public class PhraseThemeFilterMediator extends RequestMediator {
 	}
 
 	private function applyHandler(event:MouseEvent):void {
-		sendUpdatePhraseFilterRequest();
-	}
-
-	private function sendUpdatePhraseFilterRequest():void {
-		sendRequest(PhraseMsg.UPDATE_PHRASE_FILTER, new RequestMessage(updateCompleteHandler, null, view.themesList.selectedItems));
-	}
-
-	private function updateCompleteHandler(res:CommandResult):void {
+		updateFilter();
 		closeDropdown();
+	}
+
+	private function updateFilter():void {
+		sendMessage(PhraseMsg.SET_FILTER, view.themesList.selectedItems);
 	}
 
 	private function loadThemes():void {
@@ -68,6 +65,15 @@ public class PhraseThemeFilterMediator extends RequestMediator {
 	private function onThemesLoaded(res:CommandResult):void {
 		var themeItems:Array = res.data as Array;
 		view.themes = new ArrayCollection(themeItems);
+		loadFilter();
+	}
+
+	private function loadFilter():void {
+		sendRequest(PhraseMsg.GET_FILTER, new RequestMessage(onFilterLoaded));
+	}
+
+	private function onFilterLoaded(res:CommandResult):void {
+		view.themesList.selectedItems = res.data as Vector.<Object>;
 	}
 
 }

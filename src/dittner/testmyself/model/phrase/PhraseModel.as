@@ -5,12 +5,6 @@ import mvcexpress.mvc.Proxy;
 
 public class PhraseModel extends Proxy {
 
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Constructor
-	//
-	//----------------------------------------------------------------------------------------------
-
 	public function PhraseModel():void {
 		super();
 	}
@@ -57,6 +51,18 @@ public class PhraseModel extends Proxy {
 		}
 	}
 
+	//--------------------------------------
+	//  filter
+	//--------------------------------------
+	private var _filter:Vector.<Object> = new Vector.<Object>();
+	public function get filter():Vector.<Object> {return _filter;}
+	public function set filter(value:Vector.<Object>):void {
+		if (_filter != value) {
+			_filter = value;
+			sendMessage(PhraseMsg.PHRASES_FILTER_CHANGED_NOTIFICATION, filter);
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -64,9 +70,7 @@ public class PhraseModel extends Proxy {
 	//----------------------------------------------------------------------------------------------
 
 	override protected function onRegister():void {}
-	override protected function onRemove():void {
-		trace("PhraseModel onRemove");
-	}
+	override protected function onRemove():void {}
 
 }
 }

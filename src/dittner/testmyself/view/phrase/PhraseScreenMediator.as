@@ -2,7 +2,7 @@ package dittner.testmyself.view.phrase {
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.utils.pendingInvoke.doLaterInFrames;
-import dittner.testmyself.view.phrase.filter.PhraseThemeFilterMediator;
+import dittner.testmyself.view.phrase.filter.PhraseFilterMediator;
 import dittner.testmyself.view.phrase.form.PhraseCreatorMediator;
 import dittner.testmyself.view.phrase.form.PhraseEditorMediator;
 import dittner.testmyself.view.phrase.form.PhraseRemoverMediator;
@@ -30,7 +30,7 @@ public class PhraseScreenMediator extends Mediator {
 		mediatorMap.mediateWith(view.form, PhraseEditorMediator);
 		mediatorMap.mediateWith(view.form, PhraseRemoverMediator);
 		mediatorMap.mediateWith(view.list, PhraseListMediator);
-		mediatorMap.mediateWith(view.filter, PhraseThemeFilterMediator);
+		mediatorMap.mediateWith(view.filter, PhraseFilterMediator);
 		sendMessage(ScreenMsg.UNLOCK_UI);
 	}
 
@@ -41,7 +41,7 @@ public class PhraseScreenMediator extends Mediator {
 		mediatorMap.unmediate(view.form, PhraseEditorMediator);
 		mediatorMap.unmediate(view.form, PhraseRemoverMediator);
 		mediatorMap.unmediate(view.list, PhraseListMediator);
-		mediatorMap.unmediate(view.filter, PhraseThemeFilterMediator);
+		mediatorMap.unmediate(view.filter, PhraseFilterMediator);
 	}
 
 	private function showEditor(params:* = null):void {
