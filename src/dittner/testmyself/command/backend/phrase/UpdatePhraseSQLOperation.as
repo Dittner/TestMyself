@@ -1,8 +1,7 @@
 package dittner.testmyself.command.backend.phrase {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.common.ThematicTransUnitInsertTransactionPhase;
-import dittner.testmyself.command.backend.common.ThemesInsertTransactionPhase;
+import dittner.testmyself.command.backend.common.MP3EncodingPhase;
 import dittner.testmyself.command.backend.common.ThemesValidationPhase;
 import dittner.testmyself.command.operation.deferredOperation.DeferredOperation;
 import dittner.testmyself.command.operation.phaseOperation.PhaseRunner;
@@ -33,9 +32,9 @@ public class UpdatePhraseSQLOperation extends DeferredOperation {
 			phaseRunner.addPhase(ThemesValidationPhase, themes);
 			phaseRunner.addPhase(MP3EncodingPhase, phrase, origin);
 			phaseRunner.addPhase(PhraseUpdateTransactionPhase, sqlRunner, phrase);
-			phaseRunner.addPhase(DeleteThematicPhraseTransactionPhase, sqlRunner, phrase.id);
-			phaseRunner.addPhase(ThemesInsertTransactionPhase, sqlRunner, themes);
-			phaseRunner.addPhase(ThematicTransUnitInsertTransactionPhase, sqlRunner, phrase, themes);
+			phaseRunner.addPhase(DeletePhraseFilterTransactionPhase, sqlRunner, phrase.id);
+			phaseRunner.addPhase(PhraseThemeInsertTransactionPhase, sqlRunner, themes);
+			phaseRunner.addPhase(PhraseFilterInsertTransactionPhase, sqlRunner, phrase, themes);
 
 			phaseRunner.execute();
 		}

@@ -1,17 +1,18 @@
-package dittner.testmyself.command.backend.common {
+package dittner.testmyself.command.backend.phrase {
 import com.probertson.data.SQLRunner;
 
+import dittner.testmyself.command.backend.common.*;
 import dittner.testmyself.command.operation.phaseOperation.PhaseOperation;
 import dittner.testmyself.command.operation.phaseOperation.PhaseRunner;
 import dittner.testmyself.model.theme.Theme;
 
-public class ThemesInsertTransactionPhase extends PhaseOperation {
+public class PhraseThemeInsertTransactionPhase extends PhaseOperation {
 
 	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/InsertPhraseTheme.sql", mimeType="application/octet-stream")]
 	private static const InsertPhraseThemeSQLClass:Class;
 	private static const INSERT_PHRASE_THEME_SQL:String = new InsertPhraseThemeSQLClass();
 
-	public function ThemesInsertTransactionPhase(sqlRunner:SQLRunner, themes:Array) {
+	public function PhraseThemeInsertTransactionPhase(sqlRunner:SQLRunner, themes:Array) {
 		this.sqlRunner = sqlRunner;
 		this.themes = themes;
 	}

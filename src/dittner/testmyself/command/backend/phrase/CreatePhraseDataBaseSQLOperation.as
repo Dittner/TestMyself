@@ -19,9 +19,9 @@ public class CreatePhraseDataBaseSQLOperation extends DeferredOperation {
 	private static const CreatePhraseTblClass:Class;
 	private static const CREATE_PHRASE_TBL_SQL:String = new CreatePhraseTblClass();
 
-	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/CreateThematicPhraseTbl.sql", mimeType="application/octet-stream")]
-	private static const CreateThematicPhraseTblClass:Class;
-	private static const CREATE_THEMATIC_PHRASE_TBL_SQL:String = new CreateThematicPhraseTblClass();
+	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/CreatePhraseFilterTbl.sql", mimeType="application/octet-stream")]
+	private static const CreatePhraseFilterTblClass:Class;
+	private static const CREATE_PHRASE_FILTER_TBL_SQL:String = new CreatePhraseFilterTblClass();
 
 	[Embed(source="/dittner/testmyself/command/backend/phrase/sql/CreatePhraseThemeTbl.sql", mimeType="application/octet-stream")]
 	private static const CreatePhraseThemeTblClass:Class;
@@ -51,7 +51,7 @@ public class CreatePhraseDataBaseSQLOperation extends DeferredOperation {
 		if (!dbFile.exists) {
 			var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
 			statements.push(new QueuedStatement(CREATE_PHRASE_TBL_SQL));
-			statements.push(new QueuedStatement(CREATE_THEMATIC_PHRASE_TBL_SQL));
+			statements.push(new QueuedStatement(CREATE_PHRASE_FILTER_TBL_SQL));
 			statements.push(new QueuedStatement(CREATE_PHRASE_THEME_TBL_SQL));
 
 			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);

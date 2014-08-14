@@ -1,31 +1,29 @@
-package dittner.testmyself.command.backend.common {
+package dittner.testmyself.command.backend.phrase {
 
 import com.probertson.data.QueuedStatement;
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.operation.result.CommandException;
-
 import dittner.testmyself.command.operation.deferredOperation.ErrorCode;
-
-import dittner.testmyself.model.common.TransUnit;
-import dittner.testmyself.model.model_internal;
-import dittner.testmyself.model.theme.Theme;
 import dittner.testmyself.command.operation.phaseOperation.PhaseOperation;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.model.model_internal;
+import dittner.testmyself.model.phrase.Phrase;
+import dittner.testmyself.model.theme.Theme;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;
 
 use namespace model_internal;
 
-public class ThematicTransUnitInsertTransactionSubPhase extends PhaseOperation {
-	public function ThematicTransUnitInsertTransactionSubPhase(transUnit:TransUnit, theme:Theme, sqlRunner:SQLRunner, sqlStatement:String) {
-		this.transUnit = transUnit;
+public class PhraseFilterInsertTransactionSubPhase extends PhaseOperation {
+	public function PhraseFilterInsertTransactionSubPhase(phrase:Phrase, theme:Theme, sqlRunner:SQLRunner, sqlStatement:String) {
+		this.phrase = phrase;
 		this.theme = theme;
 		this.sqlRunner = sqlRunner;
 		this.sqlStatement = sqlStatement;
 	}
 
-	private var transUnit:TransUnit;
+	private var phrase:Phrase;
 	private var theme:Theme;
 	private var sqlRunner:SQLRunner;
 	private var sqlStatement:String;
@@ -33,7 +31,7 @@ public class ThematicTransUnitInsertTransactionSubPhase extends PhaseOperation {
 	override public function execute():void {
 		var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
 		var sqlParams:Object = {};
-		sqlParams.transUnitID = transUnit.id;
+		sqlParams.phraseID = phrase.id;
 		sqlParams.themeID = theme.id;
 
 		statements.push(new QueuedStatement(sqlStatement, sqlParams));
@@ -50,7 +48,7 @@ public class ThematicTransUnitInsertTransactionSubPhase extends PhaseOperation {
 
 	override public function destroy():void {
 		super.destroy();
-		transUnit = null;
+		phrase = null;
 		theme = null;
 		sqlRunner = null;
 		sqlStatement = null;

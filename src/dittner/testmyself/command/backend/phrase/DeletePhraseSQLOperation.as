@@ -1,10 +1,10 @@
 package dittner.testmyself.command.backend.phrase {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.operation.result.CommandException;
-import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.command.operation.deferredOperation.DeferredOperation;
 import dittner.testmyself.command.operation.phaseOperation.PhaseRunner;
+import dittner.testmyself.command.operation.result.CommandException;
+import dittner.testmyself.command.operation.result.CommandResult;
 
 public class DeletePhraseSQLOperation extends DeferredOperation {
 
@@ -23,7 +23,7 @@ public class DeletePhraseSQLOperation extends DeferredOperation {
 
 		try {
 			phaseRunner.addPhase(DeletePhraseTransactionPhase, sqlRunner, phraseID);
-			phaseRunner.addPhase(DeleteThematicPhraseTransactionPhase, sqlRunner, phraseID);
+			phaseRunner.addPhase(DeletePhraseFilterTransactionPhase, sqlRunner, phraseID);
 
 			phaseRunner.execute();
 		}

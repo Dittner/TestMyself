@@ -1,7 +1,7 @@
 package dittner.testmyself.command.backend.common {
-import dittner.testmyself.command.operation.result.CommandException;
 import dittner.testmyself.command.operation.deferredOperation.ErrorCode;
 import dittner.testmyself.command.operation.phaseOperation.PhaseOperation;
+import dittner.testmyself.command.operation.result.CommandException;
 import dittner.testmyself.model.theme.Theme;
 
 public class ThemesValidationPhase extends PhaseOperation {

@@ -4,9 +4,9 @@ import com.probertson.data.SQLRunner;
 import dittner.testmyself.command.backend.phrase.CreatePhraseDataBaseSQLOperation;
 import dittner.testmyself.command.backend.phrase.DeletePhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
+import dittner.testmyself.command.backend.phrase.SelectPhraseFilterSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseThemeSQLOperation;
-import dittner.testmyself.command.backend.phrase.SelectThematicPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.UpdatePhraseSQLOperation;
 import dittner.testmyself.command.operation.deferredOperation.IDeferredOperation;
 import dittner.testmyself.command.operation.deferredOperation.IDeferredOperationManager;
@@ -85,7 +85,7 @@ public class PhraseService extends Proxy {
 	}
 
 	public function getSelectedThemesID(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new SelectThematicPhraseSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
+		var op:IDeferredOperation = new SelectPhraseFilterSQLOperation(sqlRunner, (requestMsg.data as Phrase).id);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
