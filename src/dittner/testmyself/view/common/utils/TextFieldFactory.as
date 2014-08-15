@@ -1,6 +1,4 @@
 package dittner.testmyself.view.common.utils {
-import flash.text.AntiAliasType;
-import flash.text.GridFitType;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -21,8 +19,8 @@ public class TextFieldFactory {
 		textField.mouseEnabled = false;
 		textField.mouseWheelEnabled = false;
 		textField.embedFonts = useEmbedFonts;
-		textField.antiAliasType = AntiAliasType.ADVANCED;
-		textField.gridFitType = GridFitType.PIXEL;
+		//textField.antiAliasType = AntiAliasType.ADVANCED;
+		//textField.gridFitType = GridFitType.PIXEL;
 		textField.sharpness = 0;
 		textField.defaultTextFormat = textFormat;
 		return textField;

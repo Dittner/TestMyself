@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:audio="dittner.testmyself.view.common.audio.*" xmlns:mp3="dittner.testmyself.view.common.audio.mp3.*">
+         xmlns:audio="dittner.testmyself.view.common.audio.*"
+         xmlns:mp3="dittner.testmyself.view.common.audio.mp3.*">
 
-    <fx:Script><![CDATA[
+<fx:Script><![CDATA[
         import dittner.testmyself.view.common.audio.event.VoiceCommentEvent;
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;

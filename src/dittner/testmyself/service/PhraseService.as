@@ -1,9 +1,9 @@
 package dittner.testmyself.service {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.common.GetPhraseDBInfoOperation;
 import dittner.testmyself.command.backend.phrase.CreatePhraseDataBaseSQLOperation;
 import dittner.testmyself.command.backend.phrase.DeletePhraseSQLOperation;
+import dittner.testmyself.command.backend.phrase.GetPhraseDBInfoOperation;
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseFilterSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseSQLOperation;

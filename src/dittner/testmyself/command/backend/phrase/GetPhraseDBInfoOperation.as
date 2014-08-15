@@ -1,7 +1,6 @@
-package dittner.testmyself.command.backend.common {
+package dittner.testmyself.command.backend.phrase {
 import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.command.backend.phrase.*;
 import dittner.testmyself.command.operation.deferredOperation.DeferredOperation;
 import dittner.testmyself.command.operation.phaseOperation.PhaseRunner;
 import dittner.testmyself.command.operation.result.CommandException;
