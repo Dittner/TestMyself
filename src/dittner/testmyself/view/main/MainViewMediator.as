@@ -3,7 +3,7 @@ package dittner.testmyself.view.main {
 import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.service.screenFactory.ScreenId;
-import dittner.testmyself.view.common.SelectableDataGroup;
+import dittner.testmyself.view.common.list.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.screen.ScreenBase;

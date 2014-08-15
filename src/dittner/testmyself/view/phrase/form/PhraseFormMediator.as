@@ -1,6 +1,8 @@
 package dittner.testmyself.view.phrase.form {
 import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.message.SettingsMsg;
+import dittner.testmyself.model.common.SettingsInfo;
 import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.theme.ITheme;
@@ -23,6 +25,7 @@ public class PhraseFormMediator extends RequestMediator {
 	override protected function onRegister():void {
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
 		addHandler(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, phraseSelectedHandler);
+		sendRequest(SettingsMsg.LOAD, new RequestMessage(infoLoaded))
 	}
 
 	//abstract
@@ -40,6 +43,11 @@ public class PhraseFormMediator extends RequestMediator {
 	protected function onThemesLoaded(res:CommandResult):void {
 		var themeItems:Array = res.data as Array;
 		form.themes = new ArrayCollection(themeItems);
+	}
+
+	private function infoLoaded(res:CommandResult):void {
+		var info:SettingsInfo = res.data as SettingsInfo;
+		form.audioRecorder.maxRecordSize = info.maxAudioRecordDuration;
 	}
 
 	protected function openForm():void {

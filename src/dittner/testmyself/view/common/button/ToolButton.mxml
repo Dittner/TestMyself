@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <s:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
-          mouseOver="mouseOverHandler(event)"
-          mouseOut="mouseOutHandler(event)">
+          mouseOver="showDescriptionTip()"
+          mouseOut="hideDescriptionTip()">
 
     <fx:Metadata>
         [Style(name="image", type="Object")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.view.common.tooltip.CustomToolTipManager;
+        import dittner.testmyself.view.common.utils.hideTooltip;
+        import dittner.testmyself.view.common.utils.showTooltip;
 
         private var _description:String = "";
         [Bindable("descriptionChanged")]
@@ -34,12 +35,12 @@
             }
         }
 
-        private function mouseOverHandler(event:MouseEvent):void {
-            if (description) CustomToolTipManager.show(description, this);
+        private function showDescriptionTip():void {
+            if (description) showTooltip(description, this);
         }
 
-        private function mouseOutHandler(event:MouseEvent):void {
-            CustomToolTipManager.hide();
+        private function hideDescriptionTip():void {
+            hideTooltip();
         }
         ]]></fx:Script>
 

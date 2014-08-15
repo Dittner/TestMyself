@@ -8,12 +8,9 @@
         backgroundColor="0x3d3f4b"
         initialize="initializeHandler(event)"
         creationComplete="creationCompleteHandler(event)"
-        uncaughtError="uncaughtErrorHandler(event)"
-        addedToStage="addedToStageHandler(event)">
+        uncaughtError="uncaughtErrorHandler(event)">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.view.common.tooltip.CustomToolTip;
-        import dittner.testmyself.view.common.tooltip.CustomToolTipManager;
         import dittner.testmyself.view.common.utils.TextFieldFactory;
 
         import mx.events.FlexEvent;
@@ -30,10 +27,6 @@
         private function creationCompleteHandler(event:FlexEvent):void {
             mainModule = new MainModule();
             mainModule.start(this);
-        }
-
-        private function addedToStageHandler(event:Event):void {
-            CustomToolTipManager.toolTip = new CustomToolTip();
         }
 
         private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {

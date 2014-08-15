@@ -1,4 +1,4 @@
-package dittner.testmyself.view.common {
+package dittner.testmyself.view.common.list {
 import flash.events.Event;
 import flash.events.MouseEvent;
 

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                 xmlns:s="library://ns.adobe.com/flex/spark"
+                 xmlns:core="dittner.testmyself.view.common.screen.*"
+                 xmlns:spinner="dittner.testmyself.view.common.spinner.*"
+                 horizontalCenter="0">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.common.utils.Fonts;
+        ]]></fx:Script>
+
+    <!--content bg-->
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
+                          fillMode="repeat"/>
+        </s:fill>
+    </s:Rect>
+
+    <!--header bg-->
+    <s:Rect width="100%" height="{HEADER_HEI}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:HGroup width="100%" height="{HEADER_HEI}"
+              verticalAlign="middle"
+              paddingLeft="{PADDING}" paddingRight="{PADDING}">
+
+        <s:Label text="{title}"
+                 fontFamily="{Fonts.ROBOTO}"
+                 fontSize="16"
+                 paddingTop="2"
+                 width="100%"
+                 color="#54545d"/>
+    </s:HGroup>
+
+    <s:VGroup left="{PADDING}" top="{HEADER_HEI+PADDING}" right="{PADDING}" bottom="{PADDING}"
+              gap="10">
+        <s:Label text="Общие"
+                 fontFamily="{Fonts.ROBOTO}"
+                 fontWeight="bold"
+                 fontSize="24"
+                 color="{AppColors.TEXT}"/>
+
+        <s:CheckBox id="showTooltipBox"
+                    fontFamily="{Fonts.ROBOTO_LIGHT}"
+                    fontSize="18"
+                    color="{AppColors.TEXT_DARK}"
+                    label="Показывать подсказки"/>
+
+        <s:HGroup verticalAlign="bottom">
+            <spinner:CustomSpinner id="transUnitsPerPageSpinner"
+                                   fontFamily="{Fonts.ROBOTO_LIGHT}"
+                                   fontSize="18"
+                                   color="{AppColors.TEXT_DARK}"
+                                   minimum="5" maximum="50" value="5"/>
+
+            <s:Label text="Число слов и фраз на одной странице"
+                     fontFamily="{Fonts.ROBOTO_LIGHT}"
+                     fontSize="18"
+                     color="{AppColors.TEXT_DARK}"/>
+        </s:HGroup>
+
+        <s:HGroup verticalAlign="bottom">
+            <spinner:CustomSpinner id="maxAudioRecorDurationSpinner"
+                                   fontFamily="{Fonts.ROBOTO_LIGHT}"
+                                   fontSize="18"
+                                   color="{AppColors.TEXT_DARK}"
+                                   minimum="1" maximum="30" value="1"/>
+
+            <s:Label text="Максимальный размер аудиозаписи в минутах"
+                     fontFamily="{Fonts.ROBOTO_LIGHT}"
+                     fontSize="18"
+                     color="{AppColors.TEXT_DARK}"/>
+        </s:HGroup>
+
+
+    </s:VGroup>
+</core:ScreenBase>

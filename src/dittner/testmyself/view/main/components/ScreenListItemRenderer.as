@@ -1,8 +1,9 @@
 package dittner.testmyself.view.main.components {
 import dittner.testmyself.service.screenFactory.ScreenInfo;
 import dittner.testmyself.view.common.renderer.ItemRendererBase;
-import dittner.testmyself.view.common.tooltip.CustomToolTipManager;
 import dittner.testmyself.view.common.utils.AppColors;
+import dittner.testmyself.view.common.utils.hideTooltip;
+import dittner.testmyself.view.common.utils.showTooltip;
 
 import flash.display.Bitmap;
 import flash.display.BlendMode;
@@ -81,7 +82,7 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 	override protected function overHandler(event:MouseEvent):void {
 		if (!selected) {
 			icon.alpha = 1;
-			CustomToolTipManager.show(screenInfo.description, this);
+			showTooltip(screenInfo.description, this);
 		}
 	}
 
@@ -89,7 +90,7 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 		if (!selected) {
 			icon.alpha = ICON_ALPHA_OUT;
 		}
-		CustomToolTipManager.hide();
+		hideTooltip();
 	}
 }
 }

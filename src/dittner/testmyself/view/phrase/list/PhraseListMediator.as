@@ -3,7 +3,7 @@ import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
-import dittner.testmyself.view.common.SelectableDataGroup;
+import dittner.testmyself.view.common.list.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.mediator.mediator_internal;

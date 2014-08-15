@@ -2,8 +2,7 @@ package dittner.testmyself.view.common.utils {
 public class AppColors {
 
 	public static const BG:uint = 0xe0e0e6;
-	public static const SCREEN_CONTENT_BG:uint = 0xe0e0e6;
-	public static const EDITOR_CONTENT_BG:uint = 0xe0e0e6;
+	public static const EDITOR_CONTENT_BG:uint = 0xf0F0f5;
 
 	public static const BG_DARK:uint = 0x3d3f4b;
 	public static const SCREEN_LIST_BG:uint = 0;
@@ -24,6 +23,7 @@ public class AppColors {
 	public static const LIST_ITEM_HOVER:uint = 0xf0f0f0;
 
 	public static const INPUT_BORDER:uint = 0xc7c7cf;
+	public static const INPUT_CONTENT:uint = 0xffFFff;
 
 	public static const YELLOW:uint = 0xFFCC00;
 	public static const WHITE:uint = 0xffFFff;

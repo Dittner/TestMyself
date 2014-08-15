@@ -8,9 +8,11 @@ import spark.components.Group;
 public class ScreenBase extends Group {
 	public function ScreenBase() {
 		super();
+		maxWidth = AppSizes.SCREEN_MAX_WIDTH;
 	}
 	public const HEADER_HEI:int = AppSizes.SCREEN_HEADER_HEIGHT;
 	public const FOOTER_HEI:int = 50;
+	public const PADDING:uint = 20;
 
 	//--------------------------------------
 	//  title
@@ -25,17 +27,5 @@ public class ScreenBase extends Group {
 		}
 	}
 
-	//--------------------------------------
-	//  padding
-	//--------------------------------------
-	private var _padding:Number = 20;
-	[Bindable("paddingChanged")]
-	public function get padding():Number {return _padding;}
-	public function set padding(value:Number):void {
-		if (_padding != value) {
-			_padding = value;
-			dispatchEvent(new Event("paddingChanged"));
-		}
-	}
 }
 }

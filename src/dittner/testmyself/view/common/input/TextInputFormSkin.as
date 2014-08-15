@@ -3,7 +3,7 @@ import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
 import dittner.testmyself.view.common.utils.TextFieldFactory;
 
-import flash.display.DisplayObject;
+import flash.display.Graphics;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -16,17 +16,10 @@ public class TextInputFormSkin extends TextInputSkin {
 	public function TextInputFormSkin() {
 	}
 
-	[Embed(source="/assets/input/input_bg.png", scaleGridLeft='15', scaleGridRight='16', scaleGridTop='15', scaleGridBottom='16')]
-	private static const BackgroundClass:Class;
-
-	private var background:DisplayObject;
 	private var titleDisplay:TextField;
-
 	private function get hostInput():TextInputForm {return hostComponent as TextInputForm;}
 
 	override protected function createChildren():void {
-		background = new BackgroundClass();
-		addChild(background);
 		super.createChildren();
 
 		titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
@@ -55,9 +48,13 @@ public class TextInputFormSkin extends TextInputSkin {
 		textDisplay.x = 5;
 		textDisplay.width = w - 10;
 
-		background.y = hostInput.showTitle ? TITLE_HEIGHT : 0;
-		background.height = h - background.y;
-		background.width = w;
+		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
+		var g:Graphics = graphics;
+		g.clear();
+		g.lineStyle(1, AppColors.INPUT_BORDER);
+		g.beginFill(AppColors.INPUT_CONTENT);
+		g.drawRect(0, bgVerOffset, w - 1, h - bgVerOffset - 1);
+		g.endFill();
 
 		titleDisplay.visible = hostInput.showTitle;
 		titleDisplay.text = hostInput.title;

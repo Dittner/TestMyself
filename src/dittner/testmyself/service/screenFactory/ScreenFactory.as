@@ -4,6 +4,7 @@ import dittner.testmyself.view.common.renderer.SeparatorVo;
 import dittner.testmyself.view.common.screen.ScreenBase;
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.phrase.PhraseScreen;
+import dittner.testmyself.view.settings.SettingsScreen;
 import dittner.testmyself.view.template.TemplateScreen;
 
 import flash.display.BitmapData;
@@ -72,8 +73,8 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 		_screenInfos.push(createScreenItemSeparator());
 
 		/*info = new ScreenInfo(ScreenId.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenId.SEARCH));
-		_screenInfos.push(info);
-		screensHash[info.id] = info;*/
+		 _screenInfos.push(info);
+		 screensHash[info.id] = info;*/
 
 		info = new ScreenInfo(ScreenId.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenId.SETTINGS));
 		_screenInfos.push(info);
@@ -138,7 +139,7 @@ public class ScreenFactory extends Proxy implements IScreenFactory {
 				screen = new TemplateScreen();
 				break;
 			case ScreenId.SETTINGS :
-				screen = new TemplateScreen();
+				screen = new SettingsScreen();
 				break;
 			default :
 				throw new Error("Unknown screen ID:" + screenId);

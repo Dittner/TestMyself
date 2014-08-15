@@ -1,6 +1,7 @@
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace input "dittner.testmyself.view.common.input.*";
 @namespace list "dittner.testmyself.view.common.list.*";
+@namespace spinner "dittner.testmyself.view.common.spinner.*";
 
 @font-face {
     src: url("/fonts/vantathin.ttf");
@@ -107,4 +108,19 @@ list|ListForm {
     fontFamily: RobotoMX;
     fontSize: 16px;
     color: #333333;
+}
+
+/************************** OTHER COMPONENTS **************************/
+s|CheckBox {
+    skinClass: ClassReference("dittner.testmyself.view.common.checkBox.CustomCheckBoxSkin");
+    fontSize: 16px;
+    color: #4e4f61;
+    fontFamily: RobotoLight;
+}
+
+spinner|CustomSpinner {
+    skin-class: ClassReference("dittner.testmyself.view.common.spinner.CustomSpinnerSkin");
+    fontSize: 14px;
+    color: #4e4f61;
+    fontFamily: Roboto;
 }

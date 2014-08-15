@@ -3,7 +3,8 @@
                  xmlns:s="library://ns.adobe.com/flex/spark"
                  xmlns:mx="library://ns.adobe.com/flex/mx"
                  xmlns:components="dittner.testmyself.view.about.components.*"
-                 xmlns:core="dittner.testmyself.view.common.screen.*">
+                 xmlns:core="dittner.testmyself.view.common.screen.*"
+                 maxWidth="NaN">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.view.common.utils.AppColors;

@@ -4,7 +4,9 @@ import dittner.testmyself.view.common.audio.event.VoiceCommentEvent;
 import flash.display.MovieClip;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.events.TimerEvent;
 import flash.utils.ByteArray;
+import flash.utils.Timer;
 
 import spark.components.Button;
 import spark.components.supportClasses.SkinnableComponent;
@@ -56,6 +58,8 @@ public class RawDataPlayer extends SkinnableComponent {
 	//----------------------------------------------------------------------------------------------
 
 	public function RawDataPlayer() {
+		recordingTimer = new Timer(maxRecordSize * 60 * 1000, 1);
+		recordingTimer.addEventListener(TimerEvent.TIMER_COMPLETE, recordingTimeComplete);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -65,6 +69,8 @@ public class RawDataPlayer extends SkinnableComponent {
 	//----------------------------------------------------------------------------------------------
 
 	private var animation:MovieClip;
+	public var maxRecordSize:Number = 0.2;//min
+	private var recordingTimer:Timer;
 
 	//--------------------------------------------------------------------------
 	//
@@ -141,7 +147,17 @@ public class RawDataPlayer extends SkinnableComponent {
 
 	}
 
+	public function record():void {
+		recorder.record();
+		internalState = RECORDING;
+		recordingTimer.stop();
+		recordingTimer.reset();
+		recordingTimer.delay = maxRecordSize * 60 * 1000;
+		recordingTimer.start();
+	}
+
 	public function stopRecording():void {
+		recordingTimer.stop();
 		if (!recording) return;
 
 		if (recorder.recordedBytes.length < 250000) {
@@ -239,8 +255,7 @@ public class RawDataPlayer extends SkinnableComponent {
 	//----------------------------------------------------------------------------------------------
 
 	private function recordBtn_clickHandler(event:MouseEvent):void {
-		recorder.record();
-		internalState = RECORDING;
+		record();
 	}
 
 	private function stopBtn_clickHandler(event:MouseEvent):void {
@@ -265,6 +280,10 @@ public class RawDataPlayer extends SkinnableComponent {
 	private function pauseBtn_clickHandler(event:MouseEvent):void {
 		recorder.pause();
 		internalState = RECORDED;
+	}
+
+	private function recordingTimeComplete(event:TimerEvent):void {
+		stopRecording();
 	}
 }
 }

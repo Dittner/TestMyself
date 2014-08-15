@@ -7,7 +7,6 @@
                  xmlns:editor="dittner.testmyself.view.phrase.form.*"
                  xmlns:mp3="dittner.testmyself.view.common.audio.mp3.*"
                  xmlns:filter="dittner.testmyself.view.common.filter.*"
-                 maxWidth="{AppSizes.SCREEN_MAX_WIDTH}"
                  currentState="inactive"
                  horizontalCenter="0">
 
@@ -60,14 +59,14 @@
 
     <!--header bg-->
     <s:Rect width="100%" height="{HEADER_HEI}">
-    <s:fill>
+        <s:fill>
             <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
         </s:fill>
     </s:Rect>
 
     <s:HGroup width="100%" height="{HEADER_HEI}"
               verticalAlign="middle"
-              paddingLeft="{padding}" paddingRight="{padding}">
+              paddingLeft="{PADDING}" paddingRight="{PADDING}">
 
         <s:Label text="{title}"
                  fontFamily="{Fonts.ROBOTO}"

@@ -4,7 +4,7 @@
          xmlns:audio="dittner.testmyself.view.common.audio.*"
          xmlns:mp3="dittner.testmyself.view.common.audio.mp3.*">
 
-<fx:Script><![CDATA[
+    <fx:Script><![CDATA[
         import dittner.testmyself.view.common.audio.event.VoiceCommentEvent;
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;
@@ -60,13 +60,26 @@
             }
         }
 
+        //--------------------------------------
+        //  maxRecordSize
+        //--------------------------------------
+        private var _maxRecordSize:Number = 1;
+        [Bindable("maxRecordSizeChanged")]
+        public function get maxRecordSize():Number {return _maxRecordSize;}
+        public function set maxRecordSize(value:Number):void {
+            if (_maxRecordSize != value) {
+                _maxRecordSize = value;
+                dispatchEvent(new Event("maxRecordSizeChanged"));
+            }
+        }
+
         private function showRawDataRecorder():void {
-            mP3Player.visible = false;
+            mp3Player.visible = false;
             rawDataPlayer.visible = true;
         }
 
         private function showMP3Player():void {
-            mP3Player.visible = true;
+            mp3Player.visible = true;
             rawDataPlayer.visible = false;
         }
 
@@ -74,11 +87,11 @@
             _rawData = null;
             _mp3Data = null;
             rawDataPlayer.clear();
-            mP3Player.clear();
+            mp3Player.clear();
             showRawDataRecorder();
         }
 
-        private function mP3Player_removeCommentClickHandler(event:VoiceCommentEvent):void {
+        private function mp3Player_removeCommentClickHandler(event:VoiceCommentEvent):void {
             _mp3Data = null;
             showRawDataRecorder();
         }
@@ -104,13 +117,14 @@
                          top="30" bottom="0"
                          width="100%"
                          audioComment="{rawData}"
+                         maxRecordSize="{maxRecordSize}"
                          skinClass="dittner.testmyself.view.common.audio.skins.RawDataPlayerSkin"/>
 
-    <mp3:MP3Player id="mP3Player"
+    <mp3:MP3Player id="mp3Player"
                    top="30" bottom="0"
                    width="100%"
                    visible="false"
                    audioComment="{mp3Data}"
                    skinClass="dittner.testmyself.view.common.audio.skins.MP3PlayerSkin"
-                   removeCommentClick="mP3Player_removeCommentClickHandler(event)"/>
+                   removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
 </s:Group>
