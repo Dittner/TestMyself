@@ -10,6 +10,7 @@ import dittner.testmyself.view.phrase.form.PhraseCreatorMediator;
 import dittner.testmyself.view.phrase.form.PhraseEditorMediator;
 import dittner.testmyself.view.phrase.form.PhraseRemoverMediator;
 import dittner.testmyself.view.phrase.list.PhraseListMediator;
+import dittner.testmyself.view.phrase.mp3Player.PhrasePlayerMediator;
 import dittner.testmyself.view.phrase.pagination.PhrasePaginationMediator;
 import dittner.testmyself.view.phrase.toolbar.PhraseToolbarMediator;
 
@@ -42,6 +43,7 @@ public class PhraseScreenMediator extends RequestMediator {
 		mediatorMap.mediateWith(view.list, PhraseListMediator);
 		mediatorMap.mediateWith(view.filter, PhraseFilterMediator);
 		mediatorMap.mediateWith(view.paginationBar, PhrasePaginationMediator);
+		mediatorMap.mediateWith(view.mp3Player, PhrasePlayerMediator);
 		sendMessage(ScreenMsg.UNLOCK_UI);
 	}
 
@@ -54,6 +56,7 @@ public class PhraseScreenMediator extends RequestMediator {
 		mediatorMap.unmediate(view.list, PhraseListMediator);
 		mediatorMap.unmediate(view.filter, PhraseFilterMediator);
 		mediatorMap.unmediate(view.paginationBar, PhrasePaginationMediator);
+		mediatorMap.unmediate(view.mp3Player, PhrasePlayerMediator);
 	}
 
 	private function showEditor(params:* = null):void {

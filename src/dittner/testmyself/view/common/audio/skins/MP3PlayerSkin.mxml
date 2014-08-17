@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
-<s:SparkSkin
-        xmlns:fx="http://ns.adobe.com/mxml/2009"
-        xmlns:s="library://ns.adobe.com/flex/spark"
-        xmlns:components2="dittner.testmyself.view.common.audio.components.*"
-        xmlns:button="dittner.testmyself.view.common.button.*"
-        alpha.normal="0">
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark"
+             xmlns:components2="dittner.testmyself.view.common.audio.components.*"
+             xmlns:button="dittner.testmyself.view.common.button.*">
 
     <fx:Metadata>
         [HostComponent("dittner.testmyself.view.common.audio.mp3.MP3Player")]

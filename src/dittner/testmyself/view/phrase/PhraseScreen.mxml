@@ -109,12 +109,12 @@
         </s:Rect>
 
 
-        <mp3:MP3Player id="player"
+        <mp3:MP3Player id="mp3Player"
                        width="400"
                        left="{PADDING - 10}"
                        verticalCenter="0"
                        removeRecordEnabled="false"
-                       audioComment="{list.selectedItem.audio}"
+                       visible="false"
                        skinClass="dittner.testmyself.view.common.audio.skins.MP3PlayerSkin"/>
 
         <navigation:PaginationBar id="paginationBar"
