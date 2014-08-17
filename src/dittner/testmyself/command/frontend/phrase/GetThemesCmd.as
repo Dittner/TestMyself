@@ -16,7 +16,7 @@ public class GetThemesCmd extends Command {
 
 	public function execute(msg:IRequestMessage):void {
 		if (model.themes) msg.completeSuccess(new CommandResult(model.themes));
-		else service.getThemes(msg);
+		else service.loadThemes(msg);
 	}
 
 }

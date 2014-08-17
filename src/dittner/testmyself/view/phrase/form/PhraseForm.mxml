@@ -55,18 +55,18 @@
 
         public function edit(origin:String, translation:String, audioRecord:ByteArray):void {
             currentState = "edit";
-            if (originArea) originArea.text = origin
+            if (originArea) originArea.text = origin;
             if (translationArea) translationArea.text = translation;
             if (audioRecorder) audioRecorder.mp3Data = audioRecord;
         }
 
-        public function remove(origin:String, translation:String):void {
+        public function remove(origin:String):void {
             removePhraseNameLbl.text = '«' + origin + '»';
             currentState = "remove";
         }
 
         public function close():void {
-            if (isOpen) {
+            if (isOpen()) {
                 clear();
                 setCurrentState("normal");
             }

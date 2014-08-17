@@ -22,7 +22,7 @@
             <s:SolidColor color="{AppColors.INPUT_BORDER}" alpha=".2"/>
         </s:fill>
         <s:stroke>
-            <s:Stroke color="{AppColors.INPUT_BORDER}"/>
+            <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
         </s:stroke>
     </s:Rect>
 

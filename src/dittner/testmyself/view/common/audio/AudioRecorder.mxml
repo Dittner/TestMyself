@@ -109,7 +109,7 @@
             <s:SolidColor alpha="0"/>
         </s:fill>
         <s:stroke>
-            <s:Stroke color="{AppColors.INPUT_BORDER}"/>
+            <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
         </s:stroke>
     </s:Rect>
 

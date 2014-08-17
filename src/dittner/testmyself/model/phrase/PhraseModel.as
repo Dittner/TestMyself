@@ -16,15 +16,13 @@ public class PhraseModel extends Proxy {
 	//----------------------------------------------------------------------------------------------
 
 	//--------------------------------------
-	//  selectedPhrase
+	//  pageInfo
 	//--------------------------------------
-	private var _selectedPhrase:IPhrase = Phrase.NULL;
-	public function get selectedPhrase():IPhrase {return _selectedPhrase;}
-	public function set selectedPhrase(value:IPhrase):void {
-		if (_selectedPhrase != value) {
-			_selectedPhrase = value;
-			sendMessage(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, selectedPhrase);
-		}
+	private var _pageInfo:PhrasePageInfo = null;
+	public function get pageInfo():PhrasePageInfo {return _pageInfo;}
+	public function set pageInfo(value:PhrasePageInfo):void {
+		_pageInfo = value;
+		sendMessage(PhraseMsg.PAGE_INFO_CHANGED_NOTIFICATION, pageInfo);
 	}
 
 	//--------------------------------------
@@ -40,26 +38,24 @@ public class PhraseModel extends Proxy {
 	}
 
 	//--------------------------------------
-	//  phrases
+	//  selectedPhrase
 	//--------------------------------------
-	private var _phrases:Array;
-	public function get phrases():Array {return _phrases;}
-	public function set phrases(value:Array):void {
-		if (_phrases != value) {
-			_phrases = value;
-			sendMessage(PhraseMsg.PHRASES_CHANGED_NOTIFICATION, phrases);
+	public function get selectedPhrase():IPhrase {return pageInfo ? pageInfo.selectedPhrase : Phrase.NULL;}
+	public function set selectedPhrase(value:IPhrase):void {
+		if (pageInfo && pageInfo.selectedPhrase != value) {
+			pageInfo.selectedPhrase = value;
+			sendMessage(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, selectedPhrase);
 		}
 	}
 
 	//--------------------------------------
 	//  filter
 	//--------------------------------------
-	private var _filter:Vector.<Object> = new Vector.<Object>();
-	public function get filter():Vector.<Object> {return _filter;}
-	public function set filter(value:Vector.<Object>):void {
+	private var _filter:Array = [];
+	public function get filter():Array {return _filter;}
+	public function set filter(value:Array):void {
 		if (_filter != value) {
 			_filter = value;
-			sendMessage(PhraseMsg.PHRASES_FILTER_CHANGED_NOTIFICATION, filter);
 		}
 	}
 

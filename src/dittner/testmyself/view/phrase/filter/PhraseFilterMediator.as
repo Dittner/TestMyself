@@ -56,7 +56,9 @@ public class PhraseFilterMediator extends RequestMediator {
 	}
 
 	private function updateFilter():void {
-		sendMessage(PhraseMsg.SET_FILTER, view.themesList.selectedItems);
+		var filter:Array = [];
+		for each(var item:* in view.themesList.selectedItems) filter.push(item);
+		sendMessage(PhraseMsg.SET_FILTER, filter);
 	}
 
 	private function loadThemes():void {
@@ -74,7 +76,7 @@ public class PhraseFilterMediator extends RequestMediator {
 	}
 
 	private function onFilterLoaded(res:CommandResult):void {
-		var filter:Vector.<Object> = res.data as Vector.<Object>;
+		var filter:Array = res.data as Array;
 
 		if (filter && filter.length > 0 && view.themes.length > 0) {
 			var theme:ITheme;

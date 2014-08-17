@@ -20,7 +20,7 @@
     </s:states>
     <s:Rect left="0" right="0" top="0" bottom="0">
         <s:stroke>
-            <s:Stroke color="{AppColors.INPUT_BORDER}"/>
+            <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
         </s:stroke>
         <s:fill>
             <s:SolidColor color="{AppColors.INPUT_BORDER}" alpha="0.2" alpha.down="1"/>

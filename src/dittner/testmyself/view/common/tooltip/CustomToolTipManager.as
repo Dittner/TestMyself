@@ -29,7 +29,7 @@ public class CustomToolTipManager extends Proxy {
 	}
 
 	public function show(text:String, host:IUIComponent):void {
-		if (toolTip && settings.info.showTooltips) {
+		if (toolTip && settings.info.showTooltip) {
 
 			var topLeftPoint:Point = host.localToGlobal(ZERO_POINT);
 			var globalBounds:Rectangle = new Rectangle(topLeftPoint.x, topLeftPoint.y, host.getExplicitOrMeasuredWidth(), host.getExplicitOrMeasuredHeight());

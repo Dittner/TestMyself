@@ -35,17 +35,17 @@ public class ConfigureAppCmd extends Command {
 		commandMap.execute(SetupPhraseCommands);
 
 		//map models and services
+		proxyMap.map(new SettingsModel());
 		proxyMap.map(new DeferredOperationManager(), null, IDeferredOperationManager);
 		proxyMap.map(new ScreenFactory(), null, IScreenFactory);
-		proxyMap.map(new PhraseModel(), null, PhraseModel);
+		proxyMap.map(new PhraseModel());
 		proxyMap.map(new PhraseService());
-		proxyMap.map(new SettingsModel());
 		proxyMap.map(new CustomToolTipManager());
 
 		//map views
+		mediatorMap.map(SettingsScreen, SettingsMediator);
 		mediatorMap.map(AboutScreen, AboutScreenMediator);
 		mediatorMap.map(PhraseScreen, PhraseScreenMediator);
-		mediatorMap.map(SettingsScreen, SettingsMediator);
 		mediatorMap.map(TemplateScreen, TemplateMediator);
 	}
 

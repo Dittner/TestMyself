@@ -2,6 +2,7 @@ package dittner.testmyself.view.phrase.list {
 import dittner.testmyself.command.operation.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.IPhrase;
+import dittner.testmyself.model.phrase.IPhrasePageInfo;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.view.common.list.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMediator;
@@ -26,8 +27,8 @@ public class PhraseListMediator extends RequestMediator {
 	override protected function onRegister():void {
 		view.addEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
-		addHandler(PhraseMsg.PHRASES_CHANGED_NOTIFICATION, onPhrasesChanged);
-		sendRequest(PhraseMsg.GET_PHRASES, new RequestMessage(onPhrasesLoaded));
+		addHandler(PhraseMsg.PAGE_INFO_CHANGED_NOTIFICATION, onPageInfoChanged);
+		sendRequest(PhraseMsg.GET_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
 	}
 
 	private function phraseRenDataSelectedHandler(event:Event):void {
@@ -36,15 +37,15 @@ public class PhraseListMediator extends RequestMediator {
 		sendMessage(PhraseMsg.SELECT_PHRASE, selectedPhrase);
 	}
 
-	private function onPhrasesChanged(phrases:Array):void {
-		updateViewList(phrases);
+	private function onPageInfoChanged(pageInfo:IPhrasePageInfo):void {
+		updateViewList(pageInfo);
 	}
-	private function onPhrasesLoaded(res:CommandResult):void {
-		updateViewList(res.data as Array);
+	private function onPageInfoLoaded(res:CommandResult):void {
+		updateViewList(res.data as IPhrasePageInfo);
 	}
 
-	private function updateViewList(phrases:Array):void {
-		wrappedPhrases = wrapPhrases(phrases);
+	private function updateViewList(pageInfo:IPhrasePageInfo):void {
+		wrappedPhrases = wrapPhrases(pageInfo.phrases);
 		view.dataProvider = new ArrayCollection(wrappedPhrases);
 		sendMessage(PhraseMsg.SELECT_PHRASE, Phrase.NULL);
 	}

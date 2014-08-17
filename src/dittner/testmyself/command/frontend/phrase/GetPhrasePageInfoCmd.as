@@ -6,16 +6,22 @@ import dittner.testmyself.view.common.mediator.IRequestMessage;
 
 import mvcexpress.mvc.Command;
 
-public class GetPhrasesCmd extends Command {
+public class GetPhrasePageInfoCmd extends Command {
 
-	[Inject]
-	public var service:PhraseService;
 	[Inject]
 	public var model:PhraseModel;
 
+	[Inject]
+	public var service:PhraseService;
+
 	public function execute(requestMsg:IRequestMessage):void {
-		if (model.phrases) requestMsg.completeSuccess(new CommandResult(model.phrases));
-		else service.getPhrases(requestMsg);
+		var pageNum:uint = requestMsg.data as uint;
+		if (model.pageInfo && model.pageInfo.pageNum == pageNum) {
+			requestMsg.completeSuccess(new CommandResult(model.pageInfo));
+		}
+		else {
+			service.loadPageInfo(requestMsg);
+		}
 	}
 }
 }

@@ -9,13 +9,15 @@ import dittner.testmyself.model.common.DataBaseInfo;
 
 public class GetPhraseDBInfoOperation extends DeferredOperation {
 
-	public function GetPhraseDBInfoOperation(sqlRunner:SQLRunner) {
+	public function GetPhraseDBInfoOperation(sqlRunner:SQLRunner, filter:Array) {
 		this.sqlRunner = sqlRunner;
+		this.filter = filter;
 		info = new DataBaseInfo();
 	}
 
 	private var sqlRunner:SQLRunner;
 	private var info:DataBaseInfo;
+	private var filter:Array;
 
 	override public function process():void {
 		var phaseRunner:PhaseRunner = new PhaseRunner();
@@ -23,6 +25,7 @@ public class GetPhraseDBInfoOperation extends DeferredOperation {
 
 		try {
 			phaseRunner.addPhase(PhraseCountTransactionPhase, sqlRunner, info);
+			phaseRunner.addPhase(FilteredPhraseCountTransactionPhase, sqlRunner, info, filter);
 			phaseRunner.addPhase(PhraseAudioCountTransactionPhase, sqlRunner, info);
 
 			phaseRunner.execute();

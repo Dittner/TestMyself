@@ -6,14 +6,11 @@ import com.probertson.data.SQLRunner;
 import dittner.testmyself.command.operation.deferredOperation.ErrorCode;
 import dittner.testmyself.command.operation.phaseOperation.PhaseOperation;
 import dittner.testmyself.command.operation.result.CommandException;
-import dittner.testmyself.model.model_internal;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.theme.Theme;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;
-
-use namespace model_internal;
 
 public class PhraseFilterInsertTransactionSubPhase extends PhaseOperation {
 	public function PhraseFilterInsertTransactionSubPhase(phrase:Phrase, theme:Theme, sqlRunner:SQLRunner, sqlStatement:String) {

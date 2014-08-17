@@ -23,7 +23,7 @@
                 g.drawRoundRect(0, 0, maskWid, 10, 5, 5);
                 g.endFill();
             }
-
+            recordingAnimation.mask = preloaderMask;
         }
         ]]></fx:Script>
 
@@ -71,8 +71,7 @@
                              left="10"/>
 
         <s:SpriteVisualElement id="recordingAnimation"
-                               top="11" left="100" right="10"
-                               mask="{preloaderMask}"/>
+                               top="11" left="100" right="10"/>
 
     </s:Group>
 

@@ -13,8 +13,10 @@ import dittner.testmyself.command.operation.deferredOperation.IDeferredOperation
 import dittner.testmyself.command.operation.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.command.operation.result.CommandException;
 import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.model.common.SettingsModel;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.phrase.PhraseModel;
+import dittner.testmyself.model.phrase.PhrasePageInfo;
 import dittner.testmyself.view.common.mediator.IRequestMessage;
 
 import mvcexpress.mvc.Proxy;
@@ -33,6 +35,9 @@ public class PhraseService extends Proxy {
 
 	[Inject]
 	public var deferredOperationManager:IDeferredOperationManager;
+
+	[Inject]
+	public var settings:SettingsModel;
 
 	[Inject]
 	public var model:PhraseModel;
@@ -71,16 +76,26 @@ public class PhraseService extends Proxy {
 		deferredOperationManager.add(op);
 	}
 
-	public function getPhrases(requestMsg:IRequestMessage = null):void {
-		var op:IDeferredOperation = new SelectPhraseSQLOperation(sqlRunner, model.filter);
-		op.addCompleteCallback(phrasesLoaded);
+	public function loadPageInfo(requestMsg:IRequestMessage = null):void {
+		var pageNum:uint;
+		if (requestMsg) pageNum = requestMsg.data as uint;
+		else if (model.pageInfo) pageNum = model.pageInfo.pageNum;
+		else pageNum = 0;
+
+		var pageInfo:PhrasePageInfo = new PhrasePageInfo();
+		pageInfo.pageSize = settings.info.pageSize;
+		pageInfo.pageNum = pageNum;
+		pageInfo.filter = model.filter;
+
+		var op:IDeferredOperation = new SelectPhraseSQLOperation(sqlRunner, pageInfo);
+		op.addCompleteCallback(pageInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
 
-	public function getThemes(requestMsg:IRequestMessage = null):void {
+	public function loadThemes(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new SelectPhraseThemeSQLOperation(sqlRunner);
-		op.addCompleteCallback(phraseThemesLoaded);
+		op.addCompleteCallback(themesLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -92,7 +107,7 @@ public class PhraseService extends Proxy {
 	}
 
 	public function getDBInfo(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new GetPhraseDBInfoOperation(sqlRunner);
+		var op:IDeferredOperation = new GetPhraseDBInfoOperation(sqlRunner, model.filter);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -115,29 +130,25 @@ public class PhraseService extends Proxy {
 	}
 
 	private function phraseAdded(res:CommandResult):void {
-		reloadData();
-
+		loadPageInfo();
+		loadThemes();
 	}
 	private function phraseUpdated(res:CommandResult):void {
-		reloadData();
+		loadPageInfo();
+		loadThemes();
 	}
 
 	private function phraseRemoved(res:CommandResult):void {
-		reloadData();
+		loadPageInfo();
 	}
 
-	private function phrasesLoaded(res:CommandResult):void {
-		res.data.reverse();
-		model.phrases = res.data as Array;
+	private function pageInfoLoaded(res:CommandResult):void {
+		model.selectedPhrase = (res.data as PhrasePageInfo).selectedPhrase;
+		model.pageInfo = res.data as PhrasePageInfo;
 	}
 
-	private function phraseThemesLoaded(res:CommandResult):void {
+	private function themesLoaded(res:CommandResult):void {
 		model.themes = res.data as Array;
-	}
-
-	public function reloadData():void {
-		getPhrases();
-		getThemes();
 	}
 
 	//----------------------------------------------------------------------------------------------

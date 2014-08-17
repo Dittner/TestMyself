@@ -14,7 +14,7 @@ public class PhraseRemoverMediator extends PhraseFormMediator {
 	override protected function toolActionSelectedHandler(toolAction:String):void {
 		if (!isActive && toolAction == ToolAction.REMOVE && selectedPhrase != Phrase.NULL) {
 			isActive = true;
-			form.remove(selectedPhrase.origin, selectedPhrase.translation);
+			form.remove(selectedPhrase.origin);
 			form.title = ToolActionName.getNameById(ToolAction.REMOVE);
 			openForm();
 		}

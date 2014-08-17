@@ -32,7 +32,7 @@
                         <s:SolidColor alpha="0"/>
                     </s:fill>
                     <s:stroke>
-                        <s:Stroke color="{AppColors.EDITOR_BORDER}" alpha=".5" alpha.down="1"/>
+                        <s:SolidColorStroke color="{AppColors.EDITOR_BORDER}" alpha=".5" alpha.down="1"/>
                     </s:stroke>
                 </s:Rect>
 

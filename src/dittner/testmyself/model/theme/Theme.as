@@ -1,7 +1,4 @@
 package dittner.testmyself.model.theme {
-import dittner.testmyself.model.model_internal;
-
-use namespace model_internal;
 
 public class Theme implements ITheme {
 	public function Theme() {}

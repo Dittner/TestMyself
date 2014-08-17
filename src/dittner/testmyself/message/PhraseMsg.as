@@ -1,10 +1,9 @@
 package dittner.testmyself.message {
 public class PhraseMsg {
 
-	public static const PHRASE_SELECTED_NOTIFICATION:String = "phraseSelectedNotification";
 	public static const THEMES_CHANGED_NOTIFICATION:String = "themesChangedNotification";
-	public static const PHRASES_CHANGED_NOTIFICATION:String = "phrasesChangedNotification";
-	public static const PHRASES_FILTER_CHANGED_NOTIFICATION:String = "phrasesFilterChangedNotification";
+	public static const PAGE_INFO_CHANGED_NOTIFICATION:String = "pageInfoChangedNotification";
+	public static const PHRASE_SELECTED_NOTIFICATION:String = "PhraseSelectedNotification";
 
 	public static const SELECT_PHRASE:String = "selectPhrase";
 
@@ -13,6 +12,7 @@ public class PhraseMsg {
 	public static const FORM_ACTIVATED_NOTIFICATION:String = "formActivatedNotification";
 	public static const FORM_DEACTIVATED_NOTIFICATION:String = "formDeactivatedNotification";
 
+	public static const GET_PAGE_INFO:String = "getPageInfo";
 	public static const GET_SELECTED_PHRASE:String = "getSelectedPhrase";
 	public static const GET_FILTER:String = "getFilter";
 	public static const SET_FILTER:String = "setFilter";
@@ -21,7 +21,6 @@ public class PhraseMsg {
 	public static const ADD_PHRASE:String = "addPhrase";
 	public static const UPDATE_PHRASE:String = "updatePhrase";
 	public static const REMOVE_PHRASE:String = "removePhrase";
-	public static const GET_PHRASES:String = "getPhrases";
 	public static const GET_THEMES:String = "getThemes";
 	public static const GET_SELECTED_THEMES_ID:String = "getSelectedThemesID";
 	public static const GET_DATA_BASE_INFO:String = "getDataBaseInfo";
