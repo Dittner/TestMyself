@@ -7,24 +7,23 @@ import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.view.common.list.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
-import dittner.testmyself.view.common.mediator.mediator_internal;
 import dittner.testmyself.view.common.toobar.ToolAction;
+import dittner.testmyself.view.phrase.common.PageLayoutInfo;
 import dittner.testmyself.view.phrase.common.PhraseRendererData;
 
 import flash.events.Event;
 
 import mx.collections.ArrayCollection;
 
-use namespace mediator_internal;
-
 public class PhraseListMediator extends RequestMediator {
 
 	[Inject]
 	public var view:TransUnitList;
 
-	private var wrappedPhrases:Array = [];
+	private var pageLayoutInfo:PageLayoutInfo;
 
 	override protected function onRegister():void {
+		pageLayoutInfo = new PageLayoutInfo();
 		view.addEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
 		addHandler(PhraseMsg.PAGE_INFO_CHANGED_NOTIFICATION, onPageInfoChanged);
@@ -45,8 +44,7 @@ public class PhraseListMediator extends RequestMediator {
 	}
 
 	private function updateViewList(pageInfo:IPhrasePageInfo):void {
-		wrappedPhrases = wrapPhrases(pageInfo.phrases);
-		view.dataProvider = new ArrayCollection(wrappedPhrases);
+		view.dataProvider = new ArrayCollection(wrapPhrases(pageInfo.phrases));
 		sendMessage(PhraseMsg.SELECT_PHRASE, Phrase.NULL);
 	}
 
@@ -54,31 +52,31 @@ public class PhraseListMediator extends RequestMediator {
 		var items:Array = [];
 		var item:PhraseRendererData;
 		for each(var vo:IPhrase in phrases) {
-			item = new PhraseRendererData(vo);
+			item = new PhraseRendererData(vo, pageLayoutInfo);
 			items.push(item);
 		}
 		return items;
 	}
 
 	private function toolActionSelectedHandler(toolId:String):void {
-		var item:PhraseRendererData;
 		switch (toolId) {
 			case(ToolAction.TRANS_INVERT) :
-				for each(item in wrappedPhrases) item.transInverted = !item.transInverted;
+				pageLayoutInfo.transInverted = !pageLayoutInfo.transInverted;
 				break;
 			case(ToolAction.HOR_LAYOUT) :
-				for each(item in wrappedPhrases) item.horizontalLayout = true;
+				pageLayoutInfo.isHorizontal = true;
 				break;
 			case(ToolAction.VER_LAYOUT) :
-				for each(item in wrappedPhrases) item.horizontalLayout = false;
+				pageLayoutInfo.isHorizontal = false;
 				break;
 			case(ToolAction.HIDE_DETAILS) :
-				for each(item in wrappedPhrases) item.showDetails = false;
+				pageLayoutInfo.showDetails = false;
 				break;
 			case(ToolAction.SHOW_DETAILS) :
-				for each(item in wrappedPhrases) item.showDetails = true;
+				pageLayoutInfo.showDetails = true;
 				break;
 		}
+		view.invalidateLayout();
 	}
 
 	override protected function onRemove():void {
@@ -86,6 +84,7 @@ public class PhraseListMediator extends RequestMediator {
 		removeAllHandlers();
 		view.dataProvider = null;
 		sendMessage(PhraseMsg.SELECT_PHRASE, Phrase.NULL);
+		pageLayoutInfo = null;
 	}
 
 }

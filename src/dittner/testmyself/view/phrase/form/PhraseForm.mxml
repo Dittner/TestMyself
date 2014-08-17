@@ -14,6 +14,7 @@
         import dittner.testmyself.view.common.renderer.AddedThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.ThemeItemRenderer;
         import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.common.utils.AppSizes;
 
         import mx.collections.ArrayCollection;
 
@@ -92,7 +93,7 @@
         }
 
         private static const HEADER_HEI:uint = EditorBg.HEADER_HEIGHT;
-        private static const FOOTER_HEI:uint = 50;
+        private static const FOOTER_HEI:uint = AppSizes.EDITOR_FOOTER_HEIGHT;
         private static const PAD:uint = 20;
         private static const PAD_TOP:uint = 10;
         private static const HGAP:uint = 10;

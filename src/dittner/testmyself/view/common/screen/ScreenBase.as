@@ -11,7 +11,7 @@ public class ScreenBase extends Group {
 		maxWidth = AppSizes.SCREEN_MAX_WIDTH;
 	}
 	public const HEADER_HEI:int = AppSizes.SCREEN_HEADER_HEIGHT;
-	public const FOOTER_HEI:int = 40;
+	public const FOOTER_HEI:int = AppSizes.SCREEN_FOOTER_HEIGHT;
 	public const PADDING:uint = 20;
 
 	//--------------------------------------

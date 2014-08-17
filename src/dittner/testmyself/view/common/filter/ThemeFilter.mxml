@@ -8,10 +8,11 @@
     <fx:Script><![CDATA[
         import dittner.testmyself.view.common.editor.EditorBg;
         import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.common.utils.AppSizes;
 
         import mx.collections.ArrayCollection;
 
-        private static const FOOTER_HEI:uint = 50;
+        private static const FOOTER_HEI:uint = AppSizes.EDITOR_FOOTER_HEIGHT;
 
         //--------------------------------------
         //  themes
