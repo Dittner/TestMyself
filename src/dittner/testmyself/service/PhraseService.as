@@ -13,6 +13,7 @@ import dittner.testmyself.command.operation.deferredOperation.IDeferredOperation
 import dittner.testmyself.command.operation.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.command.operation.result.CommandException;
 import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.model.common.DataBaseInfo;
 import dittner.testmyself.model.common.SettingsModel;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.phrase.PhraseModel;
@@ -106,8 +107,9 @@ public class PhraseService extends Proxy {
 		deferredOperationManager.add(op);
 	}
 
-	public function getDBInfo(requestMsg:IRequestMessage):void {
+	public function loadDBInfo(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new GetPhraseDBInfoOperation(sqlRunner, model.filter);
+		op.addCompleteCallback(dbInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -132,14 +134,18 @@ public class PhraseService extends Proxy {
 	private function phraseAdded(res:CommandResult):void {
 		loadPageInfo();
 		loadThemes();
+		loadDBInfo();
 	}
+
 	private function phraseUpdated(res:CommandResult):void {
 		loadPageInfo();
 		loadThemes();
+		loadDBInfo();
 	}
 
 	private function phraseRemoved(res:CommandResult):void {
 		loadPageInfo();
+		loadDBInfo();
 	}
 
 	private function pageInfoLoaded(res:CommandResult):void {
@@ -149,6 +155,10 @@ public class PhraseService extends Proxy {
 
 	private function themesLoaded(res:CommandResult):void {
 		model.themes = res.data as Array;
+	}
+
+	private function dbInfoLoaded(res:CommandResult):void {
+		model.dataBaseInfo = res.data as DataBaseInfo;
 	}
 
 	//----------------------------------------------------------------------------------------------

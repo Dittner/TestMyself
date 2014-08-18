@@ -16,6 +16,7 @@ public class SetPhraseFilterCmd extends Command {
 	public function execute(filter:Array):void {
 		model.filter = filter;
 		service.loadPageInfo(new RequestMessage(null, null, 0));
+		service.loadDBInfo();
 	}
 }
 }

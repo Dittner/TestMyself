@@ -16,6 +16,7 @@ public class PhrasePaginationMediator extends RequestMediator {
 
 	override protected function onRegister():void {
 		addHandler(PhraseMsg.PAGE_INFO_CHANGED_NOTIFICATION, onPageInfoChanged);
+		addHandler(PhraseMsg.DB_INFO_CHANGED_NOTIFICATION, phraseDBInfoChanged);
 		sendRequest(PhraseMsg.GET_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
 		sendRequest(PhraseMsg.GET_DATA_BASE_INFO, new RequestMessage(phraseDBInfoLoaded));
 		view.nextPageBtn.addEventListener(MouseEvent.CLICK, nextPageBtnClickHandler);
@@ -26,18 +27,20 @@ public class PhrasePaginationMediator extends RequestMediator {
 
 	private function onPageInfoChanged(pageInfo:IPhrasePageInfo):void {
 		updateView(pageInfo);
-		sendRequest(PhraseMsg.GET_DATA_BASE_INFO, new RequestMessage(phraseDBInfoLoaded));
 	}
 
 	private function onPageInfoLoaded(res:CommandResult):void {
 		updateView(res.data as IPhrasePageInfo);
-		sendRequest(PhraseMsg.GET_DATA_BASE_INFO, new RequestMessage(phraseDBInfoLoaded));
 	}
 
 	private function updateView(info:IPhrasePageInfo):void {
 		view.unitsOnPage = info.phrases.length;
 		view.curPageNum = info.pageNum;
 		view.pageSize = info.pageSize;
+	}
+
+	private function phraseDBInfoChanged(info:DataBaseInfo):void {
+		view.unitsTotal = info.filteredUnitsAmount;
 	}
 
 	private function phraseDBInfoLoaded(res:CommandResult):void {

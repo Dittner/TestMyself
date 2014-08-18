@@ -1,5 +1,6 @@
 package dittner.testmyself.model.phrase {
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.common.DataBaseInfo;
 
 import mvcexpress.mvc.Proxy;
 
@@ -34,6 +35,18 @@ public class PhraseModel extends Proxy {
 		if (_themes != value) {
 			_themes = value;
 			sendMessage(PhraseMsg.THEMES_CHANGED_NOTIFICATION, themes);
+		}
+	}
+
+	//--------------------------------------
+	//  dataBaseInfo
+	//--------------------------------------
+	private var _dataBaseInfo:DataBaseInfo;
+	public function get dataBaseInfo():DataBaseInfo {return _dataBaseInfo;}
+	public function set dataBaseInfo(value:DataBaseInfo):void {
+		if (_dataBaseInfo != value) {
+			_dataBaseInfo = value;
+			sendMessage(PhraseMsg.DB_INFO_CHANGED_NOTIFICATION, dataBaseInfo);
 		}
 	}
 

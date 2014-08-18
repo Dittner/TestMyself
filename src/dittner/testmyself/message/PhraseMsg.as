@@ -3,7 +3,8 @@ public class PhraseMsg {
 
 	public static const THEMES_CHANGED_NOTIFICATION:String = "themesChangedNotification";
 	public static const PAGE_INFO_CHANGED_NOTIFICATION:String = "pageInfoChangedNotification";
-	public static const PHRASE_SELECTED_NOTIFICATION:String = "PhraseSelectedNotification";
+	public static const DB_INFO_CHANGED_NOTIFICATION:String = "dbInfoChangedNotification";
+	public static const PHRASE_SELECTED_NOTIFICATION:String = "phraseSelectedNotification";
 
 	public static const SELECT_PHRASE:String = "selectPhrase";
 
