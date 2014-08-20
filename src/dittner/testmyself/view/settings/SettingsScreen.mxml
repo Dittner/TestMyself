@@ -88,6 +88,5 @@
                             enabled="{isFormChanged}"
                             label="Сохранить"/>
 
-
     </s:VGroup>
 </core:ScreenBase>

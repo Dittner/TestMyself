@@ -19,9 +19,7 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 
 	private static const MINIMUM_DISPLAY_TIME:uint = 3000;
 
-	public function ClockPreloader(color:uint = 0xFFffFF):void {
-		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-	}
+	public function ClockPreloader(color:uint = 0xFFffFF):void {}
 
 	private var clock:MovieClip;
 	private var minDisplayTimer:Timer;
@@ -110,12 +108,6 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 		}
 	}
 
-	//--------------------------------------
-	//  fullScreenWidth/Height
-	//--------------------------------------
-	private var fullScreenWidth:Number = 500;
-	private var fullScreenHeight:Number = 500;
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -133,14 +125,16 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 
 	protected function createChildren():void {
 		clock = new ClockClass;
-		updateClockPos();
+		clock.visible = false;
 		addChild(clock);
 	}
 
 	private function updateClockPos():void {
-		if (clock) {
-			clock.x = Math.floor(fullScreenWidth - clock.width >> 1);
-			clock.y = Math.floor(fullScreenHeight - clock.height >> 1);
+		if (clock && !clock.visible) {
+			clock.visible = true;
+			clock.x = Math.floor(stage.stageWidth - clock.width >> 1);
+			clock.y = Math.floor(stage.stageHeight - clock.height >> 1);
+			trace("stageHeight = " + stage.stageHeight);
 		}
 	}
 
@@ -164,6 +158,7 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 
 	protected function progressEventHandler(event:ProgressEvent):void {
 		setPercent = Math.min(100 * event.bytesLoaded / event.bytesTotal, 100);
+		updateClockPos();
 	}
 
 	private var _completeLoading:Boolean = false;
@@ -178,11 +173,5 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 		setPercent = 100;
 	}
 
-	private function addedToStageHandler(event:Event):void {
-		removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-		fullScreenHeight = stage.fullScreenHeight;
-		fullScreenWidth = stage.fullScreenWidth;
-		updateClockPos();
-	}
 }
 }
