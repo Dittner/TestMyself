@@ -10,6 +10,12 @@
 }
 
 @font-face {
+    src: url("/fonts/DeutschGothic.ttf");
+    font-family: DeutschGothic;
+    embedAsCFF: true;
+}
+
+@font-face {
     src: url("/fonts/Roboto-Light.ttf");
     font-family: RobotoLight;
     embedAsCFF: true;

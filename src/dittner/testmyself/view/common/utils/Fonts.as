@@ -9,6 +9,7 @@ public class Fonts {
 	public static const ROBOTO_COND_MX:String = "RobotoCondMX";
 
 	public static const VANTA_THIN:String = "VantaThin";
+	public static const DEUTSCH_GOTHIC:String = "DeutschGothic";
 
 }
 }

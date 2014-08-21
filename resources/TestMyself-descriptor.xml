@@ -26,19 +26,8 @@
     <supportedProfiles>extendedDesktop</supportedProfiles>
 
     <icon>
-        <image32x32>/icons/logo32.png</image32x32>
-        <image36x36>/icons/logo36.png</image36x36>
-        <image48x48>/icons/logo48.png</image48x48>
-        <image50x50>/icons/logo50.png</image50x50>
-        <image57x57>/icons/logo57.png</image57x57>
-        <image58x58>/icons/logo58.png</image58x58>
-        <image72x72>/icons/logo72.png</image72x72>
         <image60x60>/icons/logo60.png</image60x60>
-        <image96x96>/icons/logo96.png</image96x96>
-        <image100x100>/icons/logo100.png</image100x100>
-        <image114x114>/icons/logo114.png</image114x114>
         <image128x128>/icons/logo128.png</image128x128>
-        <image144x144>/icons/logo144.png</image144x144>
         <image512x512>/icons/logo512.png</image512x512>
     </icon>
 
