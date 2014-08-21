@@ -6,24 +6,24 @@ import dittner.testmyself.command.operation.phaseOperation.PhaseRunner;
 import dittner.testmyself.command.operation.result.CommandException;
 import dittner.testmyself.command.operation.result.CommandResult;
 
-public class DeletePhraseSQLOperation extends DeferredOperation {
+public class DeletePhraseThemeSQLOperation extends DeferredOperation {
 
-	public function DeletePhraseSQLOperation(sqlRunner:SQLRunner, phraseID:int) {
+	public function DeletePhraseThemeSQLOperation(sqlRunner:SQLRunner, themeID:int) {
 		super();
 		this.sqlRunner = sqlRunner;
-		this.phraseID = phraseID;
+		this.themeID = themeID;
 	}
 
 	private var sqlRunner:SQLRunner;
-	private var phraseID:int;
+	private var themeID:int;
 
 	override public function process():void {
 		var phaseRunner:PhaseRunner = new PhaseRunner();
 		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
 		try {
-			phaseRunner.addPhase(DeletePhraseTransactionPhase, sqlRunner, phraseID);
-			phaseRunner.addPhase(DeletePhraseFilterByPhraseTransactionPhase, sqlRunner, phraseID);
+			phaseRunner.addPhase(DeletePhraseThemeTransactionPhase, sqlRunner, themeID);
+			phaseRunner.addPhase(DeletePhraseFilterByFilterTransactionPhase, sqlRunner, themeID);
 
 			phaseRunner.execute();
 		}

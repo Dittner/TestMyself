@@ -6,10 +6,13 @@ import dittner.testmyself.command.frontend.phrase.GetPhrasePageInfoCmd;
 import dittner.testmyself.command.frontend.phrase.GetSelectedPhraseCmd;
 import dittner.testmyself.command.frontend.phrase.GetSelectedPhraseThemesIDCmd;
 import dittner.testmyself.command.frontend.phrase.GetThemesCmd;
+import dittner.testmyself.command.frontend.phrase.MergePhraseThemesCmd;
 import dittner.testmyself.command.frontend.phrase.RemovePhraseCmd;
+import dittner.testmyself.command.frontend.phrase.RemovePhraseThemeCmd;
 import dittner.testmyself.command.frontend.phrase.SelectPhraseCmd;
 import dittner.testmyself.command.frontend.phrase.SetPhraseFilterCmd;
 import dittner.testmyself.command.frontend.phrase.UpdatePhraseCmd;
+import dittner.testmyself.command.frontend.phrase.UpdatePhraseThemeCmd;
 import dittner.testmyself.message.PhraseMsg;
 
 import mvcexpress.mvc.Command;
@@ -27,6 +30,9 @@ public class SetupPhraseCommands extends Command {
 		commandMap.map(PhraseMsg.UPDATE_PHRASE, UpdatePhraseCmd);
 		commandMap.map(PhraseMsg.GET_PAGE_INFO, GetPhrasePageInfoCmd);
 		commandMap.map(PhraseMsg.GET_THEMES, GetThemesCmd);
+		commandMap.map(PhraseMsg.UPDATE_THEME, UpdatePhraseThemeCmd);
+		commandMap.map(PhraseMsg.REMOVE_THEME, RemovePhraseThemeCmd);
+		commandMap.map(PhraseMsg.MERGE_THEMES, MergePhraseThemesCmd);
 		commandMap.map(PhraseMsg.GET_SELECTED_THEMES_ID, GetSelectedPhraseThemesIDCmd);
 		commandMap.map(PhraseMsg.GET_DATA_BASE_INFO, GetPhraseDBInfoCmd);
 	}

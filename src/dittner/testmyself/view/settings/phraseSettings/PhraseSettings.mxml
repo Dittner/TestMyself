@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:spinner="dittner.testmyself.view.common.spinner.*"
+         xmlns:button="dittner.testmyself.view.common.button.*"
+         xmlns:list="dittner.testmyself.view.common.list.*"
+         xmlns:utils="dittner.testmyself.view.common.utils.*"
+         xmlns:input="dittner.testmyself.view.common.input.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.model.theme.ITheme;
+        import dittner.testmyself.view.common.utils.AppColors;
+        import dittner.testmyself.view.common.utils.Fonts;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  themes
+        //--------------------------------------
+        private var _themes:ArrayCollection;
+        [Bindable("themesChanged")]
+        public function get themes():ArrayCollection {return _themes;}
+        public function set themes(value:ArrayCollection):void {
+            if (_themes != value) {
+                _themes = value;
+                dispatchEvent(new Event("themesChanged"));
+            }
+        }
+
+        [Bindable("themesChanged")]
+        public function get haveThemes():Boolean {return themes && themes.length > 0;}
+
+        private function cancelBtn_clickHandler(event:MouseEvent):void {
+            if (themesList) themesList.selectedItem = null;
+            setCurrentState("normal");
+        }
+
+        public function get isThemeRemoving():Boolean {
+            return currentState == "removeTheme";
+        }
+
+        public function clear():void {
+            setCurrentState('normal');
+            themeNameInputForm.text = "";
+        }
+
+        private function applyBtnEnabled(selectedTheme:ITheme, updatedThemeName:String):Boolean {
+            return isThemeRemoving ? selectedTheme != null : selectedTheme && updatedThemeName && selectedTheme.name != updatedThemeName;
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="renameTheme" stateGroups="edit"/>
+        <s:State name="removeTheme" stateGroups="edit"/>
+    </s:states>
+
+    <s:layout>
+        <s:VerticalLayout gap="10"/>
+    </s:layout>
+
+
+    <s:HGroup verticalAlign="bottom">
+        <spinner:CustomSpinner id="pageSizeSpinner"
+                               fontFamily="{Fonts.ROBOTO_LIGHT}"
+                               fontSize="18"
+                               color="{AppColors.TEXT_DARK}"
+                               minimum="5" maximum="50" value="5"/>
+
+        <s:Label text="Число фраз на одной странице"
+                 fontFamily="{Fonts.ROBOTO_LIGHT}"
+                 fontSize="18"
+                 color="{AppColors.TEXT_DARK}"/>
+    </s:HGroup>
+
+    <button:DottedLabelBtn text="Изменить название темы"
+                           fontFamily="{Fonts.ROBOTO_LIGHT}"
+                           fontSize="18"
+                           visible="{haveThemes}"
+                           includeInLayout="{haveThemes}"
+                           upColor="{AppColors.TEXT_DARK}"
+                           downColor="{AppColors.TEXT_BLACK}"
+                           click="setCurrentState('renameTheme')"/>
+
+    <button:DottedLabelBtn text="Удалить тему"
+                           fontFamily="{Fonts.ROBOTO_LIGHT}"
+                           fontSize="18"
+                           visible="{haveThemes}"
+                           includeInLayout="{haveThemes}"
+                           upColor="{AppColors.TEXT_DARK}"
+                           downColor="{AppColors.TEXT_BLACK}"
+                           click="setCurrentState('removeTheme')"/>
+
+    <s:Group width="100%" height="100%"
+             visible.edit="{haveThemes}"
+             visible="false">
+        <s:layout>
+            <s:ConstraintLayout>
+                <s:constraintColumns>
+                    <s:ConstraintColumn id="col1" width="50%"/>
+                    <s:ConstraintColumn id="col2" width="25%"/>
+                    <s:ConstraintColumn id="col3" width="25%"/>
+                </s:constraintColumns>
+                <s:constraintRows>
+                    <s:ConstraintRow id="row1"/>
+                    <s:ConstraintRow id="row2" height="100%"/>
+                </s:constraintRows>
+            </s:ConstraintLayout>
+        </s:layout>
+
+        <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+
+        <list:ListForm id="themesList"
+                       top="10"
+                       bottom="10"
+                       left="col1:10"
+                       right="col1:10"
+                       dataProvider="{themes}"
+                       title="Список тем"
+                       itemRenderer="dittner.testmyself.view.common.renderer.ThemeItemRenderer">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:ListForm>
+
+        <s:Label left="col2:10" top="row1:10" right="10"
+                 fontFamily="{Fonts.ROBOTO}"
+                 color="{AppColors.TEXT_DARK}" fontSize="14"
+                 includeIn="removeTheme"
+                 text="Вы действительно хотите безвозвратно удалить выбранную тему?"/>
+
+        <input:TextInputForm id="themeNameInputForm"
+                             top="row1:10" left="col2:10" right="10"
+                             title="Введите новое название для выбранной темы"
+                             visible="false" visible.renameTheme="true"
+                             includeInLayout="false" includeInLayout.renameTheme="true"/>
+
+        <button:CancelButton id="cancelBtn"
+                             top="row2:10"
+                             left="col2:10"
+                             right="col2:10"
+                             label="Отменить"
+                             click="cancelBtn_clickHandler(event)"/>
+
+        <button:ApplyButton id="applyBtn"
+                            enabled="{applyBtnEnabled(themesList.selectedItem, themeNameInputForm.text)}"
+                            label.renameTheme="Переименовать"
+                            label.removeTheme="Удалить"
+                            top="row2:10"
+                            left="col3:10"
+                            right="10"/>
+    </s:Group>
+
+</s:Group>

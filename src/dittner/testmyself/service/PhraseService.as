@@ -3,12 +3,15 @@ import com.probertson.data.SQLRunner;
 
 import dittner.testmyself.command.backend.phrase.CreatePhraseDataBaseSQLOperation;
 import dittner.testmyself.command.backend.phrase.DeletePhraseSQLOperation;
+import dittner.testmyself.command.backend.phrase.DeletePhraseThemeSQLOperation;
 import dittner.testmyself.command.backend.phrase.GetPhraseDBInfoOperation;
 import dittner.testmyself.command.backend.phrase.InsertPhraseSQLOperation;
+import dittner.testmyself.command.backend.phrase.MergePhraseThemesSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseFilterSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseSQLOperation;
 import dittner.testmyself.command.backend.phrase.SelectPhraseThemeSQLOperation;
 import dittner.testmyself.command.backend.phrase.UpdatePhraseSQLOperation;
+import dittner.testmyself.command.backend.phrase.UpdatePhraseThemeSQLOperation;
 import dittner.testmyself.command.operation.deferredOperation.IDeferredOperation;
 import dittner.testmyself.command.operation.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.command.operation.result.CommandException;
@@ -18,6 +21,7 @@ import dittner.testmyself.model.common.SettingsModel;
 import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.phrase.PhraseModel;
 import dittner.testmyself.model.phrase.PhrasePageInfo;
+import dittner.testmyself.model.theme.Theme;
 import dittner.testmyself.view.common.mediator.IRequestMessage;
 
 import mvcexpress.mvc.Proxy;
@@ -84,7 +88,7 @@ public class PhraseService extends Proxy {
 		else pageNum = 0;
 
 		var pageInfo:PhrasePageInfo = new PhrasePageInfo();
-		pageInfo.pageSize = settings.info.pageSize;
+		pageInfo.pageSize = settings.info.phrasePageSize;
 		pageInfo.pageNum = pageNum;
 		pageInfo.filter = model.filter;
 
@@ -97,6 +101,27 @@ public class PhraseService extends Proxy {
 	public function loadThemes(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new SelectPhraseThemeSQLOperation(sqlRunner);
 		op.addCompleteCallback(themesLoaded);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function updateTheme(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new UpdatePhraseThemeSQLOperation(sqlRunner, requestMsg.data as Theme);
+		op.addCompleteCallback(themesUpdated);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function removeTheme(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new DeletePhraseThemeSQLOperation(sqlRunner, (requestMsg.data as Theme).id);
+		op.addCompleteCallback(themesUpdated);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function mergeThemes(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new MergePhraseThemesSQLOperation(sqlRunner, (requestMsg.data.destTheme as Theme).id, (requestMsg.data.srcTheme as Theme).id);
+		op.addCompleteCallback(themesUpdated);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -155,6 +180,11 @@ public class PhraseService extends Proxy {
 
 	private function themesLoaded(res:CommandResult):void {
 		model.themes = res.data as Array;
+	}
+
+	private function themesUpdated(res:CommandResult):void {
+		loadThemes();
+		model.filter = [];
 	}
 
 	private function dbInfoLoaded(res:CommandResult):void {

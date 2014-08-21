@@ -1028,9 +1028,6 @@ public class DottedLabel extends Label {
 
 		// 4. Get the char index for this atom index
 		var nextTruncationPosition:int = line.getAtomTextBlockBeginIndex(atomIndex);
-
-		line.flushAtomData();
-
 		return nextTruncationPosition;
 	}
 

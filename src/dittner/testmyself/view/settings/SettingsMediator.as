@@ -4,8 +4,7 @@ import dittner.testmyself.message.SettingsMsg;
 import dittner.testmyself.model.common.SettingsInfo;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
-
-import flash.events.MouseEvent;
+import dittner.testmyself.view.settings.phraseSettings.PhraseSettingsMediator;
 
 public class SettingsMediator extends RequestMediator {
 
@@ -13,29 +12,26 @@ public class SettingsMediator extends RequestMediator {
 	public var view:SettingsScreen;
 
 	override protected function onRegister():void {
+		view.clear();
 		sendRequest(SettingsMsg.LOAD, new RequestMessage(infoLoaded));
-		view.storeBtn.addEventListener(MouseEvent.CLICK, storeBtnClickHandler);
+		mediatorMap.mediateWith(view.phraseSettings, PhraseSettingsMediator);
 	}
 
 	private function infoLoaded(res:CommandResult):void {
 		var info:SettingsInfo = res.data as SettingsInfo;
-		view.showTooltipBox.selected = info.showTooltip;
-		view.pageSizeSpinner.value = info.pageSize;
-		view.maxAudioRecordDurationSpinner.value = info.maxAudioRecordDuration;
-	}
-
-	private function storeBtnClickHandler(event:*):void {
-		var info:SettingsInfo = new SettingsInfo();
-		info.showTooltip = view.showTooltipBox.selected;
-		info.pageSize = view.pageSizeSpinner.value;
-		info.maxAudioRecordDuration = view.maxAudioRecordDurationSpinner.value;
-
-		sendMessage(SettingsMsg.STORE, info);
-		view.isFormChanged = false;
+		view.commonSettings.showTooltipBox.selected = info.showTooltip;
+		view.commonSettings.maxAudioRecordDurationSpinner.value = info.maxAudioRecordDuration;
 	}
 
 	override protected function onRemove():void {
-		view.storeBtn.removeEventListener(MouseEvent.CLICK, storeBtnClickHandler);
+		mediatorMap.unmediate(view.phraseSettings, PhraseSettingsMediator);
+
+		var info:SettingsInfo = new SettingsInfo();
+		info.showTooltip = view.commonSettings.showTooltipBox.selected;
+		info.maxAudioRecordDuration = view.commonSettings.maxAudioRecordDurationSpinner.value;
+		info.phrasePageSize = view.phraseSettings.pageSizeSpinner.value;
+
+		sendMessage(SettingsMsg.STORE, info);
 	}
 }
 }

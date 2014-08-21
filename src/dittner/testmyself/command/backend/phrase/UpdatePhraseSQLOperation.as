@@ -32,7 +32,7 @@ public class UpdatePhraseSQLOperation extends DeferredOperation {
 			phaseRunner.addPhase(ThemesValidationPhase, themes);
 			phaseRunner.addPhase(MP3EncodingPhase, phrase, origin);
 			phaseRunner.addPhase(PhraseUpdateTransactionPhase, sqlRunner, phrase);
-			phaseRunner.addPhase(DeletePhraseFilterTransactionPhase, sqlRunner, phrase.id);
+			phaseRunner.addPhase(DeletePhraseFilterByPhraseTransactionPhase, sqlRunner, phrase.id);
 			phaseRunner.addPhase(PhraseThemeInsertTransactionPhase, sqlRunner, themes);
 			phaseRunner.addPhase(PhraseFilterInsertTransactionPhase, sqlRunner, phrase, themes);
 

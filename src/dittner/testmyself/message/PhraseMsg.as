@@ -23,6 +23,9 @@ public class PhraseMsg {
 	public static const UPDATE_PHRASE:String = "updatePhrase";
 	public static const REMOVE_PHRASE:String = "removePhrase";
 	public static const GET_THEMES:String = "getThemes";
+	public static const UPDATE_THEME:String = "updateTheme";
+	public static const REMOVE_THEME:String = "removeTheme";
+	public static const MERGE_THEMES:String = "mergeThemes";
 	public static const GET_SELECTED_THEMES_ID:String = "getSelectedThemesID";
 	public static const GET_DATA_BASE_INFO:String = "getDataBaseInfo";
 
