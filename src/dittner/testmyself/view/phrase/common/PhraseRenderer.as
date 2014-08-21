@@ -3,7 +3,9 @@ import dittner.testmyself.view.common.renderer.*;
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
 
+import flash.display.GradientType;
 import flash.display.Graphics;
+import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -15,7 +17,6 @@ public class PhraseRenderer extends ItemRendererBase implements IFlexibleRendere
 
 	private static const PAD:uint = 20;
 	private static const GAP:uint = 10;
-	private static const SELECTED_COLOR:uint = AppColors.LIST_ITEM_SELECTION;
 	private static const COLOR:uint = AppColors.WHITE;
 	private static const SEP_COLOR:uint = 0xc5c5cd;
 
@@ -92,13 +93,15 @@ public class PhraseRenderer extends ItemRendererBase implements IFlexibleRendere
 		}
 	}
 
+	private var matr:Matrix = new Matrix();
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
 		g.clear();
 
 		if (selected) {
-			g.beginFill(SELECTED_COLOR);
+			matr.createGradientBox(w, h, 90);
+			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}

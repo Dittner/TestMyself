@@ -3,8 +3,10 @@ import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.view.common.utils.AppColors;
 import dittner.testmyself.view.common.utils.Fonts;
 
+import flash.display.GradientType;
 import flash.display.Graphics;
 import flash.events.MouseEvent;
+import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -15,7 +17,6 @@ import spark.components.DataGroup;
 public class AddedThemeItemRenderer extends ItemRendererBase {
 	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
-	private static const SELECTED_COLOR:uint = AppColors.LIST_ITEM_SELECTION;
 
 	[Embed(source="/assets/button/delete_white_btn.png")]
 	private static const DeleteBtnIconClass:Class;
@@ -59,18 +60,16 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 		measuredHeight = themeName.textHeight + 5 + 2 * PADDING;
 	}
 
+	private var matr:Matrix = new Matrix();
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
 		g.clear();
 
-		g.beginFill(SELECTED_COLOR, 1);
+		matr.createGradientBox(w, h, 90);
+		g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
 		g.drawRect(0, 0, w, h);
 		g.endFill();
-
-		g.lineStyle(1, 0x555555);
-		g.moveTo(0, h - 1);
-		g.lineTo(w, h - 1);
 
 		themeName.x = themeName.y = PADDING;
 		themeName.width = w - 2 * PADDING;
