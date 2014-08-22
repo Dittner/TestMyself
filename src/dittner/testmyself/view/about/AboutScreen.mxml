@@ -39,20 +39,20 @@
                      fontSize="14"
                      fontWeight="bold"
                      width="100%"
-                     color="#ffFFff"
+                     color="{AppColors.TEXT_LIGHT}"
                      text="TestMyself"
                      paddingBottom="-10"/>
 
             <s:Label fontFamily="{Fonts.ROBOTO_LIGHT}"
                      fontSize="14"
                      width="100%"
-                     color="#ffFFff"
+                     color="{AppColors.TEXT_LIGHT}"
                      verticalAlign="middle"
                      text="{ABOUT}"/>
 
 
             <components:DataBaseInfoBoard id="dataBaseInfoBoard"
-                                          width="100%" height="125" bottom="0"/>
+                                          width="100%"/>
         </s:VGroup>
 
     </s:HGroup>

@@ -5,13 +5,14 @@
                  maxWidth="NaN">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;
         ]]></fx:Script>
 
     <s:Label width="100%" height="100%"
              textAlign="center" verticalAlign="middle"
              fontFamily="{Fonts.VANTA_THIN}"
-             fontSize="50" color="#888888"
+             fontSize="60" color="{AppColors.TEXT_WHITE}"
              text="Экран находится в разработке"/>
 
 </core:ScreenBase>
