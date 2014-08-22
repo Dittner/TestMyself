@@ -8,6 +8,7 @@
          xmlns:input="dittner.testmyself.view.common.input.*">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.model.AppConfig;
         import dittner.testmyself.model.theme.ITheme;
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;
@@ -132,6 +133,7 @@
         <input:TextInputForm id="themeNameInputForm"
                              top="row1:10" left="col2:10" right="10"
                              title="Введите новое название для выбранной темы"
+                             maxChars="{AppConfig.MAX_THEME_LENGTH}"
                              visible="false" visible.renameTheme="true"
                              includeInLayout="false" includeInLayout.renameTheme="true"/>
 

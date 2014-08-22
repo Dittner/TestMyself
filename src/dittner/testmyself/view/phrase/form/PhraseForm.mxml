@@ -10,6 +10,7 @@
          maxHeight.remove="300">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.model.AppConfig;
         import dittner.testmyself.model.theme.ITheme;
         import dittner.testmyself.view.common.renderer.AddedThemeItemRenderer;
         import dittner.testmyself.view.common.renderer.ThemeItemRenderer;
@@ -199,9 +200,11 @@
              visible="false">
 
         <input:TextAreaForm id="originArea"
-                            title="Исходный текст"/>
+                            title="Исходный текст"
+                            maxChars="{AppConfig.MAX_PHRASE_LENGTH}"/>
 
         <input:TextAreaForm id="translationArea"
+                            maxChars="{AppConfig.MAX_PHRASE_LENGTH}"
                             title="Перевод"/>
 
 
@@ -220,6 +223,7 @@
         </list:ListForm>
 
         <input:TextInputForm id="addThemeInput"
+                             maxChars="{AppConfig.MAX_THEME_LENGTH}"
                              title="Название новой темы"/>
 
         <button:BitmapButton id="addThemeBtn"

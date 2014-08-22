@@ -13,9 +13,7 @@ public class TextAreaFormSkin extends TextAreaSkin {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_DARK);
 	private static const TITLE_HEIGHT:uint = 20;
 
-	public function TextAreaFormSkin() {
-		setStyle("paddingTop", TITLE_HEIGHT);
-	}
+	public function TextAreaFormSkin() {super(); }
 
 	private var titleDisplay:TextField;
 	private function get hostInput():TextAreaForm {return hostComponent as TextAreaForm;}
@@ -46,6 +44,9 @@ public class TextAreaFormSkin extends TextAreaSkin {
 		titleDisplay.y = -2;
 		titleDisplay.width = w;
 		titleDisplay.height = TITLE_HEIGHT;
+
+		setElementPosition(scroller, 0, bgVerOffset);
+		setElementSize(scroller, w, h - bgVerOffset);
 	}
 
 }
