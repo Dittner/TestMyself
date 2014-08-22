@@ -1,97 +1,61 @@
 <?xml version="1.0"?>
 <core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                  xmlns:s="library://ns.adobe.com/flex/spark"
-                 xmlns:mx="library://ns.adobe.com/flex/mx"
                  xmlns:components="dittner.testmyself.view.about.components.*"
                  xmlns:core="dittner.testmyself.view.common.screen.*"
-                 maxWidth="NaN">
+                 xmlns:utils="dittner.testmyself.view.common.utils.*"
+                 horizontalCenter="0">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.view.common.utils.AppColors;
         import dittner.testmyself.view.common.utils.Fonts;
 
-        [Embed(source='/assets/about_bg.png')]
-        private static var bgClass:Class;
-        private var bg:Bitmap;
-        public var clippedBgWidth:Number;
-
         private static const ABOUT:String = "Это инструмент, автоматизирующий процессы тестирования и обработки результатов тестов, представляющий собой удобный интерфейс для ввода и визуализации данных. Предназначен для самостоятельного контроля знаний учеников, изучающих иностранные языки. Текущая версия программного продукта предназначена для контроля знаний немецкого языка.";
-
-        override protected function createChildren():void {
-            super.createChildren();
-            bg = new bgClass() as Bitmap;
-            bgCont.addChild(bg);
-        }
-
-        override protected function updateDisplayList(w:Number, h:Number):void {
-            super.updateDisplayList(w, h);
-            var bgScale:Number = height / bg.bitmapData.height;
-            bg.height = h;
-            bg.width = bg.bitmapData.width * bgScale;
-            bg.x = (w - bg.width) / 2;
-            clippedBgWidth = Math.min(w, bg.width);
-            rightPanel.x = Math.ceil(clippedBgWidth < bg.width ? clippedBgWidth - rightPanel.width : clippedBgWidth - rightPanel.width + bg.x);
-        }
         ]]></fx:Script>
 
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:SolidColor color="{AppColors.BG_DARK}"/>
-        </s:fill>
-    </s:Rect>
+    <utils:BG width="100%" height="100%" color="0" alpha=".25"/>
 
-    <s:Group width="100%" height="100%">
-        <mx:UIComponent id="bgCont"/>
-        <s:filters>
-            <s:GlowFilter inner="false" color="0" alpha=".75" strength="1" quality="1" blurX="30"/>
-        </s:filters>
-    </s:Group>
+    <s:HGroup width="100%" height="100%" gap="0">
+        <s:Group width="100%" height="100%">
+            <utils:BG width="100%" height="100%" color="0"/>
+            <s:BitmapImage source="@Embed('/assets/logo.png')"
+                           verticalCenter="0" horizontalCenter="0"/>
+        </s:Group>
 
-    <s:Group id="rightPanel" width="500" height="100%">
-        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="#000000" alpha=".6"/>
-            </s:fill>
-        </s:Rect>
 
-        <s:VGroup width="100%" height="100%" right="0"
-                  verticalAlign="bottom" horizontalAlign="center"
-                  paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="140" gap="0">
-
-            <s:Spacer height="10%"/>
-
-            <s:BitmapImage source="@Embed('/assets/logoWhite150x150.png')"/>
-
-            <s:Spacer height="10%"/>
+        <s:VGroup id="rightPanel"
+                  width="100%" height="100%"
+                  verticalAlign="middle" horizontalAlign="center"
+                  paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="20"
+                  gap="10">
 
             <s:Label fontFamily="{Fonts.VANTA_THIN}"
-                     fontSize="45"
+                     fontSize="40"
                      color="{AppColors.YELLOW}"
                      width="100%"
                      text="Система самостоятельного тестирования знаний немецкого языка"/>
-            <!-- text="СИСТЕМА САМОСТОЯТЕЛЬНОГО ТЕСТИРОВАНИЯ ЗНАНИЙ НЕМЕЦКОГО ЯЗЫКА"/>-->
-
-
-            <s:Spacer height="10%"/>
 
             <s:Label fontFamily="{Fonts.ROBOTO}"
                      fontSize="14"
                      fontWeight="bold"
                      width="100%"
-                     color="#ddDDdd"
-                     text="TestMyself" paddingBottom="0"/>
+                     color="#ffFFff"
+                     text="TestMyself"
+                     paddingBottom="-10"/>
 
             <s:Label fontFamily="{Fonts.ROBOTO_LIGHT}"
                      fontSize="14"
                      width="100%"
-                     color="#ddDDdd"
+                     color="#ffFFff"
                      verticalAlign="middle"
                      text="{ABOUT}"/>
+
+
+            <components:DataBaseInfoBoard id="dataBaseInfoBoard"
+                                          width="100%" height="125" bottom="0"/>
         </s:VGroup>
 
-        <components:DataBaseInfoBoard id="dataBaseInfoBoard"
-                                      width="500" right="0" height="125" bottom="0"/>
-    </s:Group>
+    </s:HGroup>
 
 
 </core:ScreenBase>

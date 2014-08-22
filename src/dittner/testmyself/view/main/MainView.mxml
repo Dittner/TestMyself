@@ -87,11 +87,9 @@
                 target="{screenCont}"/>
     </fx:Declarations>
 
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:SolidColor color="{AppColors.BG_DARK}"/>
-        </s:fill>
-    </s:Rect>
+    <s:BitmapImage width="100%" height="100%"
+                   source="@Embed('/assets/app_bg.png')"
+                   fillMode="scale" scaleMode="zoom" smooth="true"/>
 
     <s:Group id="screenCont"
              left="66" right="0"

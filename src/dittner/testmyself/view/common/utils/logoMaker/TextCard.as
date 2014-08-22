@@ -4,45 +4,62 @@ import dittner.testmyself.view.common.utils.TextFieldFactory;
 
 import flash.display.GradientType;
 import flash.display.Graphics;
-import flash.display.Sprite;
 import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class TextCard extends Sprite {
+import mx.core.UIComponent;
+
+public class TextCard extends UIComponent {
 	private var tf:TextField;
 	private var offset:uint;
+	private var color:uint;
 	private var gradientRotationGrad:int;
+	private var fs:int;
 
 	public function TextCard(offset:uint, gradientRotationGrad:int, color:uint, minFontSize:int, maxFontSize:int) {
 		super();
 		this.offset = offset;
+		this.color = color;
 		this.gradientRotationGrad = gradientRotationGrad;
-		var fs:int = Math.ceil(Math.random() * (maxFontSize - minFontSize) + minFontSize);
-		tf = TextFieldFactory.create(new TextFormat(Fonts.ROBOTO_MX, fs, color));
-		addChild(tf);
+		fs = Math.ceil(Math.random() * (maxFontSize - minFontSize) + minFontSize);
 	}
 
 	//--------------------------------------
 	//  text
 	//--------------------------------------
-	public function get text():String {return tf.text;}
+	private var _text:String = "";
+	public function get text():String {return _text;}
 	public function set text(value:String):void {
-		if (tf.text != value) {
-			tf.text = value;
-			draw();
+		if (_text != value) {
+			_text = value;
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 		}
 	}
 
-	public function get measuredWidth():Number {return tf.textWidth + 2 * offset}
-	public function get measuredHeight():Number {return tf.textHeight + 2 * offset}
+	override protected function createChildren():void {
+		super.createChildren();
+		tf = TextFieldFactory.create(new TextFormat(Fonts.ROBOTO_MX, fs, color));
+		addChild(tf);
+	}
 
-	private function draw():void {
-		tf.x = offset - 2;
-		tf.y = offset - 2;
+	override protected function commitProperties():void {
+		super.commitProperties();
+		tf.text = text;
+	}
 
-		var w:Number = measuredWidth;
-		var h:Number = measuredHeight;
+	override protected function measure():void {
+		measuredWidth = tf.textWidth + 2 * offset;
+		measuredHeight = tf.textHeight + 2 * offset;
+	}
+
+	override protected function updateDisplayList(w:Number, h:Number):void {
+		super.updateDisplayList(w, h);
+
+		tf.x = (w - tf.textWidth >> 1) - 2;
+		tf.y = (h - tf.textHeight >> 1) - 2;
 
 		var g:Graphics = graphics;
 		g.clear();

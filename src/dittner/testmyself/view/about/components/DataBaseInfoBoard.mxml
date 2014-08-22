@@ -59,24 +59,20 @@
 
         }
         ]]></fx:Script>
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:SolidColor color="#ffFFff"/>
-        </s:fill>
-    </s:Rect>
 
-    <s:VGroup top="10" left="20" right="20" gap="0">
-        <s:Label fontFamily="{Fonts.ROBOTO}"
-                 fontSize="14"
-                 fontWeight="bold"
-                 color="#333333"
-                 text="База данных"/>
+    <s:layout>
+        <s:VerticalLayout gap="0"/>
+    </s:layout>
 
-        <s:Label id="infoLbl"
-                 fontFamily="{Fonts.ROBOTO_LIGHT}"
-                 fontSize="14"
-                 color="#333333"/>
-    </s:VGroup>
+    <s:Label fontFamily="{Fonts.ROBOTO}"
+             fontSize="14"
+             fontWeight="bold"
+             color="#0"
+             text="База данных"/>
 
+    <s:Label id="infoLbl"
+             fontFamily="{Fonts.ROBOTO_LIGHT}"
+             fontSize="14"
+             color="#0"/>
 
 </s:Group>

@@ -972,9 +972,6 @@ public class DottedLabel extends Label {
 
 			charPosition = line.getAtomTextBlockEndIndex(atomIndex);
 		}
-
-		line.flushAtomData();
-
 		return charPosition;
 	}
 
