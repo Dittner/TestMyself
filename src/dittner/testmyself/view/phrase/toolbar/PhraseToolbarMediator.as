@@ -1,8 +1,7 @@
 package dittner.testmyself.view.phrase.toolbar {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.phrase.IPhrase;
-import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.toobar.ToolAction;
@@ -68,14 +67,8 @@ public class PhraseToolbarMediator extends RequestMediator {
 	}
 
 	private function phraseSelectedNotificationHandler(vo:IPhrase):void {
-		if (vo == Phrase.NULL) {
-			view.editBtn.enabled = false;
-			view.removeBtn.enabled = false;
-		}
-		else {
-			view.editBtn.enabled = true;
-			view.removeBtn.enabled = true;
-		}
+		view.editBtn.enabled = vo != null;
+		view.removeBtn.enabled = vo != null;
 	}
 
 	override protected function onRemove():void {

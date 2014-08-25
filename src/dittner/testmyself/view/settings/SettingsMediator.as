@@ -1,7 +1,7 @@
 package dittner.testmyself.view.settings {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.SettingsMsg;
-import dittner.testmyself.model.common.SettingsInfo;
+import dittner.testmyself.model.settings.SettingsInfo;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.settings.phraseSettings.PhraseSettingsMediator;
@@ -29,9 +29,10 @@ public class SettingsMediator extends RequestMediator {
 		var info:SettingsInfo = new SettingsInfo();
 		info.showTooltip = view.commonSettings.showTooltipBox.selected;
 		info.maxAudioRecordDuration = view.commonSettings.maxAudioRecordDurationSpinner.value;
-		info.phrasePageSize = view.phraseSettings.pageSizeSpinner.value;
+		info.pageSize = view.phraseSettings.pageSizeSpinner.value;
 
 		sendMessage(SettingsMsg.STORE, info);
 	}
+
 }
 }

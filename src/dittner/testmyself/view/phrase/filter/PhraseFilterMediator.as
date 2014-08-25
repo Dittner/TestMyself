@@ -1,5 +1,5 @@
 package dittner.testmyself.view.phrase.filter {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.view.common.filter.ThemeFilter;

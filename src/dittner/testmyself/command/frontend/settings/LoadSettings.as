@@ -1,6 +1,6 @@
 package dittner.testmyself.command.frontend.settings {
-import dittner.testmyself.command.operation.result.CommandResult;
-import dittner.testmyself.model.common.SettingsModel;
+import dittner.testmyself.command.backend.result.CommandResult;
+import dittner.testmyself.model.settings.SettingsModel;
 import dittner.testmyself.view.common.mediator.IRequestMessage;
 
 import mvcexpress.mvc.Command;

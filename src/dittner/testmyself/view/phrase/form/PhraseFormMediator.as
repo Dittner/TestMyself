@@ -1,10 +1,10 @@
 package dittner.testmyself.view.phrase.form {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.SettingsMsg;
-import dittner.testmyself.model.common.SettingsInfo;
 import dittner.testmyself.model.phrase.IPhrase;
 import dittner.testmyself.model.phrase.Phrase;
+import dittner.testmyself.model.settings.SettingsInfo;
 import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.model.theme.Theme;
 import dittner.testmyself.view.common.mediator.RequestMediator;
@@ -20,7 +20,7 @@ public class PhraseFormMediator extends RequestMediator {
 	public var form:PhraseForm;
 
 	protected var isActive:Boolean = false;
-	protected var selectedPhrase:IPhrase = Phrase.NULL;
+	protected var selectedPhrase:IPhrase;
 
 	override protected function onRegister():void {
 		addHandler(PhraseMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);

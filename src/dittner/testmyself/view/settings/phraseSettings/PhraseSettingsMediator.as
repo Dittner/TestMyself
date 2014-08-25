@@ -1,8 +1,8 @@
 package dittner.testmyself.view.settings.phraseSettings {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.SettingsMsg;
-import dittner.testmyself.model.common.SettingsInfo;
+import dittner.testmyself.model.settings.SettingsInfo;
 import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.model.theme.Theme;
 import dittner.testmyself.view.common.mediator.RequestMediator;
@@ -35,7 +35,7 @@ public class PhraseSettingsMediator extends RequestMediator {
 
 	private function infoLoaded(res:CommandResult):void {
 		var info:SettingsInfo = res.data as SettingsInfo;
-		form.pageSizeSpinner.value = info.phrasePageSize;
+		form.pageSizeSpinner.value = info.pageSize;
 	}
 
 	private function applyBtnClickHandler(event:MouseEvent):void {

@@ -1,6 +1,6 @@
 package dittner.testmyself.view.common.mediator {
-import dittner.testmyself.command.operation.result.CommandException;
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandException;
+import dittner.testmyself.command.backend.result.CommandResult;
 
 public class RequestMessage implements IRequestMessage {
 	public function RequestMessage(completeCallback:Function, errorCallback:Function = null, data:Object = null) {

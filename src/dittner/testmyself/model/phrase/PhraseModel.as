@@ -1,27 +1,42 @@
 package dittner.testmyself.model.phrase {
+import dittner.testmyself.command.backend.utils.SQLFactory;
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.AppConfig;
 import dittner.testmyself.model.common.DataBaseInfo;
+import dittner.testmyself.model.common.IPageInfo;
+import dittner.testmyself.model.common.ITransUnit;
+import dittner.testmyself.model.common.ITransUnitModel;
 
 import mvcexpress.mvc.Proxy;
 
-public class PhraseModel extends Proxy {
+public class PhraseModel extends Proxy implements ITransUnitModel {
 
 	public function PhraseModel():void {
 		super();
 	}
 
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Properties
-	//
-	//----------------------------------------------------------------------------------------------
+	//--------------------------------------
+	//  dbName
+	//--------------------------------------
+	public function get dbName():String {return AppConfig.PHRASE_DB_NAME;}
+
+	//--------------------------------------
+	//  transUnitClass
+	//--------------------------------------
+	public function get transUnitClass():Class {return Phrase;}
+
+	//--------------------------------------
+	//  sqlFactory
+	//--------------------------------------
+	private var _sqlFactory:SQLFactory = new SQLFactory();
+	public function get sqlFactory():SQLFactory {return _sqlFactory;}
 
 	//--------------------------------------
 	//  pageInfo
 	//--------------------------------------
-	private var _pageInfo:PhrasePageInfo = null;
-	public function get pageInfo():PhrasePageInfo {return _pageInfo;}
-	public function set pageInfo(value:PhrasePageInfo):void {
+	private var _pageInfo:IPageInfo = null;
+	public function get pageInfo():IPageInfo {return _pageInfo;}
+	public function set pageInfo(value:IPageInfo):void {
 		_pageInfo = value;
 		sendMessage(PhraseMsg.PAGE_INFO_CHANGED_NOTIFICATION, pageInfo);
 	}
@@ -53,11 +68,11 @@ public class PhraseModel extends Proxy {
 	//--------------------------------------
 	//  selectedPhrase
 	//--------------------------------------
-	public function get selectedPhrase():IPhrase {return pageInfo ? pageInfo.selectedPhrase : Phrase.NULL;}
-	public function set selectedPhrase(value:IPhrase):void {
-		if (pageInfo && pageInfo.selectedPhrase != value) {
-			pageInfo.selectedPhrase = value;
-			sendMessage(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, selectedPhrase);
+	public function get selectedTransUnit():ITransUnit {return pageInfo ? pageInfo.selectedTransUnit : null;}
+	public function set selectedTransUnit(value:ITransUnit):void {
+		if (pageInfo && pageInfo.selectedTransUnit != value) {
+			pageInfo.selectedTransUnit = value;
+			sendMessage(PhraseMsg.PHRASE_SELECTED_NOTIFICATION, selectedTransUnit);
 		}
 	}
 
@@ -71,15 +86,6 @@ public class PhraseModel extends Proxy {
 			_filter = value;
 		}
 	}
-
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Methods
-	//
-	//----------------------------------------------------------------------------------------------
-
-	override protected function onRegister():void {}
-	override protected function onRemove():void {}
 
 }
 }

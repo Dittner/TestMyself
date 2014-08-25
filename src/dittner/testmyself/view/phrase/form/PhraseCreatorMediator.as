@@ -1,6 +1,6 @@
 package dittner.testmyself.view.phrase.form {
-import dittner.testmyself.command.operation.result.CommandException;
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandException;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.toobar.ToolAction;
@@ -26,7 +26,7 @@ public class PhraseCreatorMediator extends PhraseFormMediator {
 
 	private function sendAddPhraseRequest():void {
 		var suite:Object = {};
-		suite.phrase = createPhrase();
+		suite.transUnit = createPhrase();
 		suite.themes = getSelectedThemes();
 		sendRequest(PhraseMsg.ADD_PHRASE, new RequestMessage(addPhraseCompleteHandler, addPhraseErrorHandler, suite));
 	}

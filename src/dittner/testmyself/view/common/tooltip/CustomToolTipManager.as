@@ -1,6 +1,6 @@
 package dittner.testmyself.view.common.tooltip {
 import dittner.testmyself.TestMyselfApp;
-import dittner.testmyself.model.common.SettingsModel;
+import dittner.testmyself.model.settings.SettingsModel;
 
 import flash.events.TimerEvent;
 import flash.geom.Point;

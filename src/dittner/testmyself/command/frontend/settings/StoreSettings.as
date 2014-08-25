@@ -1,20 +1,20 @@
 package dittner.testmyself.command.frontend.settings {
-import dittner.testmyself.model.common.SettingsInfo;
-import dittner.testmyself.model.common.SettingsModel;
-import dittner.testmyself.model.phrase.PhraseModel;
+import dittner.testmyself.model.common.ITransUnitModel;
+import dittner.testmyself.model.settings.SettingsInfo;
+import dittner.testmyself.model.settings.SettingsModel;
 
 import mvcexpress.mvc.Command;
 
 public class StoreSettings extends Command {
 	[Inject]
-	public var model:SettingsModel;
+	public var settings:SettingsModel;
 
-	[Inject]
-	public var phraseModel:PhraseModel;
+	[Inject(name='phraseModel')]
+	public var model:ITransUnitModel;
 
 	public function execute(info:SettingsInfo):void {
-		model.store(info);
-		phraseModel.pageInfo = null;
+		settings.store(info);
+		model.pageInfo = null;
 	}
 }
 }

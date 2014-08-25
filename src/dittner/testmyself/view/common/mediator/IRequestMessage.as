@@ -1,6 +1,6 @@
 package dittner.testmyself.view.common.mediator {
-import dittner.testmyself.command.operation.result.CommandException;
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandException;
+import dittner.testmyself.command.backend.result.CommandResult;
 
 public interface IRequestMessage {
 	function get data():Object;

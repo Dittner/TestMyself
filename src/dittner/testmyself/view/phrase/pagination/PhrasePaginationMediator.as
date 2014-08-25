@@ -1,8 +1,8 @@
 package dittner.testmyself.view.phrase.pagination {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.model.common.DataBaseInfo;
-import dittner.testmyself.model.phrase.IPhrasePageInfo;
+import dittner.testmyself.model.common.IPageInfo;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.pagination.PaginationBar;
@@ -25,16 +25,16 @@ public class PhrasePaginationMediator extends RequestMediator {
 		view.lastPageBtn.addEventListener(MouseEvent.CLICK, lastPageBtnClickHandler);
 	}
 
-	private function onPageInfoChanged(pageInfo:IPhrasePageInfo):void {
+	private function onPageInfoChanged(pageInfo:IPageInfo):void {
 		updateView(pageInfo);
 	}
 
 	private function onPageInfoLoaded(res:CommandResult):void {
-		updateView(res.data as IPhrasePageInfo);
+		updateView(res.data as IPageInfo);
 	}
 
-	private function updateView(info:IPhrasePageInfo):void {
-		view.unitsOnPage = info.phrases.length;
+	private function updateView(info:IPageInfo):void {
+		view.unitsOnPage = info.transUnits.length;
 		view.curPageNum = info.pageNum;
 		view.pageSize = info.pageSize;
 	}

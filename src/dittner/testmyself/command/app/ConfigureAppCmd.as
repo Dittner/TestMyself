@@ -1,15 +1,16 @@
 package dittner.testmyself.command.app {
+import dittner.testmyself.command.backend.deferredOperation.DeferredOperationManager;
+import dittner.testmyself.command.backend.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.command.frontend.screen.GenerateScreenCmd;
 import dittner.testmyself.command.frontend.screen.GetScreenInfoListCmd;
 import dittner.testmyself.command.frontend.settings.LoadSettings;
 import dittner.testmyself.command.frontend.settings.StoreSettings;
-import dittner.testmyself.command.operation.deferredOperation.DeferredOperationManager;
-import dittner.testmyself.command.operation.deferredOperation.IDeferredOperationManager;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.message.SettingsMsg;
-import dittner.testmyself.model.common.SettingsModel;
+import dittner.testmyself.model.common.ITransUnitModel;
 import dittner.testmyself.model.phrase.PhraseModel;
-import dittner.testmyself.service.PhraseService;
+import dittner.testmyself.model.settings.SettingsModel;
+import dittner.testmyself.service.TransUnitService;
 import dittner.testmyself.service.screenFactory.IScreenFactory;
 import dittner.testmyself.service.screenFactory.ScreenFactory;
 import dittner.testmyself.view.about.AboutScreen;
@@ -38,8 +39,7 @@ public class ConfigureAppCmd extends Command {
 		proxyMap.map(new SettingsModel());
 		proxyMap.map(new DeferredOperationManager(), null, IDeferredOperationManager);
 		proxyMap.map(new ScreenFactory(), null, IScreenFactory);
-		proxyMap.map(new PhraseModel());
-		proxyMap.map(new PhraseService());
+		mapPhraseProxy();
 		proxyMap.map(new CustomToolTipManager());
 
 		//map views
@@ -47,6 +47,13 @@ public class ConfigureAppCmd extends Command {
 		mediatorMap.map(AboutScreen, AboutScreenMediator);
 		mediatorMap.map(PhraseScreen, PhraseScreenMediator);
 		mediatorMap.map(TemplateScreen, TemplateMediator);
+	}
+
+	private function mapPhraseProxy():void {
+		var model:PhraseModel = new PhraseModel();
+		var service:TransUnitService = new TransUnitService(model);
+		proxyMap.map(model, "phraseModel", ITransUnitModel);
+		proxyMap.map(service, "phraseService");
 	}
 
 }

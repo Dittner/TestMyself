@@ -1,5 +1,5 @@
 package dittner.testmyself.view.about {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
 import dittner.testmyself.message.ScreenMsg;
 import dittner.testmyself.model.common.DataBaseInfo;

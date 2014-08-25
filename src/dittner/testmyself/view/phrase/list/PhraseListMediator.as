@@ -1,9 +1,8 @@
 package dittner.testmyself.view.phrase.list {
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
+import dittner.testmyself.model.common.IPageInfo;
 import dittner.testmyself.model.phrase.IPhrase;
-import dittner.testmyself.model.phrase.IPhrasePageInfo;
-import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.view.common.list.SelectableDataGroup;
 import dittner.testmyself.view.common.mediator.RequestMediator;
 import dittner.testmyself.view.common.mediator.RequestMessage;
@@ -32,20 +31,20 @@ public class PhraseListMediator extends RequestMediator {
 
 	private function phraseRenDataSelectedHandler(event:Event):void {
 		var selectedPhraseRenData:PhraseRendererData = view.selectedItem as PhraseRendererData;
-		var selectedPhrase:IPhrase = selectedPhraseRenData ? selectedPhraseRenData.phrase : Phrase.NULL;
+		var selectedPhrase:IPhrase = selectedPhraseRenData ? selectedPhraseRenData.phrase : null;
 		sendMessage(PhraseMsg.SELECT_PHRASE, selectedPhrase);
 	}
 
-	private function onPageInfoChanged(pageInfo:IPhrasePageInfo):void {
+	private function onPageInfoChanged(pageInfo:IPageInfo):void {
 		updateViewList(pageInfo);
 	}
 	private function onPageInfoLoaded(res:CommandResult):void {
-		updateViewList(res.data as IPhrasePageInfo);
+		updateViewList(res.data as IPageInfo);
 	}
 
-	private function updateViewList(pageInfo:IPhrasePageInfo):void {
-		view.dataProvider = new ArrayCollection(wrapPhrases(pageInfo.phrases));
-		sendMessage(PhraseMsg.SELECT_PHRASE, Phrase.NULL);
+	private function updateViewList(pageInfo:IPageInfo):void {
+		view.dataProvider = new ArrayCollection(wrapPhrases(pageInfo.transUnits));
+		sendMessage(PhraseMsg.SELECT_PHRASE, null);
 	}
 
 	private function wrapPhrases(phrases:Array):Array {
@@ -83,7 +82,7 @@ public class PhraseListMediator extends RequestMediator {
 		view.removeEventListener(SelectableDataGroup.SELECTED, phraseRenDataSelectedHandler);
 		removeAllHandlers();
 		view.dataProvider = null;
-		sendMessage(PhraseMsg.SELECT_PHRASE, Phrase.NULL);
+		sendMessage(PhraseMsg.SELECT_PHRASE, null);
 		pageLayoutInfo = null;
 	}
 

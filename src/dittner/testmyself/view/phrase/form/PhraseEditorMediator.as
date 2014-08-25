@@ -1,8 +1,7 @@
 package dittner.testmyself.view.phrase.form {
-import dittner.testmyself.command.operation.result.CommandException;
-import dittner.testmyself.command.operation.result.CommandResult;
+import dittner.testmyself.command.backend.result.CommandException;
+import dittner.testmyself.command.backend.result.CommandResult;
 import dittner.testmyself.message.PhraseMsg;
-import dittner.testmyself.model.phrase.Phrase;
 import dittner.testmyself.model.theme.ITheme;
 import dittner.testmyself.view.common.mediator.RequestMessage;
 import dittner.testmyself.view.common.toobar.ToolAction;
@@ -13,7 +12,7 @@ import flash.events.MouseEvent;
 public class PhraseEditorMediator extends PhraseFormMediator {
 
 	override protected function toolActionSelectedHandler(toolAction:String):void {
-		if (!isActive && toolAction == ToolAction.EDIT && selectedPhrase != Phrase.NULL) {
+		if (!isActive && toolAction == ToolAction.EDIT && selectedPhrase) {
 			isActive = true;
 			form.edit(selectedPhrase.origin, selectedPhrase.translation, selectedPhrase.audioRecord);
 			form.title = ToolActionName.getNameById(ToolAction.EDIT);
@@ -45,8 +44,8 @@ public class PhraseEditorMediator extends PhraseFormMediator {
 
 	private function sendUpdatePhraseRequest():void {
 		var suite:Object = {};
-		suite.phrase = createPhrase();
-		suite.phrase.id = selectedPhrase.id;
+		suite.transUnit = createPhrase();
+		suite.transUnit.id = selectedPhrase.id;
 		suite.origin = selectedPhrase;
 		suite.themes = getSelectedThemes();
 		sendRequest(PhraseMsg.UPDATE_PHRASE, new RequestMessage(updatePhraseCompleteHandler, updatePhraseErrorHandler, suite));

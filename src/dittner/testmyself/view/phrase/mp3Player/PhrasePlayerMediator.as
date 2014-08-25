@@ -15,8 +15,8 @@ public class PhrasePlayerMediator extends Mediator {
 	}
 
 	private function phraseSelectedHandler(phrase:IPhrase):void {
-		view.audioComment = phrase.audioRecord;
-		view.visible = phrase.audioRecord != null;
+		view.audioComment = phrase ? phrase.audioRecord : null;
+		view.visible = phrase && phrase.audioRecord;
 	}
 
 	override protected function onRemove():void {
