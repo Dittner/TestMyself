@@ -6,7 +6,7 @@
             <filename>${flexlib}/themes/Mobile/mobile.swc</filename>
         </theme>
 
-        <preloader>dittner.testmyself.view.common.preloader.ClockPreloader</preloader>
+        <preloader>dittner.testmyself.deutsch.view.common.preloader.ClockPreloader</preloader>
 
         <define>
             <name>CONFIG::true</name>

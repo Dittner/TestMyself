@@ -1,7 +1,7 @@
 @namespace s "library://ns.adobe.com/flex/spark";
-@namespace input "dittner.testmyself.view.common.input.*";
-@namespace list "dittner.testmyself.view.common.list.*";
-@namespace spinner "dittner.testmyself.view.common.spinner.*";
+@namespace input "dittner.testmyself.deutsch.view.common.input.*";
+@namespace list "dittner.testmyself.deutsch.view.common.list.*";
+@namespace spinner "dittner.testmyself.deutsch.view.common.spinner.*";
 
 @font-face {
     src: url("/fonts/vantathin.ttf");
@@ -73,7 +73,7 @@
 
 global {
     fontSize: 14px;
-    fontFamily: Roboto;
+    fontFamily: RobotoMX;
     fontWeight: normal;
     contentBackgroundAlpha: 0;
     backgroundColor: 0;
@@ -86,10 +86,16 @@ s|Button {
     fontWeight: normal;
 }
 
+s|Label {
+    fontSize: 14px;
+    fontFamily: Roboto;
+    fontWeight: normal;
+}
+
 /************************** INPUT **************************/
 
 input|TextInputForm {
-    skinClass: ClassReference("dittner.testmyself.view.common.input.TextInputFormSkin");
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextInputFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: RobotoMX;
@@ -98,7 +104,7 @@ input|TextInputForm {
 }
 
 input|TextAreaForm {
-    skinClass: ClassReference("dittner.testmyself.view.common.input.TextAreaFormSkin");
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextAreaFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: RobotoMX;
@@ -108,7 +114,7 @@ input|TextAreaForm {
 
 /************************** LIST **************************/
 list|ListForm {
-    skinClass: ClassReference("dittner.testmyself.view.common.list.ListFormSkin");
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.list.ListFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: RobotoMX;
@@ -118,14 +124,14 @@ list|ListForm {
 
 /************************** OTHER COMPONENTS **************************/
 s|CheckBox {
-    skinClass: ClassReference("dittner.testmyself.view.common.checkBox.CustomCheckBoxSkin");
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.checkBox.CustomCheckBoxSkin");
     fontSize: 16px;
     color: #4e4f61;
     fontFamily: RobotoLight;
 }
 
 spinner|CustomSpinner {
-    skin-class: ClassReference("dittner.testmyself.view.common.spinner.CustomSpinnerSkin");
+    skin-class: ClassReference("dittner.testmyself.deutsch.view.common.spinner.CustomSpinnerSkin");
     fontSize: 14px;
     color: #4e4f61;
     fontFamily: Roboto;

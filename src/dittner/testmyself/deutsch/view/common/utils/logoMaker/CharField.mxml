@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         mask="{maskObj}">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.model.AppConfig;
+
+        import mx.graphics.codec.PNGEncoder;
+
+        private const words:Array = [
+            "House", "sterben", "Informationen", "Auskünfte", "streiten", "zuwiderlaufen", "Straße", "Zug", "Tischlampe", "Grundstücksverkehrsgenehmigungs", "zuständigkeitsübertragungsverordnung", "Rindfleischetickettierung", "überwachungsaufgabenübertragungsgesetz", "Verkehrsinfrastruktur", "finanzierungsgesellschaft", "Gleichgewichtsdichte", "gradientenzentrifugation", "Elektrizitätswirtschaft", "sorganisationsgesetz", "Verkehrswegeplanungs", "beschleunigungsgesetz", "Hochleistungsflüssigkeits", "chromatographie", "Restriktionsfragment", "längenpolymorphismus", "Telekommunikations", "überwachungsverordnung", "Unternehmenssteuerfortentwicklungsgesetz", "Erstimmatrikulationsbescheinigung", "Bundesausbildungsförderungsgesetz", "Rechtsschutzversicherungsgesellschaften", "Donaudampfschifffahrtsgesellschaftskapitänswitwe", "Donaudampfschifffahrtselektrizitäten", "hauptbetriebswerkbauunter", "beamtengesellschaft", "Gemutlichkeit", "Sehnsucht", "allein", "sein", "Frauelein", "Menschheit", "Kosmologie", "Oper", "vergessen", "Gewissensbisse", "Vergissmeinnicht", "Habseligkeiten", "Geborgenheit", "Augenblick", "Entschuldigung", "kennenzulernen", "Vergnuegen", "Gefühle", "Einheit", "Leben", "Liebe", "Kampf", "Musik", "Kunst", "Informationsmaterial", "Literatur", "Einsatzübung", "lesen", "verben", "existieren", "Psychologie", "Mythologie", "Nibelungen", "dämonenhaft", "stark", "deutsch", "Heimatland", "Arbeit", "Tradition", "Sprache", "Kultur", "Objektivität", "Zielbewusstheit", "Präzision", "Pünktlichkeit", "Genauigkeit", "Disziplin", "Bücher", "Ordnung", "Freiheit", "Wörterbuch", "Metaphysik", "Wissenschaft", "Philosophie", "Geist", "Einsamkeit", "Zusammengehörigkeit"];
+
+        private const alphabet:Array = [
+            "A", "Z", "z", "u", "t", "z", "U", "W", "w", "o", "r", "ö", "B", "ö", "i", "K", "D", "r", "v", "f", "H", "d", "e", "L", "N", "ä", "ß", "ß", "ü", "s", "ü", "Ö", "Ä", "Ü"
+        ];
+
+        private const LETTERS_NUM:uint = 400;
+
+        private var cards:Array = [];
+        private var buchen:Array = [];
+
+        [Bindable]
+        public var borderSize:int;
+        [Bindable]
+        public var padding:int = 50;
+
+        public function create():void {
+
+            var minFontSize:int;
+            var maxFontSize:int;
+            var offset:int;
+            offset = 8;
+            minFontSize = 10;
+            maxFontSize = 32;
+            borderSize = 10;
+
+            var card:TextCard;
+            for each(var text:String in words) {
+                card = new TextCard(offset, 90, 0x888c92, minFontSize, maxFontSize);
+                card.text = text;
+                cards.push(card);
+                addElement(card);
+
+                card = new TextCard(offset, 90, 0x888c92, minFontSize, maxFontSize);
+                card.text = text;
+                cards.push(card);
+                addElement(card);
+
+                card = new TextCard(offset, 90, 0x888c92, minFontSize, maxFontSize);
+                card.text = text;
+                cards.push(card);
+                addElement(card);
+            }
+
+            var ind:int = 0;
+            for (var i:int = 0; i < LETTERS_NUM; i++) {
+                card = new TextCard(offset, -90, 0xffFFff, minFontSize, maxFontSize);
+                ind = Math.floor(Math.random() * (alphabet.length - 1));
+                card.text = alphabet[ind];
+                buchen.push(card);
+                addElement(card);
+            }
+
+            reformat();
+        }
+
+        public function reformat():void {
+            var w:Number = width;
+            var h:Number = height;
+            var card:TextCard;
+
+            for each(card in cards) {
+                card.x = Math.random() * (w + 2 * padding - card.measuredWidth) - padding;
+                card.y = Math.random() * (h + 2 * padding - card.measuredHeight) - padding;
+                if (card.x + card.measuredWidth > width + padding) card.x = width + padding - card.measuredWidth;
+            }
+
+            for each(card in buchen) {
+                card.x = Math.random() * (w + 2 * padding - card.measuredWidth) - padding;
+                card.y = Math.random() * (h + 2 * padding - card.measuredHeight) - padding;
+                if (card.x + card.measuredWidth > width + padding) card.x = width + padding - card.measuredWidth;
+            }
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            maskObj.width = w;
+            maskObj.height = h;
+        }
+
+        public function saveLogo():void {
+            var bd:BitmapData = new BitmapData(width, height, true, 0);
+            bd.draw(this);
+            var ba:ByteArray = new PNGEncoder().encode(bd);
+            ba.position = 0;
+
+            var fileStream:FileStream = new FileStream();
+            var file:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + "image.png");
+            fileStream.open(file, FileMode.WRITE);
+            fileStream.writeBytes(ba, 0, ba.length);
+            fileStream.close();
+        }
+        ]]></fx:Script>
+    <fx:Declarations>
+        <s:Group id="maskObj">
+            <s:Rect width="100%" height="100%">
+                <s:fill>
+                    <s:SolidColor/>
+                </s:fill>
+            </s:Rect>
+        </s:Group>
+    </fx:Declarations>
+
+</s:Group>

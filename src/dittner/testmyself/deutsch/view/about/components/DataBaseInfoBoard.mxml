@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark">
+    <fx:Script><![CDATA[
+        import dittner.testmyself.core.model.note.NotesInfo;
+        import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+
+        //--------------------------------------
+        //  info
+        //--------------------------------------
+        private var _phraseInfo:NotesInfo = new NotesInfo();
+        public function get phraseInfo():NotesInfo {return _phraseInfo;}
+        public function set phraseInfo(value:NotesInfo):void {
+            if (_phraseInfo != value) {
+                _phraseInfo = value;
+                invalidateProperties()
+            }
+        }
+
+        //--------------------------------------
+        //  wordInfo
+        //--------------------------------------
+        private var _wordInfo:NotesInfo = new NotesInfo();
+        public function get wordInfo():NotesInfo {return _wordInfo;}
+        public function set wordInfo(value:NotesInfo):void {
+            if (_wordInfo != value) {
+                _wordInfo = value;
+                invalidateProperties()
+            }
+        }
+
+        //--------------------------------------
+        //  verbInfo
+        //--------------------------------------
+        private var _verbInfo:NotesInfo = new NotesInfo();
+        public function get verbInfo():NotesInfo {return _verbInfo;}
+        public function set verbInfo(value:NotesInfo):void {
+            if (_verbInfo != value) {
+                _verbInfo = value;
+                invalidateProperties()
+            }
+        }
+
+        override protected function commitProperties():void {
+            super.commitProperties();
+            var infoText:String;
+            if (phraseInfo) {
+                infoText = "— количество слов: " + wordInfo.notesAmount;
+                infoText += "\n— количество фраз и предложений: " + phraseInfo.notesAmount;
+                infoText += "\n— количество сильных глаголов: " + verbInfo.notesAmount;
+                infoText += "\n— количество примеров: " + (wordInfo.examplesAmount + phraseInfo.examplesAmount + verbInfo.examplesAmount);
+                infoText += "\n— количество аудиозаписей: " + (wordInfo.audioCommentsAmount + phraseInfo.audioCommentsAmount + verbInfo.audioCommentsAmount);
+            }
+            else infoText = "";
+            infoLbl.text = infoText;
+        }
+
+        private function parseData():void {
+
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:VerticalLayout gap="0"/>
+    </s:layout>
+
+    <s:Label fontFamily="{Fonts.ROBOTO}"
+             fontSize="14"
+             fontWeight="bold"
+             color="{AppColors.TEXT_LIGHT}"
+             text="База данных"/>
+
+    <s:Label id="infoLbl"
+             fontFamily="{Fonts.ROBOTO_LIGHT}"
+             fontSize="14"
+             color="{AppColors.TEXT_LIGHT}"/>
+
+</s:Group>

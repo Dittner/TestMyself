@@ -1,0 +1,15 @@
+package dittner.testmyself.core.command.backend.deferredOperation {
+public class ErrorCode {
+
+	public static const NULLABLE_NOTE:String = "nullableNote";
+	public static const FORM_NOT_FILLED:String = "formNotFilled";
+	public static const NOTE_ADDED_WITHOUT_ID:String = "noteAddedWithoutID";
+	public static const THEME_ADDED_WITHOUT_ID:String = "themeAddedWithoutID";
+	public static const MP3_ENCODING_FAILED:String = "mp3EncodingFailed";
+
+	public static const NULLABLE_THEMES:String = "nullableThemes";
+	public static const EMPTY_THEME_NAME:String = "emptyThemeName";
+	public static const SQL_TRANSACTION_FAILED:String = "sqlTransactionFailed";
+
+}
+}
