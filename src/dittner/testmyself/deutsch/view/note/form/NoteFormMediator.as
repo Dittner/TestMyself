@@ -3,8 +3,8 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
-import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.core.model.theme.Theme;
 import dittner.testmyself.deutsch.message.SettingsMsg;
@@ -20,7 +20,7 @@ public class NoteFormMediator extends SFMediator {
 	public var view:NoteForm;
 
 	protected var isActive:Boolean = false;
-	protected var selectedNote:INote;
+	protected var selectedNote:Note;
 
 	override protected function activate():void {
 		addListener(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
@@ -35,6 +35,8 @@ public class NoteFormMediator extends SFMediator {
 		selectedNote = vo;
 		if (isActive) throw new Error("Should not select new note when the old one is editing!")
 	}
+
+	protected function loadExamples():void {}
 
 	protected function loadThemes():void {
 		sendRequest(NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
@@ -75,23 +77,44 @@ public class NoteFormMediator extends SFMediator {
 	//abstract
 	protected function applyHandler(event:MouseEvent):void {}
 
-	protected function createNote():Note {
-		var note:Note = new Note();
-		note.title = view.titleArea.text;
-		note.description = view.descriptionArea.text;
-		note.audioComment = hasAudio ? view.audioRecorder.recordedBytes : null;
-		return note;
+	//abstract
+	protected function createNote():Note {return null;}
+
+	//abstract
+	protected function validateNote(note:Note):String {
+		return "";
 	}
 
-	private function get hasAudio():Boolean {
-		if (!view.audioRecorder.recordedBytes) return false;
-		return view.audioRecorder.recordedBytes.length > 0;
-	}
-
-	protected function getSelectedThemes():Array {
+	protected function createThemes():Array {
 		var res:Array = [];
 		for each(var theme:ITheme in view.themesList.selectedItems) res.push(theme);
 		return res;
+	}
+
+	protected function validateThemes(themes:Array):String {
+		if (!themes) {
+			return "Отсутствует список тем, ожидается пустой или заполненный список"
+		}
+		for each(var theme:ITheme in themes) {
+			if (!theme.name) return "Название темы не должно быть пустым";
+		}
+		return "";
+	}
+
+	protected function createExamples():Array {
+		return [];
+	}
+
+	protected function validateExamples(examples:Array):String {
+		return "";
+	}
+
+	//abstract
+	protected function send(suite:NoteSuite):void {}
+
+	protected function get hasAudio():Boolean {
+		if (!view.audioRecorder.recordedBytes) return false;
+		return view.audioRecorder.recordedBytes.length > 0;
 	}
 
 	//--------------------------------------

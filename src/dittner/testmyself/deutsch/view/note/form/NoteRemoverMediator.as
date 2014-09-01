@@ -13,7 +13,7 @@ public class NoteRemoverMediator extends NoteFormMediator {
 	override protected function toolActionSelectedHandler(toolAction:String):void {
 		if (!isActive && toolAction == ToolAction.REMOVE && selectedNote) {
 			isActive = true;
-			view.remove(selectedNote.title);
+			view.remove(selectedNote);
 			view.title = ToolActionName.getNameById(ToolAction.REMOVE);
 			openForm();
 		}

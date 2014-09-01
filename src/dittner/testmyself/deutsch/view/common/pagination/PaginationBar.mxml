@@ -59,7 +59,7 @@
 
         override protected function commitProperties():void {
             super.commitProperties();
-            titleLbl.text = "Показано " + notesOnPage + " элементов из " + unitsTotal;
+            titleLbl.text = "Показано " + notesOnPage + " записей из " + unitsTotal;
 
             prevPageBtn.enabled = curPageNum > 0;
             nextPageBtn.enabled = curPageNum + 1 < totalPages;

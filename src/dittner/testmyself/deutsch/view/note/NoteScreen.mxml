@@ -15,23 +15,51 @@
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.note.form.NoteType;
 
+        //--------------------------------------
+        //  editing
+        //--------------------------------------
+        private var _editing:Boolean = false;
+        [Bindable("editingChanged")]
+        public function get editing():Boolean {return _editing;}
+        public function set editing(value:Boolean):void {
+            if (_editing != value) {
+                _editing = value;
+                dispatchEvent(new Event("editingChanged"));
+            }
+        }
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
         //
         //----------------------------------------------------------------------------------------------
 
-        public function activate():void {
-            if (currentState == "inactive") setCurrentState("normal");
+        public function activate(noteType:String):void {
+            switch (noteType) {
+                case NoteType.PHRASE :
+                    setCurrentState("phrase");
+                    break;
+                case NoteType.WORD :
+                    setCurrentState("word");
+                    break;
+                case NoteType.VERB :
+                    setCurrentState("verb");
+                    break;
+            }
+        }
+
+        public function deactivate():void {
+            editing = false;
+            setCurrentState("inactive");
         }
 
         public function showEditor():void {
-            setCurrentState("edit");
+            editing = true;
         }
 
         public function hideEditor():void {
-            setCurrentState("normal");
+            editing = false;
         }
 
         override protected function updateDisplayList(w:Number, h:Number):void {
@@ -46,8 +74,9 @@
     <core:states>
         <s:State name="disabled"/>
         <s:State name="inactive"/>
-        <s:State name="normal"/>
-        <s:State name="edit"/>
+        <s:State name="phrase"/>
+        <s:State name="word"/>
+        <s:State name="verb"/>
     </core:states>
 
     <!--content bg-->
@@ -86,17 +115,14 @@
                 excludeFrom="inactive"
                 minViewportInset="1"
                 hasFocusableChildren="false">
-        <s:Group width="100%">
-            <list:NoteList id="list"
-                           width="100%"
-                           contentBackgroundAlpha="0"
-                           itemRenderer="dittner.testmyself.deutsch.view.note.common.NoteRenderer">
-                <list:layout>
-                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-                </list:layout>
-            </list:NoteList>
-        </s:Group>
-
+        <list:NoteList id="list"
+                       width="100%"
+                       contentBackgroundAlpha="0"
+                       itemRenderer="dittner.testmyself.deutsch.view.note.common.NoteRenderer">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:NoteList>
     </s:Scroller>
 
     <!--footer-->
@@ -126,8 +152,8 @@
 
     <s:Group width="100%" height="100%"
              excludeFrom="inactive"
-             visible="false" visible.edit="true"
-             mouseEnabled.edit="true" mouseEnabled="false">
+             visible="{editing}"
+             mouseEnabled="{editing}">
         <s:Rect width="100%" height="100%">
             <s:fill>
                 <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
@@ -137,6 +163,9 @@
         <editor:NoteForm id="form"
                          visible="false"
                          bottom="0"
+                         noteType.phrase="{NoteType.PHRASE}"
+                         noteType.word="{NoteType.WORD}"
+                         noteType.verb="{NoteType.VERB}"
                          top="{HEADER_HEI}"/>
 
         <filter:ThemeFilter id="filter"

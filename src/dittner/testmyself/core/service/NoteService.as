@@ -21,6 +21,7 @@ import dittner.testmyself.core.command.backend.deferredOperation.IDeferredOperat
 import dittner.testmyself.core.model.demo.IDemoData;
 import dittner.testmyself.core.model.note.INoteModel;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.model.page.IPageInfo;
 import dittner.testmyself.core.model.page.PageInfo;
@@ -57,14 +58,16 @@ public class NoteService extends SFProxy {
 	}
 
 	public function add(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new InsertNoteSQLOperation(sqlRunner, requestMsg.data.note, requestMsg.data.themes, model.sqlFactory);
+		var suite:NoteSuite = requestMsg.data as NoteSuite;
+		var op:IDeferredOperation = new InsertNoteSQLOperation(sqlRunner, suite, model.sqlFactory);
 		op.addCompleteCallback(noteAdded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
 
 	public function update(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new UpdateNoteSQLOperation(sqlRunner, requestMsg.data.note, requestMsg.data.origin, requestMsg.data.themes, model.sqlFactory);
+		var suite:NoteSuite = requestMsg.data as NoteSuite;
+		var op:IDeferredOperation = new UpdateNoteSQLOperation(sqlRunner, suite, model.sqlFactory);
 		op.addCompleteCallback(noteUpdated);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);

@@ -3,6 +3,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
+import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 import dittner.testmyself.deutsch.view.common.toobar.ToolActionName;
@@ -14,10 +15,11 @@ public class NoteEditorMediator extends NoteFormMediator {
 	override protected function toolActionSelectedHandler(toolAction:String):void {
 		if (!isActive && toolAction == ToolAction.EDIT && selectedNote) {
 			isActive = true;
-			view.edit(selectedNote.title, selectedNote.description, selectedNote.audioComment);
+			view.edit(selectedNote);
 			view.title = ToolActionName.getNameById(ToolAction.EDIT);
 			openForm();
 			loadThemes();
+			loadExamples();
 		}
 	}
 
@@ -39,23 +41,45 @@ public class NoteEditorMediator extends NoteFormMediator {
 	}
 
 	override protected function applyHandler(event:MouseEvent):void {
-		sendUpdateNoteRequest();
-	}
+		var errMsg:String;
+		var suite:NoteSuite = new NoteSuite();
 
-	private function sendUpdateNoteRequest():void {
-		var suite:Object = {};
 		suite.note = createNote();
 		suite.note.id = selectedNote.id;
+		errMsg = validateNote(suite.note);
+		if (errMsg) {
+			view.notifyInvalidData(errMsg);
+			return;
+		}
+
 		suite.origin = selectedNote;
-		suite.themes = getSelectedThemes();
+
+		suite.themes = createThemes();
+		errMsg = validateThemes(suite.themes);
+		if (errMsg) {
+			view.notifyInvalidData(errMsg);
+			return;
+		}
+
+		suite.examples = createExamples();
+		errMsg = validateExamples(suite.themes);
+		if (errMsg) {
+			view.notifyInvalidData(errMsg);
+			return;
+		}
+
+		send(suite);
+	}
+
+	override protected function send(suite:NoteSuite):void {
 		sendRequest(NoteMsg.UPDATE_NOTE, new RequestMessage(updateNoteCompleteHandler, updateNoteErrorHandler, suite));
 	}
 
-	private function updateNoteCompleteHandler(res:CommandResult):void {
+	protected function updateNoteCompleteHandler(res:CommandResult):void {
 		closeForm();
 	}
 
-	private function updateNoteErrorHandler(exc:CommandException):void {
+	protected function updateNoteErrorHandler(exc:CommandException):void {
 		view.notifyInvalidData(exc.details);
 	}
 }

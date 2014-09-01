@@ -6,22 +6,18 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
 import dittner.testmyself.core.command.backend.utils.SQLFactory;
-import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.NoteSuite;
 
 public class UpdateNoteSQLOperation extends DeferredOperation {
 
-	public function UpdateNoteSQLOperation(sqlRunner:SQLRunner, note:Note, origin:Note, themes:Array, sqlFactory:SQLFactory) {
+	public function UpdateNoteSQLOperation(sqlRunner:SQLRunner, suite:NoteSuite, sqlFactory:SQLFactory) {
 		this.sqlRunner = sqlRunner;
-		this.note = note;
-		this.origin = origin;
-		this.themes = themes;
+		this.suite = suite;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var sqlRunner:SQLRunner;
-	private var note:Note;
-	private var origin:Note;
-	private var themes:Array;
+	private var suite:NoteSuite;
 	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
@@ -29,13 +25,11 @@ public class UpdateNoteSQLOperation extends DeferredOperation {
 		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
 		try {
-			phaseRunner.addPhase(NoteValidationPhase, note);
-			phaseRunner.addPhase(ThemesValidationPhase, themes);
-			phaseRunner.addPhase(MP3EncodingPhase, note, origin);
-			phaseRunner.addPhase(NoteUpdateOperationPhase, sqlRunner, note, sqlFactory);
-			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, sqlRunner, note.id, sqlFactory);
-			phaseRunner.addPhase(ThemeInsertOperationPhase, sqlRunner, themes, sqlFactory);
-			phaseRunner.addPhase(FilterInsertOperationPhase, sqlRunner, note, themes, sqlFactory);
+			phaseRunner.addPhase(MP3EncodingPhase, suite.note, suite.origin);
+			phaseRunner.addPhase(NoteUpdateOperationPhase, sqlRunner, suite.note, sqlFactory);
+			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, sqlRunner, suite.note.id, sqlFactory);
+			phaseRunner.addPhase(ThemeInsertOperationPhase, sqlRunner, suite.themes, sqlFactory);
+			phaseRunner.addPhase(FilterInsertOperationPhase, sqlRunner, suite.note, suite.themes, sqlFactory);
 
 			phaseRunner.execute();
 		}
@@ -46,7 +40,7 @@ public class UpdateNoteSQLOperation extends DeferredOperation {
 	}
 
 	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(new CommandResult(note));
+		dispatchCompleteSuccess(CommandResult.OK);
 	}
 }
 }

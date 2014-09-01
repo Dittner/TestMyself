@@ -3,6 +3,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
+import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 import dittner.testmyself.deutsch.view.common.toobar.ToolActionName;
 
@@ -17,25 +18,46 @@ public class NoteCreatorMediator extends NoteFormMediator {
 			view.title = ToolActionName.getNameById(ToolAction.ADD);
 			openForm();
 			loadThemes();
+			loadExamples();
 		}
 	}
 
 	override protected function applyHandler(event:MouseEvent):void {
-		sendAddNoteRequest();
+		var errMsg:String;
+		var suite:NoteSuite = new NoteSuite();
+
+		suite.note = createNote();
+		errMsg = validateNote(suite.note);
+		if (errMsg) {
+			view.notifyInvalidData(errMsg);
+			return;
+		}
+
+		suite.themes = createThemes();
+		errMsg = validateThemes(suite.themes);
+		if (errMsg) {
+			view.notifyInvalidData(errMsg);
+			return;
+		}
+
+		suite.examples = createExamples();
+		errMsg = validateExamples(suite.themes);
+		if (errMsg) {
+			view.notifyInvalidData(errMsg);
+			return;
+		}
+		send(suite);
 	}
 
-	private function sendAddNoteRequest():void {
-		var suite:Object = {};
-		suite.note = createNote();
-		suite.themes = getSelectedThemes();
+	override protected function send(suite:NoteSuite):void {
 		sendRequest(NoteMsg.ADD_NOTE, new RequestMessage(addNoteCompleteHandler, addNoteErrorHandler, suite));
 	}
 
-	private function addNoteCompleteHandler(res:CommandResult):void {
+	protected function addNoteCompleteHandler(res:CommandResult):void {
 		closeForm();
 	}
 
-	private function addNoteErrorHandler(exc:CommandException):void {
+	protected function addNoteErrorHandler(exc:CommandException):void {
 		view.notifyInvalidData(exc.details);
 	}
 

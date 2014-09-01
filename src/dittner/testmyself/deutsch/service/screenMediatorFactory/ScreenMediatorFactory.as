@@ -3,7 +3,8 @@ import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.deutsch.service.screenFactory.*;
 import dittner.testmyself.deutsch.view.about.AboutScreenMediator;
-import dittner.testmyself.deutsch.view.note.NoteScreenMediator;
+import dittner.testmyself.deutsch.view.note.PhraseScreenMediator;
+import dittner.testmyself.deutsch.view.note.WordScreenMediator;
 import dittner.testmyself.deutsch.view.settings.SettingsScreenMediator;
 import dittner.testmyself.deutsch.view.template.TemplateScreenMediator;
 
@@ -11,8 +12,8 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 
 	public function ScreenMediatorFactory():void {}
 
-	private var phraseMediator:SFMediator = new NoteScreenMediator();
-	private var wordMediator:SFMediator = new NoteScreenMediator();
+	private var phraseMediator:SFMediator = new PhraseScreenMediator();
+	private var wordMediator:SFMediator = new WordScreenMediator();
 
 	public function createScreenMediator(screenId:String):SFMediator {
 		var mediator:SFMediator;

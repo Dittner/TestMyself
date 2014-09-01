@@ -6,20 +6,18 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
 import dittner.testmyself.core.command.backend.utils.SQLFactory;
-import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.NoteSuite;
 
 public class InsertNoteSQLOperation extends DeferredOperation {
 
-	public function InsertNoteSQLOperation(sqlRunner:SQLRunner, note:Note, themes:Array, sqlFactory:SQLFactory) {
+	public function InsertNoteSQLOperation(sqlRunner:SQLRunner, suite:NoteSuite, sqlFactory:SQLFactory) {
 		this.sqlRunner = sqlRunner;
-		this.note = note;
-		this.themes = themes;
+		this.suite = suite;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var sqlRunner:SQLRunner;
-	private var note:Note;
-	private var themes:Array;
+	private var suite:NoteSuite;
 	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
@@ -27,12 +25,10 @@ public class InsertNoteSQLOperation extends DeferredOperation {
 		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
 		try {
-			phaseRunner.addPhase(NoteValidationPhase, note);
-			phaseRunner.addPhase(ThemesValidationPhase, themes);
-			phaseRunner.addPhase(MP3EncodingPhase, note);
-			phaseRunner.addPhase(NoteInsertOperationPhase, sqlRunner, note, sqlFactory);
-			phaseRunner.addPhase(ThemeInsertOperationPhase, sqlRunner, themes, sqlFactory);
-			phaseRunner.addPhase(FilterInsertOperationPhase, sqlRunner, note, themes, sqlFactory);
+			phaseRunner.addPhase(MP3EncodingPhase, suite.note);
+			phaseRunner.addPhase(NoteInsertOperationPhase, sqlRunner, suite.note, sqlFactory);
+			phaseRunner.addPhase(ThemeInsertOperationPhase, sqlRunner, suite.themes, sqlFactory);
+			phaseRunner.addPhase(FilterInsertOperationPhase, sqlRunner, suite.note, suite.themes, sqlFactory);
 
 			phaseRunner.execute();
 		}
@@ -43,7 +39,7 @@ public class InsertNoteSQLOperation extends DeferredOperation {
 	}
 
 	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(new CommandResult(note));
+		dispatchCompleteSuccess(CommandResult.OK);
 	}
 }
 }
