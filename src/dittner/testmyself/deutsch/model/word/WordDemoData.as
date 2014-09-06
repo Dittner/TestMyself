@@ -4,6 +4,7 @@ import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.demo.*;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.theme.Theme;
 
 public class WordDemoData extends SFProxy implements IDemoData {
@@ -44,7 +45,7 @@ public class WordDemoData extends SFProxy implements IDemoData {
 	}
 
 	private function sendAddNoteRequest(note:Note, theme:Theme):void {
-		var suite:Object = {};
+		var suite:NoteSuite = new NoteSuite();
 		suite.note = note;
 		suite.themes = [theme];
 		sendRequest(NoteMsg.ADD_NOTE, new RequestMessage(null, null, suite));

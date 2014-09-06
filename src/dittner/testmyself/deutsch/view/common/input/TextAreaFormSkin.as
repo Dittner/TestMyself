@@ -27,10 +27,12 @@ public class TextAreaFormSkin extends TextAreaSkin {
 
 	override protected function drawBackground(w:Number, h:Number):void {}
 
-	override protected function updateDisplayList(w:Number, h:Number):void {
-		super.updateDisplayList(w, h);
+	private var lastWidth:Number = 0;
+	private var lastHeight:Number = 0;
 
+	override protected function updateDisplayList(w:Number, h:Number):void {
 		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
+		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
 		g.clear();
 		g.lineStyle(1, AppColors.INPUT_BORDER);
@@ -38,8 +40,8 @@ public class TextAreaFormSkin extends TextAreaSkin {
 		g.drawRect(0, bgVerOffset, w - 1, h - bgVerOffset - 1);
 		g.endFill();
 
-		titleDisplay.visible = hostInput.showTitle;
 		titleDisplay.text = hostInput.title;
+		titleDisplay.visible = hostInput.showTitle;
 		titleDisplay.x = -2;
 		titleDisplay.y = -2;
 		titleDisplay.width = w;
@@ -47,6 +49,14 @@ public class TextAreaFormSkin extends TextAreaSkin {
 
 		setElementPosition(scroller, 0, bgVerOffset);
 		setElementSize(scroller, w, h - bgVerOffset);
+
+		if (w != lastWidth || h != lastHeight) {
+			lastWidth = w;
+			lastHeight = h;
+			//если не сбросить скролл позишн, то текст из-за изменения позиции скроллера будет прокручен вверх
+			if (scroller.viewport) scroller.viewport.verticalScrollPosition = 0;
+		}
+
 	}
 
 }

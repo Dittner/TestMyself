@@ -8,7 +8,7 @@ public class WordCreatorMediator extends NoteCreatorMediator {
 		var note:Note = new Note();
 		note.title = view.titleArea.text;
 		note.description = view.descriptionArea.text;
-		note.audioComment = hasAudio ? view.audioRecorder.recordedBytes : null;
+		note.audioComment = view.audioRecorder.comment;
 		return note;
 	}
 

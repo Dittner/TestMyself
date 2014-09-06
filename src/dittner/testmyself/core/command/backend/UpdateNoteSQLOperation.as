@@ -25,7 +25,7 @@ public class UpdateNoteSQLOperation extends DeferredOperation {
 		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
 		try {
-			phaseRunner.addPhase(MP3EncodingPhase, suite.note, suite.origin);
+			phaseRunner.addPhase(MP3EncodingPhase, suite.note);
 			phaseRunner.addPhase(NoteUpdateOperationPhase, sqlRunner, suite.note, sqlFactory);
 			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, sqlRunner, suite.note.id, sqlFactory);
 			phaseRunner.addPhase(ThemeInsertOperationPhase, sqlRunner, suite.themes, sqlFactory);

@@ -44,11 +44,9 @@ public class ScreenModel extends SFProxy {
 	private var _selectedScreen:ScreenBase;
 	public function get selectedScreen():ScreenBase {return _selectedScreen;}
 	public function set selectedScreen(value:ScreenBase):void {
-		if (_selectedScreen != value) {
-			_selectedScreen = value;
-			registerMediator();
-			sendNotification(ScreenMsg.SELECTED_SCREEN_CHANGED_NOTIFICATION, selectedScreen);
-		}
+		_selectedScreen = value;
+		registerMediator();
+		sendNotification(ScreenMsg.SELECTED_SCREEN_CHANGED_NOTIFICATION, selectedScreen);
 	}
 
 	//--------------------------------------

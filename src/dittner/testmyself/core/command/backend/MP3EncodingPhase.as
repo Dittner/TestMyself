@@ -8,21 +8,16 @@ import dittner.testmyself.deutsch.view.common.audio.mp3.MP3Writer;
 import flash.utils.ByteArray;
 
 public class MP3EncodingPhase extends PhaseOperation {
-	public function MP3EncodingPhase(note:Note, origin:Note = null) {
+	public function MP3EncodingPhase(note:Note) {
 		this.note = note;
-		this.origin = origin;
 	}
 
 	private var note:Note;
-	private var origin:Note;
 
 	override public function execute():void {
-		if (origin && origin.audioComment == note.audioComment) {
-			dispatchComplete();
-		}
-		else if (note.audioComment && note.audioComment.length > 100) {
+		if (!note.audioComment.isMp3 && note.audioComment.bytes && note.audioComment.bytes.length > 0) {
 			try {
-				MP3Writer.encodeRawData(note.audioComment, encodeCompleteHandler);
+				MP3Writer.encodeRawData(note.audioComment.bytes, encodeCompleteHandler);
 			}
 			catch (error:Error) {
 				throw new CommandException(ErrorCode.MP3_ENCODING_FAILED, error.message);
@@ -32,8 +27,9 @@ public class MP3EncodingPhase extends PhaseOperation {
 	}
 
 	private function encodeCompleteHandler(output:ByteArray):void {
-		note.audioComment.clear();
-		note.audioComment = output;
+		note.audioComment.isMp3 = true;
+		note.audioComment.bytes.clear();
+		note.audioComment.bytes = output;
 		//saveLocally();
 		dispatchComplete();
 	}

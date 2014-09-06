@@ -78,14 +78,8 @@ public class VoiceRecorder extends EventDispatcher {
 	public function get recordedBytes():ByteArray {
 		return _recordedBytes;
 	}
-
 	public function set recordedBytes(value:ByteArray):void {
 		if (_recordedBytes != value) {
-			//Женя: мы не можем их чистить тут! Они могут использоваться другой формой резолюции.
-			//            if(recordedBytes) {
-			//                recordedBytes.clear();
-			//            }
-
 			_recordedBytes = value;
 
 			if (recordedBytes) {
@@ -193,10 +187,6 @@ public class VoiceRecorder extends EventDispatcher {
 	 * */
 	public function removeRecord():void {
 		if (playing) pause();
-
-		//        if(recordedBytes) {
-		//            recordedBytes.clear();
-		//        }
 		recordedBytes = new ByteArray();
 		_recordedFramesLength = 0;
 		_playbackFramesPosition = 0;

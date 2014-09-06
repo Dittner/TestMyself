@@ -123,13 +123,17 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		titleTf.textColor = selected ? 0xffFFff : 0;
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
-		titleTf.alpha = noteData.note.audioComment ? 1 : .6;
+		titleTf.alpha = hasAudioComment() ? 1 : .6;
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = (noteData.layout.isHorizontal ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = (noteData.layout.isHorizontal ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
-			descriptionTf.alpha = noteData.note.audioComment ? 1 : .6;
+			descriptionTf.alpha = hasAudioComment() ? 1 : .6;
 		}
+	}
+
+	private function hasAudioComment():Boolean {
+		return noteData && noteData.note.audioComment.bytes;
 	}
 
 	override public function set selected(value:Boolean):void {

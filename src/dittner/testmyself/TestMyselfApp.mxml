@@ -24,10 +24,10 @@
         private function initializeHandler(event:FlexEvent):void {
             TestMyselfApp.root = this;
             TextFieldFactory.useEmbedFonts = true;
+            mainModule = new MainModule(ModuleName.ROOT);
         }
 
         private function creationCompleteHandler(event:FlexEvent):void {
-            mainModule = new MainModule(ModuleName.ROOT);
             mainModule.start(this);
         }
 

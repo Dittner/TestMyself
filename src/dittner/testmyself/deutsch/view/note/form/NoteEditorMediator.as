@@ -52,8 +52,6 @@ public class NoteEditorMediator extends NoteFormMediator {
 			return;
 		}
 
-		suite.origin = selectedNote;
-
 		suite.themes = createThemes();
 		errMsg = validateThemes(suite.themes);
 		if (errMsg) {

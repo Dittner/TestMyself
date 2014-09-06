@@ -14,7 +14,7 @@ public class WordFormState extends NoteFormState {
 	override public function edit(note:INote):void {
 		if (form.titleArea) form.titleArea.text = note.title;
 		if (form.descriptionArea) form.descriptionArea.text = note.description;
-		if (form.audioRecorder) form.audioRecorder.mp3Data = note.audioComment;
+		if (form.audioRecorder) form.audioRecorder.comment = note.audioComment;
 	}
 
 	override public function remove(note:INote):void {
@@ -22,34 +22,53 @@ public class WordFormState extends NoteFormState {
 	}
 
 	override public function clear():void {
-		if (form.titleArea) form.titleArea.text = "";
+		if (form.articleBox) form.articleBox.selectedItem = "...";
+		if (form.wordInput) form.wordInput.text = "";
+		if (form.wordOptionsInput) form.wordOptionsInput.text = "";
 		if (form.descriptionArea) form.descriptionArea.text = "";
 		if (form.addThemeInput) form.addThemeInput.text = "";
 		if (form.audioRecorder) form.audioRecorder.clear();
+		if (form.exampleList) form.exampleList.clear();
 		form.themes = new ArrayCollection();
 	}
 
 	override public function updateLayout(w:Number, h:Number):void {
 		with (form) {
-			titleArea.x = PAD;
-			titleArea.y = HEADER_HEI + PAD_TOP;
-			titleArea.height = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - 2 * VGAP - RECORDER_HEI) / 2;
-			titleArea.width = w - 2 * PAD - HGAP - THEMES_LIST_WID;
+			showControls();
+			var firstColumnWid:Number = w - 2 * PAD - HGAP - THEMES_LIST_WID;
+			var formContentHeight:Number = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - RECORDER_HEI);
+			articleBox.x = PAD;
+			articleBox.y = HEADER_HEI + PAD_TOP;
 
-			descriptionArea.x = titleArea.x;
-			descriptionArea.y = titleArea.y + titleArea.height + VGAP;
-			descriptionArea.height = titleArea.height;
-			descriptionArea.width = titleArea.width;
+			wordInput.x = articleBox.x + articleBox.width + HGAP;
+			wordInput.y = HEADER_HEI + PAD_TOP;
+			wordInput.width = (firstColumnWid - articleBox.width - 2 * HGAP) / 2;
 
-			audioRecorder.x = PAD;
-			audioRecorder.y = titleArea.y + 2 * titleArea.height + 2 * VGAP;
-			audioRecorder.width = titleArea.width;
-			audioRecorder.height = RECORDER_HEI;
+			wordOptionsInput.x = wordInput.x + wordInput.width + HGAP;
+			wordOptionsInput.y = wordInput.y;
+			wordOptionsInput.width = wordInput.width;
+
+			descriptionArea.x = wordInput.x;
+			descriptionArea.y = wordOptionsInput.y + wordOptionsInput.height + VGAP;
+			descriptionArea.height = 4 * wordInput.height;
+			descriptionArea.width = firstColumnWid - wordInput.x + 2 * HGAP;
+
+			exampleList.x = PAD;
+			exampleList.y = descriptionArea.y + descriptionArea.height + VGAP;
+			exampleList.toolsCont.width = articleBox.width;
+			exampleList.horizontalLayout.gap = HGAP;
+			exampleList.width = firstColumnWid;
+			exampleList.height = formContentHeight - exampleList.y + HEADER_HEI + PAD_TOP;
 
 			themesList.x = descriptionArea.x + descriptionArea.width + HGAP;
 			themesList.y = HEADER_HEI + PAD_TOP;
-			themesList.height = 2 * titleArea.height + VGAP;
+			themesList.height = formContentHeight;
 			themesList.width = THEMES_LIST_WID;
+
+			audioRecorder.x = wordInput.x;
+			audioRecorder.y = themesList.y + themesList.height + VGAP;
+			audioRecorder.width = firstColumnWid - wordInput.x + PAD;
+			audioRecorder.height = RECORDER_HEI;
 
 			addThemeInput.x = themesList.x;
 			addThemeInput.y = themesList.y + themesList.height + VGAP;
@@ -81,7 +100,17 @@ public class WordFormState extends NoteFormState {
 			removeNoteTitleLbl.top = removeTitleLbl.y + removeTitleLbl.height + VGAP;
 			removeNoteTitleLbl.bottom = FOOTER_HEI + VGAP;
 		}
+	}
 
+	private function showControls():void {
+		with (form) {
+			titleArea.visible = false;
+			descriptionArea.visible = true;
+			articleBox.visible = true;
+			wordInput.visible = true;
+			exampleList.visible = true;
+			wordOptionsInput.visible = true;
+		}
 	}
 
 }

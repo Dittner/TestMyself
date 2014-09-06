@@ -7,6 +7,8 @@
          xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
          xmlns:common="dittner.testmyself.deutsch.view.common.*"
+         xmlns:listBox="dittner.testmyself.deutsch.view.note.common.articleList.*"
+         xmlns:examplelist="dittner.testmyself.deutsch.view.note.common.exampleList.*"
          maxHeight.remove="300"
          initialize="initializeHandler(event)">
 
@@ -19,6 +21,7 @@
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.note.form.phrase.PhraseFormState;
+        import dittner.testmyself.deutsch.view.note.form.word.WordFormState;
 
         import mx.collections.ArrayCollection;
         import mx.events.FlexEvent;
@@ -74,10 +77,12 @@
         private var curFormState:NoteFormState;
         private var defaultFormState:NoteFormState;
         private var phraseFormState:NoteFormState;
+        private var wordFormState:NoteFormState;
 
         private function initializeHandler(event:FlexEvent):void {
             defaultFormState = new NoteFormState();
             phraseFormState = new PhraseFormState(this);
+            wordFormState = new WordFormState(this);
 
             curFormState = defaultFormState;
         }
@@ -88,6 +93,9 @@
                 noteTypeChanged = false;
                 curFormState.clear();
                 switch (noteType) {
+                    case NoteType.WORD :
+                        curFormState = wordFormState;
+                        break;
                     case NoteType.PHRASE :
                         curFormState = phraseFormState;
                         break;
@@ -178,15 +186,38 @@
              visible.add="true"
              visible.edit="true"
              visible="false">
+        <listBox:ListBox id="articleBox" requireSelection="true"
+                         width="75"
+                         itemRenderer="dittner.testmyself.deutsch.view.note.common.articleList.ArticleItemRenderer"
+                         skinClass="dittner.testmyself.deutsch.view.note.common.articleList.ListBoxSkin">
+            <s:ArrayCollection>
+                <fx:Array>
+                    <fx:String>...</fx:String>
+                    <fx:String>der</fx:String>
+                    <fx:String>die</fx:String>
+                    <fx:String>das</fx:String>
+                    <fx:String>der/die</fx:String>
+                </fx:Array>
+            </s:ArrayCollection>
+        </listBox:ListBox>
 
         <input:TextAreaForm id="titleArea"
                             title="Исходный текст"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"/>
 
+        <input:TextInputForm id="wordInput"
+                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                             title="Исходное слово"/>
+
+        <input:TextInputForm id="wordOptionsInput"
+                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                             title="Дополнительные данные"/>
+
         <input:TextAreaForm id="descriptionArea"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
                             title="Перевод"/>
 
+        <examplelist:ExampleList id="exampleList" mainForm="{this}"/>
 
         <audio:AudioRecorder id="audioRecorder"/>
 
@@ -222,7 +253,6 @@
                         label.remove="Удалить"
                         enabled.remove="true"
                         enabled="{applyBtnEnabled(audioRecorder.isRecording)}"/>
-
 
     <!--REMOVE MODE-->
 

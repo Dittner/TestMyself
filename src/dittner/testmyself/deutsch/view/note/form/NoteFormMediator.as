@@ -112,11 +112,6 @@ public class NoteFormMediator extends SFMediator {
 	//abstract
 	protected function send(suite:NoteSuite):void {}
 
-	protected function get hasAudio():Boolean {
-		if (!view.audioRecorder.recordedBytes) return false;
-		return view.audioRecorder.recordedBytes.length > 0;
-	}
-
 	//--------------------------------------
 	//  Add theme
 	//--------------------------------------

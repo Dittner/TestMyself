@@ -116,7 +116,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		return bitmapData;
 	}
 
-	private var noteScreen:NoteScreen;
+	private static var noteScreen:NoteScreen = new NoteScreen();
 	public function createScreen(screenId:String):ScreenBase {
 		var screen:ScreenBase;
 		switch (screenId) {
@@ -124,10 +124,9 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				screen = new AboutScreen();
 				break;
 			case ScreenId.WORD :
-				screen = new NoteScreen();
+				screen = noteScreen;
 				break;
 			case ScreenId.PHRASE :
-				if (!noteScreen) noteScreen = new NoteScreen();
 				screen = noteScreen;
 				break;
 			case ScreenId.VERB :

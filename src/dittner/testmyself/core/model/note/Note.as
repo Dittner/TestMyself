@@ -1,5 +1,5 @@
 package dittner.testmyself.core.model.note {
-import flash.utils.ByteArray;
+import dittner.testmyself.core.model.audioComment.AudioComment;
 
 public class Note implements INote {
 	public function Note() {}
@@ -28,15 +28,15 @@ public class Note implements INote {
 	//--------------------------------------
 	//  audioComment
 	//--------------------------------------
-	private var _audioComment:ByteArray;
-	public function get audioComment():ByteArray {return _audioComment;}
-	public function set audioComment(value:ByteArray):void {_audioComment = value;}
+	private var _audioComment:AudioComment = new AudioComment();
+	public function get audioComment():AudioComment {return _audioComment;}
+	public function set audioComment(value:AudioComment):void {_audioComment = value || new AudioComment();}
 
 	public function toSQLData():Object {
 		var res:Object = {};
 		res.title = title;
 		res.description = description;
-		res.audioComment = audioComment;
+		res.audioComment = audioComment.bytes ? audioComment : null;
 		return res;
 	}
 

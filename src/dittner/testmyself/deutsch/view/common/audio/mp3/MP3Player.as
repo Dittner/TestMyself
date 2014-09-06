@@ -1,9 +1,9 @@
 package dittner.testmyself.deutsch.view.common.audio.mp3 {
+import dittner.testmyself.core.model.audioComment.AudioComment;
 import dittner.testmyself.deutsch.view.common.audio.event.VoiceCommentEvent;
 
 import flash.events.Event;
 import flash.media.Sound;
-import flash.utils.ByteArray;
 
 import spark.components.supportClasses.SkinnableComponent;
 
@@ -30,21 +30,22 @@ public class MP3Player extends SkinnableComponent implements IPlayerContext {
 	private var stoppedState:IPlayerState;
 
 	//--------------------------------------
-	//  audioComment
+	//  comment
 	//--------------------------------------
-	private var _audioComment:ByteArray;
-	[Bindable("audioCommentChanged")]
-	public function get audioComment():ByteArray {return _audioComment;}
-	public function set audioComment(value:ByteArray):void {
-		if (_audioComment != value) {
+	private var _comment:AudioComment;
+	[Bindable("commentChanged")]
+	public function get comment():AudioComment {return _comment;}
+	public function set comment(value:AudioComment):void {
+		if (_comment != value) {
 			curState.stop();
-			_audioComment = value;
-			if (audioComment) {
-				audioComment.position = 0;
+			_comment = value;
+			if (comment && comment.bytes) {
+				comment.bytes.position = 0;
+				playbackTime = 0;
 				updateSound();
 			}
 			invalidateSkinState();
-			dispatchEvent(new Event("audioCommentChanged"));
+			dispatchEvent(new Event("commentChanged"));
 		}
 	}
 
@@ -124,12 +125,12 @@ public class MP3Player extends SkinnableComponent implements IPlayerContext {
 
 	private function updateSound():void {
 		_sound = new Sound();
-		sound.loadCompressedDataFromByteArray(audioComment, audioComment.length);
+		sound.loadCompressedDataFromByteArray(comment.bytes, comment.bytes.length);
 		soundDuration = Math.ceil(sound.length / 1000);
 	}
 
 	public function play():void {
-		if (audioComment) curState.play();
+		if (comment) curState.play();
 	}
 
 	public function pause():void {
@@ -142,17 +143,17 @@ public class MP3Player extends SkinnableComponent implements IPlayerContext {
 
 	public function remove():void {
 		stop();
-		audioComment = null;
+		comment = null;
 		dispatchEvent(new VoiceCommentEvent("removeCommentClick"));
 	}
 
 	public function clear():void {
 		stop();
-		audioComment = null;
+		comment = null;
 	}
 
 	override protected function getCurrentSkinState():String {
-		if (!audioComment) return NORMAL;
+		if (!comment) return NORMAL;
 		else if (curState == getPlayingState()) return PLAYING;
 		else if (curState == getPausedState()) return PAUSED;
 		return STOPPED;

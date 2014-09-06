@@ -1,11 +1,11 @@
 package dittner.testmyself.deutsch.view.common.audio {
+import dittner.testmyself.core.model.audioComment.AudioComment;
 import dittner.testmyself.deutsch.view.common.audio.event.VoiceCommentEvent;
 
 import flash.display.MovieClip;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
-import flash.utils.ByteArray;
 import flash.utils.Timer;
 
 import spark.components.Button;
@@ -109,26 +109,26 @@ public class RawDataPlayer extends SkinnableComponent {
 	public var recording:Boolean = false;
 
 	//--------------------------------------
-	//  audioComment
+	//  comment
 	//--------------------------------------
-	protected var _audioComment:ByteArray;
-	[Bindable("audioCommentChanged")]
-	public function get audioComment():ByteArray {
-		return _audioComment;
+	protected var _comment:AudioComment;
+	[Bindable("commentChanged")]
+	public function get comment():AudioComment {
+		return _comment;
 	}
-	public function set audioComment(value:ByteArray):void {
-		if (_audioComment != value) {
-			_audioComment = value;
-			if (audioComment) {
+	public function set comment(value:AudioComment):void {
+		if (_comment != value) {
+			_comment = value;
+			if (comment && comment.bytes) {
 				recorder.stopRecording();
 				recorder.pause();
-				recorder.recordedBytes = audioComment;
+				recorder.recordedBytes = comment.bytes;
 				internalState = "recorded";
 			}
 			else {
 				internalState = NORMAL;
 			}
-			dispatchEvent(new Event("audioCommentChanged"));
+			dispatchEvent(new Event("commentChanged"));
 		}
 	}
 

@@ -51,6 +51,7 @@
 
         public function deactivate():void {
             editing = false;
+            mp3Player.visible = false;
             setCurrentState("inactive");
         }
 

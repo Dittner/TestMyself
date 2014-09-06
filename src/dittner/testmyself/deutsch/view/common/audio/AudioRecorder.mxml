@@ -5,29 +5,40 @@
          xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.core.model.audioComment.AudioComment;
         import dittner.testmyself.deutsch.view.common.audio.event.VoiceCommentEvent;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         //--------------------------------------
-        //  rawData
+        //  comment
         //--------------------------------------
-        private var _rawData:ByteArray;
-        [Bindable("rawDataChanged")]
-        public function get rawData():ByteArray {return _rawData;}
-        public function set rawData(value:ByteArray):void {
-            if (_rawData != value) {
-                _rawData = value;
-                showRawDataRecorder();
-                dispatchEvent(new Event("rawDataChanged"));
+        private var _comment:AudioComment;
+        public function get comment():AudioComment {
+            if (_comment && _comment.bytes) return _comment;
+            var ac:AudioComment = new AudioComment();
+
+            if (rawDataPlayer.recorder.recordedBytes && rawDataPlayer.recorder.recordedBytes.length > 0) {
+                ac.bytes = rawDataPlayer.recorder.recordedBytes;
             }
+            return ac;
         }
 
-        //--------------------------------------
-        //  recordedBytes
-        //--------------------------------------
-        public function get recordedBytes():ByteArray {
-            return mp3Data || rawDataPlayer.recorder.recordedBytes;
+        public function set comment(value:AudioComment):void {
+            if (_comment != value) {
+                _comment = value;
+                if (comment && comment.bytes) {
+                    if (value.isMp3) {
+                        mp3Player.comment = comment;
+                        showMP3Player();
+                    }
+                    else {
+                        rawDataPlayer.comment = comment;
+                        showRawDataRecorder();
+                    }
+                }
+                else showRawDataRecorder();
+            }
         }
 
         //--------------------------------------
@@ -40,23 +51,6 @@
             if (_recording != value) {
                 _recording = value;
                 dispatchEvent(new Event("recordingChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  mp3Data
-        //--------------------------------------
-        private var _mp3Data:ByteArray;
-        [Bindable("mp3DataChanged")]
-        public function get mp3Data():ByteArray {return _mp3Data;}
-        public function set mp3Data(value:ByteArray):void {
-            if (_mp3Data != value) {
-                _mp3Data = value;
-
-                if (mp3Data) showMP3Player();
-                else showRawDataRecorder();
-
-                dispatchEvent(new Event("mp3DataChanged"));
             }
         }
 
@@ -84,16 +78,21 @@
         }
 
         public function clear():void {
-            _rawData = null;
-            _mp3Data = null;
+            clearBytes();
             rawDataPlayer.clear();
             mp3Player.clear();
             showRawDataRecorder();
         }
 
         private function mp3Player_removeCommentClickHandler(event:VoiceCommentEvent):void {
-            _mp3Data = null;
+            clearBytes();
             showRawDataRecorder();
+        }
+
+        private function clearBytes():void {
+            rawDataPlayer.comment = null;
+            mp3Player.comment = null;
+            _comment = null;
         }
         ]]></fx:Script>
     <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
@@ -116,7 +115,6 @@
     <audio:RawDataPlayer id="rawDataPlayer"
                          top="30" bottom="0"
                          width="100%"
-                         audioComment="{rawData}"
                          maxRecordSize="{maxRecordSize}"
                          skinClass="dittner.testmyself.deutsch.view.common.audio.skins.RawDataPlayerSkin"/>
 
@@ -124,7 +122,6 @@
                    top="30" bottom="0"
                    width="100%"
                    visible="false"
-                   audioComment="{mp3Data}"
                    skinClass="dittner.testmyself.deutsch.view.common.audio.skins.MP3PlayerSkin"
                    removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
 </s:Group>

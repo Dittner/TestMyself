@@ -14,8 +14,8 @@ public class NotePlayerMediator extends SFMediator {
 	}
 
 	private function noteSelectedHandler(note:INote):void {
-		view.audioComment = note ? note.audioComment : null;
-		view.visible = note && note.audioComment;
+		view.comment = note ? note.audioComment : null;
+		view.visible = note && note.audioComment.bytes;
 	}
 
 	override protected function deactivate():void {}

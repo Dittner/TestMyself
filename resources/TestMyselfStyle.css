@@ -100,7 +100,7 @@ input|TextInputForm {
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: RobotoMX;
     fontSize: 14px;
-    color: #666666;
+    color: #333333;
 }
 
 input|TextAreaForm {
@@ -108,7 +108,7 @@ input|TextAreaForm {
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: RobotoMX;
-    fontSize: 16px;
+    fontSize: 14px;
     color: #333333;
 }
 
@@ -135,4 +135,8 @@ spinner|CustomSpinner {
     fontSize: 14px;
     color: #4e4f61;
     fontFamily: Roboto;
+}
+
+s|Button.dropDownBtnStyle {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.note.common.articleList.ListBoxDropDownButtonSkin");
 }

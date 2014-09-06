@@ -14,7 +14,7 @@ public class PhraseFormState extends NoteFormState {
 	override public function edit(note:INote):void {
 		if (form.titleArea) form.titleArea.text = note.title;
 		if (form.descriptionArea) form.descriptionArea.text = note.description;
-		if (form.audioRecorder) form.audioRecorder.mp3Data = note.audioComment;
+		if (form.audioRecorder) form.audioRecorder.comment = note.audioComment;
 	}
 
 	override public function remove(note:INote):void {
@@ -30,6 +30,7 @@ public class PhraseFormState extends NoteFormState {
 	}
 
 	override public function updateLayout(w:Number, h:Number):void {
+		showControls();
 		with (form) {
 			titleArea.x = PAD;
 			titleArea.y = HEADER_HEI + PAD_TOP;
@@ -82,6 +83,17 @@ public class PhraseFormState extends NoteFormState {
 			removeNoteTitleLbl.bottom = FOOTER_HEI + VGAP;
 		}
 
+	}
+
+	private function showControls():void {
+		with (form) {
+			titleArea.visible = true;
+			descriptionArea.visible = true;
+			articleBox.visible = false;
+			wordInput.visible = false;
+			exampleList.visible = false;
+			wordOptionsInput.visible = false;
+		}
 	}
 
 }
