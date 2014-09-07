@@ -1,0 +1,1 @@
+SELECT COUNT(audioComment) FROM example
