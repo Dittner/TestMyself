@@ -10,9 +10,9 @@ import dittner.testmyself.core.model.note.SQLFactory;
 import flash.data.SQLResult;
 import flash.errors.SQLError;
 
-public class DeleteNoteOperationPhase extends PhaseOperation {
+public class DeleteExampleByNoteIDOperationPhase extends PhaseOperation {
 
-	public function DeleteNoteOperationPhase(sqlRunner:SQLRunner, noteID:int, sqlFactory:SQLFactory) {
+	public function DeleteExampleByNoteIDOperationPhase(sqlRunner:SQLRunner, noteID:int, sqlFactory:SQLFactory) {
 		super();
 		this.sqlRunner = sqlRunner;
 		this.noteID = noteID;
@@ -26,7 +26,7 @@ public class DeleteNoteOperationPhase extends PhaseOperation {
 	override public function execute():void {
 		if (noteID) {
 			var statements:Vector.<QueuedStatement> = new <QueuedStatement>[];
-			statements.push(new QueuedStatement(sqlFactory.deleteNote, {deletingNoteID: noteID}));
+			statements.push(new QueuedStatement(sqlFactory.deleteExampleByNoteID, {deletingNoteID: noteID}));
 			sqlRunner.executeModify(statements, deleteCompleteHandler, deleteFailedHandler);
 		}
 		else throw new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID записи");

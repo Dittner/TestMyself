@@ -48,6 +48,7 @@ public class PhraseDemoData extends SFProxy implements IDemoData {
 		var suite:NoteSuite = new NoteSuite();
 		suite.note = note;
 		suite.themes = [theme];
+		suite.examples = [];
 		sendRequest(NoteMsg.ADD_NOTE, new RequestMessage(null, null, suite));
 	}
 }

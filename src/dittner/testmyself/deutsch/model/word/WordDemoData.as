@@ -31,7 +31,7 @@ public class WordDemoData extends SFProxy implements IDemoData {
 	}
 
 	private function createNote(themeNum:int, number:int):Note {
-		var note:Note = new Note();
+		var note:Word = new Word();
 		note.title = "theme" + themeNum + ", word" + number;
 		note.description = "word translation";
 		return note;
@@ -48,6 +48,7 @@ public class WordDemoData extends SFProxy implements IDemoData {
 		var suite:NoteSuite = new NoteSuite();
 		suite.note = note;
 		suite.themes = [theme];
+		suite.examples = [];
 		sendRequest(NoteMsg.ADD_NOTE, new RequestMessage(null, null, suite));
 	}
 }

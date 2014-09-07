@@ -10,6 +10,8 @@ import dittner.testmyself.deutsch.view.common.toobar.ToolActionName;
 
 import flash.events.MouseEvent;
 
+import mx.collections.ArrayCollection;
+
 public class NoteEditorMediator extends NoteFormMediator {
 
 	override protected function toolActionSelectedHandler(toolAction:String):void {
@@ -60,7 +62,7 @@ public class NoteEditorMediator extends NoteFormMediator {
 		}
 
 		suite.examples = createExamples();
-		errMsg = validateExamples(suite.themes);
+		errMsg = validateExamples(suite.examples);
 		if (errMsg) {
 			view.notifyInvalidData(errMsg);
 			return;
@@ -79,6 +81,16 @@ public class NoteEditorMediator extends NoteFormMediator {
 
 	protected function updateNoteErrorHandler(exc:CommandException):void {
 		view.notifyInvalidData(exc.details);
+	}
+
+	private function loadExamples():void {
+		if (selectedNote) {
+			sendRequest(NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, null, selectedNote.id));
+		}
+	}
+
+	protected function onExamplesLoaded(res:CommandResult):void {
+		view.exampleList.examples = new ArrayCollection(res.data as Array || []);
 	}
 }
 }

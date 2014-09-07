@@ -14,6 +14,7 @@ public class ArticleItemRenderer extends ItemRendererBase {
 	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;
+	private static const REN_HEI:uint = 35;
 
 	public function ArticleItemRenderer() {
 		super();
@@ -38,8 +39,7 @@ public class ArticleItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : 50;
-		minHeight = 10;
-		measuredHeight = articleTF.textHeight + 5 + 2 * PADDING;
+		measuredHeight = REN_HEI;
 	}
 
 	private var matr:Matrix = new Matrix();

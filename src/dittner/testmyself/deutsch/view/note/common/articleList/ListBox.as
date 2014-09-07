@@ -58,7 +58,7 @@ public class ListBox extends List {
 	}
 
 	protected function valueCommitHandler(event:FlexEvent):void {
-		if (selectedItem) dropDownBtn.label = selectedItem as String;
+		dropDownBtn.label = selectedItem is String ? selectedItem as String : "";
 	}
 }
 }

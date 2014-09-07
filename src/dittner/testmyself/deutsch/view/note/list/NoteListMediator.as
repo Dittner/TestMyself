@@ -38,6 +38,7 @@ public class NoteListMediator extends SFMediator {
 	private function onPageInfoChanged(pageInfo:IPageInfo):void {
 		updateViewList(pageInfo);
 	}
+
 	private function onPageInfoLoaded(res:CommandResult):void {
 		updateViewList(res.data as IPageInfo);
 	}

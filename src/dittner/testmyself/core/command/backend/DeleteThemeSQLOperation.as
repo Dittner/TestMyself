@@ -5,7 +5,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
+import dittner.testmyself.core.model.note.SQLFactory;
 
 public class DeleteThemeSQLOperation extends DeferredOperation {
 

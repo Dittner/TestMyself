@@ -4,6 +4,7 @@ import dittner.satelliteFlight.module.RootModule;
 import dittner.satelliteFlight.module.SFModule;
 import dittner.testmyself.core.command.AddNoteCmd;
 import dittner.testmyself.core.command.ClearNotesInfoCmd;
+import dittner.testmyself.core.command.GetNoteExamplesCmd;
 import dittner.testmyself.core.command.GetNoteFilterCmd;
 import dittner.testmyself.core.command.GetNoteThemesCmd;
 import dittner.testmyself.core.command.GetNotesInfoCmd;
@@ -60,6 +61,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.GET_PAGE_INFO, GetPageInfoCmd);
 		mainModule.registerCmd(NoteMsg.CLEAR_NOTES_INFO, ClearNotesInfoCmd);
 		mainModule.registerCmd(NoteMsg.GET_THEMES, GetNoteThemesCmd);
+		mainModule.registerCmd(NoteMsg.GET_EXAMPLES, GetNoteExamplesCmd);
 		mainModule.registerCmd(NoteMsg.UPDATE_THEME, UpdateNoteThemeCmd);
 		mainModule.registerCmd(NoteMsg.REMOVE_THEME, RemoveNoteThemeCmd);
 		mainModule.registerCmd(NoteMsg.MERGE_THEMES, MergeNoteThemesCmd);

@@ -6,9 +6,9 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
-import dittner.testmyself.core.model.demo.IDemoData;
+import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.service.NoteService;
+import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.AppConfig;
 
 import flash.data.SQLResult;
@@ -17,24 +17,22 @@ import flash.filesystem.File;
 
 public class CreateDataBaseSQLOperation extends DeferredOperation {
 
-	public function CreateDataBaseSQLOperation(service:NoteService, dbName:String, sqlFactory:SQLFactory, demoData:IDemoData) {
+	public function CreateDataBaseSQLOperation(service:NoteService, spec:NoteServiceSpec, sqlFactory:SQLFactory) {
 		super();
 		this.service = service;
-		this.dbName = dbName;
+		this.spec = spec;
 		this.sqlFactory = sqlFactory;
-		this.demoData = demoData;
 	}
 
 	private var service:NoteService;
-	private var dbName:String;
+	private var spec:NoteServiceSpec;
 	private var sqlFactory:SQLFactory;
-	private var demoData:IDemoData;
 
 	override public function process():void {
 		var dbRootFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath);
 		if (!dbRootFile.exists) dbRootFile.createDirectory();
 
-		var dbFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + dbName + ".db");
+		var dbFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + spec.dbName + ".db");
 		service.sqlRunner = new SQLRunner(dbFile);
 
 		if (!dbFile.exists) {
@@ -42,6 +40,7 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 			statements.push(new QueuedStatement(sqlFactory.createNoteTbl));
 			statements.push(new QueuedStatement(sqlFactory.createFilterTbl));
 			statements.push(new QueuedStatement(sqlFactory.createThemeTbl));
+			statements.push(new QueuedStatement(sqlFactory.createExampleTbl));
 
 			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);
 		}
@@ -49,7 +48,7 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 	}
 
 	private function executeComplete(results:Vector.<SQLResult>):void {
-		if (demoData) demoData.add();
+		if (spec.demoData) spec.demoData.add();
 		dispatchCompleteSuccess(CommandResult.OK);
 	}
 

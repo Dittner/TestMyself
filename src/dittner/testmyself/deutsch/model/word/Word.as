@@ -22,5 +22,12 @@ public class Word extends Note implements IWord {
 		_options = value || "";
 	}
 
+	override public function toSQLData():Object {
+		var res:Object = super.toSQLData();
+		res.article = article || null;
+		res.options = options || null;
+		return res;
+	}
+
 }
 }

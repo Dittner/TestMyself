@@ -5,8 +5,8 @@ import com.probertson.data.SQLRunner;
 import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.SQLFactory;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;

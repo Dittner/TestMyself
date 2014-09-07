@@ -5,7 +5,7 @@ import com.probertson.data.SQLRunner;
 import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
+import dittner.testmyself.core.model.note.SQLFactory;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;
@@ -29,7 +29,7 @@ public class DeleteFilterByNoteIDOperationPhase extends PhaseOperation {
 			statements.push(new QueuedStatement(sqlFactory.deleteFilterByNoteID, {deletingNoteID: noteID}));
 			sqlRunner.executeModify(statements, deleteCompleteHandler, deleteFailedHandler);
 		}
-		else throw new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID фразы");
+		else throw new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID записи");
 	}
 
 	private function deleteCompleteHandler(results:Vector.<SQLResult>):void {

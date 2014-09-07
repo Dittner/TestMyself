@@ -3,7 +3,7 @@ import com.probertson.data.SQLRunner;
 
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
+import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;
 
 public class ThemeInsertOperationPhase extends PhaseOperation {

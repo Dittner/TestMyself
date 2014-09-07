@@ -8,7 +8,7 @@
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
          xmlns:common="dittner.testmyself.deutsch.view.common.*"
          xmlns:listBox="dittner.testmyself.deutsch.view.note.common.articleList.*"
-         xmlns:examplelist="dittner.testmyself.deutsch.view.note.common.exampleList.*"
+         xmlns:examplelist="dittner.testmyself.deutsch.view.note.common.exampleList.*" xmlns:lettersbar="dittner.testmyself.deutsch.view.note.common.lettersBar.*"
          maxHeight.remove="300"
          initialize="initializeHandler(event)">
 
@@ -25,6 +25,9 @@
 
         import mx.collections.ArrayCollection;
         import mx.events.FlexEvent;
+
+        import spark.components.supportClasses.TextInputOperation;
+        import spark.events.TextOperationEvent;
 
         //--------------------------------------
         //  title
@@ -152,6 +155,14 @@
         private function applyBtnEnabled(audioRecording:Boolean):Boolean {
             return !audioRecording;
         }
+
+        private function wordValidationHandler(event:TextOperationEvent):void {
+            if (event.operation is TextInputOperation) {
+                var regexp:RegExp = /[a-zA-ZÄäÖöÜüß]+/;
+                var match:Object = regexp.exec((event.operation as TextInputOperation).text);
+                if (match == null) event.preventDefault();
+            }
+        }
         ]]></fx:Script>
 
     <s:states>
@@ -169,6 +180,8 @@
                      mode.add="add"
                      mode.edit="edit"
                      mode.remove="remove"/>
+
+    <lettersbar:LettersBar right="20" top="5" visible.remove="false"/>
 
     <s:Rect left="{EditorBg.BORDER_THICKNESS}"
             right="{EditorBg.BORDER_THICKNESS}"
@@ -192,7 +205,7 @@
                          skinClass="dittner.testmyself.deutsch.view.note.common.articleList.ListBoxSkin">
             <s:ArrayCollection>
                 <fx:Array>
-                    <fx:String>...</fx:String>
+                    <fx:String></fx:String>
                     <fx:String>der</fx:String>
                     <fx:String>die</fx:String>
                     <fx:String>das</fx:String>
@@ -203,10 +216,13 @@
 
         <input:TextAreaForm id="titleArea"
                             title="Исходный текст"
+                            autoCorrect="true"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"/>
 
         <input:TextInputForm id="wordInput"
                              maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                             changing="wordValidationHandler(event)"
+                             autoCorrect="true"
                              title="Исходное слово"/>
 
         <input:TextInputForm id="wordOptionsInput"
@@ -215,6 +231,8 @@
 
         <input:TextAreaForm id="descriptionArea"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
+                            autoCapitalize="sentence"
+                            autoCorrect="true"
                             title="Перевод"/>
 
         <examplelist:ExampleList id="exampleList" mainForm="{this}"/>

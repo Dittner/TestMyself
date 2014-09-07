@@ -1,12 +1,7 @@
 package dittner.testmyself.core.model.note {
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
 import dittner.testmyself.core.model.page.IPageInfo;
 
 public interface INoteModel {
-
-	function get dbName():String;
-	function get sqlFactory():SQLFactory;
-	function get noteClass():Class;
 
 	function get pageInfo():IPageInfo;
 	function set pageInfo(value:IPageInfo):void;

@@ -3,7 +3,7 @@ import com.probertson.data.SQLRunner;
 
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
+import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;
 
 import flash.data.SQLResult;

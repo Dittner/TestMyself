@@ -3,6 +3,7 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
+import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.theme.ITheme;
@@ -20,23 +21,21 @@ public class NoteFormMediator extends SFMediator {
 	public var view:NoteForm;
 
 	protected var isActive:Boolean = false;
-	protected var selectedNote:Note;
+	protected var selectedNote:INote;
 
 	override protected function activate():void {
 		addListener(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
-		addListener(NoteMsg.NOTE_SELECTED_NOTIFICATION, unitSelectedHandler);
+		addListener(NoteMsg.NOTE_SELECTED_NOTIFICATION, noteSelectedHandler);
 		sendRequest(SettingsMsg.LOAD, new RequestMessage(infoLoaded))
 	}
 
 	//abstract
 	protected function toolActionSelectedHandler(toolAction:String):void {}
 
-	private function unitSelectedHandler(vo:Note):void {
+	private function noteSelectedHandler(vo:INote):void {
 		selectedNote = vo;
 		if (isActive) throw new Error("Should not select new note when the old one is editing!")
 	}
-
-	protected function loadExamples():void {}
 
 	protected function loadThemes():void {
 		sendRequest(NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
@@ -102,10 +101,18 @@ public class NoteFormMediator extends SFMediator {
 	}
 
 	protected function createExamples():Array {
-		return [];
+		var res:Array = [];
+		for each(var note:INote in view.exampleList.examples) res.push(note);
+		return res;
 	}
 
 	protected function validateExamples(examples:Array):String {
+		if (!examples) {
+			return "Отсутствует список тем, ожидается пустой или заполненный список"
+		}
+		for each(var note:INote in examples) {
+			if (!note.title || !note.description) return "В примере не должно быть пустого заголовка или описания!";
+		}
 		return "";
 	}
 

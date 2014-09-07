@@ -3,8 +3,8 @@ import com.probertson.data.SQLRunner;
 
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;
 
 public class FilterInsertOperationPhase extends PhaseOperation {
@@ -28,7 +28,7 @@ public class FilterInsertOperationPhase extends PhaseOperation {
 			subPhaseRunner.completeCallback = dispatchComplete;
 
 			for each(var theme:Theme in themes) {
-				subPhaseRunner.addPhase(FilterInsertOperationSubPhase, note, theme, sqlRunner, sqlFactory.insertFilter);
+				subPhaseRunner.addPhase(FilterInsertOperationSubPhase, note.id, theme, sqlRunner, sqlFactory.insertFilter);
 			}
 			subPhaseRunner.execute();
 		}

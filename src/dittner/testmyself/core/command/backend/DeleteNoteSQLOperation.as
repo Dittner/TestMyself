@@ -5,7 +5,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
+import dittner.testmyself.core.model.note.SQLFactory;
 
 public class DeleteNoteSQLOperation extends DeferredOperation {
 
@@ -27,6 +27,7 @@ public class DeleteNoteSQLOperation extends DeferredOperation {
 		try {
 			phaseRunner.addPhase(DeleteNoteOperationPhase, sqlRunner, noteID, sqlFactory);
 			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, sqlRunner, noteID, sqlFactory);
+			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, sqlRunner, noteID, sqlFactory);
 
 			phaseRunner.execute();
 		}

@@ -18,7 +18,6 @@ public class NoteCreatorMediator extends NoteFormMediator {
 			view.title = ToolActionName.getNameById(ToolAction.ADD);
 			openForm();
 			loadThemes();
-			loadExamples();
 		}
 	}
 
@@ -41,7 +40,7 @@ public class NoteCreatorMediator extends NoteFormMediator {
 		}
 
 		suite.examples = createExamples();
-		errMsg = validateExamples(suite.themes);
+		errMsg = validateExamples(suite.examples);
 		if (errMsg) {
 			view.notifyInvalidData(errMsg);
 			return;

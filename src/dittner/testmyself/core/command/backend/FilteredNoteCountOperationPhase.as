@@ -4,9 +4,9 @@ import com.probertson.data.SQLRunner;
 import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NotesInfo;
+import dittner.testmyself.core.model.note.SQLFactory;
 
 import flash.data.SQLResult;
 
@@ -46,7 +46,7 @@ public class FilteredNoteCountOperationPhase extends PhaseOperation {
 			dispatchComplete();
 		}
 		else {
-			throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число единиц перевода в таблице");
+			throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число записей в таблице");
 		}
 	}
 

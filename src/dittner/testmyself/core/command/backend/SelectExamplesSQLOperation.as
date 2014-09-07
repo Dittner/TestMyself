@@ -5,13 +5,14 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
+import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 
 import flash.data.SQLResult;
 
-public class SelectFilterSQLOperation extends DeferredOperation {
+public class SelectExamplesSQLOperation extends DeferredOperation {
 
-	public function SelectFilterSQLOperation(sqlRunner:SQLRunner, noteID:int, sqlFactory:SQLFactory) {
+	public function SelectExamplesSQLOperation(sqlRunner:SQLRunner, noteID:int, sqlFactory:SQLFactory) {
 		super();
 		this.sqlRunner = sqlRunner;
 		this.noteID = noteID;
@@ -24,7 +25,7 @@ public class SelectFilterSQLOperation extends DeferredOperation {
 
 	override public function process():void {
 		if (noteID != -1) {
-			sqlRunner.execute(sqlFactory.selectFilter, {selectedNoteID: noteID}, loadCompleteHandler);
+			sqlRunner.execute(sqlFactory.selectExample, {selectedNoteID: noteID}, loadCompleteHandler);
 		}
 		else {
 			dispatchCompleteWithError(new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID записи"));
@@ -32,9 +33,17 @@ public class SelectFilterSQLOperation extends DeferredOperation {
 	}
 
 	private function loadCompleteHandler(result:SQLResult):void {
-		var themesID:Array = [];
-		for each(var item:Object in result.data) themesID.push(item.themeID);
-		dispatchCompleteSuccess(new CommandResult(themesID));
+		var examples:Array = [];
+		var example:Note;
+		for each(var item:Object in result.data) {
+			example = new Note();
+			example.id = item.id;
+			example.title = item.title;
+			example.description = item.description;
+			example.audioComment = item.audioComment;
+			examples.push(example);
+		}
+		dispatchCompleteSuccess(new CommandResult(examples));
 	}
 }
 }

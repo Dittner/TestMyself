@@ -1,32 +1,13 @@
 package dittner.testmyself.core.model.note {
 import dittner.satelliteFlight.proxy.SFProxy;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.page.IPageInfo;
 
 public class NoteModel extends SFProxy implements INoteModel {
 
-	public function NoteModel(dbName:String):void {
-		_dbName = dbName;
+	public function NoteModel():void {
 		super();
 	}
-
-	//--------------------------------------
-	//  dbName
-	//--------------------------------------
-	private var _dbName:String;
-	public function get dbName():String {return _dbName;}
-
-	//--------------------------------------
-	//  noteClass
-	//--------------------------------------
-	public function get noteClass():Class {return Note;}
-
-	//--------------------------------------
-	//  sqlFactory
-	//--------------------------------------
-	private var _sqlFactory:SQLFactory = new SQLFactory();
-	public function get sqlFactory():SQLFactory {return _sqlFactory;}
 
 	//--------------------------------------
 	//  pageInfo

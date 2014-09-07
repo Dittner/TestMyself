@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.note.form.word {
 import dittner.testmyself.core.model.note.INote;
+import dittner.testmyself.deutsch.model.word.Word;
 import dittner.testmyself.deutsch.view.note.form.*;
 
 import mx.collections.ArrayCollection;
@@ -12,9 +13,12 @@ public class WordFormState extends NoteFormState {
 	private var form:NoteForm;
 
 	override public function edit(note:INote):void {
-		if (form.titleArea) form.titleArea.text = note.title;
-		if (form.descriptionArea) form.descriptionArea.text = note.description;
-		if (form.audioRecorder) form.audioRecorder.comment = note.audioComment;
+		var word:Word = note as Word;
+		if (form.articleBox) form.articleBox.selectedItem = word.article;
+		if (form.wordInput) form.wordInput.text = word.title;
+		if (form.wordOptionsInput) form.wordOptionsInput.text = word.options;
+		if (form.descriptionArea) form.descriptionArea.text = word.description;
+		if (form.audioRecorder) form.audioRecorder.comment = word.audioComment;
 	}
 
 	override public function remove(note:INote):void {
@@ -22,7 +26,7 @@ public class WordFormState extends NoteFormState {
 	}
 
 	override public function clear():void {
-		if (form.articleBox) form.articleBox.selectedItem = "...";
+		if (form.articleBox) form.articleBox.selectedItem = "";
 		if (form.wordInput) form.wordInput.text = "";
 		if (form.wordOptionsInput) form.wordOptionsInput.text = "";
 		if (form.descriptionArea) form.descriptionArea.text = "";

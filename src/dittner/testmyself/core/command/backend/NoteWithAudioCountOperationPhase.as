@@ -4,8 +4,8 @@ import com.probertson.data.SQLRunner;
 import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
 import dittner.testmyself.core.model.note.NotesInfo;
+import dittner.testmyself.core.model.note.SQLFactory;
 
 import flash.data.SQLResult;
 
@@ -29,13 +29,13 @@ public class NoteWithAudioCountOperationPhase extends PhaseOperation {
 		if (result.data && result.data.length > 0) {
 			var countData:Object = result.data[0];
 			for (var prop:String in countData) {
-				info.audioCommentsAmount = countData[prop] as int;
+				info.audioCommentsAmount += countData[prop] as int;
 				break;
 			}
 			dispatchComplete();
 		}
 		else {
-			throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число фраз с аудиозаписями в таблице");
+			throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число записей с аудио в таблице");
 		}
 	}
 

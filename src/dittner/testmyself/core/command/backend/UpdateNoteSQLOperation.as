@@ -5,8 +5,8 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
-import dittner.testmyself.core.command.backend.utils.SQLFactory;
 import dittner.testmyself.core.model.note.NoteSuite;
+import dittner.testmyself.core.model.note.SQLFactory;
 
 public class UpdateNoteSQLOperation extends DeferredOperation {
 
@@ -28,8 +28,10 @@ public class UpdateNoteSQLOperation extends DeferredOperation {
 			phaseRunner.addPhase(MP3EncodingPhase, suite.note);
 			phaseRunner.addPhase(NoteUpdateOperationPhase, sqlRunner, suite.note, sqlFactory);
 			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, sqlRunner, suite.note.id, sqlFactory);
+			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, sqlRunner, suite.note.id, sqlFactory);
 			phaseRunner.addPhase(ThemeInsertOperationPhase, sqlRunner, suite.themes, sqlFactory);
 			phaseRunner.addPhase(FilterInsertOperationPhase, sqlRunner, suite.note, suite.themes, sqlFactory);
+			phaseRunner.addPhase(ExampleInsertOperationPhase, sqlRunner, suite.note, suite.examples, sqlFactory);
 
 			phaseRunner.execute();
 		}
