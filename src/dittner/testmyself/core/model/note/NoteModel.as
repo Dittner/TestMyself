@@ -60,9 +60,16 @@ public class NoteModel extends SFProxy implements INoteModel {
 	private var _filter:Array = [];
 	public function get filter():Array {return _filter;}
 	public function set filter(value:Array):void {
-		if (_filter != value) {
-			_filter = value;
-		}
+		_filter = value;
+	}
+
+	//--------------------------------------
+	//  noteHash
+	//--------------------------------------
+	private var _noteHash:NoteHash = new NoteHash();
+	public function get noteHash():NoteHash {return _noteHash;}
+	public function set noteHash(value:NoteHash):void {
+		_noteHash = value;
 	}
 
 }

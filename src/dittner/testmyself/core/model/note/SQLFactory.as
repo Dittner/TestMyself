@@ -139,6 +139,13 @@ public class SQLFactory extends SFProxy {
 		return SELECT_NOTE_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteKeys.sql", mimeType="application/octet-stream")]
+	private static const SelectNoteKeysClass:Class;
+	private static const SELECT_NOTE_KEYS_SQL:String = new SelectNoteKeysClass();
+	public function get selectNoteKeys():String {
+		return SELECT_NOTE_KEYS_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredNote.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredNoteClass:Class;
 	private static const SELECT_FILTERED_NOTE_SQL:String = new SelectFilteredNoteClass();

@@ -1,37 +1,33 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
 import dittner.testmyself.core.model.note.NotesInfo;
-import dittner.testmyself.core.model.note.SQLFactory;
+import dittner.testmyself.core.service.NoteService;
 
 public class GetDataBaseInfoSQLOperation extends DeferredOperation {
 
-	public function GetDataBaseInfoSQLOperation(sqlRunner:SQLRunner, filter:Array, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+	public function GetDataBaseInfoSQLOperation(service:NoteService, filter:Array) {
+		this.service = service;
 		this.filter = filter;
-		this.sqlFactory = sqlFactory;
 		info = new NotesInfo();
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var service:NoteService;
 	private var info:NotesInfo;
 	private var filter:Array;
-	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
 		var phaseRunner:PhaseRunner = new PhaseRunner();
 		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
 		try {
-			phaseRunner.addPhase(NoteCountOperationPhase, sqlRunner, info, sqlFactory);
-			phaseRunner.addPhase(FilteredNoteCountOperationPhase, sqlRunner, info, filter, sqlFactory);
-			phaseRunner.addPhase(NoteWithAudioCountOperationPhase, sqlRunner, info, sqlFactory);
-			phaseRunner.addPhase(ExampleCountOperationPhase, sqlRunner, info, sqlFactory);
-			phaseRunner.addPhase(ExampleWithAudioCountOperationPhase, sqlRunner, info, sqlFactory);
+			phaseRunner.addPhase(NoteCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
+			phaseRunner.addPhase(FilteredNoteCountOperationPhase, service.sqlRunner, info, filter, service.sqlFactory);
+			phaseRunner.addPhase(NoteWithAudioCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
+			phaseRunner.addPhase(ExampleCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
+			phaseRunner.addPhase(ExampleWithAudioCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
 
 			phaseRunner.execute();
 		}

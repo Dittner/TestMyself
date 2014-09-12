@@ -6,6 +6,7 @@ import dittner.testmyself.core.command.AddNoteCmd;
 import dittner.testmyself.core.command.ClearNotesInfoCmd;
 import dittner.testmyself.core.command.GetNoteExamplesCmd;
 import dittner.testmyself.core.command.GetNoteFilterCmd;
+import dittner.testmyself.core.command.GetNoteHashCmd;
 import dittner.testmyself.core.command.GetNoteThemesCmd;
 import dittner.testmyself.core.command.GetNotesInfoCmd;
 import dittner.testmyself.core.command.GetPageInfoCmd;
@@ -67,6 +68,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.MERGE_THEMES, MergeNoteThemesCmd);
 		mainModule.registerCmd(NoteMsg.GET_SELECTED_THEMES_ID, GetSelectedNoteThemesIDCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTES_INFO, GetNotesInfoCmd);
+		mainModule.registerCmd(NoteMsg.GET_NOTE_HASH, GetNoteHashCmd);
 
 		//register models and services
 		mainModule.registerProxy("settingsModel", new SettingsModel());

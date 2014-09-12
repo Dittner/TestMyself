@@ -32,7 +32,7 @@ public class WordFormState extends NoteFormState {
 		if (form.descriptionArea) form.descriptionArea.text = "";
 		if (form.addThemeInput) form.addThemeInput.text = "";
 		if (form.audioRecorder) form.audioRecorder.clear();
-		if (form.exampleList) form.exampleList.clear();
+		if (form.examplesForm) form.examplesForm.clear();
 		form.themes = new ArrayCollection();
 	}
 
@@ -57,12 +57,12 @@ public class WordFormState extends NoteFormState {
 			descriptionArea.height = 4 * wordInput.height;
 			descriptionArea.width = firstColumnWid - wordInput.x + 2 * HGAP;
 
-			exampleList.x = PAD;
-			exampleList.y = descriptionArea.y + descriptionArea.height + VGAP;
-			exampleList.toolsCont.width = articleBox.width;
-			exampleList.horizontalLayout.gap = HGAP;
-			exampleList.width = firstColumnWid;
-			exampleList.height = formContentHeight - exampleList.y + HEADER_HEI + PAD_TOP;
+			examplesForm.x = PAD;
+			examplesForm.y = descriptionArea.y + descriptionArea.height + VGAP;
+			examplesForm.toolsCont.width = articleBox.width;
+			examplesForm.horizontalLayout.gap = HGAP;
+			examplesForm.width = firstColumnWid;
+			examplesForm.height = formContentHeight - examplesForm.y + HEADER_HEI + PAD_TOP;
 
 			themesList.x = descriptionArea.x + descriptionArea.width + HGAP;
 			themesList.y = HEADER_HEI + PAD_TOP;
@@ -112,7 +112,7 @@ public class WordFormState extends NoteFormState {
 			descriptionArea.visible = true;
 			articleBox.visible = true;
 			wordInput.visible = true;
-			exampleList.visible = true;
+			examplesForm.visible = true;
 			wordOptionsInput.visible = true;
 		}
 	}

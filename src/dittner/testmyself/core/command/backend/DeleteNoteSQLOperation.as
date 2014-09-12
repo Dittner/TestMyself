@@ -1,33 +1,30 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
-import dittner.testmyself.core.model.note.SQLFactory;
+import dittner.testmyself.core.model.note.NoteSuite;
+import dittner.testmyself.core.service.NoteService;
 
 public class DeleteNoteSQLOperation extends DeferredOperation {
 
-	public function DeleteNoteSQLOperation(sqlRunner:SQLRunner, noteID:int, sqlFactory:SQLFactory) {
+	public function DeleteNoteSQLOperation(service:NoteService, suite:NoteSuite) {
 		super();
-		this.sqlRunner = sqlRunner;
-		this.noteID = noteID;
-		this.sqlFactory = sqlFactory;
+		this.service = service;
+		this.suite = suite;
 	}
 
-	private var sqlRunner:SQLRunner;
-	private var noteID:int;
-	private var sqlFactory:SQLFactory;
+	private var service:NoteService;
+	private var suite:NoteSuite;
 
 	override public function process():void {
 		var phaseRunner:PhaseRunner = new PhaseRunner();
 		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
 		try {
-			phaseRunner.addPhase(DeleteNoteOperationPhase, sqlRunner, noteID, sqlFactory);
-			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, sqlRunner, noteID, sqlFactory);
-			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, sqlRunner, noteID, sqlFactory);
+			phaseRunner.addPhase(DeleteNoteOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
+			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
+			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
 
 			phaseRunner.execute();
 		}
@@ -38,7 +35,7 @@ public class DeleteNoteSQLOperation extends DeferredOperation {
 	}
 
 	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(CommandResult.OK);
+		dispatchCompleteSuccess(new CommandResult(suite));
 	}
 
 }

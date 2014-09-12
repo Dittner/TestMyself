@@ -3,7 +3,6 @@
          xmlns:s="library://ns.adobe.com/flex/spark">
     <fx:Script><![CDATA[
         import dittner.testmyself.core.model.note.NotesInfo;
-        import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         //--------------------------------------
@@ -68,12 +67,12 @@
     <s:Label fontFamily="{Fonts.ROBOTO}"
              fontSize="14"
              fontWeight="bold"
-             color="{AppColors.TEXT_LIGHT}"
+             color="0"
              text="База данных"/>
 
     <s:Label id="infoLbl"
              fontFamily="{Fonts.ROBOTO_LIGHT}"
              fontSize="14"
-             color="{AppColors.TEXT_LIGHT}"/>
+             color="0"/>
 
 </s:Group>

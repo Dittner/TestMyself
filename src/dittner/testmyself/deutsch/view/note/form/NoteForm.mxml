@@ -6,9 +6,8 @@
          xmlns:input="dittner.testmyself.deutsch.view.common.input.*"
          xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
-         xmlns:common="dittner.testmyself.deutsch.view.common.*"
          xmlns:listBox="dittner.testmyself.deutsch.view.note.common.articleList.*"
-         xmlns:examplelist="dittner.testmyself.deutsch.view.note.common.exampleList.*" xmlns:lettersbar="dittner.testmyself.deutsch.view.note.common.lettersBar.*"
+         xmlns:examplelist="dittner.testmyself.deutsch.view.note.common.examplesForm.*" xmlns:lettersbar="dittner.testmyself.deutsch.view.note.common.lettersBar.*" xmlns:common2="dittner.testmyself.deutsch.view.note.common.*"
          maxHeight.remove="300"
          initialize="initializeHandler(event)">
 
@@ -16,10 +15,12 @@
         import dittner.testmyself.core.model.note.INote;
         import dittner.testmyself.core.model.theme.ITheme;
         import dittner.testmyself.deutsch.model.AppConfig;
+        import dittner.testmyself.deutsch.model.word.WordArticle;
         import dittner.testmyself.deutsch.view.common.renderer.AddedThemeItemRenderer;
         import dittner.testmyself.deutsch.view.common.renderer.ThemeItemRenderer;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
+        import dittner.testmyself.deutsch.view.note.common.NoteUtils;
         import dittner.testmyself.deutsch.view.note.form.phrase.PhraseFormState;
         import dittner.testmyself.deutsch.view.note.form.word.WordFormState;
 
@@ -158,7 +159,7 @@
 
         private function wordValidationHandler(event:TextOperationEvent):void {
             if (event.operation is TextInputOperation) {
-                var regexp:RegExp = /[a-zA-ZÄäÖöÜüß]+/;
+                var regexp:RegExp = NoteUtils.LETTERS;
                 var match:Object = regexp.exec((event.operation as TextInputOperation).text);
                 if (match == null) event.preventDefault();
             }
@@ -202,17 +203,8 @@
         <listBox:ListBox id="articleBox" requireSelection="true"
                          width="75"
                          itemRenderer="dittner.testmyself.deutsch.view.note.common.articleList.ArticleItemRenderer"
-                         skinClass="dittner.testmyself.deutsch.view.note.common.articleList.ListBoxSkin">
-            <s:ArrayCollection>
-                <fx:Array>
-                    <fx:String></fx:String>
-                    <fx:String>der</fx:String>
-                    <fx:String>die</fx:String>
-                    <fx:String>das</fx:String>
-                    <fx:String>der/die</fx:String>
-                </fx:Array>
-            </s:ArrayCollection>
-        </listBox:ListBox>
+                         skinClass="dittner.testmyself.deutsch.view.note.common.articleList.ListBoxSkin"
+                         dataProvider="{new ArrayCollection(WordArticle.ARTICLES)}"/>
 
         <input:TextAreaForm id="titleArea"
                             title="Исходный текст"
@@ -235,7 +227,7 @@
                             autoCorrect="true"
                             title="Перевод"/>
 
-        <examplelist:ExampleList id="exampleList" mainForm="{this}"/>
+        <examplelist:ExamplesForm id="examplesForm" mainForm="{this}"/>
 
         <audio:AudioRecorder id="audioRecorder"/>
 
@@ -258,7 +250,7 @@
                              upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
                              downImage="@Embed(source='/assets/button/add_element_btn_down.png')"/>
 
-        <common:InvalidNotifier id="invalidNotifier"/>
+        <common2:InvalidNotifier id="invalidNotifier"/>
     </s:Group>
 
 

@@ -7,8 +7,8 @@ import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.page.IPageInfo;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
-import dittner.testmyself.deutsch.view.note.common.NoteRendererData;
 import dittner.testmyself.deutsch.view.note.common.PageLayoutInfo;
+import dittner.testmyself.deutsch.view.note.common.renderer.NoteRendererData;
 
 import flash.events.Event;
 

@@ -10,6 +10,7 @@ import dittner.testmyself.deutsch.view.note.form.NoteRemoverMediator;
 import dittner.testmyself.deutsch.view.note.form.NoteType;
 import dittner.testmyself.deutsch.view.note.form.word.WordCreatorMediator;
 import dittner.testmyself.deutsch.view.note.form.word.WordEditorMediator;
+import dittner.testmyself.deutsch.view.note.list.ExampleListMediator;
 import dittner.testmyself.deutsch.view.note.list.NoteListMediator;
 import dittner.testmyself.deutsch.view.note.mp3Player.NotePlayerMediator;
 import dittner.testmyself.deutsch.view.note.pagination.NotePaginationMediator;
@@ -47,6 +48,7 @@ public class WordScreenMediator extends SFMediator {
 		registerMediator(view.filter, new NoteFilterMediator());
 		registerMediator(view.paginationBar, new NotePaginationMediator());
 		registerMediator(view.mp3Player, new NotePlayerMediator());
+		registerMediator(view.exampleList, new ExampleListMediator());
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 

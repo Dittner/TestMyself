@@ -5,6 +5,7 @@ public class NoteMsg {
 	public static const PAGE_INFO_CHANGED_NOTIFICATION:String = "pageInfoChangedNotification";
 	public static const NOTES_INFO_CHANGED_NOTIFICATION:String = "notesInfoChangedNotification";
 	public static const NOTE_SELECTED_NOTIFICATION:String = "noteSelectedNotification";
+	public static const EXAMPLE_SELECTED_NOTIFICATION:String = "exampleSelectedNotification";
 
 	public static const SELECT_NOTE:String = "selectNote";
 
@@ -18,6 +19,7 @@ public class NoteMsg {
 	public static const GET_SELECTED_NOTE:String = "getSelectedNote";
 	public static const GET_FILTER:String = "getFilter";
 	public static const SET_FILTER:String = "setFilter";
+	public static const GET_NOTE_HASH:String = "getNoteHash";
 
 	/*SQL*/
 	public static const ADD_NOTE:String = "addNote";

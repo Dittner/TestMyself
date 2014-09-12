@@ -1,26 +1,22 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;
+import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
 
 public class SelectThemeSQLOperation extends DeferredOperation {
 
-	public function SelectThemeSQLOperation(sqlRunner:SQLRunner, sqlFactory:SQLFactory) {
+	public function SelectThemeSQLOperation(service:NoteService) {
 		super();
-		this.sqlRunner = sqlRunner;
-		this.sqlFactory = sqlFactory;
+		this.service = service;
 	}
 
-	private var sqlFactory:SQLFactory;
-	private var sqlRunner:SQLRunner;
+	private var service:NoteService;
 
 	override public function process():void {
-		sqlRunner.execute(sqlFactory.selectTheme, null, loadedHandler, Theme);
+		service.sqlRunner.execute(service.sqlFactory.selectTheme, null, loadedHandler, Theme);
 	}
 
 	private function loadedHandler(result:SQLResult):void {

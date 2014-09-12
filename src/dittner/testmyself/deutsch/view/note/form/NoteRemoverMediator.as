@@ -3,6 +3,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
+import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 import dittner.testmyself.deutsch.view.common.toobar.ToolActionName;
 
@@ -24,7 +25,9 @@ public class NoteRemoverMediator extends NoteFormMediator {
 	}
 
 	private function sendRemoveUnitRequest():void {
-		sendRequest(NoteMsg.REMOVE_NOTE, new RequestMessage(removeUnitCompleteHandler, removeUnitErrorHandler, selectedNote));
+		var suite:NoteSuite = new NoteSuite();
+		suite.note = selectedNote;
+		sendRequest(NoteMsg.REMOVE_NOTE, new RequestMessage(removeUnitCompleteHandler, removeUnitErrorHandler, suite));
 	}
 
 	private function removeUnitCompleteHandler(res:CommandResult):void {

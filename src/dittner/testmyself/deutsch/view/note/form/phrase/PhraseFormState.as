@@ -91,7 +91,7 @@ public class PhraseFormState extends NoteFormState {
 			descriptionArea.visible = true;
 			articleBox.visible = false;
 			wordInput.visible = false;
-			exampleList.visible = false;
+			examplesForm.visible = false;
 			wordOptionsInput.visible = false;
 		}
 	}

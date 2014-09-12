@@ -6,7 +6,6 @@
         usePreloader="true"
         preloader="dittner.testmyself.deutsch.view.common.preloader.ClockPreloader"
         backgroundColor="0x3d3f4b"
-        initialize="initializeHandler(event)"
         creationComplete="creationCompleteHandler(event)"
         uncaughtError="uncaughtErrorHandler(event)">
 
@@ -21,13 +20,10 @@
         public static var root:TestMyselfApp;
         private static var mainModule:MainModule;
 
-        private function initializeHandler(event:FlexEvent):void {
+        private function creationCompleteHandler(event:FlexEvent):void {
             TestMyselfApp.root = this;
             TextFieldFactory.useEmbedFonts = true;
             mainModule = new MainModule(ModuleName.ROOT);
-        }
-
-        private function creationCompleteHandler(event:FlexEvent):void {
             mainModule.start(this);
         }
 

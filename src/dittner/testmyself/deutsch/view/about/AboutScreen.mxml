@@ -13,49 +13,45 @@
         private static const ABOUT:String = "Это инструмент, автоматизирующий процессы тестирования и обработки результатов тестов, представляющий собой удобный интерфейс для ввода и визуализации данных. Предназначен для самостоятельного контроля знаний учеников, изучающих иностранные языки. Текущая версия программного продукта предназначена для контроля знаний немецкого языка.";
         ]]></fx:Script>
 
-    <utils:BG width="100%" height="100%" color="0" alpha=".25"/>
 
-    <s:HGroup width="100%" height="100%" gap="0">
-        <s:Group width="100%" height="100%">
-            <utils:BG width="100%" height="100%" color="0"/>
-            <s:BitmapImage source="@Embed('/assets/logo.png')"
-                           verticalCenter="0" horizontalCenter="0"/>
-        </s:Group>
+    <s:Group height="100%" width="100%">
+        <utils:BG width="100%" height="100%" color="{AppColors.BG}" alpha="1"/>
 
+        <s:HGroup left="{PADDING}" right="{PADDING}" height="100%" verticalAlign="middle">
+            <s:BitmapImage id="logo" source="@Embed('/assets/logo.png')"/>
+            <s:VGroup id="rightPanel" width="600"
+                      verticalAlign="middle" horizontalAlign="center"
+                      paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="20"
+                      gap="10">
 
-        <s:VGroup id="rightPanel"
-                  width="100%" height="100%"
-                  verticalAlign="middle" horizontalAlign="center"
-                  paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="20"
-                  gap="10">
+                <s:Label fontFamily="{Fonts.VANTA_THIN}"
+                         fontSize="60"
+                         color="0xb99c00"
+                         width="100%"
+                         text="Система самостоятельного тестирования знаний немецкого языка"/>
 
-            <s:Label fontFamily="{Fonts.VANTA_THIN}"
-                     fontSize="40"
-                     color="{AppColors.YELLOW}"
-                     width="100%"
-                     text="Система самостоятельного тестирования знаний немецкого языка"/>
+                <s:Label fontFamily="{Fonts.ROBOTO}"
+                         fontSize="14"
+                         fontWeight="bold"
+                         width="100%"
+                         color="0"
+                         text="TestMyself"
+                         paddingBottom="-10"/>
 
-            <s:Label fontFamily="{Fonts.ROBOTO}"
-                     fontSize="14"
-                     fontWeight="bold"
-                     width="100%"
-                     color="{AppColors.TEXT_LIGHT}"
-                     text="TestMyself"
-                     paddingBottom="-10"/>
-
-            <s:Label fontFamily="{Fonts.ROBOTO_LIGHT}"
-                     fontSize="14"
-                     width="100%"
-                     color="{AppColors.TEXT_LIGHT}"
-                     verticalAlign="middle"
-                     text="{ABOUT}"/>
+                <s:Label fontFamily="{Fonts.ROBOTO_LIGHT}"
+                         fontSize="14"
+                         width="100%"
+                         color="0"
+                         verticalAlign="middle"
+                         text="{ABOUT}"/>
 
 
-            <components:DataBaseInfoBoard id="infoBoard"
-                                          width="100%"/>
-        </s:VGroup>
+                <components:DataBaseInfoBoard id="infoBoard"
+                                              width="100%"/>
+            </s:VGroup>
+        </s:HGroup>
 
-    </s:HGroup>
+    </s:Group>
 
 
 </core:ScreenBase>

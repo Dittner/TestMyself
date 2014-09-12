@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.view.note.common {
+package dittner.testmyself.deutsch.view.note.common.renderer {
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;

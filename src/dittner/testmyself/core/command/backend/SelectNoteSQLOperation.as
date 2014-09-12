@@ -1,28 +1,24 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
-import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.PageInfo;
+import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
 
 public class SelectNoteSQLOperation extends DeferredOperation {
 
-	public function SelectNoteSQLOperation(sqlRunner:SQLRunner, pageInfo:PageInfo, noteClass:Class, sqlFactory:SQLFactory) {
+	public function SelectNoteSQLOperation(service:NoteService, pageInfo:PageInfo, noteClass:Class) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.service = service;
 		this.pageInfo = pageInfo;
-		this.sqlFactory = sqlFactory;
 		this.noteClass = noteClass;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var service:NoteService;
 	private var pageInfo:PageInfo;
 	private var noteClass:Class;
-	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
 		var params:Object = {};
@@ -31,12 +27,12 @@ public class SelectNoteSQLOperation extends DeferredOperation {
 
 		if (pageInfo.filter.length > 0) {
 			var themes:String = SQLUtils.themesToSqlStr(pageInfo.filter);
-			var statement:String = sqlFactory.selectFilteredNote;
+			var statement:String = service.sqlFactory.selectFilteredNote;
 			statement = statement.replace("#filterList", themes);
-			sqlRunner.execute(statement, params, loadedHandler, noteClass);
+			service.sqlRunner.execute(statement, params, loadedHandler, noteClass);
 		}
 		else {
-			sqlRunner.execute(sqlFactory.selectNote, params, loadedHandler, noteClass);
+			service.sqlRunner.execute(service.sqlFactory.selectNote, params, loadedHandler, noteClass);
 		}
 	}
 

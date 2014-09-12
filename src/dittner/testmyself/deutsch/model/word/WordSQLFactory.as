@@ -24,5 +24,12 @@ public class WordSQLFactory extends SQLFactory {
 	override public function get updateNote():String {
 		return UPDATE_WORD_SQL;
 	}
+
+	[Embed(source="/dittner/testmyself/deutsch/command/backend/SelectWordKeys.sql", mimeType="application/octet-stream")]
+	private static const SelectWordKeysClass:Class;
+	private static const SELECT_WORD_KEYS_SQL:String = new SelectWordKeysClass();
+	override public function get selectNoteKeys():String {
+		return SELECT_WORD_KEYS_SQL;
+	}
 }
 }

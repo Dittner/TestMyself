@@ -18,5 +18,8 @@ public interface INoteModel {
 	function get filter():Array;
 	function set filter(value:Array):void;
 
+	function get noteHash():NoteHash;
+	function set noteHash(value:NoteHash):void;
+
 }
 }

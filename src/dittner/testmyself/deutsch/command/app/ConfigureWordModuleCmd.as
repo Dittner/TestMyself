@@ -8,18 +8,25 @@ import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.word.Word;
 import dittner.testmyself.deutsch.model.word.WordDemoData;
+import dittner.testmyself.deutsch.model.word.WordHash;
 import dittner.testmyself.deutsch.model.word.WordSQLFactory;
 
 public class ConfigureWordModuleCmd implements IConfigureCommand {
 
 	public function execute(wordModule:SFModule):void {
 		//register models and services
-		wordModule.registerProxy("model", new NoteModel());
+		wordModule.registerProxy("model", createModel());
 		wordModule.registerProxy("sqlFactory", new WordSQLFactory());
 		var spec:NoteServiceSpec = createSpec();
 		wordModule.registerProxy("demoData", spec.demoData as SFProxy);
 		wordModule.registerProxy("spec", spec);
 		wordModule.registerProxy("service", new NoteService());
+	}
+
+	private function createModel():NoteModel {
+		var model:NoteModel = new NoteModel();
+		model.noteHash = new WordHash();
+		return model;
 	}
 
 	private function createSpec():NoteServiceSpec {

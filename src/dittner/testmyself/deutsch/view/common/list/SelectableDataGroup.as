@@ -92,6 +92,19 @@ public class SelectableDataGroup extends DataGroup {
 		_allowSelectLastItem = value;
 	}
 
+	//--------------------------------------
+	//  deselectEnabled
+	//--------------------------------------
+	private var _deselectEnabled:Boolean = false;
+	[Bindable("deselectEnabledChanged")]
+	public function get deselectEnabled():Boolean {return _deselectEnabled;}
+	public function set deselectEnabled(value:Boolean):void {
+		if (_deselectEnabled != value) {
+			_deselectEnabled = value;
+			dispatchEvent(new Event("deselectEnabledChanged"));
+		}
+	}
+
 	//--------------------------------------------------------------------------
 	//
 	//  Overriden
@@ -191,7 +204,9 @@ public class SelectableDataGroup extends DataGroup {
 	//--------------------------------------------------------------------------------
 	protected function renderer_clickHandler(event:MouseEvent):void {
 		var dataRenderer:IDataRenderer = event.currentTarget as IDataRenderer;
-		selectedItem = dataRenderer ? dataRenderer.data : null;
+		var selectedData:Object = dataRenderer ? dataRenderer.data : null;
+		if (deselectEnabled && selectedData && selectedData == selectedItem) selectedItem = null;
+		else selectedItem = selectedData;
 	}
 }
 }

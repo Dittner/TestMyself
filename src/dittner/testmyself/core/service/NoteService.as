@@ -13,6 +13,7 @@ import dittner.testmyself.core.command.backend.InsertNoteSQLOperation;
 import dittner.testmyself.core.command.backend.MergeThemesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectExamplesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectFilterSQLOperation;
+import dittner.testmyself.core.command.backend.SelectNoteKeysSQLOperation;
 import dittner.testmyself.core.command.backend.SelectNoteSQLOperation;
 import dittner.testmyself.core.command.backend.SelectThemeSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateNoteSQLOperation;
@@ -57,13 +58,16 @@ public class NoteService extends SFProxy {
 	//----------------------------------------------------------------------------------------------
 
 	override protected function activate():void {
-		var op:IDeferredOperation = new CreateDataBaseSQLOperation(this, spec, sqlFactory);
+		var op:IDeferredOperation = new CreateDataBaseSQLOperation(this, spec);
+		deferredOperationManager.add(op);
+		op = new SelectNoteKeysSQLOperation(this, sqlFactory, spec.noteClass);
+		op.addCompleteCallback(initializeNoteHash);
 		deferredOperationManager.add(op);
 	}
 
 	public function add(requestMsg:IRequestMessage):void {
 		var suite:NoteSuite = requestMsg.data as NoteSuite;
-		var op:IDeferredOperation = new InsertNoteSQLOperation(sqlRunner, suite, sqlFactory);
+		var op:IDeferredOperation = new InsertNoteSQLOperation(this, suite);
 		op.addCompleteCallback(noteAdded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -71,14 +75,15 @@ public class NoteService extends SFProxy {
 
 	public function update(requestMsg:IRequestMessage):void {
 		var suite:NoteSuite = requestMsg.data as NoteSuite;
-		var op:IDeferredOperation = new UpdateNoteSQLOperation(sqlRunner, suite, sqlFactory);
+		var op:IDeferredOperation = new UpdateNoteSQLOperation(this, suite);
 		op.addCompleteCallback(noteUpdated);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
 
 	public function remove(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new DeleteNoteSQLOperation(sqlRunner, (requestMsg.data as Note).id, sqlFactory);
+		var suite:NoteSuite = requestMsg.data as NoteSuite;
+		var op:IDeferredOperation = new DeleteNoteSQLOperation(this, suite);
 		op.addCompleteCallback(noteRemoved);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -95,14 +100,14 @@ public class NoteService extends SFProxy {
 		pageInfo.pageNum = pageNum;
 		pageInfo.filter = model.filter;
 
-		var op:IDeferredOperation = new SelectNoteSQLOperation(sqlRunner, pageInfo, spec.noteClass, sqlFactory);
+		var op:IDeferredOperation = new SelectNoteSQLOperation(this, pageInfo, spec.noteClass);
 		op.addCompleteCallback(pageInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
 
 	public function loadThemes(requestMsg:IRequestMessage = null):void {
-		var op:IDeferredOperation = new SelectThemeSQLOperation(sqlRunner, sqlFactory);
+		var op:IDeferredOperation = new SelectThemeSQLOperation(this);
 		op.addCompleteCallback(themesLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -110,20 +115,20 @@ public class NoteService extends SFProxy {
 
 	public function loadExamples(requestMsg:IRequestMessage):void {
 		var noteID:int = requestMsg.data as int;
-		var op:IDeferredOperation = new SelectExamplesSQLOperation(sqlRunner, noteID, sqlFactory);
+		var op:IDeferredOperation = new SelectExamplesSQLOperation(this, noteID);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
 
 	public function updateTheme(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new UpdateThemeSQLOperation(sqlRunner, requestMsg.data as Theme, sqlFactory);
+		var op:IDeferredOperation = new UpdateThemeSQLOperation(this, requestMsg.data as Theme);
 		op.addCompleteCallback(themesUpdated);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
 
 	public function removeTheme(requestMsg:IRequestMessage):void {
-		var op:IDeferredOperation = new DeleteThemeSQLOperation(sqlRunner, (requestMsg.data as Theme).id, sqlFactory);
+		var op:IDeferredOperation = new DeleteThemeSQLOperation(this, (requestMsg.data as Theme).id);
 		op.addCompleteCallback(themesUpdated);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -132,7 +137,7 @@ public class NoteService extends SFProxy {
 	public function mergeThemes(requestMsg:IRequestMessage):void {
 		var destThemeID:int = (requestMsg.data.destTheme as Theme).id;
 		var srcThemeID:int = (requestMsg.data.srcTheme as Theme).id;
-		var op:IDeferredOperation = new MergeThemesSQLOperation(sqlRunner, destThemeID, srcThemeID, sqlFactory);
+		var op:IDeferredOperation = new MergeThemesSQLOperation(this, destThemeID, srcThemeID);
 		op.addCompleteCallback(themesUpdated);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -140,13 +145,13 @@ public class NoteService extends SFProxy {
 
 	public function getSelectedThemesID(requestMsg:IRequestMessage):void {
 		var noteID:int = (requestMsg.data as Note).id;
-		var op:IDeferredOperation = new SelectFilterSQLOperation(sqlRunner, noteID, sqlFactory);
+		var op:IDeferredOperation = new SelectFilterSQLOperation(this, noteID);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
 
 	public function loadDBInfo(requestMsg:IRequestMessage = null):void {
-		var op:IDeferredOperation = new GetDataBaseInfoSQLOperation(sqlRunner, model.filter, sqlFactory);
+		var op:IDeferredOperation = new GetDataBaseInfoSQLOperation(this, model.filter);
 		op.addCompleteCallback(dbInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -169,21 +174,28 @@ public class NoteService extends SFProxy {
 		});
 	}
 
+	private function initializeNoteHash(res:CommandResult):void {
+		model.noteHash.init(res.data as Array);
+	}
+
 	private function noteAdded(res:CommandResult):void {
 		loadPageInfo();
 		loadThemes();
 		loadDBInfo();
+		model.noteHash.add((res.data as NoteSuite).note);
 	}
 
 	private function noteUpdated(res:CommandResult):void {
 		loadPageInfo();
 		loadThemes();
 		loadDBInfo();
+		model.noteHash.update((res.data as NoteSuite).note, (res.data as NoteSuite).origin);
 	}
 
 	private function noteRemoved(res:CommandResult):void {
 		loadPageInfo();
 		loadDBInfo();
+		model.noteHash.remove((res.data as NoteSuite).note);
 	}
 
 	private function pageInfoLoaded(res:CommandResult):void {

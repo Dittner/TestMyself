@@ -1,24 +1,20 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
 import dittner.testmyself.core.model.note.NoteSuite;
-import dittner.testmyself.core.model.note.SQLFactory;
+import dittner.testmyself.core.service.NoteService;
 
 public class InsertNoteSQLOperation extends DeferredOperation {
 
-	public function InsertNoteSQLOperation(sqlRunner:SQLRunner, suite:NoteSuite, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+	public function InsertNoteSQLOperation(service:NoteService, suite:NoteSuite) {
+		this.service = service;
 		this.suite = suite;
-		this.sqlFactory = sqlFactory;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var service:NoteService;
 	private var suite:NoteSuite;
-	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
 		var phaseRunner:PhaseRunner = new PhaseRunner();
@@ -26,10 +22,10 @@ public class InsertNoteSQLOperation extends DeferredOperation {
 
 		try {
 			phaseRunner.addPhase(MP3EncodingPhase, suite.note);
-			phaseRunner.addPhase(NoteInsertOperationPhase, sqlRunner, suite.note, sqlFactory);
-			phaseRunner.addPhase(ThemeInsertOperationPhase, sqlRunner, suite.themes, sqlFactory);
-			phaseRunner.addPhase(FilterInsertOperationPhase, sqlRunner, suite.note, suite.themes, sqlFactory);
-			phaseRunner.addPhase(ExampleInsertOperationPhase, sqlRunner, suite.note, suite.examples, sqlFactory);
+			phaseRunner.addPhase(NoteInsertOperationPhase, service.sqlRunner, suite.note, service.sqlFactory);
+			phaseRunner.addPhase(ThemeInsertOperationPhase, service.sqlRunner, suite.themes, service.sqlFactory);
+			phaseRunner.addPhase(FilterInsertOperationPhase, service.sqlRunner, suite.note, suite.themes, service.sqlFactory);
+			phaseRunner.addPhase(ExampleInsertOperationPhase, service.sqlRunner, suite.note, suite.examples, service.sqlFactory);
 
 			phaseRunner.execute();
 		}
@@ -40,7 +36,7 @@ public class InsertNoteSQLOperation extends DeferredOperation {
 	}
 
 	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(CommandResult.OK);
+		dispatchCompleteSuccess(new CommandResult(suite));
 	}
 }
 }

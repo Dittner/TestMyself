@@ -18,6 +18,7 @@ public class WordCreatorMediator extends NoteCreatorMediator {
 	override protected function validateNote(note:Note):String {
 		if (!note) return "Отсутствует слово";
 		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		if (noteHash.has(note)) return "Слово с таким названием и артиклем уже существует в словаре";
 		return "";
 	}
 

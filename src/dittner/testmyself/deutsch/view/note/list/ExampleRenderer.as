@@ -1,27 +1,25 @@
-package dittner.testmyself.deutsch.view.note.common.exampleList {
+package dittner.testmyself.deutsch.view.note.list {
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
-import flash.display.GradientType;
 import flash.display.Graphics;
-import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ExampleRenderer extends ItemRendererBase {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 14, AppColors.TEXT_BLACK, true);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_GRAY);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 20, AppColors.TEXT_BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 16, AppColors.TEXT_GRAY);
 
-	private static const PAD:uint = 3;
-	private static const GAP:uint = 3;
-	private static const COLOR:uint = AppColors.WHITE;
-	private static const SEP_COLOR:uint = 0xccCCcc;
+	private static const PAD:uint = 20;
+	private static const GAP:uint = 10;
+	private static const SEP_COLOR:uint = 0xaaAAaa;
 
 	public function ExampleRenderer() {
 		super();
 		percentWidth = 100;
+		minHeight = 30;
 	}
 
 	private var titleTf:TextField;
@@ -78,34 +76,34 @@ public class ExampleRenderer extends ItemRendererBase {
 		}
 	}
 
-	private var matr:Matrix = new Matrix();
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
 		g.clear();
 
 		if (selected) {
-			matr.createGradientBox(w, h, 90);
-			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
+			g.beginFill(0xf0f0f6, 1);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}
 		else {
-			g.lineStyle(1, SEP_COLOR, 0.75);
-			g.moveTo(0, h);
-			g.lineTo(w, h);
+			g.lineStyle(1, SEP_COLOR, 0.5);
+			g.moveTo(PAD, h + 1);
+			g.lineTo(w - 2 * PAD, h + 1);
 		}
 
-		titleTf.textColor = selected ? 0xffFFff : 0;
 		titleTf.x = titleTf.y = PAD;
 
-		titleTf.alpha = note.audioComment ? 1 : .6;
+		titleTf.alpha = hasAudioComment() ? 1 : .7;
 		if (descriptionTf.visible) {
-			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = PAD;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP;
-			descriptionTf.alpha = note.audioComment ? 1 : .6;
+			descriptionTf.alpha = hasAudioComment() ? 1 : .7;
 		}
+	}
+
+	private function hasAudioComment():Boolean {
+		return note && note.audioComment.bytes;
 	}
 
 	override public function set selected(value:Boolean):void {

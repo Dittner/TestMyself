@@ -1,30 +1,26 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.model.note.SQLFactory;
+import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
 
 public class SelectFilterSQLOperation extends DeferredOperation {
 
-	public function SelectFilterSQLOperation(sqlRunner:SQLRunner, noteID:int, sqlFactory:SQLFactory) {
+	public function SelectFilterSQLOperation(service:NoteService, noteID:int) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.service = service;
 		this.noteID = noteID;
-		this.sqlFactory = sqlFactory;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var service:NoteService;
 	private var noteID:int;
-	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
 		if (noteID != -1) {
-			sqlRunner.execute(sqlFactory.selectFilter, {selectedNoteID: noteID}, loadCompleteHandler);
+			service.sqlRunner.execute(service.sqlFactory.selectFilter, {selectedNoteID: noteID}, loadCompleteHandler);
 		}
 		else {
 			dispatchCompleteWithError(new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID записи"));

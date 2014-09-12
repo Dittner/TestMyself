@@ -1,34 +1,30 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
-import dittner.testmyself.core.model.note.SQLFactory;
+import dittner.testmyself.core.service.NoteService;
 
 public class MergeThemesSQLOperation extends DeferredOperation {
 
-	public function MergeThemesSQLOperation(sqlRunner:SQLRunner, destThemeID:int, srcThemeID:int, sqlFactory:SQLFactory) {
+	public function MergeThemesSQLOperation(service:NoteService, destThemeID:int, srcThemeID:int) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.service = service;
 		this.destThemeID = destThemeID;
 		this.srcThemeID = srcThemeID;
-		this.sqlFactory = sqlFactory;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var service:NoteService;
 	private var destThemeID:int;
 	private var srcThemeID:int;
-	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
 		var phaseRunner:PhaseRunner = new PhaseRunner();
 		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
 
 		try {
-			phaseRunner.addPhase(DeleteThemeOperationPhase, sqlRunner, srcThemeID, sqlFactory);
-			phaseRunner.addPhase(UpdateFilterOperationPhase, sqlRunner, destThemeID, srcThemeID, sqlFactory);
+			phaseRunner.addPhase(DeleteThemeOperationPhase, service.sqlRunner, srcThemeID, service.sqlFactory);
+			phaseRunner.addPhase(UpdateFilterOperationPhase, service.sqlRunner, destThemeID, srcThemeID, service.sqlFactory);
 
 			phaseRunner.execute();
 		}

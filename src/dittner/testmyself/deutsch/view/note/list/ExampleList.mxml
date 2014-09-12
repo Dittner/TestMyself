@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
+         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.view.common.utils.AppColors;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  dataProvider
+        //--------------------------------------
+        private var _dataProvider:ArrayCollection;
+        [Bindable("dataProviderChanged")]
+        public function get dataProvider():ArrayCollection {return _dataProvider;}
+        public function set dataProvider(value:ArrayCollection):void {
+            if (_dataProvider != value) {
+                _dataProvider = value;
+                dispatchEvent(new Event("dataProviderChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+    <utils:BG left="0" right="1" height="100%" color="{AppColors.BG}"/>
+
+    <s:Scroller left="-1" right="0" height="100%"
+                minViewportInset="1"
+                hasFocusableChildren="false">
+        <list:SelectableDataGroup id="dataGroup"
+                                  dataProvider="{dataProvider}"
+                                  width="100%"
+                                  deselectEnabled="true"
+                                  itemRenderer="dittner.testmyself.deutsch.view.note.list.ExampleRenderer">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:SelectableDataGroup>
+    </s:Scroller>
+</s:Group>

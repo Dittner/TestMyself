@@ -76,8 +76,8 @@
             if (mainForm == editFormCont.parent) mainForm.removeElement(editFormCont);
         }
 
-        private function applyBtnEnabled(isRecording:Boolean, title:String, description:String):Boolean {
-            return !isRecording && title && description;
+        private function applyBtnEnabled(isRecording:Boolean, title:String):Boolean {
+            return !isRecording && title;
         }
 
         private function back():void {
@@ -203,7 +203,7 @@
                                             label.edit="Сохранить"
                                             label.remove="Удалить"
                                             enabled.remove="true"
-                                            enabled="{applyBtnEnabled(audioRecorder.isRecording, titleArea.text, descriptionArea.text)}"
+                                            enabled="{applyBtnEnabled(audioRecorder.isRecording, titleArea.text)}"
                                             click="apply()"/>
                     </s:HGroup>
                 </s:VGroup>
@@ -245,8 +245,8 @@
                    width="100%" height="100%"
                    dataProvider="{examples}"
                    title="Примеры"
-                   itemRenderer="dittner.testmyself.deutsch.view.note.common.exampleList.ExampleRenderer">
-        <list:layout>
+                   itemRenderer="dittner.testmyself.deutsch.view.note.common.examplesForm.ExamplesFormRenderer">
+    <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </list:layout>
     </list:ListForm>

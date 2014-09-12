@@ -47,6 +47,7 @@ public class NoteEditorMediator extends NoteFormMediator {
 		var suite:NoteSuite = new NoteSuite();
 
 		suite.note = createNote();
+		suite.origin = selectedNote;
 		suite.note.id = selectedNote.id;
 		errMsg = validateNote(suite.note);
 		if (errMsg) {
@@ -90,7 +91,7 @@ public class NoteEditorMediator extends NoteFormMediator {
 	}
 
 	protected function onExamplesLoaded(res:CommandResult):void {
-		view.exampleList.examples = new ArrayCollection(res.data as Array || []);
+		view.examplesForm.examples = new ArrayCollection(res.data as Array || []);
 	}
 }
 }

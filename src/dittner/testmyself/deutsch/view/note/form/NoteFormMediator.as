@@ -5,6 +5,7 @@ import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.NoteHash;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.core.model.theme.Theme;
@@ -21,18 +22,20 @@ public class NoteFormMediator extends SFMediator {
 	public var view:NoteForm;
 
 	protected var isActive:Boolean = false;
-	protected var selectedNote:INote;
+	protected var selectedNote:Note;
+	protected var noteHash:NoteHash;
 
 	override protected function activate():void {
 		addListener(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
 		addListener(NoteMsg.NOTE_SELECTED_NOTIFICATION, noteSelectedHandler);
-		sendRequest(SettingsMsg.LOAD, new RequestMessage(infoLoaded))
+		sendRequest(SettingsMsg.LOAD, new RequestMessage(infoLoaded));
+		sendRequest(NoteMsg.GET_NOTE_HASH, new RequestMessage(noteHashLoaded));
 	}
 
 	//abstract
 	protected function toolActionSelectedHandler(toolAction:String):void {}
 
-	private function noteSelectedHandler(vo:INote):void {
+	private function noteSelectedHandler(vo:Note):void {
 		selectedNote = vo;
 		if (isActive) throw new Error("Should not select new note when the old one is editing!")
 	}
@@ -49,6 +52,10 @@ public class NoteFormMediator extends SFMediator {
 	private function infoLoaded(res:CommandResult):void {
 		var info:SettingsInfo = res.data as SettingsInfo;
 		view.audioRecorder.maxRecordSize = info.maxAudioRecordDuration;
+	}
+
+	private function noteHashLoaded(res:CommandResult):void {
+		noteHash = res.data as NoteHash;
 	}
 
 	protected function openForm():void {
@@ -102,7 +109,7 @@ public class NoteFormMediator extends SFMediator {
 
 	protected function createExamples():Array {
 		var res:Array = [];
-		for each(var note:INote in view.exampleList.examples) res.push(note);
+		for each(var note:INote in view.examplesForm.examples) res.push(note);
 		return res;
 	}
 
@@ -111,7 +118,7 @@ public class NoteFormMediator extends SFMediator {
 			return "Отсутствует список тем, ожидается пустой или заполненный список"
 		}
 		for each(var note:INote in examples) {
-			if (!note.title || !note.description) return "В примере не должно быть пустого заголовка или описания!";
+			if (!note.title) return "В примере не должно быть пустого заголовка!";
 		}
 		return "";
 	}

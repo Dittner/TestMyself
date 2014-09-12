@@ -6,7 +6,6 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.AppConfig;
@@ -17,16 +16,14 @@ import flash.filesystem.File;
 
 public class CreateDataBaseSQLOperation extends DeferredOperation {
 
-	public function CreateDataBaseSQLOperation(service:NoteService, spec:NoteServiceSpec, sqlFactory:SQLFactory) {
+	public function CreateDataBaseSQLOperation(service:NoteService, spec:NoteServiceSpec) {
 		super();
 		this.service = service;
 		this.spec = spec;
-		this.sqlFactory = sqlFactory;
 	}
 
 	private var service:NoteService;
 	private var spec:NoteServiceSpec;
-	private var sqlFactory:SQLFactory;
 
 	override public function process():void {
 		var dbRootFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath);
@@ -37,10 +34,10 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 
 		if (!dbFile.exists) {
 			var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
-			statements.push(new QueuedStatement(sqlFactory.createNoteTbl));
-			statements.push(new QueuedStatement(sqlFactory.createFilterTbl));
-			statements.push(new QueuedStatement(sqlFactory.createThemeTbl));
-			statements.push(new QueuedStatement(sqlFactory.createExampleTbl));
+			statements.push(new QueuedStatement(service.sqlFactory.createNoteTbl));
+			statements.push(new QueuedStatement(service.sqlFactory.createFilterTbl));
+			statements.push(new QueuedStatement(service.sqlFactory.createThemeTbl));
+			statements.push(new QueuedStatement(service.sqlFactory.createExampleTbl));
 
 			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);
 		}
