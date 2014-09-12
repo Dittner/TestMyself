@@ -111,24 +111,24 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			g.endFill();
 
 			g.lineStyle(1, SEP_COLOR, 0.5);
-			g.moveTo(PAD, h);
-			g.lineTo(w - 2 * PAD, h);
+			g.moveTo(PAD, h - 1);
+			g.lineTo(w - 2 * PAD, h - 1);
 
 			if (noteData.layout.isHorizontal && descriptionTf.visible) {
 				g.moveTo(w / 2, 0);
-				g.lineTo(w / 2, h);
+				g.lineTo(w / 2, h - 1);
 			}
 		}
 
 		titleTf.textColor = selected ? 0xffFFff : 0;
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
-		titleTf.alpha = hasAudioComment() ? 1 : .6;
+		titleTf.alpha = hasAudioComment() ? 1 : .7;
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = (noteData.layout.isHorizontal ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = (noteData.layout.isHorizontal ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
-			descriptionTf.alpha = hasAudioComment() ? 1 : .6;
+			descriptionTf.alpha = hasAudioComment() ? 1 : .7;
 		}
 	}
 

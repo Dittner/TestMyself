@@ -11,6 +11,7 @@
     <fx:Script>
 		<![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         private static const focusExclusions:Array = ["labelDisplay"];
         override public function get focusSkinExclusions():Array { return focusExclusions;}
@@ -53,7 +54,9 @@
 
     <s:Label id="labelDisplay"
              left="28" right="0" verticalCenter="1"
-             fontSize="{getStyle('fontSize')}"
+             fontFamily="{Fonts.ROBOTO_LIGHT}"
+             fontSize="18"
+             color="{AppColors.TEXT_DARK}"
              maxDisplayedLines="1"/>
 
 </s:SparkSkin>

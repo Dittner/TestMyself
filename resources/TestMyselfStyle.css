@@ -125,9 +125,6 @@ list|ListForm {
 /************************** OTHER COMPONENTS **************************/
 s|CheckBox {
     skinClass: ClassReference("dittner.testmyself.deutsch.view.common.checkBox.CustomCheckBoxSkin");
-    fontSize: 16px;
-    color: #4e4f61;
-    fontFamily: RobotoLight;
 }
 
 spinner|CustomSpinner {

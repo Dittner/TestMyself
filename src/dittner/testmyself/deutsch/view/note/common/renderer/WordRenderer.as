@@ -114,7 +114,7 @@ public class WordRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			return;
 		}
 
-		measuredWidth = parent.width;
+		measuredWidth = unscaledWidth;
 
 		if (descriptionTf.visible) {
 			if (noteData.layout.isHorizontal) {
@@ -138,6 +138,12 @@ public class WordRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		var g:Graphics = graphics;
 		g.clear();
 
+		if (w != measuredWidth) {
+			invalidateSize();
+			invalidateDisplayList();
+			return;
+		}
+
 		if (selected) {
 			matr.createGradientBox(w, h, 90);
 			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
@@ -151,12 +157,12 @@ public class WordRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			g.endFill();
 
 			g.lineStyle(1, SEP_COLOR, 0.5);
-			g.moveTo(PAD, h);
-			g.lineTo(w - 2 * PAD, h);
+			g.moveTo(PAD, h - 1);
+			g.lineTo(w - 2 * PAD, h - 1);
 
 			if (noteData.layout.isHorizontal && descriptionTf.visible) {
 				g.moveTo(w / 2, 0);
-				g.lineTo(w / 2, h);
+				g.lineTo(w / 2, h - 1);
 			}
 		}
 

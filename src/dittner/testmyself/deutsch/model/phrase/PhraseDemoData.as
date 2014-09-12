@@ -15,26 +15,42 @@ public class PhraseDemoData extends SFProxy implements IDemoData {
 	}
 
 	private function createAndSendNotes():void {
-		const notesAmount:uint = 30;
-		var themeNum:int;
+		var phrase:Note;
 
-		sendAddNoteRequest(createNote(1, 1001), createTheme("theme1", -1));
-		sendAddNoteRequest(createNote(2, 1002), createTheme("theme2", -1));
-		sendAddNoteRequest(createNote(3, 1003), createTheme("theme3", -1));
+		phrase = new Note();
+		phrase.title = "Die Wahrheit bedarf nicht viele Worte, die Luge kann nie genug haben.";
+		phrase.description = "Истина не многословна, для лжи слов всегда недостаточно.";
+		sendAddNoteRequest(phrase, createTheme("Zitate", -1));
 
-		for (var i:int = 1; i <= notesAmount; i++) {
-			if (i > 2 / 3 * notesAmount) themeNum = 3;
-			else if (i > notesAmount / 3) themeNum = 2;
-			else themeNum = 1;
-			sendAddNoteRequest(createNote(themeNum, i), createTheme("theme" + themeNum, themeNum));
-		}
-	}
+		phrase = new Note();
+		phrase.title = "Wer fremde Sprache nicht kennt, weiß nichts von seiner eigenen. Goethe.";
+		phrase.description = "Тот, кому чужды иностранные языки – ничего не смыслит в собственном языке.";
+		sendAddNoteRequest(phrase, createTheme("Zitate", 1));
 
-	private function createNote(themeNum:int, number:int):Note {
-		var note:Note = new Note();
-		note.title = "theme" + themeNum + ", text" + number;
-		note.description = "translation";
-		return note;
+		phrase = new Note();
+		phrase.title = "Wir kommen nie zu Gedanken. Sie kommen zu uns. Heidegger.";
+		phrase.description = "Мы никогда не приходим к мыслям. Они приходят к нам.";
+		sendAddNoteRequest(phrase, createTheme("Zitate", 1));
+
+		phrase = new Note();
+		phrase.title = "Was mich nicht umbringt, macht mich stärker. Nietzsche.";
+		phrase.description = "Что меня не убивает - делает меня сильнее.";
+		sendAddNoteRequest(phrase, createTheme("Zitate", 1));
+
+		phrase = new Note();
+		phrase.title = "Wer Schmetterlinge lachen hört, der weiß, wie Wolken schmecken.";
+		phrase.description = "Кто слышит, как смеются бабочки, тот знает, как приятны на вкус облака.";
+		sendAddNoteRequest(phrase, createTheme("Zitate", 1));
+
+		phrase = new Note();
+		phrase.title = "Wer kein Spass am Leben findet, verliert die Freude am Dasein.";
+		phrase.description = "Кто не находит удовольствия в жизни, тот радость бытия теряет.";
+		sendAddNoteRequest(phrase, createTheme("Zitate", 1));
+
+		phrase = new Note();
+		phrase.title = "Ich weiß, es wird einmal ein Wunder geschehen. Zarah Leander.";
+		phrase.description = "Я знаю, что однажды произойдет чудо.";
+		sendAddNoteRequest(phrase, createTheme("Zitate", 1));
 	}
 
 	private function createTheme(name:String, id:int):Theme {

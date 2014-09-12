@@ -5,7 +5,7 @@
                  xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
                  xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
                  xmlns:commonsettings="dittner.testmyself.deutsch.view.settings.commonSettings.*"
-                 xmlns:phrasesettings="dittner.testmyself.deutsch.view.settings.phraseSettings.*"
+                 xmlns:phrasesettings="dittner.testmyself.deutsch.view.settings.noteSettings.*"
                  horizontalCenter="0"
                  currentState="common">
 
@@ -79,9 +79,14 @@
         <commonsettings:CommonSettings id="commonSettings"
                                        width="100%" height="100%"
                                        visible.common="true" visible="false"/>
-        <phrasesettings:PhraseSettings id="phraseSettings"
-                                       width="100%" height="100%"
-                                       visible.phrase="true" visible="false"/>
+
+        <phrasesettings:NoteSettings id="phraseSettings"
+                                     width="100%" height="100%"
+                                     visible.phrase="true" visible="false"/>
+
+        <phrasesettings:NoteSettings id="wordSettings"
+                                     width="100%" height="100%"
+                                     visible.word="true" visible="false"/>
 
     </s:Group>
 
