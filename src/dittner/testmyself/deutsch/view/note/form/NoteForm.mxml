@@ -15,7 +15,7 @@
         import dittner.testmyself.core.model.note.INote;
         import dittner.testmyself.core.model.theme.ITheme;
         import dittner.testmyself.deutsch.model.AppConfig;
-        import dittner.testmyself.deutsch.model.word.WordArticle;
+        import dittner.testmyself.deutsch.model.domain.word.WordArticle;
         import dittner.testmyself.deutsch.view.common.renderer.AddedThemeItemRenderer;
         import dittner.testmyself.deutsch.view.common.renderer.ThemeItemRenderer;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;

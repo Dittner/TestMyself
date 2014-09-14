@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.model.phrase {
+package dittner.testmyself.deutsch.model.domain.phrase {
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.message.NoteMsg;

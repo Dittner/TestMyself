@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.model.word {
+package dittner.testmyself.deutsch.model.domain.word {
 import dittner.testmyself.core.model.note.SQLFactory;
 
 public class WordSQLFactory extends SQLFactory {

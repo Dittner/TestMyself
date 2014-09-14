@@ -6,7 +6,7 @@ import dittner.testmyself.core.model.note.NoteModel;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
-import dittner.testmyself.deutsch.model.phrase.PhraseDemoData;
+import dittner.testmyself.deutsch.model.domain.phrase.PhraseDemoData;
 
 public class ConfigurePhraseModuleCmd implements IConfigureCommand {
 

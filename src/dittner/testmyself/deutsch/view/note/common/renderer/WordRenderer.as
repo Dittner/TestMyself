@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.note.common.renderer {
-import dittner.testmyself.deutsch.model.word.IWord;
-import dittner.testmyself.deutsch.model.word.WordArticle;
+import dittner.testmyself.deutsch.model.domain.word.IWord;
+import dittner.testmyself.deutsch.model.domain.word.WordArticle;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;

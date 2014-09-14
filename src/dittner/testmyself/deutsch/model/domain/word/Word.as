@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.model.word {
+package dittner.testmyself.deutsch.model.domain.word {
 import dittner.testmyself.core.model.note.Note;
 
 public class Word extends Note implements IWord {

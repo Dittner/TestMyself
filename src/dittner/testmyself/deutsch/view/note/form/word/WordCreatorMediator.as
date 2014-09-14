@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.note.form.word {
 import dittner.testmyself.core.model.note.Note;
-import dittner.testmyself.deutsch.model.word.Word;
+import dittner.testmyself.deutsch.model.domain.word.Word;
 import dittner.testmyself.deutsch.view.note.form.*;
 
 public class WordCreatorMediator extends NoteCreatorMediator {

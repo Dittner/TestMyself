@@ -6,10 +6,10 @@ import dittner.testmyself.core.model.note.NoteModel;
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.ModuleName;
-import dittner.testmyself.deutsch.model.word.Word;
-import dittner.testmyself.deutsch.model.word.WordDemoData;
-import dittner.testmyself.deutsch.model.word.WordHash;
-import dittner.testmyself.deutsch.model.word.WordSQLFactory;
+import dittner.testmyself.deutsch.model.domain.word.Word;
+import dittner.testmyself.deutsch.model.domain.word.WordDemoData;
+import dittner.testmyself.deutsch.model.domain.word.WordHash;
+import dittner.testmyself.deutsch.model.domain.word.WordSQLFactory;
 
 public class ConfigureWordModuleCmd implements IConfigureCommand {
 

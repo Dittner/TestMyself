@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.note.form.word {
 import dittner.testmyself.core.model.note.INote;
-import dittner.testmyself.deutsch.model.word.Word;
+import dittner.testmyself.deutsch.model.domain.word.Word;
 import dittner.testmyself.deutsch.view.note.form.*;
 
 import mx.collections.ArrayCollection;

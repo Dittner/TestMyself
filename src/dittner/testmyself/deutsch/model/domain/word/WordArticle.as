@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.model.word {
+package dittner.testmyself.deutsch.model.domain.word {
 public class WordArticle {
 	public static const UNDEFINED:String = "";
 	public static const DER:String = "der";
