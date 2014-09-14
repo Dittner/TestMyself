@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.note.form.word {
 import dittner.testmyself.core.model.note.INote;
-import dittner.testmyself.deutsch.model.domain.word.Word;
+import dittner.testmyself.deutsch.model.domain.word.IWord;
 import dittner.testmyself.deutsch.view.note.form.*;
 
 import mx.collections.ArrayCollection;
@@ -13,7 +13,7 @@ public class WordFormState extends NoteFormState {
 	private var form:NoteForm;
 
 	override public function edit(note:INote):void {
-		var word:Word = note as Word;
+		var word:IWord = note as IWord;
 		if (form.articleBox) form.articleBox.selectedItem = word.article;
 		if (form.wordInput) form.wordInput.text = word.title;
 		if (form.wordOptionsInput) form.wordOptionsInput.text = word.options;
@@ -33,6 +33,7 @@ public class WordFormState extends NoteFormState {
 		if (form.addThemeInput) form.addThemeInput.text = "";
 		if (form.audioRecorder) form.audioRecorder.clear();
 		if (form.examplesForm) form.examplesForm.clear();
+		if (form.invalidNotifier) form.invalidNotifier.alpha = 0;
 		form.themes = new ArrayCollection();
 	}
 
@@ -82,17 +83,16 @@ public class WordFormState extends NoteFormState {
 			addThemeBtn.y = addThemeInput.y + 20;
 
 			applyBtn.width = THEMES_LIST_WID;
-			applyBtn.right = PAD;
-			applyBtn.bottom = (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2;
+			applyBtn.x = themesList.x;
+			applyBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
 
-			cancelBtn.right = applyBtn.width + applyBtn.right + HGAP;
-			cancelBtn.bottom = applyBtn.bottom;
-			cancelBtn.width = applyBtn.width;
-			cancelBtn.height = applyBtn.height;
+			cancelBtn.x = applyBtn.x - THEMES_LIST_WID - HGAP;
+			cancelBtn.y = applyBtn.y;
+			cancelBtn.width = THEMES_LIST_WID;
 
-			invalidNotifier.left = PAD;
-			invalidNotifier.right = cancelBtn.width + cancelBtn.right + HGAP;
-			invalidNotifier.bottom = applyBtn.bottom;
+			invalidNotifier.x = PAD;
+			invalidNotifier.y = applyBtn.y;
+			invalidNotifier.width = cancelBtn.x - invalidNotifier.x - HGAP;
 			invalidNotifier.height = applyBtn.height;
 
 			removeTitleLbl.left = PAD;
@@ -109,6 +109,7 @@ public class WordFormState extends NoteFormState {
 	private function showControls():void {
 		with (form) {
 			titleArea.visible = false;
+			verbInputsForm.visible = false;
 			descriptionArea.visible = true;
 			articleBox.visible = true;
 			wordInput.visible = true;

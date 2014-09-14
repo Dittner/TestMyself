@@ -7,7 +7,8 @@
                  xmlns:editor="dittner.testmyself.deutsch.view.note.form.*"
                  xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*"
                  xmlns:filter="dittner.testmyself.deutsch.view.common.filter.*"
-                 xmlns:navigation="dittner.testmyself.deutsch.view.common.pagination.*" xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
+                 xmlns:navigation="dittner.testmyself.deutsch.view.common.pagination.*"
+                 xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
                  currentState="inactive"
                  horizontalCenter="0">
 
@@ -111,10 +112,13 @@
         <toolbar:NoteToolbar id="toolbar"
                              excludeFrom="inactive"
                              width="100%"
-                             height="{HEADER_HEI}"/>
+                             height="{HEADER_HEI}"
+                             verLayoutToolEnabled.verb="false"
+                             hideDetailsToolEnabled.verb="false"
+                             transInvertToolEnabled.verb="false"/>
     </s:HGroup>
 
-    <s:HGroup left="-1" right="-1" top="{HEADER_HEI}" bottom="{FOOTER_HEI}" gap="-1">
+    <s:HGroup left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}" gap="-1">
         <s:Scroller width="100%" height="100%"
                     excludeFrom="inactive"
                     minViewportInset="1"
@@ -125,8 +129,9 @@
                            contentBackgroundAlpha="0"
                            deselectEnabled="true"
                            itemRenderer="dittner.testmyself.deutsch.view.note.common.renderer.NoteRenderer"
-                           itemRenderer.word="dittner.testmyself.deutsch.view.note.common.renderer.WordRenderer">
-                <list:layout>
+                           itemRenderer.word="dittner.testmyself.deutsch.view.note.common.renderer.WordRenderer"
+                           itemRenderer.verb="dittner.testmyself.deutsch.view.note.common.renderer.VerbRenderer">
+            <list:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                 </list:layout>
             </list:NoteList>

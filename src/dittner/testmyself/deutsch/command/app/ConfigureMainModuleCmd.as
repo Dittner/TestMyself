@@ -80,6 +80,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 
 		//modules configuration
 		var cmd:IConfigureCommand;
+
 		var phraseModule:SFModule = new SFModule(ModuleName.PHRASE);
 		(mainModule as RootModule).addModule(phraseModule);
 		cmd = new ConfigurePhraseModuleCmd();
@@ -89,6 +90,11 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		(mainModule as RootModule).addModule(wordModule);
 		cmd = new ConfigureWordModuleCmd();
 		cmd.execute(wordModule);
+
+		var verbModule:SFModule = new SFModule(ModuleName.VERB);
+		(mainModule as RootModule).addModule(verbModule);
+		cmd = new ConfigureVerbModuleCmd();
+		cmd.execute(verbModule);
 	}
 }
 }

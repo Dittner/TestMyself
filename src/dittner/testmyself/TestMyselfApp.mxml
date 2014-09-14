@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
-<s:Application
-        xmlns:fx="http://ns.adobe.com/mxml/2009"
-        xmlns:s="library://ns.adobe.com/flex/spark"
-        frameRate="30"
-        usePreloader="true"
-        preloader="dittner.testmyself.deutsch.view.common.preloader.ClockPreloader"
-        backgroundColor="0x3d3f4b"
-        creationComplete="creationCompleteHandler(event)"
-        uncaughtError="uncaughtErrorHandler(event)">
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               frameRate="30"
+               usePreloader="true"
+               preloader="dittner.testmyself.deutsch.view.common.preloader.ClockPreloader"
+               backgroundColor="0x3d3f4b"
+               creationComplete="creationCompleteHandler(event)"
+               uncaughtError="uncaughtErrorHandler(event)">
 
-    <fx:Script><![CDATA[
+<fx:Script><![CDATA[
         import dittner.testmyself.deutsch.*;
         import dittner.testmyself.deutsch.model.ModuleName;
         import dittner.testmyself.deutsch.view.common.utils.TextFieldFactory;

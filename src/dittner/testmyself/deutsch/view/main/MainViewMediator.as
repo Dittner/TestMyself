@@ -44,8 +44,6 @@ public class MainViewMediator extends SFMediator {
 	private function showScreen(screen:ScreenBase):void {
 		view.removeScreen();
 		if (screen) {
-			screen.percentHeight = 100;
-			screen.percentWidth = 100;
 			view.addScreen(screen);
 		}
 	}

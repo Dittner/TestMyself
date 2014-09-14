@@ -97,6 +97,9 @@ public class ScreenModel extends SFProxy {
 			case ScreenId.WORD :
 				moduleName = ModuleName.WORD;
 				break;
+			case ScreenId.VERB :
+				moduleName = ModuleName.VERB;
+				break;
 			default :
 				moduleName = ModuleName.ROOT;
 		}

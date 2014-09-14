@@ -6,6 +6,45 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
+
+        //--------------------------------------
+        //  verLayoutToolEnabled
+        //--------------------------------------
+        private var _verLayoutToolEnabled:Boolean = true;
+        [Bindable("verLayoutToolEnabledChanged")]
+        public function get verLayoutToolEnabled():Boolean {return _verLayoutToolEnabled;}
+        public function set verLayoutToolEnabled(value:Boolean):void {
+            if (_verLayoutToolEnabled != value) {
+                _verLayoutToolEnabled = value;
+                dispatchEvent(new Event("verLayoutToolEnabledChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  hideDetailsToolEnabled
+        //--------------------------------------
+        private var _hideDetailsToolEnabled:Boolean = true;
+        [Bindable("hideDetailsToolEnabledChanged")]
+        public function get hideDetailsToolEnabled():Boolean {return _hideDetailsToolEnabled;}
+        public function set hideDetailsToolEnabled(value:Boolean):void {
+            if (_hideDetailsToolEnabled != value) {
+                _hideDetailsToolEnabled = value;
+                dispatchEvent(new Event("hideDetailsToolEnabledChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  transInvertToolEnabled
+        //--------------------------------------
+        private var _transInvertToolEnabled:Boolean = true;
+        [Bindable("transInvertToolEnabledChanged")]
+        public function get transInvertToolEnabled():Boolean {return _transInvertToolEnabled;}
+        public function set transInvertToolEnabled(value:Boolean):void {
+            if (_transInvertToolEnabled != value) {
+                _transInvertToolEnabled = value;
+                dispatchEvent(new Event("transInvertToolEnabledChanged"));
+            }
+        }
         ]]></fx:Script>
 
 
@@ -42,17 +81,23 @@
                              selected="true"
                              description="Изменить макет словаря"
                              selectedImage="@Embed(source='/assets/tools/layout_vertical.png')"
-                             image="@Embed(source='/assets/tools/layout_horizontal.png')"/>
+                             image="@Embed(source='/assets/tools/layout_horizontal.png')"
+                             visible="{verLayoutToolEnabled}"
+                             includeInLayout="{verLayoutToolEnabled}"/>
 
     <button:ToolToggleButton id="hideDetailsBtn"
                              selected="true"
                              description="Показать/скрыть описание в каждой строке"
                              selectedImage="@Embed(source='/assets/tools/collapse.png')"
-                             image="@Embed(source='/assets/tools/expand.png')"/>
+                             image="@Embed(source='/assets/tools/expand.png')"
+                             visible="{hideDetailsToolEnabled}"
+                             includeInLayout="{hideDetailsToolEnabled}"/>
 
     <button:ToolButton id="transInvertBtn"
                        description="Инвертировать заголовок/описание"
-                       image="@Embed(source='/assets/tools/trans_inversion.png')"/>
+                       image="@Embed(source='/assets/tools/trans_inversion.png')"
+                       visible="{verLayoutToolEnabled}"
+                       includeInLayout="{verLayoutToolEnabled}"/>
 
     <button:ToolButton id="filterBtn"
                        description="Фильтровать по темам"

@@ -1,20 +1,27 @@
-package dittner.testmyself.deutsch.view.note.form.phrase {
+package dittner.testmyself.deutsch.view.note.form.verb {
 import dittner.testmyself.core.model.note.INote;
+import dittner.testmyself.deutsch.model.domain.verb.IVerb;
 import dittner.testmyself.deutsch.view.note.form.*;
 
 import mx.collections.ArrayCollection;
 
-public class PhraseFormState extends NoteFormState {
-	public function PhraseFormState(form:NoteForm) {
+public class VerbFormState extends NoteFormState {
+	public function VerbFormState(form:NoteForm) {
 		this.form = form;
 	}
 
 	private var form:NoteForm;
 
 	override public function edit(note:INote):void {
-		if (form.titleArea) form.titleArea.text = note.title;
-		if (form.descriptionArea) form.descriptionArea.text = note.description;
-		if (form.audioRecorder) form.audioRecorder.comment = note.audioComment;
+		var verb:IVerb = note as IVerb;
+		if (form.verbInputsForm) {
+			form.verbInputsForm.infinitive = verb.title;
+			form.verbInputsForm.present = verb.present;
+			form.verbInputsForm.past = verb.past;
+			form.verbInputsForm.perfect = verb.perfect;
+			form.verbInputsForm.translation = verb.description;
+		}
+		if (form.audioRecorder) form.audioRecorder.comment = verb.audioComment;
 	}
 
 	override public function remove(note:INote):void {
@@ -22,36 +29,43 @@ public class PhraseFormState extends NoteFormState {
 	}
 
 	override public function clear():void {
-		if (form.titleArea) form.titleArea.text = "";
-		if (form.descriptionArea) form.descriptionArea.text = "";
 		if (form.addThemeInput) form.addThemeInput.text = "";
 		if (form.audioRecorder) form.audioRecorder.clear();
+		if (form.examplesForm) form.examplesForm.clear();
+		if (form.verbInputsForm) form.verbInputsForm.clear();
 		if (form.invalidNotifier) form.invalidNotifier.alpha = 0;
 		form.themes = new ArrayCollection();
 	}
 
 	override public function updateLayout(w:Number, h:Number):void {
-		showControls();
 		with (form) {
-			titleArea.x = PAD;
-			titleArea.y = HEADER_HEI + PAD_TOP;
-			titleArea.height = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - 2 * VGAP - RECORDER_HEI) / 2;
-			titleArea.width = w - 2 * PAD - HGAP - THEMES_LIST_WID;
+			showControls();
+			var firstColumnWid:Number = w - 2 * PAD - THEMES_LIST_WID - articleBox.width - 2 * HGAP;
+			var formContentHeight:Number = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - RECORDER_HEI);
 
-			descriptionArea.x = titleArea.x;
-			descriptionArea.y = titleArea.y + titleArea.height + VGAP;
-			descriptionArea.height = titleArea.height;
-			descriptionArea.width = titleArea.width;
+			verbInputsForm.x = PAD + articleBox.width + HGAP;
+			verbInputsForm.y = HEADER_HEI + PAD_TOP;
+			verbInputsForm.width = firstColumnWid;
+			verbInputsForm.layout.gap = VGAP;
+			verbInputsForm.validateSize();
+			verbInputsForm.validateDisplayList();
 
-			audioRecorder.x = PAD;
-			audioRecorder.y = titleArea.y + 2 * titleArea.height + 2 * VGAP;
-			audioRecorder.width = titleArea.width;
-			audioRecorder.height = RECORDER_HEI;
+			examplesForm.x = PAD;
+			examplesForm.y = verbInputsForm.y + verbInputsForm.height + VGAP;
+			examplesForm.toolsCont.width = articleBox.width;
+			examplesForm.horizontalLayout.gap = HGAP;
+			examplesForm.width = w - 2 * PAD - HGAP - THEMES_LIST_WID;
+			examplesForm.height = formContentHeight - examplesForm.y + HEADER_HEI + PAD_TOP;
 
-			themesList.x = descriptionArea.x + descriptionArea.width + HGAP;
+			themesList.x = verbInputsForm.x + verbInputsForm.width + HGAP;
 			themesList.y = HEADER_HEI + PAD_TOP;
-			themesList.height = 2 * titleArea.height + VGAP;
+			themesList.height = formContentHeight;
 			themesList.width = THEMES_LIST_WID;
+
+			audioRecorder.x = verbInputsForm.x;
+			audioRecorder.y = themesList.y + themesList.height + VGAP;
+			audioRecorder.width = firstColumnWid;
+			audioRecorder.height = RECORDER_HEI;
 
 			addThemeInput.x = themesList.x;
 			addThemeInput.y = themesList.y + themesList.height + VGAP;
@@ -82,17 +96,16 @@ public class PhraseFormState extends NoteFormState {
 			removeNoteTitleLbl.top = removeTitleLbl.y + removeTitleLbl.height + VGAP;
 			removeNoteTitleLbl.bottom = FOOTER_HEI + VGAP;
 		}
-
 	}
 
 	private function showControls():void {
 		with (form) {
-			titleArea.visible = true;
-			descriptionArea.visible = true;
+			titleArea.visible = false;
+			verbInputsForm.visible = true;
+			descriptionArea.visible = false;
 			articleBox.visible = false;
-			verbInputsForm.visible = false;
 			wordInput.visible = false;
-			examplesForm.visible = false;
+			examplesForm.visible = true;
 			wordOptionsInput.visible = false;
 		}
 	}

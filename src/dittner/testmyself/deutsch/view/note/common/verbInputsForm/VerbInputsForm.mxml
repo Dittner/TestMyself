@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:input="dittner.testmyself.deutsch.view.common.input.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.model.AppConfig;
+        import dittner.testmyself.deutsch.view.note.common.NoteUtils;
+
+        import spark.components.supportClasses.TextInputOperation;
+        import spark.events.TextOperationEvent;
+
+        public function clear():void {
+            infinitive = "";
+            present = "";
+            past = "";
+            perfect = "";
+            translation = "";
+        }
+
+        //--------------------------------------
+        //  infinitive
+        //--------------------------------------
+        private var _infinitive:String = "";
+        [Bindable("infinitiveChanged")]
+        public function get infinitive():String {return _infinitive;}
+        public function set infinitive(value:String):void {
+            if (_infinitive != value) {
+                _infinitive = value;
+                dispatchEvent(new Event("infinitiveChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  present
+        //--------------------------------------
+        private var _present:String = "";
+        [Bindable("presentChanged")]
+        public function get present():String {return _present;}
+        public function set present(value:String):void {
+            if (_present != value) {
+                _present = value;
+                dispatchEvent(new Event("presentChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  past
+        //--------------------------------------
+        private var _past:String = "";
+        [Bindable("pastChanged")]
+        public function get past():String {return _past;}
+        public function set past(value:String):void {
+            if (_past != value) {
+                _past = value;
+                dispatchEvent(new Event("pastChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  perfect
+        //--------------------------------------
+        private var _perfect:String = "";
+        [Bindable("perfectChanged")]
+        public function get perfect():String {return _perfect;}
+        public function set perfect(value:String):void {
+            if (_perfect != value) {
+                _perfect = value;
+                dispatchEvent(new Event("perfectChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  translation
+        //--------------------------------------
+        private var _translation:String = "";
+        [Bindable("translationChanged")]
+        public function get translation():String {return _translation;}
+        public function set translation(value:String):void {
+            if (_translation != value) {
+                _translation = value;
+                dispatchEvent(new Event("translationChanged"));
+            }
+        }
+
+        private const regexp:RegExp = NoteUtils.LETTERS;
+        private function wordValidationHandler(event:TextOperationEvent):void {
+            if (event.operation is TextInputOperation) {
+                var match:Object = regexp.exec((event.operation as TextInputOperation).text);
+                if (match == null) event.preventDefault();
+            }
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:VerticalLayout id="layout"/>
+    </s:layout>
+
+    <input:TextInputForm id="infinitiveInput"
+                         changing="wordValidationHandler(event)"
+                         text="{infinitive}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Infinitiv"/>
+
+    <input:TextInputForm id="presentInput"
+                         changing="wordValidationHandler(event)"
+                         text="{present}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Präsens"/>
+
+    <input:TextInputForm id="pastInput"
+                         changing="wordValidationHandler(event)"
+                         text="{past}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Präteritum"/>
+
+    <input:TextInputForm id="perfectInput"
+                         changing="wordValidationHandler(event)"
+                         text="{perfect}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Perfect"/>
+
+    <input:TextInputForm id="translateInput"
+                         text="{translation}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
+                         title="Перевод"/>
+
+</s:Group>

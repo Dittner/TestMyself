@@ -9,6 +9,8 @@ public class ScreenBase extends Group {
 	public function ScreenBase() {
 		super();
 		maxWidth = AppSizes.SCREEN_MAX_WIDTH;
+		percentHeight = 100;
+		percentWidth = 100;
 	}
 	public const HEADER_HEI:int = AppSizes.SCREEN_HEADER_HEIGHT;
 	public const FOOTER_HEI:int = AppSizes.SCREEN_FOOTER_HEIGHT;

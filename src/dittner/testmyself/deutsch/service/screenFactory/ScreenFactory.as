@@ -130,7 +130,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				screen = noteScreen;
 				break;
 			case ScreenId.VERB :
-				screen = new TemplateScreen();
+				screen = noteScreen;
 				break;
 			case ScreenId.TEST :
 				screen = new TemplateScreen();
