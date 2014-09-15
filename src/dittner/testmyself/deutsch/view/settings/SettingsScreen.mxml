@@ -88,6 +88,10 @@
                                      width="100%" height="100%"
                                      visible.word="true" visible="false"/>
 
+        <phrasesettings:NoteSettings id="verbSettings"
+                                     width="100%" height="100%"
+                                     visible.verb="true" visible="false"/>
+
     </s:Group>
 
 </core:ScreenBase>
