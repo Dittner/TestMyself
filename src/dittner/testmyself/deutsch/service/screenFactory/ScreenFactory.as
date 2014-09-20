@@ -48,25 +48,25 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		screensHash = {};
 		var info:ScreenInfo;
 
-		info = new ScreenInfo(ScreenIDs.ABOUT, "", "Описание программы и базы данных", getIcon(ScreenIDs.ABOUT));
+		info = new ScreenInfo(ScreenID.ABOUT, "", "Описание программы и базы данных", getIcon(ScreenID.ABOUT));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		_screenInfos.push(createScreenItemSeparator());
 
-		info = new ScreenInfo(ScreenIDs.WORD, "СЛОВАРЬ СЛОВ", "Словарь слов", getIcon(ScreenIDs.WORD));
+		info = new ScreenInfo(ScreenID.WORD, "СЛОВАРЬ СЛОВ", "Словарь слов", getIcon(ScreenID.WORD));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenIDs.PHRASE, "СЛОВАРЬ ФРАЗ И ПРЕДЛОЖЕНИЙ", "Словарь фраз и предложений", getIcon(ScreenIDs.PHRASE));
+		info = new ScreenInfo(ScreenID.PHRASE, "СЛОВАРЬ ФРАЗ И ПРЕДЛОЖЕНИЙ", "Словарь фраз и предложений", getIcon(ScreenID.PHRASE));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenIDs.VERB, "ТАБЛИЦА СИЛЬНЫХ ГЛАГОЛОВ", "Таблица сильных глаголов", getIcon(ScreenIDs.VERB));
+		info = new ScreenInfo(ScreenID.VERB, "ТАБЛИЦА СИЛЬНЫХ ГЛАГОЛОВ", "Таблица сильных глаголов", getIcon(ScreenID.VERB));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenIDs.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenIDs.TEST));
+		info = new ScreenInfo(ScreenID.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenID.TEST));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
@@ -76,7 +76,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		 _screenInfos.push(info);
 		 screensHash[info.id] = info;*/
 
-		info = new ScreenInfo(ScreenIDs.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenIDs.SETTINGS));
+		info = new ScreenInfo(ScreenID.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenID.SETTINGS));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 	}
@@ -89,25 +89,25 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		var bitmapData:BitmapData = new BitmapData(50, 50, true, 0x00ffffff);
 		var IconClass:Class;
 		switch (screenId) {
-			case ScreenIDs.ABOUT :
+			case ScreenID.ABOUT :
 				IconClass = AboutIconClass;
 				break;
-			case ScreenIDs.WORD :
+			case ScreenID.WORD :
 				IconClass = WordIconClass;
 				break;
-			case ScreenIDs.PHRASE :
+			case ScreenID.PHRASE :
 				IconClass = PhraseIconClass;
 				break;
-			case ScreenIDs.VERB :
+			case ScreenID.VERB :
 				IconClass = VerbIconClass;
 				break;
-			case ScreenIDs.TEST :
+			case ScreenID.TEST :
 				IconClass = TestingIconClass;
 				break;
-			case ScreenIDs.SEARCH :
+			case ScreenID.SEARCH :
 				IconClass = SearchIconClass;
 				break;
-			case ScreenIDs.SETTINGS :
+			case ScreenID.SETTINGS :
 				IconClass = SettingsIconClass;
 				break;
 			default :
@@ -122,25 +122,25 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 	public function createScreen(screenId:String):ScreenBase {
 		var screen:ScreenBase;
 		switch (screenId) {
-			case ScreenIDs.ABOUT :
+			case ScreenID.ABOUT :
 				screen = new AboutScreen();
 				break;
-			case ScreenIDs.WORD :
+			case ScreenID.WORD :
 				screen = noteScreen;
 				break;
-			case ScreenIDs.PHRASE :
+			case ScreenID.PHRASE :
 				screen = noteScreen;
 				break;
-			case ScreenIDs.VERB :
+			case ScreenID.VERB :
 				screen = noteScreen;
 				break;
-			case ScreenIDs.TEST :
+			case ScreenID.TEST :
 				screen = testScreen;
 				break;
-			case ScreenIDs.SEARCH :
+			case ScreenID.SEARCH :
 				screen = new TemplateScreen();
 				break;
-			case ScreenIDs.SETTINGS :
+			case ScreenID.SETTINGS :
 				screen = new SettingsScreen();
 				break;
 			default :

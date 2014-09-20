@@ -22,25 +22,25 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 	public function createScreenMediator(screenId:String):SFMediator {
 		var mediator:SFMediator;
 		switch (screenId) {
-			case ScreenIDs.ABOUT :
+			case ScreenID.ABOUT :
 				mediator = new AboutScreenMediator();
 				break;
-			case ScreenIDs.WORD :
+			case ScreenID.WORD :
 				mediator = wordMediator;
 				break;
-			case ScreenIDs.PHRASE :
+			case ScreenID.PHRASE :
 				mediator = phraseMediator;
 				break;
-			case ScreenIDs.VERB :
+			case ScreenID.VERB :
 				mediator = verbMediator;
 				break;
-			case ScreenIDs.TEST :
+			case ScreenID.TEST :
 				mediator = testMediator;
 				break;
-			case ScreenIDs.SEARCH :
+			case ScreenID.SEARCH :
 				mediator = new TemplateScreenMediator();
 				break;
-			case ScreenIDs.SETTINGS :
+			case ScreenID.SETTINGS :
 				mediator = new SettingsScreenMediator();
 				break;
 			default :

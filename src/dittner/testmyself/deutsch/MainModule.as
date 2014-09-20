@@ -4,7 +4,7 @@ import dittner.satelliteFlight.message.RequestMessage;
 import dittner.satelliteFlight.module.RootModule;
 import dittner.testmyself.deutsch.command.app.ConfigureMainModuleCmd;
 import dittner.testmyself.deutsch.message.ScreenMsg;
-import dittner.testmyself.deutsch.service.screenFactory.ScreenIDs;
+import dittner.testmyself.deutsch.service.screenFactory.ScreenID;
 import dittner.testmyself.deutsch.view.main.MainView;
 import dittner.testmyself.deutsch.view.main.MainViewMediator;
 
@@ -24,7 +24,7 @@ public class MainModule extends RootModule {
 		mainView.percentWidth = 100;
 		root.addElement(mainView);
 		registerMediator(mainView, new MainViewMediator());
-		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, null, ScreenIDs.ABOUT));
+		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, null, ScreenID.ABOUT));
 	}
 
 }

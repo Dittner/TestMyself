@@ -8,7 +8,7 @@ import dittner.satelliteFlight.utils.SFExceptionMsg;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.service.screenFactory.IScreenFactory;
-import dittner.testmyself.deutsch.service.screenFactory.ScreenIDs;
+import dittner.testmyself.deutsch.service.screenFactory.ScreenID;
 import dittner.testmyself.deutsch.service.screenMediatorFactory.IScreenMediatorFactory;
 import dittner.testmyself.deutsch.view.common.screen.ScreenBase;
 
@@ -91,13 +91,13 @@ public class ScreenModel extends SFProxy {
 	public function getModuleNameByScreen(screenID:String):String {
 		var moduleName:String;
 		switch (screenID) {
-			case ScreenIDs.PHRASE :
+			case ScreenID.PHRASE :
 				moduleName = ModuleName.PHRASE;
 				break;
-			case ScreenIDs.WORD :
+			case ScreenID.WORD :
 				moduleName = ModuleName.WORD;
 				break;
-			case ScreenIDs.VERB :
+			case ScreenID.VERB :
 				moduleName = ModuleName.VERB;
 				break;
 			default :
