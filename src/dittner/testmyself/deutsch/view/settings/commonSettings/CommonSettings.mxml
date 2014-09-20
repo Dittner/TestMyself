@@ -22,7 +22,7 @@
                                color="{AppColors.TEXT_DARK}"
                                minimum="5" maximum="50" value="5"/>
 
-        <s:Label text="Число фраз на одной странице"
+        <s:Label text="Число записей на одной странице"
                  fontFamily="{Fonts.ROBOTO_LIGHT}"
                  fontSize="18"
                  color="{AppColors.TEXT_DARK}"/>

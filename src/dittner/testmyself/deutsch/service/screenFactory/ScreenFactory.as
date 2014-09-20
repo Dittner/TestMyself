@@ -7,6 +7,7 @@ import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.note.NoteScreen;
 import dittner.testmyself.deutsch.view.settings.SettingsScreen;
 import dittner.testmyself.deutsch.view.template.TemplateScreen;
+import dittner.testmyself.deutsch.view.test.TestScreen;
 
 import flash.display.BitmapData;
 
@@ -47,25 +48,25 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		screensHash = {};
 		var info:ScreenInfo;
 
-		info = new ScreenInfo(ScreenId.ABOUT, "", "Описание программы и базы данных", getIcon(ScreenId.ABOUT));
+		info = new ScreenInfo(ScreenIDs.ABOUT, "", "Описание программы и базы данных", getIcon(ScreenIDs.ABOUT));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		_screenInfos.push(createScreenItemSeparator());
 
-		info = new ScreenInfo(ScreenId.WORD, "СЛОВАРЬ СЛОВ", "Словарь слов", getIcon(ScreenId.WORD));
+		info = new ScreenInfo(ScreenIDs.WORD, "СЛОВАРЬ СЛОВ", "Словарь слов", getIcon(ScreenIDs.WORD));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenId.PHRASE, "СЛОВАРЬ ФРАЗ И ПРЕДЛОЖЕНИЙ", "Словарь фраз и предложений", getIcon(ScreenId.PHRASE));
+		info = new ScreenInfo(ScreenIDs.PHRASE, "СЛОВАРЬ ФРАЗ И ПРЕДЛОЖЕНИЙ", "Словарь фраз и предложений", getIcon(ScreenIDs.PHRASE));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenId.VERB, "ТАБЛИЦА СИЛЬНЫХ ГЛАГОЛОВ", "Таблица сильных глаголов", getIcon(ScreenId.VERB));
+		info = new ScreenInfo(ScreenIDs.VERB, "ТАБЛИЦА СИЛЬНЫХ ГЛАГОЛОВ", "Таблица сильных глаголов", getIcon(ScreenIDs.VERB));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenId.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenId.TEST));
+		info = new ScreenInfo(ScreenIDs.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenIDs.TEST));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
@@ -75,7 +76,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		 _screenInfos.push(info);
 		 screensHash[info.id] = info;*/
 
-		info = new ScreenInfo(ScreenId.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenId.SETTINGS));
+		info = new ScreenInfo(ScreenIDs.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenIDs.SETTINGS));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 	}
@@ -88,25 +89,25 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		var bitmapData:BitmapData = new BitmapData(50, 50, true, 0x00ffffff);
 		var IconClass:Class;
 		switch (screenId) {
-			case ScreenId.ABOUT :
+			case ScreenIDs.ABOUT :
 				IconClass = AboutIconClass;
 				break;
-			case ScreenId.WORD :
+			case ScreenIDs.WORD :
 				IconClass = WordIconClass;
 				break;
-			case ScreenId.PHRASE :
+			case ScreenIDs.PHRASE :
 				IconClass = PhraseIconClass;
 				break;
-			case ScreenId.VERB :
+			case ScreenIDs.VERB :
 				IconClass = VerbIconClass;
 				break;
-			case ScreenId.TEST :
+			case ScreenIDs.TEST :
 				IconClass = TestingIconClass;
 				break;
-			case ScreenId.SEARCH :
+			case ScreenIDs.SEARCH :
 				IconClass = SearchIconClass;
 				break;
-			case ScreenId.SETTINGS :
+			case ScreenIDs.SETTINGS :
 				IconClass = SettingsIconClass;
 				break;
 			default :
@@ -117,28 +118,29 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 	}
 
 	private static var noteScreen:NoteScreen = new NoteScreen();
+	private static var testScreen:TestScreen = new TestScreen();
 	public function createScreen(screenId:String):ScreenBase {
 		var screen:ScreenBase;
 		switch (screenId) {
-			case ScreenId.ABOUT :
+			case ScreenIDs.ABOUT :
 				screen = new AboutScreen();
 				break;
-			case ScreenId.WORD :
+			case ScreenIDs.WORD :
 				screen = noteScreen;
 				break;
-			case ScreenId.PHRASE :
+			case ScreenIDs.PHRASE :
 				screen = noteScreen;
 				break;
-			case ScreenId.VERB :
+			case ScreenIDs.VERB :
 				screen = noteScreen;
 				break;
-			case ScreenId.TEST :
+			case ScreenIDs.TEST :
+				screen = testScreen;
+				break;
+			case ScreenIDs.SEARCH :
 				screen = new TemplateScreen();
 				break;
-			case ScreenId.SEARCH :
-				screen = new TemplateScreen();
-				break;
-			case ScreenId.SETTINGS :
+			case ScreenIDs.SETTINGS :
 				screen = new SettingsScreen();
 				break;
 			default :

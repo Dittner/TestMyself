@@ -28,13 +28,16 @@ import dittner.testmyself.deutsch.command.screen.SelectScreenCmd;
 import dittner.testmyself.deutsch.command.screen.UnlockScreenCmd;
 import dittner.testmyself.deutsch.command.settings.LoadSettings;
 import dittner.testmyself.deutsch.command.settings.StoreSettings;
+import dittner.testmyself.deutsch.command.test.GetTestInfoListCmd;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.message.SettingsMsg;
+import dittner.testmyself.deutsch.message.TestMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.screen.ScreenModel;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;
 import dittner.testmyself.deutsch.service.screenFactory.ScreenFactory;
 import dittner.testmyself.deutsch.service.screenMediatorFactory.ScreenMediatorFactory;
+import dittner.testmyself.deutsch.service.testFactory.TestFactory;
 import dittner.testmyself.deutsch.view.common.tooltip.CustomToolTipManager;
 
 public class ConfigureMainModuleCmd implements IConfigureCommand {
@@ -48,6 +51,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(ScreenMsg.UNLOCK, UnlockScreenCmd);
 		mainModule.registerCmd(SettingsMsg.LOAD, LoadSettings);
 		mainModule.registerCmd(SettingsMsg.STORE, StoreSettings);
+		mainModule.registerCmd(TestMsg.GET_TEST_INFO_LIST, GetTestInfoListCmd);
 
 		//common note commands
 		mainModule.registerCmd(NoteMsg.SELECT_NOTE, SelectNoteCmd);
@@ -76,6 +80,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerProxy("screenFactory", new ScreenFactory());
 		mainModule.registerProxy("screenMediatorFactory", new ScreenMediatorFactory());
 		mainModule.registerProxy("screenModel", new ScreenModel());
+		mainModule.registerProxy("testFactory", new TestFactory());
 		mainModule.registerProxy("toolTipManager", new CustomToolTipManager());
 
 		//modules configuration

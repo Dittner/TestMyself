@@ -8,6 +8,7 @@ import dittner.testmyself.deutsch.view.note.VerbScreenMediator;
 import dittner.testmyself.deutsch.view.note.WordScreenMediator;
 import dittner.testmyself.deutsch.view.settings.SettingsScreenMediator;
 import dittner.testmyself.deutsch.view.template.TemplateScreenMediator;
+import dittner.testmyself.deutsch.view.test.TestScreenMediator;
 
 public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFactory {
 
@@ -16,29 +17,30 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 	private var phraseMediator:SFMediator = new PhraseScreenMediator();
 	private var wordMediator:SFMediator = new WordScreenMediator();
 	private var verbMediator:SFMediator = new VerbScreenMediator();
+	private var testMediator:SFMediator = new TestScreenMediator();
 
 	public function createScreenMediator(screenId:String):SFMediator {
 		var mediator:SFMediator;
 		switch (screenId) {
-			case ScreenId.ABOUT :
+			case ScreenIDs.ABOUT :
 				mediator = new AboutScreenMediator();
 				break;
-			case ScreenId.WORD :
+			case ScreenIDs.WORD :
 				mediator = wordMediator;
 				break;
-			case ScreenId.PHRASE :
+			case ScreenIDs.PHRASE :
 				mediator = phraseMediator;
 				break;
-			case ScreenId.VERB :
+			case ScreenIDs.VERB :
 				mediator = verbMediator;
 				break;
-			case ScreenId.TEST :
+			case ScreenIDs.TEST :
+				mediator = testMediator;
+				break;
+			case ScreenIDs.SEARCH :
 				mediator = new TemplateScreenMediator();
 				break;
-			case ScreenId.SEARCH :
-				mediator = new TemplateScreenMediator();
-				break;
-			case ScreenId.SETTINGS :
+			case ScreenIDs.SETTINGS :
 				mediator = new SettingsScreenMediator();
 				break;
 			default :

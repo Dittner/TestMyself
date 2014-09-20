@@ -1,5 +1,5 @@
 package dittner.testmyself.deutsch.service.screenFactory {
-public class ScreenId {
+public class ScreenIDs {
 	public static const ABOUT:String = "about";
 	public static const WORD:String = "word";
 	public static const PHRASE:String = "phrase";

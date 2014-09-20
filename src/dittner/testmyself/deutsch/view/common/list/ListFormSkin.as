@@ -34,6 +34,12 @@ public class ListFormSkin extends ListSkin {
 		addChild(titleDisplay);
 	}
 
+	override protected function measure():void {
+		measuredWidth = scroller.getPreferredBoundsWidth();
+		measuredHeight = Math.max(scroller.getPreferredBoundsHeight(), dataGroup.getExplicitOrMeasuredHeight());
+		measuredHeight += hostInput.showTitle ? TITLE_HEIGHT : 0;
+	}
+
 	override protected function drawBackground(w:Number, h:Number):void {}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {

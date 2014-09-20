@@ -36,6 +36,13 @@ public class SQLFactory extends SFProxy {
 		return CREATE_EXAMPLE_TBL_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/CreateTestTbl.sql", mimeType="application/octet-stream")]
+	private static const CreateTestTblClass:Class;
+	private static const CREATE_TEST_TBL_SQL:String = new CreateTestTblClass();
+	public function get createTestTbl():String {
+		return CREATE_TEST_TBL_SQL;
+	}
+
 	//--------------------------------------
 	//  insert
 	//--------------------------------------
