@@ -1,5 +1,5 @@
 package dittner.testmyself.deutsch.view.test.common {
-import dittner.testmyself.deutsch.service.testFactory.TestInfo;
+import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;

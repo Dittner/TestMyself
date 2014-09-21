@@ -3,7 +3,7 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
-import dittner.testmyself.deutsch.message.TestMsg;
+import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 
 import flash.events.MouseEvent;

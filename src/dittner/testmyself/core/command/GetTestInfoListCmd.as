@@ -1,16 +1,16 @@
-package dittner.testmyself.deutsch.command.test {
+package dittner.testmyself.core.command {
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.command.ISFCommand;
 import dittner.satelliteFlight.message.IRequestMessage;
-import dittner.testmyself.deutsch.service.testFactory.ITestFactory;
+import dittner.testmyself.core.model.test.TestModel;
 
 public class GetTestInfoListCmd implements ISFCommand {
 
 	[Inject]
-	public var testFactory:ITestFactory;
+	public var testModel:TestModel;
 
 	public function execute(msg:IRequestMessage):void {
-		msg.completeSuccess(new CommandResult(testFactory.testInfos));
+		msg.completeSuccess(new CommandResult(testModel.testInfos));
 	}
 
 }

@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.service.testFactory {
+package dittner.testmyself.core.model.test {
 public class TestInfo {
 	public function TestInfo(id:uint, title:String) {
 		_id = id;

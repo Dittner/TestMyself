@@ -6,11 +6,12 @@
                  xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
                  xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
                  xmlns:speakwordtrans="dittner.testmyself.deutsch.view.test.speakWordTrans.*"
-                 horizontalCenter="0">
+                 horizontalCenter="0"
+                 currentState="inactive">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.deutsch.model.domain.test.TestID;
-        import dittner.testmyself.deutsch.service.testFactory.TestInfo;
+        import dittner.testmyself.core.model.test.TestInfo;
+        import dittner.testmyself.deutsch.model.domain.common.TestID;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
@@ -30,9 +31,17 @@
             }
         }
 
-        public function clear():void {
+        public function activate():void {
             setCurrentState("normal");
+        }
+
+        public function deactivate():void {
+            setCurrentState("inactive");
             testInfoList.selectedItem = null;
+        }
+
+        public function showTestSelectionScreen():void {
+            setCurrentState("normal");
         }
 
         private function testApplied():void {
@@ -49,9 +58,11 @@
         ]]></fx:Script>
 
     <core:states>
+        <s:State name="inactive"/>
         <s:State name="normal"/>
         <s:State name="speakWordTrans"/>
     </core:states>
+
     <!--content bg-->
     <s:Rect width="100%" height="100%">
         <s:fill>
@@ -76,6 +87,7 @@
              color="#54545d"/>
 
     <s:VGroup top="{HEADER_HEI + PADDING}"
+              excludeFrom="inactive"
               bottom="0"
               left="0"
               right="0"
@@ -111,7 +123,9 @@
         </s:Group>
     </s:VGroup>
 
-    <s:Group left="0" top="{HEADER_HEI + PADDING}" right="0" bottom="0">
+    <s:Group left="0" top="{HEADER_HEI + PADDING}"
+             excludeFrom="inactive"
+             right="0" bottom="0">
 
         <speakwordtrans:SpeakWordTrans id="speakWordTrans"
                                        width="100%" height="100%"

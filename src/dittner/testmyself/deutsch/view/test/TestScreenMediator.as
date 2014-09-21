@@ -2,9 +2,12 @@ package dittner.testmyself.deutsch.view.test {
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
-import dittner.testmyself.deutsch.message.TestMsg;
-import dittner.testmyself.deutsch.model.domain.test.TestID;
-import dittner.testmyself.deutsch.service.testFactory.TestInfo;
+import dittner.testmyself.core.message.TestMsg;
+import dittner.testmyself.core.model.test.TestInfo;
+import dittner.testmyself.deutsch.message.ScreenMsg;
+import dittner.testmyself.deutsch.model.ModuleName;
+import dittner.testmyself.deutsch.model.domain.common.TestID;
+import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInFrames;
 import dittner.testmyself.deutsch.view.test.speakWordTrans.SpeakWordTransMediator;
 
 import flash.events.MouseEvent;
@@ -18,9 +21,19 @@ public class TestScreenMediator extends SFMediator {
 	private var activeTestMediator:SFMediator;
 
 	override protected function activate():void {
+		sendRequest(ScreenMsg.LOCK, new RequestMessage());
+		doLaterInFrames(activateScreen, 5);
+	}
+
+	private function activateScreen():void {
+		view.activate();
+		view.testInfoColl = new ArrayCollection();
 		addListener(TestMsg.TEST_CANCELED_NOTIFICATION, onTestCanceled);
-		sendRequest(TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testsLoaded));
+		sendRequestTo(ModuleName.WORD, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
+		sendRequestTo(ModuleName.PHRASE, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
+		sendRequestTo(ModuleName.VERB, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
 		view.applyTestBtn.addEventListener(MouseEvent.CLICK, onTestApplied);
+		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
 	private function onTestCanceled(data:* = null):void {
@@ -28,12 +41,11 @@ public class TestScreenMediator extends SFMediator {
 			unregisterMediator(activeTestMediator);
 			activeTestMediator = null;
 		}
-		view.clear();
+		view.showTestSelectionScreen();
 	}
 
-	private function testsLoaded(res:CommandResult):void {
-		var info:Array = res.data as Array;
-		view.testInfoColl = new ArrayCollection(info);
+	private function testInfoListLoaded(res:CommandResult):void {
+		for each(var item:* in res.data) view.testInfoColl.addItem(item);
 	}
 
 	private function onTestApplied(event:MouseEvent):void {
@@ -59,9 +71,8 @@ public class TestScreenMediator extends SFMediator {
 
 	override protected function deactivate():void {
 		view.applyTestBtn.removeEventListener(MouseEvent.CLICK, onTestApplied);
-		view.testInfoColl = null;
 		activeTestMediator = null;
-		view.clear();
+		view.deactivate();
 	}
 }
 }

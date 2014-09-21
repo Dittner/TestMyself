@@ -12,6 +12,7 @@ import dittner.testmyself.core.command.GetNotesInfoCmd;
 import dittner.testmyself.core.command.GetPageInfoCmd;
 import dittner.testmyself.core.command.GetSelectedNoteCmd;
 import dittner.testmyself.core.command.GetSelectedNoteThemesIDCmd;
+import dittner.testmyself.core.command.GetTestInfoListCmd;
 import dittner.testmyself.core.command.MergeNoteThemesCmd;
 import dittner.testmyself.core.command.RemoveNoteCmd;
 import dittner.testmyself.core.command.RemoveNoteThemeCmd;
@@ -21,6 +22,7 @@ import dittner.testmyself.core.command.UpdateNoteCmd;
 import dittner.testmyself.core.command.UpdateNoteThemeCmd;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperationManager;
 import dittner.testmyself.core.message.NoteMsg;
+import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.deutsch.command.screen.GetScreenInfoListCmd;
 import dittner.testmyself.deutsch.command.screen.GetSelectedScreenCmd;
 import dittner.testmyself.deutsch.command.screen.LockScreenCmd;
@@ -28,16 +30,13 @@ import dittner.testmyself.deutsch.command.screen.SelectScreenCmd;
 import dittner.testmyself.deutsch.command.screen.UnlockScreenCmd;
 import dittner.testmyself.deutsch.command.settings.LoadSettings;
 import dittner.testmyself.deutsch.command.settings.StoreSettings;
-import dittner.testmyself.deutsch.command.test.GetTestInfoListCmd;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.message.SettingsMsg;
-import dittner.testmyself.deutsch.message.TestMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.screen.ScreenModel;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;
 import dittner.testmyself.deutsch.service.screenFactory.ScreenFactory;
 import dittner.testmyself.deutsch.service.screenMediatorFactory.ScreenMediatorFactory;
-import dittner.testmyself.deutsch.service.testFactory.TestFactory;
 import dittner.testmyself.deutsch.view.common.tooltip.CustomToolTipManager;
 
 public class ConfigureMainModuleCmd implements IConfigureCommand {
@@ -80,7 +79,6 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerProxy("screenFactory", new ScreenFactory());
 		mainModule.registerProxy("screenMediatorFactory", new ScreenMediatorFactory());
 		mainModule.registerProxy("screenModel", new ScreenModel());
-		mainModule.registerProxy("testFactory", new TestFactory());
 		mainModule.registerProxy("toolTipManager", new CustomToolTipManager());
 
 		//modules configuration

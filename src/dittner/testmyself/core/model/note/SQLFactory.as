@@ -75,6 +75,13 @@ public class SQLFactory extends SFProxy {
 		return INSERT_EXAMPLE_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/InsertTestTask.sql", mimeType="application/octet-stream")]
+	private static const InsertTestTaskClass:Class;
+	private static const INSERT_TEST_TASK_SQL:String = new InsertTestTaskClass();
+	public function get insertTestTask():String {
+		return INSERT_TEST_TASK_SQL;
+	}
+
 	//--------------------------------------
 	//  update
 	//--------------------------------------
@@ -218,6 +225,13 @@ public class SQLFactory extends SFProxy {
 	private static const DELETE_EXAMPLE_BY_NOTE_ID_SQL:String = new DeleteExampleByNoteIDClass();
 	public function get deleteExampleByNoteID():String {
 		return DELETE_EXAMPLE_BY_NOTE_ID_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/DeleteTestTaskByNoteID.sql", mimeType="application/octet-stream")]
+	private static const DeleteTestTaskByNoteIDClass:Class;
+	private static const DELETE_TEST_TASK_BY_NOTE_ID_SQL:String = new DeleteTestTaskByNoteIDClass();
+	public function get deleteTestTaskByNoteID():String {
+		return DELETE_TEST_TASK_BY_NOTE_ID_SQL;
 	}
 
 }

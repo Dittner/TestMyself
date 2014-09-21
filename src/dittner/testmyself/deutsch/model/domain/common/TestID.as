@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.model.domain.test {
+package dittner.testmyself.deutsch.model.domain.common {
 public class TestID {
 	public static const SPEAK_WORD_TRANSLATION:uint = 0;
 	public static const SPEAK_PHRASE_TRANSLATION:uint = 1;
