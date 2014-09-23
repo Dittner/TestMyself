@@ -31,6 +31,11 @@ public class MessageSender implements IMessageSender {
 		}
 	}
 
+	public function sendGlobalNotification(moduleName:String, msg:String, data:Object = null):void {
+		sendNotification(moduleName, msg, data);
+		sendNotification(rootModule.moduleName, msg, data);
+	}
+
 	public function removeListener(moduleName:String, msg:String, handler:Function, observer:Object):void {
 		if (!observerKeyHash[observer]) return;
 

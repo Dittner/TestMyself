@@ -23,10 +23,24 @@ public class TestTask implements ITestTask {
 	public function set balance(value:int):void {_balance = value;}
 
 	//--------------------------------------
+	//  balanceIndex
+	//--------------------------------------
+	private var _balanceIndex:int = -1;
+	public function get balanceIndex():int {return _balanceIndex;}
+	public function set balanceIndex(value:int):void {_balanceIndex = value;}
+
+	//--------------------------------------
 	//  amount
 	//--------------------------------------
 	private var _amount:int = -1;
 	public function get amount():int {return _amount;}
 	public function set amount(value:int):void {_amount = value;}
+
+	//--------------------------------------
+	//  amountIndex
+	//--------------------------------------
+	private var _amountIndex:int = -1;
+	public function get amountIndex():int {return _amountIndex;}
+	public function set amountIndex(value:int):void {_amountIndex = value;}
 }
 }

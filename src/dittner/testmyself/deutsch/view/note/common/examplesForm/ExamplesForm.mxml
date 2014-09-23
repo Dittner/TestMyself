@@ -194,11 +194,11 @@
                     <s:HGroup excludeFrom="normal"
                               width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                               horizontalAlign="right" verticalAlign="middle">
-                        <button:CancelButton id="cancelBtn"
-                                             label="Отменить"
-                                             click="back()"/>
+                        <button:GrayButton id="cancelBtn"
+                                           label="Отменить"
+                                           click="back()"/>
 
-                        <button:ApplyButton id="applyBtn"
+                        <button:BlackButton id="applyBtn"
                                             label.add="Создать"
                                             label.edit="Сохранить"
                                             label.remove="Удалить"
@@ -246,7 +246,7 @@
                    dataProvider="{examples}"
                    title="Примеры"
                    itemRenderer="dittner.testmyself.deutsch.view.note.common.examplesForm.ExamplesFormRenderer">
-    <list:layout>
+        <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </list:layout>
     </list:ListForm>

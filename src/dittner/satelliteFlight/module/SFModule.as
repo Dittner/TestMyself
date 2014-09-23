@@ -13,7 +13,8 @@ public class SFModule extends SFMediator {
 			throw new SFException(SFExceptionMsg.MODULE_ROOT_NOT_FOUND);
 		if (!name)
 			throw new SFException(SFExceptionMsg.NO_NAME_FOR_MODULE);
-		moduleName = name;
+		_moduleName = name;
+		module = this;
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -23,6 +24,7 @@ public class SFModule extends SFMediator {
 	//----------------------------------------------------------------------------------------------
 
 	sf_namespace static var root:SFModule;
+	sf_namespace static var moduleHash:Object = {};
 
 	protected var cmdClassHash:Object = {};
 	protected var proxyHash:Object = {};
@@ -35,9 +37,17 @@ public class SFModule extends SFMediator {
 	//----------------------------------------------------------------------------------------------
 
 	//--------------------------------------
+	//  getModule
+	//--------------------------------------
+	public function getModule(name:String):SFModule {
+		return moduleName == name ? this : moduleHash[name];
+	}
+
+	//--------------------------------------
 	//  name
 	//--------------------------------------
-	public function get name():String {return moduleName;}
+	private var _moduleName:String;
+	override public function get moduleName():String {return _moduleName;}
 
 	//--------------------------------------
 	//  hasProxy
@@ -67,16 +77,16 @@ public class SFModule extends SFMediator {
 
 	public function registerCmd(msg:String, cmdClass:Class):void {
 		if (cmdClassHash[msg])
-			throw new SFException(SFExceptionMsg.DUPLICATE_CMD + "; message name: " + msg + "; module name: " + name);
+			throw new SFException(SFExceptionMsg.DUPLICATE_CMD + "; message name: " + msg + "; module name: " + moduleName);
 		cmdClassHash[msg] = cmdClass;
 	}
 
 	public function registerProxy(proxyID:String, proxy:SFProxy):void {
 		if (proxyHash[proxyID])
-			throw new SFException(SFExceptionMsg.DUPLICATE_PROXY + "; proxy id: " + proxyID + "; module name: " + name);
+			throw new SFException(SFExceptionMsg.DUPLICATE_PROXY + "; proxy id: " + proxyID + "; module name: " + moduleName);
 		proxyHash[proxyID] = proxy;
 		pendingInjectProxies.push(proxy);
-		proxy.moduleName = name;
+		proxy.module = this;
 		proxy.messageSender = messageSender;
 		proxy.injector = injector;
 		injector.injectProxies(pendingInjectProxies, proxyHash);

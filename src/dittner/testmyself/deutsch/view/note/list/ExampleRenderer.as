@@ -82,7 +82,7 @@ public class ExampleRenderer extends ItemRendererBase {
 		g.clear();
 
 		if (selected) {
-			g.beginFill(0xf0f0f6, 1);
+			g.beginFill(0xfafaff, 1);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}

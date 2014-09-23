@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:list="dittner.testmyself.deutsch.view.common.list.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  themeColl
+        //--------------------------------------
+        private var _themeColl:ArrayCollection;
+        [Bindable("themeCollChanged")]
+        public function get themeColl():ArrayCollection {return _themeColl;}
+        public function set themeColl(value:ArrayCollection):void {
+            if (_themeColl != value) {
+                _themeColl = value;
+                dispatchEvent(new Event("themeCollChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:Number = 10;
+        [Bindable("paddingChanged")]
+        public function get padding():Number {return _padding;}
+        public function set padding(value:Number):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:VerticalLayout gap="15" horizontalAlign="center" paddingTop="{padding}"/>
+    </s:layout>
+
+    <list:ListForm id="themesList"
+                   width="{width -2*padding}" height="100%"
+                   dataProvider="{themeColl}"
+                   title="Выберите темы, чтобы отфильтровать задачи"
+                   itemRenderer="dittner.testmyself.deutsch.view.common.renderer.ThemeItemRenderer"
+                   allowMultipleSelection="true">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <s:CheckBox id="useAudioRecordsBox"
+                width="{width -2*padding}"
+                selected="false"
+                label="Озвучивать задачу"/>
+
+    <s:Label text="* в качестве тестовых задач будут выбраны только те, для которых имеется аудиозапись"
+             fontFamily="{Fonts.ROBOTO_LIGHT}"
+             fontSize="12"
+             mouseChildren="false" mouseEnabled="false"
+             width="100%"
+             paddingTop="-15"
+             paddingLeft="48" paddingRight="20"
+             color="{AppColors.TEXT_GRAY}"/>
+
+    <s:RadioButton id="balanceIndexRadioBtn"
+                   groupName="radioBar"
+                   width="{width -2*padding}"
+                   value="balance"
+                   selected="true"
+                   label="Сортировать задачи с приоритетом баланса"/>
+
+    <s:Label text="* в первую очередь будут тестироваться те задачи, у которых наименьший баланс (разница между положительными и отрицательными ответами, полученными в прошлых тестах)"
+             fontFamily="{Fonts.ROBOTO_LIGHT}"
+             mouseChildren="false" mouseEnabled="false"
+             fontSize="12"
+             width="100%"
+             paddingTop="-15"
+             paddingLeft="48" paddingRight="20"
+             color="{AppColors.TEXT_GRAY}"/>
+
+    <s:RadioButton id="amountIndexRadioBtn"
+                   groupName="radioBar"
+                   width="{width -2*padding}"
+                   value="amount"
+                   label="Сортировать задачи с приоритетом числа пройденных тестов"/>
+
+    <s:Label text="* в первую очередь будут тестироваться те задачи, которые тестировались реже остальных"
+             fontFamily="{Fonts.ROBOTO_LIGHT}"
+             fontSize="12"
+             mouseChildren="false" mouseEnabled="false"
+             width="100%"
+             paddingTop="-15"
+             paddingLeft="48" paddingRight="20"
+             color="{AppColors.TEXT_GRAY}"/>
+</s:Group>

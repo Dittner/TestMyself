@@ -29,7 +29,7 @@
 
                 <s:Rect width="100%" height="100%" radiusX="4" radiusY="4">
                     <s:fill>
-                        <s:SolidColor alpha="0"/>
+                        <s:SolidColor alpha="0" alpha.down=".1"/>
                     </s:fill>
                     <s:stroke>
                         <s:SolidColorStroke color="{AppColors.EDITOR_BORDER}" alpha=".5" alpha.down="1"/>

@@ -72,11 +72,11 @@
     <s:HGroup width="100%" height="{FOOTER_HEI}"
               bottom="0"
               paddingLeft="15" paddingRight="15" gap="15" verticalAlign="middle">
-        <button:CancelButton id="cancelBtn"
-                             width="100%"
-                             label="Отменить"/>
+        <button:GrayButton id="cancelBtn"
+                           width="100%"
+                           label="Отменить"/>
 
-        <button:ApplyButton id="applyBtn"
+        <button:BlackButton id="applyBtn"
                             width="100%"
                             label="Применить"/>
     </s:HGroup>

@@ -131,7 +131,7 @@
                            itemRenderer="dittner.testmyself.deutsch.view.note.common.renderer.NoteRenderer"
                            itemRenderer.word="dittner.testmyself.deutsch.view.note.common.renderer.WordRenderer"
                            itemRenderer.verb="dittner.testmyself.deutsch.view.note.common.renderer.VerbRenderer">
-            <list:layout>
+                <list:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                 </list:layout>
             </list:NoteList>
@@ -141,6 +141,7 @@
                           width="66%" height="100%"
                           excludeFrom="inactive"
                           visible="false"
+                          showTitle="false"
                           includeInLayout="false"
                           hasFocusableChildren="false"/>
     </s:HGroup>

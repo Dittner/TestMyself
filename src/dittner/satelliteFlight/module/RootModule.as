@@ -19,14 +19,6 @@ public class RootModule extends SFModule {
 
 	public static var messageSenderClass:Class = MessageSender;
 	public static var injectorClass:Class = Injector;
-	protected var moduleHash:Object = {};
-
-	//--------------------------------------
-	//  getModule
-	//--------------------------------------
-	public function getModule(name:String):SFModule {
-		return this.name == name ? this : moduleHash[name];
-	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -35,11 +27,11 @@ public class RootModule extends SFModule {
 	//----------------------------------------------------------------------------------------------
 
 	public function addModule(module:SFModule):void {
-		if (moduleHash[module.name]) {
-			throw new SFException(SFExceptionMsg.DUPLICATE_MODULE + "; module name: " + name);
+		if (moduleHash[module.moduleName]) {
+			throw new SFException(SFExceptionMsg.DUPLICATE_MODULE + "; module name: " + moduleName);
 		}
 		else {
-			moduleHash[module.name] = module;
+			moduleHash[module.moduleName] = module;
 			module.messageSender = messageSender;
 			module.injector = injector;
 		}

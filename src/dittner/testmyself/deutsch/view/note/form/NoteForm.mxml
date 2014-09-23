@@ -265,10 +265,10 @@
     </s:Group>
 
 
-    <button:CancelButton id="cancelBtn"
-                         label="Отменить"/>
+    <button:GrayButton id="cancelBtn"
+                       label="Отменить"/>
 
-    <button:ApplyButton id="applyBtn"
+    <button:BlackButton id="applyBtn"
                         label.add="Создать"
                         label.edit="Сохранить"
                         label.remove="Удалить"

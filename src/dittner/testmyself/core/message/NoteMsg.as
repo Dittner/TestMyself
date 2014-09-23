@@ -31,6 +31,7 @@ public class NoteMsg {
 	public static const REMOVE_THEME:String = "removeTheme";
 	public static const MERGE_THEMES:String = "mergeThemes";
 	public static const GET_SELECTED_THEMES_ID:String = "getSelectedThemesID";
+	public static const GET_NOTE:String = "getNote";
 	public static const GET_NOTES_INFO:String = "getNotesInfo";
 
 }

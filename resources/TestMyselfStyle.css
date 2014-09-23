@@ -127,6 +127,10 @@ s|CheckBox {
     skinClass: ClassReference("dittner.testmyself.deutsch.view.common.checkBox.CustomCheckBoxSkin");
 }
 
+s|RadioButton {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.radioButton.CustomRadioButtonSkin");
+}
+
 spinner|CustomSpinner {
     skin-class: ClassReference("dittner.testmyself.deutsch.view.common.spinner.CustomSpinnerSkin");
     fontSize: 14px;

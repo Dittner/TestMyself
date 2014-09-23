@@ -11,9 +11,9 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class TestInfoRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_GRAY);
-	private static const SELECTED_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_WHITE);
-	private static const PADDING:uint = 3;
+	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 20, AppColors.TEXT_GRAY);
+	private static const SELECTED_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 20, AppColors.TEXT_WHITE);
+	private static const PADDING:uint = 10;
 	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;
 
 	public function TestInfoRenderer() {

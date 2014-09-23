@@ -123,14 +123,14 @@
                              visible="false" visible.renameTheme="true"
                              includeInLayout="false" includeInLayout.renameTheme="true"/>
 
-        <button:CancelButton id="cancelBtn"
-                             top="row2:10"
-                             left="col2:10"
-                             right="col2:10"
-                             label="Отменить"
-                             click="cancelBtn_clickHandler(event)"/>
+        <button:GrayButton id="cancelBtn"
+                           top="row2:10"
+                           left="col2:10"
+                           right="col2:10"
+                           label="Отменить"
+                           click="cancelBtn_clickHandler(event)"/>
 
-        <button:ApplyButton id="applyBtn"
+        <button:BlackButton id="applyBtn"
                             enabled.renameTheme="{applyBtnEnabled(themesList.selectedItem, themeNameInputForm.text)}"
                             enabled.removeTheme="{themesList.selectedItem != null}"
                             label.renameTheme="Переименовать"

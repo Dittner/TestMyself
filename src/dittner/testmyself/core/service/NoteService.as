@@ -15,6 +15,8 @@ import dittner.testmyself.core.command.backend.SelectExamplesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectFilterSQLOperation;
 import dittner.testmyself.core.command.backend.SelectNoteKeysSQLOperation;
 import dittner.testmyself.core.command.backend.SelectNoteSQLOperation;
+import dittner.testmyself.core.command.backend.SelectPageNotesSQLOperation;
+import dittner.testmyself.core.command.backend.SelectTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectThemeSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateNoteSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateThemeSQLOperation;
@@ -28,6 +30,7 @@ import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.IPageInfo;
 import dittner.testmyself.core.model.page.PageInfo;
 import dittner.testmyself.core.model.test.TestModel;
+import dittner.testmyself.core.model.test.TestSpec;
 import dittner.testmyself.core.model.theme.Theme;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;
 
@@ -93,6 +96,13 @@ public class NoteService extends SFProxy {
 		deferredOperationManager.add(op);
 	}
 
+	public function loadNote(requestMsg:IRequestMessage):void {
+		var noteID:int = requestMsg.data as int;
+		var op:IDeferredOperation = new SelectNoteSQLOperation(this, noteID, spec.noteClass);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
 	public function loadPageInfo(requestMsg:IRequestMessage = null):void {
 		var pageNum:uint;
 		if (requestMsg) pageNum = requestMsg.data as uint;
@@ -104,7 +114,7 @@ public class NoteService extends SFProxy {
 		pageInfo.pageNum = pageNum;
 		pageInfo.filter = model.filter;
 
-		var op:IDeferredOperation = new SelectNoteSQLOperation(this, pageInfo, spec.noteClass);
+		var op:IDeferredOperation = new SelectPageNotesSQLOperation(this, pageInfo, spec.noteClass);
 		op.addCompleteCallback(pageInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
@@ -120,6 +130,13 @@ public class NoteService extends SFProxy {
 	public function loadExamples(requestMsg:IRequestMessage):void {
 		var noteID:int = requestMsg.data as int;
 		var op:IDeferredOperation = new SelectExamplesSQLOperation(this, noteID);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function loadTestTasks(requestMsg:IRequestMessage):void {
+		var spec:TestSpec = requestMsg.data as TestSpec;
+		var op:IDeferredOperation = new SelectTestTasksSQLOperation(this, spec);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

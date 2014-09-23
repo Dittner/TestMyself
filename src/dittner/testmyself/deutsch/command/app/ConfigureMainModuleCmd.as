@@ -4,6 +4,7 @@ import dittner.satelliteFlight.module.RootModule;
 import dittner.satelliteFlight.module.SFModule;
 import dittner.testmyself.core.command.AddNoteCmd;
 import dittner.testmyself.core.command.ClearNotesInfoCmd;
+import dittner.testmyself.core.command.GetNoteCmd;
 import dittner.testmyself.core.command.GetNoteExamplesCmd;
 import dittner.testmyself.core.command.GetNoteFilterCmd;
 import dittner.testmyself.core.command.GetNoteHashCmd;
@@ -13,6 +14,7 @@ import dittner.testmyself.core.command.GetPageInfoCmd;
 import dittner.testmyself.core.command.GetSelectedNoteCmd;
 import dittner.testmyself.core.command.GetSelectedNoteThemesIDCmd;
 import dittner.testmyself.core.command.GetTestInfoListCmd;
+import dittner.testmyself.core.command.GetTestTasksCmd;
 import dittner.testmyself.core.command.MergeNoteThemesCmd;
 import dittner.testmyself.core.command.RemoveNoteCmd;
 import dittner.testmyself.core.command.RemoveNoteThemeCmd;
@@ -70,8 +72,10 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.REMOVE_THEME, RemoveNoteThemeCmd);
 		mainModule.registerCmd(NoteMsg.MERGE_THEMES, MergeNoteThemesCmd);
 		mainModule.registerCmd(NoteMsg.GET_SELECTED_THEMES_ID, GetSelectedNoteThemesIDCmd);
+		mainModule.registerCmd(NoteMsg.GET_NOTE, GetNoteCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTES_INFO, GetNotesInfoCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTE_HASH, GetNoteHashCmd);
+		mainModule.registerCmd(TestMsg.GET_TEST_TASKS, GetTestTasksCmd);
 
 		//register models and services
 		mainModule.registerProxy("settingsModel", new SettingsModel());

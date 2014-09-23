@@ -2,6 +2,7 @@ package dittner.satelliteFlight {
 import dittner.satelliteFlight.injector.IInjector;
 import dittner.satelliteFlight.message.IMessageSender;
 import dittner.satelliteFlight.message.IRequestMessage;
+import dittner.satelliteFlight.module.SFModule;
 
 use namespace sf_namespace;
 
@@ -10,11 +11,13 @@ public class SFComponent {
 
 	sf_namespace var messageSender:IMessageSender;
 	sf_namespace var injector:IInjector;
-	sf_namespace var moduleName:String;
+	sf_namespace var module:SFModule;
 
 	sf_namespace function activating():void {
 		activate();
 	}
+
+	public function get moduleName():String {return module.moduleName;}
 
 	//abstract
 	protected function activate():void {}
@@ -35,6 +38,10 @@ public class SFComponent {
 
 	public function sendNotification(msg:String, data:Object = null):void {
 		messageSender.sendNotification(moduleName, msg, data);
+	}
+
+	public function sendGlobalNotification(msg:String, data:Object = null):void {
+		messageSender.sendGlobalNotification(moduleName, msg, data);
 	}
 
 	public function addListener(msg:String, handler:Function):void {

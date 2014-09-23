@@ -8,7 +8,6 @@ import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInFrames;
-import dittner.testmyself.deutsch.view.test.speakWordTrans.SpeakWordTransMediator;
 
 import flash.events.MouseEvent;
 
@@ -18,7 +17,8 @@ public class TestScreenMediator extends SFMediator {
 
 	[Inject]
 	public var view:TestScreen;
-	private var activeTestMediator:SFMediator;
+	private var activeTestingMediator:SFMediator;
+	private var activeModuleName:String;
 
 	override protected function activate():void {
 		sendRequest(ScreenMsg.LOCK, new RequestMessage());
@@ -28,7 +28,7 @@ public class TestScreenMediator extends SFMediator {
 	private function activateScreen():void {
 		view.activate();
 		view.testInfoColl = new ArrayCollection();
-		addListener(TestMsg.TEST_CANCELED_NOTIFICATION, onTestCanceled);
+		addListener(TestMsg.TEST_ABORTED_NOTIFICATION, onTestAborted);
 		sendRequestTo(ModuleName.WORD, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
 		sendRequestTo(ModuleName.PHRASE, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
 		sendRequestTo(ModuleName.VERB, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
@@ -36,12 +36,17 @@ public class TestScreenMediator extends SFMediator {
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
-	private function onTestCanceled(data:* = null):void {
-		if (activeTestMediator) {
-			unregisterMediator(activeTestMediator);
-			activeTestMediator = null;
-		}
+	private function onTestAborted(data:* = null):void {
+		unregisterTestingMediator();
 		view.showTestSelectionScreen();
+	}
+
+	private function unregisterTestingMediator():void {
+		if (activeTestingMediator) {
+			unregisterMediatorFrom(activeModuleName, activeTestingMediator);
+			activeTestingMediator = null;
+			activeModuleName = "";
+		}
 	}
 
 	private function testInfoListLoaded(res:CommandResult):void {
@@ -51,27 +56,21 @@ public class TestScreenMediator extends SFMediator {
 	private function onTestApplied(event:MouseEvent):void {
 		if (!view.testInfoList.selectedItem) return;
 
-		if (activeTestMediator) {
-			unregisterMediator(activeTestMediator);
-			activeTestMediator = null;
-		}
+		unregisterTestingMediator();
 
-		var selectedTestID:uint = (view.testInfoList.selectedItem as TestInfo).id;
-		var mediator:SFMediator;
-		switch (selectedTestID) {
+		var info:TestInfo = view.testInfoList.selectedItem as TestInfo;
+		switch (info.id) {
 			case TestID.SPEAK_WORD_TRANSLATION :
-				mediator = new SpeakWordTransMediator();
+				activeTestingMediator = new TestingMediator(info);
+				activeModuleName = ModuleName.WORD;
+				registerMediatorTo(activeModuleName, view.speakWordTrans, activeTestingMediator);
 				break;
-		}
-		if (mediator) {
-			activeTestMediator = mediator;
-			registerMediator(view.speakWordTrans, mediator);
 		}
 	}
 
 	override protected function deactivate():void {
 		view.applyTestBtn.removeEventListener(MouseEvent.CLICK, onTestApplied);
-		activeTestMediator = null;
+		unregisterTestingMediator();
 		view.deactivate();
 	}
 }

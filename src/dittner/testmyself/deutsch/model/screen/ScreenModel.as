@@ -1,16 +1,15 @@
 package dittner.testmyself.deutsch.model.screen {
 import dittner.satelliteFlight.mediator.SFMediator;
-import dittner.satelliteFlight.module.RootModule;
-import dittner.satelliteFlight.module.SFModule;
 import dittner.satelliteFlight.proxy.SFProxy;
-import dittner.satelliteFlight.utils.SFException;
-import dittner.satelliteFlight.utils.SFExceptionMsg;
+import dittner.satelliteFlight.sf_namespace;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.service.screenFactory.IScreenFactory;
 import dittner.testmyself.deutsch.service.screenFactory.ScreenID;
 import dittner.testmyself.deutsch.service.screenMediatorFactory.IScreenMediatorFactory;
 import dittner.testmyself.deutsch.view.common.screen.ScreenBase;
+
+use namespace sf_namespace;
 
 public class ScreenModel extends SFProxy {
 
@@ -19,9 +18,6 @@ public class ScreenModel extends SFProxy {
 
 	[Inject]
 	public var screenMediatorFactory:IScreenMediatorFactory;
-
-	[Inject]
-	public var rootModule:RootModule;
 
 	private var selectedMediator:SFMediator;
 
@@ -70,22 +66,14 @@ public class ScreenModel extends SFProxy {
 	private function registerMediator():void {
 		var mediator:SFMediator = screenMediatorFactory.createScreenMediator(selectedScreenID);
 		var moduleName:String = getModuleNameByScreen(selectedScreenID);
-		var module:SFModule = rootModule.getModule(moduleName);
-
-		if (!module) throw new SFException(SFExceptionMsg.MODULE_NOT_FOUND + "; module name: " + moduleName);
-
-		module.registerMediator(selectedScreen, mediator);
+		module.registerMediatorTo(moduleName, selectedScreen, mediator);
 		selectedMediator = mediator;
 	}
 
 	private function unregisterMediator():void {
 		if (!selectedScreen) return;
 		var moduleName:String = getModuleNameByScreen(selectedScreenID);
-		var module:SFModule = rootModule.getModule(moduleName);
-
-		if (!module) throw new SFException(SFExceptionMsg.MODULE_NOT_FOUND);
-
-		module.unregisterMediator(selectedMediator);
+		module.unregisterMediatorFrom(moduleName, selectedMediator);
 	}
 
 	public function getModuleNameByScreen(screenID:String):String {
