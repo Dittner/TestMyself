@@ -4,7 +4,7 @@ import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.INote;
-import dittner.testmyself.core.model.page.IPageInfo;
+import dittner.testmyself.core.model.page.INotePageInfo;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 import dittner.testmyself.deutsch.view.note.common.PageLayoutInfo;
@@ -25,8 +25,8 @@ public class NoteListMediator extends SFMediator {
 		pageLayoutInfo = new PageLayoutInfo();
 		view.addEventListener(SelectableDataGroup.SELECTED, noteRenDataSelectedHandler);
 		addListener(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
-		addListener(NoteMsg.PAGE_INFO_CHANGED_NOTIFICATION, onPageInfoChanged);
-		sendRequest(NoteMsg.GET_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
+		addListener(NoteMsg.NOTE_PAGE_INFO_CHANGED_NOTIFICATION, onPageInfoChanged);
+		sendRequest(NoteMsg.GET_NOTE_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
 	}
 
 	private function noteRenDataSelectedHandler(event:Event):void {
@@ -35,15 +35,15 @@ public class NoteListMediator extends SFMediator {
 		sendRequest(NoteMsg.SELECT_NOTE, new RequestMessage(null, null, selectedNote));
 	}
 
-	private function onPageInfoChanged(pageInfo:IPageInfo):void {
+	private function onPageInfoChanged(pageInfo:INotePageInfo):void {
 		updateViewList(pageInfo);
 	}
 
 	private function onPageInfoLoaded(res:CommandResult):void {
-		updateViewList(res.data as IPageInfo);
+		updateViewList(res.data as INotePageInfo);
 	}
 
-	private function updateViewList(pageInfo:IPageInfo):void {
+	private function updateViewList(pageInfo:INotePageInfo):void {
 		view.dataProvider = new ArrayCollection(wrapNotes(pageInfo.notes));
 		sendRequest(NoteMsg.SELECT_NOTE, new RequestMessage());
 	}

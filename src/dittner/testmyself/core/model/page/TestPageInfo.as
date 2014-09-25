@@ -1,7 +1,5 @@
 package dittner.testmyself.core.model.page {
-import dittner.testmyself.core.model.note.INote;
-
-public class PageInfo implements IPageInfo {
+public class TestPageInfo implements ITestPageInfo {
 
 	//--------------------------------------
 	//  pageNum
@@ -22,21 +20,21 @@ public class PageInfo implements IPageInfo {
 	}
 
 	//--------------------------------------
-	//  selectedNote
-	//--------------------------------------
-	private var _selectedNote:INote;
-	public function get selectedNote():INote {return _selectedNote;}
-	public function set selectedNote(value:INote):void {
-		_selectedNote = value;
-	}
-
-	//--------------------------------------
 	//  notes
 	//--------------------------------------
 	private var _notes:Array = [];
 	public function get notes():Array {return _notes;}
 	public function set notes(value:Array):void {
 		_notes = value;
+	}
+
+	//--------------------------------------
+	//  tasks
+	//--------------------------------------
+	private var _tasks:Array = [];
+	public function get tasks():Array {return _tasks;}
+	public function set tasks(value:Array):void {
+		_tasks = value;
 	}
 
 	//--------------------------------------

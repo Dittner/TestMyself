@@ -8,17 +8,19 @@ import dittner.testmyself.core.command.GetNoteCmd;
 import dittner.testmyself.core.command.GetNoteExamplesCmd;
 import dittner.testmyself.core.command.GetNoteFilterCmd;
 import dittner.testmyself.core.command.GetNoteHashCmd;
+import dittner.testmyself.core.command.GetNotePageInfoCmd;
 import dittner.testmyself.core.command.GetNoteThemesCmd;
 import dittner.testmyself.core.command.GetNotesInfoCmd;
-import dittner.testmyself.core.command.GetPageInfoCmd;
 import dittner.testmyself.core.command.GetSelectedNoteCmd;
 import dittner.testmyself.core.command.GetSelectedNoteThemesIDCmd;
 import dittner.testmyself.core.command.GetTestInfoListCmd;
+import dittner.testmyself.core.command.GetTestSpecCmd;
 import dittner.testmyself.core.command.GetTestTasksCmd;
 import dittner.testmyself.core.command.MergeNoteThemesCmd;
 import dittner.testmyself.core.command.RemoveNoteCmd;
 import dittner.testmyself.core.command.RemoveNoteThemeCmd;
 import dittner.testmyself.core.command.SelectNoteCmd;
+import dittner.testmyself.core.command.SelectTestSpecCmd;
 import dittner.testmyself.core.command.SetNoteFilterCmd;
 import dittner.testmyself.core.command.UpdateNoteCmd;
 import dittner.testmyself.core.command.UpdateNoteThemeCmd;
@@ -53,6 +55,8 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(SettingsMsg.LOAD, LoadSettings);
 		mainModule.registerCmd(SettingsMsg.STORE, StoreSettings);
 		mainModule.registerCmd(TestMsg.GET_TEST_INFO_LIST, GetTestInfoListCmd);
+		mainModule.registerCmd(TestMsg.GET_TEST_SPEC, GetTestSpecCmd);
+		mainModule.registerCmd(TestMsg.SELECT_TEST_SPEC, SelectTestSpecCmd);
 
 		//common note commands
 		mainModule.registerCmd(NoteMsg.SELECT_NOTE, SelectNoteCmd);
@@ -64,7 +68,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.ADD_NOTE, AddNoteCmd);
 		mainModule.registerCmd(NoteMsg.REMOVE_NOTE, RemoveNoteCmd);
 		mainModule.registerCmd(NoteMsg.UPDATE_NOTE, UpdateNoteCmd);
-		mainModule.registerCmd(NoteMsg.GET_PAGE_INFO, GetPageInfoCmd);
+		mainModule.registerCmd(NoteMsg.GET_NOTE_PAGE_INFO, GetNotePageInfoCmd);
 		mainModule.registerCmd(NoteMsg.CLEAR_NOTES_INFO, ClearNotesInfoCmd);
 		mainModule.registerCmd(NoteMsg.GET_THEMES, GetNoteThemesCmd);
 		mainModule.registerCmd(NoteMsg.GET_EXAMPLES, GetNoteExamplesCmd);

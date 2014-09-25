@@ -2,65 +2,48 @@
 <core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                  xmlns:core="dittner.testmyself.deutsch.view.common.screen.*"
                  xmlns:s="library://ns.adobe.com/flex/spark"
-                 xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
-                 xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
-                 xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
-                 xmlns:speaktranslation="dittner.testmyself.deutsch.view.test.testingView.speakTranslation.*"
+                 xmlns:testlist="dittner.testmyself.deutsch.view.test.testList.*"
+                 xmlns:presets="dittner.testmyself.deutsch.view.test.presets.*"
+                 xmlns:results="dittner.testmyself.deutsch.view.test.results.*" xmlns:testing="dittner.testmyself.deutsch.view.test.testing.*"
                  horizontalCenter="0"
                  currentState="inactive">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.core.model.test.TestInfo;
-        import dittner.testmyself.deutsch.model.domain.common.TestID;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
-        import mx.collections.ArrayCollection;
-
-        //--------------------------------------
-        //  testInfoColl
-        //--------------------------------------
-        private var _testInfoColl:ArrayCollection;
-        [Bindable("testInfoCollChanged")]
-        public function get testInfoColl():ArrayCollection {return _testInfoColl;}
-        public function set testInfoColl(value:ArrayCollection):void {
-            if (_testInfoColl != value) {
-                _testInfoColl = value;
-                dispatchEvent(new Event("testInfoCollChanged"));
-            }
-        }
-
         public function activate():void {
-            setCurrentState("normal");
+            setCurrentState("testList");
         }
 
         public function deactivate():void {
             setCurrentState("inactive");
-            testInfoList.selectedItem = null;
         }
 
-        public function showTestSelectionScreen():void {
-            setCurrentState("normal");
+        public function showTestList():void {
+            setCurrentState("testList");
         }
 
-        private function testApplied():void {
-            if (!testInfoList.selectedItem) return;
-            var selectedTestID:uint = (testInfoList.selectedItem as TestInfo).id;
-            switch (selectedTestID) {
-                case TestID.SPEAK_WORD_TRANSLATION :
-                    setCurrentState("speakWordTrans");
-                    break;
-                default :
-                    setCurrentState("normal");
-            }
+        public function showTestPresets():void {
+            setCurrentState("presets");
+        }
+
+        public function showTestingResults():void {
+            setCurrentState("results");
+        }
+
+        public function showTesting():void {
+            setCurrentState("testing");
         }
         ]]></fx:Script>
 
     <core:states>
         <s:State name="inactive"/>
         <s:State name="normal"/>
-        <s:State name="speakWordTrans"/>
+        <s:State name="testList"/>
+        <s:State name="presets"/>
+        <s:State name="results"/>
+        <s:State name="testing"/>
     </core:states>
 
     <!--content bg-->
@@ -86,51 +69,29 @@
              paddingLeft="{PADDING}" paddingRight="{PADDING}"
              color="#54545d"/>
 
-    <s:VGroup top="{HEADER_HEI + PADDING}"
-              excludeFrom="inactive"
-              bottom="0"
-              left="0"
-              right="0"
-              gap="15"
-              horizontalAlign="center"
-              visible.normal="true" visible="false">
 
-        <list:ListForm id="testInfoList"
-                       verticalScrollPolicy="off"
-                       horizontalScrollPolicy="off"
-                       width="{width - 2*PADDING}"
-                       dataProvider="{testInfoColl}"
-                       title="Выберите тест из списка стандартных тестов"
-                       itemRenderer="dittner.testmyself.deutsch.view.test.common.TestInfoRenderer">
-            <list:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </list:layout>
-        </list:ListForm>
+    <s:Group width="100%" top="{HEADER_HEI}" bottom="0"
+             excludeFrom="inactive">
 
-        <s:Spacer height="100%"/>
+        <testlist:TestListView id="testListView"
+                               width="100%" height="100%"
+                               padding="{PADDING}"
+                               visible="false" visible.testList="true"/>
 
-        <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+        <presets:TestPresetsView id="testPresetsView"
+                                 width="100%" height="100%"
+                                 padding="{PADDING}"
+                                 visible="false" visible.presets="true"/>
 
-            <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+        <testing:TestingView id="testingView"
+                             width="100%" height="100%"
+                             padding="{PADDING}"
+                             visible="false" visible.testing="true"/>
 
-            <button:BlackButton id="applyTestBtn"
-                                width="250"
-                                right="{PADDING}"
-                                verticalCenter="0"
-                                label="Перейти к выбранному тесту"
-                                enabled="{testInfoList.selectedItem != null}"
-                                click="testApplied()"/>
-        </s:Group>
-    </s:VGroup>
-
-    <s:Group left="0" top="{HEADER_HEI}"
-             excludeFrom="inactive"
-             right="0" bottom="0">
-
-        <speaktranslation:SpeakTranslationTest id="speakWordTrans"
-                                               width="100%" height="100%"
-                                               padding="{PADDING}"
-                                               visible.speakWordTrans="true" visible="false"/>
+        <results:TestingResultsView id="testingResultsView"
+                                    width="100%" height="100%"
+                                    padding="{PADDING}"
+                                    visible="false" visible.results="true"/>
     </s:Group>
 
 </core:ScreenBase>

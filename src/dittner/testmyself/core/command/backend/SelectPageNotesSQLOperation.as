@@ -2,14 +2,14 @@ package dittner.testmyself.core.command.backend {
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
-import dittner.testmyself.core.model.page.PageInfo;
+import dittner.testmyself.core.model.page.NotePageInfo;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
 
 public class SelectPageNotesSQLOperation extends DeferredOperation {
 
-	public function SelectPageNotesSQLOperation(service:NoteService, pageInfo:PageInfo, noteClass:Class) {
+	public function SelectPageNotesSQLOperation(service:NoteService, pageInfo:NotePageInfo, noteClass:Class) {
 		super();
 		this.service = service;
 		this.pageInfo = pageInfo;
@@ -17,7 +17,7 @@ public class SelectPageNotesSQLOperation extends DeferredOperation {
 	}
 
 	private var service:NoteService;
-	private var pageInfo:PageInfo;
+	private var pageInfo:NotePageInfo;
 	private var noteClass:Class;
 
 	override public function process():void {

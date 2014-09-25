@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+         xmlns:navigation="dittner.testmyself.deutsch.view.common.pagination.*"
+         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
+
+        //--------------------------------------
+        //  title
+        //--------------------------------------
+        private var _title:String = "";
+        [Bindable("titleChanged")]
+        public function get title():String {return _title;}
+        public function set title(value:String):void {
+            if (_title != value) {
+                _title = value;
+                dispatchEvent(new Event("titleChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:Number = 10;
+        [Bindable("paddingChanged")]
+        public function get padding():Number {return _padding;}
+        public function set padding(value:Number):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+    <s:Spacer height="100%"/>
+
+    <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+
+        <navigation:PaginationBar id="paginationBar"
+                                  left="{padding}" right="{padding}"
+                                  height="100%"/>
+
+
+        <button:GrayButton id="goBackBtn"
+                           width="250"
+                           verticalCenter="0"
+                           left="{padding}"
+                           label="Вернуться назад"/>
+
+    </s:Group>
+</s:Group>

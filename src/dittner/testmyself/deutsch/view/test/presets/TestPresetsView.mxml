@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:list="dittner.testmyself.deutsch.view.common.list.*">
+         xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
+         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
+         xmlns:button="dittner.testmyself.deutsch.view.common.button.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         import mx.collections.ArrayCollection;
@@ -95,4 +98,28 @@
              paddingTop="-15"
              paddingLeft="48" paddingRight="20"
              color="{AppColors.TEXT_GRAY}"/>
+
+    <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+
+        <button:GrayButton id="goBackBtn"
+                           width="250"
+                           verticalCenter="0"
+                           right="{2*padding + 250}"
+                           label="Вернуться назад"/>
+
+        <button:BlackButton id="startTestingBtn"
+                            width="250"
+                            verticalCenter="0"
+                            right="{padding}"
+                            label="Начать тестирование"/>
+
+        <button:BlackButton id="showResultsBtn"
+                            width="250"
+                            verticalCenter="0"
+                            left="{padding}"
+                            label="Результаты"/>
+
+    </s:Group>
 </s:Group>

@@ -10,6 +10,17 @@ public class TestModel extends SFProxy {
 	private var _testInfos:Array = [];
 	public function get testInfos():Array {return _testInfos;}
 
+	//--------------------------------------
+	//  testSpec
+	//--------------------------------------
+	private var _testSpec:TestSpec;
+	public function get testSpec():TestSpec {return _testSpec;}
+	public function set testSpec(value:TestSpec):void {
+		if (_testSpec != value) {
+			_testSpec = value;
+		}
+	}
+
 	public function addTestInfo(info:TestInfo):void {
 		testInfos.push(info);
 	}

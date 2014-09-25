@@ -2,7 +2,7 @@ package dittner.testmyself.core.message {
 public class NoteMsg {
 
 	public static const THEMES_CHANGED_NOTIFICATION:String = "themesChangedNotification";
-	public static const PAGE_INFO_CHANGED_NOTIFICATION:String = "pageInfoChangedNotification";
+	public static const NOTE_PAGE_INFO_CHANGED_NOTIFICATION:String = "notePageInfoChangedNotification";
 	public static const NOTES_INFO_CHANGED_NOTIFICATION:String = "notesInfoChangedNotification";
 	public static const NOTE_SELECTED_NOTIFICATION:String = "noteSelectedNotification";
 	public static const EXAMPLE_SELECTED_NOTIFICATION:String = "exampleSelectedNotification";
@@ -14,7 +14,7 @@ public class NoteMsg {
 	public static const FORM_ACTIVATED_NOTIFICATION:String = "formActivatedNotification";
 	public static const FORM_DEACTIVATED_NOTIFICATION:String = "formDeactivatedNotification";
 
-	public static const GET_PAGE_INFO:String = "getPageInfo";
+	public static const GET_NOTE_PAGE_INFO:String = "getNotePageInfo";
 	public static const CLEAR_NOTES_INFO:String = "clearNotesInfo";
 	public static const GET_SELECTED_NOTE:String = "getSelectedNote";
 	public static const GET_FILTER:String = "getFilter";

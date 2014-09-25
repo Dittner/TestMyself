@@ -5,7 +5,7 @@ import dittner.satelliteFlight.message.IRequestMessage;
 import dittner.testmyself.core.model.note.INoteModel;
 import dittner.testmyself.core.service.NoteService;
 
-public class GetPageInfoCmd implements ISFCommand {
+public class GetNotePageInfoCmd implements ISFCommand {
 
 	[Inject]
 	public var service:NoteService;
@@ -19,7 +19,7 @@ public class GetPageInfoCmd implements ISFCommand {
 			msg.completeSuccess(new CommandResult(model.pageInfo));
 		}
 		else {
-			service.loadPageInfo(msg);
+			service.loadNotePageInfo(msg);
 		}
 	}
 }

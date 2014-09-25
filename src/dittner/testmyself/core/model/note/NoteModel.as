@@ -1,7 +1,7 @@
 package dittner.testmyself.core.model.note {
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.message.NoteMsg;
-import dittner.testmyself.core.model.page.IPageInfo;
+import dittner.testmyself.core.model.page.INotePageInfo;
 
 public class NoteModel extends SFProxy implements INoteModel {
 
@@ -12,11 +12,11 @@ public class NoteModel extends SFProxy implements INoteModel {
 	//--------------------------------------
 	//  pageInfo
 	//--------------------------------------
-	private var _pageInfo:IPageInfo = null;
-	public function get pageInfo():IPageInfo {return _pageInfo;}
-	public function set pageInfo(value:IPageInfo):void {
+	private var _pageInfo:INotePageInfo = null;
+	public function get pageInfo():INotePageInfo {return _pageInfo;}
+	public function set pageInfo(value:INotePageInfo):void {
 		_pageInfo = value;
-		sendNotification(NoteMsg.PAGE_INFO_CHANGED_NOTIFICATION, pageInfo);
+		sendNotification(NoteMsg.NOTE_PAGE_INFO_CHANGED_NOTIFICATION, pageInfo);
 	}
 
 	//--------------------------------------

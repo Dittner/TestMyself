@@ -1,77 +1,94 @@
 package dittner.testmyself.deutsch.view.test {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.deutsch.message.ScreenMsg;
-import dittner.testmyself.deutsch.model.ModuleName;
-import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInFrames;
-
-import flash.events.MouseEvent;
-
-import mx.collections.ArrayCollection;
+import dittner.testmyself.deutsch.view.test.presets.TestPresetsMediator;
+import dittner.testmyself.deutsch.view.test.results.TestingResultsMediator;
+import dittner.testmyself.deutsch.view.test.testList.TestListMediator;
+import dittner.testmyself.deutsch.view.test.testing.TestingMediator;
 
 public class TestScreenMediator extends SFMediator {
 
 	[Inject]
 	public var view:TestScreen;
-	private var activeTestingMediator:SFMediator;
-	private var activeModuleName:String;
+
+	private var presetsMediator:TestPresetsMediator;
+	private var testingMediator:TestingMediator;
+	private var resultsMediator:TestingResultsMediator;
+	private var selectedTestInfo:TestInfo;
 
 	override protected function activate():void {
+		addListener(TestMsg.TEST_INFO_SELECTED_NOTIFICATION, testInfoSelected);
+		addListener(TestMsg.SHOW_TEST_PRESETS_NOTIFICATION, showTestPresets);
+		addListener(TestMsg.SHOW_TEST_LIST_NOTIFICATION, showTestList);
+		addListener(TestMsg.SHOW_TEST_RESULTS_NOTIFICATION, showTestResults);
+		addListener(TestMsg.START_TESTING_NOTIFICATION, startTesting);
 		sendRequest(ScreenMsg.LOCK, new RequestMessage());
 		doLaterInFrames(activateScreen, 5);
 	}
 
+	private function testInfoSelected(testInfo:TestInfo):void {
+		selectedTestInfo = testInfo;
+	}
+
 	private function activateScreen():void {
 		view.activate();
-		view.testInfoColl = new ArrayCollection();
-		addListener(TestMsg.TEST_ABORTED_NOTIFICATION, onTestAborted);
-		sendRequestTo(ModuleName.WORD, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
-		sendRequestTo(ModuleName.PHRASE, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
-		sendRequestTo(ModuleName.VERB, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
-		view.applyTestBtn.addEventListener(MouseEvent.CLICK, onTestApplied);
+		registerMediator(view.testListView, new TestListMediator());
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
-	private function onTestAborted(data:* = null):void {
-		unregisterTestingMediator();
-		view.showTestSelectionScreen();
-	}
-
-	private function unregisterTestingMediator():void {
-		if (activeTestingMediator) {
-			unregisterMediatorFrom(activeModuleName, activeTestingMediator);
-			activeTestingMediator = null;
-			activeModuleName = "";
+	private function showTestPresets(params:* = null):void {
+		if (!presetsMediator) {
+			presetsMediator = new TestPresetsMediator(selectedTestInfo);
+			registerMediator(view.testPresetsView, presetsMediator);
 		}
+		view.showTestPresets();
 	}
 
-	private function testInfoListLoaded(res:CommandResult):void {
-		for each(var item:* in res.data) view.testInfoColl.addItem(item);
+	private function showTestList(params:* = null):void {
+		unregisterMediators();
+		view.showTestList();
 	}
 
-	private function onTestApplied(event:MouseEvent):void {
-		if (!view.testInfoList.selectedItem) return;
+	private function showTestResults(params:* = null):void {
+		unregisterMediators();
+		if (!resultsMediator) {
+			resultsMediator = new TestingResultsMediator(selectedTestInfo);
+			registerMediator(view.testingResultsView, resultsMediator);
+		}
+		view.showTestingResults();
+	}
 
-		unregisterTestingMediator();
+	private function startTesting(params:* = null):void {
+		unregisterMediators();
+		if (!testingMediator) {
+			testingMediator = new TestingMediator(selectedTestInfo);
+			registerMediator(view.testingView, testingMediator);
+		}
+		view.showTesting();
+	}
 
-		var info:TestInfo = view.testInfoList.selectedItem as TestInfo;
-		switch (info.id) {
-			case TestID.SPEAK_WORD_TRANSLATION :
-				activeTestingMediator = new TestingMediator(info);
-				activeModuleName = ModuleName.WORD;
-				registerMediatorTo(activeModuleName, view.speakWordTrans, activeTestingMediator);
-				break;
+	private function unregisterMediators():void {
+		if (presetsMediator) {
+			unregisterMediator(presetsMediator);
+			presetsMediator = null;
+		}
+		if (testingMediator) {
+			unregisterMediator(testingMediator);
+			testingMediator = null;
+		}
+		if (resultsMediator) {
+			unregisterMediator(resultsMediator);
+			resultsMediator = null;
 		}
 	}
 
 	override protected function deactivate():void {
-		view.applyTestBtn.removeEventListener(MouseEvent.CLICK, onTestApplied);
-		unregisterTestingMediator();
 		view.deactivate();
+		presetsMediator = null;
 	}
 }
 }

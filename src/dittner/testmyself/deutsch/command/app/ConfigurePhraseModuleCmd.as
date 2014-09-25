@@ -8,6 +8,7 @@ import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
+import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.model.domain.phrase.PhraseDemoData;
 
@@ -33,8 +34,8 @@ public class ConfigurePhraseModuleCmd implements IConfigureCommand {
 
 	private function createTestModel():TestModel {
 		var model:TestModel = new TestModel();
-		model.addTestInfo(new TestInfo(TestID.SPEAK_PHRASE_TRANSLATION, "Устный перевод фраз и предложений с немецкого языка"));
-		model.addTestInfo(new TestInfo(TestID.WRITE_PHRASE_TRANSLATION, "Письменный перевод фраз и предложений с немецкого языка"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_PHRASE_TRANSLATION, ModuleName.PHRASE, "Устный перевод фраз и предложений с немецкого языка"));
+		model.addTestInfo(new TestInfo(TestID.WRITE_PHRASE_TRANSLATION, ModuleName.PHRASE, "Письменный перевод фраз и предложений с немецкого языка"));
 		return model;
 	}
 }

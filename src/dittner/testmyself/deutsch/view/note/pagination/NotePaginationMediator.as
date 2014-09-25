@@ -4,7 +4,7 @@ import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NotesInfo;
-import dittner.testmyself.core.model.page.IPageInfo;
+import dittner.testmyself.core.model.page.INotePageInfo;
 import dittner.testmyself.deutsch.view.common.pagination.PaginationBar;
 
 import flash.events.MouseEvent;
@@ -15,9 +15,9 @@ public class NotePaginationMediator extends SFMediator {
 	public var view:PaginationBar;
 
 	override protected function activate():void {
-		addListener(NoteMsg.PAGE_INFO_CHANGED_NOTIFICATION, onPageInfoChanged);
+		addListener(NoteMsg.NOTE_PAGE_INFO_CHANGED_NOTIFICATION, onPageInfoChanged);
 		addListener(NoteMsg.NOTES_INFO_CHANGED_NOTIFICATION, notesInfoChanged);
-		sendRequest(NoteMsg.GET_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
+		sendRequest(NoteMsg.GET_NOTE_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
 		sendRequest(NoteMsg.GET_NOTES_INFO, new RequestMessage(notesInfoLoaded));
 		view.nextPageBtn.addEventListener(MouseEvent.CLICK, nextPageBtnClickHandler);
 		view.prevPageBtn.addEventListener(MouseEvent.CLICK, prevPageBtnClickHandler);
@@ -25,15 +25,15 @@ public class NotePaginationMediator extends SFMediator {
 		view.lastPageBtn.addEventListener(MouseEvent.CLICK, lastPageBtnClickHandler);
 	}
 
-	private function onPageInfoChanged(pageInfo:IPageInfo):void {
+	private function onPageInfoChanged(pageInfo:INotePageInfo):void {
 		updateView(pageInfo);
 	}
 
 	private function onPageInfoLoaded(res:CommandResult):void {
-		updateView(res.data as IPageInfo);
+		updateView(res.data as INotePageInfo);
 	}
 
-	private function updateView(info:IPageInfo):void {
+	private function updateView(info:INotePageInfo):void {
 		view.notesOnPage = info.notes.length;
 		view.curPageNum = info.pageNum;
 		view.pageSize = info.pageSize;
@@ -64,7 +64,7 @@ public class NotePaginationMediator extends SFMediator {
 	}
 
 	private function loadPageInfo(pageNum:uint):void {
-		sendRequest(NoteMsg.GET_PAGE_INFO, new RequestMessage(null, null, pageNum))
+		sendRequest(NoteMsg.GET_NOTE_PAGE_INFO, new RequestMessage(null, null, pageNum))
 	}
 
 	override protected function deactivate():void {

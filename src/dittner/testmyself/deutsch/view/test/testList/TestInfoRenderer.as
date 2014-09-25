@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.view.test.common {
+package dittner.testmyself.deutsch.view.test.testList {
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;

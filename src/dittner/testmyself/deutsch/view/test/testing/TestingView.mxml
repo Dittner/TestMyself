@@ -4,6 +4,8 @@
          xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
          xmlns:list="dittner.testmyself.deutsch.view.note.list.*"
+         xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*"
+         implements="dittner.testmyself.deutsch.view.test.testing.ITestableView"
          creationComplete="creationCompleteHandler(event)">
 
     <fx:Script><![CDATA[
@@ -12,9 +14,11 @@
         import dittner.testmyself.deutsch.model.domain.word.WordArticle;
         import dittner.testmyself.deutsch.view.common.audio.utils.PlayerUtils;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
         import dittner.testmyself.deutsch.view.test.common.TestingAction;
 
+        import mx.collections.ArrayCollection;
         import mx.events.FlexEvent;
 
         //--------------------------------------
@@ -42,6 +46,19 @@
                 activeNoteChanged = true;
                 invalidateProperties();
                 dispatchEvent(new Event("activeNoteChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  activeNoteExampleColl
+        //--------------------------------------
+        private var _activeNoteExampleColl:ArrayCollection;
+        [Bindable("activeNoteExampleCollChanged")]
+        public function get activeNoteExampleColl():ArrayCollection {return _activeNoteExampleColl;}
+        public function set activeNoteExampleColl(value:ArrayCollection):void {
+            if (_activeNoteExampleColl != value) {
+                _activeNoteExampleColl = value;
+                dispatchEvent(new Event("activeNoteExampleCollChanged"));
             }
         }
 
@@ -146,12 +163,23 @@
 
                     optionsLbl.text = currentWord.options ? ", " + currentWord.options : "";
                     descriptionLbl.text = currentWord.description;
+
+                    if (currentWord.audioComment.bytes) {
+                        mp3Player.visible = true;
+                        mp3Player.comment = currentWord.audioComment;
+                    }
+                    else {
+                        mp3Player.visible = false;
+                        mp3Player.comment = null;
+                    }
                 }
                 else {
                     articleLbl.text = "";
                     titleLbl.text = "";
                     optionsLbl.text = "";
                     descriptionLbl.text = "";
+                    mp3Player.visible = false;
+                    mp3Player.comment = null;
                 }
             }
         }
@@ -161,8 +189,14 @@
             timer.start();
         }
 
-        public function abort():void {
+        public function clear():void {
             timer.stop();
+            articleLbl.text = "";
+            titleLbl.text = "";
+            optionsLbl.text = "";
+            descriptionLbl.text = "";
+            mp3Player.visible = false;
+            mp3Player.comment = null;
         }
 
         private var duration:Number = 0;//sec
@@ -173,8 +207,10 @@
         }
 
         private function timerHandler(event:TimerEvent):void {
-            duration++;
-            durationLbl.text = PlayerUtils.convertToHHMMSS(duration);
+            if (answerEnabled) {
+                duration++;
+                durationLbl.text = PlayerUtils.convertToHHMMSS(duration);
+            }
         }
 
         private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
@@ -187,6 +223,10 @@
 
         private function onIncorrectAnswered():void {
             if (actionCallback != null) actionCallback(TestingAction.INCORRECT_ANSWER);
+        }
+
+        private function goBack():void {
+            if (actionCallback != null) actionCallback(TestingAction.ABORT_TEST);
         }
         ]]></fx:Script>
 
@@ -265,25 +305,26 @@
             </s:Scroller>
 
             <list:ExampleList id="exampleList"
+                              dataProvider="{activeNoteExampleColl}"
                               bgColor="{AppColors.EDITOR_CONTENT_BG}"
                               width="{width - 2*padding}" height="66%"
                               shownList="{showDetails}"
                               hasFocusableChildren="false"/>
 
-            <s:HGroup width="100%" height="45"
+            <s:HGroup width="100%"
                       horizontalAlign="center"
                       gap="15">
 
                 <button:BlackButton id="correctAnswerBtn"
                                     width="250"
                                     enabled="{answerEnabled}"
-                                    label="Дан правильный ответ"
+                                    label="Правильный ответ"
                                     click="onCorrectAnswered()"/>
 
                 <button:RedButton id="incorrectAnswerBtn"
                                   width="250"
                                   enabled="{answerEnabled}"
-                                  label="Дан неправильный ответ"
+                                  label="Неправильный ответ"
                                   click="onIncorrectAnswered()"/>
 
                 <button:YellowButton id="showAnswerBtn"
@@ -292,6 +333,26 @@
                                      click="showDetails = true"/>
 
             </s:HGroup>
+
+            <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+                <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+
+                <mp3:MP3Player id="mp3Player"
+                               width="400"
+                               left="{padding - 10}"
+                               verticalCenter="0"
+                               removeRecordEnabled="false"
+                               visible="false"
+                               skinClass="dittner.testmyself.deutsch.view.common.audio.skins.MP3PlayerSkin"/>
+
+                <button:GrayButton id="cancelBtn"
+                                   width="250"
+                                   verticalCenter="0"
+                                   right="{padding}"
+                                   label="Завершить тестирование"
+                                   click="goBack()"/>
+            </s:Group>
         </s:VGroup>
     </s:Group>
 

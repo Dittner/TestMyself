@@ -26,7 +26,7 @@ public class PhraseScreenMediator extends SFMediator {
 	}
 
 	private function preActivation():void {
-		sendRequest(NoteMsg.GET_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
+		sendRequest(NoteMsg.GET_NOTE_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
 	}
 
 	private function onPageInfoLoaded(res:CommandResult):void {

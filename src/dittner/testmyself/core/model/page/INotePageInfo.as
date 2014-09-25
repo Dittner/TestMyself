@@ -1,7 +1,7 @@
 package dittner.testmyself.core.model.page {
 import dittner.testmyself.core.model.note.INote;
 
-public interface IPageInfo {
+public interface INotePageInfo {
 
 	function get pageNum():uint;
 	function get pageSize():uint;

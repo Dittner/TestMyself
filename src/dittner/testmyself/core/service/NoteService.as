@@ -27,10 +27,9 @@ import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.model.note.SQLFactory;
-import dittner.testmyself.core.model.page.IPageInfo;
-import dittner.testmyself.core.model.page.PageInfo;
+import dittner.testmyself.core.model.page.INotePageInfo;
+import dittner.testmyself.core.model.page.NotePageInfo;
 import dittner.testmyself.core.model.test.TestModel;
-import dittner.testmyself.core.model.test.TestSpec;
 import dittner.testmyself.core.model.theme.Theme;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;
 
@@ -103,19 +102,19 @@ public class NoteService extends SFProxy {
 		deferredOperationManager.add(op);
 	}
 
-	public function loadPageInfo(requestMsg:IRequestMessage = null):void {
+	public function loadNotePageInfo(requestMsg:IRequestMessage = null):void {
 		var pageNum:uint;
 		if (requestMsg) pageNum = requestMsg.data as uint;
 		else if (model.pageInfo) pageNum = model.pageInfo.pageNum;
 		else pageNum = 0;
 
-		var pageInfo:PageInfo = new PageInfo();
+		var pageInfo:NotePageInfo = new NotePageInfo();
 		pageInfo.pageSize = settingsModel.info.pageSize;
 		pageInfo.pageNum = pageNum;
 		pageInfo.filter = model.filter;
 
 		var op:IDeferredOperation = new SelectPageNotesSQLOperation(this, pageInfo, spec.noteClass);
-		op.addCompleteCallback(pageInfoLoaded);
+		op.addCompleteCallback(notePageInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -135,8 +134,7 @@ public class NoteService extends SFProxy {
 	}
 
 	public function loadTestTasks(requestMsg:IRequestMessage):void {
-		var spec:TestSpec = requestMsg.data as TestSpec;
-		var op:IDeferredOperation = new SelectTestTasksSQLOperation(this, spec);
+		var op:IDeferredOperation = new SelectTestTasksSQLOperation(this, testModel.testSpec);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -200,28 +198,28 @@ public class NoteService extends SFProxy {
 	}
 
 	private function noteAdded(res:CommandResult):void {
-		loadPageInfo();
+		loadNotePageInfo();
 		loadThemes();
 		loadDBInfo();
 		model.noteHash.add((res.data as NoteSuite).note);
 	}
 
 	private function noteUpdated(res:CommandResult):void {
-		loadPageInfo();
+		loadNotePageInfo();
 		loadThemes();
 		loadDBInfo();
 		model.noteHash.update((res.data as NoteSuite).note, (res.data as NoteSuite).origin);
 	}
 
 	private function noteRemoved(res:CommandResult):void {
-		loadPageInfo();
+		loadNotePageInfo();
 		loadDBInfo();
 		model.noteHash.remove((res.data as NoteSuite).note);
 	}
 
-	private function pageInfoLoaded(res:CommandResult):void {
-		model.selectedNote = (res.data as IPageInfo).selectedNote;
-		model.pageInfo = res.data as PageInfo;
+	private function notePageInfoLoaded(res:CommandResult):void {
+		model.selectedNote = (res.data as INotePageInfo).selectedNote;
+		model.pageInfo = res.data as NotePageInfo;
 	}
 
 	private function themesLoaded(res:CommandResult):void {

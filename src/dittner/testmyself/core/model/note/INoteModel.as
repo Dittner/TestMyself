@@ -1,10 +1,10 @@
 package dittner.testmyself.core.model.note {
-import dittner.testmyself.core.model.page.IPageInfo;
+import dittner.testmyself.core.model.page.INotePageInfo;
 
 public interface INoteModel {
 
-	function get pageInfo():IPageInfo;
-	function set pageInfo(value:IPageInfo):void;
+	function get pageInfo():INotePageInfo;
+	function set pageInfo(value:INotePageInfo):void;
 
 	function get themes():Array;
 	function set themes(value:Array):void;
