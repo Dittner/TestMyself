@@ -58,7 +58,7 @@ public class TestPresetsMediator extends SFMediator {
 	private function createSpec():TestSpec {
 		var spec:TestSpec = new TestSpec();
 		spec.info = selectedTestInfo;
-		spec.themes = createThemes();
+		spec.filter = createThemes();
 		spec.audioRecordRequired = view.useAudioRecordsBox.selected;
 		spec.isBalancePriority = view.balanceIndexRadioBtn.selected;
 		return spec;

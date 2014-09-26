@@ -1,4 +1,6 @@
 package dittner.testmyself.core.model.page {
+import dittner.testmyself.core.model.test.TestSpec;
+
 public class TestPageInfo implements ITestPageInfo {
 
 	//--------------------------------------
@@ -20,15 +22,6 @@ public class TestPageInfo implements ITestPageInfo {
 	}
 
 	//--------------------------------------
-	//  notes
-	//--------------------------------------
-	private var _notes:Array = [];
-	public function get notes():Array {return _notes;}
-	public function set notes(value:Array):void {
-		_notes = value;
-	}
-
-	//--------------------------------------
 	//  tasks
 	//--------------------------------------
 	private var _tasks:Array = [];
@@ -38,12 +31,21 @@ public class TestPageInfo implements ITestPageInfo {
 	}
 
 	//--------------------------------------
-	//  filter
+	//  notes
 	//--------------------------------------
-	private var _filter:Array = [];
-	public function get filter():Array {return _filter;}
-	public function set filter(value:Array):void {
-		_filter = value;
+	private var _notes:Array;
+	public function get notes():Array {return _notes;}
+	public function set notes(value:Array):void {
+		_notes = value;
+	}
+
+	//--------------------------------------
+	//  testSpec
+	//--------------------------------------
+	private var _testSpec:TestSpec;
+	public function get testSpec():TestSpec {return _testSpec;}
+	public function set testSpec(value:TestSpec):void {
+		_testSpec = value;
 	}
 
 }

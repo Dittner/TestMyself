@@ -107,6 +107,13 @@ public class SQLFactory extends SFProxy {
 		return UPDATE_FILTER_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/UpdateTestTask.sql", mimeType="application/octet-stream")]
+	private static const UpdateTestTaskClass:Class;
+	private static const UPDATE_TEST_TASK_SQL:String = new UpdateTestTaskClass();
+	public function get updateTestTask():String {
+		return UPDATE_TEST_TASK_SQL;
+	}
+
 	//--------------------------------------
 	//  select
 	//--------------------------------------
@@ -160,6 +167,34 @@ public class SQLFactory extends SFProxy {
 		return SELECT_PAGE_NOTES_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectPageTestTasks.sql", mimeType="application/octet-stream")]
+	private static const SelectPageTestTasksClass:Class;
+	private static const SELECT_PAGE_TEST_TASKS_SQL:String = new SelectPageTestTasksClass();
+	public function get selectPageTestTasks():String {
+		return SELECT_PAGE_TEST_TASKS_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredPageTestTasks.sql", mimeType="application/octet-stream")]
+	private static const SelectFilteredPageTestTasksClass:Class;
+	private static const SELECT_FILTERED_PAGE_TEST_TASKS_SQL:String = new SelectFilteredPageTestTasksClass();
+	public function get selectFilteredPageTestTasks():String {
+		return SELECT_FILTERED_PAGE_TEST_TASKS_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectPageTestNotes.sql", mimeType="application/octet-stream")]
+	private static const SelectPageTestNotesClass:Class;
+	private static const SELECT_PAGE_TEST_NOTES_SQL:String = new SelectPageTestNotesClass();
+	public function get selectPageTestNotes():String {
+		return SELECT_PAGE_TEST_NOTES_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredPageTestNotes.sql", mimeType="application/octet-stream")]
+	private static const SelectFilteredPageTestNotesClass:Class;
+	private static const SELECT_FILTERED_PAGE_TEST_NOTES_SQL:String = new SelectFilteredPageTestNotesClass();
+	public function get selectFilteredPageTestNotes():String {
+		return SELECT_FILTERED_PAGE_TEST_NOTES_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteKeys.sql", mimeType="application/octet-stream")]
 	private static const SelectNoteKeysClass:Class;
 	private static const SELECT_NOTE_KEYS_SQL:String = new SelectNoteKeysClass();
@@ -207,6 +242,20 @@ public class SQLFactory extends SFProxy {
 	private static const SELECT_FILTERED_TEST_TASK_SQL:String = new SelectFilteredTestTaskClass();
 	public function get selectFilteredTestTask():String {
 		return SELECT_FILTERED_TEST_TASK_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectCountTestTask.sql", mimeType="application/octet-stream")]
+	private static const SelectCountTestTaskClass:Class;
+	private static const SELECT_COUNT_TEST_TASK_SQL:String = new SelectCountTestTaskClass();
+	public function get selectCountTestTask():String {
+		return SELECT_COUNT_TEST_TASK_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectCountFilteredTestTask.sql", mimeType="application/octet-stream")]
+	private static const SelectCountFilteredTestTaskClass:Class;
+	private static const SELECT_COUNT_FILTERED_TEST_TASK_SQL:String = new SelectCountFilteredTestTaskClass();
+	public function get selectCountFilteredTestTask():String {
+		return SELECT_COUNT_FILTERED_TEST_TASK_SQL;
 	}
 
 	//--------------------------------------

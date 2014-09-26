@@ -12,6 +12,8 @@ public class TestMsg {
 	//sql
 	public static const GET_TEST_TASKS:String = "getTestTasks";
 	public static const GET_TEST_PAGE_INFO:String = "getTestPageInfo";
+	public static const GET_TEST_TASKS_AMOUNT:String = "getTestAmount";
+	public static const UPDATE_TEST_TASK:String = "updateTestTask";
 
 }
 }

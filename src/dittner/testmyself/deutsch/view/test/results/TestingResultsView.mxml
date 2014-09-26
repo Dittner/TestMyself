@@ -3,11 +3,16 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
          xmlns:navigation="dittner.testmyself.deutsch.view.common.pagination.*"
-         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*">
+         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
+         xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
+         xmlns:list2="dittner.testmyself.deutsch.view.note.list.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
+        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+
+        import mx.collections.ArrayCollection;
 
         //--------------------------------------
         //  title
@@ -34,9 +39,64 @@
                 dispatchEvent(new Event("paddingChanged"));
             }
         }
+
+        //--------------------------------------
+        //  dataProvider
+        //--------------------------------------
+        private var _dataProvider:ArrayCollection;
+        [Bindable("dataProviderChanged")]
+        public function get dataProvider():ArrayCollection {return _dataProvider;}
+        public function set dataProvider(value:ArrayCollection):void {
+            if (_dataProvider != value) {
+                _dataProvider = value;
+                dispatchEvent(new Event("dataProviderChanged"));
+            }
+        }
         ]]></fx:Script>
 
-    <s:Spacer height="100%"/>
+    <utils:BG width="100%" height="100%" color="#ffFFff"/>
+
+    <utils:BG width="100%" height="30" color="#0"/>
+
+    <s:Label text="{title}"
+             fontFamily="{Fonts.ROBOTO}"
+             fontSize="14"
+             mouseChildren="false" mouseEnabled="false"
+             width="70%" height="30" verticalAlign="middle"
+             left="{padding}"
+             color="{AppColors.WHITE}"/>
+
+    <s:Label text="Результаты"
+             fontFamily="{Fonts.ROBOTO}"
+             fontSize="14" height="30" verticalAlign="middle"
+             mouseChildren="false" mouseEnabled="false"
+             right="5"
+             color="{AppColors.WHITE}"/>
+
+    <s:HGroup left="-1" right="-1" top="30" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}" gap="-1">
+        <s:Scroller width="100%" height="100%"
+                    minViewportInset="1"
+                    horizontalScrollPolicy="off"
+                    hasFocusableChildren="false">
+            <list:SelectableDataGroup id="list"
+                                      dataProvider="{dataProvider}"
+                                      width="100%"
+                                      contentBackgroundAlpha="0"
+                                      deselectEnabled="true"
+                                      itemRenderer="dittner.testmyself.deutsch.view.test.results.renderer.TestingWordRenderer">
+                <list:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                </list:layout>
+            </list:SelectableDataGroup>
+        </s:Scroller>
+
+        <list2:ExampleList id="exampleList"
+                           width="66%" height="100%"
+                           visible="false"
+                           showTitle="false"
+                           includeInLayout="false"
+                           hasFocusableChildren="false"/>
+    </s:HGroup>
 
     <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 
@@ -45,7 +105,6 @@
         <navigation:PaginationBar id="paginationBar"
                                   left="{padding}" right="{padding}"
                                   height="100%"/>
-
 
         <button:GrayButton id="goBackBtn"
                            width="250"

@@ -5,6 +5,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.IRequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
+import dittner.testmyself.core.command.backend.CountTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.CreateDataBaseSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteNoteSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteThemeSQLOperation;
@@ -16,9 +17,11 @@ import dittner.testmyself.core.command.backend.SelectFilterSQLOperation;
 import dittner.testmyself.core.command.backend.SelectNoteKeysSQLOperation;
 import dittner.testmyself.core.command.backend.SelectNoteSQLOperation;
 import dittner.testmyself.core.command.backend.SelectPageNotesSQLOperation;
+import dittner.testmyself.core.command.backend.SelectPageTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectThemeSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateNoteSQLOperation;
+import dittner.testmyself.core.command.backend.UpdateTestTaskSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateThemeSQLOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.IDeferredOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.IDeferredOperationManager;
@@ -29,7 +32,9 @@ import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.INotePageInfo;
 import dittner.testmyself.core.model.page.NotePageInfo;
+import dittner.testmyself.core.model.page.TestPageInfo;
 import dittner.testmyself.core.model.test.TestModel;
+import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.model.theme.Theme;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;
 
@@ -119,6 +124,25 @@ public class NoteService extends SFProxy {
 		deferredOperationManager.add(op);
 	}
 
+	public function loadTestPageInfo(requestMsg:IRequestMessage = null):void {
+		var pageNum:uint = requestMsg.data is uint ? requestMsg.data as uint : 0;
+
+		var pageInfo:TestPageInfo = new TestPageInfo();
+		pageInfo.pageSize = settingsModel.info.pageSize;
+		pageInfo.pageNum = pageNum;
+		pageInfo.testSpec = testModel.testSpec;
+
+		var op:IDeferredOperation = new SelectPageTestTasksSQLOperation(this, pageInfo, spec.noteClass);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function countTestTasks(requestMsg:IRequestMessage = null):void {
+		var op:IDeferredOperation = new CountTestTasksSQLOperation(this, testModel.testSpec);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
 	public function loadThemes(requestMsg:IRequestMessage = null):void {
 		var op:IDeferredOperation = new SelectThemeSQLOperation(this);
 		op.addCompleteCallback(themesLoaded);
@@ -142,6 +166,12 @@ public class NoteService extends SFProxy {
 	public function updateTheme(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new UpdateThemeSQLOperation(this, requestMsg.data as Theme);
 		op.addCompleteCallback(themesUpdated);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function updateTestTask(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new UpdateTestTaskSQLOperation(this, requestMsg.data as TestTask, testModel);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

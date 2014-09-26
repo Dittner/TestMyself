@@ -14,7 +14,9 @@ import dittner.testmyself.core.command.GetNotesInfoCmd;
 import dittner.testmyself.core.command.GetSelectedNoteCmd;
 import dittner.testmyself.core.command.GetSelectedNoteThemesIDCmd;
 import dittner.testmyself.core.command.GetTestInfoListCmd;
+import dittner.testmyself.core.command.GetTestPageInfoCmd;
 import dittner.testmyself.core.command.GetTestSpecCmd;
+import dittner.testmyself.core.command.GetTestTasksAmountCmd;
 import dittner.testmyself.core.command.GetTestTasksCmd;
 import dittner.testmyself.core.command.MergeNoteThemesCmd;
 import dittner.testmyself.core.command.RemoveNoteCmd;
@@ -24,6 +26,7 @@ import dittner.testmyself.core.command.SelectTestSpecCmd;
 import dittner.testmyself.core.command.SetNoteFilterCmd;
 import dittner.testmyself.core.command.UpdateNoteCmd;
 import dittner.testmyself.core.command.UpdateNoteThemeCmd;
+import dittner.testmyself.core.command.UpdateTestTaskCmd;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperationManager;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
@@ -80,6 +83,9 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.GET_NOTES_INFO, GetNotesInfoCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTE_HASH, GetNoteHashCmd);
 		mainModule.registerCmd(TestMsg.GET_TEST_TASKS, GetTestTasksCmd);
+		mainModule.registerCmd(TestMsg.GET_TEST_PAGE_INFO, GetTestPageInfoCmd);
+		mainModule.registerCmd(TestMsg.GET_TEST_TASKS_AMOUNT, GetTestTasksAmountCmd);
+		mainModule.registerCmd(TestMsg.UPDATE_TEST_TASK, UpdateTestTaskCmd);
 
 		//register models and services
 		mainModule.registerProxy("settingsModel", new SettingsModel());

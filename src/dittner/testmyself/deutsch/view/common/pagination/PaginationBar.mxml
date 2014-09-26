@@ -10,11 +10,11 @@
         //--------------------------------------
         //  unitsTotal
         //--------------------------------------
-        private var _unitsTotal:int = 0;
-        public function get unitsTotal():int {return _unitsTotal;}
+        private var _totalNotes:int = 0;
+        public function get totalNotes():int {return _totalNotes;}
         public function set totalNotes(value:int):void {
-            if (_unitsTotal != value) {
-                _unitsTotal = value;
+            if (_totalNotes != value) {
+                _totalNotes = value;
                 invalidateProperties();
             }
         }
@@ -55,11 +55,11 @@
             }
         }
 
-        public function get totalPages():uint {return Math.ceil(unitsTotal / pageSize)}
+        public function get totalPages():uint {return Math.ceil(totalNotes / pageSize)}
 
         override protected function commitProperties():void {
             super.commitProperties();
-            titleLbl.text = "Показано " + notesOnPage + " записей из " + unitsTotal;
+            titleLbl.text = "Показано " + notesOnPage + " записей из " + totalNotes;
 
             prevPageBtn.enabled = curPageNum > 0;
             nextPageBtn.enabled = curPageNum + 1 < totalPages;

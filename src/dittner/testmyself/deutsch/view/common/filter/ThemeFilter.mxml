@@ -71,7 +71,8 @@
 
     <s:HGroup width="100%" height="{FOOTER_HEI}"
               bottom="0"
-              paddingLeft="15" paddingRight="15" gap="15" verticalAlign="middle">
+              paddingLeft="15" paddingRight="15" paddingBottom="{EditorBg.BORDER_THICKNESS}"
+              gap="15" verticalAlign="middle">
         <button:GrayButton id="cancelBtn"
                            width="100%"
                            label="Отменить"/>
