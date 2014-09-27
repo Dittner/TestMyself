@@ -7,6 +7,7 @@ import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestSpec;
 import dittner.testmyself.core.model.theme.ITheme;
+import dittner.testmyself.deutsch.model.domain.common.TestID;
 
 import flash.events.MouseEvent;
 
@@ -26,6 +27,10 @@ public class TestPresetsMediator extends SFMediator {
 	override protected function activate():void {
 		view.title = selectedTestInfo.title;
 		sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
+		if (selectedTestInfo.id == TestID.WRITE_PHRASE_TRANSLATION || selectedTestInfo.id == TestID.WRITE_WORD_TRANSLATION) {
+			view.useAudioRecordsBox.selected = true;
+			view.useAudioRecordsBox.enabled = false;
+		}
 	}
 
 	private function onThemesLoaded(res:CommandResult):void {
@@ -75,6 +80,8 @@ public class TestPresetsMediator extends SFMediator {
 		selectedTestInfo = null;
 		view.themeColl = null;
 		removeListeners();
+		view.useAudioRecordsBox.selected = false;
+		view.useAudioRecordsBox.enabled = true;
 	}
 
 	private function removeListeners():void {
