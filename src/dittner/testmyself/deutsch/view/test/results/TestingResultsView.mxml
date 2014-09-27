@@ -9,8 +9,13 @@
          xmlns:common="dittner.testmyself.deutsch.view.test.common.*">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.core.model.note.INote;
+        import dittner.testmyself.deutsch.model.domain.word.IWord;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
+        import dittner.testmyself.deutsch.view.test.common.TestRendererData;
+        import dittner.testmyself.deutsch.view.test.results.renderer.TestingNoteRenderer;
+        import dittner.testmyself.deutsch.view.test.results.renderer.TestingWordRenderer;
 
         import mx.collections.ArrayCollection;
 
@@ -52,6 +57,12 @@
                 dispatchEvent(new Event("dataProviderChanged"));
             }
         }
+
+        public function resultItemRendererFunction(item:*):IFactory {
+            var note:INote = (item as TestRendererData).note;
+            if (note is IWord) return new ClassFactory(TestingWordRenderer);
+            else return new ClassFactory(TestingNoteRenderer);
+        }
         ]]></fx:Script>
 
     <utils:BG width="100%" height="100%" color="#ffFFff"/>
@@ -64,13 +75,14 @@
                     minViewportInset="1"
                     horizontalScrollPolicy="off"
                     hasFocusableChildren="false">
+
             <list:SelectableDataGroup id="list"
                                       dataProvider="{dataProvider}"
                                       width="100%"
                                       contentBackgroundAlpha="0"
                                       deselectEnabled="true"
-                                      itemRenderer="dittner.testmyself.deutsch.view.test.results.renderer.TestingWordRenderer">
-                <list:layout>
+                                      itemRendererFunction="resultItemRendererFunction">
+            <list:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                 </list:layout>
             </list:SelectableDataGroup>

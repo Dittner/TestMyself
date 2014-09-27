@@ -127,7 +127,7 @@
                  fontSize="12"
                  opaqueBackground="0"
                  mouseChildren="false" mouseEnabled="false"
-                 right="{padding}" top="10"
+                 right="{padding + 8}" top="10"
                  color="{AppColors.TEXT_WHITE}"/>
 
         <s:VGroup width="100%" top="10" bottom="0"

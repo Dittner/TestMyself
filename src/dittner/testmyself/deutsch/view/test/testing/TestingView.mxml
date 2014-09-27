@@ -54,6 +54,20 @@
                     _activeView = writeWordTranslationTest;
                     setCurrentState("writeWordTranslation");
                     break;
+                case TestID.WRITE_PHRASE_TRANSLATION :
+                    _activeView = writePhraseTranslationTest;
+                    setCurrentState("writePhraseTranslation");
+                    break;
+                case TestID.SPEAK_PHRASE_TRANSLATION :
+                    speakPhraseTranslationTest.translateInDeutsch = false;
+                    _activeView = speakPhraseTranslationTest;
+                    setCurrentState("speakPhraseTranslation");
+                    break;
+                case TestID.SPEAK_PHRASE_IN_DEUTSCH :
+                    speakPhraseTranslationTest.translateInDeutsch = true;
+                    _activeView = speakPhraseTranslationTest;
+                    setCurrentState("speakPhraseTranslation");
+                    break;
             }
         }
         ]]></fx:Script>
@@ -62,6 +76,8 @@
         <s:State name="speakWordTranslation"/>
         <s:State name="writeWordTranslation"/>
         <s:State name="selectArticle"/>
+        <s:State name="writePhraseTranslation"/>
+        <s:State name="speakPhraseTranslation"/>
     </s:states>
 
     <test:SpeakWordTranslationTest id="speakWordTranslationTest"
@@ -81,4 +97,16 @@
                                    padding="{padding}"
                                    title="{testTitle}"
                                    visible="false" visible.writeWordTranslation="true"/>
+
+    <test:WritePhraseTranslationTest id="writePhraseTranslationTest"
+                                     width="100%" height="100%"
+                                     padding="{padding}"
+                                     title="{testTitle}"
+                                     visible="false" visible.writePhraseTranslation="true"/>
+
+    <test:SpeakPhraseTranslationTest id="speakPhraseTranslationTest"
+                                     width="100%" height="100%"
+                                     padding="{padding}"
+                                     title="{testTitle}"
+                                     visible="false" visible.speakPhraseTranslation="true"/>
 </s:Group>

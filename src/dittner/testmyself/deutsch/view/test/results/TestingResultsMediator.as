@@ -7,6 +7,7 @@ import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.page.ITestPageInfo;
 import dittner.testmyself.core.model.test.TestInfo;
+import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.pagination.PaginationBar;
 import dittner.testmyself.deutsch.view.test.common.TestRendererData;
@@ -21,10 +22,19 @@ public class TestingResultsMediator extends SFMediator {
 	[Inject]
 	public var view:TestingResultsView;
 	private var selectedTestInfo:TestInfo;
+	private var needTranslationInverted:Boolean = false;
 
 	public function TestingResultsMediator(testInfo:TestInfo):void {
 		super();
 		selectedTestInfo = testInfo;
+		switch (testInfo.id) {
+			case TestID.SPEAK_PHRASE_IN_DEUTSCH:
+				needTranslationInverted = true;
+				break;
+			default :
+				needTranslationInverted = false;
+				break;
+		}
 	}
 
 	private function get paginationBar():PaginationBar {
@@ -59,7 +69,7 @@ public class TestingResultsMediator extends SFMediator {
 
 	private function wrapNotesAndTasks(notes:Array, tasks:Array):Array {
 		var res:Array = [];
-		for (var i:int = 0; i < tasks.length; i++) res.push(new TestRendererData(notes[i], tasks[i]));
+		for (var i:int = 0; i < tasks.length; i++) res.push(new TestRendererData(notes[i], tasks[i], needTranslationInverted));
 		return res;
 	}
 

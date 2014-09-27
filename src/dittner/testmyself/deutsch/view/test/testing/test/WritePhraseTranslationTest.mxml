@@ -10,9 +10,8 @@
                    xmlns:common2="dittner.testmyself.deutsch.view.note.common.*">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.core.model.note.INote;
         import dittner.testmyself.deutsch.model.AppConfig;
-        import dittner.testmyself.deutsch.model.domain.word.IWord;
-        import dittner.testmyself.deutsch.model.domain.word.WordArticle;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
@@ -32,10 +31,10 @@
         }
 
         //--------------------------------------
-        //  word
+        //  phrase
         //--------------------------------------
-        public function get word():IWord {
-            return activeNote as IWord;
+        public function get phrase():INote {
+            return activeNote as INote;
         }
 
         //----------------------------------------------------------------------------------------------
@@ -50,21 +49,15 @@
                 activeNoteChanged = false;
                 clear();
 
-                if (word) {
-                    stage.focus = wordInput;
-                    articleLbl.text = word.article;
-                    if (word.article == WordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                    else if (word.article == WordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                    else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
+                if (phrase) {
+                    stage.focus = phraseInput;
 
-                    titleLbl.text = word.article ? " " + word.title : word.title;
+                    titleLbl.text = phrase.title;
+                    descriptionLbl.text = phrase.description;
 
-                    optionsLbl.text = word.options ? ", " + word.options : "";
-                    descriptionLbl.text = word.description;
-
-                    if (word.audioComment.bytes) {
+                    if (phrase.audioComment.bytes) {
                         mp3Player.visible = true;
-                        mp3Player.comment = word.audioComment;
+                        mp3Player.comment = phrase.audioComment;
                         mp3Player.play();
                     }
                     else {
@@ -78,18 +71,13 @@
         override protected function clear():void {
             isCorrectlyAnswered = true;
             showDetails = false;
-            articleLbl.text = "";
             titleLbl.text = "";
-            optionsLbl.text = "";
             descriptionLbl.text = "";
-            wordInput.text = "";
+            titleLbl.text = "";
+            phraseInput.text = "";
             invalidNotifier.hideImmediately();
             mp3Player.visible = false;
             mp3Player.comment = null;
-        }
-
-        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
-            return showDetails && options;
         }
 
         private function onCorrectAnswered():void {
@@ -101,8 +89,9 @@
 
         private function onAnswered():void {
             if (!answerEnabled || !isCorrectlyAnswered) return;
-            if (word.article) isCorrectlyAnswered = (word.article + " " + word.title) == wordInput.text;
-            else isCorrectlyAnswered = word.title == wordInput.text;
+            var initialText:String = phrase.title.replace("ß", "ss");
+            var inputText:String = phraseInput.text.replace("ß", "ss");
+            isCorrectlyAnswered = initialText == inputText;
             notifyAnswered();
         }
 
@@ -141,39 +130,41 @@
 
             <s:Label text="{taskNumber + '/' + totalTask}"
                      fontFamily="{Fonts.ROBOTO_COND}"
-                     fontWeight="bold" paddingBottom="-20"
+                     fontWeight="bold"
                      fontSize="18" textAlign="center"
                      mouseChildren="false" mouseEnabled="false"
                      width="100%"
                      color="{AppColors.TEXT_LIGHT}"/>
 
-            <s:HGroup width="100%" horizontalAlign="center" gap="0" height="50" verticalAlign="bottom">
-                <s:Label id="articleLbl"
-                         fontFamily="{Fonts.ROBOTO_COND}"
-                         fontWeight="bold"
-                         visible="{showDetails}"
-                         includeInLayout="{showDetails}"
-                         fontSize="40"/>
-                <s:Label id="titleLbl"
-                         fontFamily="{Fonts.ROBOTO_COND}"
-                         fontWeight="bold"
-                         color="{AppColors.TEXT_BLACK}"
-                         visible="{showDetails}"
-                         includeInLayout="{showDetails}"
-                         fontSize="40"/>
-                <s:Label id="optionsLbl"
-                         fontFamily="{Fonts.ROBOTO_COND}"
-                         fontWeight="bold"
-                         color="{AppColors.TEXT_BLACK}"
-                         fontSize="40"
-                         visible="{showDetails}"
-                         includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
-                <s:BitmapImage visible="{!showDetails}"
-                               includeInLayout="{!showDetails}"
-                               source="@Embed('/assets/test/questions.png')"/>
-            </s:HGroup>
+            <s:Scroller width="{width - 2*padding}" height="100%"
+                        horizontalScrollPolicy="off">
+                <s:Group width="100%">
+                    <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+                    <s:Label text="Исходный текст"
+                             fontFamily="{Fonts.ROBOTO_COND}"
+                             fontWeight="bold"
+                             fontSize="18"
+                             mouseChildren="false" mouseEnabled="false"
+                             left="5" right="5"
+                             color="{AppColors.TEXT_LIGHT}"/>
 
-            <s:Scroller width="{width - 2*padding}" height="300"
+                    <s:Label id="titleLbl"
+                             left="{padding}" right="{padding}" top="{padding}"
+                             fontFamily="{Fonts.ROBOTO_COND}" textAlign="center"
+                             fontWeight="bold"
+                             color="{AppColors.TEXT_BLACK}"
+                             visible="{showDetails}"
+                             fontSize="24"/>
+
+                    <s:BitmapImage visible="{!showDetails}"
+                                   verticalCenter="0" horizontalCenter="0"
+                                   source="@Embed('/assets/test/questions.png')"/>
+                </s:Group>
+
+            </s:Scroller>
+
+
+            <s:Scroller width="{width - 2*padding}" height="100%"
                         horizontalScrollPolicy="off">
                 <s:Group width="100%">
                     <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
@@ -196,27 +187,21 @@
 
             </s:Scroller>
 
-            <s:HGroup width="480"
-                      horizontalAlign="center" verticalAlign="bottom" gap="15">
 
-                <input:TextInputForm id="wordInput"
-                                     width="75%"
-                                     maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                                     autoCorrect="true"
-                                     enter="onAnswered()"
-                                     title="Введите озвученное слово"/>
+            <input:TextAreaForm id="phraseInput"
+                                width="{width - 2*padding}" height="100%"
+                                maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                                title="Введите озвученный текст"/>
 
-                <button:BlackButton id="validateBtn"
-                                    width="25%"
-                                    enabled="{answerEnabled}"
-                                    label="Ответить"
-                                    click="onAnswered()"/>
+            <button:BlackButton id="validateBtn"
+                                width="250"
+                                enabled="{answerEnabled}"
+                                label="Ответить"
+                                click="onAnswered()"/>
 
-            </s:HGroup>
 
             <s:HGroup width="480" gap="15"
-                      visible="{!isCorrectlyAnswered}"
-                      includeInLayout="{!isCorrectlyAnswered}">
+                      visible="{!isCorrectlyAnswered}">
                 <button:GrayButton id="showAnswerBtn"
                                    width="100%"
                                    label="Показать ответ"
@@ -233,8 +218,6 @@
             <common2:InvalidNotifier id="invalidNotifier"
                                      width="480" height="30"
                                      text="Указан неверный ответ"/>
-
-            <s:Spacer height="100%"/>
 
             <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 

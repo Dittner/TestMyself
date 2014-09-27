@@ -15,7 +15,11 @@ public class PhraseEditorMediator extends NoteEditorMediator {
 	override protected function validateNote(note:Note):String {
 		if (!note) return "Отсутствует фраза";
 		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
-		if (noteHash.has(note)) return "Фраза с таким исходным текстом уже существует в словаре";
+
+		if (selectedNote) {
+			if (note.title != selectedNote.title)
+				if (noteHash.has(note)) return "Фраза с таким исходным текстом уже существует в словаре";
+		}
 		return "";
 	}
 
