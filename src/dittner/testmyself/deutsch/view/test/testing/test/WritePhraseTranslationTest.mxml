@@ -152,7 +152,7 @@
                              left="{padding}" right="{padding}" top="{padding}"
                              fontFamily="{Fonts.ROBOTO_COND}" textAlign="center"
                              fontWeight="bold"
-                             color="{AppColors.TEXT_BLACK}"
+                             color="{AppColors.TEXT_DARK}"
                              visible="{showDetails}"
                              fontSize="24"/>
 

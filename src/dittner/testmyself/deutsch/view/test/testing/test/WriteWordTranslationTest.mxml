@@ -55,7 +55,7 @@
                     articleLbl.text = word.article;
                     if (word.article == WordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
                     else if (word.article == WordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                    else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
+                    else articleLbl.setStyle("color", AppColors.TEXT_DARK);
 
                     titleLbl.text = word.article ? " " + word.title : word.title;
 
@@ -157,14 +157,14 @@
                 <s:Label id="titleLbl"
                          fontFamily="{Fonts.ROBOTO_COND}"
                          fontWeight="bold"
-                         color="{AppColors.TEXT_BLACK}"
+                         color="{AppColors.TEXT_DARK}"
                          visible="{showDetails}"
                          includeInLayout="{showDetails}"
                          fontSize="40"/>
                 <s:Label id="optionsLbl"
                          fontFamily="{Fonts.ROBOTO_COND}"
                          fontWeight="bold"
-                         color="{AppColors.TEXT_BLACK}"
+                         color="{AppColors.TEXT_DARK}"
                          fontSize="40"
                          visible="{showDetails}"
                          includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>

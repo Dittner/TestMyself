@@ -1,8 +1,11 @@
-package dittner.testmyself.deutsch.view.note.common.renderer {
+package dittner.testmyself.deutsch.view.test.results.renderer {
+import dittner.testmyself.core.model.test.ITestTask;
 import dittner.testmyself.deutsch.model.domain.verb.IVerb;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.test.common.TestRendererData;
+import dittner.testmyself.deutsch.view.test.results.TestTaskCard;
 
 import flash.display.GradientType;
 import flash.display.Graphics;
@@ -10,7 +13,7 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer {
+public class TestingVerbRenderer extends ItemRendererBase {
 	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 16, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_DARK);
 
@@ -23,7 +26,7 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	private static const COLOR:uint = AppColors.WHITE;
 	private static const SEP_COLOR:uint = 0xc5c5cd;
 
-	public function VerbRenderer() {
+	public function TestingVerbRenderer() {
 		super();
 		percentWidth = 100;
 	}
@@ -33,13 +36,18 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	private var pastTf:TextField;
 	private var perfectTf:TextField;
 	private var translationTf:TextField;
+	private var testTaskCard:TestTaskCard;
 
-	private function get noteData():NoteRendererData {
-		return data as NoteRendererData;
+	private function get renData():TestRendererData {
+		return data as TestRendererData;
 	}
 
 	private function get verb():IVerb {
-		return noteData.note as IVerb;
+		return renData.note as IVerb;
+	}
+
+	private function get task():ITestTask {
+		return renData.task;
 	}
 
 	override protected function createChildren():void {
@@ -60,9 +68,10 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 		perfectTf = createMultilineTextField(FORMAT);
 		addChild(perfectTf);
-	}
 
-	public function invalidateLayout():void {}
+		testTaskCard = new TestTaskCard();
+		addChild(testTaskCard);
+	}
 
 	override protected function commitProperties():void {
 		super.commitProperties();
@@ -79,6 +88,8 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			presentTf.text = verb.present;
 			pastTf.text = verb.past;
 			perfectTf.text = verb.perfect;
+			var negativeAnswerNum:uint = (task.amount - task.balance) / 2;
+			testTaskCard.label = negativeAnswerNum + " / " + task.amount;
 		}
 		else {
 			infinitiveTf.text = "";
@@ -86,11 +97,12 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			presentTf.text = "";
 			pastTf.text = "";
 			perfectTf.text = "";
+			testTaskCard.label = "0 / 0";
 		}
 	}
 
 	override protected function measure():void {
-		if (!noteData || !parent) {
+		if (!verb || !parent) {
 			measuredWidth = measuredHeight = 0;
 			return;
 		}
@@ -159,6 +171,9 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			translationTf.textColor = 0;
 
 			translationTf.visible = false;
+
+			testTaskCard.x = w - testTaskCard.width - HPAD;
+			testTaskCard.y = 5;
 		}
 
 		const WID:Number = w / 4;

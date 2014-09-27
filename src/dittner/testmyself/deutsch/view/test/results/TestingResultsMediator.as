@@ -78,7 +78,7 @@ public class TestingResultsMediator extends SFMediator {
 	}
 
 	//--------------------------------------
-	//  pagintion
+	//  pagination
 	//--------------------------------------
 
 	private function nextPageBtnClickHandler(event:MouseEvent):void {

@@ -13,7 +13,7 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class TestingNoteRenderer extends ItemRendererBase implements IFlexibleRenderer {
+public class TestingNoteRenderer extends ItemRendererBase {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK, true);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT_BLACK);
 
@@ -54,13 +54,6 @@ public class TestingNoteRenderer extends ItemRendererBase implements IFlexibleRe
 		addChild(titleTf);
 		testTaskCard = new TestTaskCard();
 		addChild(testTaskCard);
-	}
-
-	public function invalidateLayout():void {
-		dataChanged = true;
-		invalidateProperties();
-		invalidateSize();
-		invalidateDisplayList();
 	}
 
 	override protected function commitProperties():void {

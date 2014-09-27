@@ -8,7 +8,7 @@
                    xmlns:test="dittner.testmyself.deutsch.view.test.testing.test.*">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.core.model.note.INote;
+        import dittner.testmyself.deutsch.model.domain.verb.IVerb;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
@@ -17,11 +17,9 @@
         //--------------------------------------
         //  word
         //--------------------------------------
-        public function get phrase():INote {
-            return activeNote as INote;
+        public function get verb():IVerb {
+            return activeNote as IVerb;
         }
-
-        public var translateInDeutsch:Boolean = false;
 
         //----------------------------------------------------------------------------------------------
         //
@@ -35,13 +33,14 @@
                 activeNoteChanged = false;
                 clear();
 
-                if (phrase) {
-                    titleLbl.text = translateInDeutsch ? phrase.description : phrase.title;
-                    descriptionLbl.text = translateInDeutsch ? phrase.title : phrase.description;
+                if (verb) {
+                    titleLbl.text = verb.title;
+                    descriptionLbl.text = verb.description;
+                    verbsFormsLbl.text = verb.present + "  " + verb.past + "  " + verb.perfect;
 
-                    if (phrase.audioComment.bytes && !translateInDeutsch) {
+                    if (verb.audioComment.bytes) {
                         mp3Player.visible = true;
-                        mp3Player.comment = phrase.audioComment;
+                        mp3Player.comment = verb.audioComment;
                     }
                     else {
                         mp3Player.visible = false;
@@ -55,6 +54,7 @@
             showDetails = false;
             titleLbl.text = "";
             descriptionLbl.text = "";
+            verbsFormsLbl.text = "";
             mp3Player.visible = false;
             mp3Player.comment = null;
         }
@@ -107,51 +107,66 @@
                      width="100%"
                      color="{AppColors.TEXT_LIGHT}"/>
 
-            <s:Scroller width="{width - 2*padding}" height="100%"
-                        horizontalScrollPolicy="off">
-                <s:Group width="100%">
-                    <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-                    <s:Label text="Исходный текст"
-                             fontFamily="{Fonts.ROBOTO_COND}"
-                             fontWeight="bold"
-                             fontSize="18"
-                             mouseChildren="false" mouseEnabled="false"
-                             left="5" right="5"
-                             color="{AppColors.TEXT_LIGHT}"/>
 
-                    <s:Label id="titleLbl"
-                             left="{padding}" right="{padding}" top="{padding}"
-                             fontFamily="{Fonts.ROBOTO_COND}" textAlign="center"
-                             fontWeight="bold"
-                             color="{AppColors.TEXT_DARK}"
-                             fontSize="24"/>
-                </s:Group>
+            <s:Group width="{width - 2*padding}" height="100">
+                <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+                <s:Label text="Infinitiv"
+                         fontFamily="{Fonts.ROBOTO_COND}"
+                         fontWeight="bold"
+                         fontSize="18"
+                         mouseChildren="false" mouseEnabled="false"
+                         left="5" right="5"
+                         color="{AppColors.TEXT_LIGHT}"/>
 
-            </s:Scroller>
+                <s:Label id="titleLbl"
+                         left="{padding}" right="{padding}" top="{padding}"
+                         fontFamily="{Fonts.ROBOTO_COND}"
+                         fontWeight="bold"
+                         textAlign="center"
+                         color="{AppColors.TEXT_DARK}"
+                         fontSize="24"/>
+            </s:Group>
 
 
-            <s:Scroller width="{width - 2*padding}" height="100%"
-                        horizontalScrollPolicy="off">
-                <s:Group width="100%">
-                    <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-                    <s:Label text="Перевод"
-                             fontFamily="{Fonts.ROBOTO_COND}"
-                             fontWeight="bold"
-                             fontSize="18"
-                             mouseChildren="false" mouseEnabled="false"
-                             left="5" right="5"
-                             color="{AppColors.TEXT_LIGHT}"/>
+            <s:Group width="{width - 2*padding}" height="100">
+                <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+                <s:Label text="Präsens, Präteritum, Perfect"
+                         fontFamily="{Fonts.ROBOTO_COND}"
+                         fontWeight="bold"
+                         fontSize="18"
+                         mouseChildren="false" mouseEnabled="false"
+                         left="5" right="5"
+                         color="{AppColors.TEXT_LIGHT}"/>
 
-                    <s:Label id="descriptionLbl"
-                             visible="{showDetails}"
-                             left="{padding}" right="{padding}" top="{padding}"
-                             fontFamily="{Fonts.ROBOTO}"
-                             textAlign="center"
-                             color="{AppColors.TEXT_DARK}"
-                             fontSize="20"/>
-                </s:Group>
+                <s:Label id="verbsFormsLbl"
+                         visible="{showDetails}"
+                         left="{padding}" right="{padding}" top="{padding}"
+                         fontFamily="{Fonts.ROBOTO_COND}"
+                         fontWeight="bold"
+                         textAlign="center"
+                         color="{AppColors.TEXT_DARK}"
+                         fontSize="24"/>
+            </s:Group>
 
-            </s:Scroller>
+            <s:Group width="{width - 2*padding}" height="100">
+                <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+                <s:Label text="Перевод"
+                         fontFamily="{Fonts.ROBOTO_COND}"
+                         fontWeight="bold"
+                         fontSize="18"
+                         mouseChildren="false" mouseEnabled="false"
+                         left="5" right="5"
+                         color="{AppColors.TEXT_LIGHT}"/>
+
+                <s:Label id="descriptionLbl"
+                         visible="{showDetails}"
+                         left="{padding}" right="{padding}" top="{padding}"
+                         fontFamily="{Fonts.ROBOTO}"
+                         textAlign="center"
+                         color="{AppColors.TEXT_DARK}"
+                         fontSize="20"/>
+            </s:Group>
+
 
             <s:HGroup width="100%"
                       horizontalAlign="center"
@@ -175,6 +190,8 @@
                                      click="showDetails = true"/>
 
             </s:HGroup>
+
+            <s:Spacer height="100%"/>
 
             <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 

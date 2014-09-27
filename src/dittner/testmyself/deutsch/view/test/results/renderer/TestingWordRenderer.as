@@ -14,7 +14,7 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class TestingWordRenderer extends ItemRendererBase implements IFlexibleRenderer {
+public class TestingWordRenderer extends ItemRendererBase {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK, true);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_RED, true);
 	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_YELLOW, true);
@@ -57,13 +57,6 @@ public class TestingWordRenderer extends ItemRendererBase implements IFlexibleRe
 		addChild(titleTf);
 		testTaskCard = new TestTaskCard();
 		addChild(testTaskCard);
-	}
-
-	public function invalidateLayout():void {
-		dataChanged = true;
-		invalidateProperties();
-		invalidateSize();
-		invalidateDisplayList();
 	}
 
 	override protected function commitProperties():void {

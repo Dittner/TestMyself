@@ -10,11 +10,13 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.core.model.note.INote;
+        import dittner.testmyself.deutsch.model.domain.verb.IVerb;
         import dittner.testmyself.deutsch.model.domain.word.IWord;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.test.common.TestRendererData;
         import dittner.testmyself.deutsch.view.test.results.renderer.TestingNoteRenderer;
+        import dittner.testmyself.deutsch.view.test.results.renderer.TestingVerbRenderer;
         import dittner.testmyself.deutsch.view.test.results.renderer.TestingWordRenderer;
 
         import mx.collections.ArrayCollection;
@@ -61,6 +63,7 @@
         public function resultItemRendererFunction(item:*):IFactory {
             var note:INote = (item as TestRendererData).note;
             if (note is IWord) return new ClassFactory(TestingWordRenderer);
+            else if (note is IVerb) return new ClassFactory(TestingVerbRenderer);
             else return new ClassFactory(TestingNoteRenderer);
         }
         ]]></fx:Script>
@@ -82,7 +85,7 @@
                                       contentBackgroundAlpha="0"
                                       deselectEnabled="true"
                                       itemRendererFunction="resultItemRendererFunction">
-            <list:layout>
+                <list:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                 </list:layout>
             </list:SelectableDataGroup>

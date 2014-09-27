@@ -68,6 +68,10 @@
                     _activeView = speakPhraseTranslationTest;
                     setCurrentState("speakPhraseTranslation");
                     break;
+                case TestID.SPEAK_VERB_FORMS :
+                    _activeView = speakVerbFormsTest;
+                    setCurrentState("speakVerbForms");
+                    break;
             }
         }
         ]]></fx:Script>
@@ -78,6 +82,7 @@
         <s:State name="selectArticle"/>
         <s:State name="writePhraseTranslation"/>
         <s:State name="speakPhraseTranslation"/>
+        <s:State name="speakVerbForms"/>
     </s:states>
 
     <test:SpeakWordTranslationTest id="speakWordTranslationTest"
@@ -109,4 +114,10 @@
                                      padding="{padding}"
                                      title="{testTitle}"
                                      visible="false" visible.speakPhraseTranslation="true"/>
+
+    <test:SpeakVerbFormsTest id="speakVerbFormsTest"
+                             width="100%" height="100%"
+                             padding="{padding}"
+                             title="{testTitle}"
+                             visible="false" visible.speakVerbForms="true"/>
 </s:Group>
