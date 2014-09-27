@@ -1,74 +1,25 @@
-<?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
-         xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
-         xmlns:list="dittner.testmyself.deutsch.view.note.list.*"
-         xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*"
-         implements="dittner.testmyself.deutsch.view.test.testing.ITestableView"
-         creationComplete="creationCompleteHandler(event)">
+         xmlns:test="dittner.testmyself.deutsch.view.test.testing.test.*">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.core.model.note.INote;
-        import dittner.testmyself.deutsch.model.domain.word.IWord;
-        import dittner.testmyself.deutsch.model.domain.word.WordArticle;
-        import dittner.testmyself.deutsch.view.common.audio.utils.PlayerUtils;
-        import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
-        import dittner.testmyself.deutsch.view.test.common.TestingAction;
-
-        import mx.collections.ArrayCollection;
-        import mx.events.FlexEvent;
+        import dittner.testmyself.core.model.test.TestInfo;
+        import dittner.testmyself.deutsch.model.domain.common.TestID;
+        import dittner.testmyself.deutsch.view.test.testing.test.ITestableView;
 
         //--------------------------------------
-        //  title
+        //  testableView
         //--------------------------------------
-        private var _title:String = "";
-        [Bindable("titleChanged")]
-        public function get title():String {return _title;}
-        public function set title(value:String):void {
-            if (_title != value) {
-                _title = value;
-                dispatchEvent(new Event("titleChanged"));
-            }
-        }
-        //--------------------------------------
-        //  activeNote
-        //--------------------------------------
-        private var activeNoteChanged:Boolean = false;
-        private var _activeNote:INote;
-        [Bindable("activeNoteChanged")]
-        public function get activeNote():INote {return _activeNote;}
-        public function set activeNote(value:INote):void {
-            if (_activeNote != value) {
-                _activeNote = value;
-                activeNoteChanged = true;
-                invalidateProperties();
-                dispatchEvent(new Event("activeNoteChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  activeNoteExampleColl
-        //--------------------------------------
-        private var _activeNoteExampleColl:ArrayCollection;
-        [Bindable("activeNoteExampleCollChanged")]
-        public function get activeNoteExampleColl():ArrayCollection {return _activeNoteExampleColl;}
-        public function set activeNoteExampleColl(value:ArrayCollection):void {
-            if (_activeNoteExampleColl != value) {
-                _activeNoteExampleColl = value;
-                dispatchEvent(new Event("activeNoteExampleCollChanged"));
-            }
-        }
+        private var _activeView:ITestableView;
+        public function get activeView():ITestableView {return _activeView;}
 
         //--------------------------------------
         //  padding
         //--------------------------------------
-        private var _padding:Number = 10;
+        private var _padding:uint = 0;
         [Bindable("paddingChanged")]
-        public function get padding():Number {return _padding;}
-        public function set padding(value:Number):void {
+        public function get padding():uint {return _padding;}
+        public function set padding(value:uint):void {
             if (_padding != value) {
                 _padding = value;
                 dispatchEvent(new Event("paddingChanged"));
@@ -76,285 +27,47 @@
         }
 
         //--------------------------------------
-        //  taskNumber
+        //  testTitle
         //--------------------------------------
-        private var _taskNumber:int = 0;
-        [Bindable("taskNumberChanged")]
-        public function get taskNumber():int {return _taskNumber;}
-        public function set taskNumber(value:int):void {
-            if (_taskNumber != value) {
-                _taskNumber = value;
-                dispatchEvent(new Event("taskNumberChanged"));
+        private var _testTitle:String = "";
+        [Bindable("testTitleChanged")]
+        public function get testTitle():String {return _testTitle;}
+        public function set testTitle(value:String):void {
+            if (_testTitle != value) {
+                _testTitle = value;
+                dispatchEvent(new Event("testTitleChanged"));
             }
         }
 
-        //--------------------------------------
-        //  totalTask
-        //--------------------------------------
-        private var _totalTask:int = 0;
-        [Bindable("totalTaskChanged")]
-        public function get totalTask():int {return _totalTask;}
-        public function set totalTask(value:int):void {
-            if (_totalTask != value) {
-                _totalTask = value;
-                dispatchEvent(new Event("totalTaskChanged"));
+        public function activate(testInfo:TestInfo):void {
+            testTitle = testInfo.title;
+            switch (testInfo.id) {
+                case TestID.SPEAK_WORD_TRANSLATION :
+                    _activeView = speakWordTranslationTest;
+                    setCurrentState("speakWordTranslation");
+                    break;
+                case TestID.SELECT_ARTICLE :
+                    _activeView = selectArticleTest;
+                    setCurrentState("selectArticle");
+                    break;
             }
-        }
-
-        //--------------------------------------
-        //  showDetails
-        //--------------------------------------
-        private var _showDetails:Boolean = false;
-        [Bindable("showDetailsChanged")]
-        public function get showDetails():Boolean {return _showDetails;}
-        public function set showDetails(value:Boolean):void {
-            if (_showDetails != value) {
-                _showDetails = value;
-                dispatchEvent(new Event("showDetailsChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  actionCallback
-        //--------------------------------------
-        private var _actionCallback:Function;
-        [Bindable("actionCallbackChanged")]
-        public function get actionCallback():Function {return _actionCallback;}
-        public function set actionCallback(value:Function):void {
-            if (_actionCallback != value) {
-                _actionCallback = value;
-                dispatchEvent(new Event("actionCallbackChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  answerEnabled
-        //--------------------------------------
-        private var _answerEnabled:Boolean = false;
-        [Bindable("answerEnabledChanged")]
-        public function get answerEnabled():Boolean {return _answerEnabled;}
-        public function set answerEnabled(value:Boolean):void {
-            if (_answerEnabled != value) {
-                _answerEnabled = value;
-                dispatchEvent(new Event("answerEnabledChanged"));
-            }
-        }
-
-        //----------------------------------------------------------------------------------------------
-        //
-        //  Methods
-        //
-        //----------------------------------------------------------------------------------------------
-
-        override protected function commitProperties():void {
-            super.commitProperties();
-            if (activeNoteChanged) {
-                activeNoteChanged = false;
-                showDetails = false;
-
-                if (activeNote is IWord) {
-                    var currentWord:IWord = activeNote as IWord;
-                    articleLbl.text = currentWord.article;
-                    if (currentWord.article == WordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                    else if (currentWord.article == WordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                    else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
-
-                    titleLbl.text = currentWord.article ? " " + currentWord.title : currentWord.title;
-
-                    optionsLbl.text = currentWord.options ? ", " + currentWord.options : "";
-                    descriptionLbl.text = currentWord.description;
-
-                    if (currentWord.audioComment.bytes) {
-                        mp3Player.visible = true;
-                        mp3Player.comment = currentWord.audioComment;
-                    }
-                    else {
-                        mp3Player.visible = false;
-                        mp3Player.comment = null;
-                    }
-                }
-                else {
-                    articleLbl.text = "";
-                    titleLbl.text = "";
-                    optionsLbl.text = "";
-                    descriptionLbl.text = "";
-                    mp3Player.visible = false;
-                    mp3Player.comment = null;
-                }
-            }
-        }
-
-        public function start():void {
-            duration = 0;
-            timer.start();
-        }
-
-        public function clear():void {
-            timer.stop();
-            articleLbl.text = "";
-            titleLbl.text = "";
-            optionsLbl.text = "";
-            descriptionLbl.text = "";
-            mp3Player.visible = false;
-            mp3Player.comment = null;
-        }
-
-        private var duration:Number = 0;//sec
-        private var timer:Timer;
-        private function creationCompleteHandler(event:FlexEvent):void {
-            timer = new Timer(1000);
-            timer.addEventListener(TimerEvent.TIMER, timerHandler);
-        }
-
-        private function timerHandler(event:TimerEvent):void {
-            if (answerEnabled) {
-                duration++;
-                durationLbl.text = PlayerUtils.convertToHHMMSS(duration);
-            }
-        }
-
-        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
-            return showDetails && options;
-        }
-
-        private function onCorrectAnswered():void {
-            if (actionCallback != null) actionCallback(TestingAction.CORRECT_ANSWER);
-        }
-
-        private function onIncorrectAnswered():void {
-            if (actionCallback != null) actionCallback(TestingAction.INCORRECT_ANSWER);
-        }
-
-        private function goBack():void {
-            if (actionCallback != null) actionCallback(TestingAction.ABORT_TEST);
         }
         ]]></fx:Script>
 
-    <utils:BG width="100%" height="30" color="#0"/>
+    <s:states>
+        <s:State name="speakWordTranslation"/>
+        <s:State name="selectArticle"/>
+    </s:states>
 
-    <s:Label text="{title}"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="14"
-             mouseChildren="false" mouseEnabled="false"
-             width="70%" height="30" verticalAlign="middle"
-             left="{padding}"
-             color="{AppColors.WHITE}"/>
+    <test:SpeakWordTranslationTest id="speakWordTranslationTest"
+                                   width="100%" height="100%"
+                                   padding="{padding}"
+                                   title="{testTitle}"
+                                   visible="false" visible.speakWordTranslation="true"/>
 
-    <s:Label id="durationLbl"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="14" height="30" verticalAlign="middle"
-             mouseChildren="false" mouseEnabled="false"
-             right="{padding}"
-             color="{AppColors.WHITE}"/>
-
-    <s:Group width="100%" top="30" bottom="0">
-
-        <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
-
-        <s:VGroup width="100%" top="10" bottom="0"
-                  gap="15" horizontalAlign="center">
-
-            <s:Label text="{taskNumber + '/' + totalTask}"
-                     fontFamily="{Fonts.ROBOTO_COND}"
-                     fontWeight="bold" paddingBottom="-20"
-                     fontSize="18" textAlign="center"
-                     mouseChildren="false" mouseEnabled="false"
-                     width="100%"
-                     color="{AppColors.TEXT_LIGHT}"/>
-
-            <s:HGroup width="100%" horizontalAlign="center" gap="0">
-                <s:Label id="articleLbl"
-                         fontFamily="{Fonts.ROBOTO_COND}"
-                         fontWeight="bold"
-                         fontSize="40"/>
-                <s:Label id="titleLbl"
-                         fontFamily="{Fonts.ROBOTO_COND}"
-                         fontWeight="bold"
-                         color="{AppColors.TEXT_BLACK}"
-                         fontSize="40"/>
-                <s:Label id="optionsLbl"
-                         fontFamily="{Fonts.ROBOTO_COND}"
-                         fontWeight="bold"
-                         color="{AppColors.TEXT_BLACK}"
-                         fontSize="40"
-                         visible="{showDetails}"
-                         includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
-            </s:HGroup>
-
-            <s:Scroller width="{width - 2*padding}" height="33%"
-                        horizontalScrollPolicy="off">
-                <s:Group width="100%">
-                    <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-                    <s:Label text="Ответ"
-                             fontFamily="{Fonts.ROBOTO_COND}"
-                             fontWeight="bold"
-                             fontSize="18"
-                             mouseChildren="false" mouseEnabled="false"
-                             left="5" right="5"
-                             color="{AppColors.TEXT_LIGHT}"/>
-
-                    <s:Label id="descriptionLbl"
-                             visible="{showDetails}"
-                             left="{padding}" right="{padding}" top="{padding}"
-                             fontFamily="{Fonts.ROBOTO}"
-                             textAlign="center"
-                             color="{AppColors.TEXT_DARK}"
-                             fontSize="20"/>
-                </s:Group>
-
-            </s:Scroller>
-
-            <list:ExampleList id="exampleList"
-                              dataProvider="{activeNoteExampleColl}"
-                              bgColor="{AppColors.EDITOR_CONTENT_BG}"
-                              width="{width - 2*padding}" height="66%"
-                              shownList="{showDetails}"
-                              hasFocusableChildren="false"/>
-
-            <s:HGroup width="100%"
-                      horizontalAlign="center"
-                      gap="15">
-
-                <button:BlackButton id="correctAnswerBtn"
-                                    width="250"
-                                    enabled="{answerEnabled}"
-                                    label="Правильный ответ"
-                                    click="onCorrectAnswered()"/>
-
-                <button:RedButton id="incorrectAnswerBtn"
-                                  width="250"
-                                  enabled="{answerEnabled}"
-                                  label="Неправильный ответ"
-                                  click="onIncorrectAnswered()"/>
-
-                <button:YellowButton id="showAnswerBtn"
-                                     width="250"
-                                     label="Показать ответ"
-                                     click="showDetails = true"/>
-
-            </s:HGroup>
-
-            <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
-
-                <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
-
-                <mp3:MP3Player id="mp3Player"
-                               width="400"
-                               left="{padding - 10}"
-                               verticalCenter="0"
-                               removeRecordEnabled="false"
-                               visible="false"
-                               skinClass="dittner.testmyself.deutsch.view.common.audio.skins.MP3PlayerSkin"/>
-
-                <button:GrayButton id="cancelBtn"
-                                   width="250"
-                                   verticalCenter="0"
-                                   right="{padding}"
-                                   label="Завершить тестирование"
-                                   click="goBack()"/>
-            </s:Group>
-        </s:VGroup>
-    </s:Group>
-
-
+    <test:SelectArticleTest id="selectArticleTest"
+                            width="100%" height="100%"
+                            padding="{padding}"
+                            title="{testTitle}"
+                            visible="false" visible.selectArticle="true"/>
 </s:Group>

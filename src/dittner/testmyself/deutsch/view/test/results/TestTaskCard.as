@@ -12,7 +12,7 @@ public class TestTaskCard extends Sprite {
 	private static const GAP:uint = 10;
 	private static const HEI:uint = 16;
 	private static const WID:uint = 75;
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 12, 0xffFFff);
+	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 12, 0xffFFff);
 	private var labelTF:TextField;
 
 	public function TestTaskCard() {

@@ -1,4 +1,4 @@
-package dittner.testmyself.deutsch.view.test.testing {
+package dittner.testmyself.deutsch.view.test.testing.test {
 import dittner.testmyself.core.model.note.INote;
 
 import mx.collections.ArrayCollection;
@@ -9,9 +9,6 @@ public interface ITestableView {
 
 	function set answerEnabled(value:Boolean):void;
 	function get answerEnabled():Boolean;
-
-	function set title(value:String):void;
-	function get title():String;
 
 	function set taskNumber(value:int):void;
 	function get taskNumber():int;
@@ -26,7 +23,7 @@ public interface ITestableView {
 	function get activeNoteExampleColl():ArrayCollection;
 
 	function start():void;
-	function clear():void;
+	function stop():void;
 
 }
 }

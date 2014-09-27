@@ -24,6 +24,7 @@ public class TestPresetsMediator extends SFMediator {
 	}
 
 	override protected function activate():void {
+		view.title = selectedTestInfo.title;
 		sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
 	}
 

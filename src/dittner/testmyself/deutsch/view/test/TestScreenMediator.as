@@ -65,8 +65,9 @@ public class TestScreenMediator extends SFMediator {
 	private function startTesting(params:* = null):void {
 		unregisterMediators();
 		if (!testingMediator) {
+			view.testingView.activate(selectedTestInfo);
 			testingMediator = new TestingMediator(selectedTestInfo);
-			registerMediator(view.testingView, testingMediator);
+			registerMediator(view.testingView.activeView, testingMediator);
 		}
 		view.showTesting();
 	}

@@ -14,7 +14,7 @@
         [Bindable]
         public var text:String = "";
 
-        private var daLaterOperationIndex:int;
+        private var daLaterOperationIndex:int = -1;
         public function show():void {
             if (fadeEffect.isPlaying) fadeEffect.stop();
             alpha = 1;
@@ -24,6 +24,12 @@
 
         public function hide():void {
             if (!fadeEffect.isPlaying) fadeEffect.play();
+        }
+
+        public function hideImmediately():void {
+            if (fadeEffect.isPlaying) fadeEffect.stop();
+            alpha = 0;
+            clearDelay(daLaterOperationIndex);
         }
 
         override protected function updateDisplayList(w:Number, h:Number):void {

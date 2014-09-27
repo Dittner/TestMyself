@@ -5,12 +5,12 @@
          xmlns:navigation="dittner.testmyself.deutsch.view.common.pagination.*"
          xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
          xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
-         xmlns:list2="dittner.testmyself.deutsch.view.note.list.*">
+         xmlns:list2="dittner.testmyself.deutsch.view.note.list.*"
+         xmlns:common="dittner.testmyself.deutsch.view.test.common.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         import mx.collections.ArrayCollection;
 
@@ -30,10 +30,10 @@
         //--------------------------------------
         //  padding
         //--------------------------------------
-        private var _padding:Number = 10;
+        private var _padding:uint = 0;
         [Bindable("paddingChanged")]
-        public function get padding():Number {return _padding;}
-        public function set padding(value:Number):void {
+        public function get padding():uint {return _padding;}
+        public function set padding(value:uint):void {
             if (_padding != value) {
                 _padding = value;
                 dispatchEvent(new Event("paddingChanged"));
@@ -56,22 +56,8 @@
 
     <utils:BG width="100%" height="100%" color="#ffFFff"/>
 
-    <utils:BG width="100%" height="30" color="#0"/>
-
-    <s:Label text="{title}"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="14"
-             mouseChildren="false" mouseEnabled="false"
-             width="70%" height="30" verticalAlign="middle"
-             left="{padding}"
-             color="{AppColors.WHITE}"/>
-
-    <s:Label text="Результаты"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="14" height="30" verticalAlign="middle"
-             mouseChildren="false" mouseEnabled="false"
-             right="5"
-             color="{AppColors.WHITE}"/>
+    <common:TestHeader width="100%" height="30" padding="{padding}"
+                       title="{title}" description="Результаты"/>
 
     <s:HGroup left="-1" right="-1" top="30" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}" gap="-1">
         <s:Scroller width="100%" height="100%"

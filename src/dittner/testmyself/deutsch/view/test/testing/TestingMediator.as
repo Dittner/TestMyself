@@ -7,7 +7,9 @@ import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestTask;
+import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.view.test.common.TestingAction;
+import dittner.testmyself.deutsch.view.test.testing.test.ITestableView;
 
 import mx.collections.ArrayCollection;
 
@@ -18,16 +20,26 @@ public class TestingMediator extends SFMediator {
 
 	private var selectedTestInfo:TestInfo;
 	private var testTasks:Array;
+	private var examplesEnabled:Boolean = false;
 
 	public function TestingMediator(testInfo:TestInfo):void {
 		super();
 		selectedTestInfo = testInfo;
+		switch (testInfo.id) {
+			case TestID.SPEAK_PHRASE_TRANSLATION:
+			case TestID.SPEAK_VERB_FORMS:
+			case TestID.SPEAK_WORD_TRANSLATION:
+				examplesEnabled = true;
+				break;
+			default :
+				examplesEnabled = false;
+				break;
+		}
 	}
 
 	override protected function activate():void {
 		view.actionCallback = actionCallback;
 		view.answerEnabled = true;
-		view.title = selectedTestInfo.title;
 		view.start();
 		loadTasks();
 	}
@@ -41,12 +53,13 @@ public class TestingMediator extends SFMediator {
 				curTask.amount++;
 				curTask.balance++;
 				updateTask();
-				showNextTask();
 				break;
 			case TestingAction.INCORRECT_ANSWER :
 				curTask.amount++;
 				curTask.balance--;
 				updateTask();
+				break;
+			case TestingAction.NEXT_TASK :
 				showNextTask();
 				break;
 		}
@@ -79,7 +92,7 @@ public class TestingMediator extends SFMediator {
 	private function onNoteLoaded(res:CommandResult):void {
 		view.taskNumber++;
 		view.activeNote = res.data as INote;
-		loadExamples(view.activeNote)
+		if (examplesEnabled) loadExamples(view.activeNote)
 	}
 
 	private function loadExamples(note:INote):void {
@@ -99,7 +112,7 @@ public class TestingMediator extends SFMediator {
 		view.actionCallback = null;
 		view.activeNote = null;
 		view.activeNoteExampleColl = null;
-		view.clear();
+		view.stop();
 	}
 }
 }

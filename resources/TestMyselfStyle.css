@@ -35,6 +35,12 @@
 }
 
 @font-face {
+    src: url("/fonts/RobotoCondensed.ttf");
+    font-family: RobotoCond;
+    embedAsCFF: true;
+}
+
+@font-face {
     src: url("/fonts/RobotoCondensed-Bold.ttf");
     font-family: RobotoCond;
     font-weight: bold;
@@ -59,6 +65,12 @@
     src: url("/fonts/Roboto-Bold.ttf");
     font-family: RobotoMX;
     fontWeight: bold;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/RobotoCondensed.ttf");
+    font-family: RobotoCondMX;
     embedAsCFF: false;
 }
 

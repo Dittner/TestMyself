@@ -175,7 +175,7 @@ public class TestingWordRenderer extends ItemRendererBase implements IFlexibleRe
 			descriptionTf.alpha = hasAudioComment() ? 1 : .7;
 		}
 
-		testTaskCard.x = w - testTaskCard.width - 5;
+		testTaskCard.x = w - testTaskCard.width - PAD;
 		testTaskCard.y = 5;
 	}
 

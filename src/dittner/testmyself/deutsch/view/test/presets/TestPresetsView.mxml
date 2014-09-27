@@ -3,7 +3,8 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
          xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
-         xmlns:button="dittner.testmyself.deutsch.view.common.button.*">
+         xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+         xmlns:common="dittner.testmyself.deutsch.view.test.common.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
@@ -11,6 +12,19 @@
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  title
+        //--------------------------------------
+        private var _title:String = "";
+        [Bindable("titleChanged")]
+        public function get title():String {return _title;}
+        public function set title(value:String):void {
+            if (_title != value) {
+                _title = value;
+                dispatchEvent(new Event("titleChanged"));
+            }
+        }
 
         //--------------------------------------
         //  themeColl
@@ -40,8 +54,12 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="15" horizontalAlign="center" paddingTop="{padding}"/>
+        <s:VerticalLayout gap="15" horizontalAlign="center"/>
     </s:layout>
+
+    <common:TestHeader width="100%" height="30" padding="{padding}"
+                       title="{title}"
+                       description="Предустановки"/>
 
     <list:ListForm id="themesList"
                    width="{width -2*padding}" height="100%"
@@ -103,23 +121,23 @@
 
         <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
 
+
         <button:GrayButton id="goBackBtn"
                            width="250"
                            verticalCenter="0"
-                           right="{2*padding + 250}"
+                           left="{padding}"
                            label="Вернуться назад"/>
+
+        <button:BlackButton id="showResultsBtn"
+                            width="250"
+                            verticalCenter="0"
+                            right="{2*padding + 250}"
+                            label="Результаты"/>
 
         <button:BlackButton id="startTestingBtn"
                             width="250"
                             verticalCenter="0"
                             right="{padding}"
                             label="Начать тестирование"/>
-
-        <button:BlackButton id="showResultsBtn"
-                            width="250"
-                            verticalCenter="0"
-                            left="{padding}"
-                            label="Результаты"/>
-
     </s:Group>
 </s:Group>
