@@ -14,6 +14,7 @@ public class TestMsg {
 	public static const GET_TEST_PAGE_INFO:String = "getTestPageInfo";
 	public static const GET_TEST_TASKS_AMOUNT:String = "getTestAmount";
 	public static const UPDATE_TEST_TASK:String = "updateTestTask";
+	public static const CLEAR_TEST_HISTORY:String = "clearTestHistory";
 
 }
 }

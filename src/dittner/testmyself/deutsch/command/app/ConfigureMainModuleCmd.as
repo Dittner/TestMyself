@@ -4,6 +4,7 @@ import dittner.satelliteFlight.module.RootModule;
 import dittner.satelliteFlight.module.SFModule;
 import dittner.testmyself.core.command.AddNoteCmd;
 import dittner.testmyself.core.command.ClearNotesInfoCmd;
+import dittner.testmyself.core.command.ClearTestHistoryCmd;
 import dittner.testmyself.core.command.GetNoteCmd;
 import dittner.testmyself.core.command.GetNoteExamplesCmd;
 import dittner.testmyself.core.command.GetNoteFilterCmd;
@@ -86,6 +87,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(TestMsg.GET_TEST_PAGE_INFO, GetTestPageInfoCmd);
 		mainModule.registerCmd(TestMsg.GET_TEST_TASKS_AMOUNT, GetTestTasksAmountCmd);
 		mainModule.registerCmd(TestMsg.UPDATE_TEST_TASK, UpdateTestTaskCmd);
+		mainModule.registerCmd(TestMsg.CLEAR_TEST_HISTORY, ClearTestHistoryCmd);
 
 		//register models and services
 		mainModule.registerProxy("settingsModel", new SettingsModel());

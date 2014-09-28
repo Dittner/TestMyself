@@ -230,6 +230,13 @@ public class SQLFactory extends SFProxy {
 		return SELECT_EXAMPLE_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectTestNoteID.sql", mimeType="application/octet-stream")]
+	private static const SelectTestNoteIDClass:Class;
+	private static const SELECT_TEST_NOTE_ID_SQL:String = new SelectTestNoteIDClass();
+	public function get selectTestNoteID():String {
+		return SELECT_TEST_NOTE_ID_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectTestTaskClass:Class;
 	private static const SELECT_TEST_TASK_SQL:String = new SelectTestTaskClass();

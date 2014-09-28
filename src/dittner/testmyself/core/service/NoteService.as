@@ -5,6 +5,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.IRequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
+import dittner.testmyself.core.command.backend.ClearTestHistorySQLOperation;
 import dittner.testmyself.core.command.backend.CountTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.CreateDataBaseSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteNoteSQLOperation;
@@ -33,6 +34,7 @@ import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.INotePageInfo;
 import dittner.testmyself.core.model.page.NotePageInfo;
 import dittner.testmyself.core.model.page.TestPageInfo;
+import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.model.theme.Theme;
@@ -159,6 +161,13 @@ public class NoteService extends SFProxy {
 
 	public function loadTestTasks(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new SelectTestTasksSQLOperation(this, testModel.testSpec);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function clearTestHistory(requestMsg:IRequestMessage):void {
+		var testInfo:TestInfo = requestMsg.data as TestInfo;
+		var op:IDeferredOperation = new ClearTestHistorySQLOperation(this, testInfo, testModel);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

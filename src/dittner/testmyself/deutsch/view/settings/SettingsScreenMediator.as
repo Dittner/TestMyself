@@ -9,6 +9,7 @@ import dittner.testmyself.deutsch.model.settings.SettingsInfo;
 import dittner.testmyself.deutsch.view.settings.noteSettings.PhraseSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.noteSettings.VerbSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.noteSettings.WordSettingsMediator;
+import dittner.testmyself.deutsch.view.settings.testSettings.TestSettingsMediator;
 
 public class SettingsScreenMediator extends SFMediator {
 
@@ -21,6 +22,7 @@ public class SettingsScreenMediator extends SFMediator {
 		registerMediator(view.phraseSettings, new PhraseSettingsMediator());
 		registerMediator(view.wordSettings, new WordSettingsMediator());
 		registerMediator(view.verbSettings, new VerbSettingsMediator());
+		registerMediator(view.testSettings, new TestSettingsMediator());
 	}
 
 	private function infoLoaded(res:CommandResult):void {

@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+         xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
+         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  tests
+        //--------------------------------------
+        private var _testColl:ArrayCollection;
+        [Bindable("testCollChanged")]
+        public function get testColl():ArrayCollection {return _testColl;}
+        public function set testColl(value:ArrayCollection):void {
+            if (_testColl != value) {
+                _testColl = value;
+                dispatchEvent(new Event("testCollChanged"));
+            }
+        }
+
+        private function cancelBtn_clickHandler(event:MouseEvent):void {
+            if (testList) testList.selectedItem = null;
+            setCurrentState("normal");
+        }
+
+        public function get isHistoryRemoving():Boolean {
+            return currentState == "removeHistory";
+        }
+
+        public function clear():void {
+            setCurrentState('normal');
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="removeHistory"/>
+    </s:states>
+
+    <s:layout>
+        <s:VerticalLayout gap="10"/>
+    </s:layout>
+
+
+    <button:DottedLabelBtn text="Удалить результаты тестирования"
+                           fontFamily="{Fonts.ROBOTO_LIGHT}"
+                           fontSize="18"
+                           upColor="{AppColors.TEXT_DARK}"
+                           downColor="{AppColors.TEXT_BLACK}"
+                           click="setCurrentState('removeHistory')"/>
+
+    <s:Group width="100%" height="100%"
+             visible.removeHistory="true"
+             visible="false">
+        <s:layout>
+            <s:ConstraintLayout>
+                <s:constraintColumns>
+                    <s:ConstraintColumn id="col1" width="50%"/>
+                    <s:ConstraintColumn id="col2" width="25%"/>
+                    <s:ConstraintColumn id="col3" width="25%"/>
+                </s:constraintColumns>
+                <s:constraintRows>
+                    <s:ConstraintRow id="row1"/>
+                    <s:ConstraintRow id="row2" height="100%"/>
+                </s:constraintRows>
+            </s:ConstraintLayout>
+        </s:layout>
+
+        <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+
+        <list:ListForm id="testList"
+                       top="10"
+                       bottom="10"
+                       left="col1:10"
+                       right="col1:10"
+                       dataProvider="{testColl}"
+                       title="Список тестов"
+                       itemRenderer="dittner.testmyself.deutsch.view.test.testList.TestInfoRenderer">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:ListForm>
+
+        <s:Label left="col2:10" top="row1:10" right="10"
+                 fontFamily="{Fonts.ROBOTO}"
+                 color="{AppColors.TEXT_DARK}" fontSize="14"
+                 includeIn="removeHistory"
+                 text="Вы действительно хотите удалить результаты выбранного теста?"/>
+
+        <button:GrayButton id="cancelBtn"
+                           top="row2:10"
+                           left="col2:10"
+                           right="col2:10"
+                           label="Отменить"
+                           click="cancelBtn_clickHandler(event)"/>
+
+        <button:BlackButton id="removeBtn"
+                            enabled="{testList.selectedItem != null}"
+                            label="Удалить"
+                            top="row2:10"
+                            left="col3:10"
+                            right="10"/>
+    </s:Group>
+
+</s:Group>
