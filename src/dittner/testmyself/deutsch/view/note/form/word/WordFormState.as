@@ -115,6 +115,10 @@ public class WordFormState extends NoteFormState {
 			wordInput.visible = true;
 			examplesForm.visible = true;
 			wordOptionsInput.visible = true;
+
+			themesList.visible = true;
+			addThemeBtn.visible = true;
+			addThemeInput.visible = true;
 		}
 	}
 

@@ -1,11 +1,11 @@
-package dittner.testmyself.deutsch.view.note.form.phrase {
+package dittner.testmyself.deutsch.view.note.lesson.form {
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.deutsch.view.note.form.*;
 
 import mx.collections.ArrayCollection;
 
-public class PhraseFormState extends NoteFormState {
-	public function PhraseFormState(form:NoteForm) {
+public class LessonFormState extends NoteFormState {
+	public function LessonFormState(form:NoteForm) {
 		this.form = form;
 	}
 
@@ -36,7 +36,7 @@ public class PhraseFormState extends NoteFormState {
 			titleArea.x = PAD;
 			titleArea.y = HEADER_HEI + PAD_TOP;
 			titleArea.height = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - 2 * VGAP - RECORDER_HEI) / 2;
-			titleArea.width = w - 2 * PAD - HGAP - THEMES_LIST_WID;
+			titleArea.width = w - 2 * PAD;
 
 			descriptionArea.x = titleArea.x;
 			descriptionArea.y = titleArea.y + titleArea.height + VGAP;
@@ -48,20 +48,8 @@ public class PhraseFormState extends NoteFormState {
 			audioRecorder.width = titleArea.width;
 			audioRecorder.height = RECORDER_HEI;
 
-			themesList.x = descriptionArea.x + descriptionArea.width + HGAP;
-			themesList.y = HEADER_HEI + PAD_TOP;
-			themesList.height = 2 * titleArea.height + VGAP;
-			themesList.width = THEMES_LIST_WID;
-
-			addThemeInput.x = themesList.x;
-			addThemeInput.y = themesList.y + themesList.height + VGAP;
-			addThemeInput.width = themesList.width - addThemeBtn.width + 1;
-
-			addThemeBtn.x = addThemeInput.x + addThemeInput.width - 1;
-			addThemeBtn.y = addThemeInput.y + 20;
-
 			applyBtn.width = THEMES_LIST_WID;
-			applyBtn.x = themesList.x;
+			applyBtn.x = w - applyBtn.width - PAD;
 			applyBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
 
 			cancelBtn.x = applyBtn.x - THEMES_LIST_WID - HGAP;
@@ -95,9 +83,9 @@ public class PhraseFormState extends NoteFormState {
 			examplesForm.visible = false;
 			wordOptionsInput.visible = false;
 
-			themesList.visible = true;
-			addThemeBtn.visible = true;
-			addThemeInput.visible = true;
+			themesList.visible = false;
+			addThemeBtn.visible = false;
+			addThemeInput.visible = false;
 		}
 	}
 

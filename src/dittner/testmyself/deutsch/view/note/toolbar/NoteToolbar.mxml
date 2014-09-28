@@ -45,6 +45,19 @@
                 dispatchEvent(new Event("transInvertToolEnabledChanged"));
             }
         }
+
+        //--------------------------------------
+        //  filterToolEnabled
+        //--------------------------------------
+        private var _filterToolEnabled:Boolean = true;
+        [Bindable("filterToolEnabledChanged")]
+        public function get filterToolEnabled():Boolean {return _filterToolEnabled;}
+        public function set filterToolEnabled(value:Boolean):void {
+            if (_filterToolEnabled != value) {
+                _filterToolEnabled = value;
+                dispatchEvent(new Event("filterToolEnabledChanged"));
+            }
+        }
         ]]></fx:Script>
 
 
@@ -101,6 +114,8 @@
 
     <button:ToolButton id="filterBtn"
                        description="Фильтровать по темам"
+                       visible="{filterToolEnabled}"
+                       includeInLayout="{filterToolEnabled}"
                        image="@Embed(source='/assets/tools/filter.png')"/>
 
 </s:Group>

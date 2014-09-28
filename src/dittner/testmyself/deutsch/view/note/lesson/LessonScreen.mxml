@@ -6,9 +6,11 @@
                  xmlns:toolbar="dittner.testmyself.deutsch.view.note.toolbar.*"
                  xmlns:editor="dittner.testmyself.deutsch.view.note.form.*"
                  xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*"
-                 xmlns:filter="dittner.testmyself.deutsch.view.common.filter.*"
                  xmlns:navigation="dittner.testmyself.deutsch.view.common.pagination.*"
                  xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
+                 xmlns:list2="dittner.testmyself.deutsch.view.common.list.*"
+                 xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+                 xmlns:form="dittner.testmyself.deutsch.view.note.lesson.form.*"
                  currentState="inactive"
                  horizontalCenter="0">
 
@@ -17,6 +19,8 @@
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
         import dittner.testmyself.deutsch.view.note.form.NoteType;
+
+        import mx.collections.ArrayCollection;
 
         //--------------------------------------
         //  editing
@@ -31,30 +35,51 @@
             }
         }
 
+        //--------------------------------------
+        //  lessonColl
+        //--------------------------------------
+        private var _lessonColl:ArrayCollection;
+        [Bindable("lessonCollChanged")]
+        public function get lessonColl():ArrayCollection {return _lessonColl;}
+        public function set lessonColl(value:ArrayCollection):void {
+            if (_lessonColl != value) {
+                _lessonColl = value;
+                dispatchEvent(new Event("lessonCollChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  selectedLessonName
+        //--------------------------------------
+        private var _selectedLessonName:String = "";
+        [Bindable("selectedLessonNameChanged")]
+        public function get selectedLessonName():String {return _selectedLessonName;}
+        public function set selectedLessonName(value:String):void {
+            if (_selectedLessonName != value) {
+                _selectedLessonName = value;
+                dispatchEvent(new Event("selectedLessonNameChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
         //
         //----------------------------------------------------------------------------------------------
 
-        public function activate(noteType:String):void {
-            switch (noteType) {
-                case NoteType.PHRASE :
-                    setCurrentState("phrase");
-                    break;
-                case NoteType.WORD :
-                    setCurrentState("word");
-                    break;
-                case NoteType.VERB :
-                    setCurrentState("verb");
-                    break;
-            }
-        }
-
         public function deactivate():void {
             editing = false;
+            selectedLessonName = "";
             mp3Player.visible = false;
             setCurrentState("inactive");
+        }
+
+        public function showLessonList():void {
+            setCurrentState("lessonList");
+        }
+
+        public function showLessonContent():void {
+            setCurrentState("lessonContent");
         }
 
         public function showEditor():void {
@@ -77,9 +102,8 @@
     <core:states>
         <s:State name="disabled"/>
         <s:State name="inactive"/>
-        <s:State name="phrase"/>
-        <s:State name="word"/>
-        <s:State name="verb"/>
+        <s:State name="lessonList"/>
+        <s:State name="lessonContent"/>
     </core:states>
 
     <!--content bg-->
@@ -103,20 +127,32 @@
               verticalAlign="middle"
               paddingLeft="{PADDING}" paddingRight="{PADDING}">
 
-        <s:Label text="{title}"
+        <button:ToolButton id="goBackBtn"
+                           description="К списку уроков"
+                           visible="false" visible.lessonContent="true"
+                           includeInLayout="false" includeInLayout.lessonContent="true"
+                           image="@Embed(source='/assets/tools/goback.png')"/>
+
+        <s:Label text.lessonContent="{selectedLessonName}" text="{title}"
+                 textAlign.lessonContent="center" textAlign="left"
                  fontFamily="{Fonts.ROBOTO}"
                  fontSize="16"
                  paddingTop="2"
                  width="100%"
                  color="#54545d"/>
 
+        <button:ToolButton id="addLessonBtn"
+                           description="Добавить новый урок"
+                           visible="false" visible.lessonList="true"
+                           includeInLayout="false" includeInLayout.lessonList="true"
+                           image="@Embed(source='/assets/tools/add.png')"/>
+
         <toolbar:NoteToolbar id="toolbar"
                              excludeFrom="inactive"
-                             width="100%"
                              height="{HEADER_HEI}"
-                             verLayoutToolEnabled.verb="false"
-                             hideDetailsToolEnabled.verb="false"
-                             transInvertToolEnabled.verb="false"/>
+                             visible="false" visible.lessonContent="true"
+                             includeInLayout="false" includeInLayout.lessonContent="true"
+                             filterToolEnabled="false"/>
     </s:HGroup>
 
     <s:HGroup left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}" gap="-1">
@@ -125,17 +161,31 @@
                     minViewportInset="1"
                     horizontalScrollPolicy="off"
                     hasFocusableChildren="false">
-            <list:NoteList id="list"
-                           width="100%"
-                           contentBackgroundAlpha="0"
-                           deselectEnabled="true"
-                           itemRenderer="dittner.testmyself.deutsch.view.note.common.renderer.NoteRenderer"
-                           itemRenderer.word="dittner.testmyself.deutsch.view.note.common.renderer.WordRenderer"
-                           itemRenderer.verb="dittner.testmyself.deutsch.view.note.common.renderer.VerbRenderer">
-                <list:layout>
-                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
-                </list:layout>
-            </list:NoteList>
+            <s:Group width="100%">
+                <list:NoteList id="noteList"
+                               width="100%"
+                               visible="false" visible.lessonContent="true"
+                               includeInLayout="false" includeInLayout.lessonContent="true"
+                               contentBackgroundAlpha="0"
+                               deselectEnabled="true"
+                               itemRenderer="dittner.testmyself.deutsch.view.note.common.renderer.NoteRenderer">
+                    <list:layout>
+                        <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                    </list:layout>
+                </list:NoteList>
+
+                <list2:SelectableDataGroup id="lessonList"
+                                           width="100%"
+                                           dataProvider="{lessonColl}"
+                                           visible="false" visible.lessonList="true"
+                                           includeInLayout="false" includeInLayout.lessonList="true"
+                                           itemRenderer="dittner.testmyself.deutsch.view.note.lesson.filter.LessonThemeRenderer">
+                    <list2:layout>
+                        <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                    </list2:layout>
+                </list2:SelectableDataGroup>
+            </s:Group>
+
         </s:Scroller>
 
         <list:ExampleList id="exampleList"
@@ -147,7 +197,6 @@
                           hasFocusableChildren="false"/>
     </s:HGroup>
 
-
     <!--footer-->
     <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
              excludeFrom="inactive">
@@ -156,7 +205,6 @@
                 <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
             </s:fill>
         </s:Rect>
-
 
         <mp3:MP3Player id="mp3Player"
                        width="400"
@@ -167,6 +215,7 @@
                        skinClass="dittner.testmyself.deutsch.view.common.audio.skins.MP3PlayerSkin"/>
 
         <navigation:PaginationBar id="paginationBar"
+                                  visible="false" visible.lessonContent="true"
                                   left="{PADDING}" right="{PADDING}"
                                   height="100%"/>
 
@@ -186,17 +235,12 @@
         <editor:NoteForm id="form"
                          visible="false"
                          bottom="0"
-                         noteType.phrase="{NoteType.PHRASE}"
-                         noteType.word="{NoteType.WORD}"
-                         noteType.verb="{NoteType.VERB}"
+                         noteType="{NoteType.LESSON}"
                          top="{HEADER_HEI}"/>
-
-        <filter:ThemeFilter id="filter"
-                            width="350"
-                            visible="false"
-                            right="0"
-                            bottom="0"
-                            top="{HEADER_HEI}"/>
     </s:Group>
+
+    <form:AddLessonForm id="addLessonForm"
+                        visible="false"
+                        height="100%" width="100%"/>
 
 </core:ScreenBase>

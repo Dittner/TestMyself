@@ -5,6 +5,7 @@ import dittner.testmyself.deutsch.view.common.renderer.SeparatorVo;
 import dittner.testmyself.deutsch.view.common.screen.ScreenBase;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.note.NoteScreen;
+import dittner.testmyself.deutsch.view.note.lesson.LessonScreen;
 import dittner.testmyself.deutsch.view.settings.SettingsScreen;
 import dittner.testmyself.deutsch.view.template.TemplateScreen;
 import dittner.testmyself.deutsch.view.test.TestScreen;
@@ -23,6 +24,9 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 
 	[Embed(source='/assets/screen/verb.png')]
 	private static const VerbIconClass:Class;
+
+	[Embed(source='/assets/screen/lesson.png')]
+	private static const LessonIconClass:Class;
 
 	[Embed(source='/assets/screen/testing.png')]
 	private static const TestingIconClass:Class;
@@ -66,6 +70,10 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
+		info = new ScreenInfo(ScreenID.LESSON, "УРОКИ", "Список уроков", getIcon(ScreenID.LESSON));
+		_screenInfos.push(info);
+		screensHash[info.id] = info;
+
 		info = new ScreenInfo(ScreenID.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenID.TEST));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
@@ -101,6 +109,9 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 			case ScreenID.VERB :
 				IconClass = VerbIconClass;
 				break;
+			case ScreenID.LESSON :
+				IconClass = LessonIconClass;
+				break;
 			case ScreenID.TEST :
 				IconClass = TestingIconClass;
 				break;
@@ -118,6 +129,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 	}
 
 	private static var noteScreen:NoteScreen = new NoteScreen();
+	private static var lessonScreen:LessonScreen = new LessonScreen();
 	private static var testScreen:TestScreen = new TestScreen();
 	public function createScreen(screenId:String):ScreenBase {
 		var screen:ScreenBase;
@@ -133,6 +145,9 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				break;
 			case ScreenID.VERB :
 				screen = noteScreen;
+				break;
+			case ScreenID.LESSON :
+				screen = lessonScreen;
 				break;
 			case ScreenID.TEST :
 				screen = testScreen;

@@ -12,6 +12,7 @@ import dittner.testmyself.core.command.backend.DeleteNoteSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteThemeSQLOperation;
 import dittner.testmyself.core.command.backend.GetDataBaseInfoSQLOperation;
 import dittner.testmyself.core.command.backend.InsertNoteSQLOperation;
+import dittner.testmyself.core.command.backend.InsertThemeSQLOperation;
 import dittner.testmyself.core.command.backend.MergeThemesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectExamplesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectFilterSQLOperation;
@@ -98,6 +99,14 @@ public class NoteService extends SFProxy {
 		var suite:NoteSuite = requestMsg.data as NoteSuite;
 		var op:IDeferredOperation = new DeleteNoteSQLOperation(this, suite);
 		op.addCompleteCallback(noteRemoved);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function addTheme(requestMsg:IRequestMessage):void {
+		var theme:Theme = requestMsg.data as Theme;
+		var op:IDeferredOperation = new InsertThemeSQLOperation(this, theme);
+		op.addCompleteCallback(themeAdded);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -241,6 +250,10 @@ public class NoteService extends SFProxy {
 		loadThemes();
 		loadDBInfo();
 		model.noteHash.add((res.data as NoteSuite).note);
+	}
+
+	private function themeAdded(res:CommandResult):void {
+		loadThemes();
 	}
 
 	private function noteUpdated(res:CommandResult):void {

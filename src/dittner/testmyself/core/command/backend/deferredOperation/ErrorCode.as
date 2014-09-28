@@ -2,6 +2,7 @@ package dittner.testmyself.core.command.backend.deferredOperation {
 public class ErrorCode {
 
 	public static const NULLABLE_NOTE:String = "nullableNote";
+	public static const NULLABLE_THEME:String = "nullableTheme";
 	public static const NULLABLE_TEST_SPEC:String = "nullableTestSpec";
 	public static const NOTE_ADDED_WITHOUT_ID:String = "noteAddedWithoutID";
 	public static const THEME_ADDED_WITHOUT_ID:String = "themeAddedWithoutID";

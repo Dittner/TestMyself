@@ -107,6 +107,10 @@ public class VerbFormState extends NoteFormState {
 			wordInput.visible = false;
 			examplesForm.visible = true;
 			wordOptionsInput.visible = false;
+
+			themesList.visible = true;
+			addThemeBtn.visible = true;
+			addThemeInput.visible = true;
 		}
 	}
 

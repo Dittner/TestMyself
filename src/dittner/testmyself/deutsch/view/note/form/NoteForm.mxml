@@ -27,6 +27,7 @@
         import dittner.testmyself.deutsch.view.note.form.phrase.PhraseFormState;
         import dittner.testmyself.deutsch.view.note.form.verb.VerbFormState;
         import dittner.testmyself.deutsch.view.note.form.word.WordFormState;
+        import dittner.testmyself.deutsch.view.note.lesson.form.LessonFormState;
 
         import mx.collections.ArrayCollection;
         import mx.events.FlexEvent;
@@ -87,12 +88,14 @@
         private var phraseFormState:NoteFormState;
         private var wordFormState:NoteFormState;
         private var verbFormState:NoteFormState;
+        private var lessonFormState:NoteFormState;
 
         private function initializeHandler(event:FlexEvent):void {
             defaultFormState = new NoteFormState();
             phraseFormState = new PhraseFormState(this);
             wordFormState = new WordFormState(this);
             verbFormState = new VerbFormState(this);
+            lessonFormState = new LessonFormState(this);
 
             curFormState = defaultFormState;
         }
@@ -111,6 +114,9 @@
                         break;
                     case NoteType.VERB :
                         curFormState = verbFormState;
+                        break;
+                    case NoteType.LESSON :
+                        curFormState = lessonFormState;
                         break;
                     default :
                         curFormState = defaultFormState;

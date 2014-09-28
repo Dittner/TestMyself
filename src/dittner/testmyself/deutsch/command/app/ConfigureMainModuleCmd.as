@@ -3,6 +3,7 @@ import dittner.satelliteFlight.command.IConfigureCommand;
 import dittner.satelliteFlight.module.RootModule;
 import dittner.satelliteFlight.module.SFModule;
 import dittner.testmyself.core.command.AddNoteCmd;
+import dittner.testmyself.core.command.AddThemeCmd;
 import dittner.testmyself.core.command.ClearNotesInfoCmd;
 import dittner.testmyself.core.command.ClearTestHistoryCmd;
 import dittner.testmyself.core.command.GetNoteCmd;
@@ -70,6 +71,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 
 		/*sql*/
 		mainModule.registerCmd(NoteMsg.ADD_NOTE, AddNoteCmd);
+		mainModule.registerCmd(NoteMsg.ADD_THEME, AddThemeCmd);
 		mainModule.registerCmd(NoteMsg.REMOVE_NOTE, RemoveNoteCmd);
 		mainModule.registerCmd(NoteMsg.UPDATE_NOTE, UpdateNoteCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTE_PAGE_INFO, GetNotePageInfoCmd);
@@ -114,6 +116,11 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		(mainModule as RootModule).addModule(verbModule);
 		cmd = new ConfigureVerbModuleCmd();
 		cmd.execute(verbModule);
+
+		var lessonModule:SFModule = new SFModule(ModuleName.LESSON);
+		(mainModule as RootModule).addModule(lessonModule);
+		cmd = new ConfigureLessonModuleCmd();
+		cmd.execute(lessonModule);
 	}
 }
 }

@@ -6,6 +6,7 @@ import dittner.testmyself.deutsch.view.about.AboutScreenMediator;
 import dittner.testmyself.deutsch.view.note.PhraseScreenMediator;
 import dittner.testmyself.deutsch.view.note.VerbScreenMediator;
 import dittner.testmyself.deutsch.view.note.WordScreenMediator;
+import dittner.testmyself.deutsch.view.note.lesson.LessonScreenMediator;
 import dittner.testmyself.deutsch.view.settings.SettingsScreenMediator;
 import dittner.testmyself.deutsch.view.template.TemplateScreenMediator;
 import dittner.testmyself.deutsch.view.test.TestScreenMediator;
@@ -17,6 +18,7 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 	private var phraseMediator:SFMediator = new PhraseScreenMediator();
 	private var wordMediator:SFMediator = new WordScreenMediator();
 	private var verbMediator:SFMediator = new VerbScreenMediator();
+	private var lessonMediator:SFMediator = new LessonScreenMediator();
 	private var testMediator:SFMediator = new TestScreenMediator();
 
 	public function createScreenMediator(screenId:String):SFMediator {
@@ -33,6 +35,9 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 				break;
 			case ScreenID.VERB :
 				mediator = verbMediator;
+				break;
+			case ScreenID.LESSON :
+				mediator = lessonMediator;
 				break;
 			case ScreenID.TEST :
 				mediator = testMediator;
