@@ -4,7 +4,8 @@
                  xmlns:s="library://ns.adobe.com/flex/spark"
                  xmlns:testlist="dittner.testmyself.deutsch.view.test.testList.*"
                  xmlns:presets="dittner.testmyself.deutsch.view.test.presets.*"
-                 xmlns:results="dittner.testmyself.deutsch.view.test.results.*" xmlns:testing="dittner.testmyself.deutsch.view.test.testing.*"
+                 xmlns:results="dittner.testmyself.deutsch.view.test.results.*"
+                 xmlns:testing="dittner.testmyself.deutsch.view.test.testing.*"
                  horizontalCenter="0"
                  currentState="inactive">
 

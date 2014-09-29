@@ -37,6 +37,10 @@
                 dispatchEvent(new Event("paddingChanged"));
             }
         }
+
+        public function testRendererFunction(item:*):IFactory {
+            return new ClassFactory(item is String ? TestSeparatorRenderer : TestInfoRenderer);
+        }
         ]]></fx:Script>
 
 
@@ -47,16 +51,14 @@
     <list:ListForm id="testInfoList"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"
-                   width="{width - 2*padding}"
+                   width="{width - 2*padding}" height="100%"
                    dataProvider="{testInfoColl}"
-                   title="Выберите тест из списка стандартных тестов"
-                   itemRenderer="dittner.testmyself.deutsch.view.test.testList.TestInfoRenderer">
-        <list:layout>
+                   title="Выберите тест из списка"
+                   itemRendererFunction="testRendererFunction">
+    <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </list:layout>
     </list:ListForm>
-
-    <s:Spacer height="100%"/>
 
     <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 

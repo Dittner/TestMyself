@@ -9,7 +9,8 @@
                  xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
                  xmlns:list2="dittner.testmyself.deutsch.view.common.list.*"
                  xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
-                 xmlns:form="dittner.testmyself.deutsch.view.dictionary.lesson.form.*" xmlns:form2="dittner.testmyself.deutsch.view.dictionary.note.form.*"
+                 xmlns:form="dittner.testmyself.deutsch.view.dictionary.lesson.form.*"
+                 xmlns:form2="dittner.testmyself.deutsch.view.dictionary.note.form.*"
                  currentState="inactive"
                  horizontalCenter="0">
 
@@ -168,8 +169,8 @@
                                contentBackgroundAlpha="0"
                                deselectEnabled="true"
                                itemRenderer="dittner.testmyself.deutsch.view.dictionary.note.list.NoteRenderer">
-                <list:layout>
-                        <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                    <list:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                     </list:layout>
                 </list:NoteList>
 
@@ -179,21 +180,13 @@
                                            visible="false" visible.lessonList="true"
                                            includeInLayout="false" includeInLayout.lessonList="true"
                                            itemRenderer="dittner.testmyself.deutsch.view.dictionary.lesson.filter.LessonThemeRenderer">
-                <list2:layout>
-                        <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                    <list2:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                     </list2:layout>
                 </list2:SelectableDataGroup>
             </s:Group>
 
         </s:Scroller>
-
-        <list:ExampleList id="exampleList"
-                          width="66%" height="100%"
-                          excludeFrom="inactive"
-                          visible="false"
-                          showTitle="false"
-                          includeInLayout="false"
-                          hasFocusableChildren="false"/>
     </s:HGroup>
 
     <!--footer-->
@@ -232,10 +225,10 @@
         </s:Rect>
 
         <form2:NoteForm id="form"
-                         visible="false"
-                         bottom="0"
-                         noteType="{NoteType.LESSON}"
-                         top="{HEADER_HEI}"/>
+                        visible="false"
+                        bottom="0"
+                        noteType="{NoteType.LESSON}"
+                        top="{HEADER_HEI}"/>
     </s:Group>
 
     <form:AddLessonForm id="addLessonForm"

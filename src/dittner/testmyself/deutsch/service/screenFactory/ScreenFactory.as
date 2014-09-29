@@ -7,7 +7,6 @@ import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.dictionary.lesson.LessonScreen;
 import dittner.testmyself.deutsch.view.dictionary.note.NoteScreen;
 import dittner.testmyself.deutsch.view.settings.SettingsScreen;
-import dittner.testmyself.deutsch.view.template.TemplateScreen;
 import dittner.testmyself.deutsch.view.test.TestScreen;
 
 import flash.display.BitmapData;
@@ -153,7 +152,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				screen = testScreen;
 				break;
 			case ScreenID.SEARCH :
-				screen = new TemplateScreen();
+				screen = null;
 				break;
 			case ScreenID.SETTINGS :
 				screen = new SettingsScreen();

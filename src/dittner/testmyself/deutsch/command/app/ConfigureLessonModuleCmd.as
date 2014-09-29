@@ -4,10 +4,14 @@ import dittner.satelliteFlight.module.SFModule;
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.model.note.NoteModel;
 import dittner.testmyself.core.model.note.SQLFactory;
+import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
+import dittner.testmyself.deutsch.model.ModuleName;
+import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.model.domain.lesson.LessonDemoData;
+import dittner.testmyself.deutsch.model.domain.lesson.LessonTestModel;
 
 public class ConfigureLessonModuleCmd implements IConfigureCommand {
 
@@ -30,7 +34,10 @@ public class ConfigureLessonModuleCmd implements IConfigureCommand {
 	}
 
 	private function createTestModel():TestModel {
-		var model:TestModel = new TestModel();
+		var model:TestModel = new LessonTestModel();
+		model.addTestInfo(new TestInfo(TestID.SPEAK_LESSON_TRANSLATION, ModuleName.LESSON, "Устный перевод с немецкого языка"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_LESSON_IN_DEUTSCH, ModuleName.LESSON, "Устный перевод на немецкий язык"));
+		model.addTestInfo(new TestInfo(TestID.WRITE_LESSON, ModuleName.LESSON, "Письменный перевод с немецкого языка"));
 		return model;
 	}
 }

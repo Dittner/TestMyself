@@ -10,7 +10,7 @@ public class PhraseTestModel extends TestModel {
 	}
 
 	override public function validate(note:INote, testInfo:TestInfo):Boolean {
-		if (testInfo.id == TestID.WRITE_PHRASE_TRANSLATION) return note.audioComment.bytes;
+		if (testInfo.id == TestID.WRITE_PHRASE) return note.audioComment.bytes;
 		return true;
 	}
 }

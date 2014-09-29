@@ -5,37 +5,23 @@
                    xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
                    xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*"
                    xmlns:common="dittner.testmyself.deutsch.view.test.common.*"
-                   xmlns:test="dittner.testmyself.deutsch.view.test.testing.test.*"
-                   xmlns:input="dittner.testmyself.deutsch.view.common.input.*"
-                   xmlns:common2="dittner.testmyself.deutsch.view.dictionary.common.*">
+                   xmlns:test="dittner.testmyself.deutsch.view.test.testing.test.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.core.model.note.INote;
-        import dittner.testmyself.deutsch.model.AppConfig;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
         import dittner.testmyself.deutsch.view.test.common.TestingAction;
 
         //--------------------------------------
-        //  isCorrectlyAnswered
+        //  word
         //--------------------------------------
-        private var _isCorrectlyAnswered:Boolean = true;
-        [Bindable("isCorrectlyAnsweredChanged")]
-        public function get isCorrectlyAnswered():Boolean {return _isCorrectlyAnswered;}
-        public function set isCorrectlyAnswered(value:Boolean):void {
-            if (_isCorrectlyAnswered != value) {
-                _isCorrectlyAnswered = value;
-                dispatchEvent(new Event("isCorrectlyAnsweredChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  phrase
-        //--------------------------------------
-        public function get phrase():INote {
+        public function get note():INote {
             return activeNote as INote;
         }
+
+        public var translateInDeutsch:Boolean = false;
 
         //----------------------------------------------------------------------------------------------
         //
@@ -49,16 +35,13 @@
                 activeNoteChanged = false;
                 clear();
 
-                if (phrase) {
-                    stage.focus = phraseInput;
+                if (note) {
+                    titleLbl.text = translateInDeutsch ? note.description : note.title;
+                    descriptionLbl.text = translateInDeutsch ? note.title : note.description;
 
-                    titleLbl.text = phrase.title;
-                    descriptionLbl.text = phrase.description;
-
-                    if (phrase.audioComment.bytes) {
+                    if (note.audioComment.bytes && !translateInDeutsch) {
                         mp3Player.visible = true;
-                        mp3Player.comment = phrase.audioComment;
-                        mp3Player.play();
+                        mp3Player.comment = note.audioComment;
                     }
                     else {
                         mp3Player.visible = false;
@@ -69,15 +52,15 @@
         }
 
         override protected function clear():void {
-            isCorrectlyAnswered = true;
             showDetails = false;
             titleLbl.text = "";
             descriptionLbl.text = "";
-            titleLbl.text = "";
-            phraseInput.text = "";
-            invalidNotifier.hideImmediately();
             mp3Player.visible = false;
             mp3Player.comment = null;
+        }
+
+        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
+            return showDetails && options;
         }
 
         private function onCorrectAnswered():void {
@@ -87,23 +70,11 @@
             }
         }
 
-        private function onAnswered():void {
-            if (!answerEnabled || !isCorrectlyAnswered) return;
-            var initialText:String = phrase.title.replace("ß", "ss");
-            var inputText:String = phraseInput.text.replace("ß", "ss");
-            isCorrectlyAnswered = initialText == inputText;
-            notifyAnswered();
-        }
-
-        private function notifyAnswered():void {
-            if (isCorrectlyAnswered) {
-                actionCallback(TestingAction.CORRECT_ANSWER);
-                actionCallback(TestingAction.NEXT_TASK);
-            }
-            else {
-                invalidNotifier.show();
-                actionCallback(TestingAction.INCORRECT_ANSWER);
+        private function onIncorrectAnswered():void {
+            if (actionCallback != null) {
                 errorsNum++;
+                actionCallback(TestingAction.INCORRECT_ANSWER);
+                actionCallback(TestingAction.NEXT_TASK);
             }
         }
         ]]></fx:Script>
@@ -153,12 +124,7 @@
                              fontFamily="{Fonts.ROBOTO_COND}" textAlign="center"
                              fontWeight="bold"
                              color="{AppColors.TEXT_DARK}"
-                             visible="{showDetails}"
                              fontSize="24"/>
-
-                    <s:BitmapImage visible="{!showDetails}"
-                                   verticalCenter="0" horizontalCenter="0"
-                                   source="@Embed('/assets/test/questions.png')"/>
                 </s:Group>
 
             </s:Scroller>
@@ -187,37 +153,28 @@
 
             </s:Scroller>
 
+            <s:HGroup width="100%"
+                      horizontalAlign="center"
+                      gap="15">
 
-            <input:TextAreaForm id="phraseInput"
-                                width="{width - 2*padding}" height="100%"
-                                maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                                title="Введите озвученный текст"/>
-
-            <button:BlackButton id="validateBtn"
-                                width="250"
-                                enabled="{answerEnabled}"
-                                label="Ответить"
-                                click="onAnswered()"/>
-
-
-            <s:HGroup width="480" gap="15"
-                      visible="{!isCorrectlyAnswered}">
-                <button:GrayButton id="showAnswerBtn"
-                                   width="100%"
-                                   label="Показать ответ"
-                                   click="showDetails = true"/>
-
-                <button:BlackButton id="nextBtn"
+                <button:BlackButton id="correctAnswerBtn"
+                                    width="250"
                                     enabled="{answerEnabled}"
-                                    width="100%"
-                                    label="Дальше"
-                                    click="goNext()"/>
+                                    label="Правильный ответ"
+                                    click="onCorrectAnswered()"/>
+
+                <button:RedButton id="incorrectAnswerBtn"
+                                  width="250"
+                                  enabled="{answerEnabled}"
+                                  label="Неправильный ответ"
+                                  click="onIncorrectAnswered()"/>
+
+                <button:YellowButton id="showAnswerBtn"
+                                     width="250"
+                                     label="Показать ответ"
+                                     click="showDetails = true"/>
 
             </s:HGroup>
-
-            <common2:InvalidNotifier id="invalidNotifier"
-                                     width="480" height="30"
-                                     text="Указан неверный ответ"/>
 
             <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 

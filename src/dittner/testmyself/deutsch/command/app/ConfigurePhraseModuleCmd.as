@@ -35,9 +35,9 @@ public class ConfigurePhraseModuleCmd implements IConfigureCommand {
 
 	private function createTestModel():TestModel {
 		var model:TestModel = new PhraseTestModel();
-		model.addTestInfo(new TestInfo(TestID.SPEAK_PHRASE_TRANSLATION, ModuleName.PHRASE, "Устный перевод фраз и предложений с немецкого языка"));
-		model.addTestInfo(new TestInfo(TestID.SPEAK_PHRASE_IN_DEUTSCH, ModuleName.PHRASE, "Устный перевод фраз и предложений на немецкий язык"));
-		model.addTestInfo(new TestInfo(TestID.WRITE_PHRASE_TRANSLATION, ModuleName.PHRASE, "Письменный перевод фраз и предложений с немецкого языка"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_PHRASE_TRANSLATION, ModuleName.PHRASE, "Устный перевод с немецкого языка"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_PHRASE_IN_DEUTSCH, ModuleName.PHRASE, "Устный перевод на немецкий язык"));
+		model.addTestInfo(new TestInfo(TestID.WRITE_PHRASE, ModuleName.PHRASE, "Правописание"));
 		return model;
 	}
 }

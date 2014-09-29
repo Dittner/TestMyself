@@ -8,7 +8,6 @@ import dittner.testmyself.deutsch.view.dictionary.phrase.PhraseScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.verb.VerbScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.word.WordScreenMediator;
 import dittner.testmyself.deutsch.view.settings.SettingsScreenMediator;
-import dittner.testmyself.deutsch.view.template.TemplateScreenMediator;
 import dittner.testmyself.deutsch.view.test.TestScreenMediator;
 
 public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFactory {
@@ -43,7 +42,7 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 				mediator = testMediator;
 				break;
 			case ScreenID.SEARCH :
-				mediator = new TemplateScreenMediator();
+				mediator = null;
 				break;
 			case ScreenID.SETTINGS :
 				mediator = new SettingsScreenMediator();
