@@ -22,7 +22,7 @@ public class UpdateThemeSQLOperation extends DeferredOperation {
 	private var theme:Theme;
 
 	override public function process():void {
-		if (theme && theme.id && theme.name) {
+		if (theme && theme.id != -1 && theme.name) {
 			var sqlParams:Object = {};
 			sqlParams.themeID = theme.id;
 			sqlParams.name = theme.name;

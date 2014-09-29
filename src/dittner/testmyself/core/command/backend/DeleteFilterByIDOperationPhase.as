@@ -24,7 +24,7 @@ public class DeleteFilterByIDOperationPhase extends PhaseOperation {
 	private var sqlFactory:SQLFactory;
 
 	override public function execute():void {
-		if (themeID) {
+		if (themeID != -1) {
 			var statements:Vector.<QueuedStatement> = new <QueuedStatement>[];
 			statements.push(new QueuedStatement(sqlFactory.deleteFilterByID, {deletingThemeID: themeID}));
 			sqlRunner.executeModify(statements, deleteCompleteHandler, deleteFailedHandler);

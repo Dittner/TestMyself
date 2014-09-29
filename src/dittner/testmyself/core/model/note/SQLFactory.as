@@ -276,6 +276,13 @@ public class SQLFactory extends SFProxy {
 		return DELETE_NOTE_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/DeleteNotesByTheme.sql", mimeType="application/octet-stream")]
+	private static const DeleteNotesByThemeClass:Class;
+	private static const DELETE_NOTES_BY_THEME_SQL:String = new DeleteNotesByThemeClass();
+	public function get deleteNotesByTheme():String {
+		return DELETE_NOTES_BY_THEME_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/DeleteTheme.sql", mimeType="application/octet-stream")]
 	private static const DeleteThemeClass:Class;
 	private static const DELETE_THEME_SQL:String = new DeleteThemeClass();

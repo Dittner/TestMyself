@@ -9,6 +9,7 @@ import dittner.testmyself.core.command.backend.ClearTestHistorySQLOperation;
 import dittner.testmyself.core.command.backend.CountTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.CreateDataBaseSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteNoteSQLOperation;
+import dittner.testmyself.core.command.backend.DeleteNotesByThemeSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteThemeSQLOperation;
 import dittner.testmyself.core.command.backend.GetDataBaseInfoSQLOperation;
 import dittner.testmyself.core.command.backend.InsertNoteSQLOperation;
@@ -74,7 +75,11 @@ public class NoteService extends SFProxy {
 	override protected function activate():void {
 		var op:IDeferredOperation = new CreateDataBaseSQLOperation(this, spec);
 		deferredOperationManager.add(op);
-		op = new SelectNoteKeysSQLOperation(this, sqlFactory, spec.noteClass);
+		updateNoteHash();
+	}
+
+	private function updateNoteHash():void {
+		var op:IDeferredOperation = new SelectNoteKeysSQLOperation(this, sqlFactory, spec.noteClass);
 		op.addCompleteCallback(initializeNoteHash);
 		deferredOperationManager.add(op);
 	}
@@ -99,6 +104,13 @@ public class NoteService extends SFProxy {
 		var suite:NoteSuite = requestMsg.data as NoteSuite;
 		var op:IDeferredOperation = new DeleteNoteSQLOperation(this, suite);
 		op.addCompleteCallback(noteRemoved);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function removeNotesByTheme(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new DeleteNotesByThemeSQLOperation(this, (requestMsg.data as Theme).id);
+		op.addCompleteCallback(notesByThemeRemoved);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
@@ -267,6 +279,13 @@ public class NoteService extends SFProxy {
 		loadNotePageInfo();
 		loadDBInfo();
 		model.noteHash.remove((res.data as NoteSuite).note);
+	}
+
+	private function notesByThemeRemoved(res:CommandResult):void {
+		loadNotePageInfo();
+		loadThemes();
+		loadDBInfo();
+		updateNoteHash();
 	}
 
 	private function notePageInfoLoaded(res:CommandResult):void {

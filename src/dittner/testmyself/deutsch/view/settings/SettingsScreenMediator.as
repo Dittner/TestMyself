@@ -6,6 +6,7 @@ import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.deutsch.message.SettingsMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.settings.SettingsInfo;
+import dittner.testmyself.deutsch.view.settings.noteSettings.LessonSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.noteSettings.PhraseSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.noteSettings.VerbSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.noteSettings.WordSettingsMediator;
@@ -22,6 +23,7 @@ public class SettingsScreenMediator extends SFMediator {
 		registerMediator(view.phraseSettings, new PhraseSettingsMediator());
 		registerMediator(view.wordSettings, new WordSettingsMediator());
 		registerMediator(view.verbSettings, new VerbSettingsMediator());
+		registerMediator(view.lessonSettings, new LessonSettingsMediator());
 		registerMediator(view.testSettings, new TestSettingsMediator());
 	}
 

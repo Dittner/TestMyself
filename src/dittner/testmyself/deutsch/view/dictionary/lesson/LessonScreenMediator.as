@@ -79,6 +79,7 @@ public class LessonScreenMediator extends SFMediator {
 		view.deactivate();
 		lessonListMediator = null;
 		lessonContentMediator = null;
+		view.lessonList.selectedItem = null;
 	}
 }
 }

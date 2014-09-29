@@ -60,7 +60,8 @@
     </s:layout>
 
 
-    <button:DottedLabelBtn text="Изменить название темы"
+    <button:DottedLabelBtn id="editLbl"
+                           text="Изменить название темы"
                            fontFamily="{Fonts.ROBOTO_LIGHT}"
                            fontSize="18"
                            visible="{haveThemes}"
@@ -69,7 +70,8 @@
                            downColor="{AppColors.TEXT_BLACK}"
                            click="setCurrentState('renameTheme')"/>
 
-    <button:DottedLabelBtn text="Удалить тему"
+    <button:DottedLabelBtn id="removeLbl"
+                           text="Удалить тему"
                            fontFamily="{Fonts.ROBOTO_LIGHT}"
                            fontSize="18"
                            visible="{haveThemes}"
@@ -110,11 +112,13 @@
             </list:layout>
         </list:ListForm>
 
-        <s:Label left="col2:10" top="row1:10" right="10"
+        <s:Label id="notifyLbl"
+                 left="col2:10" top="row1:10" right="10"
                  fontFamily="{Fonts.ROBOTO}"
                  color="{AppColors.TEXT_DARK}" fontSize="14"
-                 includeIn="removeTheme"
-                 text="Вы действительно хотите безвозвратно удалить выбранную тему?"/>
+                 visible="false" visible.removeTheme="true"
+                 includeInLayout="false" includeInLayout.removeTheme="true"
+                 text="Вы действительно хотите безвозвратно удалить выбранную тему (записи не будут удалены)?"/>
 
         <input:TextInputForm id="themeNameInputForm"
                              top="row1:10" left="col2:10" right="10"

@@ -26,6 +26,7 @@ public class NoteMsg {
 	public static const ADD_THEME:String = "addTheme";
 	public static const UPDATE_NOTE:String = "updateNote";
 	public static const REMOVE_NOTE:String = "removeNote";
+	public static const REMOVE_NOTES_BY_THEME:String = "removeNotesByTheme";
 	public static const GET_THEMES:String = "getThemes";
 	public static const GET_EXAMPLES:String = "getExamples";
 	public static const UPDATE_THEME:String = "updateTheme";

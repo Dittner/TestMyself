@@ -10,32 +10,26 @@ import dittner.testmyself.core.model.note.SQLFactory;
 import flash.data.SQLResult;
 import flash.errors.SQLError;
 
-public class UpdateFilterOperationPhase extends PhaseOperation {
+public class DeleteNotesByThemeOperationPhase extends PhaseOperation {
 
-	public function UpdateFilterOperationPhase(sqlRunner:SQLRunner, newThemeID:int, oldThemeID:int, sqlFactory:SQLFactory) {
+	public function DeleteNotesByThemeOperationPhase(sqlRunner:SQLRunner, themeID:int, sqlFactory:SQLFactory) {
 		super();
 		this.sqlRunner = sqlRunner;
-		this.newThemeID = newThemeID;
-		this.oldThemeID = oldThemeID;
+		this.themeID = themeID;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var sqlRunner:SQLRunner;
-	private var newThemeID:int;
-	private var oldThemeID:int;
+	private var themeID:int;
 	private var sqlFactory:SQLFactory;
 
 	override public function execute():void {
-		if (newThemeID != -1 && oldThemeID != -1) {
-			var sqlParams:Object = {};
-			sqlParams.newThemeID = newThemeID;
-			sqlParams.oldThemeID = oldThemeID;
-
+		if (themeID != -1) {
 			var statements:Vector.<QueuedStatement> = new <QueuedStatement>[];
-			statements.push(new QueuedStatement(sqlFactory.updateFilter, sqlParams));
+			statements.push(new QueuedStatement(sqlFactory.deleteNotesByTheme, {deletingThemeID: themeID}));
 			sqlRunner.executeModify(statements, deleteCompleteHandler, deleteFailedHandler);
 		}
-		else throw new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID темы");
+		else throw new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует тема в БД с id = -1");
 	}
 
 	private function deleteCompleteHandler(results:Vector.<SQLResult>):void {
