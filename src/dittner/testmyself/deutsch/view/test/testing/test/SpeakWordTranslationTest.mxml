@@ -3,7 +3,7 @@
                    xmlns:s="library://ns.adobe.com/flex/spark"
                    xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
                    xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
-                   xmlns:list="dittner.testmyself.deutsch.view.note.list.*"
+                   xmlns:list="dittner.testmyself.deutsch.view.dictionary.note.list.*"
                    xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*"
                    xmlns:common="dittner.testmyself.deutsch.view.test.common.*"
                    xmlns:test="dittner.testmyself.deutsch.view.test.testing.test.*">

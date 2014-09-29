@@ -7,7 +7,7 @@
                    xmlns:common="dittner.testmyself.deutsch.view.test.common.*"
                    xmlns:test="dittner.testmyself.deutsch.view.test.testing.test.*"
                    xmlns:input="dittner.testmyself.deutsch.view.common.input.*"
-                   xmlns:common2="dittner.testmyself.deutsch.view.note.common.*">
+                   xmlns:common2="dittner.testmyself.deutsch.view.dictionary.common.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.model.AppConfig;

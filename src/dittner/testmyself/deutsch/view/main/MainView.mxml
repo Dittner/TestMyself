@@ -12,7 +12,6 @@
         import dittner.testmyself.deutsch.view.common.renderer.SeparatorVo;
         import dittner.testmyself.deutsch.view.common.screen.ScreenBase;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.main.components.ScreenListItemRenderer;
 
         import mx.collections.ArrayCollection;
 
