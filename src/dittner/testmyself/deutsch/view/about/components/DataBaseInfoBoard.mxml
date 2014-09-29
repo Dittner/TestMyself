@@ -41,6 +41,18 @@
             }
         }
 
+        //--------------------------------------
+        //  lessonInfo
+        //--------------------------------------
+        private var _lessonInfo:NotesInfo = new NotesInfo();
+        public function get lessonInfo():NotesInfo {return _lessonInfo;}
+        public function set lessonInfo(value:NotesInfo):void {
+            if (_lessonInfo != value) {
+                _lessonInfo = value;
+                invalidateProperties()
+            }
+        }
+
         override protected function commitProperties():void {
             super.commitProperties();
             var infoText:String;
@@ -48,15 +60,12 @@
                 infoText = "— количество слов: " + wordInfo.notesAmount;
                 infoText += "\n— количество фраз и предложений: " + phraseInfo.notesAmount;
                 infoText += "\n— количество сильных глаголов: " + verbInfo.notesAmount;
-                infoText += "\n— количество примеров: " + (wordInfo.examplesAmount + phraseInfo.examplesAmount + verbInfo.examplesAmount);
-                infoText += "\n— количество аудиозаписей: " + (wordInfo.audioCommentsAmount + phraseInfo.audioCommentsAmount + verbInfo.audioCommentsAmount);
+                infoText += "\n— количество задач, связанных с уроками: " + lessonInfo.notesAmount;
+                infoText += "\n— количество примеров: " + (wordInfo.examplesAmount + phraseInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount);
+                infoText += "\n— количество аудиозаписей: " + (wordInfo.audioCommentsAmount + phraseInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
             }
             else infoText = "";
             infoLbl.text = infoText;
-        }
-
-        private function parseData():void {
-
         }
         ]]></fx:Script>
 

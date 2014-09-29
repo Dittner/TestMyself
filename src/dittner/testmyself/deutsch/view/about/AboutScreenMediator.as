@@ -23,6 +23,9 @@ public class AboutScreenMediator extends SFMediator {
 
 		addListenerTo(ModuleName.VERB, NoteMsg.NOTES_INFO_CHANGED_NOTIFICATION, verbsInfoChanged);
 		sendRequestTo(ModuleName.VERB, NoteMsg.GET_NOTES_INFO, new RequestMessage(verbsInfoLoaded));
+
+		addListenerTo(ModuleName.LESSON, NoteMsg.NOTES_INFO_CHANGED_NOTIFICATION, lessonInfoChanged);
+		sendRequestTo(ModuleName.LESSON, NoteMsg.GET_NOTES_INFO, new RequestMessage(lessonInfoLoaded));
 	}
 
 	private function phrasesInfoChanged(info:NotesInfo):void {
@@ -44,6 +47,13 @@ public class AboutScreenMediator extends SFMediator {
 	}
 	private function verbsInfoLoaded(res:CommandResult):void {
 		view.infoBoard.verbInfo = res.data as NotesInfo;
+	}
+
+	private function lessonInfoChanged(info:NotesInfo):void {
+		view.infoBoard.lessonInfo = info;
+	}
+	private function lessonInfoLoaded(res:CommandResult):void {
+		view.infoBoard.lessonInfo = res.data as NotesInfo;
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
