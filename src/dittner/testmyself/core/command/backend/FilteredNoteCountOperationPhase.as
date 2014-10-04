@@ -5,6 +5,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
+import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.model.note.SQLFactory;
 
@@ -12,7 +13,7 @@ import flash.data.SQLResult;
 
 public class FilteredNoteCountOperationPhase extends PhaseOperation {
 
-	public function FilteredNoteCountOperationPhase(sqlRunner:SQLRunner, info:NotesInfo, filter:Array, sqlFactory:SQLFactory) {
+	public function FilteredNoteCountOperationPhase(sqlRunner:SQLRunner, info:NotesInfo, filter:NoteFilter, sqlFactory:SQLFactory) {
 		this.sqlRunner = sqlRunner;
 		this.info = info;
 		this.filter = filter;
@@ -21,18 +22,21 @@ public class FilteredNoteCountOperationPhase extends PhaseOperation {
 
 	private var info:NotesInfo;
 	private var sqlRunner:SQLRunner;
-	private var filter:Array;
+	private var filter:NoteFilter;
 	private var sqlFactory:SQLFactory;
 
 	override public function execute():void {
-		if (filter.length > 0) {
-			var themes:String = SQLUtils.themesToSqlStr(filter);
+		var params:Object = {};
+		params.searchFilter = filter.searchFullIdentity ? filter.searchText : "%" + filter.searchText + "%";
+
+		if (filter.selectedThemes.length > 0) {
+			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
 			var statement:String = sqlFactory.selectCountFilteredNote;
 			statement = statement.replace("#filterList", themes);
-			sqlRunner.execute(statement, null, executeComplete);
+			sqlRunner.execute(statement, params, executeComplete);
 		}
 		else {
-			sqlRunner.execute(sqlFactory.selectCountNote, null, executeComplete);
+			sqlRunner.execute(sqlFactory.selectCountNote, params, executeComplete);
 		}
 	}
 

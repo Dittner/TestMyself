@@ -13,6 +13,7 @@ import dittner.testmyself.deutsch.view.dictionary.note.list.ExampleListMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.list.NoteListMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.mp3Player.NotePlayerMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.pagination.NotePaginationMediator;
+import dittner.testmyself.deutsch.view.dictionary.note.search.NoteSearchMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.toolbar.NoteToolbarMediator;
 import dittner.testmyself.deutsch.view.dictionary.word.form.WordCreatorMediator;
 import dittner.testmyself.deutsch.view.dictionary.word.form.WordEditorMediator;
@@ -47,6 +48,7 @@ public class WordScreenMediator extends SFMediator {
 		registerMediator(view.form, new NoteRemoverMediator());
 		registerMediator(view.list, new NoteListMediator());
 		registerMediator(view.filter, new NoteFilterMediator());
+		registerMediator(view.searchFilter, new NoteSearchMediator());
 		registerMediator(view.paginationBar, new NotePaginationMediator());
 		registerMediator(view.mp3Player, new NotePlayerMediator());
 		registerMediator(view.exampleList, new ExampleListMediator());

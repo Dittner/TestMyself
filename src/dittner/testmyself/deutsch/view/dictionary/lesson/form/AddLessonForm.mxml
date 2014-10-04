@@ -52,7 +52,7 @@
         </s:Rect>
 
         <input:TextInputForm id="addLessonInput"
-                             top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
+                             top="{AppSizes.SCREEN_HEADER_HEIGHT + 15}"
                              width="50%"
                              horizontalCenter="0"
                              maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"

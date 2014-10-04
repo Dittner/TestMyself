@@ -2,6 +2,7 @@ package dittner.testmyself.core.command.backend {
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
+import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.page.NotePageInfo;
 import dittner.testmyself.core.service.NoteService;
 
@@ -21,12 +22,15 @@ public class SelectPageNotesSQLOperation extends DeferredOperation {
 	private var noteClass:Class;
 
 	override public function process():void {
+		var filter:NoteFilter = pageInfo.filter;
+
 		var params:Object = {};
 		params.startIndex = pageInfo.pageNum * pageInfo.pageSize;
 		params.amount = pageInfo.pageSize;
+		params.searchFilter = filter.searchFullIdentity ? filter.searchText : "%" + filter.searchText + "%";
 
-		if (pageInfo.filter.length > 0) {
-			var themes:String = SQLUtils.themesToSqlStr(pageInfo.filter);
+		if (filter.selectedThemes.length > 0) {
+			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
 			var statement:String = service.sqlFactory.selectFilteredPageNotes;
 			statement = statement.replace("#filterList", themes);
 			service.sqlRunner.execute(statement, params, loadedHandler, noteClass);

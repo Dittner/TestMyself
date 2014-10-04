@@ -27,6 +27,7 @@ public class NoteToolbarMediator extends SFMediator {
 		view.addBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.editBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.removeBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
+		view.searchBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.filterBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.transInvertBtn.addEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.verLayoutBtn.addEventListener(Event.CHANGE, viewControlClickHandler);
@@ -44,6 +45,9 @@ public class NoteToolbarMediator extends SFMediator {
 				break;
 			case(view.removeBtn) :
 				selectedAction = ToolAction.REMOVE;
+				break;
+			case(view.searchBtn) :
+				selectedAction = ToolAction.SEARCH;
 				break;
 			case(view.filterBtn) :
 				selectedAction = ToolAction.FILTER;
@@ -79,6 +83,7 @@ public class NoteToolbarMediator extends SFMediator {
 		view.addBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.editBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.removeBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
+		view.searchBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.filterBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.transInvertBtn.removeEventListener(MouseEvent.CLICK, viewControlClickHandler);
 		view.verLayoutBtn.removeEventListener(Event.CHANGE, viewControlClickHandler);

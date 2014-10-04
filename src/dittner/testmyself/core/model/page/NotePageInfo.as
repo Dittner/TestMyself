@@ -1,5 +1,6 @@
 package dittner.testmyself.core.model.page {
 import dittner.testmyself.core.model.note.INote;
+import dittner.testmyself.core.model.note.NoteFilter;
 
 public class NotePageInfo implements INotePageInfo {
 
@@ -42,9 +43,9 @@ public class NotePageInfo implements INotePageInfo {
 	//--------------------------------------
 	//  filter
 	//--------------------------------------
-	private var _filter:Array = [];
-	public function get filter():Array {return _filter;}
-	public function set filter(value:Array):void {
+	private var _filter:NoteFilter = new NoteFilter();
+	public function get filter():NoteFilter {return _filter;}
+	public function set filter(value:NoteFilter):void {
 		_filter = value;
 	}
 

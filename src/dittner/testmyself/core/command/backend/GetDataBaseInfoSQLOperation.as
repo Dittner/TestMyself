@@ -3,12 +3,13 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.service.NoteService;
 
 public class GetDataBaseInfoSQLOperation extends DeferredOperation {
 
-	public function GetDataBaseInfoSQLOperation(service:NoteService, filter:Array) {
+	public function GetDataBaseInfoSQLOperation(service:NoteService, filter:NoteFilter) {
 		this.service = service;
 		this.filter = filter;
 		info = new NotesInfo();
@@ -16,7 +17,7 @@ public class GetDataBaseInfoSQLOperation extends DeferredOperation {
 
 	private var service:NoteService;
 	private var info:NotesInfo;
-	private var filter:Array;
+	private var filter:NoteFilter;
 
 	override public function process():void {
 		var phaseRunner:PhaseRunner = new PhaseRunner();

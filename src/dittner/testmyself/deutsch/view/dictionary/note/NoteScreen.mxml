@@ -5,9 +5,11 @@
                  xmlns:list="dittner.testmyself.deutsch.view.dictionary.note.list.*"
                  xmlns:toolbar="dittner.testmyself.deutsch.view.dictionary.note.toolbar.*"
                  xmlns:mp3="dittner.testmyself.deutsch.view.common.audio.mp3.*"
-                 xmlns:filter="dittner.testmyself.deutsch.view.common.filter.*"
                  xmlns:navigation="dittner.testmyself.deutsch.view.common.pagination.*"
-                 xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*" xmlns:form="dittner.testmyself.deutsch.view.dictionary.note.form.*"
+                 xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
+                 xmlns:form="dittner.testmyself.deutsch.view.dictionary.note.form.*"
+                 xmlns:filter2="dittner.testmyself.deutsch.view.dictionary.note.filter.*"
+                 xmlns:search="dittner.testmyself.deutsch.view.dictionary.note.search.*"
                  currentState="inactive"
                  horizontalCenter="0">
 
@@ -190,12 +192,17 @@
                        noteType.verb="{NoteType.VERB}"
                        top="{HEADER_HEI}"/>
 
-        <filter:ThemeFilter id="filter"
-                            width="350"
-                            visible="false"
-                            right="0"
-                            bottom="0"
-                            top="{HEADER_HEI}"/>
+        <filter2:ThemeFilter id="filter"
+                             width="350"
+                             visible="false"
+                             right="0"
+                             bottom="0"
+                             top="{HEADER_HEI}"/>
+
+        <search:SearchFilter id="searchFilter"
+                             width="100%" height="170"
+                             visible="false"
+                             top="{HEADER_HEI}"/>
     </s:Group>
 
 </core:ScreenBase>

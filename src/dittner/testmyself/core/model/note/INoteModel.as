@@ -15,8 +15,8 @@ public interface INoteModel {
 	function get selectedNote():INote;
 	function set selectedNote(value:INote):void;
 
-	function get filter():Array;
-	function set filter(value:Array):void;
+	function get filter():NoteFilter;
+	function set filter(value:NoteFilter):void;
 
 	function get noteHash():NoteHash;
 	function set noteHash(value:NoteHash):void;

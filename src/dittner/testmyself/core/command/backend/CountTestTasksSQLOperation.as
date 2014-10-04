@@ -4,6 +4,7 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
+import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.test.TestSpec;
 import dittner.testmyself.core.service.NoteService;
 
@@ -23,10 +24,10 @@ public class CountTestTasksSQLOperation extends DeferredOperation {
 	override public function process():void {
 		if (spec) {
 			var sqlStatement:String;
-
-			if (spec.filter.length > 0) {
+			var filter:NoteFilter = spec.filter;
+			if (filter.selectedThemes.length > 0) {
 				sqlStatement = service.sqlFactory.selectCountFilteredTestTask;
-				var themes:String = SQLUtils.themesToSqlStr(spec.filter);
+				var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
 				sqlStatement = sqlStatement.replace("#filterList", themes);
 			}
 			else {

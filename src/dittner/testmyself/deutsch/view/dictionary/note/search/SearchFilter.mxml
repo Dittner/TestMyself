@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:editor="dittner.testmyself.deutsch.view.common.editor.*"
+         xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+         xmlns:input="dittner.testmyself.deutsch.view.common.input.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.model.AppConfig;
+        import dittner.testmyself.deutsch.view.common.editor.EditorBg;
+        import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
+
+        private static const FOOTER_HEI:uint = AppSizes.EDITOR_FOOTER_HEIGHT;
+        ]]></fx:Script>
+
+
+    <editor:EditorBg width="100%"
+                     height="100%"
+                     title="Искать"
+                     mode="search"/>
+
+    <s:Rect left="{EditorBg.BORDER_THICKNESS}"
+            right="{EditorBg.BORDER_THICKNESS}"
+            bottom="{EditorBg.BORDER_THICKNESS}"
+            height="{FOOTER_HEI}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+
+    <s:HGroup width="100%" horizontalAlign="center" gap="15" verticalAlign="bottom"
+              top="{AppSizes.SCREEN_HEADER_HEIGHT + 15}">
+
+        <input:TextInputForm id="searchInput"
+                             top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
+                             width="50%"
+                             left="15"
+                             maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
+                             title="Введите полный текст или подстроку искомой записи"/>
+
+        <s:CheckBox id="fullIdentityBox"
+                    right="15" top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
+                    label="Полное соответствие"/>
+
+    </s:HGroup>
+
+
+    <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
+              bottom="0" horizontalAlign="right"
+              paddingLeft="15" paddingRight="15" paddingBottom="{EditorBg.BORDER_THICKNESS}"
+              gap="15" verticalAlign="middle">
+
+        <button:GrayButton id="cancelBtn"
+                           width="250"
+                           label="Отменить"/>
+
+        <button:BlackButton id="applyBtn"
+                            width="250"
+                            label="Применить"/>
+    </s:HGroup>
+
+
+</s:Group>

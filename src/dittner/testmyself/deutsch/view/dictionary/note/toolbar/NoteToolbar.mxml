@@ -8,6 +8,19 @@
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
 
         //--------------------------------------
+        //  searchEnabled
+        //--------------------------------------
+        private var _searchEnabled:Boolean = true;
+        [Bindable("searchEnabledChanged")]
+        public function get searchEnabled():Boolean {return _searchEnabled;}
+        public function set searchEnabled(value:Boolean):void {
+            if (_searchEnabled != value) {
+                _searchEnabled = value;
+                dispatchEvent(new Event("searchEnabledChanged"));
+            }
+        }
+
+        //--------------------------------------
         //  verLayoutToolEnabled
         //--------------------------------------
         private var _verLayoutToolEnabled:Boolean = true;
@@ -111,6 +124,14 @@
                        image="@Embed(source='/assets/tools/trans_inversion.png')"
                        visible="{verLayoutToolEnabled}"
                        includeInLayout="{verLayoutToolEnabled}"/>
+
+    <button:ToolToggleButton id="searchBtn"
+                             selected="true"
+                             description="Поиск записей в словаре"
+                             selectedImage="@Embed(source='/assets/tools/search.png')"
+                             image="@Embed(source='/assets/tools/search.png')"
+                             visible="{searchEnabled}"
+                             includeInLayout="{searchEnabled}"/>
 
     <button:ToolButton id="filterBtn"
                        description="Фильтровать по темам"

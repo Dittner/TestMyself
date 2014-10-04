@@ -23,6 +23,8 @@ public class EditorBg extends UIComponent {
 	private static const EditIconClass:Class;
 	[Embed(source='/assets/tools/recycle_bin_light.png')]
 	private static const RemoveIconClass:Class;
+	[Embed(source='/assets/tools/search_light.png')]
+	private static const SearchIconClass:Class;
 	[Embed(source='/assets/tools/filter_light.png')]
 	private static const FilterIconClass:Class;
 
@@ -52,7 +54,7 @@ public class EditorBg extends UIComponent {
 	//  mode
 	//--------------------------------------
 	private var _mode:String = "add";
-	[Inspectable(defaultValue="add", enumeration="add,edit,remove,filter")]
+	[Inspectable(defaultValue="add", enumeration="add,edit,remove,filter,search")]
 	[Bindable("modeChanged")]
 	public function get mode():String {return _mode;}
 	public function set mode(value:String):void {
@@ -69,6 +71,7 @@ public class EditorBg extends UIComponent {
 		if (mode == "add") toolIcon = new AddIconClass();
 		else if (mode == "edit") toolIcon = new EditIconClass();
 		else if (mode == "remove") toolIcon = new RemoveIconClass();
+		else if (mode == "search") toolIcon = new SearchIconClass();
 		else if (mode == "filter") toolIcon = new FilterIconClass();
 		if (toolIcon) addChild(toolIcon);
 	}

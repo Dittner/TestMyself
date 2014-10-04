@@ -299,7 +299,7 @@ public class NoteService extends SFProxy {
 
 	private function themesUpdated(res:CommandResult):void {
 		loadThemes();
-		model.filter = [];
+		model.filter.selectedThemes = [];
 	}
 
 	private function dbInfoLoaded(res:CommandResult):void {

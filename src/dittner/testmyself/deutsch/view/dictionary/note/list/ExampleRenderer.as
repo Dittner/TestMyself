@@ -81,6 +81,12 @@ public class ExampleRenderer extends ItemRendererBase {
 		var g:Graphics = graphics;
 		g.clear();
 
+		if (w != measuredWidth) {
+			invalidateSize();
+			invalidateDisplayList();
+			return;
+		}
+
 		if (selected) {
 			g.beginFill(0xfafaff, 1);
 			g.drawRect(0, 0, w, h);

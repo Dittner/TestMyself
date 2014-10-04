@@ -30,9 +30,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 	[Embed(source='/assets/screen/testing.png')]
 	private static const TestingIconClass:Class;
 
-	[Embed(source='/assets/screen/search.png')]
-	private static const SearchIconClass:Class;
-
 	[Embed(source='/assets/screen/settings.png')]
 	private static const SettingsIconClass:Class;
 
@@ -79,10 +76,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 
 		_screenInfos.push(createScreenItemSeparator());
 
-		/*info = new ScreenInfo(ScreenId.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenId.SEARCH));
-		 _screenInfos.push(info);
-		 screensHash[info.id] = info;*/
-
 		info = new ScreenInfo(ScreenID.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenID.SETTINGS));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
@@ -113,9 +106,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				break;
 			case ScreenID.TEST :
 				IconClass = TestingIconClass;
-				break;
-			case ScreenID.SEARCH :
-				IconClass = SearchIconClass;
 				break;
 			case ScreenID.SETTINGS :
 				IconClass = SettingsIconClass;
@@ -150,9 +140,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				break;
 			case ScreenID.TEST :
 				screen = testScreen;
-				break;
-			case ScreenID.SEARCH :
-				screen = null;
 				break;
 			case ScreenID.SETTINGS :
 				screen = new SettingsScreen();

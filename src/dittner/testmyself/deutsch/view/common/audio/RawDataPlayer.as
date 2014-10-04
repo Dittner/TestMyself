@@ -160,7 +160,7 @@ public class RawDataPlayer extends SkinnableComponent {
 		recordingTimer.stop();
 		if (!recording) return;
 
-		if (recorder.recordedBytes.length < 250000) {
+		if (recorder.recordedBytes.length < 100000) {
 			recorder.stopRecording();
 			recorder.removeRecord();
 			internalState = NORMAL;

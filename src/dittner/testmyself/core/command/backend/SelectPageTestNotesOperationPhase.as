@@ -3,6 +3,7 @@ import com.probertson.data.SQLRunner;
 
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
+import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.TestPageInfo;
 
@@ -29,8 +30,9 @@ public class SelectPageTestNotesOperationPhase extends PhaseOperation {
 		params.amount = pageInfo.pageSize;
 		params.selectedTestID = pageInfo.testSpec.info.id;
 
-		if (pageInfo.testSpec.filter.length > 0) {
-			var themes:String = SQLUtils.themesToSqlStr(pageInfo.testSpec.filter);
+		var filter:NoteFilter = pageInfo.testSpec.filter;
+		if (filter.selectedThemes.length > 0) {
+			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
 			var statement:String = sqlFactory.selectFilteredPageTestNotes;
 			statement = statement.replace("#filterList", themes);
 			sqlRunner.execute(statement, params, loadedHandler, noteClass);

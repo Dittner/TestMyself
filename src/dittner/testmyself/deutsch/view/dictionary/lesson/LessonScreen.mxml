@@ -10,7 +10,7 @@
                  xmlns:list2="dittner.testmyself.deutsch.view.common.list.*"
                  xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
                  xmlns:form="dittner.testmyself.deutsch.view.dictionary.lesson.form.*"
-                 xmlns:form2="dittner.testmyself.deutsch.view.dictionary.note.form.*"
+                 xmlns:form2="dittner.testmyself.deutsch.view.dictionary.note.form.*" xmlns:search="dittner.testmyself.deutsch.view.dictionary.note.search.*"
                  currentState="inactive"
                  horizontalCenter="0">
 
@@ -229,6 +229,11 @@
                         bottom="0"
                         noteType="{NoteType.LESSON}"
                         top="{HEADER_HEI}"/>
+
+        <search:SearchFilter id="searchFilter"
+                             width="100%" height="170"
+                             visible="false"
+                             top="{HEADER_HEI}"/>
     </s:Group>
 
     <form:AddLessonForm id="addLessonForm"

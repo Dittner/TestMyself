@@ -22,7 +22,9 @@ public class NoteCountOperationPhase extends PhaseOperation {
 	private var sqlFactory:SQLFactory;
 
 	override public function execute():void {
-		sqlRunner.execute(sqlFactory.selectCountNote, null, executeComplete);
+		var params:Object = {};
+		params.searchFilter = "%%";
+		sqlRunner.execute(sqlFactory.selectCountNote, params, executeComplete);
 	}
 
 	private function executeComplete(result:SQLResult):void {

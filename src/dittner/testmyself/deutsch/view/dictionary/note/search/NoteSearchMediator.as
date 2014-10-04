@@ -1,20 +1,20 @@
-package dittner.testmyself.deutsch.view.dictionary.note.filter {
+package dittner.testmyself.deutsch.view.dictionary.note.search {
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NoteFilter;
-import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 
+import flash.events.Event;
 import flash.events.MouseEvent;
 
-import mx.collections.ArrayCollection;
+import mx.events.FlexEvent;
 
-public class NoteFilterMediator extends SFMediator {
+public class NoteSearchMediator extends SFMediator {
 
 	[Inject]
-	public var view:ThemeFilter;
+	public var view:SearchFilter;
 
 	private var isActive:Boolean = false;
 	private var filter:NoteFilter;
@@ -24,10 +24,10 @@ public class NoteFilterMediator extends SFMediator {
 	}
 
 	private function toolActionSelectedHandler(toolAction:String):void {
-		if (!isActive && toolAction == ToolAction.FILTER) {
+		if (!isActive && toolAction == ToolAction.SEARCH) {
 			isActive = true;
 			openDropdown();
-			loadThemes();
+			loadFilter();
 		}
 	}
 
@@ -36,6 +36,7 @@ public class NoteFilterMediator extends SFMediator {
 		sendNotification(NoteMsg.FORM_ACTIVATED_NOTIFICATION);
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
+		view.searchInput.addEventListener(FlexEvent.ENTER, applyHandler);
 	}
 
 	private function cancelHandler(event:MouseEvent):void {
@@ -45,34 +46,24 @@ public class NoteFilterMediator extends SFMediator {
 	private function closeDropdown():void {
 		if (isActive) {
 			view.visible = false;
-			view.close();
 			isActive = false;
 			sendNotification(NoteMsg.FORM_DEACTIVATED_NOTIFICATION);
 			view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
 			view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
+			view.searchInput.removeEventListener(FlexEvent.ENTER, applyHandler);
 		}
 	}
 
-	private function applyHandler(event:MouseEvent):void {
+	private function applyHandler(event:Event):void {
 		updateFilter();
 		closeDropdown();
 	}
 
 	private function updateFilter():void {
 		if (!filter) return;
-		filter.selectedThemes = [];
-		for each(var item:* in view.themesList.selectedItems) filter.selectedThemes.push(item);
+		filter.searchText = view.searchInput.text;
+		filter.searchFullIdentity = view.fullIdentityBox.selected;
 		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(null, null, filter));
-	}
-
-	private function loadThemes():void {
-		sendRequest(NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
-	}
-
-	private function onThemesLoaded(res:CommandResult):void {
-		var themeItems:Array = res.data as Array;
-		view.themes = new ArrayCollection(themeItems);
-		loadFilter();
 	}
 
 	private function loadFilter():void {
@@ -81,16 +72,8 @@ public class NoteFilterMediator extends SFMediator {
 
 	private function onFilterLoaded(res:CommandResult):void {
 		filter = res.data as NoteFilter;
-
-		if (filter && filter.selectedThemes.length > 0 && view.themes.length > 0) {
-			var theme:ITheme;
-			var isSelectedThemeHash:Object = {};
-			var selectedItems:Vector.<Object> = new Vector.<Object>();
-			for each(theme in filter.selectedThemes) isSelectedThemeHash[theme.id] = true;
-			for each(theme in view.themes)
-				if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
-			view.themesList.selectedItems = selectedItems;
-		}
+		view.searchInput.text = filter.searchText;
+		view.fullIdentityBox.selected = filter.searchFullIdentity;
 	}
 
 	override protected function deactivate():void {

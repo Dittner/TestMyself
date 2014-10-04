@@ -10,6 +10,7 @@ import dittner.testmyself.deutsch.view.dictionary.note.form.NoteRemoverMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.list.NoteListMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.mp3Player.NotePlayerMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.pagination.NotePaginationMediator;
+import dittner.testmyself.deutsch.view.dictionary.note.search.NoteSearchMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.toolbar.NoteToolbarMediator;
 
 public class LessonContentMediator extends SFMediator {
@@ -32,6 +33,7 @@ public class LessonContentMediator extends SFMediator {
 		registerMediator(view.form, new LessonCreatorMediator());
 		registerMediator(view.form, new LessonEditorMediator());
 		registerMediator(view.form, new NoteRemoverMediator());
+		registerMediator(view.searchFilter, new NoteSearchMediator());
 		registerMediator(view.noteList, new NoteListMediator());
 		registerMediator(view.paginationBar, new NotePaginationMediator());
 		registerMediator(view.mp3Player, new NotePlayerMediator());

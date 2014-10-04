@@ -41,9 +41,6 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 			case ScreenID.TEST :
 				mediator = testMediator;
 				break;
-			case ScreenID.SEARCH :
-				mediator = null;
-				break;
 			case ScreenID.SETTINGS :
 				mediator = new SettingsScreenMediator();
 				break;
