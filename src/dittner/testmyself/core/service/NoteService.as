@@ -15,6 +15,7 @@ import dittner.testmyself.core.command.backend.GetDataBaseInfoSQLOperation;
 import dittner.testmyself.core.command.backend.InsertNoteSQLOperation;
 import dittner.testmyself.core.command.backend.InsertThemeSQLOperation;
 import dittner.testmyself.core.command.backend.MergeThemesSQLOperation;
+import dittner.testmyself.core.command.backend.SelectExampleSQLOperation;
 import dittner.testmyself.core.command.backend.SelectExamplesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectFilterSQLOperation;
 import dittner.testmyself.core.command.backend.SelectNoteKeysSQLOperation;
@@ -176,6 +177,13 @@ public class NoteService extends SFProxy {
 	public function loadExamples(requestMsg:IRequestMessage):void {
 		var noteID:int = requestMsg.data as int;
 		var op:IDeferredOperation = new SelectExamplesSQLOperation(this, noteID);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function loadExample(requestMsg:IRequestMessage):void {
+		var exampleID:int = requestMsg.data as int;
+		var op:IDeferredOperation = new SelectExampleSQLOperation(this, exampleID);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

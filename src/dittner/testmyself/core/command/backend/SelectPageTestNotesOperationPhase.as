@@ -3,9 +3,11 @@ import com.probertson.data.SQLRunner;
 
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
+import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.TestPageInfo;
+import dittner.testmyself.core.model.test.TestInfo;
 
 import flash.data.SQLResult;
 
@@ -25,6 +27,8 @@ public class SelectPageTestNotesOperationPhase extends PhaseOperation {
 	private var noteClass:Class;
 
 	override public function execute():void {
+		var testInfo:TestInfo = pageInfo.testSpec.info;
+
 		var params:Object = {};
 		params.startIndex = pageInfo.pageNum * pageInfo.pageSize;
 		params.amount = pageInfo.pageSize;
@@ -33,17 +37,27 @@ public class SelectPageTestNotesOperationPhase extends PhaseOperation {
 		var filter:NoteFilter = pageInfo.testSpec.filter;
 		if (filter.selectedThemes.length > 0) {
 			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-			var statement:String = sqlFactory.selectFilteredPageTestNotes;
+			var statement:String = testInfo.useNoteExample ? sqlFactory.selectFilteredPageTestExamples : sqlFactory.selectFilteredPageTestNotes;
 			statement = statement.replace("#filterList", themes);
-			sqlRunner.execute(statement, params, loadedHandler, noteClass);
+			sqlRunner.execute(statement, params, loadedHandler, testInfo.useNoteExample ? null : noteClass);
 		}
 		else {
-			sqlRunner.execute(sqlFactory.selectPageTestNotes, params, loadedHandler, noteClass);
+			sqlRunner.execute(testInfo.useNoteExample ? sqlFactory.selectPageTestExamples : sqlFactory.selectPageTestNotes, params, loadedHandler, testInfo.useNoteExample ? null : noteClass);
 		}
 	}
 
 	private function loadedHandler(result:SQLResult):void {
-		pageInfo.notes = result.data is Array ? result.data as Array : [];
+		var examples:Array = [];
+		var example:Note;
+		for each(var item:Object in result.data) {
+			example = new Note();
+			example.id = item.id;
+			example.title = item.title;
+			example.description = item.description;
+			example.audioComment = item.audioComment;
+			examples.push(example);
+		}
+		pageInfo.notes = examples;
 		dispatchComplete();
 	}
 

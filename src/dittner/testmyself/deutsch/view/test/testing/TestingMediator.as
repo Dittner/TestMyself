@@ -7,7 +7,6 @@ import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestTask;
-import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.view.test.common.TestingAction;
 import dittner.testmyself.deutsch.view.test.testing.test.ITestableView;
 
@@ -20,21 +19,10 @@ public class TestingMediator extends SFMediator {
 
 	private var selectedTestInfo:TestInfo;
 	private var testTasks:Array;
-	private var examplesEnabled:Boolean = false;
 
 	public function TestingMediator(testInfo:TestInfo):void {
 		super();
 		selectedTestInfo = testInfo;
-		switch (testInfo.id) {
-			case TestID.SPEAK_PHRASE_TRANSLATION:
-			case TestID.SPEAK_VERB_FORMS:
-			case TestID.SPEAK_WORD_TRANSLATION:
-				examplesEnabled = true;
-				break;
-			default :
-				examplesEnabled = false;
-				break;
-		}
 	}
 
 	override protected function activate():void {
@@ -84,7 +72,8 @@ public class TestingMediator extends SFMediator {
 	private function showNextTask():void {
 		if (testTasks && testTasks.length > 0) {
 			curTask = testTasks.shift();
-			sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_NOTE, new RequestMessage(onNoteLoaded, null, curTask.noteID));
+			var msg:String = selectedTestInfo.useNoteExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
+			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, null, curTask.noteID));
 		}
 		else view.answerEnabled = false;
 	}
@@ -92,7 +81,7 @@ public class TestingMediator extends SFMediator {
 	private function onNoteLoaded(res:CommandResult):void {
 		view.taskNumber++;
 		view.activeNote = res.data as INote;
-		if (examplesEnabled) loadExamples(view.activeNote)
+		if (selectedTestInfo.loadExamplesWhenTesting) loadExamples(view.activeNote)
 	}
 
 	private function loadExamples(note:INote):void {

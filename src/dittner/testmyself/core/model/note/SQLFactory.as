@@ -43,6 +43,13 @@ public class SQLFactory extends SFProxy {
 		return CREATE_TEST_TBL_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/CreateTestExampleTbl.sql", mimeType="application/octet-stream")]
+	private static const CreateTestExampleTblClass:Class;
+	private static const CREATE_TEST_EXAMPLE_TBL_SQL:String = new CreateTestExampleTblClass();
+	public function get createTestExampleTbl():String {
+		return CREATE_TEST_EXAMPLE_TBL_SQL;
+	}
+
 	//--------------------------------------
 	//  insert
 	//--------------------------------------
@@ -82,6 +89,13 @@ public class SQLFactory extends SFProxy {
 		return INSERT_TEST_TASK_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/InsertTestExampleTask.sql", mimeType="application/octet-stream")]
+	private static const InsertTestExampleTaskClass:Class;
+	private static const INSERT_TEST_EXAMPLE_TASK_SQL:String = new InsertTestExampleTaskClass();
+	public function get insertTestExampleTask():String {
+		return INSERT_TEST_EXAMPLE_TASK_SQL;
+	}
+
 	//--------------------------------------
 	//  update
 	//--------------------------------------
@@ -112,6 +126,13 @@ public class SQLFactory extends SFProxy {
 	private static const UPDATE_TEST_TASK_SQL:String = new UpdateTestTaskClass();
 	public function get updateTestTask():String {
 		return UPDATE_TEST_TASK_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/UpdateTestExampleTask.sql", mimeType="application/octet-stream")]
+	private static const UpdateTestExampleTaskClass:Class;
+	private static const UPDATE_TEST_EXAMPLE_TASK_SQL:String = new UpdateTestExampleTaskClass();
+	public function get updateTestExampleTask():String {
+		return UPDATE_TEST_EXAMPLE_TASK_SQL;
 	}
 
 	//--------------------------------------
@@ -174,11 +195,25 @@ public class SQLFactory extends SFProxy {
 		return SELECT_PAGE_TEST_TASKS_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectPageTestExampleTasks.sql", mimeType="application/octet-stream")]
+	private static const SelectPageTestExampleTasksClass:Class;
+	private static const SELECT_PAGE_TEST_EXAMPLE_TASKS_SQL:String = new SelectPageTestExampleTasksClass();
+	public function get selectPageTestExampleTasks():String {
+		return SELECT_PAGE_TEST_EXAMPLE_TASKS_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredPageTestTasks.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredPageTestTasksClass:Class;
 	private static const SELECT_FILTERED_PAGE_TEST_TASKS_SQL:String = new SelectFilteredPageTestTasksClass();
 	public function get selectFilteredPageTestTasks():String {
 		return SELECT_FILTERED_PAGE_TEST_TASKS_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredPageTestExampleTasks.sql", mimeType="application/octet-stream")]
+	private static const SelectFilteredPageTestExampleTasksClass:Class;
+	private static const SELECT_FILTERED_PAGE_TEST_EXAMPLE_TASKS_SQL:String = new SelectFilteredPageTestExampleTasksClass();
+	public function get selectFilteredPageTestExampleTasks():String {
+		return SELECT_FILTERED_PAGE_TEST_EXAMPLE_TASKS_SQL;
 	}
 
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectPageTestNotes.sql", mimeType="application/octet-stream")]
@@ -188,11 +223,25 @@ public class SQLFactory extends SFProxy {
 		return SELECT_PAGE_TEST_NOTES_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectPageTestExamples.sql", mimeType="application/octet-stream")]
+	private static const SelectPageTestExamplesClass:Class;
+	private static const SELECT_PAGE_TEST_EXAMPLES_SQL:String = new SelectPageTestExamplesClass();
+	public function get selectPageTestExamples():String {
+		return SELECT_PAGE_TEST_EXAMPLES_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredPageTestNotes.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredPageTestNotesClass:Class;
 	private static const SELECT_FILTERED_PAGE_TEST_NOTES_SQL:String = new SelectFilteredPageTestNotesClass();
 	public function get selectFilteredPageTestNotes():String {
 		return SELECT_FILTERED_PAGE_TEST_NOTES_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredPageTestExamples.sql", mimeType="application/octet-stream")]
+	private static const SelectFilteredPageTestExamplesClass:Class;
+	private static const SELECT_FILTERED_PAGE_TEST_EXAMPLES_SQL:String = new SelectFilteredPageTestExamplesClass();
+	public function get selectFilteredPageTestExamples():String {
+		return SELECT_FILTERED_PAGE_TEST_EXAMPLES_SQL;
 	}
 
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteKeys.sql", mimeType="application/octet-stream")]
@@ -230,6 +279,13 @@ public class SQLFactory extends SFProxy {
 		return SELECT_EXAMPLE_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectExampleByID.sql", mimeType="application/octet-stream")]
+	private static const SelectExampleByIDClass:Class;
+	private static const SELECT_EXAMPLE_BY_ID_SQL:String = new SelectExampleByIDClass();
+	public function get selectExampleByID():String {
+		return SELECT_EXAMPLE_BY_ID_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectTestNoteID.sql", mimeType="application/octet-stream")]
 	private static const SelectTestNoteIDClass:Class;
 	private static const SELECT_TEST_NOTE_ID_SQL:String = new SelectTestNoteIDClass();
@@ -244,11 +300,25 @@ public class SQLFactory extends SFProxy {
 		return SELECT_TEST_TASK_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectTestExampleTask.sql", mimeType="application/octet-stream")]
+	private static const SelectTestExampleTaskClass:Class;
+	private static const SELECT_TEST_EXAMPLE_TASK_SQL:String = new SelectTestExampleTaskClass();
+	public function get selectTestExampleTask():String {
+		return SELECT_TEST_EXAMPLE_TASK_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredTestTaskClass:Class;
 	private static const SELECT_FILTERED_TEST_TASK_SQL:String = new SelectFilteredTestTaskClass();
 	public function get selectFilteredTestTask():String {
 		return SELECT_FILTERED_TEST_TASK_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectFilteredTestExampleTask.sql", mimeType="application/octet-stream")]
+	private static const SelectFilteredTestExampleTaskClass:Class;
+	private static const SELECT_FILTERED_TEST_EXAMPLE_TASK_SQL:String = new SelectFilteredTestExampleTaskClass();
+	public function get selectFilteredTestExampleTask():String {
+		return SELECT_FILTERED_TEST_EXAMPLE_TASK_SQL;
 	}
 
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectCountTestTask.sql", mimeType="application/octet-stream")]
@@ -316,6 +386,13 @@ public class SQLFactory extends SFProxy {
 	private static const DELETE_TEST_TASK_BY_NOTE_ID_SQL:String = new DeleteTestTaskByNoteIDClass();
 	public function get deleteTestTaskByNoteID():String {
 		return DELETE_TEST_TASK_BY_NOTE_ID_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/DeleteTestExampleTaskByNoteID.sql", mimeType="application/octet-stream")]
+	private static const DeleteTestExampleTaskByNoteIDClass:Class;
+	private static const DELETE_TEST_EXAMPLE_TASK_BY_NOTE_ID_SQL:String = new DeleteTestExampleTaskByNoteIDClass();
+	public function get deleteTestExampleTaskByNoteID():String {
+		return DELETE_TEST_EXAMPLE_TASK_BY_NOTE_ID_SQL;
 	}
 
 }

@@ -6,6 +6,7 @@ import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.TestPageInfo;
+import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestTask;
 
 import flash.data.SQLResult;
@@ -24,19 +25,22 @@ public class SelectPageTestTasksOperationPhase extends PhaseOperation {
 	private var sqlFactory:SQLFactory;
 
 	override public function execute():void {
+		var testInfo:TestInfo = pageInfo.testSpec.info;
+
 		var params:Object = {};
 		params.startIndex = pageInfo.pageNum * pageInfo.pageSize;
 		params.amount = pageInfo.pageSize;
 		params.selectedTestID = pageInfo.testSpec.info.id;
+
 		var filter:NoteFilter = pageInfo.testSpec.filter;
 		if (filter.selectedThemes.length > 0) {
 			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-			var statement:String = sqlFactory.selectFilteredPageTestTasks;
+			var statement:String = testInfo.useNoteExample ? sqlFactory.selectFilteredPageTestExampleTasks : sqlFactory.selectFilteredPageTestTasks;
 			statement = statement.replace("#filterList", themes);
 			sqlRunner.execute(statement, params, loadedHandler, TestTask);
 		}
 		else {
-			sqlRunner.execute(sqlFactory.selectPageTestTasks, params, loadedHandler, TestTask);
+			sqlRunner.execute(testInfo.useNoteExample ? sqlFactory.selectPageTestExampleTasks : sqlFactory.selectPageTestTasks, params, loadedHandler, TestTask);
 		}
 	}
 

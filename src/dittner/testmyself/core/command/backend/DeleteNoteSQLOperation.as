@@ -24,8 +24,9 @@ public class DeleteNoteSQLOperation extends DeferredOperation {
 		try {
 			phaseRunner.addPhase(DeleteNoteOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
 			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
-			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
 			phaseRunner.addPhase(DeleteTestTaskByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
+			phaseRunner.addPhase(DeleteTestExampleTaskByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
+			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
 
 			phaseRunner.execute();
 		}

@@ -29,7 +29,7 @@ public class InsertNoteSQLOperation extends DeferredOperation {
 			phaseRunner.addPhase(ThemeInsertOperationPhase, service.sqlRunner, suite.themes, service.sqlFactory);
 			phaseRunner.addPhase(FilterInsertOperationPhase, service.sqlRunner, suite.note, suite.themes, service.sqlFactory);
 			phaseRunner.addPhase(ExampleInsertOperationPhase, service.sqlRunner, suite.note, suite.examples, service.sqlFactory);
-			phaseRunner.addPhase(TestTaskInsertOperationPhase, service.sqlRunner, suite.note, testModel, service.sqlFactory);
+			phaseRunner.addPhase(TestTaskInsertOperationPhase, service.sqlRunner, suite.note, suite.examples, testModel, service.sqlFactory);
 
 			phaseRunner.execute();
 		}

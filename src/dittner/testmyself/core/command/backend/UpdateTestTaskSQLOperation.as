@@ -5,6 +5,7 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.satelliteFlight.command.CommandResult;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
+import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.service.NoteService;
@@ -36,7 +37,10 @@ public class UpdateTestTaskSQLOperation extends DeferredOperation {
 			sqlParams.updatingTestID = task.testID;
 			sqlParams.updatingNoteID = task.noteID;
 
-			service.sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(service.sqlFactory.updateTestTask, sqlParams)]), executeComplete, executeError);
+			var testInfo:TestInfo = testModel.testSpec.info;
+			var statement:String = testInfo.useNoteExample ? service.sqlFactory.updateTestExampleTask : service.sqlFactory.updateTestTask;
+
+			service.sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(statement, sqlParams)]), executeComplete, executeError);
 		}
 		else {
 			dispatchCompleteWithError(new CommandException(ErrorCode.EMPTY_THEME_NAME, "Отсутствует тестовая задача, которую требуется обновить в БД."));

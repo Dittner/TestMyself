@@ -39,6 +39,7 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 			statements.push(new QueuedStatement(service.sqlFactory.createThemeTbl));
 			statements.push(new QueuedStatement(service.sqlFactory.createExampleTbl));
 			statements.push(new QueuedStatement(service.sqlFactory.createTestTbl));
+			statements.push(new QueuedStatement(service.sqlFactory.createTestExampleTbl));
 
 			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);
 		}

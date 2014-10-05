@@ -43,7 +43,10 @@ public class ConfigureVerbModuleCmd implements IConfigureCommand {
 
 	private function createTestModel():TestModel {
 		var model:TestModel = new TestModel();
-		model.addTestInfo(new TestInfo(TestID.SPEAK_VERB_FORMS, ModuleName.VERB, "Спряжение сильных глаголов"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_VERB_FORMS, ModuleName.VERB, "Спряжение сильных глаголов", true));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH, ModuleName.VERB, "Устный перевод примеров на немецкий язык", false, true));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_VERB_EXAMPLE_TRANSLATION, ModuleName.VERB, "Устный перевод примеров c немецкого язык", false, true));
+		model.addTestInfo(new TestInfo(TestID.WRITE_VERB_EXAMPLE, ModuleName.VERB, "Правописание примеров", false, true));
 		return model;
 	}
 }

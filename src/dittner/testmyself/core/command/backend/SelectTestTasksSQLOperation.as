@@ -5,6 +5,7 @@ import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperati
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
+import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestSpec;
 import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.service.NoteService;
@@ -24,22 +25,24 @@ public class SelectTestTasksSQLOperation extends DeferredOperation {
 
 	override public function process():void {
 		if (spec) {
-			var sqlStatement:String = service.sqlFactory.selectTestTask;
+			var info:TestInfo = spec.info;
+			var sqlStatement:String;
 			var filter:NoteFilter = spec.filter;
-			if (filter.selectedThemes.length > 0) {
-				sqlStatement = service.sqlFactory.selectFilteredTestTask;
-				var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-				sqlStatement = sqlStatement.replace("#filterList", themes);
-			}
-			else {
-				sqlStatement = service.sqlFactory.selectTestTask;
-			}
-
-			sqlStatement = sqlStatement.replace("#priority", spec.isBalancePriority ? "balanceIndex" : "amountIndex");
 
 			var sqlParams:Object = {};
 			sqlParams.selectedTestID = spec.info.id;
 			sqlParams.ignoreAudio = !spec.audioRecordRequired;
+
+			if (filter.selectedThemes.length > 0) {
+				sqlStatement = info.useNoteExample ? service.sqlFactory.selectFilteredTestExampleTask : service.sqlFactory.selectFilteredTestTask;
+				var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
+				sqlStatement = sqlStatement.replace("#filterList", themes);
+			}
+			else {
+				sqlStatement = info.useNoteExample ? service.sqlFactory.selectTestExampleTask : service.sqlFactory.selectTestTask;
+			}
+
+			sqlStatement = sqlStatement.replace("#priority", spec.isBalancePriority ? "balanceIndex" : "amountIndex");
 
 			service.sqlRunner.execute(sqlStatement, sqlParams, loadCompleteHandler, TestTask);
 		}

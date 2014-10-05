@@ -7,6 +7,7 @@ import dittner.testmyself.core.command.AddThemeCmd;
 import dittner.testmyself.core.command.ClearNotesInfoCmd;
 import dittner.testmyself.core.command.ClearTestHistoryCmd;
 import dittner.testmyself.core.command.GetNoteCmd;
+import dittner.testmyself.core.command.GetNoteExampleCmd;
 import dittner.testmyself.core.command.GetNoteExamplesCmd;
 import dittner.testmyself.core.command.GetNoteFilterCmd;
 import dittner.testmyself.core.command.GetNoteHashCmd;
@@ -80,6 +81,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.CLEAR_NOTES_INFO, ClearNotesInfoCmd);
 		mainModule.registerCmd(NoteMsg.GET_THEMES, GetNoteThemesCmd);
 		mainModule.registerCmd(NoteMsg.GET_EXAMPLES, GetNoteExamplesCmd);
+		mainModule.registerCmd(NoteMsg.GET_EXAMPLE, GetNoteExampleCmd);
 		mainModule.registerCmd(NoteMsg.UPDATE_THEME, UpdateNoteThemeCmd);
 		mainModule.registerCmd(NoteMsg.REMOVE_THEME, RemoveNoteThemeCmd);
 		mainModule.registerCmd(NoteMsg.MERGE_THEMES, MergeNoteThemesCmd);

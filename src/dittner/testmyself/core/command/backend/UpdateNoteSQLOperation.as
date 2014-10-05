@@ -27,12 +27,13 @@ public class UpdateNoteSQLOperation extends DeferredOperation {
 			phaseRunner.addPhase(MP3EncodingPhase, suite.note);
 			phaseRunner.addPhase(NoteUpdateOperationPhase, service.sqlRunner, suite.note, service.sqlFactory);
 			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
-			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
 			phaseRunner.addPhase(DeleteTestTaskByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
+			phaseRunner.addPhase(DeleteTestExampleTaskByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
+			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
 			phaseRunner.addPhase(ThemeInsertOperationPhase, service.sqlRunner, suite.themes, service.sqlFactory);
 			phaseRunner.addPhase(FilterInsertOperationPhase, service.sqlRunner, suite.note, suite.themes, service.sqlFactory);
 			phaseRunner.addPhase(ExampleInsertOperationPhase, service.sqlRunner, suite.note, suite.examples, service.sqlFactory);
-			phaseRunner.addPhase(TestTaskInsertOperationPhase, service.sqlRunner, suite.note, testModel, service.sqlFactory);
+			phaseRunner.addPhase(TestTaskInsertOperationPhase, service.sqlRunner, suite.note, suite.examples, testModel, service.sqlFactory);
 
 			phaseRunner.execute();
 		}
