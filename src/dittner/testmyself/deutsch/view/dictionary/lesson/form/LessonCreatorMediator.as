@@ -3,6 +3,7 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteCreatorMediator;
 
 public class LessonCreatorMediator extends NoteCreatorMediator {
@@ -12,13 +13,13 @@ public class LessonCreatorMediator extends NoteCreatorMediator {
 		sendRequest(NoteMsg.GET_FILTER, new RequestMessage(filterLoaded));
 	}
 
-	private var selectedFilter:Array;
+	private var selectedFilter:NoteFilter;
 	private function filterLoaded(res:CommandResult):void {
-		selectedFilter = res.data as Array;
+		selectedFilter = res.data as NoteFilter;
 	}
 
 	override protected function createThemes():Array {
-		if (selectedFilter) return selectedFilter;
+		if (selectedFilter) return selectedFilter.selectedThemes;
 		else throw new Error("Expected selected filter to create task for Lesson!");
 	}
 

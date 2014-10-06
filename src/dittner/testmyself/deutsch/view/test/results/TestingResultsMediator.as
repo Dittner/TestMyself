@@ -22,17 +22,19 @@ public class TestingResultsMediator extends SFMediator {
 	[Inject]
 	public var view:TestingResultsView;
 	private var selectedTestInfo:TestInfo;
-	private var needTranslationInverted:Boolean = false;
+	private var needTranslationInvert:Boolean = false;
 
 	public function TestingResultsMediator(testInfo:TestInfo):void {
 		super();
 		selectedTestInfo = testInfo;
 		switch (testInfo.id) {
 			case TestID.SPEAK_PHRASE_IN_DEUTSCH:
-				needTranslationInverted = true;
+			case TestID.SPEAK_LESSON_IN_DEUTSCH:
+			case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH:
+				needTranslationInvert = true;
 				break;
 			default :
-				needTranslationInverted = false;
+				needTranslationInvert = false;
 				break;
 		}
 	}
@@ -69,7 +71,7 @@ public class TestingResultsMediator extends SFMediator {
 
 	private function wrapNotesAndTasks(notes:Array, tasks:Array):Array {
 		var res:Array = [];
-		for (var i:int = 0; i < tasks.length; i++) res.push(new TestRendererData(notes[i], tasks[i], needTranslationInverted));
+		for (var i:int = 0; i < tasks.length; i++) res.push(new TestRendererData(notes[i], tasks[i], needTranslationInvert));
 		return res;
 	}
 

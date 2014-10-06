@@ -122,6 +122,7 @@
 
         <input:TextInputForm id="themeNameInputForm"
                              top="row1:10" left="col2:10" right="10"
+                             text="{themesList.selectedItem.name}"
                              title="Введите новое название для выбранной темы"
                              maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
                              visible="false" visible.renameTheme="true"
