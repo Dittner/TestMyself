@@ -57,12 +57,14 @@
                 case TestID.WRITE_PHRASE :
                 case TestID.WRITE_LESSON :
                 case TestID.WRITE_VERB_EXAMPLE :
+                case TestID.WRITE_WORD_EXAMPLE :
                     _activeView = writeNoteTest;
                     setCurrentState("writeNote");
                     break;
                 case TestID.SPEAK_PHRASE_TRANSLATION :
                 case TestID.SPEAK_LESSON_TRANSLATION :
                 case TestID.SPEAK_VERB_EXAMPLE_TRANSLATION :
+                case TestID.SPEAK_WORD_EXAMPLE_TRANSLATION :
                     speakNoteTranslationTest.translateInDeutsch = false;
                     _activeView = speakNoteTranslationTest;
                     setCurrentState("speakNoteTranslation");
@@ -70,6 +72,7 @@
                 case TestID.SPEAK_PHRASE_IN_DEUTSCH :
                 case TestID.SPEAK_LESSON_IN_DEUTSCH :
                 case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH :
+                case TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH :
                     speakNoteTranslationTest.translateInDeutsch = true;
                     _activeView = speakNoteTranslationTest;
                     setCurrentState("speakNoteTranslation");

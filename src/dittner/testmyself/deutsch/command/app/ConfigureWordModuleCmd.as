@@ -47,6 +47,9 @@ public class ConfigureWordModuleCmd implements IConfigureCommand {
 		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_TRANSLATION, ModuleName.WORD, "Устный перевод с немецкого языка", true));
 		model.addTestInfo(new TestInfo(TestID.WRITE_WORD, ModuleName.WORD, "Правописание"));
 		model.addTestInfo(new TestInfo(TestID.SELECT_ARTICLE, ModuleName.WORD, "Определение рода существительных"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH, ModuleName.WORD, "Устный перевод примеров на немецкий язык", false, true));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_EXAMPLE_TRANSLATION, ModuleName.WORD, "Устный перевод примеров c немецкого язык", false, true));
+		model.addTestInfo(new TestInfo(TestID.WRITE_WORD_EXAMPLE, ModuleName.WORD, "Правописание примеров", false, true));
 		return model;
 	}
 }

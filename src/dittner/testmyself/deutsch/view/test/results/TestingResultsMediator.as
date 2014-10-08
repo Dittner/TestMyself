@@ -31,6 +31,7 @@ public class TestingResultsMediator extends SFMediator {
 			case TestID.SPEAK_PHRASE_IN_DEUTSCH:
 			case TestID.SPEAK_LESSON_IN_DEUTSCH:
 			case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH:
+			case TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH:
 				needTranslationInvert = true;
 				break;
 			default :

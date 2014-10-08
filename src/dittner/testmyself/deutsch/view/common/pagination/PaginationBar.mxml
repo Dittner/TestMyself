@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:button="dittner.testmyself.deutsch.view.common.button.*">
+         xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+         xmlns:pagination="dittner.testmyself.deutsch.view.common.pagination.*">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         //--------------------------------------
         //  unitsTotal
@@ -83,31 +83,22 @@
 
         <s:Spacer width="15"/>
 
-        <button:IconButton id="firstPageBtn"
-                           label="1"
-                           enabled="false"
-                           fontFamily="{Fonts.ROBOTO}"
-                           fontWeight="bold"
-                           fontSize="12"
-                           color="#ffFFff"
-                           upImage="@Embed(source='/assets/button/page_dark_up.png')"
-                           downImage="@Embed(source='/assets/button/page_dark_down.png')"/>
-        <button:IconButton id="curPageBtn"
-                           label="1"
-                           fontFamily="{Fonts.ROBOTO}"
-                           fontWeight="bold"
-                           fontSize="12"
-                           color="{AppColors.TEXT_DARK}"
-                           upImage="@Embed(source='/assets/button/page_light_up.png')"
-                           downImage="@Embed(source='/assets/button/page_light_up.png')"/>
-        <button:IconButton id="lastPageBtn"
-                           enabled="false"
-                           fontFamily="{Fonts.ROBOTO}"
-                           fontWeight="bold"
-                           fontSize="12"
-                           color="#ffFFff"
-                           upImage="@Embed(source='/assets/button/page_dark_up.png')"
-                           downImage="@Embed(source='/assets/button/page_dark_down.png')"/>
+        <pagination:PaginationButton id="firstPageBtn"
+                                     label="1"
+                                     enabled="false"
+                                     color="#ffFFff"
+                                     upImage="@Embed(source='/assets/button/page_dark_up.png')"
+                                     downImage="@Embed(source='/assets/button/page_dark_down.png')"/>
+        <pagination:PaginationButton id="curPageBtn"
+                                     label="1"
+                                     color="{AppColors.TEXT_DARK}"
+                                     upImage="@Embed(source='/assets/button/page_light_up.png')"
+                                     downImage="@Embed(source='/assets/button/page_light_up.png')"/>
+        <pagination:PaginationButton id="lastPageBtn"
+                                     enabled="false"
+                                     color="#ffFFff"
+                                     upImage="@Embed(source='/assets/button/page_dark_up.png')"
+                                     downImage="@Embed(source='/assets/button/page_dark_down.png')"/>
 
         <s:Spacer width="15"/>
 
