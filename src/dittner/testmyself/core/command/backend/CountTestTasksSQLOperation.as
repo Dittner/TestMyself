@@ -26,12 +26,12 @@ public class CountTestTasksSQLOperation extends DeferredOperation {
 			var sqlStatement:String;
 			var filter:NoteFilter = spec.filter;
 			if (filter.selectedThemes.length > 0) {
-				sqlStatement = service.sqlFactory.selectCountFilteredTestTask;
+				sqlStatement = spec.info.useNoteExample ? service.sqlFactory.selectCountFilteredTestExampleTask : service.sqlFactory.selectCountFilteredTestTask;
 				var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
 				sqlStatement = sqlStatement.replace("#filterList", themes);
 			}
 			else {
-				sqlStatement = service.sqlFactory.selectCountTestTask;
+				sqlStatement = spec.info.useNoteExample ? service.sqlFactory.selectCountTestExampleTask : service.sqlFactory.selectCountTestTask;
 			}
 
 			var sqlParams:Object = {};

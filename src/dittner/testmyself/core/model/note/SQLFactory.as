@@ -328,11 +328,25 @@ public class SQLFactory extends SFProxy {
 		return SELECT_COUNT_TEST_TASK_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectCountTestExampleTask.sql", mimeType="application/octet-stream")]
+	private static const SelectCountTestExampleTaskClass:Class;
+	private static const SELECT_COUNT_TEST_EXAMPLE_TASK_SQL:String = new SelectCountTestExampleTaskClass();
+	public function get selectCountTestExampleTask():String {
+		return SELECT_COUNT_TEST_EXAMPLE_TASK_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectCountFilteredTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectCountFilteredTestTaskClass:Class;
 	private static const SELECT_COUNT_FILTERED_TEST_TASK_SQL:String = new SelectCountFilteredTestTaskClass();
 	public function get selectCountFilteredTestTask():String {
 		return SELECT_COUNT_FILTERED_TEST_TASK_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectCountFilteredTestExampleTask.sql", mimeType="application/octet-stream")]
+	private static const SelectCountFilteredTestExampleTaskClass:Class;
+	private static const SELECT_COUNT_FILTERED_TEST_EXAMPLE_TASK_SQL:String = new SelectCountFilteredTestExampleTaskClass();
+	public function get selectCountFilteredTestExampleTask():String {
+		return SELECT_COUNT_FILTERED_TEST_EXAMPLE_TASK_SQL;
 	}
 
 	//--------------------------------------
