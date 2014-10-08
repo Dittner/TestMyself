@@ -3,48 +3,53 @@ import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.TestMsg;
-import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.deutsch.model.ModuleName;
 
 import flash.events.MouseEvent;
 
 import mx.collections.ArrayCollection;
 
+import spark.events.IndexChangeEvent;
+
 public class TestListMediator extends SFMediator {
 
 	[Inject]
 	public var view:TestListView;
 
+	private static const SUBJECTS:Array = ["Слова", "Фразы и предложения", "Сильные глаголы", "Уроки"];
+
 	override protected function activate():void {
-		view.testInfoColl = new ArrayCollection();
-		sendRequestTo(ModuleName.WORD, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
-		sendRequestTo(ModuleName.PHRASE, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
-		sendRequestTo(ModuleName.LESSON, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
-		sendRequestTo(ModuleName.VERB, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
+		view.testSubjectColl = new ArrayCollection(SUBJECTS);
+		view.testSubjectList.addEventListener(IndexChangeEvent.CHANGE, onSubjectSelected);
 		view.applyTestBtn.addEventListener(MouseEvent.CLICK, onTestApplied);
 	}
 
-	private function testInfoListLoaded(res:CommandResult):void {
-		var tests:Array = res.data as Array;
-		if (tests && tests.length > 0) {
-			var testInfo:TestInfo = tests[0] as TestInfo;
-			view.testInfoColl.addItem(getTestNameByModule(testInfo.moduleName));
-			for each(var item:* in res.data) view.testInfoColl.addItem(item);
+	private function onSubjectSelected(event:IndexChangeEvent):void {
+		var selectedModule:String = getModuleByTestSubject(view.testSubjectList.selectedItem);
+		if (selectedModule) {
+			sendRequestTo(selectedModule, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
+		}
+		else {
+			view.testInfoColl = null;
 		}
 	}
 
-	private function getTestNameByModule(module:String):String {
-		switch (module) {
-			case ModuleName.WORD :
-				return "Слова";
-			case ModuleName.PHRASE :
-				return "Фразы и предложения";
-			case ModuleName.VERB :
-				return "Сильные глаголы";
-			case ModuleName.LESSON :
-				return "Уроки";
+	private function getModuleByTestSubject(subject:String):String {
+		switch (subject) {
+			case "Слова":
+				return ModuleName.WORD;
+			case "Фразы и предложения":
+				return ModuleName.PHRASE;
+			case "Сильные глаголы":
+				return ModuleName.VERB;
+			case "Уроки":
+				return ModuleName.LESSON;
 		}
 		return "";
+	}
+
+	private function testInfoListLoaded(res:CommandResult):void {
+		view.testInfoColl = new ArrayCollection(res.data as Array);
 	}
 
 	private function onTestApplied(event:MouseEvent):void {
@@ -55,7 +60,9 @@ public class TestListMediator extends SFMediator {
 	}
 
 	override protected function deactivate():void {
+		view.testSubjectList.removeEventListener(IndexChangeEvent.CHANGE, onSubjectSelected);
 		view.applyTestBtn.removeEventListener(MouseEvent.CLICK, onTestApplied);
 	}
+
 }
 }

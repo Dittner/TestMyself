@@ -25,10 +25,8 @@
         [Bindable("infinitiveChanged")]
         public function get infinitive():String {return _infinitive;}
         public function set infinitive(value:String):void {
-            if (_infinitive != value) {
-                _infinitive = value;
-                dispatchEvent(new Event("infinitiveChanged"));
-            }
+            _infinitive = value;
+            dispatchEvent(new Event("infinitiveChanged"));
         }
 
         //--------------------------------------
@@ -38,10 +36,8 @@
         [Bindable("presentChanged")]
         public function get present():String {return _present;}
         public function set present(value:String):void {
-            if (_present != value) {
-                _present = value;
-                dispatchEvent(new Event("presentChanged"));
-            }
+            _present = value;
+            dispatchEvent(new Event("presentChanged"));
         }
 
         //--------------------------------------
@@ -51,10 +47,8 @@
         [Bindable("pastChanged")]
         public function get past():String {return _past;}
         public function set past(value:String):void {
-            if (_past != value) {
-                _past = value;
-                dispatchEvent(new Event("pastChanged"));
-            }
+            _past = value;
+            dispatchEvent(new Event("pastChanged"));
         }
 
         //--------------------------------------
@@ -64,10 +58,8 @@
         [Bindable("perfectChanged")]
         public function get perfect():String {return _perfect;}
         public function set perfect(value:String):void {
-            if (_perfect != value) {
-                _perfect = value;
-                dispatchEvent(new Event("perfectChanged"));
-            }
+            _perfect = value;
+            dispatchEvent(new Event("perfectChanged"));
         }
 
         //--------------------------------------
@@ -77,10 +69,8 @@
         [Bindable("translationChanged")]
         public function get translation():String {return _translation;}
         public function set translation(value:String):void {
-            if (_translation != value) {
-                _translation = value;
-                dispatchEvent(new Event("translationChanged"));
-            }
+            _translation = value;
+            dispatchEvent(new Event("translationChanged"));
         }
 
         private const regexp:RegExp = NoteUtils.LETTERS;

@@ -13,6 +13,19 @@
         import mx.collections.ArrayCollection;
 
         //--------------------------------------
+        //  testSubjectColl
+        //--------------------------------------
+        private var _testSubjectColl:ArrayCollection;
+        [Bindable("testSubjectCollChanged")]
+        public function get testSubjectColl():ArrayCollection {return _testSubjectColl;}
+        public function set testSubjectColl(value:ArrayCollection):void {
+            if (_testSubjectColl != value) {
+                _testSubjectColl = value;
+                dispatchEvent(new Event("testSubjectCollChanged"));
+            }
+        }
+
+        //--------------------------------------
         //  testInfoColl
         //--------------------------------------
         private var _testInfoColl:ArrayCollection;
@@ -37,10 +50,6 @@
                 dispatchEvent(new Event("paddingChanged"));
             }
         }
-
-        public function testRendererFunction(item:*):IFactory {
-            return new ClassFactory(item is String ? TestSeparatorRenderer : TestInfoRenderer);
-        }
         ]]></fx:Script>
 
 
@@ -48,15 +57,28 @@
         <s:VerticalLayout gap="15" paddingTop="{padding}" horizontalAlign="center"/>
     </s:layout>
 
+    <list:ListForm id="testSubjectList"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="{width - 2*padding}"
+                   dataProvider="{testSubjectColl}"
+                   title="Выберите предмет из списка"
+                   itemRenderer="dittner.testmyself.deutsch.view.test.testList.TestSubjectRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
     <list:ListForm id="testInfoList"
+                   visible="{testSubjectList.selectedItem}"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"
                    width="{width - 2*padding}" height="100%"
                    dataProvider="{testInfoColl}"
                    title="Выберите тест из списка"
-                   itemRendererFunction="testRendererFunction">
-    <list:layout>
-            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+                   itemRenderer="dittner.testmyself.deutsch.view.test.testList.TestInfoRenderer">
+        <list:layout>
+        <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </list:layout>
     </list:ListForm>
 
@@ -69,7 +91,7 @@
                             right="{padding}"
                             verticalCenter="0"
                             label="Перейти к выбранному тесту"
-                            enabled="{testInfoList.selectedItem != null}"/>
+                            enabled="{testInfoList.selectedItem}"/>
     </s:Group>
 
 </s:Group>
