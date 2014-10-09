@@ -65,7 +65,7 @@ public class TestingNoteRenderer extends ItemRendererBase {
 	}
 
 	private function updateData():void {
-		if (renData) {
+		if (note) {
 			titleTf.text = renData.translationInverted ? note.description : note.title;
 			descriptionTf.text = renData.translationInverted ? note.title : note.description;
 			descriptionTf.visible = selected;

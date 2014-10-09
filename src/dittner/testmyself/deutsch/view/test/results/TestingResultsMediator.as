@@ -72,7 +72,10 @@ public class TestingResultsMediator extends SFMediator {
 
 	private function wrapNotesAndTasks(notes:Array, tasks:Array):Array {
 		var res:Array = [];
-		for (var i:int = 0; i < tasks.length; i++) res.push(new TestRendererData(notes[i], tasks[i], needTranslationInvert));
+		for (var i:int = 0; i < tasks.length; i++) {
+			if (!notes[i]) continue;
+			res.push(new TestRendererData(notes[i], tasks[i], needTranslationInvert));
+		}
 		return res;
 	}
 

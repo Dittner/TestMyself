@@ -1,5 +1,4 @@
 package dittner.testmyself.deutsch.view.common.audio {
-import dittner.testmyself.deutsch.utils.pendingInvalidation.invalidateOf;
 import dittner.testmyself.deutsch.view.common.audio.utils.PlayerUtils;
 
 import flash.events.Event;
@@ -33,7 +32,7 @@ public class VoiceRecorder extends EventDispatcher {
 	protected static var microphone:Microphone;
 	protected var sound:Sound;
 	protected var soundChannel:SoundChannel;
-	protected var playbackSampleSize:uint = 2048;
+	protected var playbackSampleSize:uint = 4096;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -156,10 +155,6 @@ public class VoiceRecorder extends EventDispatcher {
 	}
 
 	public function stopRecording():void {
-		invalidateOf(deferredStopRecord);
-	}
-
-	protected function deferredStopRecord():void {
 		removeSampleHandler();
 		setRecording(false);
 	}

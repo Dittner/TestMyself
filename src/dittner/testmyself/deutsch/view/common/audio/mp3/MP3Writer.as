@@ -22,7 +22,7 @@ public class MP3Writer {
 		rawDataQueue.push(data);
 		completeCallbackQueue.push(completeCallback);
 		if (!checkProgress) {
-			checkProgress = new Timer(500);
+			checkProgress = new Timer(100);
 			checkProgress.addEventListener(TimerEvent.TIMER, progressTimerHandler);
 		}
 		encodeNext();

@@ -24,7 +24,7 @@ public class PlayingState implements IPlayerState {
 
 		var posInSec:int = context.playbackTime;
 
-		soundChannel = context.sound.play(posInSec * 1000);
+		soundChannel = context.sound.play(posInSec <= 0 ? 50 : posInSec * 1000);
 		if (!soundChannel) soundChannel = context.sound.play(0);
 
 		soundChannel.addEventListener(Event.SOUND_COMPLETE, playingComplete);
