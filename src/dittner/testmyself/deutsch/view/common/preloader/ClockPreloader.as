@@ -134,7 +134,6 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 			clock.visible = true;
 			clock.x = Math.floor(stage.stageWidth - clock.width >> 1);
 			clock.y = Math.floor(stage.stageHeight - clock.height >> 1);
-			trace("stageHeight = " + stage.stageHeight);
 		}
 	}
 

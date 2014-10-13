@@ -223,13 +223,11 @@
 
         <input:TextAreaForm id="titleArea"
                             title="Исходный текст"
-                            autoCorrect="true"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"/>
 
         <input:TextInputForm id="wordInput"
                              maxChars="{AppConfig.MAX_WORD_LENGTH}"
                              changing="wordValidationHandler(event)"
-                             autoCorrect="true"
                              title="Исходное слово"/>
 
         <form:VerbInputsForm id="verbInputsForm"/>
@@ -240,8 +238,6 @@
 
         <input:TextAreaForm id="descriptionArea"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
-                            autoCapitalize="sentence"
-                            autoCorrect="true"
                             title="Перевод"/>
 
         <examplelist:ExamplesForm id="examplesForm" mainForm="{this}"/>

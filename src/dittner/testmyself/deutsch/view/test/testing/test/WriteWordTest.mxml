@@ -202,7 +202,6 @@
                 <input:TextInputForm id="wordInput"
                                      width="75%"
                                      maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                                     autoCorrect="true"
                                      enter="onAnswered()"
                                      title="Введите озвученное слово"/>
 

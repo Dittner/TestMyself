@@ -37,16 +37,13 @@ public class TextInputFormSkin extends TextInputSkin {
 		var textHeight:Number = getElementPreferredHeight(textDisplay);
 
 		if (hostInput.showTitle) {
-			textDisplay.y = TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2);
-			textDisplay.height = h - textDisplay.y - 2;
+			setElementSize(textDisplay, w - 10, h - textDisplay.y - 100);
+			setElementPosition(textDisplay, 5, TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2));
 		}
 		else {
-			textDisplay.y = Math.round((h - textHeight) / 2);
-			textDisplay.height = h - textDisplay.y - 2;
+			setElementSize(textDisplay, w - 10, h - textDisplay.y - 2);
+			setElementPosition(textDisplay, 5, Math.round((h - textHeight) / 2));
 		}
-
-		textDisplay.x = 5;
-		textDisplay.width = w - 10;
 
 		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
 		var g:Graphics = graphics;

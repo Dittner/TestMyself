@@ -115,15 +115,6 @@ input|TextInputForm {
     color: #333333;
 }
 
-input|TextAreaForm {
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextAreaFormSkin");
-    borderVisible: false;
-    focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: RobotoMX;
-    fontSize: 14px;
-    color: #333333;
-}
-
 /************************** LIST **************************/
 list|ListForm {
     skinClass: ClassReference("dittner.testmyself.deutsch.view.common.list.ListFormSkin");

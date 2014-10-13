@@ -73,7 +73,7 @@
             dispatchEvent(new Event("translationChanged"));
         }
 
-        private const regexp:RegExp = NoteUtils.LETTERS;
+        private const regexp:RegExp = NoteUtils.LETTERS_AND_SYMBOLS;
         private function wordValidationHandler(event:TextOperationEvent):void {
             if (event.operation is TextInputOperation) {
                 var match:Object = regexp.exec((event.operation as TextInputOperation).text);
