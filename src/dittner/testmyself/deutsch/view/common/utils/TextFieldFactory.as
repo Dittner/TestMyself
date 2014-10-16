@@ -15,7 +15,6 @@ public class TextFieldFactory {
 		textField.selectable = false;
 		textField.multiline = multiline;
 		textField.wordWrap = multiline;
-		textField.embedFonts = true;
 		textField.mouseEnabled = false;
 		textField.mouseWheelEnabled = false;
 		textField.embedFonts = useEmbedFonts;

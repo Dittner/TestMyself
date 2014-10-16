@@ -9,8 +9,10 @@ import dittner.testmyself.core.model.note.NoteHash;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.core.model.theme.Theme;
+import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.message.SettingsMsg;
 import dittner.testmyself.deutsch.model.settings.SettingsInfo;
+import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 
 import flash.events.MouseEvent;
 
@@ -32,8 +34,16 @@ public class NoteFormMediator extends SFMediator {
 		sendRequest(NoteMsg.GET_NOTE_HASH, new RequestMessage(noteHashLoaded));
 	}
 
-	//abstract
-	protected function toolActionSelectedHandler(toolAction:String):void {}
+	protected function toolActionSelectedHandler(toolAction:String):void {
+		if (isActive) return;
+		switch (toolAction) {
+			case ToolAction.ADD:
+			case ToolAction.EDIT:
+			case ToolAction.REMOVE:
+				sendRequest(ScreenMsg.EDIT, new RequestMessage(null, null, true));
+				break;
+		}
+	}
 
 	private function noteSelectedHandler(vo:Note):void {
 		selectedNote = vo;
@@ -71,6 +81,7 @@ public class NoteFormMediator extends SFMediator {
 	}
 
 	protected function closeForm():void {
+		sendRequest(ScreenMsg.EDIT, new RequestMessage(null, null, false));
 		view.visible = false;
 		isActive = false;
 		view.close();

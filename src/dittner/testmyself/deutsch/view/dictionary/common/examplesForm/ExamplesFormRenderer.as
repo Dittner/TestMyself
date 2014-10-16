@@ -11,7 +11,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ExamplesFormRenderer extends ItemRendererBase {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 14, AppColors.TEXT_BLACK, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_GRAY);
 
 	private static const PAD:uint = 3;
@@ -84,7 +84,7 @@ public class ExamplesFormRenderer extends ItemRendererBase {
 		g.clear();
 
 		if (selected) {
-			matr.createGradientBox(w, h, 90);
+			matr.createGradientBox(w, h, Math.PI / 2);
 			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
 			g.drawRect(0, 0, w, h);
 			g.endFill();

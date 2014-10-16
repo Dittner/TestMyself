@@ -66,7 +66,7 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 		var g:Graphics = graphics;
 		g.clear();
 
-		matr.createGradientBox(w, h, 90);
+		matr.createGradientBox(w, h, Math.PI / 2);
 		g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
 		g.drawRect(0, 0, w, h);
 		g.endFill();

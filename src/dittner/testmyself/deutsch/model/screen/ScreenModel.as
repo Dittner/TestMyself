@@ -57,6 +57,18 @@ public class ScreenModel extends SFProxy {
 		}
 	}
 
+	//--------------------------------------
+	//  editMode
+	//--------------------------------------
+	private var _editMode:Boolean = false;
+	public function get editMode():Boolean {return _editMode;}
+	public function set editMode(value:Boolean):void {
+		if (_editMode != value) {
+			_editMode = value;
+			sendNotification(editMode ? ScreenMsg.START_EDIT_NOTIFICATION : ScreenMsg.END_EDIT_NOTIFICATION);
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods

@@ -12,6 +12,7 @@ import flash.events.MouseEvent;
 public class NoteRemoverMediator extends NoteFormMediator {
 
 	override protected function toolActionSelectedHandler(toolAction:String):void {
+		super.toolActionSelectedHandler(toolAction);
 		if (!isActive && toolAction == ToolAction.REMOVE && selectedNote) {
 			isActive = true;
 			view.remove(selectedNote);

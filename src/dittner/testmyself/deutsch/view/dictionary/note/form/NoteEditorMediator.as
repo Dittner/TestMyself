@@ -15,6 +15,7 @@ import mx.collections.ArrayCollection;
 public class NoteEditorMediator extends NoteFormMediator {
 
 	override protected function toolActionSelectedHandler(toolAction:String):void {
+		super.toolActionSelectedHandler(toolAction);
 		if (!isActive && toolAction == ToolAction.EDIT && selectedNote) {
 			isActive = true;
 			view.edit(selectedNote);

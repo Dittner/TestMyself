@@ -34,6 +34,7 @@ import dittner.testmyself.core.command.UpdateTestTaskCmd;
 import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperationManager;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
+import dittner.testmyself.deutsch.command.screen.EditModeScreenCmd;
 import dittner.testmyself.deutsch.command.screen.GetScreenInfoListCmd;
 import dittner.testmyself.deutsch.command.screen.GetSelectedScreenCmd;
 import dittner.testmyself.deutsch.command.screen.LockScreenCmd;
@@ -57,6 +58,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(ScreenMsg.SELECT_SCREEN, SelectScreenCmd);
 		mainModule.registerCmd(ScreenMsg.GET_SELECTED_SCREEN, GetSelectedScreenCmd);
 		mainModule.registerCmd(ScreenMsg.GET_SCREEN_INFO_LIST, GetScreenInfoListCmd);
+		mainModule.registerCmd(ScreenMsg.EDIT, EditModeScreenCmd);
 		mainModule.registerCmd(ScreenMsg.LOCK, LockScreenCmd);
 		mainModule.registerCmd(ScreenMsg.UNLOCK, UnlockScreenCmd);
 		mainModule.registerCmd(SettingsMsg.LOAD, LoadSettings);

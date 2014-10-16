@@ -1,4 +1,5 @@
 package dittner.testmyself.deutsch.view.common.utils.logoMaker {
+import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;
 import dittner.testmyself.deutsch.view.common.utils.TextFieldFactory;
 
@@ -63,10 +64,9 @@ public class TextCard extends UIComponent {
 
 		var g:Graphics = graphics;
 		g.clear();
-		var colors:Array = [0, 0x555555];
 		var matr:Matrix = new Matrix();
-		matr.createGradientBox(w, h, gradientRotationGrad);
-		g.beginGradientFill(GradientType.LINEAR, colors, [1, 1], [0, 255], matr);
+		matr.createGradientBox(w, h, gradientRotationGrad / 180 * Math.PI);
+		g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 	}

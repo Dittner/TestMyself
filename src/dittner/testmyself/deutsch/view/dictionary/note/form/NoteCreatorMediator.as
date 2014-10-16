@@ -12,6 +12,7 @@ import flash.events.MouseEvent;
 public class NoteCreatorMediator extends NoteFormMediator {
 
 	override protected function toolActionSelectedHandler(toolAction:String):void {
+		super.toolActionSelectedHandler(toolAction);
 		if (!isActive && toolAction == ToolAction.ADD) {
 			isActive = true;
 			view.add();

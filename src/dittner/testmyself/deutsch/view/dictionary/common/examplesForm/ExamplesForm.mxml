@@ -111,6 +111,42 @@
                 back();
             }
         }
+
+        private function correctText():void {
+            titleArea.text = addDot(capitalize(removeSpaces(titleArea.text)));
+            descriptionArea.text = addDot(capitalize(removeSpaces(descriptionArea.text)));
+        }
+
+        private function removeSpaces(str:String):String {
+            if (str) {
+                while (str.length > 0 && (str.charAt(0) == " " || str.charAt(0) == "\n" || str.charAt(0) == "\r")) {
+                    str = str.substring(1, str.length);
+                }
+                while (str.length > 0 && (str.charAt(str.length - 1) == " " || str.charAt(str.length - 1) == "\n" || str.charAt(str.length - 1) == "\r")) {
+                    str = str.substring(0, str.length - 1);
+                }
+            }
+            return str;
+        }
+
+        private function capitalize(str:String):String {
+            if (str) {
+                var temp:String = str.charAt(0);
+                temp = temp.toUpperCase();
+                temp += str.substring(1, str.length);
+                str = temp;
+            }
+            return str;
+        }
+
+        private function addDot(str:String):String {
+            if (str) {
+                var endChar:String = str.charAt(str.length - 1);
+                if (endChar != "." && endChar != "!" && endChar != "?")
+                    str += ".";
+            }
+            return str;
+        }
         ]]></fx:Script>
 
     <s:states>
@@ -193,7 +229,13 @@
                     <s:Spacer/>
                     <s:HGroup excludeFrom="normal"
                               width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-                              horizontalAlign="right" verticalAlign="middle">
+                              verticalAlign="middle">
+
+                        <button:BlackButton label="Корректировать текст"
+                                            click="correctText()"/>
+
+                        <s:Spacer width="100%"/>
+
                         <button:GrayButton id="cancelBtn"
                                            label="Отменить"
                                            click="back()"/>
