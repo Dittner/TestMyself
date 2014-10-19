@@ -47,17 +47,22 @@ public class SelectPageTestNotesOperationPhase extends PhaseOperation {
 	}
 
 	private function loadedHandler(result:SQLResult):void {
-		var examples:Array = [];
-		var example:Note;
-		for each(var item:Object in result.data) {
-			example = new Note();
-			example.id = item.id;
-			example.title = item.title;
-			example.description = item.description;
-			example.audioComment = item.audioComment;
-			examples.push(example);
+		if (pageInfo.testSpec.info.useNoteExample) {
+			var examples:Array = [];
+			var example:Note;
+			for each(var item:Object in result.data) {
+				example = new Note();
+				example.id = item.id;
+				example.title = item.title;
+				example.description = item.description;
+				example.audioComment = item.audioComment;
+				examples.push(example);
+			}
+			pageInfo.notes = examples;
 		}
-		pageInfo.notes = examples;
+		else {
+			pageInfo.notes = result.data;
+		}
 		dispatchComplete();
 	}
 

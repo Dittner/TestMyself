@@ -14,7 +14,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class TestingNoteRenderer extends ItemRendererBase {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
@@ -101,6 +101,13 @@ public class TestingNoteRenderer extends ItemRendererBase {
 	private var matr:Matrix = new Matrix();
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
+
+		if (w != measuredWidth) {
+			invalidateSize();
+			invalidateDisplayList();
+			return;
+		}
+
 		var g:Graphics = graphics;
 		g.clear();
 

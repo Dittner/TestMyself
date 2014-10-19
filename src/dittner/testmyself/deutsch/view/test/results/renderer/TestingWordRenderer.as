@@ -15,9 +15,9 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class TestingWordRenderer extends ItemRendererBase {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK, true);
-	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_RED, true);
-	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_YELLOW, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK);
+	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_RED);
+	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_YELLOW);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
@@ -127,14 +127,15 @@ public class TestingWordRenderer extends ItemRendererBase {
 	private var matr:Matrix = new Matrix();
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
-		var g:Graphics = graphics;
-		g.clear();
 
 		if (w != measuredWidth) {
 			invalidateSize();
 			invalidateDisplayList();
 			return;
 		}
+
+		var g:Graphics = graphics;
+		g.clear();
 
 		if (selected) {
 			matr.createGradientBox(w, h, Math.PI / 2);
