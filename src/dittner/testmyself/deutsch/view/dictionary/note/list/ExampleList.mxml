@@ -84,7 +84,7 @@
                                   deselectEnabled="true"
                                   itemRenderer="dittner.testmyself.deutsch.view.dictionary.note.list.ExampleRenderer">
             <list:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+                <s:VerticalLayout gap="0" useVirtualLayout="true"/>
             </list:layout>
         </list:SelectableDataGroup>
     </s:Scroller>

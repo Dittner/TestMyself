@@ -232,6 +232,7 @@
                               verticalAlign="middle">
 
                         <button:BlackButton label="Корректировать текст"
+                                            excludeFrom="remove"
                                             click="correctText()"/>
 
                         <s:Spacer width="100%"/>
