@@ -12,7 +12,7 @@ public class ExampleRenderer extends ItemRendererBase {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 20, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 16, AppColors.TEXT_DARK);
 
-	private static const PAD:uint = 20;
+	private static const PAD:uint = 15;
 	private static const GAP:uint = 10;
 	private static const SEP_COLOR:uint = 0xaaAAaa;
 

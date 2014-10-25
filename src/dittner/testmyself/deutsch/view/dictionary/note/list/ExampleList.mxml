@@ -70,7 +70,7 @@
              fontSize="18"
              fontWeight="bold"
              mouseChildren="false" mouseEnabled="false"
-             left="5" right="5"
+             left="15" right="15"
              visible="{showTitle}"
              color="{AppColors.TEXT_LIGHT}"/>
 

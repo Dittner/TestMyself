@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*">
+
+    <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+
+        //--------------------------------------
+        //  showText
+        //--------------------------------------
+        private var _showText:Boolean = true;
+        [Bindable("showTextChanged")]
+        public function get showText():Boolean {return _showText;}
+        public function set showText(value:Boolean):void {
+            if (_showText != value) {
+                _showText = value;
+                dispatchEvent(new Event("showTextChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  title
+        //--------------------------------------
+        private var _title:String = "";
+        [Bindable("titleChanged")]
+        public function get title():String {return _title;}
+        public function set title(value:String):void {
+            if (_title != value) {
+                _title = value;
+                dispatchEvent(new Event("titleChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  text
+        //--------------------------------------
+        private var _text:String = "";
+        [Bindable("textChanged")]
+        public function get text():String {return _text;}
+        public function set text(value:String):void {
+            if (_text != value) {
+                _text = value;
+                dispatchEvent(new Event("textChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  questionsIconEnabled
+        //--------------------------------------
+        private var _questionsIconEnabled:Boolean = false;
+        [Bindable("questionsIconEnabledChanged")]
+        public function get questionsIconEnabled():Boolean {return _questionsIconEnabled;}
+        public function set questionsIconEnabled(value:Boolean):void {
+            if (_questionsIconEnabled != value) {
+                _questionsIconEnabled = value;
+                dispatchEvent(new Event("questionsIconEnabledChanged"));
+            }
+        }
+
+        private function isShownQuestions(questionsIconEnabled:Boolean, showDetails:Boolean):Boolean {
+            return questionsIconEnabled && !showDetails;
+        }
+        ]]></fx:Script>
+
+    <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+    <s:Label text="{title}"
+             fontFamily="{Fonts.ROBOTO_COND}"
+             fontWeight="bold"
+             fontSize="18"
+             mouseChildren="false" mouseEnabled="false"
+             left="15" right="15"
+             color="{AppColors.TEXT_LIGHT}"/>
+
+    <s:Scroller left="15" right="15" top="22" bottom="2"
+                visible="{showText}"
+                horizontalScrollPolicy="off">
+        <s:Group width="100%">
+            <s:Label id="descriptionLbl"
+                     text="{text}"
+                     width="100%"
+                     fontFamily="{Fonts.ROBOTO}"
+                     color="{AppColors.TEXT_DARK}"
+                     fontSize="20"/>
+        </s:Group>
+
+    </s:Scroller>
+
+    <s:BitmapImage visible="{isShownQuestions(questionsIconEnabled, showText)}"
+                   verticalCenter="0" horizontalCenter="0"
+                   source="@Embed('/assets/test/questions.png')"/>
+
+</s:Group>

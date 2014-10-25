@@ -56,7 +56,7 @@
                     titleLbl.text = word.article ? " " + word.title : word.title;
 
                     optionsLbl.text = word.options ? ", " + word.options : "";
-                    descriptionLbl.text = word.description;
+                    translateBoard.text = word.description;
                 }
             }
         }
@@ -65,7 +65,7 @@
             articleLbl.text = "";
             titleLbl.text = "";
             optionsLbl.text = "";
-            descriptionLbl.text = "";
+            translateBoard.text = "";
             showDetails = false;
             answerEnabled = true;
             isCorrectlyAnswered = true;
@@ -162,27 +162,9 @@
                          includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
             </s:HGroup>
 
-            <s:Scroller width="{width - 2*padding}" height="300"
-                        horizontalScrollPolicy="off">
-                <s:Group width="100%">
-                    <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-                    <s:Label text="Перевод"
-                             fontFamily="{Fonts.ROBOTO_COND}"
-                             fontWeight="bold"
-                             fontSize="18"
-                             mouseChildren="false" mouseEnabled="false"
-                             left="5" right="5"
-                             color="{AppColors.TEXT_LIGHT}"/>
-
-                    <s:Label id="descriptionLbl"
-                             left="{padding}" right="{padding}" top="{padding}"
-                             fontFamily="{Fonts.ROBOTO}"
-                             textAlign="center"
-                             color="{AppColors.TEXT_DARK}"
-                             fontSize="20"/>
-                </s:Group>
-
-            </s:Scroller>
+            <test:TextBoard id="translateBoard"
+                            width="{width - 2*padding}" height="300"
+                            title="Перевод" showText="{showDetails}"/>
 
             <s:HGroup width="100%"
                       horizontalAlign="center"
