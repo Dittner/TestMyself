@@ -14,8 +14,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class TestingVerbRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 16, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_DARK);
+	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 16, AppColors.WHITE);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.WHITE);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 
@@ -137,12 +137,10 @@ public class TestingVerbRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			infinitiveTf.textColor = 0xffFFff;
-			presentTf.textColor = 0xffFFff;
-			pastTf.textColor = 0xffFFff;
-			perfectTf.textColor = 0xffFFff;
-			translationTf.textColor = 0xffFFff;
-
+			infinitiveTf.textColor = AppColors.WHITE;
+			presentTf.visible = true;
+			pastTf.visible = true;
+			perfectTf.visible = true;
 			translationTf.visible = true;
 		}
 		else {
@@ -164,17 +162,15 @@ public class TestingVerbRenderer extends ItemRendererBase {
 			g.moveTo(0, h - 1);
 			g.lineTo(w, h - 1);
 
-			infinitiveTf.textColor = 0;
-			presentTf.textColor = 0;
-			pastTf.textColor = 0;
-			perfectTf.textColor = 0;
-			translationTf.textColor = 0;
-
+			infinitiveTf.textColor = AppColors.TEXT_BLACK;
+			presentTf.visible = false;
+			pastTf.visible = false;
+			perfectTf.visible = false;
 			translationTf.visible = false;
-
-			testTaskCard.x = w - testTaskCard.width - HPAD;
-			testTaskCard.y = 5;
 		}
+
+		testTaskCard.x = w - testTaskCard.width - HPAD;
+		testTaskCard.y = 5;
 
 		const WID:Number = w / 4;
 		infinitiveTf.x = HPAD;

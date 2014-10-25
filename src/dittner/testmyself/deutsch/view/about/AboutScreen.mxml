@@ -46,7 +46,7 @@
     <s:Label fontFamily="{Fonts.VANTA_THIN}"
              fontSize="70"
              color="{AppColors.YELLOW}" textAlign="right"
-             top="0" bottom="120" verticalAlign="middle" right="{2*PADDING}" width="800"
+             top="50" right="{2*PADDING}" width="800"
              text="Система, автоматизирующая тестирование знаний по немецкому языку"/>
 
 

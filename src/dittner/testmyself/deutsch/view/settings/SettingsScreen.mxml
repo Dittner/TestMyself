@@ -68,7 +68,7 @@
                 <fx:Object label="Общие" state="common"/>
                 <fx:Object label="Слова" state="word"/>
                 <fx:Object label="Фразы" state="phrase"/>
-                <fx:Object label="Сильные глаголы" state="verb"/>
+                <fx:Object label="Неправильные глаголы" state="verb"/>
                 <fx:Object label="Уроки" state="lesson"/>
                 <fx:Object label="Тесты" state="test"/>
             </s:ArrayCollection>
