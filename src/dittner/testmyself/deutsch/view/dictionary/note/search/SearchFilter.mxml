@@ -48,9 +48,15 @@
 
 
     <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-              bottom="0" horizontalAlign="right"
+              bottom="0"
               paddingLeft="15" paddingRight="15" paddingBottom="{EditorBg.BORDER_THICKNESS}"
               gap="15" verticalAlign="middle">
+
+        <button:GrayButton id="clearBtn"
+                           width="250"
+                           label="Очистить"/>
+
+        <s:Spacer width="100%"/>
 
         <button:GrayButton id="cancelBtn"
                            width="250"

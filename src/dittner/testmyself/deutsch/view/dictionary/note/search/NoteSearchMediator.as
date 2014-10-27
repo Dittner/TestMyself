@@ -35,8 +35,15 @@ public class NoteSearchMediator extends SFMediator {
 		view.visible = true;
 		sendNotification(NoteMsg.FORM_ACTIVATED_NOTIFICATION);
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
+		view.clearBtn.addEventListener(MouseEvent.CLICK, clearHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
 		view.searchInput.addEventListener(FlexEvent.ENTER, applyHandler);
+	}
+
+	private function clearHandler(event:MouseEvent):void {
+		view.searchInput.text = "";
+		updateFilter();
+		closeDropdown();
 	}
 
 	private function cancelHandler(event:MouseEvent):void {
@@ -48,6 +55,7 @@ public class NoteSearchMediator extends SFMediator {
 			view.visible = false;
 			isActive = false;
 			sendNotification(NoteMsg.FORM_DEACTIVATED_NOTIFICATION);
+			view.clearBtn.removeEventListener(MouseEvent.CLICK, clearHandler);
 			view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
 			view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
 			view.searchInput.removeEventListener(FlexEvent.ENTER, applyHandler);
@@ -60,7 +68,7 @@ public class NoteSearchMediator extends SFMediator {
 	}
 
 	private function updateFilter():void {
-		if (!filter) return;
+		if (!filter || filter.searchText == view.searchInput.text) return;
 		filter.searchText = view.searchInput.text;
 		filter.searchFullIdentity = view.fullIdentityBox.selected;
 		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(null, null, filter));
