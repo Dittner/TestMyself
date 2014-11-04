@@ -157,6 +157,11 @@
             }
         }
 
+        private function correctText():void {
+            titleArea.text = NoteUtils.correctText(titleArea.text);
+            descriptionArea.text = NoteUtils.correctText(descriptionArea.text);
+        }
+
         override protected function updateDisplayList(w:Number, h:Number):void {
             super.updateDisplayList(w, h);
             curFormState.updateLayout(w, h);
@@ -266,6 +271,10 @@
         <common2:InvalidNotifier id="invalidNotifier"/>
     </s:Group>
 
+    <button:BlackButton id="correctBtn"
+                        label="Корректировать текст"
+                        visible="false"
+                        click="correctText()"/>
 
     <button:GrayButton id="cancelBtn"
                        label="Отменить"/>
