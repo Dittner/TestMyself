@@ -69,6 +69,7 @@
                     _activeView = speakNoteTranslationTest;
                     setCurrentState("speakNoteTranslation");
                     break;
+                case TestID.SPEAK_WORD_IN_DEUTSCH :
                 case TestID.SPEAK_PHRASE_IN_DEUTSCH :
                 case TestID.SPEAK_LESSON_IN_DEUTSCH :
                 case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH :

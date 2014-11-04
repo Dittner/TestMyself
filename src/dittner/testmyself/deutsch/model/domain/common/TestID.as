@@ -1,6 +1,7 @@
 package dittner.testmyself.deutsch.model.domain.common {
 public class TestID {
 	public static const SPEAK_WORD_TRANSLATION:uint = 0;
+	public static const SPEAK_WORD_IN_DEUTSCH:uint = 16;
 	public static const WRITE_WORD:uint = 1;
 	public static const SELECT_ARTICLE:uint = 2;
 

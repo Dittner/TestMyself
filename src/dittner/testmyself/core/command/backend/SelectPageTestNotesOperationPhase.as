@@ -61,7 +61,7 @@ public class SelectPageTestNotesOperationPhase extends PhaseOperation {
 			pageInfo.notes = examples;
 		}
 		else {
-			pageInfo.notes = result.data;
+			pageInfo.notes = result.data || [];
 		}
 		dispatchComplete();
 	}
