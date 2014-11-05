@@ -17,6 +17,7 @@ public class MainViewMediator extends SFMediator {
 	public var view:MainView;
 
 	override protected function activate():void {
+		lock();
 		addListener(ScreenMsg.START_EDIT_NOTIFICATION, startEditing);
 		addListener(ScreenMsg.END_EDIT_NOTIFICATION, endEditing);
 		addListener(ScreenMsg.LOCK_NOTIFICATION, lock);
@@ -66,7 +67,7 @@ public class MainViewMediator extends SFMediator {
 		view.screenList.mouseEnabled = view.screenList.mouseChildren = true;
 	}
 
-	private function lock(data:*):void {
+	private function lock(data:* = null):void {
 		view.lock();
 	}
 

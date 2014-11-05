@@ -51,7 +51,7 @@ public class ScreenModel extends SFProxy {
 	private var _locked:Boolean = false;
 	private function get locked():Boolean {return _locked;}
 	private function set locked(value:Boolean):void {
-		if (_locked != value) {
+		if (locked != value) {
 			_locked = value;
 			sendNotification(locked ? ScreenMsg.LOCK_NOTIFICATION : ScreenMsg.UNLOCK_NOTIFICATION);
 		}

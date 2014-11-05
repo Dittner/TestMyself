@@ -9,6 +9,7 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.core.model.note.INote;
+        import dittner.testmyself.deutsch.model.domain.word.Word;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
@@ -37,7 +38,7 @@
 
                 if (note) {
                     titleBoard.text = translateInDeutsch ? note.description : note.title;
-                    translateBoard.text = translateInDeutsch ? note.title : note.description;
+                    translateBoard.text = translateInDeutsch ? noteToTitle() : note.description;
 
                     if (note.audioComment.bytes && !translateInDeutsch) {
                         mp3Player.visible = true;
@@ -49,6 +50,20 @@
                     }
                 }
             }
+        }
+
+        private function noteToTitle():String {
+            var res:String;
+            if (note is Word) {
+                var w:Word = note as Word;
+                res = w.article ? w.article + " " : "";
+                res += w.title;
+                res += w.options ? ", " + w.options : "";
+            }
+            else {
+                res = note ? note.title : ""
+            }
+            return res;
         }
 
         override protected function clear():void {
