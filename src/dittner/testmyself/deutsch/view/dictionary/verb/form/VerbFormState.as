@@ -13,6 +13,10 @@ public class VerbFormState extends NoteFormState {
 
 	private var form:NoteForm;
 
+	override public function add():void {
+		showControls();
+	}
+
 	override public function edit(note:INote):void {
 		var verb:IVerb = note as IVerb;
 		if (form.verbInputsForm) {
@@ -23,6 +27,7 @@ public class VerbFormState extends NoteFormState {
 			form.verbInputsForm.translation = verb.description;
 		}
 		if (form.audioRecorder) form.audioRecorder.comment = verb.audioComment;
+		showControls();
 	}
 
 	override public function remove(note:INote):void {
@@ -40,7 +45,6 @@ public class VerbFormState extends NoteFormState {
 
 	override public function updateLayout(w:Number, h:Number):void {
 		with (form) {
-			showControls();
 			var firstColumnWid:Number = w - 2 * PAD - THEMES_LIST_WID - articleBox.width - 2 * HGAP;
 			var formContentHeight:Number = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - RECORDER_HEI);
 

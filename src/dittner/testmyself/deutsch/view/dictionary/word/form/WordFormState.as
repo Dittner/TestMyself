@@ -13,6 +13,10 @@ public class WordFormState extends NoteFormState {
 
 	private var form:NoteForm;
 
+	override public function add():void {
+		showControls();
+	}
+
 	override public function edit(note:INote):void {
 		var word:IWord = note as IWord;
 		if (form.articleBox) form.articleBox.selectedItem = word.article;
@@ -20,6 +24,7 @@ public class WordFormState extends NoteFormState {
 		if (form.wordOptionsInput) form.wordOptionsInput.text = word.options;
 		if (form.descriptionArea) form.descriptionArea.text = word.description;
 		if (form.audioRecorder) form.audioRecorder.comment = word.audioComment;
+		showControls();
 	}
 
 	override public function remove(note:INote):void {
@@ -40,7 +45,7 @@ public class WordFormState extends NoteFormState {
 
 	override public function updateLayout(w:Number, h:Number):void {
 		with (form) {
-			showControls();
+
 			var firstColumnWid:Number = w - 2 * PAD - HGAP - THEMES_LIST_WID;
 			var formContentHeight:Number = (h - FOOTER_HEI - HEADER_HEI - PAD - PAD_TOP - RECORDER_HEI);
 			articleBox.x = PAD;

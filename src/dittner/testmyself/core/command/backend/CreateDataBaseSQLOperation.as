@@ -27,7 +27,16 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 
 	override public function process():void {
 		var dbRootFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath);
-		if (!dbRootFile.exists) dbRootFile.createDirectory();
+		if (!dbRootFile.exists) {
+			var appDBDir:File = File.applicationDirectory.resolvePath(AppConfig.applicationDBPath);
+			if (appDBDir.exists) {
+				var destDir:File = File.documentsDirectory.resolvePath(AppConfig.APP_NAME);
+				appDBDir.copyTo(destDir);
+			}
+			else {
+				dbRootFile.createDirectory();
+			}
+		}
 
 		var dbFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + spec.dbName + ".db");
 		service.sqlRunner = new SQLRunner(dbFile);
@@ -47,7 +56,6 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 	}
 
 	private function executeComplete(results:Vector.<SQLResult>):void {
-		if (spec.demoData) spec.demoData.add();
 		dispatchCompleteSuccess(CommandResult.OK);
 	}
 

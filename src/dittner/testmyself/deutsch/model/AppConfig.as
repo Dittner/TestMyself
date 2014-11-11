@@ -13,5 +13,9 @@ public class AppConfig {
 	public static function get dbRootPath():String {
 		return APP_NAME + File.separator + LANGUAGE_NAME + File.separator;
 	}
+
+	public static function get applicationDBPath():String {
+		return "dataBase" + File.separator + APP_NAME + File.separator;
+	}
 }
 }

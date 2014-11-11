@@ -1,7 +1,6 @@
 package dittner.testmyself.deutsch.command.app {
 import dittner.satelliteFlight.command.IConfigureCommand;
 import dittner.satelliteFlight.module.SFModule;
-import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.model.note.NoteModel;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.test.TestInfo;
@@ -10,7 +9,6 @@ import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.domain.common.TestID;
-import dittner.testmyself.deutsch.model.domain.phrase.PhraseDemoData;
 import dittner.testmyself.deutsch.model.domain.phrase.PhraseTestModel;
 
 public class ConfigurePhraseModuleCmd implements IConfigureCommand {
@@ -21,7 +19,6 @@ public class ConfigurePhraseModuleCmd implements IConfigureCommand {
 		phraseModule.registerProxy("testModel", createTestModel());
 		phraseModule.registerProxy("sqlFactory", new SQLFactory());
 		var spec:NoteServiceSpec = createSpec();
-		phraseModule.registerProxy("demoData", spec.demoData as SFProxy);
 		phraseModule.registerProxy("spec", spec);
 		phraseModule.registerProxy("service", new NoteService());
 	}
@@ -29,7 +26,6 @@ public class ConfigurePhraseModuleCmd implements IConfigureCommand {
 	private function createSpec():NoteServiceSpec {
 		var spec:NoteServiceSpec = new NoteServiceSpec();
 		spec.dbName = "phrase";
-		spec.demoData = new PhraseDemoData();
 		return spec;
 	}
 

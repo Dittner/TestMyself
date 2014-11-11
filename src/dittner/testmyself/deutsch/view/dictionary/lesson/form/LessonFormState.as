@@ -12,10 +12,15 @@ public class LessonFormState extends NoteFormState {
 
 	private var form:NoteForm;
 
+	override public function add():void {
+		showControls();
+	}
+
 	override public function edit(note:INote):void {
 		if (form.titleArea) form.titleArea.text = note.title;
 		if (form.descriptionArea) form.descriptionArea.text = note.description;
 		if (form.audioRecorder) form.audioRecorder.comment = note.audioComment;
+		showControls();
 	}
 
 	override public function remove(note:INote):void {
@@ -33,7 +38,6 @@ public class LessonFormState extends NoteFormState {
 	}
 
 	override public function updateLayout(w:Number, h:Number):void {
-		showControls();
 		with (form) {
 			titleArea.x = PAD;
 			titleArea.y = HEADER_HEI + PAD_TOP;
