@@ -81,7 +81,7 @@
                        right="col1:10"
                        dataProvider="{testColl}"
                        title="Список тестов"
-                       itemRenderer="dittner.testmyself.deutsch.view.test.testList.TestInfoRenderer">
+                       itemRenderer="dittner.testmyself.deutsch.view.settings.testSettings.SubjectTestInfoRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </list:layout>
