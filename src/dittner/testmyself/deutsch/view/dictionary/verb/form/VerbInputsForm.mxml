@@ -112,7 +112,7 @@
                          text="{perfect}"
                          width="100%"
                          maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                         title="Perfect"/>
+                         title="Perfekt"/>
 
     <input:TextInputForm id="translateInput"
                          text="{translation}"
