@@ -201,9 +201,11 @@
                               width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                               verticalAlign="middle">
 
-                        <button:BlackButton label="Корректировать текст"
-                                            visible.remove="false"
-                                            click="correctText()"/>
+                        <button:BitmapButton upImage="@Embed(source='/assets/button/correct_btn_up.png')"
+                                             downImage="@Embed(source='/assets/button/correct_btn_down.png')"
+                                             description="Корректировать текст"
+                                             visible.remove="false"
+                                             click="correctText()"/>
 
                         <s:Spacer width="100%"/>
 

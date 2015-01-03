@@ -271,10 +271,12 @@
         <common2:InvalidNotifier id="invalidNotifier"/>
     </s:Group>
 
-    <button:BlackButton id="correctBtn"
-                        label="Корректировать текст"
-                        visible="false"
-                        click="correctText()"/>
+    <button:BitmapButton id="correctBtn"
+                         upImage="@Embed(source='/assets/button/correct_btn_up.png')"
+                         downImage="@Embed(source='/assets/button/correct_btn_down.png')"
+                         description="Корректировать текст"
+                         visible="false"
+                         click="correctText()"/>
 
     <button:GrayButton id="cancelBtn"
                        label="Отменить"/>

@@ -64,9 +64,8 @@ public class LessonFormState extends NoteFormState {
 
 			correctBtn.x = PAD;
 			correctBtn.y = applyBtn.y;
-			correctBtn.width = THEMES_LIST_WID;
 
-			invalidNotifier.x = PAD;
+			invalidNotifier.x = correctBtn.x + correctBtn.width + PAD / 2;
 			invalidNotifier.y = applyBtn.y;
 			invalidNotifier.width = cancelBtn.x - invalidNotifier.x - HGAP;
 			invalidNotifier.height = applyBtn.height;
@@ -80,7 +79,6 @@ public class LessonFormState extends NoteFormState {
 			removeNoteTitleLbl.top = removeTitleLbl.y + removeTitleLbl.height + VGAP;
 			removeNoteTitleLbl.bottom = FOOTER_HEI + VGAP;
 		}
-
 	}
 
 	private function showControls():void {

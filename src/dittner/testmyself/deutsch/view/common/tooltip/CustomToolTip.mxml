@@ -173,6 +173,7 @@
              fontFamily="{Fonts.ROBOTO}"
              fontWeight="bold"
              fontSize="16"
+             maxDisplayedLines="2"
              color="{AppColors.TEXT_WHITE}"
              text="{text}">
         <s:filters>

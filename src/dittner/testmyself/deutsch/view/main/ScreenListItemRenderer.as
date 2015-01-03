@@ -1,18 +1,16 @@
 package dittner.testmyself.deutsch.view.main {
 import dittner.testmyself.deutsch.service.screenFactory.ScreenInfo;
 import dittner.testmyself.deutsch.view.common.renderer.ItemRendererBase;
-import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.hideTooltip;
 import dittner.testmyself.deutsch.view.common.utils.showTooltip;
 
 import flash.display.Bitmap;
-import flash.display.BlendMode;
 import flash.display.Graphics;
 import flash.events.MouseEvent;
 
 public class ScreenListItemRenderer extends ItemRendererBase {
 	private static const ICON_ALPHA_OUT:Number = 0.5;
-	private static const ICON_ALPHA_SELECTED:Number = 0.75;
+	private static const ICON_ALPHA_SELECTED:Number = 1;
 
 	private static const VGAP:Number = 20;
 
@@ -67,7 +65,7 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
 		g.clear();
-		g.beginFill(AppColors.BG, selected ? 1 : 0.0001);
+		g.beginFill(0.0001);
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
@@ -75,8 +73,6 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 
 		icon.x = (w - icon.width) / 2;
 		icon.y = (h - icon.height) / 2;
-
-		icon.blendMode = selected ? BlendMode.INVERT : BlendMode.NORMAL;
 	}
 
 	override protected function overHandler(event:MouseEvent):void {

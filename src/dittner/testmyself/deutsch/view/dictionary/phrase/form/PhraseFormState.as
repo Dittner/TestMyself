@@ -76,9 +76,8 @@ public class PhraseFormState extends NoteFormState {
 
 			correctBtn.x = PAD;
 			correctBtn.y = applyBtn.y;
-			correctBtn.width = THEMES_LIST_WID;
 
-			invalidNotifier.x = PAD;
+			invalidNotifier.x = correctBtn.visible ? correctBtn.x + correctBtn.width + PAD / 2 : PAD;
 			invalidNotifier.y = applyBtn.y;
 			invalidNotifier.width = cancelBtn.x - invalidNotifier.x - HGAP;
 			invalidNotifier.height = applyBtn.height;
