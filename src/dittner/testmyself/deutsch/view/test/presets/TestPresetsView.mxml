@@ -86,36 +86,31 @@
              paddingLeft="48" paddingRight="20"
              color="{AppColors.TEXT_GRAY}"/>
 
-    <s:RadioButton id="balanceIndexRadioBtn"
-                   groupName="radioBar"
-                   width="{width -2*padding}"
-                   value="balance"
-                   selected="true"
-                   label="Сортировать задачи с приоритетом баланса"/>
+    <s:HGroup width="{width -2*padding}" gap="0">
+        <s:RadioButton id="highComplexityRadioBtn"
+                       groupName="radioBar"
+                       width="300"
+                       value="high"
+                       selected="true"
+                       label="Высокая сложность задач"/>
 
-    <s:Label text="* в первую очередь будут тестироваться те задачи, у которых наименьший баланс (разница между положительными и отрицательными ответами, полученными в прошлых тестах)"
-             fontFamily="{Fonts.ROBOTO_LIGHT}"
-             mouseChildren="false" mouseEnabled="false"
-             fontSize="12"
-             width="100%"
-             paddingTop="-15"
-             paddingLeft="48" paddingRight="20"
-             color="{AppColors.TEXT_GRAY}"/>
+        <s:Spacer width="100%"/>
 
-    <s:RadioButton id="amountIndexRadioBtn"
-                   groupName="radioBar"
-                   width="{width -2*padding}"
-                   value="amount"
-                   label="Сортировать задачи с приоритетом числа пройденных тестов"/>
+        <s:RadioButton id="middleComplexityRadioBtn"
+                       groupName="radioBar"
+                       width="300"
+                       value="middle"
+                       label="Средняя сложность задач"/>
 
-    <s:Label text="* в первую очередь будут тестироваться те задачи, которые тестировались реже остальных"
-             fontFamily="{Fonts.ROBOTO_LIGHT}"
-             fontSize="12"
-             mouseChildren="false" mouseEnabled="false"
-             width="100%"
-             paddingTop="-15"
-             paddingLeft="48" paddingRight="20"
-             color="{AppColors.TEXT_GRAY}"/>
+        <s:Spacer width="100%"/>
+
+        <s:RadioButton id="lowComplexityRadioBtn"
+                       groupName="radioBar"
+                       width="300"
+                       value="low"
+                       label="Низкая сложность задач"/>
+    </s:HGroup>
+
 
     <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 

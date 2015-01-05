@@ -81,8 +81,7 @@ public class TestingWordRenderer extends ItemRendererBase {
 			titleTf.setTextFormat(TITLE_FORMAT);
 			titleTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
-			var negativeAnswerNum:uint = (task.amount - task.balance) / 2;
-			testTaskCard.label = negativeAnswerNum + " / " + task.amount;
+			testTaskCard.label = task.correct + " / " + (task.correct + task.incorrect);
 			switch (word.article) {
 				case WordArticle.DIE :
 					titleTf.setTextFormat(DIE_FORMAT, 0, word.article.length);

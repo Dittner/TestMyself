@@ -132,7 +132,7 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 	private function updateClockPos():void {
 		if (clock && !clock.visible) {
 			clock.visible = true;
-			clock.x = Math.floor(stage.stageWidth - clock.width >> 1);
+			clock.x = Math.floor(stage.stageWidth - clock.width >> 1) + 33;
 			clock.y = Math.floor(stage.stageHeight - clock.height >> 1);
 		}
 	}

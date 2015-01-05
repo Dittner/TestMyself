@@ -7,6 +7,8 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.model.test.TestModel;
+import dittner.testmyself.core.model.test.TestTask;
+import dittner.testmyself.core.model.test.TestTaskComplexity;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;
@@ -33,10 +35,10 @@ public class ClearTestHistoryOperationSubPhase extends PhaseOperation {
 		var sqlParams:Object = {};
 		sqlParams.testID = testID;
 		sqlParams.noteID = noteID;
-		sqlParams.balance = 0;
-		sqlParams.balanceIndex = testModel.calcBalanceIndex(0, 0);
-		sqlParams.amount = 0;
-		sqlParams.amountIndex = testModel.calcAmountIndex(0, 0);
+		sqlParams.correct = 0;
+		sqlParams.rate = testModel.calcTaskRate(new TestTask());
+		sqlParams.incorrect = 0;
+		sqlParams.complexity = TestTaskComplexity.HIGH;
 		sqlParams.updatingTestID = testID;
 		sqlParams.updatingNoteID = noteID;
 

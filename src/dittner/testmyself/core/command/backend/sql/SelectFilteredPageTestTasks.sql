@@ -6,5 +6,5 @@ AND n.id = f.noteID
 AND f.themeID = th.id
 AND th.name
 IN #filterList
-ORDER BY t.balance
+ORDER BY t.rate
 LIMIT :startIndex, :amount

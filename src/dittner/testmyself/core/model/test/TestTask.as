@@ -16,31 +16,31 @@ public class TestTask implements ITestTask {
 	public function set noteID(value:int):void {_noteID = value;}
 
 	//--------------------------------------
-	//  balance
+	//  correct
 	//--------------------------------------
-	private var _balance:int = -1;
-	public function get balance():int {return _balance;}
-	public function set balance(value:int):void {_balance = value;}
+	private var _correct:int = 0;
+	public function get correct():int {return _correct;}
+	public function set correct(value:int):void {_correct = value;}
 
 	//--------------------------------------
-	//  balanceIndex
+	//  incorrect
 	//--------------------------------------
-	private var _balanceIndex:int = -1;
-	public function get balanceIndex():int {return _balanceIndex;}
-	public function set balanceIndex(value:int):void {_balanceIndex = value;}
+	private var _incorrect:int = 0;
+	public function get incorrect():int {return _incorrect;}
+	public function set incorrect(value:int):void {_incorrect = value;}
 
 	//--------------------------------------
-	//  amount
+	//  rate
 	//--------------------------------------
-	private var _amount:int = -1;
-	public function get amount():int {return _amount;}
-	public function set amount(value:int):void {_amount = value;}
+	private var _rate:int = -1;
+	public function get rate():int {return _rate;}
+	public function set rate(value:int):void {_rate = value;}
 
 	//--------------------------------------
-	//  amountIndex
+	//  complexity
 	//--------------------------------------
-	private var _amountIndex:int = -1;
-	public function get amountIndex():int {return _amountIndex;}
-	public function set amountIndex(value:int):void {_amountIndex = value;}
+	private var _complexity:int = TestTaskComplexity.HIGH;
+	public function get complexity():int {return _complexity;}
+	public function set complexity(value:int):void {_complexity = value;}
 }
 }

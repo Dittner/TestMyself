@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.test.testing.test {
 import dittner.testmyself.core.model.note.INote;
+import dittner.testmyself.core.model.test.TestTaskComplexity;
 import dittner.testmyself.deutsch.view.common.audio.utils.PlayerUtils;
 import dittner.testmyself.deutsch.view.test.common.TestingAction;
 
@@ -116,6 +117,19 @@ public class TestableView extends Group implements ITestableView {
 		if (_answerEnabled != value) {
 			_answerEnabled = value;
 			dispatchEvent(new Event("answerEnabledChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  complexity
+	//--------------------------------------
+	private var _complexity:uint = TestTaskComplexity.HIGH;
+	[Bindable("complexityChanged")]
+	public function get complexity():uint {return _complexity;}
+	public function set complexity(value:uint):void {
+		if (_complexity != value) {
+			_complexity = value;
+			dispatchEvent(new Event("complexityChanged"));
 		}
 	}
 

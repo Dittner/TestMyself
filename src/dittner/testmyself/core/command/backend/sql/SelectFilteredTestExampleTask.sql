@@ -6,6 +6,7 @@ IN
 (
    SELECT id FROM example
    WHERE (audioComment IS NOT NULL OR :ignoreAudio)
+   AND complexity = :complexity
    AND noteID
    IN
    (
@@ -17,4 +18,4 @@ IN
       IN #filterList
    )
 )
-ORDER BY #priority
+ORDER BY rate

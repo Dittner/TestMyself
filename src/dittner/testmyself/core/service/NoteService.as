@@ -15,6 +15,7 @@ import dittner.testmyself.core.command.backend.GetDataBaseInfoSQLOperation;
 import dittner.testmyself.core.command.backend.InsertNoteSQLOperation;
 import dittner.testmyself.core.command.backend.InsertThemeSQLOperation;
 import dittner.testmyself.core.command.backend.MergeThemesSQLOperation;
+import dittner.testmyself.core.command.backend.RebuildTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectExampleSQLOperation;
 import dittner.testmyself.core.command.backend.SelectExamplesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectFilterSQLOperation;
@@ -77,6 +78,7 @@ public class NoteService extends SFProxy {
 		var op:IDeferredOperation = new CreateDataBaseSQLOperation(this, spec);
 		deferredOperationManager.add(op);
 		updateNoteHash();
+		//doLaterInMSec(rebuildTestTasks, 2000);
 	}
 
 	private function updateNoteHash():void {
@@ -198,6 +200,11 @@ public class NoteService extends SFProxy {
 		var testInfo:TestInfo = requestMsg.data as TestInfo;
 		var op:IDeferredOperation = new ClearTestHistorySQLOperation(this, testInfo, testModel);
 		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function rebuildTestTasks():void {
+		var op:IDeferredOperation = new RebuildTestTasksSQLOperation(this, testModel, spec.noteClass);
 		deferredOperationManager.add(op);
 	}
 

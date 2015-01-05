@@ -88,8 +88,7 @@ public class TestingVerbRenderer extends ItemRendererBase {
 			presentTf.text = verb.present;
 			pastTf.text = verb.past;
 			perfectTf.text = verb.perfect;
-			var negativeAnswerNum:uint = (task.amount - task.balance) / 2;
-			testTaskCard.label = negativeAnswerNum + " / " + task.amount;
+			testTaskCard.label = task.correct + " / " + (task.correct + task.incorrect);
 		}
 		else {
 			infinitiveTf.text = "";

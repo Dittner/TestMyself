@@ -30,10 +30,10 @@ public class UpdateTestTaskSQLOperation extends DeferredOperation {
 			var sqlParams:Object = {};
 			sqlParams.testID = task.testID;
 			sqlParams.noteID = task.noteID;
-			sqlParams.balance = task.balance;
-			sqlParams.balanceIndex = testModel.calcBalanceIndex(task.balance, task.amount);
-			sqlParams.amount = task.amount;
-			sqlParams.amountIndex = testModel.calcAmountIndex(task.balance, task.amount);
+			sqlParams.correct = task.correct;
+			sqlParams.incorrect = task.incorrect;
+			sqlParams.complexity = task.complexity;
+			sqlParams.rate = testModel.calcTaskRate(task);
 			sqlParams.updatingTestID = task.testID;
 			sqlParams.updatingNoteID = task.noteID;
 

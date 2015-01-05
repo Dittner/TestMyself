@@ -25,12 +25,9 @@ public class TestModel extends SFProxy {
 		testInfos.push(info);
 	}
 
-	public function calcBalanceIndex(balance:int, amount:int):int {
-		return balance * 100000 + amount * 10 + Math.round(Math.random() * 9);
-	}
-
-	public function calcAmountIndex(balance:int, amount:int):int {
-		return amount * 100000 + balance * 10 + Math.round(Math.random() * 9);
+	public function calcTaskRate(task:ITestTask):int {
+		if (task.incorrect < task.correct - 3) return 500 + Math.round(Math.random() * 500);
+		else return Math.round(Math.random() * 500);
 	}
 
 	public function validate(note:INote, testInfo:TestInfo):Boolean {

@@ -9,6 +9,8 @@ import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
+import dittner.testmyself.core.model.test.TestTask;
+import dittner.testmyself.core.model.test.TestTaskComplexity;
 
 import flash.data.SQLResult;
 import flash.errors.SQLError;
@@ -39,10 +41,10 @@ public class TestTaskInsertOperationSubPhase extends PhaseOperation {
 		var sqlParams:Object = {};
 		sqlParams.testID = testInfo.id;
 		sqlParams.noteID = note.id;
-		sqlParams.balance = 0;
-		sqlParams.balanceIndex = testModel.calcBalanceIndex(0, 0);
-		sqlParams.amount = 0;
-		sqlParams.amountIndex = testModel.calcAmountIndex(0, 0);
+		sqlParams.correct = 0;
+		sqlParams.incorrect = 0;
+		sqlParams.rate = testModel.calcTaskRate(new TestTask());
+		sqlParams.complexity = TestTaskComplexity.HIGH;
 		statements.push(new QueuedStatement(sqlStatement, sqlParams));
 		sqlRunner.executeModify(statements, executeComplete, executeError);
 	}

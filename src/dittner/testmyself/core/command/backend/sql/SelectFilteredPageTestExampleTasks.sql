@@ -16,5 +16,5 @@ IN
       IN #filterList
    )
 )
-ORDER BY balance
+ORDER BY rate
 LIMIT :startIndex, :amount

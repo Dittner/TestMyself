@@ -113,7 +113,7 @@
             </s:fill>
         </s:Rect>
 
-        <busyindicator:ClockBusyIndicator verticalCenter="0" horizontalCenter="0"
+        <busyindicator:ClockBusyIndicator verticalCenter="0" horizontalCenter="33"
                                           visible="false" visible.lock="true"/>
     </s:Group>
 

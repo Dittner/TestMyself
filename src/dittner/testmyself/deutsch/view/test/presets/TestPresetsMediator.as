@@ -6,6 +6,7 @@ import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestSpec;
+import dittner.testmyself.core.model.test.TestTaskComplexity;
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.deutsch.model.domain.common.TestID;
 
@@ -66,8 +67,14 @@ public class TestPresetsMediator extends SFMediator {
 		spec.info = selectedTestInfo;
 		spec.filter.selectedThemes = createThemes();
 		spec.audioRecordRequired = view.useAudioRecordsBox.selected;
-		spec.isBalancePriority = view.balanceIndexRadioBtn.selected;
+		spec.complexity = getSelectedComplexity();
 		return spec;
+	}
+
+	private function getSelectedComplexity():uint {
+		if (view.middleComplexityRadioBtn.selected) return TestTaskComplexity.MIDDLE;
+		else if (view.lowComplexityRadioBtn.selected) return TestTaskComplexity.LOW;
+		else return TestTaskComplexity.HIGH;
 	}
 
 	private function createThemes():Array {

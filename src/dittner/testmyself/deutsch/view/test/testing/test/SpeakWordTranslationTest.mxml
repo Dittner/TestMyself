@@ -192,6 +192,9 @@
                                    click="goBack()"/>
             </s:Group>
         </s:VGroup>
+
+        <test:RateBoard left="14" complexity="@{complexity}"/>
+
     </s:Group>
 
 </test:TestableView>

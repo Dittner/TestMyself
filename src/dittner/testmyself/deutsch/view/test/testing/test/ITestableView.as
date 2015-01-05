@@ -19,6 +19,9 @@ public interface ITestableView {
 	function set activeNote(value:INote):void;
 	function get activeNote():INote;
 
+	function set complexity(value:uint):void;
+	function get complexity():uint;
+
 	function set activeNoteExampleColl(value:ArrayCollection):void;
 	function get activeNoteExampleColl():ArrayCollection;
 

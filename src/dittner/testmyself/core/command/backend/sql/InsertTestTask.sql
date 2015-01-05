@@ -2,17 +2,17 @@ INSERT INTO test
 (
 	testID,
 	noteID,
-	balance,
-	balanceIndex,
-	amount,
-	amountIndex
+	correct,
+	incorrect,
+	rate,
+	complexity
 )
 VALUES
 (
 	:testID,
 	:noteID,
-	:balance,
-	:balanceIndex,
-	:amount,
-	:amountIndex
+	:correct,
+	:incorrect,
+	:rate,
+	:complexity
 )

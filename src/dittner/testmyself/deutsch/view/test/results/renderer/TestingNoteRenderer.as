@@ -69,8 +69,7 @@ public class TestingNoteRenderer extends ItemRendererBase {
 			titleTf.text = renData.translationInverted ? note.description : note.title;
 			descriptionTf.text = renData.translationInverted ? note.title : note.description;
 			descriptionTf.visible = selected;
-			var negativeAnswerNum:uint = (task.amount - task.balance) / 2;
-			testTaskCard.label = negativeAnswerNum + " / " + task.amount;
+			testTaskCard.label = task.correct + " / " + (task.incorrect + task.correct);
 		}
 		else {
 			titleTf.text = "";

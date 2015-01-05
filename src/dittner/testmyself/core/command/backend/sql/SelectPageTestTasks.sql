@@ -1,5 +1,5 @@
 SELECT *
 FROM test
 WHERE testID = :selectedTestID
-ORDER BY balance
+ORDER BY rate
 LIMIT :startIndex, :amount

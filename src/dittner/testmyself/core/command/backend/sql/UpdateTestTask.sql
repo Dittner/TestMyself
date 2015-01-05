@@ -2,9 +2,9 @@ UPDATE test
 SET
 	testID = :testID,
 	noteID = :noteID,
-	balance = :balance,
-	balanceIndex = :balanceIndex,
-	amount = :amount,
-	amountIndex = :amountIndex
+	correct = :correct,
+	incorrect = :incorrect,
+	rate = :rate,
+	complexity = :complexity
 WHERE testID = :updatingTestID
 AND noteID = :updatingNoteID

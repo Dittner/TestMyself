@@ -32,6 +32,7 @@ public class SelectTestTasksSQLOperation extends DeferredOperation {
 			var sqlParams:Object = {};
 			sqlParams.selectedTestID = spec.info.id;
 			sqlParams.ignoreAudio = !spec.audioRecordRequired;
+			sqlParams.complexity = spec.complexity;
 
 			if (filter.selectedThemes.length > 0) {
 				sqlStatement = info.useNoteExample ? service.sqlFactory.selectFilteredTestExampleTask : service.sqlFactory.selectFilteredTestTask;
@@ -41,8 +42,6 @@ public class SelectTestTasksSQLOperation extends DeferredOperation {
 			else {
 				sqlStatement = info.useNoteExample ? service.sqlFactory.selectTestExampleTask : service.sqlFactory.selectTestTask;
 			}
-
-			sqlStatement = sqlStatement.replace("#priority", spec.isBalancePriority ? "balanceIndex" : "amountIndex");
 
 			service.sqlRunner.execute(sqlStatement, sqlParams, loadCompleteHandler, TestTask);
 		}

@@ -38,13 +38,11 @@ public class TestingMediator extends SFMediator {
 				sendNotification(TestMsg.SHOW_TEST_PRESETS_NOTIFICATION);
 				break;
 			case TestingAction.CORRECT_ANSWER :
-				curTask.amount++;
-				curTask.balance++;
+				curTask.correct++;
 				updateTask();
 				break;
 			case TestingAction.INCORRECT_ANSWER :
-				curTask.amount++;
-				curTask.balance--;
+				curTask.incorrect++;
 				updateTask();
 				break;
 			case TestingAction.NEXT_TASK :
@@ -65,6 +63,7 @@ public class TestingMediator extends SFMediator {
 	}
 
 	private function updateTask():void {
+		curTask.complexity = view.complexity;
 		sendRequestTo(selectedTestInfo.moduleName, TestMsg.UPDATE_TEST_TASK, new RequestMessage(null, null, curTask));
 	}
 
@@ -72,6 +71,7 @@ public class TestingMediator extends SFMediator {
 	private function showNextTask():void {
 		if (testTasks && testTasks.length > 0) {
 			curTask = testTasks.shift();
+			view.complexity = curTask.complexity;
 			var msg:String = selectedTestInfo.useNoteExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
 			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, null, curTask.noteID));
 		}
