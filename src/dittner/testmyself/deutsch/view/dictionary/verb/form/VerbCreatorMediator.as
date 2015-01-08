@@ -17,11 +17,15 @@ public class VerbCreatorMediator extends NoteCreatorMediator {
 		return verb;
 	}
 
-	override protected function validateNote(note:Note):String {
+	override protected function validateNote(note:Note, onlyDuplicateChecking:Boolean = false):String {
 		var verb:IVerb = note as IVerb;
 		if (!verb) return "Отсутствует глагол";
-		if (!verb.title) return "Форма не заполнена: инфинитив не должен быть пустым";
-		if (!verb.present || !verb.past || !verb.perfect) return "Форма не заполнена: поля präsens, präteritum, perfect не должны быть пустыми";
+
+		if (!onlyDuplicateChecking) {
+			if (!verb.title) return "Форма не заполнена: инфинитив не должен быть пустым";
+			if (!verb.present || !verb.past || !verb.perfect) return "Форма не заполнена: поля präsens, präteritum, perfect не должны быть пустыми";
+		}
+
 		if (noteHash.has(verb)) return "Глагол с такими данными уже существует в словаре";
 		return "";
 	}

@@ -66,9 +66,12 @@ public class PhraseFormState extends NoteFormState {
 			addThemeBtn.x = addThemeInput.x + addThemeInput.width - 1;
 			addThemeBtn.y = addThemeInput.y + 20;
 
+			validateBtn.x = themesList.x + THEMES_LIST_WID - validateBtn.width;
+			validateBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
+
 			applyBtn.width = THEMES_LIST_WID;
 			applyBtn.x = themesList.x;
-			applyBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
+			applyBtn.y = validateBtn.y;
 
 			cancelBtn.x = applyBtn.x - THEMES_LIST_WID - HGAP;
 			cancelBtn.y = applyBtn.y;
@@ -77,7 +80,7 @@ public class PhraseFormState extends NoteFormState {
 			correctBtn.x = PAD;
 			correctBtn.y = applyBtn.y;
 
-			invalidNotifier.x = correctBtn.visible ? correctBtn.x + correctBtn.width + PAD / 2 : PAD;
+			invalidNotifier.x = correctBtn.x + correctBtn.width + PAD / 2;
 			invalidNotifier.y = applyBtn.y;
 			invalidNotifier.width = cancelBtn.x - invalidNotifier.x - HGAP;
 			invalidNotifier.height = applyBtn.height;

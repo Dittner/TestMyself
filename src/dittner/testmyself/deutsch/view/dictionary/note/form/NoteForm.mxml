@@ -288,6 +288,11 @@
                         enabled.remove="true"
                         enabled="{applyBtnEnabled(audioRecorder.isRecording)}"/>
 
+    <button:BitmapButton id="validateBtn"
+                         upImage="@Embed(source='/assets/button/validate_btn_up.png')"
+                         downImage="@Embed(source='/assets/button/validate_btn_down.png')"
+                         description="Проверить запись на дублирование"/>
+
     <!--REMOVE MODE-->
 
     <s:Label id="removeTitleLbl"

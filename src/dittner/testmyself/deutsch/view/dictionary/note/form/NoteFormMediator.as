@@ -74,6 +74,7 @@ public class NoteFormMediator extends SFMediator {
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
 		view.addThemeBtn.addEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
+		view.validateBtn.addEventListener(MouseEvent.CLICK, validateBtnHandler);
 	}
 
 	protected function cancelHandler(event:MouseEvent):void {
@@ -89,6 +90,7 @@ public class NoteFormMediator extends SFMediator {
 		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
 		view.addThemeBtn.removeEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
+		view.validateBtn.removeEventListener(MouseEvent.CLICK, validateBtnHandler);
 	}
 
 	//abstract
@@ -98,7 +100,7 @@ public class NoteFormMediator extends SFMediator {
 	protected function createNote():Note {return null;}
 
 	//abstract
-	protected function validateNote(note:Note):String {
+	protected function validateNote(note:Note, onlyDuplicateChecking:Boolean = false):String {
 		return "";
 	}
 
@@ -171,6 +173,12 @@ public class NoteFormMediator extends SFMediator {
 			isActive = false;
 			closeForm();
 		}
+	}
+
+	private function validateBtnHandler(event:MouseEvent):void {
+		var errMsg:String;
+		errMsg = validateNote(createNote(), true);
+		if (errMsg) view.notifyInvalidData(errMsg);
 	}
 
 }

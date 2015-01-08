@@ -15,14 +15,14 @@ public class WordEditorMediator extends NoteEditorMediator {
 		return word;
 	}
 
-	override protected function validateNote(note:Note):String {
+	override protected function validateNote(note:Note, onlyDuplicateChecking:Boolean = false):String {
 		if (!note) return "Отсутствует слово";
-		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		if (!onlyDuplicateChecking && (!note.title || !note.description)) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
 		if (selectedNote is Word) {
 			var word:Word = note as Word;
 			var origin:Word = selectedNote as Word;
 			if (word.article != origin.article || word.title != origin.title)
-				if (noteHash.has(word)) return "Слово с таким названием и артиклем уже существует в словаре";
+				if (word.title && noteHash.has(word)) return "Слово с таким названием и артиклем уже существует в словаре";
 		}
 		return "";
 	}
