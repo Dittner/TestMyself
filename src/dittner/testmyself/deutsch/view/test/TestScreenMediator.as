@@ -5,10 +5,13 @@ import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInFrames;
+import dittner.testmyself.deutsch.view.test.form.TestingNoteFormMediator;
 import dittner.testmyself.deutsch.view.test.presets.TestPresetsMediator;
 import dittner.testmyself.deutsch.view.test.results.TestingResultsMediator;
 import dittner.testmyself.deutsch.view.test.testList.TestListMediator;
 import dittner.testmyself.deutsch.view.test.testing.TestingMediator;
+
+import flash.events.MouseEvent;
 
 public class TestScreenMediator extends SFMediator {
 
@@ -18,6 +21,7 @@ public class TestScreenMediator extends SFMediator {
 	private var presetsMediator:TestPresetsMediator;
 	private var testingMediator:TestingMediator;
 	private var resultsMediator:TestingResultsMediator;
+	private var noteFormMediator:TestingNoteFormMediator;
 	private var selectedTestInfo:TestInfo;
 
 	override protected function activate():void {
@@ -36,8 +40,13 @@ public class TestScreenMediator extends SFMediator {
 
 	private function activateScreen():void {
 		view.activate();
+		view.editBtn.addEventListener(MouseEvent.CLICK, editTestingNote);
 		registerMediator(view.testListView, new TestListMediator());
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
+	}
+
+	private function editTestingNote(event:MouseEvent):void {
+		if (testingMediator) noteFormMediator.startEditing();
 	}
 
 	private function showTestPresets(params:* = null):void {
@@ -69,6 +78,10 @@ public class TestScreenMediator extends SFMediator {
 			testingMediator = new TestingMediator(selectedTestInfo);
 			registerMediator(view.testingView.activeView, testingMediator);
 		}
+		if (noteFormMediator) unregisterMediatorFrom(noteFormMediator.moduleName, noteFormMediator);
+		else noteFormMediator = new TestingNoteFormMediator();
+		noteFormMediator.selectedTestInfo = selectedTestInfo;
+		registerMediatorTo(selectedTestInfo.moduleName, view.testingNoteForm, noteFormMediator);
 		view.showTesting();
 	}
 
@@ -89,6 +102,7 @@ public class TestScreenMediator extends SFMediator {
 
 	override protected function deactivate():void {
 		view.deactivate();
+		view.editBtn.removeEventListener(MouseEvent.CLICK, editTestingNote);
 		presetsMediator = null;
 	}
 }

@@ -47,7 +47,7 @@ public class NoteFormMediator extends SFMediator {
 
 	private function noteSelectedHandler(vo:Note):void {
 		selectedNote = vo;
-		if (isActive) throw new Error("Should not select new note when the old one is editing!")
+		if (selectedNote && isActive) throw new Error("Should not select new note when the old one is editing!")
 	}
 
 	protected function loadThemes():void {
@@ -130,9 +130,16 @@ public class NoteFormMediator extends SFMediator {
 		if (!examples) {
 			return "Отсутствует список тем, ожидается пустой или заполненный список"
 		}
+		var errMsg:String = "";
 		for each(var note:INote in examples) {
-			if (!note.title) return "В примере не должно быть пустого заголовка!";
+			errMsg = validateExample(note);
+			if (errMsg) return errMsg;
 		}
+		return "";
+	}
+
+	protected function validateExample(example:INote):String {
+		if (!example.title || !example.description) return "В примере не должно быть пустого заголовка и перевода!";
 		return "";
 	}
 

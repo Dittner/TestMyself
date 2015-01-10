@@ -25,6 +25,7 @@ import dittner.testmyself.core.command.backend.SelectPageNotesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectPageTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectThemeSQLOperation;
+import dittner.testmyself.core.command.backend.UpdateNoteExampleSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateNoteSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateTestTaskSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateThemeSQLOperation;
@@ -211,6 +212,12 @@ public class NoteService extends SFProxy {
 	public function updateTheme(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new UpdateThemeSQLOperation(this, requestMsg.data as Theme);
 		op.addCompleteCallback(themesUpdated);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function updateExample(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new UpdateNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

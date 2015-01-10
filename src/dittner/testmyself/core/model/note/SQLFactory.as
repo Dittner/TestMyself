@@ -107,6 +107,13 @@ public class SQLFactory extends SFProxy {
 		return UPDATE_NOTE_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/UpdateNoteExample.sql", mimeType="application/octet-stream")]
+	private static const UpdateNoteExampleClass:Class;
+	private static const UPDATE_NOTE_EXAMPLE_SQL:String = new UpdateNoteExampleClass();
+	public function get updateNoteExample():String {
+		return UPDATE_NOTE_EXAMPLE_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/UpdateTheme.sql", mimeType="application/octet-stream")]
 	private static const UpdateThemeClass:Class;
 	private static const UPDATE_THEME_SQL:String = new UpdateThemeClass();

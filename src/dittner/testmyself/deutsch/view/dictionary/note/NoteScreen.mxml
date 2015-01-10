@@ -14,10 +14,10 @@
                  horizontalCenter="0">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.model.ModuleName;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
-        import dittner.testmyself.deutsch.view.dictionary.note.form.NoteType;
 
         //--------------------------------------
         //  editing
@@ -38,15 +38,15 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        public function activate(noteType:String):void {
-            switch (noteType) {
-                case NoteType.PHRASE :
+        public function activate(moduleName:String):void {
+            switch (moduleName) {
+                case ModuleName.PHRASE :
                     setCurrentState("phrase");
                     break;
-                case NoteType.WORD :
+                case ModuleName.WORD :
                     setCurrentState("word");
                     break;
-                case NoteType.VERB :
+                case ModuleName.VERB :
                     setCurrentState("verb");
                     break;
             }
@@ -187,9 +187,9 @@
         <form:NoteForm id="form"
                        visible="false"
                        bottom="0"
-                       noteType.phrase="{NoteType.PHRASE}"
-                       noteType.word="{NoteType.WORD}"
-                       noteType.verb="{NoteType.VERB}"
+                       moduleName.phrase="{ModuleName.PHRASE}"
+                       moduleName.word="{ModuleName.WORD}"
+                       moduleName.verb="{ModuleName.VERB}"
                        top="{HEADER_HEI}"/>
 
         <filter2:ThemeFilter id="filter"

@@ -15,10 +15,10 @@
                  horizontalCenter="0">
 
     <fx:Script><![CDATA[
+        import dittner.testmyself.deutsch.model.ModuleName;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
-        import dittner.testmyself.deutsch.view.dictionary.note.form.NoteType;
 
         import mx.collections.ArrayCollection;
 
@@ -227,7 +227,7 @@
         <form2:NoteForm id="form"
                         visible="false"
                         bottom="0"
-                        noteType="{NoteType.LESSON}"
+                        moduleName="{ModuleName.LESSON}"
                         top="{HEADER_HEI}"/>
 
         <search:SearchFilter id="searchFilter"

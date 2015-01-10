@@ -4,11 +4,11 @@ import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.deutsch.message.ScreenMsg;
+import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInFrames;
 import dittner.testmyself.deutsch.view.dictionary.note.NoteScreen;
 import dittner.testmyself.deutsch.view.dictionary.note.filter.NoteFilterMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteRemoverMediator;
-import dittner.testmyself.deutsch.view.dictionary.note.form.NoteType;
 import dittner.testmyself.deutsch.view.dictionary.note.list.NoteListMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.mp3Player.NotePlayerMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.pagination.NotePaginationMediator;
@@ -36,7 +36,7 @@ public class PhraseScreenMediator extends SFMediator {
 	}
 
 	private function activateScreen():void {
-		view.activate(NoteType.PHRASE);
+		view.activate(ModuleName.PHRASE);
 		addListener(NoteMsg.FORM_ACTIVATED_NOTIFICATION, showEditor);
 		addListener(NoteMsg.FORM_DEACTIVATED_NOTIFICATION, hideEditor);
 		registerMediator(view.toolbar, new NoteToolbarMediator());

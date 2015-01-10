@@ -6,11 +6,14 @@
                  xmlns:presets="dittner.testmyself.deutsch.view.test.presets.*"
                  xmlns:results="dittner.testmyself.deutsch.view.test.results.*"
                  xmlns:testing="dittner.testmyself.deutsch.view.test.testing.*"
+                 xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+                 xmlns:form="dittner.testmyself.deutsch.view.dictionary.note.form.*"
                  horizontalCenter="0"
                  currentState="inactive">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         public function activate():void {
@@ -35,6 +38,14 @@
 
         public function showTesting():void {
             setCurrentState("testing");
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            if (testingNoteForm) {
+                testingNoteForm.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                testingNoteForm.x = w - testingNoteForm.width;
+            }
         }
         ]]></fx:Script>
 
@@ -70,6 +81,12 @@
              paddingLeft="{PADDING}" paddingRight="{PADDING}"
              color="#54545d"/>
 
+    <button:ToolButton id="editBtn"
+                       visible="false" visible.testing="true"
+                       top="5" right="{PADDING}"
+                       description="Редактировать выбранную запись"
+                       image="@Embed(source='/assets/tools/edit.png')"/>
+
 
     <s:Group width="100%" top="{HEADER_HEI}" bottom="0"
              excludeFrom="inactive">
@@ -93,6 +110,21 @@
                                     width="100%" height="100%"
                                     padding="{PADDING}"
                                     visible="false" visible.results="true"/>
+    </s:Group>
+
+    <s:Group width="100%" height="100%"
+             visible="{testingNoteForm.visible}"
+             mouseEnabled="{testingNoteForm.visible}">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <form:NoteForm id="testingNoteForm"
+                       visible="false"
+                       bottom="0"
+                       top="{HEADER_HEI}"/>
     </s:Group>
 
 </core:ScreenBase>

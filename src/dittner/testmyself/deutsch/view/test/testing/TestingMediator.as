@@ -19,6 +19,7 @@ public class TestingMediator extends SFMediator {
 
 	private var selectedTestInfo:TestInfo;
 	private var testTasks:Array;
+	private var curTask:TestTask;
 
 	public function TestingMediator(testInfo:TestInfo):void {
 		super();
@@ -26,10 +27,23 @@ public class TestingMediator extends SFMediator {
 	}
 
 	override protected function activate():void {
+		addListener(TestMsg.HIDE_NOTE_FORM, hideNoteForm);
 		view.actionCallback = actionCallback;
 		view.answerEnabled = true;
 		view.start();
 		loadTasks();
+	}
+
+	private function hideNoteForm(params:* = null):void {
+		reloadNote();
+	}
+
+	private function reloadNote():void {
+		if (view.activeNote) {
+			view.taskNumber--;
+			var msg:String = selectedTestInfo.useNoteExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
+			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, null, curTask.noteID));
+		}
 	}
 
 	private function actionCallback(action:String):void {
@@ -67,7 +81,6 @@ public class TestingMediator extends SFMediator {
 		sendRequestTo(selectedTestInfo.moduleName, TestMsg.UPDATE_TEST_TASK, new RequestMessage(null, null, curTask));
 	}
 
-	private var curTask:TestTask;
 	private function showNextTask():void {
 		if (testTasks && testTasks.length > 0) {
 			curTask = testTasks.shift();
@@ -80,8 +93,14 @@ public class TestingMediator extends SFMediator {
 
 	private function onNoteLoaded(res:CommandResult):void {
 		view.taskNumber++;
-		view.activeNote = res.data as INote;
-		if (selectedTestInfo.loadExamplesWhenTesting) loadExamples(view.activeNote)
+		if (res.data) {
+			view.activeNote = res.data as INote;
+			if (selectedTestInfo.loadExamplesWhenTesting) loadExamples(view.activeNote);
+			sendNotification(TestMsg.TESTING_NOTE_SELECTED, res.data as INote);
+		}
+		else {
+			showNextTask();
+		}
 	}
 
 	private function loadExamples(note:INote):void {

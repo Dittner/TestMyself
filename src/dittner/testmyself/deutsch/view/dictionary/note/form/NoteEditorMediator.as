@@ -85,7 +85,7 @@ public class NoteEditorMediator extends NoteFormMediator {
 		view.notifyInvalidData(exc.details);
 	}
 
-	private function loadExamples():void {
+	protected function loadExamples():void {
 		if (selectedNote) {
 			sendRequest(NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, null, selectedNote.id));
 		}

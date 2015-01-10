@@ -8,6 +8,8 @@ public class TestMsg {
 	public static const SHOW_TEST_RESULTS_NOTIFICATION:String = "showTestResultsNotification";
 	public static const START_TESTING_NOTIFICATION:String = "startTestingNotification";
 	public static const TEST_INFO_SELECTED_NOTIFICATION:String = "testInfoSelectedNotification";
+	public static const TESTING_NOTE_SELECTED:String = "testingNoteSelected";
+	public static const HIDE_NOTE_FORM:String = "hideNoteForm";
 
 	//sql
 	public static const GET_TEST_TASKS:String = "getTestTasks";
