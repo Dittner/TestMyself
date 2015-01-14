@@ -83,7 +83,7 @@
 
     <button:ToolButton id="editBtn"
                        visible="false" visible.testing="true"
-                       top="5" right="{PADDING}"
+                       top="8" right="{PADDING}"
                        description="Редактировать выбранную запись"
                        image="@Embed(source='/assets/tools/edit.png')"/>
 
