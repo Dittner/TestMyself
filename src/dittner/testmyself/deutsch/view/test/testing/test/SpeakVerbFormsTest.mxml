@@ -130,7 +130,7 @@
 
             <s:Group width="{width - 2*padding}" height="100">
                 <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-                <s:Label text="Präsens, Präteritum, Perfekt"
+                <s:Label text="Präsens, Präteritum, Partizip II"
                          fontFamily="{Fonts.ROBOTO_COND}"
                          fontWeight="bold"
                          fontSize="18"

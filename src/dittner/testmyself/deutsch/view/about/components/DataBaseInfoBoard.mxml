@@ -60,7 +60,7 @@
             if (phraseInfo) {
                 infoText = "— количество слов: " + wordInfo.notesAmount;
                 infoText += "\n— фраз и предложений: " + phraseInfo.notesAmount;
-                infoText += "\n— неправильных глаголов: " + verbInfo.notesAmount;
+                infoText += "\n— неправильных и сильных глаголов: " + verbInfo.notesAmount;
                 infoText += "\n— задач, связанных с уроками: " + lessonInfo.notesAmount;
                 infoText += "\n— примеров: " + (wordInfo.examplesAmount + phraseInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount);
                 infoText += "\n— аудиозаписей: " + (wordInfo.audioCommentsAmount + phraseInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
