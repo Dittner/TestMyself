@@ -12,7 +12,7 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class WordRenderer extends ItemRendererBase implements IFlexibleRenderer {
+public class WordRenderer extends NoteBaseRenderer implements IFlexibleRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_RED);
 	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_YELLOW);
@@ -153,9 +153,12 @@ public class WordRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 		}
 		else {
-			g.beginFill(COLOR, 1);
-			g.drawRect(0, 0, w, h);
-			g.endFill();
+			if (hasAudioComment()) {
+				g.beginFill(COLOR, 1);
+				g.drawRect(0, 0, w, h);
+				g.endFill();
+			}
+			else showNoAudioNotification();
 
 			g.lineStyle(1, SEP_COLOR, 0.5);
 			g.moveTo(PAD, h - 1);
@@ -169,25 +172,12 @@ public class WordRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
-		titleTf.alpha = hasAudioComment() ? 1 : .7;
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = (noteData.layout.isHorizontal ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = (noteData.layout.isHorizontal ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
-			descriptionTf.alpha = hasAudioComment() ? 1 : .7;
+			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
-	}
-
-	private function hasAudioComment():Boolean {
-		return noteData && noteData.note.audioComment.bytes;
-	}
-
-	override public function set selected(value:Boolean):void {
-		super.selected = value;
-		dataChanged = true;
-		invalidateProperties();
-		invalidateSize();
-		invalidateDisplayList();
 	}
 
 }

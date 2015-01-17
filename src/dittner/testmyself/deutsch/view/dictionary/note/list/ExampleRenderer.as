@@ -8,7 +8,7 @@ import flash.display.Graphics;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class ExampleRenderer extends ItemRendererBase {
+public class ExampleRenderer extends NoteBaseRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 20, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 16, AppColors.TEXT_DARK);
 
@@ -93,31 +93,18 @@ public class ExampleRenderer extends ItemRendererBase {
 			g.endFill();
 		}
 		else {
+			if (!hasAudioComment()) showNoAudioNotificationForExample();
 			g.lineStyle(1, SEP_COLOR, 0.5);
-			g.moveTo(PAD, h + 1);
-			g.lineTo(w - 2 * PAD, h + 1);
+			g.moveTo(PAD, h - 1);
+			g.lineTo(w - 2 * PAD, h - 1);
 		}
 
 		titleTf.x = titleTf.y = PAD;
 
-		titleTf.alpha = hasAudioComment() ? 1 : .7;
 		if (descriptionTf.visible) {
 			descriptionTf.x = PAD;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP;
-			descriptionTf.alpha = hasAudioComment() ? 1 : .7;
 		}
-	}
-
-	private function hasAudioComment():Boolean {
-		return note && note.audioComment.bytes;
-	}
-
-	override public function set selected(value:Boolean):void {
-		super.selected = value;
-		dataChanged = true;
-		invalidateProperties();
-		invalidateSize();
-		invalidateDisplayList();
 	}
 
 }

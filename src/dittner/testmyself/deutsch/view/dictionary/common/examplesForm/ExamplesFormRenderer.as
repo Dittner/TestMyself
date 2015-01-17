@@ -10,9 +10,9 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class ExamplesFormRenderer extends ItemRendererBase {
+public class ExamplesFormRenderer extends NoteBaseRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_GRAY);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 14, AppColors.TEXT_GRAY);
 
 	private static const PAD:uint = 3;
 	private static const GAP:uint = 3;
@@ -90,33 +90,20 @@ public class ExamplesFormRenderer extends ItemRendererBase {
 			g.endFill();
 		}
 		else {
+			if (!hasAudioComment()) showNoAudioNotification();
 			g.lineStyle(1, SEP_COLOR, 0.75);
-			g.moveTo(0, h);
-			g.lineTo(w, h);
+			g.moveTo(0, h - 1);
+			g.lineTo(w, h - 1);
 		}
 
 		titleTf.textColor = selected ? 0xffFFff : 0;
 		titleTf.x = titleTf.y = PAD;
 
-		titleTf.alpha = hasAudioComment() ? 1 : .7;
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = PAD;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP;
-			descriptionTf.alpha = hasAudioComment() ? 1 : .7;
 		}
-	}
-
-	private function hasAudioComment():Boolean {
-		return note && note.audioComment.bytes;
-	}
-
-	override public function set selected(value:Boolean):void {
-		super.selected = value;
-		dataChanged = true;
-		invalidateProperties();
-		invalidateSize();
-		invalidateDisplayList();
 	}
 
 }

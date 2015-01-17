@@ -13,7 +13,7 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class TestingNoteRenderer extends ItemRendererBase {
+public class TestingNoteRenderer extends NoteBaseRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT_BLACK);
 
@@ -129,28 +129,15 @@ public class TestingNoteRenderer extends ItemRendererBase {
 		titleTf.textColor = selected ? 0xffFFff : 0;
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
-		titleTf.alpha = hasAudioComment() ? 1 : .7;
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? 0xffFFff : 0;
 			descriptionTf.x = PAD - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP - TEXT_DEFAULT_OFFSET;
-			descriptionTf.alpha = hasAudioComment() ? 1 : .7;
+			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
 
 		testTaskCard.x = w - testTaskCard.width - PAD;
 		testTaskCard.y = 5;
-	}
-
-	private function hasAudioComment():Boolean {
-		return note && note.audioComment.bytes;
-	}
-
-	override public function set selected(value:Boolean):void {
-		super.selected = value;
-		dataChanged = true;
-		invalidateProperties();
-		invalidateSize();
-		invalidateDisplayList();
 	}
 
 }

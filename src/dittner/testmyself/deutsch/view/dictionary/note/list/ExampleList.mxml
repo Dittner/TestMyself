@@ -63,7 +63,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG left="0" right="1" height="100%" color="{bgColor}"/>
+    <utils:BG left="0" right="1" top="1" bottom="0" color="{bgColor}"/>
 
     <s:Label text="Примеры"
              fontFamily="{Fonts.ROBOTO_COND}"
