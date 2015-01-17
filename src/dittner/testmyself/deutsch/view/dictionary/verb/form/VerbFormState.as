@@ -51,7 +51,7 @@ public class VerbFormState extends NoteFormState {
 			verbInputsForm.x = PAD + articleBox.width + HGAP;
 			verbInputsForm.y = HEADER_HEI + PAD_TOP;
 			verbInputsForm.width = firstColumnWid;
-			verbInputsForm.layout.gap = VGAP;
+			verbInputsForm.gap = VGAP;
 			verbInputsForm.validateSize();
 			verbInputsForm.validateDisplayList();
 
@@ -78,6 +78,9 @@ public class VerbFormState extends NoteFormState {
 
 			addThemeBtn.x = addThemeInput.x + addThemeInput.width - 1;
 			addThemeBtn.y = addThemeInput.y + 20;
+
+			validateBtn.x = themesList.x + THEMES_LIST_WID - validateBtn.width;
+			validateBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
 
 			applyBtn.width = THEMES_LIST_WID;
 			applyBtn.x = themesList.x;
