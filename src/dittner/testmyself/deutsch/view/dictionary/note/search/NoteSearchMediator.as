@@ -38,6 +38,7 @@ public class NoteSearchMediator extends SFMediator {
 		view.clearBtn.addEventListener(MouseEvent.CLICK, clearHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
 		view.searchInput.addEventListener(FlexEvent.ENTER, applyHandler);
+		if (view.stage) view.stage.focus = view.searchInput;
 	}
 
 	private function clearHandler(event:MouseEvent):void {

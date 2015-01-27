@@ -295,7 +295,8 @@
                          visible.remove="false"
                          upImage="@Embed(source='/assets/button/validate_btn_up.png')"
                          downImage="@Embed(source='/assets/button/validate_btn_down.png')"
-                         description="Проверить запись на дублирование"/>
+                         description="Проверить запись на дублирование"
+                         enabled="{applyBtnEnabled(audioRecorder.isRecording)}"/>
 
     <!--REMOVE MODE-->
 
