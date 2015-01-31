@@ -92,6 +92,9 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 				case WordArticle.DER_DIE :
 					titleTf.setTextFormat(DIE_FORMAT, 4, word.article.length);
 					break;
+				case WordArticle.DER_DAS :
+					titleTf.setTextFormat(DAS_FORMAT, 4, word.article.length);
+					break;
 			}
 
 			descriptionTf.visible = selected;

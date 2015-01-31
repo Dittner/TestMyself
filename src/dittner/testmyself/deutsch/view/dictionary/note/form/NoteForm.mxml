@@ -224,7 +224,7 @@
              visible.edit="true"
              visible="false">
         <listBox:ListBox id="articleBox" requireSelection="true"
-                         width="75"
+                         width="77"
                          itemRenderer="dittner.testmyself.deutsch.view.dictionary.common.articleList.ArticleItemRenderer"
                          skinClass="dittner.testmyself.deutsch.view.dictionary.common.articleList.ListBoxSkin"
                          dataProvider="{new ArrayCollection(WordArticle.ARTICLES)}"/>

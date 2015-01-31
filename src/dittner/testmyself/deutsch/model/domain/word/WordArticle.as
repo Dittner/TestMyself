@@ -5,7 +5,8 @@ public class WordArticle {
 	public static const DIE:String = "die";
 	public static const DAS:String = "das";
 	public static const DER_DIE:String = "der/die";
+	public static const DER_DAS:String = "der/das";
 
-	public static const ARTICLES:Array = [UNDEFINED, DER, DIE, DAS, DER_DIE];
+	public static const ARTICLES:Array = [UNDEFINED, DER, DIE, DAS, DER_DIE, DER_DAS];
 }
 }
