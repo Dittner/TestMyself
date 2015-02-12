@@ -6,6 +6,7 @@ import dittner.testmyself.deutsch.view.common.screen.ScreenBase;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.dictionary.lesson.LessonScreen;
 import dittner.testmyself.deutsch.view.dictionary.note.NoteScreen;
+import dittner.testmyself.deutsch.view.search.SearchScreen;
 import dittner.testmyself.deutsch.view.settings.SettingsScreen;
 import dittner.testmyself.deutsch.view.test.TestScreen;
 
@@ -29,6 +30,9 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 
 	[Embed(source='/assets/screen/testing.png')]
 	private static const TestingIconClass:Class;
+
+	[Embed(source='/assets/screen/search.png')]
+	private static const SearchIconClass:Class;
 
 	[Embed(source='/assets/screen/settings.png')]
 	private static const SettingsIconClass:Class;
@@ -70,7 +74,13 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
+		_screenInfos.push(createScreenItemSeparator());
+
 		info = new ScreenInfo(ScreenID.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenID.TEST));
+		_screenInfos.push(info);
+		screensHash[info.id] = info;
+
+		info = new ScreenInfo(ScreenID.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenID.SEARCH));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
@@ -107,6 +117,9 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 			case ScreenID.TEST :
 				IconClass = TestingIconClass;
 				break;
+			case ScreenID.SEARCH :
+				IconClass = SearchIconClass;
+				break;
 			case ScreenID.SETTINGS :
 				IconClass = SettingsIconClass;
 				break;
@@ -120,6 +133,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 	private static var noteScreen:NoteScreen = new NoteScreen();
 	private static var lessonScreen:LessonScreen = new LessonScreen();
 	private static var testScreen:TestScreen = new TestScreen();
+	private static var searchScreen:SearchScreen = new SearchScreen();
 	public function createScreen(screenId:String):ScreenBase {
 		var screen:ScreenBase;
 		switch (screenId) {
@@ -140,6 +154,9 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				break;
 			case ScreenID.TEST :
 				screen = testScreen;
+				break;
+			case ScreenID.SEARCH :
+				screen = searchScreen;
 				break;
 			case ScreenID.SETTINGS :
 				screen = new SettingsScreen();

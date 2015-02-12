@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.common.renderer {
 import dittner.testmyself.core.model.note.INote;
+import dittner.testmyself.deutsch.model.search.FoundNote;
 import dittner.testmyself.deutsch.view.dictionary.note.list.NoteRendererData;
 import dittner.testmyself.deutsch.view.test.common.TestRendererData;
 
@@ -14,6 +15,7 @@ public class NoteBaseRenderer extends ItemRendererBase {
 	protected function hasAudioComment():Boolean {
 		if (data is INote && (data as INote).audioComment.bytes) return true;
 		else if (data is TestRendererData && (data as TestRendererData).note.audioComment.bytes) return true;
+		else if (data is FoundNote && (data as FoundNote).note.audioComment.bytes) return true;
 		else return (data is NoteRendererData && (data as NoteRendererData).note.audioComment.bytes);
 	}
 

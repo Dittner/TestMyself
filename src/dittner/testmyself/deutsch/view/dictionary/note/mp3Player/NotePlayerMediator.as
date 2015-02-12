@@ -1,7 +1,9 @@
 package dittner.testmyself.deutsch.view.dictionary.note.mp3Player {
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.testmyself.core.message.NoteMsg;
+import dittner.testmyself.core.message.SearchMsg;
 import dittner.testmyself.core.model.note.INote;
+import dittner.testmyself.deutsch.model.search.FoundNote;
 import dittner.testmyself.deutsch.view.common.audio.mp3.MP3Player;
 
 public class NotePlayerMediator extends SFMediator {
@@ -13,8 +15,13 @@ public class NotePlayerMediator extends SFMediator {
 	private var selectedExample:INote;
 
 	override protected function activate():void {
+		addListener(SearchMsg.SELECTED_NOTE_NOTIFICATION, foundNoteSelectedHandler);
 		addListener(NoteMsg.NOTE_SELECTED_NOTIFICATION, noteSelectedHandler);
 		addListener(NoteMsg.EXAMPLE_SELECTED_NOTIFICATION, exampleSelectedHandler);
+	}
+
+	private function foundNoteSelectedHandler(fnote:FoundNote):void {
+		noteSelectedHandler(fnote ? fnote.note : null);
 	}
 
 	private function noteSelectedHandler(note:INote):void {

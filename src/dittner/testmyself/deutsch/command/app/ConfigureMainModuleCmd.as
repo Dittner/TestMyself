@@ -25,6 +25,7 @@ import dittner.testmyself.core.command.MergeNoteThemesCmd;
 import dittner.testmyself.core.command.RemoveNoteCmd;
 import dittner.testmyself.core.command.RemoveNoteThemeCmd;
 import dittner.testmyself.core.command.RemoveNotesByThemeCmd;
+import dittner.testmyself.core.command.SearchNotesCmd;
 import dittner.testmyself.core.command.SelectNoteCmd;
 import dittner.testmyself.core.command.SelectTestSpecCmd;
 import dittner.testmyself.core.command.SetNoteFilterCmd;
@@ -93,6 +94,8 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.GET_NOTE, GetNoteCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTES_INFO, GetNotesInfoCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTE_HASH, GetNoteHashCmd);
+		mainModule.registerCmd(NoteMsg.SEARCH_NOTES, SearchNotesCmd);
+
 		mainModule.registerCmd(TestMsg.GET_TEST_TASKS, GetTestTasksCmd);
 		mainModule.registerCmd(TestMsg.GET_TEST_PAGE_INFO, GetTestPageInfoCmd);
 		mainModule.registerCmd(TestMsg.GET_TEST_TASKS_AMOUNT, GetTestTasksAmountCmd);

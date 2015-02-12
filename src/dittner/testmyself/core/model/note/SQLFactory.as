@@ -188,6 +188,34 @@ public class SQLFactory extends SFProxy {
 		return SELECT_NOTE_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNotesIDsByTitle.sql", mimeType="application/octet-stream")]
+	private static const SearchNotesByTitleClass:Class;
+	private static const SEARCH_NOTES_BY_TITLE_SQL:String = new SearchNotesByTitleClass();
+	public function get searchNotesByTitle():String {
+		return SEARCH_NOTES_BY_TITLE_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteExamplesIDsByTitle.sql", mimeType="application/octet-stream")]
+	private static const SearchNoteExampleByTitleClass:Class;
+	private static const SEARCH_NOTE_EXAMPLE_BY_TITLE_SQL:String = new SearchNoteExampleByTitleClass();
+	public function get searchNotesExampleByTitle():String {
+		return SEARCH_NOTE_EXAMPLE_BY_TITLE_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNotesIDsByDescription.sql", mimeType="application/octet-stream")]
+	private static const SearchNotesByDescriptionClass:Class;
+	private static const SEARCH_NOTES_BY_DESCRIPTION_SQL:String = new SearchNotesByDescriptionClass();
+	public function get searchNotesByDescription():String {
+		return SEARCH_NOTES_BY_DESCRIPTION_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteExamplesIDsByDescription.sql", mimeType="application/octet-stream")]
+	private static const SearchNoteExampleByDescriptionClass:Class;
+	private static const SEARCH_NOTE_EXAMPLE_BY_DESCRIPTION_SQL:String = new SearchNoteExampleByDescriptionClass();
+	public function get searchNoteExampleByDescription():String {
+		return SEARCH_NOTE_EXAMPLE_BY_DESCRIPTION_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectPageNotes.sql", mimeType="application/octet-stream")]
 	private static const SelectPageNotesClass:Class;
 	private static const SELECT_PAGE_NOTES_SQL:String = new SelectPageNotesClass();

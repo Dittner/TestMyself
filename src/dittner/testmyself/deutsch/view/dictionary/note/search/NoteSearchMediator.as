@@ -43,6 +43,7 @@ public class NoteSearchMediator extends SFMediator {
 
 	private function clearHandler(event:MouseEvent):void {
 		view.searchInput.text = "";
+		view.fullIdentityBox.selected = false;
 		updateFilter();
 		closeDropdown();
 	}
@@ -69,7 +70,7 @@ public class NoteSearchMediator extends SFMediator {
 	}
 
 	private function updateFilter():void {
-		if (!filter || filter.searchText == view.searchInput.text) return;
+		if (!filter || (filter.searchText == view.searchInput.text && filter.searchFullIdentity == view.fullIdentityBox.selected)) return;
 		filter.searchText = view.searchInput.text;
 		filter.searchFullIdentity = view.fullIdentityBox.selected;
 		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(null, null, filter));

@@ -7,6 +7,7 @@ import dittner.testmyself.deutsch.view.dictionary.lesson.LessonScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.phrase.PhraseScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.verb.VerbScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.word.WordScreenMediator;
+import dittner.testmyself.deutsch.view.search.SearchScreenMediator;
 import dittner.testmyself.deutsch.view.settings.SettingsScreenMediator;
 import dittner.testmyself.deutsch.view.test.TestScreenMediator;
 
@@ -19,6 +20,7 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 	private var verbMediator:SFMediator = new VerbScreenMediator();
 	private var lessonMediator:SFMediator = new LessonScreenMediator();
 	private var testMediator:SFMediator = new TestScreenMediator();
+	private var searchMediator:SFMediator = new SearchScreenMediator();
 
 	public function createScreenMediator(screenId:String):SFMediator {
 		var mediator:SFMediator;
@@ -40,6 +42,9 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 				break;
 			case ScreenID.TEST :
 				mediator = testMediator;
+				break;
+			case ScreenID.SEARCH :
+				mediator = searchMediator;
 				break;
 			case ScreenID.SETTINGS :
 				mediator = new SettingsScreenMediator();

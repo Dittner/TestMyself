@@ -16,6 +16,7 @@ import dittner.testmyself.core.command.backend.InsertNoteSQLOperation;
 import dittner.testmyself.core.command.backend.InsertThemeSQLOperation;
 import dittner.testmyself.core.command.backend.MergeThemesSQLOperation;
 import dittner.testmyself.core.command.backend.RebuildTestTasksSQLOperation;
+import dittner.testmyself.core.command.backend.SearchNotesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectExampleSQLOperation;
 import dittner.testmyself.core.command.backend.SelectExamplesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectFilterSQLOperation;
@@ -43,6 +44,7 @@ import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.model.theme.Theme;
+import dittner.testmyself.deutsch.model.search.SearchSpec;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;
 
 public class NoteService extends SFProxy {
@@ -160,6 +162,13 @@ public class NoteService extends SFProxy {
 		pageInfo.testSpec = testModel.testSpec;
 
 		var op:IDeferredOperation = new SelectPageTestTasksSQLOperation(this, pageInfo, spec.noteClass);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function searchNotes(requestMsg:IRequestMessage):void {
+		var searchSpec:SearchSpec = requestMsg.data as SearchSpec;
+		var op:IDeferredOperation = new SearchNotesSQLOperation(this, searchSpec);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}
