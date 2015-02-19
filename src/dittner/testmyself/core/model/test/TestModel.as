@@ -26,7 +26,7 @@ public class TestModel extends SFProxy {
 	}
 
 	public function calcTaskRate(task:ITestTask):int {
-		return Math.round(Math.random() * 200) + task.correct * 50;
+		return Math.round(Math.random() * 99) + (task.correct * 2 + task.incorrect) * 100;
 	}
 
 	public function validate(note:INote, testInfo:TestInfo):Boolean {
