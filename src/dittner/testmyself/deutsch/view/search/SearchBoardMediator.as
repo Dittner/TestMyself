@@ -25,7 +25,7 @@ public class SearchBoardMediator extends SFMediator {
 		if (view.stage) view.stage.focus = view.searchInput;
 	}
 
-	private function startSearch(event:*):void {
+	public function startSearch(event:* = null):void {
 		if (view.searchInput.text.length <= 1) return;
 
 		searchQueue.length = 0;

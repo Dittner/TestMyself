@@ -42,9 +42,9 @@
 
         override protected function updateDisplayList(w:Number, h:Number):void {
             super.updateDisplayList(w, h);
-            if (testingNoteForm) {
-                testingNoteForm.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
-                testingNoteForm.x = w - testingNoteForm.width;
+            if (editForm) {
+                editForm.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                editForm.x = w - editForm.width;
             }
         }
         ]]></fx:Script>
@@ -113,15 +113,15 @@
     </s:Group>
 
     <s:Group width="100%" height="100%"
-             visible="{testingNoteForm.visible}"
-             mouseEnabled="{testingNoteForm.visible}">
+             visible="{editForm.visible}"
+             mouseEnabled="{editForm.visible}">
         <s:Rect width="100%" height="100%">
             <s:fill>
                 <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
             </s:fill>
         </s:Rect>
 
-        <form:NoteForm id="testingNoteForm"
+        <form:NoteForm id="editForm"
                        visible="false"
                        bottom="0"
                        top="{HEADER_HEI}"/>

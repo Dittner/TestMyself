@@ -8,11 +8,14 @@
                  xmlns:utils="dittner.testmyself.deutsch.view.common.utils.*"
                  xmlns:search="dittner.testmyself.deutsch.view.search.*"
                  xmlns:list2="dittner.testmyself.deutsch.view.common.list.*"
+                 xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+                 xmlns:form="dittner.testmyself.deutsch.view.dictionary.note.form.*"
                  currentState="inactive"
                  horizontalCenter="0">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         //--------------------------------------
@@ -51,6 +54,14 @@
         public function hideEditor():void {
             editing = false;
         }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            if (editForm) {
+                editForm.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                editForm.x = w - editForm.width;
+            }
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -76,17 +87,19 @@
         </s:fill>
     </s:Rect>
 
-    <s:HGroup width="100%" height="{HEADER_HEI}"
-              verticalAlign="middle"
-              paddingLeft="{PADDING}" paddingRight="{PADDING}">
+    <s:Label text="{title}"
+             fontFamily="{Fonts.ROBOTO}"
+             fontSize="16"
+             width="100%" height="{HEADER_HEI}"
+             verticalAlign="middle"
+             paddingLeft="{PADDING}" paddingRight="{PADDING}"
+             color="#54545d"/>
 
-        <s:Label text="{title}"
-                 fontFamily="{Fonts.ROBOTO}"
-                 fontSize="16"
-                 paddingTop="2"
-                 width="100%"
-                 color="#54545d"/>
-    </s:HGroup>
+    <button:ToolButton id="editBtn"
+                       top="8" right="{PADDING}"
+                       enabled="{list.selectedItem}"
+                       description="Редактировать выбранную запись"
+                       image="@Embed(source='/assets/tools/edit.png')"/>
 
     <search:SearchBoard id="searchBoard"
                         width="100%"
@@ -154,13 +167,10 @@
             </s:fill>
         </s:Rect>
 
-        <!--<form:NoteForm id="form"
+        <form:NoteForm id="editForm"
                        visible="false"
                        bottom="0"
-                       moduleName.phrase="{ModuleName.PHRASE}"
-                       moduleName.word="{ModuleName.WORD}"
-                       moduleName.verb="{ModuleName.VERB}"
-                       top="{HEADER_HEI}"/>-->
+                       top="{HEADER_HEI}"/>
     </s:Group>
 
 </core:ScreenBase>

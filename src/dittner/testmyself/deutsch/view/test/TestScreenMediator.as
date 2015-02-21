@@ -46,7 +46,7 @@ public class TestScreenMediator extends SFMediator {
 	}
 
 	private function editTestingNote(event:MouseEvent):void {
-		if (testingMediator) noteFormMediator.startEditing();
+		if (noteFormMediator) noteFormMediator.startEditing();
 	}
 
 	private function showTestPresets(params:* = null):void {
@@ -81,7 +81,7 @@ public class TestScreenMediator extends SFMediator {
 		if (noteFormMediator) unregisterMediatorFrom(noteFormMediator.moduleName, noteFormMediator);
 		else noteFormMediator = new TestingNoteFormMediator();
 		noteFormMediator.selectedTestInfo = selectedTestInfo;
-		registerMediatorTo(selectedTestInfo.moduleName, view.testingNoteForm, noteFormMediator);
+		registerMediatorTo(selectedTestInfo.moduleName, view.editForm, noteFormMediator);
 		view.showTesting();
 	}
 
