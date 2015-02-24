@@ -24,6 +24,7 @@ public class SearchResultListMediator extends SFMediator {
 
 	private function onNotesLoaded(fnotes:Array):void {
 		view.dataProvider = new ArrayCollection(fnotes);
+		view.selectedItem = null;
 		sendNotification(SearchMsg.SELECTED_NOTE_NOTIFICATION, null);
 	}
 
