@@ -27,7 +27,12 @@ public class SearchNotesSQLOperation extends DeferredOperation {
 			sql = searchSpec.needDescription ? service.sqlFactory.searchNotesByDescription : service.sqlFactory.searchNotesByTitle;
 		}
 		var params:Object = {};
-		params.searchFilter = "%" + searchSpec.searchText + "%";
+		var searchText:String;
+
+		searchText = searchSpec.searchText.charAt(0).toLowerCase() + searchSpec.searchText.substring(1, searchSpec.searchText.length);
+		params.searchFilter1 = "%" + searchText + "%";
+		searchText = searchSpec.searchText.charAt(0).toUpperCase() + searchSpec.searchText.substring(1, searchSpec.searchText.length);
+		params.searchFilter2 = "%" + searchText + "%";
 		service.sqlRunner.execute(sql, params, loadedHandler);
 	}
 
