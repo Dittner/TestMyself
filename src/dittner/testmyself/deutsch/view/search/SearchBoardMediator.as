@@ -18,15 +18,23 @@ public class SearchBoardMediator extends SFMediator {
 
 	private var searchQueue:Array = [];
 	private var foundNotes:Array = [];
+	private static var history:SearchHistory = new SearchHistory();
 
 	override protected function activate():void {
+		view.history = history;
+		view.searchInput.text = history.row;
 		view.applyBtn.addEventListener(MouseEvent.CLICK, startSearch);
 		view.searchInput.addEventListener(FlexEvent.ENTER, startSearch);
+		view.undoBtn.addEventListener(MouseEvent.CLICK, undoSearch);
+		view.redoBtn.addEventListener(MouseEvent.CLICK, redoSearch);
 		if (view.stage) view.stage.focus = view.searchInput;
 	}
 
 	public function startSearch(event:* = null):void {
 		if (view.searchInput.text.length <= 1) return;
+
+		if (history.row != view.searchInput.text)
+			history.push(view.searchInput.text);
 
 		searchQueue.length = 0;
 		foundNotes.length = 0;
@@ -60,9 +68,21 @@ public class SearchBoardMediator extends SFMediator {
 		findNext();
 	}
 
+	private function undoSearch(e:MouseEvent):void {
+		history.undo();
+		view.searchInput.text = history.row;
+	}
+
+	private function redoSearch(e:MouseEvent):void {
+		history.redo();
+		view.searchInput.text = history.row;
+	}
+
 	override protected function deactivate():void {
 		view.applyBtn.removeEventListener(MouseEvent.CLICK, startSearch);
 		view.searchInput.removeEventListener(FlexEvent.ENTER, startSearch);
+		view.undoBtn.removeEventListener(MouseEvent.CLICK, undoSearch);
+		view.redoBtn.removeEventListener(MouseEvent.CLICK, redoSearch);
 		view.searchInput.text = "";
 	}
 

@@ -8,6 +8,19 @@
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.model.AppConfig;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
+
+        //--------------------------------------
+        //  history
+        //--------------------------------------
+        private var _history:SearchHistory;
+        [Bindable("historyChanged")]
+        public function get history():SearchHistory {return _history;}
+        public function set history(value:SearchHistory):void {
+            if (_history != value) {
+                _history = value;
+                dispatchEvent(new Event("historyChanged"));
+            }
+        }
         ]]></fx:Script>
 
     <s:layout>
@@ -50,7 +63,7 @@
     </s:HGroup>
 
     <s:HGroup width="100%"
-              gap="20" verticalAlign="bottom">
+              gap="10" verticalAlign="bottom">
 
         <input:TextInputForm id="searchInput"
                              top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
@@ -63,6 +76,16 @@
                             width="200"
                             enabled="{searchInput.text.length > 1}"
                             label="Искать"/>
+
+        <button:GrayButton id="undoBtn"
+                           enabled="{history.canUndo}"
+                           width="100"
+                           label="Назад"/>
+
+        <button:GrayButton id="redoBtn"
+                           enabled="{history.canRedo}"
+                           width="100"
+                           label="Вперёд"/>
     </s:HGroup>
 
 
