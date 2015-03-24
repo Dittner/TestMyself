@@ -58,9 +58,6 @@ public class LessonFormState extends NoteFormState {
 			applyBtn.x = w - applyBtn.width - PAD;
 			applyBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
 
-			validateBtn.x = applyBtn.x + applyBtn.width - validateBtn.width;
-			validateBtn.y = applyBtn.y;
-
 			cancelBtn.x = applyBtn.x - THEMES_LIST_WID - HGAP;
 			cancelBtn.y = applyBtn.y;
 			cancelBtn.width = THEMES_LIST_WID;

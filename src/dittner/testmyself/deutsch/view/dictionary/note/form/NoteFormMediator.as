@@ -14,9 +14,12 @@ import dittner.testmyself.deutsch.message.SettingsMsg;
 import dittner.testmyself.deutsch.model.settings.SettingsInfo;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 
+import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.collections.ArrayCollection;
+
+import spark.events.TextOperationEvent;
 
 public class NoteFormMediator extends SFMediator {
 
@@ -70,11 +73,17 @@ public class NoteFormMediator extends SFMediator {
 
 	protected function openForm():void {
 		view.visible = true;
+		view.wordInput.isValidInput = true;
+		view.titleArea.isValidInput = true;
+		view.verbInputsForm.infinitiveInput.isValidInput = true;
 		sendNotification(NoteMsg.FORM_ACTIVATED_NOTIFICATION);
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
 		view.addThemeBtn.addEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
-		view.validateBtn.addEventListener(MouseEvent.CLICK, validateBtnHandler);
+		view.wordInput.addEventListener(TextOperationEvent.CHANGE, validateInputText);
+		view.titleArea.addEventListener(TextOperationEvent.CHANGE, validateInputText);
+		view.verbInputsForm.infinitiveInput.addEventListener(TextOperationEvent.CHANGE, validateInputText);
+		view.articleBox.addEventListener(Event.CHANGE, validateInputText);
 	}
 
 	protected function cancelHandler(event:MouseEvent):void {
@@ -90,7 +99,10 @@ public class NoteFormMediator extends SFMediator {
 		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
 		view.addThemeBtn.removeEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
-		view.validateBtn.removeEventListener(MouseEvent.CLICK, validateBtnHandler);
+		view.wordInput.removeEventListener(TextOperationEvent.CHANGE, validateInputText);
+		view.titleArea.removeEventListener(TextOperationEvent.CHANGE, validateInputText);
+		view.verbInputsForm.infinitiveInput.removeEventListener(TextOperationEvent.CHANGE, validateInputText);
+		view.articleBox.removeEventListener(Event.CHANGE, validateInputText);
 	}
 
 	//abstract
@@ -100,7 +112,11 @@ public class NoteFormMediator extends SFMediator {
 	protected function createNote():Note {return null;}
 
 	//abstract
-	protected function validateNote(note:Note, onlyDuplicateChecking:Boolean = false):String {
+	protected function validateNote(note:Note):String {
+		return "";
+	}
+	//abstract
+	protected function validateDuplicateNote(note:Note):String {
 		return "";
 	}
 
@@ -168,6 +184,13 @@ public class NoteFormMediator extends SFMediator {
 		}
 	}
 
+	private function validateInputText(event:*):void {
+		var errMsg:String = validateDuplicateNote(createNote());
+		view.wordInput.isValidInput = !errMsg;
+		view.titleArea.isValidInput = !errMsg;
+		view.verbInputsForm.infinitiveInput.isValidInput = !errMsg;
+	}
+
 	private function validateAddedTheme(themeName:String):Boolean {
 		for each(var theme:ITheme in view.themes) {
 			if (theme.name == themeName) return false;
@@ -180,12 +203,6 @@ public class NoteFormMediator extends SFMediator {
 			isActive = false;
 			closeForm();
 		}
-	}
-
-	private function validateBtnHandler(event:MouseEvent):void {
-		var errMsg:String;
-		errMsg = validateNote(createNote(), true);
-		if (errMsg) view.notifyInvalidData(errMsg);
 	}
 
 }

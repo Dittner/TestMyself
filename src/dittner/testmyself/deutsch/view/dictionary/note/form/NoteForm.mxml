@@ -223,7 +223,8 @@
              visible.add="true"
              visible.edit="true"
              visible="false">
-        <listBox:ListBox id="articleBox" requireSelection="true"
+        <listBox:ListBox id="articleBox"
+                         requireSelection="true"
                          width="77"
                          itemRenderer="dittner.testmyself.deutsch.view.dictionary.common.articleList.ArticleItemRenderer"
                          skinClass="dittner.testmyself.deutsch.view.dictionary.common.articleList.ListBoxSkin"
@@ -290,13 +291,6 @@
                         label.remove="Удалить"
                         enabled.remove="true"
                         enabled="{applyBtnEnabled(audioRecorder.isRecording)}"/>
-
-    <button:BitmapButton id="validateBtn"
-                         visible.remove="false"
-                         upImage="@Embed(source='/assets/button/validate_btn_up.png')"
-                         downImage="@Embed(source='/assets/button/validate_btn_down.png')"
-                         description="Проверить запись на дублирование"
-                         enabled="{applyBtnEnabled(audioRecorder.isRecording)}"/>
 
     <!--REMOVE MODE-->
 

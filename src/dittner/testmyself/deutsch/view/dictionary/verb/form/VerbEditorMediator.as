@@ -17,18 +17,23 @@ public class VerbEditorMediator extends NoteEditorMediator {
 		return verb;
 	}
 
-	override protected function validateNote(note:Note, onlyDuplicateChecking:Boolean = false):String {
+	override protected function validateNote(note:Note):String {
 		var verb:IVerb = note as IVerb;
 		if (!verb) return "Отсутствует глагол";
 
-		if (!onlyDuplicateChecking) {
-			if (!verb.title) return "Форма не заполнена: инфинитив не должен быть пустым";
-			if (!verb.present || !verb.past || !verb.perfect) return "Форма не заполнена: поля präsens, präteritum, perfect не должны быть пустыми";
-		}
+		if (!verb.title) return "Форма не заполнена: инфинитив не должен быть пустым";
+		if (!verb.present || !verb.past || !verb.perfect) return "Форма не заполнена: поля präsens, präteritum, perfect не должны быть пустыми";
+
+		return validateDuplicateNote(note);
+	}
+
+	override protected function validateDuplicateNote(note:Note):String {
+		var verb:IVerb = note as IVerb;
+		if (!verb) return "Отсутствует глагол";
 
 		if (selectedNote is IVerb) {
 			var origin:IVerb = selectedNote as IVerb;
-			if (origin.title != verb.title || origin.present != verb.present || origin.past != verb.past || origin.perfect != verb.perfect)
+			if (origin.title != verb.title)
 				if (noteHash.has(verb)) return "Глагол с такими данными уже существует в словаре";
 		}
 		return "";

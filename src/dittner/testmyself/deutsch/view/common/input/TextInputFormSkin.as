@@ -48,7 +48,7 @@ public class TextInputFormSkin extends TextInputSkin {
 		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
 		var g:Graphics = graphics;
 		g.clear();
-		g.lineStyle(1, AppColors.INPUT_BORDER);
+		g.lineStyle(1, hostInput.isValidInput ? AppColors.INPUT_BORDER : AppColors.INVALID_INPUT_BORDER);
 		g.beginFill(AppColors.INPUT_CONTENT);
 		g.drawRect(0, bgVerOffset, w - 1, h - bgVerOffset - 1);
 		g.endFill();

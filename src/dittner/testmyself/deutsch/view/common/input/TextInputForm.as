@@ -38,5 +38,19 @@ public class TextInputForm extends TextInput {
 			dispatchEvent(new Event("showTitleChanged"));
 		}
 	}
+
+	//--------------------------------------
+	//  isValidInput
+	//--------------------------------------
+	private var _isValidInput:Boolean = true;
+	[Bindable("isValidInputChanged")]
+	public function get isValidInput():Boolean {return _isValidInput;}
+	public function set isValidInput(value:Boolean):void {
+		if (_isValidInput != value) {
+			_isValidInput = value;
+			dispatchEvent(new Event("isValidInputChanged"));
+			if (skin) skin.invalidateDisplayList();
+		}
+	}
 }
 }

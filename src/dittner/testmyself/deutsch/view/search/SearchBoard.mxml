@@ -73,7 +73,7 @@
                              title="Введите текст для поиска записей"/>
 
         <button:BlackButton id="applyBtn"
-                            width="200"
+                            width="215"
                             enabled="{searchInput.text.length > 1}"
                             label="Искать"/>
 

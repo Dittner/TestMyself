@@ -31,9 +31,15 @@ public class LessonEditorMediator extends NoteEditorMediator {
 		return note;
 	}
 
-	override protected function validateNote(note:Note, onlyDuplicateChecking:Boolean = false):String {
+	override protected function validateNote(note:Note):String {
 		if (!note) return "Отсутствует задача";
-		if (!onlyDuplicateChecking && (!note.title || !note.description)) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+
+		return validateDuplicateNote(note);
+	}
+
+	override protected function validateDuplicateNote(note:Note):String {
+		if (!note) return "Отсутствует задача";
 
 		if (selectedNote) {
 			if (note.title != selectedNote.title)

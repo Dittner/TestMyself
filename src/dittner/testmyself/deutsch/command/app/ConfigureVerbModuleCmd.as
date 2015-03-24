@@ -1,6 +1,7 @@
 package dittner.testmyself.deutsch.command.app {
 import dittner.satelliteFlight.command.IConfigureCommand;
 import dittner.satelliteFlight.module.SFModule;
+import dittner.testmyself.core.model.note.NoteHash;
 import dittner.testmyself.core.model.note.NoteModel;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
@@ -9,7 +10,6 @@ import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.model.domain.verb.Verb;
-import dittner.testmyself.deutsch.model.domain.verb.VerbHash;
 import dittner.testmyself.deutsch.model.domain.verb.VerbSQLFactory;
 
 public class ConfigureVerbModuleCmd implements IConfigureCommand {
@@ -26,7 +26,7 @@ public class ConfigureVerbModuleCmd implements IConfigureCommand {
 
 	private function createNoteModel():NoteModel {
 		var model:NoteModel = new NoteModel();
-		model.noteHash = new VerbHash();
+		model.noteHash = new NoteHash();
 		return model;
 	}
 

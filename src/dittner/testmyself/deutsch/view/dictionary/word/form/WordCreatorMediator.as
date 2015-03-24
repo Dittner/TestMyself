@@ -15,9 +15,14 @@ public class WordCreatorMediator extends NoteCreatorMediator {
 		return word;
 	}
 
-	override protected function validateNote(note:Note, onlyDuplicateChecking:Boolean = false):String {
+	override protected function validateNote(note:Note):String {
 		if (!note) return "Отсутствует слово";
-		if (!onlyDuplicateChecking && (!note.title || !note.description)) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		return validateDuplicateNote(note);
+	}
+
+	override protected function validateDuplicateNote(note:Note):String {
+		if (!note) return "Отсутствует слово";
 		if (note.title && noteHash.has(note)) return "Слово с таким названием и артиклем уже существует в словаре";
 		return "";
 	}

@@ -79,9 +79,6 @@ public class VerbFormState extends NoteFormState {
 			addThemeBtn.x = addThemeInput.x + addThemeInput.width - 1;
 			addThemeBtn.y = addThemeInput.y + 20;
 
-			validateBtn.x = themesList.x + THEMES_LIST_WID - validateBtn.width;
-			validateBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
-
 			applyBtn.width = THEMES_LIST_WID;
 			applyBtn.x = themesList.x;
 			applyBtn.y = h - (FOOTER_HEI - applyBtn.height + BORDER_THICKNESS) / 2 - applyBtn.height;
