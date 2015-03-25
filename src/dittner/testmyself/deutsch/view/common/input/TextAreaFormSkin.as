@@ -1,8 +1,4 @@
 package dittner.testmyself.deutsch.view.common.input {
-import dittner.testmyself.deutsch.view.common.utils.AppColors;
-
-import flash.display.Graphics;
-
 import spark.skins.mobile.TextAreaSkin;
 
 public class TextAreaFormSkin extends TextAreaSkin {
@@ -13,12 +9,6 @@ public class TextAreaFormSkin extends TextAreaSkin {
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
-		var g:Graphics = graphics;
-		g.clear();
-		g.lineStyle(1, AppColors.INPUT_BORDER);
-		g.beginFill(AppColors.INPUT_CONTENT);
-		g.drawRect(0, 0, w - 1, h - 1);
-		g.endFill();
 	}
 
 }
