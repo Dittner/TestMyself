@@ -22,7 +22,8 @@ public class SearchBoardMediator extends SFMediator {
 
 	override protected function activate():void {
 		view.history = history;
-		view.searchInput.text = history.row;
+		updateSearchInput();
+		view.searchInput.selectAll();
 		view.applyBtn.addEventListener(MouseEvent.CLICK, startSearch);
 		view.searchInput.addEventListener(FlexEvent.ENTER, startSearch);
 		view.undoBtn.addEventListener(MouseEvent.CLICK, undoSearch);
@@ -38,6 +39,7 @@ public class SearchBoardMediator extends SFMediator {
 
 		searchQueue.length = 0;
 		foundNotes.length = 0;
+		updateSearchInput();
 
 		if (view.wordBox.selected) searchQueue.push(new Search(ModuleName.WORD, false));
 		if (view.verbBox.selected) searchQueue.push(new Search(ModuleName.VERB, false));
@@ -55,7 +57,6 @@ public class SearchBoardMediator extends SFMediator {
 			var searchSpec:SearchSpec = new SearchSpec();
 			searchSpec.searchText = view.searchInput.text;
 			searchSpec.needExample = search.needExample;
-			searchSpec.needDescription = view.descriptionSearchRadioBtn.selected;
 			sendRequestTo(search.moduleName, NoteMsg.SEARCH_NOTES, new RequestMessage(foundNotesLoaded, null, searchSpec));
 		}
 		else {
@@ -70,12 +71,18 @@ public class SearchBoardMediator extends SFMediator {
 
 	private function undoSearch(e:MouseEvent):void {
 		history.undo();
-		view.searchInput.text = history.row;
+		updateSearchInput();
 	}
 
 	private function redoSearch(e:MouseEvent):void {
 		history.redo();
+		updateSearchInput();
+	}
+
+	private function updateSearchInput():void {
 		view.searchInput.text = history.row;
+		view.stage.focus = view.searchInput;
+		view.searchInput.selectAll();
 	}
 
 	override protected function deactivate():void {

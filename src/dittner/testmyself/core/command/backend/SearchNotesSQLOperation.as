@@ -19,13 +19,7 @@ public class SearchNotesSQLOperation extends DeferredOperation {
 	private var searchSpec:SearchSpec;
 
 	override public function process():void {
-		var sql:String;
-		if (searchSpec.needExample) {
-			sql = searchSpec.needDescription ? service.sqlFactory.searchNoteExampleByDescription : service.sqlFactory.searchNotesExampleByTitle;
-		}
-		else {
-			sql = searchSpec.needDescription ? service.sqlFactory.searchNotesByDescription : service.sqlFactory.searchNotesByTitle;
-		}
+		var sql:String = searchSpec.needExample ? service.sqlFactory.searchNoteExamples : service.sqlFactory.searchNotes;
 		var params:Object = {};
 		var searchText:String;
 

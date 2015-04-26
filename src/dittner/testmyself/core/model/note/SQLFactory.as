@@ -188,32 +188,18 @@ public class SQLFactory extends SFProxy {
 		return SELECT_NOTE_SQL;
 	}
 
-	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNotesIDsByTitle.sql", mimeType="application/octet-stream")]
-	private static const SearchNotesByTitleClass:Class;
-	private static const SEARCH_NOTES_BY_TITLE_SQL:String = new SearchNotesByTitleClass();
-	public function get searchNotesByTitle():String {
-		return SEARCH_NOTES_BY_TITLE_SQL;
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNotesIDs.sql", mimeType="application/octet-stream")]
+	private static const SearchNotesClass:Class;
+	private static const SEARCH_NOTES_SQL:String = new SearchNotesClass();
+	public function get searchNotes():String {
+		return SEARCH_NOTES_SQL;
 	}
 
-	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteExamplesIDsByTitle.sql", mimeType="application/octet-stream")]
-	private static const SearchNoteExampleByTitleClass:Class;
-	private static const SEARCH_NOTE_EXAMPLE_BY_TITLE_SQL:String = new SearchNoteExampleByTitleClass();
-	public function get searchNotesExampleByTitle():String {
-		return SEARCH_NOTE_EXAMPLE_BY_TITLE_SQL;
-	}
-
-	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNotesIDsByDescription.sql", mimeType="application/octet-stream")]
-	private static const SearchNotesByDescriptionClass:Class;
-	private static const SEARCH_NOTES_BY_DESCRIPTION_SQL:String = new SearchNotesByDescriptionClass();
-	public function get searchNotesByDescription():String {
-		return SEARCH_NOTES_BY_DESCRIPTION_SQL;
-	}
-
-	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteExamplesIDsByDescription.sql", mimeType="application/octet-stream")]
-	private static const SearchNoteExampleByDescriptionClass:Class;
-	private static const SEARCH_NOTE_EXAMPLE_BY_DESCRIPTION_SQL:String = new SearchNoteExampleByDescriptionClass();
-	public function get searchNoteExampleByDescription():String {
-		return SEARCH_NOTE_EXAMPLE_BY_DESCRIPTION_SQL;
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectNoteExamplesIDs.sql", mimeType="application/octet-stream")]
+	private static const SearchNoteExampleClass:Class;
+	private static const SEARCH_NOTE_EXAMPLE_SQL:String = new SearchNoteExampleClass();
+	public function get searchNoteExamples():String {
+		return SEARCH_NOTE_EXAMPLE_SQL;
 	}
 
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/SelectPageNotes.sql", mimeType="application/octet-stream")]
