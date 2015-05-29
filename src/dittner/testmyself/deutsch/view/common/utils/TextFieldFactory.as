@@ -21,7 +21,6 @@ public class TextFieldFactory {
 		textField.antiAliasType = AntiAliasType.ADVANCED;
 		textField.gridFitType = GridFitType.PIXEL;
 		textField.sharpness = 0;
-		textField.thickness = 100;
 		textField.defaultTextFormat = textFormat;
 		return textField;
 	}

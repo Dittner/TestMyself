@@ -11,8 +11,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ExamplesFormRenderer extends NoteBaseRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_GRAY, null, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 14, AppColors.TEXT_GRAY);
 
 	private static const PAD:uint = 3;
 	private static const GAP:uint = 3;
@@ -100,7 +100,7 @@ public class ExamplesFormRenderer extends NoteBaseRenderer {
 		titleTf.x = titleTf.y = PAD;
 
 		if (descriptionTf.visible) {
-			descriptionTf.textColor = selected ? 0xffFFff : 0;
+			descriptionTf.textColor = selected ? AppColors.TEXT_WHITE : AppColors.TEXT_GRAY;
 			descriptionTf.x = PAD;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP;
 		}

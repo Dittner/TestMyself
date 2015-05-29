@@ -13,10 +13,10 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class WordRenderer extends NoteBaseRenderer implements IFlexibleRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_BLACK);
-	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_RED);
-	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_YELLOW);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_BLACK, true);
+	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_RED, true);
+	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_YELLOW, true);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 

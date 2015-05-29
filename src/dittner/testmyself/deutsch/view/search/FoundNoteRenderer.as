@@ -14,8 +14,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_BLACK, true);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 
