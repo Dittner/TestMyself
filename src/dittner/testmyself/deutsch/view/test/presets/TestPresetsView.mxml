@@ -78,8 +78,9 @@
                 label="Озвучивать задачу"/>
 
     <s:Label text="* в качестве тестовых задач будут выбраны только те, для которых имеется аудиозапись"
-             fontFamily="{Fonts.ROBOTO_LIGHT}"
-             fontSize="12"
+             fontFamily="{Fonts.MYRIAD}"
+             fontStyle="italic"
+             fontSize="14"
              mouseChildren="false" mouseEnabled="false"
              width="100%"
              paddingTop="-15"
@@ -111,11 +112,9 @@
                        label="Низкая сложность задач"/>
     </s:HGroup>
 
-
     <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 
         <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
-
 
         <button:GrayButton id="goBackBtn"
                            width="250"

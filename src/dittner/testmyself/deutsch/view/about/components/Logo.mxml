@@ -10,7 +10,7 @@
             super.createChildren();
 
             var lbl:LabelCard;
-            lbl = new LabelCard("TESTMYSELF", 13, 22, 2, 90, 0xffFFff, 10, Fonts.ROBOTO_MX);
+            lbl = new LabelCard("TESTMYSELF", 15, 22, 2, 90, 0xffFFff, 10, Fonts.MYRIAD_MX);
             addElement(lbl);
         }
         ]]></fx:Script>

@@ -10,7 +10,7 @@ import spark.components.Button;
 import spark.skins.mobile.ListSkin;
 
 public class ListBoxSkin extends ListSkin {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_DARK);
 	private static const TITLE_HEIGHT:uint = 20;
 	private static const DROP_DOWN_BUTTON_HEIGHT:uint = 30;
 	public function ListBoxSkin() {

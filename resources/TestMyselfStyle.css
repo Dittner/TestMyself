@@ -16,33 +16,34 @@
 }
 
 @font-face {
-    src: url("/fonts/Roboto-Light.ttf");
-    font-family: RobotoLight;
+    src: url("/fonts/MyriadPro-It.otf");
+    font-family: MyriadPro;
+    fontStyle: italic;
     embedAsCFF: true;
 }
 
 @font-face {
-    src: url("/fonts/Roboto-Regular.ttf");
-    font-family: Roboto;
+    src: url("/fonts/MyriadPro-Regular.otf");
+    font-family: MyriadPro;
     embedAsCFF: true;
 }
 
 @font-face {
-    src: url("/fonts/Roboto-Bold.ttf");
-    font-family: Roboto;
+    src: url("/fonts/MyriadPro-Bold.otf");
+    font-family: MyriadPro;
     fontWeight: bold;
     embedAsCFF: true;
 }
 
 @font-face {
-    src: url("/fonts/RobotoCondensed.ttf");
-    font-family: RobotoCond;
+    src: url("/fonts/MyriadPro-Cond.otf");
+    font-family: MyriadProCond;
     embedAsCFF: true;
 }
 
 @font-face {
-    src: url("/fonts/RobotoCondensed-Bold.ttf");
-    font-family: RobotoCond;
+    src: url("/fonts/MyriadPro-BoldCond.otf");
+    font-family: MyriadProCond;
     font-weight: bold;
     embedAsCFF: true;
 }
@@ -50,33 +51,34 @@
 /**************************** MX **************************/
 
 @font-face {
-    src: url("/fonts/Roboto-Regular.ttf");
-    font-family: RobotoMX;
+    src: url("/fonts/MyriadPro-Regular.otf");
+    font-family: MyriadProMX;
     embedAsCFF: false;
 }
 
 @font-face {
-    src: url("/fonts/Roboto-Light.ttf");
-    font-family: RobotoLightMX;
+    src: url("/fonts/MyriadPro-It.otf");
+    font-family: MyriadProMX;
+    fontStyle: italic;
     embedAsCFF: false;
 }
 
 @font-face {
-    src: url("/fonts/Roboto-Bold.ttf");
-    font-family: RobotoMX;
+    src: url("/fonts/MyriadPro-Bold.otf");
+    font-family: MyriadProMX;
     fontWeight: bold;
     embedAsCFF: false;
 }
 
 @font-face {
-    src: url("/fonts/RobotoCondensed.ttf");
-    font-family: RobotoCondMX;
+    src: url("/fonts/MyriadPro-Cond.otf");
+    font-family: MyriadProCondMX;
     embedAsCFF: false;
 }
 
 @font-face {
-    src: url("/fonts/RobotoCondensed-Bold.ttf");
-    font-family: RobotoCondMX;
+    src: url("/fonts/MyriadPro-BoldCond.otf");
+    font-family: MyriadProCondMX;
     font-weight: bold;
     embedAsCFF: false;
 }
@@ -85,7 +87,7 @@
 
 global {
     fontSize: 14px;
-    fontFamily: RobotoMX;
+    fontFamily: MyriadProMX;
     fontWeight: normal;
     contentBackgroundAlpha: 0;
     backgroundColor: 0;
@@ -94,13 +96,13 @@ global {
 
 s|Button {
     fontSize: 14px;
-    fontFamily: Roboto;
+    fontFamily: MyriadPro;
     fontWeight: normal;
 }
 
 s|Label {
     fontSize: 14px;
-    fontFamily: Roboto;
+    fontFamily: MyriadPro;
     fontWeight: normal;
 }
 
@@ -110,7 +112,7 @@ input|TextInputForm {
     skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextInputFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: RobotoMX;
+    fontFamily: MyriadProMX;
     fontSize: 14px;
     color: #333333;
 }
@@ -120,7 +122,7 @@ list|ListForm {
     skinClass: ClassReference("dittner.testmyself.deutsch.view.common.list.ListFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: RobotoMX;
+    fontFamily: MyriadProMX;
     fontSize: 16px;
     color: #333333;
 }
@@ -138,7 +140,7 @@ spinner|CustomSpinner {
     skin-class: ClassReference("dittner.testmyself.deutsch.view.common.spinner.CustomSpinnerSkin");
     fontSize: 14px;
     color: #4e4f61;
-    fontFamily: Roboto;
+    fontFamily: MyriadPro;
 }
 
 s|Button.dropDownBtnStyle {

@@ -28,8 +28,8 @@
     </s:Rect>
 
     <s:Label id="labelDisplay"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="14"
+             fontFamily="{Fonts.MYRIAD}"
+             fontSize="16"
              color="{AppColors.TEXT_DARK}"
              maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"
              verticalCenter="0" verticalAlign="middle"

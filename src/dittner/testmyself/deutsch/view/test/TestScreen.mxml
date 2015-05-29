@@ -74,8 +74,8 @@
     </s:Rect>
 
     <s:Label text="{title}"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="16"
+             fontFamily="{Fonts.MYRIAD}"
+             fontSize="18"
              width="100%" height="{HEADER_HEI}"
              verticalAlign="middle"
              paddingLeft="{PADDING}" paddingRight="{PADDING}"
@@ -87,6 +87,10 @@
                        description="Редактировать выбранную запись"
                        image="@Embed(source='/assets/tools/edit.png')"/>
 
+    <s:BitmapImage width="100%"
+                   top="{HEADER_HEI}"
+                   smooth="true"
+                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
     <s:Group width="100%" top="{HEADER_HEI}" bottom="0"
              excludeFrom="inactive">

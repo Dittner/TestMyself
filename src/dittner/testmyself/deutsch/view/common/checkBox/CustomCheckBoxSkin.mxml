@@ -31,7 +31,6 @@
 
     <s:Group bottom="0" width="23" height="23">
 
-
         <s:Rect left="0" right="0" top="0" bottom="0">
             <s:fill>
                 <s:SolidColor color="{AppColors.INPUT_BORDER}" alpha=".2" alpha.selectedStates="1"/>
@@ -54,8 +53,9 @@
 
     <s:Label id="labelDisplay"
              left="28" right="0" verticalCenter="1"
-             fontFamily="{Fonts.ROBOTO_LIGHT}"
-             fontSize="18"
+             fontFamily="{Fonts.MYRIAD}"
+             fontStyle="italic"
+             fontSize="20"
              color="{AppColors.TEXT_DARK}"
              maxDisplayedLines="1"/>
 

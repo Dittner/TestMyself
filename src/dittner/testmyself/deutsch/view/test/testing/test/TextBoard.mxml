@@ -66,9 +66,9 @@
 
     <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
     <s:Label text="{title}"
-             fontFamily="{Fonts.ROBOTO_COND}"
+             fontFamily="{Fonts.MYRIAD_COND}"
              fontWeight="bold"
-             fontSize="18"
+             fontSize="20"
              mouseChildren="false" mouseEnabled="false"
              left="15" right="15"
              color="{AppColors.TEXT_LIGHT}"/>
@@ -80,9 +80,9 @@
             <s:Label id="descriptionLbl"
                      text="{text}"
                      width="100%"
-                     fontFamily="{Fonts.ROBOTO}"
+                     fontFamily="{Fonts.MYRIAD}"
                      color="{AppColors.TEXT_DARK}"
-                     fontSize="20"/>
+                     fontSize="22"/>
         </s:Group>
 
     </s:Scroller>

@@ -47,10 +47,10 @@
         <s:VerticalLayout gap="10"/>
     </s:layout>
 
-
     <button:DottedLabelBtn text="Удалить результаты тестирования"
-                           fontFamily="{Fonts.ROBOTO_LIGHT}"
-                           fontSize="18"
+                           fontFamily="{Fonts.MYRIAD}"
+                           fontStyle="italic"
+                           fontSize="20"
                            upColor="{AppColors.TEXT_DARK}"
                            downColor="{AppColors.TEXT_BLACK}"
                            click="setCurrentState('removeHistory')"/>
@@ -88,8 +88,9 @@
         </list:ListForm>
 
         <s:Label left="col2:10" top="row1:10" right="10"
-                 fontFamily="{Fonts.ROBOTO}"
-                 color="{AppColors.TEXT_DARK}" fontSize="14"
+                 fontFamily="{Fonts.MYRIAD}"
+                 color="{AppColors.TEXT_DARK}"
+                 fontSize="16"
                  includeIn="removeHistory"
                  text="Вы действительно хотите удалить результаты выбранного теста?"/>
 

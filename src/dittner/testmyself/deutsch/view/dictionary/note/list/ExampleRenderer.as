@@ -9,8 +9,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ExampleRenderer extends NoteBaseRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 20, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 16, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 22, AppColors.TEXT_BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_DARK);
 
 	private static const PAD:uint = 15;
 	private static const GAP:uint = 10;

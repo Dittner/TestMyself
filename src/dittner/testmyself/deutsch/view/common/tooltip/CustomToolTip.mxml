@@ -170,7 +170,7 @@
     <s:Label left="25" right="25" top="25" bottom="25"
              verticalAlign="middle"
              textAlign="center"
-             fontFamily="{Fonts.ROBOTO}"
+             fontFamily="{Fonts.MYRIAD}"
              fontWeight="bold"
              fontSize="16"
              maxDisplayedLines="2"

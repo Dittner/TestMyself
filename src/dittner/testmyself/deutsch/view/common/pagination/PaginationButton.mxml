@@ -23,16 +23,15 @@
                     <s:State name="up"/>
                 </s:states>
 
-
                 <s:BitmapImage verticalCenter="0" horizontalCenter="0"
                                source="{getStyle('upImage')}"
                                source.down="{getStyle('downImage')}"/>
 
                 <s:Label id="labelDisplay"
                          textAlign="center"
-                         fontFamily="{Fonts.ROBOTO_COND}"
+                         fontFamily="{Fonts.MYRIAD_COND}"
                          fontWeight="bold"
-                         fontSize="13"
+                         fontSize="15"
                          maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"
                          horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
                          left="5" right="5" top="2" bottom="2"/>

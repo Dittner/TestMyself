@@ -59,11 +59,11 @@
         <s:VerticalLayout gap="10"/>
     </s:layout>
 
-
     <button:DottedLabelBtn id="editLbl"
                            text="Изменить название темы"
-                           fontFamily="{Fonts.ROBOTO_LIGHT}"
-                           fontSize="18"
+                           fontFamily="{Fonts.MYRIAD}"
+                           fontStyle="italic"
+                           fontSize="20"
                            visible="{haveThemes}"
                            includeInLayout="{haveThemes}"
                            upColor="{AppColors.TEXT_DARK}"
@@ -72,8 +72,9 @@
 
     <button:DottedLabelBtn id="removeLbl"
                            text="Удалить тему"
-                           fontFamily="{Fonts.ROBOTO_LIGHT}"
-                           fontSize="18"
+                           fontFamily="{Fonts.MYRIAD}"
+                           fontStyle="italic"
+                           fontSize="20"
                            visible="{haveThemes}"
                            includeInLayout="{haveThemes}"
                            upColor="{AppColors.TEXT_DARK}"
@@ -114,8 +115,9 @@
 
         <s:Label id="notifyLbl"
                  left="col2:10" top="row1:10" right="10"
-                 fontFamily="{Fonts.ROBOTO}"
-                 color="{AppColors.TEXT_DARK}" fontSize="14"
+                 fontFamily="{Fonts.MYRIAD}"
+                 color="{AppColors.TEXT_DARK}"
+                 fontSize="16"
                  visible="false" visible.removeTheme="true"
                  includeInLayout="false" includeInLayout.removeTheme="true"
                  text="Вы действительно хотите безвозвратно удалить выбранную тему (записи не будут удалены)?"/>

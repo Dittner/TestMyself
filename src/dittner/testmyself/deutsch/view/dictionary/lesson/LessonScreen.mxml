@@ -135,8 +135,8 @@
 
         <s:Label text.lessonContent="{selectedLessonName}" text="{title}"
                  textAlign.lessonContent="center" textAlign="left"
-                 fontFamily="{Fonts.ROBOTO}"
-                 fontSize="16"
+                 fontFamily="{Fonts.MYRIAD}"
+                 fontSize="18"
                  paddingTop="2"
                  width="100%"
                  color="#54545d"/>
@@ -213,7 +213,6 @@
 
     </s:Group>
 
-
     <s:Group width="100%" height="100%"
              excludeFrom="inactive"
              visible="{editing}"
@@ -239,5 +238,10 @@
     <form:AddLessonForm id="addLessonForm"
                         visible="false"
                         height="100%" width="100%"/>
+
+    <s:BitmapImage width="100%"
+                   top="{HEADER_HEI}"
+                   smooth="true"
+                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
 </core:ScreenBase>

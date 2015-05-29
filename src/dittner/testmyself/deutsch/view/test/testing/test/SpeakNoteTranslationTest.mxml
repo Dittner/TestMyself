@@ -104,8 +104,8 @@
         <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
 
         <s:Label text="{'Число ошибок: '+errorsNum}"
-                 fontFamily="{Fonts.ROBOTO}"
-                 fontSize="12"
+                 fontFamily="{Fonts.MYRIAD}"
+                 fontSize="14"
                  opaqueBackground="0"
                  mouseChildren="false" mouseEnabled="false"
                  right="{padding + 8}" top="10"
@@ -115,9 +115,9 @@
                   gap="15" horizontalAlign="center">
 
             <s:Label text="{taskNumber + '/' + totalTask}"
-                     fontFamily="{Fonts.ROBOTO_COND}"
+                     fontFamily="{Fonts.MYRIAD_COND}"
                      fontWeight="bold"
-                     fontSize="18" textAlign="center"
+                     fontSize="20" textAlign="center"
                      mouseChildren="false" mouseEnabled="false"
                      width="100%"
                      color="{AppColors.TEXT_LIGHT}"/>

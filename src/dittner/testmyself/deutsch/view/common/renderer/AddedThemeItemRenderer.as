@@ -15,7 +15,7 @@ import mx.core.UIComponent;
 import spark.components.DataGroup;
 
 public class AddedThemeItemRenderer extends ItemRendererBase {
-	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 14, AppColors.TEXT_WHITE);
+	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 
 	[Embed(source="/assets/button/delete_white_btn.png")]

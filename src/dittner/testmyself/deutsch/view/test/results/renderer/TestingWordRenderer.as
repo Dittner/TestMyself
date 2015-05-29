@@ -15,10 +15,10 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class TestingWordRenderer extends NoteBaseRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK);
-	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_RED);
-	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_YELLOW);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_BLACK);
+	private static const DIE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_RED);
+	private static const DAS_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 26, AppColors.TEXT_YELLOW);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 

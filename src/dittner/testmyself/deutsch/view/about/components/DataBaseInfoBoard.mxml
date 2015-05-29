@@ -71,18 +71,18 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="0" verticalAlign="middle"/>
+        <s:VerticalLayout gap="2" verticalAlign="middle"/>
     </s:layout>
 
-    <s:Label fontFamily="{Fonts.ROBOTO}"
-             fontSize="12"
+    <s:Label fontFamily="{Fonts.MYRIAD}"
+             fontSize="14"
              fontWeight="bold"
              color="{AppColors.WHITE}"
              text="База данных содержит"/>
 
     <s:Label id="infoLbl"
-             fontFamily="{Fonts.ROBOTO_LIGHT}"
-             fontSize="12"
+             fontFamily="{Fonts.MYRIAD}"
+             fontSize="13"
              color="{AppColors.WHITE}"/>
 
 </s:Group>

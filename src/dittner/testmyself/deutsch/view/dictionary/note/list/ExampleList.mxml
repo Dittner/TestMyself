@@ -66,8 +66,8 @@
     <utils:BG left="0" right="1" top="1" bottom="0" color="{bgColor}"/>
 
     <s:Label text="Примеры"
-             fontFamily="{Fonts.ROBOTO_COND}"
-             fontSize="18"
+             fontFamily="{Fonts.MYRIAD_COND}"
+             fontSize="20"
              fontWeight="bold"
              mouseChildren="false" mouseEnabled="false"
              left="15" right="15"

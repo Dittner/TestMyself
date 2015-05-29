@@ -8,8 +8,8 @@ import dittner.testmyself.deutsch.view.common.utils.Fonts;
 import flash.text.TextFormat;
 
 public class SubjectTestInfoRenderer extends StringItemRenderer {
-	private static const TEST_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 18, AppColors.TEXT_BLACK);
-	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_LIGHT_MX, 18, AppColors.TEXT_WHITE);
+	private static const TEST_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.TEXT_BLACK, null, true);
+	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.TEXT_WHITE, null, true);
 
 	public function SubjectTestInfoRenderer() {
 		super();

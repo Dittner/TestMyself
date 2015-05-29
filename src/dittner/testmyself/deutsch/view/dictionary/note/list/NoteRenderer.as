@@ -10,8 +10,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_COND_MX, 24, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 28, AppColors.TEXT_BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 
@@ -133,7 +133,6 @@ public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
 	}
-
 
 }
 }

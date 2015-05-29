@@ -51,8 +51,8 @@
     <utils:BG width="100%" top="{HEADER_HEI + PADDING + TAB_BAR_HEI}" bottom="0" color="#ffFFff"/>
 
     <s:Label text="{title}"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="16"
+             fontFamily="{Fonts.MYRIAD}"
+             fontSize="18"
              width="100%" height="{HEADER_HEI}"
              verticalAlign="middle"
              paddingLeft="{PADDING}" paddingRight="{PADDING}"

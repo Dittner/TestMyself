@@ -69,10 +69,9 @@
              left="{PAD}" right="{PAD}" top="{PAD}" bottom="{PAD}"
              textAlign="center" verticalAlign="middle"
              text="{text}"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="12"
+             fontFamily="{Fonts.MYRIAD}"
+             fontSize="14"
              maxDisplayedLines="2"
              color="{AppColors.TEXT_RED}"/>
-
 
 </s:Group>

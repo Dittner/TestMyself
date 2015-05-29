@@ -42,7 +42,7 @@ public class TextCard extends UIComponent {
 
 	override protected function createChildren():void {
 		super.createChildren();
-		tf = TextFieldFactory.create(new TextFormat(Fonts.ROBOTO_MX, fs, color));
+		tf = TextFieldFactory.create(new TextFormat(Fonts.MYRIAD_MX, fs, color));
 		addChild(tf);
 	}
 

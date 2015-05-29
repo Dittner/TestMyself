@@ -97,10 +97,9 @@
         ]]></fx:Script>
     <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
 
-
     <s:Label text="Запись голоса"
-             fontFamily="{Fonts.ROBOTO}"
-             fontSize="14"
+             fontFamily="{Fonts.MYRIAD}"
+             fontSize="16"
              color="{AppColors.TEXT_DARK}"/>
 
     <s:Rect width="100%" top="20" bottom="0">

@@ -35,14 +35,13 @@
         }
         ]]></fx:Script>
 
-
     <s:layout>
         <s:HorizontalLayout gap="6"/>
     </s:layout>
 
     <button:IconButton id="ABtn"
-                       fontFamily="{Fonts.ROBOTO_COND_MX}"
-                       fontSize="20"
+                       fontFamily="{Fonts.MYRIAD_COND}"
+                       fontSize="22"
                        color="#ffFFff"
                        upImage="@Embed(source='/assets/button/black_btn_up.png')"
                        downImage="@Embed(source='/assets/button/black_btn_down.png')"
@@ -50,8 +49,8 @@
                        click="letterClickHandler(event)"/>
 
     <button:IconButton id="OBtn"
-                       fontFamily="{Fonts.ROBOTO_COND_MX}"
-                       fontSize="20"
+                       fontFamily="{Fonts.MYRIAD_COND}"
+                       fontSize="22"
                        color="#ffFFff"
                        upImage="@Embed(source='/assets/button/black_btn_up.png')"
                        downImage="@Embed(source='/assets/button/black_btn_down.png')"
@@ -59,8 +58,8 @@
                        click="letterClickHandler(event)"/>
 
     <button:IconButton id="UBtn"
-                       fontFamily="{Fonts.ROBOTO_COND_MX}"
-                       fontSize="20"
+                       fontFamily="{Fonts.MYRIAD_COND}"
+                       fontSize="22"
                        color="#ffFFff"
                        upImage="@Embed(source='/assets/button/black_btn_up.png')"
                        downImage="@Embed(source='/assets/button/black_btn_down.png')"
@@ -68,8 +67,8 @@
                        click="letterClickHandler(event)"/>
 
     <button:IconButton id="aBtn"
-                       fontFamily="{Fonts.ROBOTO_COND_MX}"
-                       fontSize="20"
+                       fontFamily="{Fonts.MYRIAD_COND}"
+                       fontSize="22"
                        color="#ffFFff"
                        upImage="@Embed(source='/assets/button/black_btn_up.png')"
                        downImage="@Embed(source='/assets/button/black_btn_down.png')"
@@ -77,8 +76,8 @@
                        click="letterClickHandler(event)"/>
 
     <button:IconButton id="oBtn"
-                       fontFamily="{Fonts.ROBOTO_COND_MX}"
-                       fontSize="20"
+                       fontFamily="{Fonts.MYRIAD_COND}"
+                       fontSize="22"
                        color="#ffFFff"
                        upImage="@Embed(source='/assets/button/black_btn_up.png')"
                        downImage="@Embed(source='/assets/button/black_btn_down.png')"
@@ -86,8 +85,8 @@
                        click="letterClickHandler(event)"/>
 
     <button:IconButton id="uBtn"
-                       fontFamily="{Fonts.ROBOTO_COND_MX}"
-                       fontSize="20"
+                       fontFamily="{Fonts.MYRIAD_COND}"
+                       fontSize="22"
                        color="#ffFFff"
                        upImage="@Embed(source='/assets/button/black_btn_up.png')"
                        downImage="@Embed(source='/assets/button/black_btn_down.png')"
@@ -95,8 +94,8 @@
                        click="letterClickHandler(event)"/>
 
     <button:IconButton id="ssBtn"
-                       fontFamily="{Fonts.ROBOTO_COND_MX}"
-                       fontSize="20"
+                       fontFamily="{Fonts.MYRIAD_COND}"
+                       fontSize="22"
                        color="#ffFFff"
                        upImage="@Embed(source='/assets/button/black_btn_up.png')"
                        downImage="@Embed(source='/assets/button/black_btn_down.png')"

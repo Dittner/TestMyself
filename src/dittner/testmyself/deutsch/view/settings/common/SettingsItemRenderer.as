@@ -10,7 +10,7 @@ import flash.text.TextFormat;
 import spark.components.DataGroup;
 
 public class SettingsItemRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.ROBOTO_MX, 18, AppColors.TEXT, true);
+	private static const FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.TEXT, true);
 	private static const PADDING:uint = 3;
 
 	public function SettingsItemRenderer() {
