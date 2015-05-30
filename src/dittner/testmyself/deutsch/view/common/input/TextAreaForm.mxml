@@ -101,6 +101,7 @@
         ]]></fx:Script>
 
     <s:Label width="100%" maxDisplayedLines="1" height="20"
+             paddingTop="4"
              text="{title}"
              fontSize="16"
              visible="{showTitle}"

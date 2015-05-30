@@ -92,6 +92,7 @@
 
         private function apply():void {
             if (currentState == "add") {
+                correctText();
                 if (!examples) examples = new ArrayCollection();
                 var note:Note = new Note();
                 note.title = titleArea.text;
@@ -101,6 +102,7 @@
                 back();
             }
             else if (currentState == "edit") {
+                correctText();
                 var selectedNote:Note = exampleList.selectedItem as Note;
                 selectedNote.title = titleArea.text;
                 selectedNote.description = descriptionArea.text;
@@ -201,12 +203,6 @@
                               width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                               verticalAlign="middle">
 
-                        <button:BitmapButton upImage="@Embed(source='/assets/button/correct_btn_up.png')"
-                                             downImage="@Embed(source='/assets/button/correct_btn_down.png')"
-                                             description="Корректировать текст"
-                                             visible.remove="false"
-                                             click="correctText()"/>
-
                         <s:Spacer width="100%"/>
 
                         <button:GrayButton id="cancelBtn"
@@ -224,13 +220,12 @@
                 </s:VGroup>
             </s:Group>
 
-
         </s:Group>
 
     </fx:Declarations>
 
     <s:layout>
-        <s:HorizontalLayout id="horizontalLayout" paddingBottom="5"/>
+        <s:HorizontalLayout id="horizontalLayout"/>
     </s:layout>
 
     <s:VGroup id="toolsCont" width="100" paddingLeft="5" paddingTop="20">
@@ -265,6 +260,5 @@
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </list:layout>
     </list:ListForm>
-
 
 </s:Group>

@@ -23,6 +23,7 @@ public class TextInputFormSkin extends TextInputSkin {
 		super.createChildren();
 
 		titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
+		titleDisplay.thickness = 100;
 		addChild(titleDisplay);
 	}
 

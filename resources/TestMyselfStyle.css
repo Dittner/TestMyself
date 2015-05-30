@@ -113,7 +113,7 @@ input|TextInputForm {
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: MyriadProMX;
-    fontSize: 14px;
+    fontSize: 16px;
     color: #333333;
 }
 
@@ -138,7 +138,7 @@ s|RadioButton {
 
 spinner|CustomSpinner {
     skin-class: ClassReference("dittner.testmyself.deutsch.view.common.spinner.CustomSpinnerSkin");
-    fontSize: 14px;
+    fontSize: 16px;
     color: #4e4f61;
     fontFamily: MyriadPro;
 }

@@ -29,8 +29,8 @@ public class ListFormSkin extends ListSkin {
 
 	override protected function createChildren():void {
 		super.createChildren();
-
 		titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
+		titleDisplay.thickness = 100;
 		addChild(titleDisplay);
 	}
 

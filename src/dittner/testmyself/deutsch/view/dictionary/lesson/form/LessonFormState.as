@@ -33,7 +33,6 @@ public class LessonFormState extends NoteFormState {
 		if (form.addThemeInput) form.addThemeInput.text = "";
 		if (form.audioRecorder) form.audioRecorder.clear();
 		if (form.invalidNotifier) form.invalidNotifier.alpha = 0;
-		if (form.correctBtn) form.correctBtn.visible = false;
 		form.themes = new ArrayCollection();
 	}
 
@@ -62,10 +61,7 @@ public class LessonFormState extends NoteFormState {
 			cancelBtn.y = applyBtn.y;
 			cancelBtn.width = THEMES_LIST_WID;
 
-			correctBtn.x = PAD;
-			correctBtn.y = applyBtn.y;
-
-			invalidNotifier.x = correctBtn.x + correctBtn.width + PAD / 2;
+			invalidNotifier.x = PAD;
 			invalidNotifier.y = applyBtn.y;
 			invalidNotifier.width = cancelBtn.x - invalidNotifier.x - HGAP;
 			invalidNotifier.height = applyBtn.height;
@@ -94,7 +90,6 @@ public class LessonFormState extends NoteFormState {
 			themesList.visible = false;
 			addThemeBtn.visible = false;
 			addThemeInput.visible = false;
-			correctBtn.visible = true;
 		}
 	}
 

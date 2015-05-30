@@ -56,7 +56,7 @@ public class VerbFormState extends NoteFormState {
 			verbInputsForm.validateDisplayList();
 
 			examplesForm.x = PAD;
-			examplesForm.y = verbInputsForm.y + verbInputsForm.height + VGAP;
+			examplesForm.y = verbInputsForm.y + verbInputsForm.getExplicitOrMeasuredHeight() + VGAP;
 			examplesForm.toolsCont.width = articleBox.width;
 			examplesForm.horizontalLayout.gap = HGAP;
 			examplesForm.width = w - 2 * PAD - HGAP - THEMES_LIST_WID;

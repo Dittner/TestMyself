@@ -24,6 +24,7 @@ public class ListBoxSkin extends ListSkin {
 		super.createChildren();
 		addChild(dropDownBtn = new Button);
 		addChild(titleDisplay = TextFieldFactory.create(TITLE_FORMAT));
+		titleDisplay.thickness = 100;
 		titleDisplay.text = "Артикль";
 	}
 

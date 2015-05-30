@@ -197,7 +197,6 @@
         <s:State name="remove"/>
     </s:states>
 
-
     <editor:EditorBg width="100%"
                      height="100%"
                      title="{title}"
@@ -215,7 +214,6 @@
             <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
         </s:fill>
     </s:Rect>
-
 
     <!--ADD EDIT MODE-->
 
@@ -275,13 +273,6 @@
         <common2:InvalidNotifier id="invalidNotifier"/>
     </s:Group>
 
-    <button:BitmapButton id="correctBtn"
-                         upImage="@Embed(source='/assets/button/correct_btn_up.png')"
-                         downImage="@Embed(source='/assets/button/correct_btn_down.png')"
-                         description="Корректировать текст"
-                         visible="false"
-                         click="correctText()"/>
-
     <button:GrayButton id="cancelBtn"
                        label="Отменить"/>
 
@@ -290,7 +281,8 @@
                         label.edit="Сохранить"
                         label.remove="Удалить"
                         enabled.remove="true"
-                        enabled="{applyBtnEnabled(audioRecorder.isRecording)}"/>
+                        enabled="{applyBtnEnabled(audioRecorder.isRecording)}"
+                        click="correctText()"/>
 
     <!--REMOVE MODE-->
 
