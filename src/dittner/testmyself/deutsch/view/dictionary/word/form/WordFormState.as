@@ -8,10 +8,8 @@ import mx.collections.ArrayCollection;
 
 public class WordFormState extends NoteFormState {
 	public function WordFormState(form:NoteForm) {
-		this.form = form;
+		super(form);
 	}
-
-	private var form:NoteForm;
 
 	override public function add():void {
 		showControls();

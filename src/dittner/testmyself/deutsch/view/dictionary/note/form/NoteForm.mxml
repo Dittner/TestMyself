@@ -93,7 +93,7 @@
         private var lessonFormState:NoteFormState;
 
         private function initializeHandler(event:FlexEvent):void {
-            defaultFormState = new NoteFormState();
+            defaultFormState = new NoteFormState(this);
             phraseFormState = new PhraseFormState(this);
             wordFormState = new WordFormState(this);
             verbFormState = new VerbFormState(this);
@@ -161,8 +161,7 @@
         }
 
         private function correctText():void {
-            titleArea.text = NoteUtils.correctText(titleArea.text);
-            descriptionArea.text = NoteUtils.correctText(descriptionArea.text);
+            curFormState.correctText();
         }
 
         override protected function updateDisplayList(w:Number, h:Number):void {

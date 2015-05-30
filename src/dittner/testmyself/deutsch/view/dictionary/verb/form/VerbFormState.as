@@ -8,10 +8,8 @@ import mx.collections.ArrayCollection;
 
 public class VerbFormState extends NoteFormState {
 	public function VerbFormState(form:NoteForm) {
-		this.form = form;
+		super(form);
 	}
-
-	private var form:NoteForm;
 
 	override public function add():void {
 		showControls();

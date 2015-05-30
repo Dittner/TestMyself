@@ -2,9 +2,14 @@ package dittner.testmyself.deutsch.view.dictionary.note.form {
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.deutsch.view.common.editor.EditorBg;
 import dittner.testmyself.deutsch.view.common.utils.AppSizes;
+import dittner.testmyself.deutsch.view.dictionary.common.NoteUtils;
 
 public class NoteFormState {
-	public function NoteFormState() {}
+	public function NoteFormState(form:NoteForm) {
+		this.form = form;
+	}
+
+	protected var form:NoteForm;
 
 	protected const HEADER_HEI:uint = EditorBg.HEADER_HEIGHT;
 	protected const FOOTER_HEI:uint = AppSizes.EDITOR_FOOTER_HEIGHT;
@@ -22,5 +27,13 @@ public class NoteFormState {
 	public function clear():void {}
 	public function updateLayout(w:Number, h:Number):void {}
 
+	protected var correctEnabled:Boolean = false;
+	public function correctText():void {
+		if (correctEnabled) {
+			if (form.titleArea) form.titleArea.text = NoteUtils.correctText(form.titleArea.text);
+			if (form.descriptionArea) form.descriptionArea.text = NoteUtils.correctText(form.descriptionArea.text);
+		}
+
+	}
 }
 }

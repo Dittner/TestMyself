@@ -7,10 +7,9 @@ import mx.collections.ArrayCollection;
 
 public class PhraseFormState extends NoteFormState {
 	public function PhraseFormState(form:NoteForm) {
-		this.form = form;
+		super(form);
+		correctEnabled = true;
 	}
-
-	private var form:NoteForm;
 
 	override public function add():void {
 		showControls();
