@@ -4,7 +4,7 @@ public class NoteUtils {
 	public static const LETTERS_AND_SYMBOLS:RegExp = /[a-zA-ZÄäÖöÜüß *\/-]+/;
 
 	public static function correctText(text:String):String {
-		return addDot(capitalize(removeSpaces(text)));
+		return addDot(capitalize(changeBrackets(removeSpaces(text))));
 	}
 
 	public static function removeSpaces(str:String):String {
@@ -25,6 +25,14 @@ public class NoteUtils {
 			temp = temp.toUpperCase();
 			temp += str.substring(1, str.length);
 			str = temp;
+		}
+		return str;
+	}
+
+	public static function changeBrackets(str:String):String {
+		if (str) {
+			str = str.replace("[", "(");
+			str = str.replace("]", ")");
 		}
 		return str;
 	}
