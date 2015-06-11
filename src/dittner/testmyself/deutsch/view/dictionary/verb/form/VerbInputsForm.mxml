@@ -100,7 +100,7 @@
     </s:layout>
 
     <s:VGroup id="formsCont" width="100%" gap="{gap}" height="100%">
-    <input:TextInputForm id="infinitiveInput"
+        <input:TextInputForm id="infinitiveInput"
                              changing="wordValidationHandler(event)"
                              text="{infinitive}"
                              width="100%"
@@ -129,10 +129,9 @@
                              title="Partizip II"/>
     </s:VGroup>
 
-
     <input:TextAreaForm id="translateInput"
                         text="{translation}"
-                        width="100%" height="100%"
+                        width="100%" height="{formsCont.height}"
                         maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
                         title="Перевод"/>
 
