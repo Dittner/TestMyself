@@ -65,7 +65,7 @@
 
     <utils:BG left="0" right="1" top="1" bottom="0" color="{bgColor}"/>
 
-    <s:Label text="Примеры"
+    <s:Label text="Beispiele"
              fontFamily="{Fonts.MYRIAD_COND}"
              fontSize="20"
              fontWeight="bold"

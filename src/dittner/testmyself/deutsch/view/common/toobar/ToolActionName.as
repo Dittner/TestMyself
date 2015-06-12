@@ -4,11 +4,11 @@ public class ToolActionName {
 
 	private static function createNameHash():Object {
 		var names:Object = {};
-		names[ToolAction.ADD] = "Добавить";
-		names[ToolAction.EDIT] = "Редактировать";
-		names[ToolAction.REMOVE] = "Удалить";
-		names[ToolAction.INVERT] = "Инвертировать";
-		names[ToolAction.FILTER] = "Фильтровать";
+		names[ToolAction.ADD] = "Hinzufügen";
+		names[ToolAction.EDIT] = "Bearbeiten";
+		names[ToolAction.REMOVE] = "Entfernen";
+		names[ToolAction.INVERT] = "Invertieren";
+		names[ToolAction.FILTER] = "Filtern";
 		return names;
 	}
 

@@ -133,6 +133,6 @@
                         text="{translation}"
                         width="100%" height="{formsCont.height}"
                         maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
-                        title="Перевод"/>
+                        title="Übersetzung"/>
 
 </s:Group>

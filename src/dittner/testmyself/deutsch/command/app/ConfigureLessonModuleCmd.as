@@ -31,9 +31,9 @@ public class ConfigureLessonModuleCmd implements IConfigureCommand {
 
 	private function createTestModel():TestModel {
 		var model:TestModel = new LessonTestModel();
-		model.addTestInfo(new TestInfo(TestID.SPEAK_LESSON_TRANSLATION, ModuleName.LESSON, "Устный перевод с немецкого языка"));
-		model.addTestInfo(new TestInfo(TestID.SPEAK_LESSON_IN_DEUTSCH, ModuleName.LESSON, "Устный перевод на немецкий язык"));
-		model.addTestInfo(new TestInfo(TestID.WRITE_LESSON, ModuleName.LESSON, "Правописание"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_LESSON_TRANSLATION, ModuleName.LESSON, "Aus dem Deutschen übersetzen"));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_LESSON_IN_DEUTSCH, ModuleName.LESSON, "Ins Deutsche übersetzen"));
+		model.addTestInfo(new TestInfo(TestID.WRITE_LESSON, ModuleName.LESSON, "Rechtschreibung"));
 		return model;
 	}
 }

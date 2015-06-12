@@ -13,18 +13,18 @@ public class PhraseEditorMediator extends NoteEditorMediator {
 	}
 
 	override protected function validateNote(note:Note):String {
-		if (!note) return "Отсутствует фраза";
-		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		if (!note) return "Die Notiz fehlt!";
+		if (!note.title || !note.description) return "Die Form is nicht ergänzt: Deutschtext und Übersetzung darf man nicht verpassen!";
 
 		return validateDuplicateNote(note);
 	}
 
 	override protected function validateDuplicateNote(note:Note):String {
-		if (!note) return "Отсутствует фраза";
+		if (!note) return "Die Notiz fehlt!";
 
 		if (selectedNote) {
 			if (note.title != selectedNote.title)
-				if (note.title && noteHash.has(note)) return "Фраза с таким исходным текстом уже существует в словаре";
+				if (note.title && noteHash.has(note)) return "Die Datenbank hat schon die gleiche Notiz!";
 		}
 		return "";
 	}

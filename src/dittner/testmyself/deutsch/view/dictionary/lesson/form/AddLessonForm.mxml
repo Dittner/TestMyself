@@ -39,7 +39,7 @@
 
         <editor:EditorBg width="100%"
                          height="100%"
-                         title="Добавить урок"
+                         title="Neue Lektion hinzufügen"
                          mode="add"/>
 
         <s:Rect left="{EditorBg.BORDER_THICKNESS}"
@@ -56,7 +56,7 @@
                              width="50%"
                              horizontalCenter="0"
                              maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
-                             title="Название нового урока"/>
+                             title="Neuer Lektionname"/>
 
         <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                   bottom="0" horizontalAlign="right"
@@ -65,14 +65,13 @@
 
             <button:GrayButton id="cancelBtn"
                                width="250"
-                               label="Отменить"/>
+                               label="Abbrechen"/>
 
             <button:BlackButton id="applyBtn"
                                 width="250"
                                 enabled="{applyEnabled(addLessonInput.text)}"
-                                label="Применить"/>
+                                label="Bestätigen"/>
         </s:HGroup>
     </s:Group>
-
 
 </s:Group>

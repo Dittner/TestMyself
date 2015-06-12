@@ -59,7 +59,9 @@
 
         override protected function commitProperties():void {
             super.commitProperties();
-            titleLbl.text = "Показано " + notesOnPage + " записей из " + totalNotes;
+            if (notesOnPage == 0) titleLbl.text = "Keine Notizen";
+            else if (notesOnPage == 1) titleLbl.text = "Ein Notiz ist nur gezeigt";
+            else titleLbl.text = notesOnPage + " aus " + totalNotes + " Notizen sind gezeigt";
 
             prevPageBtn.enabled = curPageNum > 0;
             nextPageBtn.enabled = curPageNum + 1 < totalPages;
@@ -72,11 +74,10 @@
         }
         ]]></fx:Script>
 
-
     <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="5">
 
         <button:BitmapButton id="prevPageBtn"
-                             description="Предыдущая страница"
+                             description="Vorherige Seite"
                              enabled="false"
                              upImage="@Embed(source='/assets/button/page_prev_up.png')"
                              downImage="@Embed(source='/assets/button/page_prev_down.png')"/>
@@ -104,11 +105,10 @@
 
         <button:BitmapButton id="nextPageBtn"
                              enabled="false"
-                             description="Следующая страница"
+                             description="Nächste Seite"
                              upImage="@Embed(source='/assets/button/page_next_up.png')"
                              downImage="@Embed(source='/assets/button/page_next_down.png')"/>
     </s:HGroup>
-
 
     <s:Label id="titleLbl"
              width="250" right="0" textAlign="right"

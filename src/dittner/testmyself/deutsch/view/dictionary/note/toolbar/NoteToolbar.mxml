@@ -3,7 +3,6 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*">
 
-
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
 
@@ -73,21 +72,20 @@
         }
         ]]></fx:Script>
 
-
     <s:layout>
         <s:HorizontalLayout gap="20" verticalAlign="middle" horizontalAlign="right"/>
     </s:layout>
 
     <button:ToolButton id="addBtn"
-                       description="Добавить новую запись"
+                       description="Neue Notiz hinzufügen"
                        image="@Embed(source='/assets/tools/add.png')"/>
 
     <button:ToolButton id="editBtn"
-                       description="Редактировать выбранную запись"
+                       description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"/>
 
     <button:ToolButton id="removeBtn"
-                       description="Удалить выбранную запись"
+                       description="Die Notiz entfernen"
                        image="@Embed(source='/assets/tools/recycle_bin.png')"/>
 
     <s:Group>
@@ -105,7 +103,7 @@
 
     <button:ToolToggleButton id="verLayoutBtn"
                              selected="true"
-                             description="Изменить макет словаря"
+                             description="Das Layout ändern"
                              selectedImage="@Embed(source='/assets/tools/layout_vertical.png')"
                              image="@Embed(source='/assets/tools/layout_horizontal.png')"
                              visible="{verLayoutToolEnabled}"
@@ -113,28 +111,28 @@
 
     <button:ToolToggleButton id="hideDetailsBtn"
                              selected="true"
-                             description="Показать/скрыть описание в каждой строке"
+                             description="Die Details zeigen / verbergen"
                              selectedImage="@Embed(source='/assets/tools/collapse.png')"
                              image="@Embed(source='/assets/tools/expand.png')"
                              visible="{hideDetailsToolEnabled}"
                              includeInLayout="{hideDetailsToolEnabled}"/>
 
     <button:ToolButton id="transInvertBtn"
-                       description="Инвертировать заголовок/описание"
+                       description="Den Deutschtext / die Übersetzung invertieren"
                        image="@Embed(source='/assets/tools/trans_inversion.png')"
                        visible="{verLayoutToolEnabled}"
                        includeInLayout="{verLayoutToolEnabled}"/>
 
     <button:ToolToggleButton id="searchBtn"
                              selected="true"
-                             description="Поиск записей в словаре"
+                             description="Suchen"
                              selectedImage="@Embed(source='/assets/tools/search.png')"
                              image="@Embed(source='/assets/tools/search.png')"
                              visible="{searchEnabled}"
                              includeInLayout="{searchEnabled}"/>
 
     <button:ToolButton id="filterBtn"
-                       description="Фильтровать по темам"
+                       description="Filtern"
                        visible="{filterToolEnabled}"
                        includeInLayout="{filterToolEnabled}"
                        image="@Embed(source='/assets/tools/filter.png')"/>

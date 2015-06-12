@@ -41,8 +41,8 @@ public class ExampleEditorMediator extends NoteEditorMediator {
 	}
 
 	override protected function validateNote(note:Note):String {
-		if (!note) return "Отсутствует пример";
-		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		if (!note) return "Die Notiz fehlt!";
+		if (!note.title || !note.description) return "Die Form is nicht ergänzt: Deutschtext und Übersetzung darf man nicht verpassen!";
 		return "";
 	}
 

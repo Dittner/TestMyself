@@ -42,7 +42,7 @@
 
     <editor:EditorBg width="100%"
                      height="100%"
-                     title="Фильтровать"
+                     title="Filtern"
                      mode="filter"/>
 
     <s:Rect left="{EditorBg.BORDER_THICKNESS}"
@@ -60,7 +60,7 @@
                    top="{EditorBg.HEADER_HEIGHT}"
                    bottom="{FOOTER_HEI}"
                    dataProvider="{themes}"
-                   title="Список тем"
+                   title="Themenliste"
                    showTitle="false"
                    itemRenderer="dittner.testmyself.deutsch.view.common.renderer.ThemeItemRenderer"
                    allowMultipleSelection="true">
@@ -75,15 +75,14 @@
               gap="15" verticalAlign="middle">
         <button:GrayButton id="cancelBtn"
                            width="100%"
-                           label="Отменить"/>
+                           label="Abbrechen"/>
 
         <button:BlackButton id="applyBtn"
                             width="100%"
-                            label="Применить"/>
+                            label="Bestätigen"/>
     </s:HGroup>
 
-
-    <s:Label text="Нет добавленных тем"
+    <s:Label text="Kein Thema"
              visible="{!hasThemes}"
              fontSize="14"
              color="{AppColors.TEXT}"

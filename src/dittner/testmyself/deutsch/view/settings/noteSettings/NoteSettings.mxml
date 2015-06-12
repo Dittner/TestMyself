@@ -60,7 +60,7 @@
     </s:layout>
 
     <button:DottedLabelBtn id="editLbl"
-                           text="Изменить название темы"
+                           text="Den Themanamen ändern"
                            fontFamily="{Fonts.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
@@ -71,7 +71,7 @@
                            click="setCurrentState('renameTheme')"/>
 
     <button:DottedLabelBtn id="removeLbl"
-                           text="Удалить тему"
+                           text="Den Themanamen entfernen"
                            fontFamily="{Fonts.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
@@ -106,7 +106,7 @@
                        left="col1:10"
                        right="col1:10"
                        dataProvider="{themes}"
-                       title="Список тем"
+                       title="Themenliste"
                        itemRenderer="dittner.testmyself.deutsch.view.common.renderer.ThemeItemRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
@@ -120,12 +120,12 @@
                  fontSize="16"
                  visible="false" visible.removeTheme="true"
                  includeInLayout="false" includeInLayout.removeTheme="true"
-                 text="Вы действительно хотите безвозвратно удалить выбранную тему (записи не будут удалены)?"/>
+                 text="Sind Sie sicher, die Lektion ohne die Aufgaben Sie entfernen möchten?"/>
 
         <input:TextInputForm id="themeNameInputForm"
                              top="row1:10" left="col2:10" right="10"
                              text="{themesList.selectedItem.name}"
-                             title="Введите новое название для выбранной темы"
+                             title="Geben Sie bitte den neuen Namen des Themas ein"
                              maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
                              visible="false" visible.renameTheme="true"
                              includeInLayout="false" includeInLayout.renameTheme="true"/>
@@ -134,14 +134,14 @@
                            top="row2:10"
                            left="col2:10"
                            right="col2:10"
-                           label="Отменить"
+                           label="Abbrechen"
                            click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="applyBtn"
                             enabled.renameTheme="{applyBtnEnabled(themesList.selectedItem, themeNameInputForm.text)}"
                             enabled.removeTheme="{themesList.selectedItem != null}"
-                            label.renameTheme="Переименовать"
-                            label.removeTheme="Удалить"
+                            label.renameTheme="Umbenennen"
+                            label.removeTheme="Entfernen"
                             top="row2:10"
                             left="col3:10"
                             right="10"/>

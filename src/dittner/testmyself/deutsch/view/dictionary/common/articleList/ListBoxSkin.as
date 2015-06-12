@@ -25,7 +25,7 @@ public class ListBoxSkin extends ListSkin {
 		addChild(dropDownBtn = new Button);
 		addChild(titleDisplay = TextFieldFactory.create(TITLE_FORMAT));
 		titleDisplay.thickness = 100;
-		titleDisplay.text = "Артикль";
+		titleDisplay.text = "Artikel";
 	}
 
 	override protected function measure():void {

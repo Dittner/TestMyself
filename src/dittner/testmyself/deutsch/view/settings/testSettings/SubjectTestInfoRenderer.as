@@ -23,13 +23,13 @@ public class SubjectTestInfoRenderer extends StringItemRenderer {
 	private function moduleNameToStr(moduleName:String):String {
 		switch (moduleName) {
 			case ModuleName.WORD:
-				return "Слова";
+				return "Wörter";
 			case ModuleName.PHRASE:
-				return "Фразы";
+				return "Sätze";
 			case ModuleName.VERB:
-				return "Глаголы";
+				return "Starke Verben";
 			case ModuleName.LESSON:
-				return "Уроки";
+				return "Lektionen";
 		}
 		return "";
 	}

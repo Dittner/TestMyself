@@ -16,7 +16,7 @@ public class TestListMediator extends SFMediator {
 	[Inject]
 	public var view:TestListView;
 
-	private static const SUBJECTS:Array = ["Слова", "Фразы и предложения", "Неправильные и сильные глаголы", "Уроки"];
+	private static const SUBJECTS:Array = ["Wörter", "Sätze", "Starke Verben", "Lektionen"];
 
 	override protected function activate():void {
 		view.testSubjectColl = new ArrayCollection(SUBJECTS);
@@ -36,13 +36,13 @@ public class TestListMediator extends SFMediator {
 
 	private function getModuleByTestSubject(subject:String):String {
 		switch (subject) {
-			case "Слова":
+			case "Wörter":
 				return ModuleName.WORD;
-			case "Фразы и предложения":
+			case "Sätze":
 				return ModuleName.PHRASE;
-			case "Неправильные и сильные глаголы":
+			case "Starke Verben":
 				return ModuleName.VERB;
-			case "Уроки":
+			case "Lektionen":
 				return ModuleName.LESSON;
 		}
 		return "";

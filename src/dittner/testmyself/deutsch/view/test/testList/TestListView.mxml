@@ -52,7 +52,6 @@
         }
         ]]></fx:Script>
 
-
     <s:layout>
         <s:VerticalLayout gap="15" paddingTop="{padding}" horizontalAlign="center"/>
     </s:layout>
@@ -62,7 +61,7 @@
                    horizontalScrollPolicy="off"
                    width="{width - 2*padding}"
                    dataProvider="{testSubjectColl}"
-                   title="Выберите предмет из списка"
+                   title="Wählen Sie bitte die wünschen Notizart aus der Liste aus"
                    itemRenderer="dittner.testmyself.deutsch.view.test.testList.TestSubjectRenderer">
         <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
@@ -75,10 +74,10 @@
                    horizontalScrollPolicy="off"
                    width="{width - 2*padding}" height="100%"
                    dataProvider="{testInfoColl}"
-                   title="Выберите тест из списка"
+                   title="Wählen Sie bitte den wünschen Test aus der Liste aus"
                    itemRenderer="dittner.testmyself.deutsch.view.test.testList.TestInfoRenderer">
         <list:layout>
-        <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </list:layout>
     </list:ListForm>
 
@@ -90,7 +89,7 @@
                             width="250"
                             right="{padding}"
                             verticalCenter="0"
-                            label="Перейти к выбранному тесту"
+                            label="Weiter"
                             enabled="{testInfoList.selectedItem}"/>
     </s:Group>
 

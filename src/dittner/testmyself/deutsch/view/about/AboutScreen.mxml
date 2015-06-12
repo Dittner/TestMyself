@@ -42,25 +42,10 @@
 
     </s:Group>
 
-    <s:VGroup top="50" bottom="150" width="800" right="{2*PADDING}"
-              gap="30"
-              verticalAlign="middle" horizontalAlign="right">
-        <s:Label fontFamily="{Fonts.VANTA_THIN}"
-                 fontSize="70"
-                 color="{AppColors.YELLOW}" textAlign="right"
-                 width="100%"
-                 text="Система, автоматизирующая тестирование знаний по немецкому языку"/>
-
-        <s:Label fontFamily="{Fonts.MYRIAD}"
-                 fontSize="18"
-                 color="{AppColors.WHITE}" textAlign="right"
-                 width="70%"
-                 lineHeight="150%"
-                 text="Цель проекта – повысить эффективность изучения немецкого языка за счет использования разработанного набора программных средств, позволяющих пользователю самостоятельно управлять процессами сбора, хранения и тестирования знаний. Программная система способствует закреплению учебного материала, пройденного учеником либо самостоятельно, либо на занятиях в группе или с репетитором.">
-            <s:filters>
-                <s:DropShadowFilter color="0" alpha="1" angle="90" blurX="1" blurY="1" distance="1"/>
-            </s:filters>
-        </s:Label>
-    </s:VGroup>
+    <s:Label fontFamily="{Fonts.VANTA_THIN}"
+             fontSize="60"
+             top="60" bottom="150" width="800" right="{2*PADDING}"
+             color="{AppColors.YELLOW}" textAlign="right"
+             text="Das ist ein System, das automatisiert des Testens, um Ihre Deutschkenntnisse zu verbessern"/>
 
 </core:ScreenBase>

@@ -228,23 +228,23 @@
                          dataProvider="{new ArrayCollection(WordArticle.ARTICLES)}"/>
 
         <input:TextAreaForm id="titleArea"
-                            title="Исходный текст"
+                            title="Deutschsatz"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"/>
 
         <input:TextInputForm id="wordInput"
                              maxChars="{AppConfig.MAX_WORD_LENGTH}"
                              changing="wordValidationHandler(event)"
-                             title="Исходное слово"/>
+                             title="Deutschtwort"/>
 
         <form:VerbInputsForm id="verbInputsForm"/>
 
         <input:TextInputForm id="wordOptionsInput"
                              maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                             title="Дополнительные данные"/>
+                             title="Zusätzliche Daten"/>
 
         <input:TextAreaForm id="descriptionArea"
                             maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
-                            title="Перевод"/>
+                            title="Übersetzung"/>
 
         <examplelist:ExamplesForm id="examplesForm" mainForm="{this}"/>
 
@@ -252,7 +252,7 @@
 
         <list:ListForm id="themesList"
                        dataProvider="{themes}"
-                       title="Список тем"
+                       title="Themenliste"
                        itemRendererFunction="themesRendererFunc"
                        allowMultipleSelection="true">
             <list:layout>
@@ -262,10 +262,10 @@
 
         <input:TextInputForm id="addThemeInput"
                              maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
-                             title="Название новой темы"/>
+                             title="Neuer Themaname"/>
 
         <button:BitmapButton id="addThemeBtn"
-                             description="Создать новую тему"
+                             description="Neues Thema hinzufügen"
                              upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
                              downImage="@Embed(source='/assets/button/add_element_btn_down.png')"/>
 
@@ -273,12 +273,12 @@
     </s:Group>
 
     <button:GrayButton id="cancelBtn"
-                       label="Отменить"/>
+                       label="Abbrechen"/>
 
     <button:BlackButton id="applyBtn"
-                        label.add="Создать"
-                        label.edit="Сохранить"
-                        label.remove="Удалить"
+                        label.add="Hinzufügen"
+                        label.edit="Speichern"
+                        label.remove="Entfernen"
                         enabled.remove="true"
                         enabled="{applyBtnEnabled(audioRecorder.isRecording)}"
                         click="correctText()"/>
@@ -289,7 +289,7 @@
              visible.remove="true" visible="false"
              textAlign="center"
              color="{AppColors.TEXT_DARK}" fontSize="16"
-             text="Вы действительно хотите безвозвратно удалить выбранную запись?"/>
+             text="Sind Sie sicher, das Sie entfernen möchten?"/>
 
     <s:Label id="removeNoteTitleLbl"
              visible.remove="true" visible="false"

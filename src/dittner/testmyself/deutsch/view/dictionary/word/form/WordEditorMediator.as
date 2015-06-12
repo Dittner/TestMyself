@@ -16,8 +16,8 @@ public class WordEditorMediator extends NoteEditorMediator {
 	}
 
 	override protected function validateNote(note:Note):String {
-		if (!note) return "Отсутствует слово";
-		if (!note.title || !note.description) return "Форма не заполнена: исходный текст и перевод не должны быть пустыми";
+		if (!note) return "Die Notiz fehlt!";
+		if (!note.title || !note.description) return "Die Form is nicht ergänzt: Deutschtext und Übersetzung darf man nicht verpassen!";
 		return validateDuplicateNote(note);
 	}
 
@@ -26,7 +26,7 @@ public class WordEditorMediator extends NoteEditorMediator {
 			var word:Word = note as Word;
 			var origin:Word = selectedNote as Word;
 			if (word.article != origin.article || word.title != origin.title)
-				if (word.title && noteHash.has(word)) return "Слово с таким названием и артиклем уже существует в словаре";
+				if (word.title && noteHash.has(word)) return "Die Datenbank hat schon die gleiche Notiz!";
 		}
 		return "";
 	}

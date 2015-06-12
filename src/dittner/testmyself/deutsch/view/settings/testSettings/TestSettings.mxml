@@ -47,7 +47,7 @@
         <s:VerticalLayout gap="10"/>
     </s:layout>
 
-    <button:DottedLabelBtn text="Удалить результаты тестирования"
+    <button:DottedLabelBtn text="Die Testendaten entfernen"
                            fontFamily="{Fonts.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
@@ -80,7 +80,7 @@
                        left="col1:10"
                        right="col1:10"
                        dataProvider="{testColl}"
-                       title="Список тестов"
+                       title="Testenliste"
                        itemRenderer="dittner.testmyself.deutsch.view.settings.testSettings.SubjectTestInfoRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
@@ -92,18 +92,18 @@
                  color="{AppColors.TEXT_DARK}"
                  fontSize="16"
                  includeIn="removeHistory"
-                 text="Вы действительно хотите удалить результаты выбранного теста?"/>
+                 text="Sind Sie sicher, die Testendaten Sie entfernen möchten?"/>
 
         <button:GrayButton id="cancelBtn"
                            top="row2:10"
                            left="col2:10"
                            right="col2:10"
-                           label="Отменить"
+                           label="Abbrechen"
                            click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="removeBtn"
                             enabled="{testList.selectedItem != null}"
-                            label="Удалить"
+                            label="Entfernen"
                             top="row2:10"
                             left="col3:10"
                             right="10"/>

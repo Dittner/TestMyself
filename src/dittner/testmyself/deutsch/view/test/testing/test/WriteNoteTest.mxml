@@ -116,7 +116,7 @@
 
         <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
 
-        <s:Label text="{'Число ошибок: '+errorsNum}"
+        <s:Label text="{'Anzahl der Fehler: '+errorsNum}"
                  fontFamily="{Fonts.MYRIAD}"
                  fontSize="14"
                  opaqueBackground="0"
@@ -138,41 +138,41 @@
             <test:TextBoard id="titleBoard"
                             width="{width - 2*padding}" height="100%"
                             questionsIconEnabled="true"
-                            title="Исходный текст" showText="{showDetails}"/>
+                            title="Deutschtext" showText="{showDetails}"/>
 
             <test:TextBoard id="translateBoard"
                             width="{width - 2*padding}" height="100%"
-                            title="Перевод" showText="{showDetails}"/>
+                            title="Übersetzung" showText="{showDetails}"/>
 
             <input:TextAreaForm id="phraseInput"
                                 width="{width - 2*padding}" height="100%"
                                 maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                                title="Введите озвученный текст"/>
+                                title="Schreiben Sie bitte die vertonende Notiz"/>
 
             <button:BlackButton id="validateBtn"
                                 width="250"
                                 enabled="{answerEnabled}"
-                                label="Ответить"
+                                label="Antworten"
                                 click="onAnswered()"/>
 
             <s:HGroup width="480" gap="15"
                       visible="{!isCorrectlyAnswered}">
                 <button:GrayButton id="showAnswerBtn"
                                    width="100%"
-                                   label="Показать ответ"
+                                   label="Die richtige Antwort zeigen"
                                    click="showDetails = true"/>
 
                 <button:BlackButton id="nextBtn"
                                     enabled="{answerEnabled}"
                                     width="100%"
-                                    label="Дальше"
+                                    label="Weiter"
                                     click="goNext()"/>
 
             </s:HGroup>
 
             <common2:InvalidNotifier id="invalidNotifier"
                                      width="480" height="30"
-                                     text="Указан неверный ответ"/>
+                                     text="Falsch"/>
 
             <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 
@@ -190,7 +190,7 @@
                                    width="250"
                                    verticalCenter="0"
                                    right="{padding}"
-                                   label="Завершить тестирование"
+                                   label="Das Testen beenden"
                                    click="goBack()"/>
             </s:Group>
         </s:VGroup>

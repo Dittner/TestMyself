@@ -131,7 +131,7 @@ public class NoteFormMediator extends SFMediator {
 			return "Отсутствует список тем, ожидается пустой или заполненный список"
 		}
 		for each(var theme:ITheme in themes) {
-			if (!theme.name) return "Название темы не должно быть пустым";
+			if (!theme.name) return "Darf man den Namen des Themas nicht verpassen";
 		}
 		return "";
 	}
@@ -155,7 +155,7 @@ public class NoteFormMediator extends SFMediator {
 	}
 
 	protected function validateExample(example:INote):String {
-		if (!example.title || !example.description) return "В примере не должно быть пустого заголовка и перевода!";
+		if (!example.title || !example.description) return "Die Form is nicht ergänzt: Deutschtext und Übersetzung darf man nicht verpassen!";
 		return "";
 	}
 
@@ -180,7 +180,7 @@ public class NoteFormMediator extends SFMediator {
 			view.addThemeInput.text = "";
 		}
 		else {
-			view.notifyInvalidData('Не удалось добавить тему, так как тема с названием "' + addedThemeName + '" уже находится в списке!');
+			view.notifyInvalidData('Die Themenliste hat schon das gleiche Thema: "' + addedThemeName + '"!');
 		}
 	}
 

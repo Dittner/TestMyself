@@ -58,12 +58,12 @@
             super.commitProperties();
             var infoText:String;
             if (phraseInfo) {
-                infoText = "— количество слов: " + wordInfo.notesAmount;
-                infoText += "\n— фраз и предложений: " + phraseInfo.notesAmount;
-                infoText += "\n— неправильных и сильных глаголов: " + verbInfo.notesAmount;
-                infoText += "\n— задач, связанных с уроками: " + lessonInfo.notesAmount;
-                infoText += "\n— примеров: " + (wordInfo.examplesAmount + phraseInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount);
-                infoText += "\n— аудиозаписей: " + (wordInfo.audioCommentsAmount + phraseInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
+                infoText = "Anzahl der Wörter: " + wordInfo.notesAmount;
+                infoText += "\nAnzahl der Sätze: " + phraseInfo.notesAmount;
+                infoText += "\nAnzahl der starken Verben: " + verbInfo.notesAmount;
+                infoText += "\nAnzahl der Lektionaufgaben: " + lessonInfo.notesAmount;
+                infoText += "\nAnzahl der Beispielen: " + (wordInfo.examplesAmount + phraseInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount);
+                infoText += "\nAnzahl der Audioaufnahmen: " + (wordInfo.audioCommentsAmount + phraseInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
             }
             else infoText = "";
             infoLbl.text = infoText;
@@ -78,7 +78,7 @@
              fontSize="14"
              fontWeight="bold"
              color="{AppColors.WHITE}"
-             text="База данных содержит"/>
+             text="Die Statistik"/>
 
     <s:Label id="infoLbl"
              fontFamily="{Fonts.MYRIAD}"

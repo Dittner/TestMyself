@@ -81,7 +81,6 @@
                          click="hostComponent.remove()"
                          enabled="{hostComponent.removeRecordEnabled}"
                          visible="{hostComponent.removeRecordEnabled}"
-                         description="Удалить аудиозапись"/>
-
+                         description="Die Audioaufnahme entfernen"/>
 
 </s:SparkSkin>

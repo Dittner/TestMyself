@@ -14,10 +14,9 @@
         private static const FOOTER_HEI:uint = AppSizes.EDITOR_FOOTER_HEIGHT;
         ]]></fx:Script>
 
-
     <editor:EditorBg width="100%"
                      height="100%"
-                     title="Искать"
+                     title="Suche"
                      mode="search"/>
 
     <s:Rect left="{EditorBg.BORDER_THICKNESS}"
@@ -29,7 +28,6 @@
         </s:fill>
     </s:Rect>
 
-
     <s:HGroup width="100%" horizontalAlign="center" gap="15" verticalAlign="bottom"
               top="{AppSizes.SCREEN_HEADER_HEIGHT + 15}">
 
@@ -38,14 +36,13 @@
                              width="50%"
                              left="15"
                              maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
-                             title="Введите полный текст или подстроку искомой записи"/>
+                             title="Für die Suche ein Wort oder einen Wortteil eingeben"/>
 
         <s:CheckBox id="fullIdentityBox"
                     right="15" top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
-                    label="Полное соответствие"/>
+                    label="Volle Übereinstimmung"/>
 
     </s:HGroup>
-
 
     <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
               bottom="0"
@@ -54,18 +51,17 @@
 
         <button:GrayButton id="clearBtn"
                            width="250"
-                           label="Очистить"/>
+                           label="Löschen"/>
 
         <s:Spacer width="100%"/>
 
         <button:GrayButton id="cancelBtn"
                            width="250"
-                           label="Отменить"/>
+                           label="Abbrechen"/>
 
         <button:BlackButton id="applyBtn"
                             width="250"
-                            label="Применить"/>
+                            label="Bestätigen"/>
     </s:HGroup>
-
 
 </s:Group>

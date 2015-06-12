@@ -84,7 +84,7 @@
     <button:ToolButton id="editBtn"
                        visible="false" visible.testing="true"
                        top="8" right="{PADDING}"
-                       description="Редактировать выбранную запись"
+                       description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"/>
 
     <s:BitmapImage width="100%"

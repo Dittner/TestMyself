@@ -43,9 +43,9 @@
                          visible.playing="false"
                          top="0"
                          left="10"
-                         description="Начать запись голоса"/>
+                         description="Neue Audioaufnahme machen"/>
 
-    <s:Label text="Плеер не содержит аудиозаписи"
+    <s:Label text="Player hat keine Audioaufnahme"
              top="0" bottom="10"
              left="50" right="10"
              verticalAlign="middle"
@@ -119,7 +119,7 @@
                              downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
                              top="0"
                              right="10"
-                             description="Удалить аудиозапись"/>
+                             description="Die Audioaufnahme entfernen"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
                  top="7" left="50"

@@ -19,19 +19,19 @@ public class VerbCreatorMediator extends NoteCreatorMediator {
 
 	override protected function validateNote(note:Note):String {
 		var verb:IVerb = note as IVerb;
-		if (!verb) return "Отсутствует глагол";
+		if (!verb) return "Die Notiz fehlt!";
 
-		if (!verb.title) return "Форма не заполнена: инфинитив не должен быть пустым";
-		if (!verb.present || !verb.past || !verb.perfect) return "Форма не заполнена: поля präsens, präteritum, perfect не должны быть пустыми";
+		if (!verb.title) return "Die Form is nicht ergänzt: Infinitiv darf man nicht verpassen!";
+		if (!verb.present || !verb.past || !verb.perfect) return "Die Form is nicht ergänzt: Präsens, Präteritum und Partizip II darf man nicht verpassen!";
 
 		return validateDuplicateNote(note);
 	}
 
 	override protected function validateDuplicateNote(note:Note):String {
 		var verb:IVerb = note as IVerb;
-		if (!verb) return "Отсутствует глагол";
+		if (!verb) return "Die Notiz fehlt!";
 
-		if (noteHash.has(verb)) return "Глагол с такими данными уже существует в словаре";
+		if (noteHash.has(verb)) return "Die Datenbank hat schon die gleiche Notiz!";
 		return "";
 	}
 

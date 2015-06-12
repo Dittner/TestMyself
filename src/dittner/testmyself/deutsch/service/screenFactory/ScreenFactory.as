@@ -52,41 +52,41 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		screensHash = {};
 		var info:ScreenInfo;
 
-		info = new ScreenInfo(ScreenID.ABOUT, "", "Описание программы и базы данных", getIcon(ScreenID.ABOUT));
+		info = new ScreenInfo(ScreenID.ABOUT, "", "Die Beschreibung des Programms", getIcon(ScreenID.ABOUT));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		_screenInfos.push(createScreenItemSeparator());
 
-		info = new ScreenInfo(ScreenID.WORD, "СЛОВАРЬ СЛОВ", "Словарь слов", getIcon(ScreenID.WORD));
+		info = new ScreenInfo(ScreenID.WORD, "WÖRTERBUCH", "Wörterbuch", getIcon(ScreenID.WORD));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenID.PHRASE, "СЛОВАРЬ ФРАЗ И ПРЕДЛОЖЕНИЙ", "Словарь фраз и предложений", getIcon(ScreenID.PHRASE));
+		info = new ScreenInfo(ScreenID.PHRASE, "SÄTZEBUCH", "Sätzebuch", getIcon(ScreenID.PHRASE));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenID.VERB, "ТАБЛИЦА НЕПРАВИЛЬНЫХ И СИЛЬНЫХ ГЛАГОЛОВ", "Таблица неправильных и сильных глаголов", getIcon(ScreenID.VERB));
+		info = new ScreenInfo(ScreenID.VERB, "STARKE VERBEN", "Starke Verben", getIcon(ScreenID.VERB));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenID.LESSON, "УРОКИ", "Список уроков", getIcon(ScreenID.LESSON));
-		_screenInfos.push(info);
-		screensHash[info.id] = info;
-
-		_screenInfos.push(createScreenItemSeparator());
-
-		info = new ScreenInfo(ScreenID.TEST, "ТЕСТИРОВАНИЕ", "Тестирование", getIcon(ScreenID.TEST));
-		_screenInfos.push(info);
-		screensHash[info.id] = info;
-
-		info = new ScreenInfo(ScreenID.SEARCH, "ПОИСК", "Поиск в базе данных", getIcon(ScreenID.SEARCH));
+		info = new ScreenInfo(ScreenID.LESSON, "LEKTIONEN", "Lektionen", getIcon(ScreenID.LESSON));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
 		_screenInfos.push(createScreenItemSeparator());
 
-		info = new ScreenInfo(ScreenID.SETTINGS, "НАСТРОЙКИ", "Настройки программы", getIcon(ScreenID.SETTINGS));
+		info = new ScreenInfo(ScreenID.TEST, "TESTEN", "Testen", getIcon(ScreenID.TEST));
+		_screenInfos.push(info);
+		screensHash[info.id] = info;
+
+		info = new ScreenInfo(ScreenID.SEARCH, "SUCHE", "Suche", getIcon(ScreenID.SEARCH));
+		_screenInfos.push(info);
+		screensHash[info.id] = info;
+
+		_screenInfos.push(createScreenItemSeparator());
+
+		info = new ScreenInfo(ScreenID.SETTINGS, "EINSTELLUNGEN", "Einstellungen", getIcon(ScreenID.SETTINGS));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 	}

@@ -65,12 +65,12 @@
                               itemRenderer="dittner.testmyself.deutsch.view.settings.common.SettingsItemRenderer">
         <list:dataProvider>
             <s:ArrayCollection>
-                <fx:Object label="Общие" state="common"/>
-                <fx:Object label="Слова" state="word"/>
-                <fx:Object label="Фразы" state="phrase"/>
-                <fx:Object label="Неправильные и сильные глаголы" state="verb"/>
-                <fx:Object label="Уроки" state="lesson"/>
-                <fx:Object label="Тесты" state="test"/>
+                <fx:Object label="Allgemein" state="common"/>
+                <fx:Object label="Wörter" state="word"/>
+                <fx:Object label="Sätze" state="phrase"/>
+                <fx:Object label="Starke Verben" state="verb"/>
+                <fx:Object label="Lektionen" state="lesson"/>
+                <fx:Object label="Testen" state="test"/>
             </s:ArrayCollection>
         </list:dataProvider>
         <list:layout>

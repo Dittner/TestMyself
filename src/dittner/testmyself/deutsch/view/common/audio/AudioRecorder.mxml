@@ -97,7 +97,7 @@
         ]]></fx:Script>
     <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
 
-    <s:Label text="Запись голоса"
+    <s:Label text="Audioaufnahme"
              paddingTop="4"
              fontFamily="{Fonts.MYRIAD}"
              fontSize="16"

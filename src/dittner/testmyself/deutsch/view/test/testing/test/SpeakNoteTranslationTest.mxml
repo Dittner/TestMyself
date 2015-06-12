@@ -103,7 +103,7 @@
 
         <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
 
-        <s:Label text="{'Число ошибок: '+errorsNum}"
+        <s:Label text="{'Anzahl der Fehler: '+errorsNum}"
                  fontFamily="{Fonts.MYRIAD}"
                  fontSize="14"
                  opaqueBackground="0"
@@ -124,12 +124,12 @@
 
             <test:TextBoard id="titleBoard"
                             width="{width - 2*padding}" height="100%"
-                            title="Исходный текст"/>
+                            title="Deutschtext"/>
 
             <test:TextBoard id="translateBoard"
                             questionsIconEnabled="true"
                             width="{width - 2*padding}" height="100%"
-                            title="Перевод" showText="{showDetails}"/>
+                            title="Übersetzung" showText="{showDetails}"/>
 
             <s:HGroup width="100%"
                       horizontalAlign="center"
@@ -138,18 +138,18 @@
                 <button:BlackButton id="correctAnswerBtn"
                                     width="250"
                                     enabled="{answerEnabled}"
-                                    label="Правильный ответ"
+                                    label="Richtig"
                                     click="onCorrectAnswered()"/>
 
                 <button:RedButton id="incorrectAnswerBtn"
                                   width="250"
                                   enabled="{answerEnabled}"
-                                  label="Неправильный ответ"
+                                  label="Falsch"
                                   click="onIncorrectAnswered()"/>
 
                 <button:YellowButton id="showAnswerBtn"
                                      width="250"
-                                     label="Показать ответ"
+                                     label="Die richtige Antwort zeigen"
                                      click="showDetails = true"/>
 
             </s:HGroup>
@@ -170,7 +170,7 @@
                                    width="250"
                                    verticalCenter="0"
                                    right="{padding}"
-                                   label="Завершить тестирование"
+                                   label="Das Testen beenden"
                                    click="goBack()"/>
             </s:Group>
         </s:VGroup>
