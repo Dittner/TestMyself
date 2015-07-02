@@ -8,6 +8,7 @@ import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.command.backend.ClearTestHistorySQLOperation;
 import dittner.testmyself.core.command.backend.CountTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.CreateDataBaseSQLOperation;
+import dittner.testmyself.core.command.backend.DeleteNoteExampleSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteNoteSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteNotesByThemeSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteThemeSQLOperation;
@@ -227,6 +228,12 @@ public class NoteService extends SFProxy {
 
 	public function updateExample(requestMsg:IRequestMessage):void {
 		var op:IDeferredOperation = new UpdateNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
+		requestHandler(requestMsg, op);
+		deferredOperationManager.add(op);
+	}
+
+	public function removeExample(requestMsg:IRequestMessage):void {
+		var op:IDeferredOperation = new DeleteNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

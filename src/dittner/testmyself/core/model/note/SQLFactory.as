@@ -416,6 +416,13 @@ public class SQLFactory extends SFProxy {
 		return DELETE_EXAMPLE_BY_NOTE_ID_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/DeleteExampleByID.sql", mimeType="application/octet-stream")]
+	private static const DeleteExampleByIDClass:Class;
+	private static const DELETE_EXAMPLE_BY_ID_SQL:String = new DeleteExampleByIDClass();
+	public function get deleteExampleByID():String {
+		return DELETE_EXAMPLE_BY_ID_SQL;
+	}
+
 	[Embed(source="/dittner/testmyself/core/command/backend/sql/DeleteTestTaskByNoteID.sql", mimeType="application/octet-stream")]
 	private static const DeleteTestTaskByNoteIDClass:Class;
 	private static const DELETE_TEST_TASK_BY_NOTE_ID_SQL:String = new DeleteTestTaskByNoteIDClass();
@@ -428,6 +435,13 @@ public class SQLFactory extends SFProxy {
 	private static const DELETE_TEST_EXAMPLE_TASK_BY_NOTE_ID_SQL:String = new DeleteTestExampleTaskByNoteIDClass();
 	public function get deleteTestExampleTaskByNoteID():String {
 		return DELETE_TEST_EXAMPLE_TASK_BY_NOTE_ID_SQL;
+	}
+
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/DeleteTestExampleTaskByID.sql", mimeType="application/octet-stream")]
+	private static const DeleteTestExampleTaskByIDClass:Class;
+	private static const DELETE_TEST_EXAMPLE_TASK_BY_ID_SQL:String = new DeleteTestExampleTaskByIDClass();
+	public function get deleteTestExampleTaskByID():String {
+		return DELETE_TEST_EXAMPLE_TASK_BY_ID_SQL;
 	}
 
 }

@@ -93,7 +93,7 @@ public class TestingMediator extends SFMediator {
 
 	private function onNoteLoaded(res:CommandResult):void {
 		view.taskNumber++;
-		if (res.data) {
+		if (res.data is INote) {
 			view.activeNote = res.data as INote;
 			if (selectedTestInfo.loadExamplesWhenTesting) loadExamples(view.activeNote);
 			sendNotification(TestMsg.TESTING_NOTE_SELECTED, res.data as INote);

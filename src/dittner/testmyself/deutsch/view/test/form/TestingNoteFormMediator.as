@@ -9,6 +9,7 @@ import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 import dittner.testmyself.deutsch.view.dictionary.lesson.form.LessonEditorMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteEditorMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteForm;
+import dittner.testmyself.deutsch.view.dictionary.note.form.NoteRemoverMediator;
 import dittner.testmyself.deutsch.view.dictionary.phrase.form.PhraseEditorMediator;
 import dittner.testmyself.deutsch.view.dictionary.verb.form.VerbEditorMediator;
 import dittner.testmyself.deutsch.view.dictionary.word.form.WordEditorMediator;
@@ -23,6 +24,7 @@ public class TestingNoteFormMediator extends SFMediator {
 	public var selectedTestInfo:TestInfo;
 	private var testingNote:INote;
 	private var activeEditorMediator:NoteEditorMediator;
+	private var activeRemoverMediator:NoteRemoverMediator;
 
 	override protected function activate():void {
 		addListenerTo(ModuleName.ROOT, TestMsg.TESTING_NOTE_SELECTED, testingNoteSelected);
@@ -39,6 +41,15 @@ public class TestingNoteFormMediator extends SFMediator {
 			registerEditorMediator(selectedTestInfo.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT);
+		}
+	}
+
+	public function startRemoving():void {
+		if (testingNote) {
+			view.moduleName = selectedTestInfo.useNoteExample ? ModuleName.LESSON : selectedTestInfo.moduleName;
+			registerRemoverMediator(selectedTestInfo.moduleName);
+			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
+			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE);
 		}
 	}
 
@@ -69,6 +80,15 @@ public class TestingNoteFormMediator extends SFMediator {
 		}
 
 		registerMediator(view, activeEditorMediator);
+	}
+
+	private function registerRemoverMediator(moduleName:String):void {
+		if (activeRemoverMediator) {
+			unregisterMediator(activeRemoverMediator);
+		}
+
+		activeRemoverMediator = selectedTestInfo.useNoteExample ? new ExampleRemoverMediator() : new NoteRemoverMediator();
+		registerMediator(view, activeRemoverMediator);
 	}
 
 	private function hideNoteForm(params:* = null):void {

@@ -41,12 +41,17 @@ public class TestScreenMediator extends SFMediator {
 	private function activateScreen():void {
 		view.activate();
 		view.editBtn.addEventListener(MouseEvent.CLICK, editTestingNote);
+		view.removeBtn.addEventListener(MouseEvent.CLICK, removeTestingNote);
 		registerMediator(view.testListView, new TestListMediator());
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
 	private function editTestingNote(event:MouseEvent):void {
 		if (noteFormMediator) noteFormMediator.startEditing();
+	}
+
+	private function removeTestingNote(event:MouseEvent):void {
+		if (noteFormMediator) noteFormMediator.startRemoving();
 	}
 
 	private function showTestPresets(params:* = null):void {
@@ -103,6 +108,7 @@ public class TestScreenMediator extends SFMediator {
 	override protected function deactivate():void {
 		view.deactivate();
 		view.editBtn.removeEventListener(MouseEvent.CLICK, editTestingNote);
+		view.removeBtn.removeEventListener(MouseEvent.CLICK, removeTestingNote);
 		presetsMediator = null;
 	}
 }

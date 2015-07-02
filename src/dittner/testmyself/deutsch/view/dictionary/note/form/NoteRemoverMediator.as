@@ -25,17 +25,17 @@ public class NoteRemoverMediator extends NoteFormMediator {
 		sendRemoveUnitRequest();
 	}
 
-	private function sendRemoveUnitRequest():void {
+	protected function sendRemoveUnitRequest():void {
 		var suite:NoteSuite = new NoteSuite();
 		suite.note = selectedNote;
 		sendRequest(NoteMsg.REMOVE_NOTE, new RequestMessage(removeUnitCompleteHandler, removeUnitErrorHandler, suite));
 	}
 
-	private function removeUnitCompleteHandler(res:CommandResult):void {
+	protected function removeUnitCompleteHandler(res:CommandResult):void {
 		closeForm();
 	}
 
-	private function removeUnitErrorHandler(exc:CommandException):void {
+	protected function removeUnitErrorHandler(exc:CommandException):void {
 		view.notifyInvalidData(exc.details);
 	}
 

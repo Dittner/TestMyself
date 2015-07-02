@@ -42,6 +42,7 @@ public class SearchScreenMediator extends SFMediator {
 		registerMediator(view.exampleList, new FoundNotesExampleListMediator());
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 		view.editBtn.addEventListener(MouseEvent.CLICK, editNote);
+		view.removeBtn.addEventListener(MouseEvent.CLICK, removeNote);
 	}
 
 	private function editingComplete(params:* = null):void {
@@ -55,6 +56,16 @@ public class SearchScreenMediator extends SFMediator {
 			noteFormMediator = new SearchNoteFormMediator();
 			registerMediatorTo(selectedFoundNote.moduleName, view.editForm, noteFormMediator);
 			noteFormMediator.startEditing(selectedFoundNote);
+			showEditor();
+		}
+	}
+
+	private function removeNote(event:MouseEvent):void {
+		var selectedFoundNote:FoundNote = view.list.selectedItem as FoundNote;
+		if (!noteFormMediator && selectedFoundNote) {
+			noteFormMediator = new SearchNoteFormMediator();
+			registerMediatorTo(selectedFoundNote.moduleName, view.editForm, noteFormMediator);
+			noteFormMediator.startRemoving(selectedFoundNote);
 			showEditor();
 		}
 	}
@@ -74,6 +85,7 @@ public class SearchScreenMediator extends SFMediator {
 	override protected function deactivate():void {
 		view.deactivate();
 		view.editBtn.removeEventListener(MouseEvent.CLICK, editNote);
+		view.removeBtn.removeEventListener(MouseEvent.CLICK, removeNote);
 	}
 
 }

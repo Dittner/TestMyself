@@ -83,9 +83,15 @@
 
     <button:ToolButton id="editBtn"
                        visible="false" visible.testing="true"
-                       top="8" right="{PADDING}"
+                       top="8" right="{25 + 2*PADDING}"
                        description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"/>
+
+    <button:ToolButton id="removeBtn"
+                       visible="false" visible.testing="true"
+                       top="8" right="{PADDING}"
+                       description="Die Notiz entfernen"
+                       image="@Embed(source='/assets/tools/recycle_bin.png')"/>
 
     <s:BitmapImage width="100%"
                    top="{HEADER_HEI}"

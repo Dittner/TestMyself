@@ -28,6 +28,7 @@ public class NoteMsg {
 	public static const UPDATE_EXAMPLE:String = "updateExample";
 	public static const REMOVE_NOTE:String = "removeNote";
 	public static const REMOVE_NOTES_BY_THEME:String = "removeNotesByTheme";
+	public static const REMOVE_EXAMPLE:String = "removeExample";
 	public static const GET_THEMES:String = "getThemes";
 	public static const GET_EXAMPLES:String = "getExamples";
 	public static const GET_EXAMPLE:String = "getExample";
