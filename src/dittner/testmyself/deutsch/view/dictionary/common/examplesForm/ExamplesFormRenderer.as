@@ -83,6 +83,8 @@ public class ExamplesFormRenderer extends NoteBaseRenderer {
 		var g:Graphics = graphics;
 		g.clear();
 
+		updateSoundIconPos(w, h);
+
 		if (selected) {
 			matr.createGradientBox(w, h, Math.PI / 2);
 			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
@@ -90,7 +92,6 @@ public class ExamplesFormRenderer extends NoteBaseRenderer {
 			g.endFill();
 		}
 		else {
-			if (!hasAudioComment()) showNoAudioNotification();
 			g.lineStyle(1, SEP_COLOR, 0.75);
 			g.moveTo(0, h - 1);
 			g.lineTo(w, h - 1);

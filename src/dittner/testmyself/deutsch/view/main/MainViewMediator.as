@@ -6,6 +6,7 @@ import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.screen.ScreenBase;
+import dittner.testmyself.deutsch.view.main.tafel.TafelMediator;
 
 import flash.events.Event;
 
@@ -18,6 +19,9 @@ public class MainViewMediator extends SFMediator {
 
 	override protected function activate():void {
 		lock();
+
+		registerMediator(view.tafel, new TafelMediator());
+
 		addListener(ScreenMsg.START_EDIT_NOTIFICATION, startEditing);
 		addListener(ScreenMsg.END_EDIT_NOTIFICATION, endEditing);
 		addListener(ScreenMsg.LOCK_NOTIFICATION, lock);

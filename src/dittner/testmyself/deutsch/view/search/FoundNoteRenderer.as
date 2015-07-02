@@ -119,6 +119,8 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 			return;
 		}
 
+		updateSoundIconPos(w, h);
+
 		if (selected) {
 			matr.createGradientBox(w, h, Math.PI / 2);
 			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
@@ -126,13 +128,6 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 			g.endFill();
 		}
 		else {
-			if (hasAudioComment()) {
-				g.beginFill(COLOR, 1);
-				g.drawRect(0, 0, w, h);
-				g.endFill();
-			}
-			else showNoAudioNotification();
-
 			g.lineStyle(1, SEP_COLOR, 0.5);
 			g.moveTo(PAD, h - 1);
 			g.lineTo(w - 2 * PAD, h - 1);

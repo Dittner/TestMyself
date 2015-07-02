@@ -3,6 +3,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:busyindicator="dittner.testmyself.deutsch.view.common.busyIndicator.*"
          xmlns:list="dittner.testmyself.deutsch.view.common.list.*"
+         xmlns:tafel="dittner.testmyself.deutsch.view.main.tafel.*"
          height="100%" width="100%"
          addedToStage="addedToStageHandler(event)">
     <fx:Script><![CDATA[
@@ -102,6 +103,8 @@
             <s:VerticalLayout gap="0" useVirtualLayout="false" variableRowHeight="true"/>
         </list:layout>
     </list:SelectableDataGroup>
+
+    <tafel:Tafel id="tafel" width="400" height="100%" right="0"/>
 
     <s:Group id="popupLayer" width="100%" height="100%"/>
 

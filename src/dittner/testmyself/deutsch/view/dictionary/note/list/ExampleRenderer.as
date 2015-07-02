@@ -87,13 +87,14 @@ public class ExampleRenderer extends NoteBaseRenderer {
 			return;
 		}
 
+		updateSoundIconPos(w, h);
+
 		if (selected) {
 			g.beginFill(0xfafaff, 1);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}
 		else {
-			if (!hasAudioComment()) showNoAudioNotificationForExample();
 			g.lineStyle(1, SEP_COLOR, 0.5);
 			g.moveTo(PAD, h - 1);
 			g.lineTo(w - 2 * PAD, h - 1);

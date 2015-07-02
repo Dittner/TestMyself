@@ -57,7 +57,6 @@
              fontSize="14"
              color="{AppColors.TEXT}"/>
 
-
     <s:Group width="100%"
              visible.normal="false"
              visible.recording="true"
@@ -99,7 +98,6 @@
                              top="0"
                              left="10"/>
 
-
         <components2:RewindingSlider id="rewindingSlider"
                                      minimum="0"
                                      maximum="{hostComponent.recorder.recordedFramesLength}"
@@ -122,19 +120,17 @@
                              description="Die Audioaufnahme entfernen"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
-                 top="7" left="50"
+                 top="10" left="50"
                  fontSize="14"
                  color="{AppColors.TEXT_DARK}"/>
-
 
     </s:Group>
     <s:Label visible="true" visible.normal="false"
              text="{hostComponent.recorder.timeLength}"
-             top="7" right="50"
+             top="10" right="50"
              left.recording="50"
              right.recording="auto"
              fontSize="14"
              color="{AppColors.TEXT_DARK}"/>
-
 
 </s:SparkSkin>

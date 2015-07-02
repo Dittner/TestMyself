@@ -117,6 +117,15 @@ input|TextInputForm {
     color: #333333;
 }
 
+s|TextArea {
+    borderVisible: false;
+    focusSkin: ClassReference("mx.core.UIComponent");
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextAreaFormSkin");
+    horizontalScrollPolicy: off;
+    fontSize: 16px;
+    color: #333333;
+}
+
 /************************** LIST **************************/
 list|ListForm {
     skinClass: ClassReference("dittner.testmyself.deutsch.view.common.list.ListFormSkin");
@@ -125,6 +134,13 @@ list|ListForm {
     fontFamily: MyriadProMX;
     fontSize: 16px;
     color: #333333;
+}
+
+/************************** SCROLL **************************/
+s|Scroller {
+    interactionMode: mouse;
+    horizontalScrollPolicy: off;
+    verticalScrollPolicy: auto;
 }
 
 /************************** OTHER COMPONENTS **************************/

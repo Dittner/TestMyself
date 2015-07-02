@@ -45,12 +45,10 @@
                          left="10"
                          click="hostComponent.pause()"/>
 
-
     <s:Label text="{secToStr(hostComponent.playbackTime)}"
-             top="7" left="50"
+             top="10" left="50"
              fontSize="14"
              color="{AppColors.TEXT_DARK}"/>
-
 
     <components2:RewindingSlider id="rewindingSlider"
                                  mouseEnabled.normal="false"
@@ -69,7 +67,7 @@
 
     <s:Label text="{secToStr(hostComponent.soundDuration)}"
              text.normal="00:00"
-             top="7" right="50"
+             top="10" right="50"
              fontSize="14"
              color="{AppColors.TEXT_DARK}"/>
 

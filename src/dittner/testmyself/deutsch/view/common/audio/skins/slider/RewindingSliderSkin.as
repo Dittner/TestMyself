@@ -113,7 +113,7 @@ public class RewindingSliderSkin extends MobileSkin {
 		var calculatedSkinWidth:int = Math.max(thumb.getPreferredBoundsWidth(), unscaledWidth);
 
 		// once we know the skin height, center the thumb and track
-		thumb.y = Math.max(Math.round((calculatedSkinHeight - thumb.getPreferredBoundsHeight()) / 2), 0);
+		thumb.y = 2;
 		var calculatedTrackY:int = Math.max(Math.round((calculatedSkinHeight - track.getPreferredBoundsHeight()) / 2), 0);
 
 		// size and position
