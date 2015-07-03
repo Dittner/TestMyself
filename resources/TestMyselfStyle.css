@@ -120,8 +120,9 @@ input|TextInputForm {
 s|TextArea {
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextAreaFormSkin");
+    skinClass: ClassReference("spark.skins.spark.TextAreaSkin");
     horizontalScrollPolicy: off;
+    fontFamily: MyriadPro;
     fontSize: 16px;
     color: #333333;
 }
