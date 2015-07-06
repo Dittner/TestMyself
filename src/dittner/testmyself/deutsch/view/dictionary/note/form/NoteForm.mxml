@@ -221,6 +221,7 @@
              visible.edit="true"
              visible="false">
         <listBox:ListBox id="articleBox"
+                         verticalScrollPolicy="off"
                          requireSelection="true"
                          width="77"
                          itemRenderer="dittner.testmyself.deutsch.view.dictionary.common.articleList.ArticleItemRenderer"

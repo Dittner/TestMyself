@@ -8,7 +8,9 @@
         import com.greensock.TweenLite;
         import com.greensock.easing.Expo;
 
+        import dittner.testmyself.deutsch.view.common.input.TextAreaFormSkin;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
+        import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         import mx.events.FlexEvent;
 
@@ -46,6 +48,8 @@
                        source="@Embed(source='/assets/tafel_bg.png', scaleGridLeft='21', scaleGridRight='50', scaleGridTop='21', scaleGridBottom='780')"/>
 
         <s:TextArea id="textArea"
+                    skinClass="{TextAreaFormSkin}"
+                    fontFamily="{Fonts.MYRIAD}"
                     fontSize="18"
                     color="{AppColors.YELLOW}"
                     left="25" top="25" right="25" bottom="25"/>
