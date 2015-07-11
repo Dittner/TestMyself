@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:input="dittner.testmyself.deutsch.view.common.input.*"
           gap="0">
 
     <fx:Metadata>
@@ -109,14 +110,14 @@
              color="{AppColors.TEXT_DARK}"
              fontFamily="{Fonts.MYRIAD}"/>
 
-    <s:TextArea id="area"
-                skinClass="{TextAreaFormSkin}"
-                width="100%" height="100%"
-                text="@{text}"
-                fontSize="16"
-                color="#333333"
-                fontFamily="{Fonts.MYRIAD_MX}"
-                focusSkin="{UIComponent}"
-                borderVisible="false"
-                change="area_changeHandler(event)"/>
+    <input:HistoryTextArea id="area"
+                           skinClass="{TextAreaFormSkin}"
+                           width="100%" height="100%"
+                           text="@{text}"
+                           fontSize="16"
+                           color="#333333"
+                           fontFamily="{Fonts.MYRIAD_MX}"
+                           focusSkin="{UIComponent}"
+                           borderVisible="false"
+                           change="area_changeHandler(event)"/>
 </s:VGroup>

@@ -3,8 +3,12 @@ import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.model.note.Note;
+import dittner.testmyself.deutsch.model.AppConfig;
 import dittner.testmyself.deutsch.view.common.audio.mp3.MP3Writer;
 
+import flash.filesystem.File;
+import flash.filesystem.FileMode;
+import flash.filesystem.FileStream;
 import flash.utils.ByteArray;
 
 public class MP3EncodingPhase extends PhaseOperation {
@@ -34,13 +38,13 @@ public class MP3EncodingPhase extends PhaseOperation {
 		dispatchComplete();
 	}
 
-	/*private function saveLocally():void {
-	 var fileStream:FileStream = new FileStream();
-	 var file:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + "record.mp3");
-	 fileStream.open(file, FileMode.WRITE);
-	 fileStream.writeBytes(note.audioRecord, 0, note.audioRecord.length);
-	 fileStream.close();
-	 }*/
+	private function saveLocally():void {
+		var fileStream:FileStream = new FileStream();
+		var file:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + "record.mp3");
+		fileStream.open(file, FileMode.WRITE);
+		fileStream.writeBytes(note.audioComment.bytes, 0, note.audioComment.bytes.length);
+		fileStream.close();
+	}
 
 	override public function destroy():void {
 		super.destroy();

@@ -11,10 +11,10 @@
         //--------------------------------------
         //  history
         //--------------------------------------
-        private var _history:SearchHistory;
+        private var _history:TextHistory;
         [Bindable("historyChanged")]
-        public function get history():SearchHistory {return _history;}
-        public function set history(value:SearchHistory):void {
+        public function get history():TextHistory {return _history;}
+        public function set history(value:TextHistory):void {
             if (_history != value) {
                 _history = value;
                 dispatchEvent(new Event("historyChanged"));

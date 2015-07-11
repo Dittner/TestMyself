@@ -1,9 +1,7 @@
 package dittner.testmyself.deutsch.view.common.input {
 import flash.events.Event;
 
-import spark.components.TextInput;
-
-public class TextInputForm extends TextInput {
+public class TextInputForm extends HistoryTextInput {
 	public function TextInputForm() {
 		super();
 	}

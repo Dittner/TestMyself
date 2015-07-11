@@ -181,8 +181,9 @@
 
         private function wordValidationHandler(event:TextOperationEvent):void {
             if (event.operation is TextInputOperation) {
+                var inputOperation:TextInputOperation = event.operation as TextInputOperation;
                 var regexp:RegExp = NoteUtils.LETTERS;
-                var match:Object = regexp.exec((event.operation as TextInputOperation).text);
+                var match:Object = regexp.exec(inputOperation.text);
                 if (match == null) event.preventDefault();
             }
         }

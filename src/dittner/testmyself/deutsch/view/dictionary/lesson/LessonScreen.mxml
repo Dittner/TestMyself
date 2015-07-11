@@ -10,7 +10,8 @@
                  xmlns:list2="dittner.testmyself.deutsch.view.common.list.*"
                  xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
                  xmlns:form="dittner.testmyself.deutsch.view.dictionary.lesson.form.*"
-                 xmlns:form2="dittner.testmyself.deutsch.view.dictionary.note.form.*" xmlns:search="dittner.testmyself.deutsch.view.dictionary.note.search.*"
+                 xmlns:form2="dittner.testmyself.deutsch.view.dictionary.note.form.*"
+                 xmlns:search="dittner.testmyself.deutsch.view.dictionary.note.search.*"
                  currentState="inactive"
                  horizontalCenter="0">
 

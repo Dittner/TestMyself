@@ -18,7 +18,7 @@ public class SearchBoardMediator extends SFMediator {
 
 	private var searchQueue:Array = [];
 	private var foundNotes:Array = [];
-	private static var history:SearchHistory = new SearchHistory();
+	private static var history:TextHistory = new TextHistory();
 
 	override protected function activate():void {
 		view.history = history;

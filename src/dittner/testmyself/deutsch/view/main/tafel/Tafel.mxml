@@ -2,6 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
+         xmlns:input="dittner.testmyself.deutsch.view.common.input.*"
          creationComplete="creationCompleteHandler(event)">
 
     <fx:Script><![CDATA[
@@ -47,12 +48,12 @@
         <s:BitmapImage width="100%" height="100%"
                        source="@Embed(source='/assets/tafel_bg.png', scaleGridLeft='21', scaleGridRight='50', scaleGridTop='21', scaleGridBottom='780')"/>
 
-        <s:TextArea id="textArea"
-                    skinClass="{TextAreaFormSkin}"
-                    fontFamily="{Fonts.MYRIAD}"
-                    fontSize="18"
-                    color="{AppColors.YELLOW}"
-                    left="25" top="25" right="25" bottom="25"/>
+        <input:HistoryTextArea id="textArea"
+                               skinClass="{TextAreaFormSkin}"
+                               fontFamily="{Fonts.MYRIAD}"
+                               fontSize="18"
+                               color="{AppColors.YELLOW}"
+                               left="25" top="25" right="25" bottom="25"/>
 
         <button:BitmapButton id="playBtn"
                              upImage="@Embed(source='/assets/button/tafel_btn.png')"

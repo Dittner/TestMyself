@@ -2,10 +2,10 @@ package dittner.testmyself.deutsch.view.search {
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
-public class SearchHistory extends EventDispatcher {
+public class TextHistory extends EventDispatcher {
 	public static const DEFAULT_CAPACITY:int = 50;
 
-	public function SearchHistory() {}
+	public function TextHistory() {}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -13,7 +13,7 @@ public class SearchHistory extends EventDispatcher {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private var searchRows:Array = [];
+	private var textRows:Array = [];
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -58,7 +58,7 @@ public class SearchHistory extends EventDispatcher {
 	//--------------------------------------
 	[Bindable("changed")]
 	public function get currentLength():int {
-		return searchRows.length;
+		return textRows.length;
 	}
 
 	[Bindable("changed")]
@@ -68,12 +68,12 @@ public class SearchHistory extends EventDispatcher {
 
 	[Bindable("changed")]
 	public function get canUndo():Boolean {
-		return rollbackDepth < currentLength;
+		return rollbackDepth < currentLength - 1;
 	}
 
 	[Bindable("changed")]
 	public function get row():String {
-		return searchRows.length > 0 ? searchRows[searchRows.length - 1 - rollbackDepth] : "";
+		return textRows.length > 0 ? textRows[textRows.length - 1 - rollbackDepth] : "";
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -96,8 +96,9 @@ public class SearchHistory extends EventDispatcher {
 	}
 
 	public function push(row:String):void {
-		searchRows.length = searchRows.length - rollbackDepth;
-		searchRows.push(row);
+		if (this.row == row) return;
+		textRows.length = textRows.length - rollbackDepth;
+		textRows.push(row);
 		setRollbackDepth(0);
 		normalizeQueue();
 		dispatchEvent(new Event("changed"));
@@ -105,12 +106,12 @@ public class SearchHistory extends EventDispatcher {
 
 	public function clear():void {
 		setRollbackDepth(0);
-		searchRows.length = 0;
+		textRows.length = 0;
 		dispatchEvent(new Event("changed"));
 	}
 
 	protected function normalizeQueue():void {
-		if (rollbackDepth > searchRows.length) setRollbackDepth(searchRows.length);
+		if (rollbackDepth > textRows.length) setRollbackDepth(textRows.length);
 	}
 
 }
