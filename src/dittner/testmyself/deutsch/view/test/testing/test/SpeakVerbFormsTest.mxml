@@ -35,7 +35,7 @@
 
                 if (verb) {
                     titleLbl.text = verb.title;
-                    descriptionLbl.text = verb.description;
+                    translateBoard.text = verb.description;
                     verbsFormsLbl.text = verb.present + "  " + verb.past + "  " + verb.perfect;
 
                     if (verb.audioComment.bytes) {
@@ -53,7 +53,7 @@
         override protected function clear():void {
             showDetails = false;
             titleLbl.text = "";
-            descriptionLbl.text = "";
+            translateBoard.text = "";
             verbsFormsLbl.text = "";
             mp3Player.visible = false;
             mp3Player.comment = null;
@@ -123,7 +123,7 @@
                          fontWeight="bold"
                          textAlign="center"
                          color="{AppColors.TEXT_DARK}"
-                         fontSize="26"/>
+                         fontSize="30"/>
             </s:Group>
 
             <s:Group width="{width - 2*padding}" height="100">
@@ -143,26 +143,13 @@
                          fontWeight="bold"
                          textAlign="center"
                          color="{AppColors.TEXT_DARK}"
-                         fontSize="26"/>
+                         fontSize="30"/>
             </s:Group>
 
-            <s:Group width="{width - 2*padding}" height="100">
-                <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-                <s:Label text="Übersetzung"
-                         fontFamily="{Fonts.MYRIAD_COND}"
-                         fontWeight="bold"
-                         fontSize="20"
-                         mouseChildren="false" mouseEnabled="false"
-                         left="5" right="5"
-                         color="{AppColors.TEXT_LIGHT}"/>
-
-                <s:Label id="descriptionLbl"
-                         visible="{showDetails}"
-                         left="{padding}" right="{padding}" top="{padding}"
-                         fontFamily="{Fonts.MYRIAD}"
-                         color="{AppColors.TEXT_DARK}"
-                         fontSize="22"/>
-            </s:Group>
+            <test:TextBoard id="translateBoard"
+                            questionsIconEnabled="false"
+                            width="{width - 2*padding}" height="100%"
+                            title="Übersetzung" showText="{showDetails}"/>
 
             <s:HGroup width="100%"
                       horizontalAlign="center"
@@ -186,8 +173,6 @@
                                      click="showDetails = true"/>
 
             </s:HGroup>
-
-            <s:Spacer height="100%"/>
 
             <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 

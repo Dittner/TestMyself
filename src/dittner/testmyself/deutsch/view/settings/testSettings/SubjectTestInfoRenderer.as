@@ -24,8 +24,6 @@ public class SubjectTestInfoRenderer extends StringItemRenderer {
 		switch (moduleName) {
 			case ModuleName.WORD:
 				return "Wörter";
-			case ModuleName.PHRASE:
-				return "Sätze";
 			case ModuleName.VERB:
 				return "Starke Verben";
 			case ModuleName.LESSON:

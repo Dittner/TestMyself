@@ -7,7 +7,6 @@ import dittner.testmyself.deutsch.message.SettingsMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.settings.SettingsInfo;
 import dittner.testmyself.deutsch.view.settings.noteSettings.LessonSettingsMediator;
-import dittner.testmyself.deutsch.view.settings.noteSettings.PhraseSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.noteSettings.VerbSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.noteSettings.WordSettingsMediator;
 import dittner.testmyself.deutsch.view.settings.testSettings.TestSettingsMediator;
@@ -20,7 +19,6 @@ public class SettingsScreenMediator extends SFMediator {
 	override protected function activate():void {
 		view.clear();
 		sendRequest(SettingsMsg.LOAD, new RequestMessage(infoLoaded));
-		registerMediator(view.phraseSettings, new PhraseSettingsMediator());
 		registerMediator(view.wordSettings, new WordSettingsMediator());
 		registerMediator(view.verbSettings, new VerbSettingsMediator());
 		registerMediator(view.lessonSettings, new LessonSettingsMediator());
@@ -41,7 +39,6 @@ public class SettingsScreenMediator extends SFMediator {
 		info.pageSize = view.commonSettings.pageSizeSpinner.value;
 
 		sendRequest(SettingsMsg.STORE, new RequestMessage(null, null, info));
-		sendRequestTo(ModuleName.PHRASE, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
 		sendRequestTo(ModuleName.WORD, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
 		sendRequestTo(ModuleName.VERB, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
 	}

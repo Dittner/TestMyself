@@ -7,18 +7,6 @@
         import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         //--------------------------------------
-        //  info
-        //--------------------------------------
-        private var _phraseInfo:NotesInfo = new NotesInfo();
-        public function get phraseInfo():NotesInfo {return _phraseInfo;}
-        public function set phraseInfo(value:NotesInfo):void {
-            if (_phraseInfo != value) {
-                _phraseInfo = value;
-                invalidateProperties()
-            }
-        }
-
-        //--------------------------------------
         //  wordInfo
         //--------------------------------------
         private var _wordInfo:NotesInfo = new NotesInfo();
@@ -57,13 +45,12 @@
         override protected function commitProperties():void {
             super.commitProperties();
             var infoText:String;
-            if (phraseInfo) {
+            if (wordInfo && verbInfo && lessonInfo) {
                 infoText = "Anzahl der Wörter: " + wordInfo.notesAmount;
-                infoText += "\nAnzahl der Sätze: " + phraseInfo.notesAmount;
                 infoText += "\nAnzahl der starken Verben: " + verbInfo.notesAmount;
                 infoText += "\nAnzahl der Lektionaufgaben: " + lessonInfo.notesAmount;
-                infoText += "\nAnzahl der Beispielen: " + (wordInfo.examplesAmount + phraseInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount);
-                infoText += "\nAnzahl der Audioaufnahmen: " + (wordInfo.audioCommentsAmount + phraseInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
+                infoText += "\nAnzahl der Beispielen: " + (wordInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount);
+                infoText += "\nAnzahl der Audioaufnahmen: " + (wordInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
             }
             else infoText = "";
             infoLbl.text = infoText;

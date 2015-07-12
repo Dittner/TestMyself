@@ -115,11 +115,6 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		//modules configuration
 		var cmd:IConfigureCommand;
 
-		var phraseModule:SFModule = new SFModule(ModuleName.PHRASE);
-		(mainModule as RootModule).addModule(phraseModule);
-		cmd = new ConfigurePhraseModuleCmd();
-		cmd.execute(phraseModule);
-
 		var wordModule:SFModule = new SFModule(ModuleName.WORD);
 		(mainModule as RootModule).addModule(wordModule);
 		cmd = new ConfigureWordModuleCmd();

@@ -43,7 +43,6 @@ public class SearchBoardMediator extends SFMediator {
 
 		if (view.wordBox.selected) searchQueue.push(new Search(ModuleName.WORD, false));
 		if (view.verbBox.selected) searchQueue.push(new Search(ModuleName.VERB, false));
-		if (view.phraseBox.selected) searchQueue.push(new Search(ModuleName.PHRASE, false));
 		if (view.lessonBox.selected) searchQueue.push(new Search(ModuleName.LESSON, false));
 		if (view.wordExamplesBox.selected) searchQueue.push(new Search(ModuleName.WORD, true));
 		if (view.verbExamplesBox.selected) searchQueue.push(new Search(ModuleName.VERB, true));

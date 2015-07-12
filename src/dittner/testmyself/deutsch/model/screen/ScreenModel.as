@@ -91,9 +91,6 @@ public class ScreenModel extends SFProxy {
 	public function getModuleNameByScreen(screenID:String):String {
 		var moduleName:String;
 		switch (screenID) {
-			case ScreenID.PHRASE :
-				moduleName = ModuleName.PHRASE;
-				break;
 			case ScreenID.WORD :
 				moduleName = ModuleName.WORD;
 				break;

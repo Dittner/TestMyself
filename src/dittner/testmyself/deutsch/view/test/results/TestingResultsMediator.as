@@ -29,7 +29,6 @@ public class TestingResultsMediator extends SFMediator {
 		selectedTestInfo = testInfo;
 		switch (testInfo.id) {
 			case TestID.SPEAK_WORD_IN_DEUTSCH:
-			case TestID.SPEAK_PHRASE_IN_DEUTSCH:
 			case TestID.SPEAK_LESSON_IN_DEUTSCH:
 			case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH:
 			case TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH:

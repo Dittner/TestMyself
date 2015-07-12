@@ -19,9 +19,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 	[Embed(source='/assets/screen/word.png')]
 	private static const WordIconClass:Class;
 
-	[Embed(source='/assets/screen/phrase.png')]
-	private static const PhraseIconClass:Class;
-
 	[Embed(source='/assets/screen/verb.png')]
 	private static const VerbIconClass:Class;
 
@@ -59,10 +56,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		_screenInfos.push(createScreenItemSeparator());
 
 		info = new ScreenInfo(ScreenID.WORD, "WÖRTERBUCH", "Wörterbuch", getIcon(ScreenID.WORD));
-		_screenInfos.push(info);
-		screensHash[info.id] = info;
-
-		info = new ScreenInfo(ScreenID.PHRASE, "SÄTZEBUCH", "Sätzebuch", getIcon(ScreenID.PHRASE));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
@@ -105,9 +98,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 			case ScreenID.WORD :
 				IconClass = WordIconClass;
 				break;
-			case ScreenID.PHRASE :
-				IconClass = PhraseIconClass;
-				break;
 			case ScreenID.VERB :
 				IconClass = VerbIconClass;
 				break;
@@ -141,9 +131,6 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 				screen = new AboutScreen();
 				break;
 			case ScreenID.WORD :
-				screen = noteScreen;
-				break;
-			case ScreenID.PHRASE :
 				screen = noteScreen;
 				break;
 			case ScreenID.VERB :

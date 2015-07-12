@@ -4,7 +4,6 @@ import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.deutsch.service.screenFactory.*;
 import dittner.testmyself.deutsch.view.about.AboutScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.lesson.LessonScreenMediator;
-import dittner.testmyself.deutsch.view.dictionary.phrase.PhraseScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.verb.VerbScreenMediator;
 import dittner.testmyself.deutsch.view.dictionary.word.WordScreenMediator;
 import dittner.testmyself.deutsch.view.search.SearchScreenMediator;
@@ -15,7 +14,6 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 
 	public function ScreenMediatorFactory():void {}
 
-	private var phraseMediator:SFMediator = new PhraseScreenMediator();
 	private var wordMediator:SFMediator = new WordScreenMediator();
 	private var verbMediator:SFMediator = new VerbScreenMediator();
 	private var lessonMediator:SFMediator = new LessonScreenMediator();
@@ -30,9 +28,6 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 				break;
 			case ScreenID.WORD :
 				mediator = wordMediator;
-				break;
-			case ScreenID.PHRASE :
-				mediator = phraseMediator;
 				break;
 			case ScreenID.VERB :
 				mediator = verbMediator;

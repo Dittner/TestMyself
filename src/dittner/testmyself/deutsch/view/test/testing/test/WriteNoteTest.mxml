@@ -50,7 +50,7 @@
                 clear();
 
                 if (note) {
-                    stage.focus = phraseInput;
+                    stage.focus = input;
 
                     titleBoard.text = note.title;
                     translateBoard.text = note.description;
@@ -73,7 +73,7 @@
             showDetails = false;
             titleBoard.text = "";
             translateBoard.text = "";
-            phraseInput.text = "";
+            input.text = "";
             invalidNotifier.hideImmediately();
             mp3Player.visible = false;
             mp3Player.comment = null;
@@ -88,8 +88,8 @@
 
         private function onAnswered():void {
             if (!answerEnabled || !isCorrectlyAnswered) return;
-            var initialText:String = note.title.replace("ß", "ss");
-            var inputText:String = phraseInput.text.replace("ß", "ss");
+            var initialText:String = note.title;
+            var inputText:String = input.text;
             isCorrectlyAnswered = initialText == inputText;
             notifyAnswered();
         }
@@ -144,7 +144,7 @@
                             width="{width - 2*padding}" height="100%"
                             title="Übersetzung" showText="{showDetails}"/>
 
-            <input:TextAreaForm id="phraseInput"
+            <input:TextAreaForm id="input"
                                 width="{width - 2*padding}" height="100%"
                                 maxChars="{AppConfig.MAX_WORD_LENGTH}"
                                 title="Schreiben Sie bitte die vertonende Notiz"/>

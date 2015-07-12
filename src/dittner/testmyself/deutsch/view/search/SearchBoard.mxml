@@ -38,7 +38,6 @@
         </s:VGroup>
 
         <s:VGroup gap="20" width="100%">
-            <s:CheckBox id="phraseBox" label="Sätze" selected="true"/>
             <s:CheckBox id="lessonBox" label="Lektionen" selected="true"/>
         </s:VGroup>
     </s:HGroup>

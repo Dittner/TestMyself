@@ -10,7 +10,6 @@ import dittner.testmyself.deutsch.view.dictionary.lesson.form.LessonEditorMediat
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteEditorMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteForm;
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteRemoverMediator;
-import dittner.testmyself.deutsch.view.dictionary.phrase.form.PhraseEditorMediator;
 import dittner.testmyself.deutsch.view.dictionary.verb.form.VerbEditorMediator;
 import dittner.testmyself.deutsch.view.dictionary.word.form.WordEditorMediator;
 
@@ -64,9 +63,6 @@ public class TestingNoteFormMediator extends SFMediator {
 			switch (moduleName) {
 				case ModuleName.LESSON:
 					activeEditorMediator = new LessonEditorMediator();
-					break;
-				case ModuleName.PHRASE:
-					activeEditorMediator = new PhraseEditorMediator();
 					break;
 				case ModuleName.WORD:
 					activeEditorMediator = new WordEditorMediator();

@@ -18,7 +18,6 @@ public class TestSettingsMediator extends SFMediator {
 	override protected function activate():void {
 		view.testColl = new ArrayCollection();
 		sendRequestTo(ModuleName.WORD, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
-		sendRequestTo(ModuleName.PHRASE, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
 		sendRequestTo(ModuleName.VERB, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
 		sendRequestTo(ModuleName.LESSON, TestMsg.GET_TEST_INFO_LIST, new RequestMessage(testInfoListLoaded));
 		view.removeBtn.addEventListener(MouseEvent.CLICK, onTestHistoryRemoved);

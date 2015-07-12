@@ -26,7 +26,6 @@
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.dictionary.common.NoteUtils;
         import dittner.testmyself.deutsch.view.dictionary.lesson.form.LessonFormState;
-        import dittner.testmyself.deutsch.view.dictionary.phrase.form.PhraseFormState;
         import dittner.testmyself.deutsch.view.dictionary.verb.form.VerbFormState;
         import dittner.testmyself.deutsch.view.dictionary.word.form.WordFormState;
 
@@ -87,14 +86,12 @@
 
         private var curFormState:NoteFormState;
         private var defaultFormState:NoteFormState;
-        private var phraseFormState:NoteFormState;
         private var wordFormState:NoteFormState;
         private var verbFormState:NoteFormState;
         private var lessonFormState:NoteFormState;
 
         private function initializeHandler(event:FlexEvent):void {
             defaultFormState = new NoteFormState(this);
-            phraseFormState = new PhraseFormState(this);
             wordFormState = new WordFormState(this);
             verbFormState = new VerbFormState(this);
             lessonFormState = new LessonFormState(this);
@@ -110,9 +107,6 @@
                 switch (moduleName) {
                     case ModuleName.WORD :
                         curFormState = wordFormState;
-                        break;
-                    case ModuleName.PHRASE :
-                        curFormState = phraseFormState;
                         break;
                     case ModuleName.VERB :
                         curFormState = verbFormState;
@@ -231,7 +225,7 @@
 
         <input:TextAreaForm id="titleArea"
                             title="Deutschsatz"
-                            maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"/>
+                            maxChars="{AppConfig.MAX_TEXT_LENGTH}"/>
 
         <input:TextInputForm id="wordInput"
                              maxChars="{AppConfig.MAX_WORD_LENGTH}"
@@ -245,7 +239,7 @@
                              title="Zusätzliche Daten"/>
 
         <input:TextAreaForm id="descriptionArea"
-                            maxChars="{AppConfig.MAX_PHRASE_TEXT_LENGTH}"
+                            maxChars="{AppConfig.MAX_TEXT_LENGTH}"
                             title="Übersetzung"/>
 
         <examplelist:ExamplesForm id="examplesForm" mainForm="{this}"/>

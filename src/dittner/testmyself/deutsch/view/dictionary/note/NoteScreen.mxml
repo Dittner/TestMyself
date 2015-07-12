@@ -40,9 +40,6 @@
 
         public function activate(moduleName:String):void {
             switch (moduleName) {
-                case ModuleName.PHRASE :
-                    setCurrentState("phrase");
-                    break;
                 case ModuleName.WORD :
                     setCurrentState("word");
                     break;
@@ -78,7 +75,6 @@
     <core:states>
         <s:State name="disabled"/>
         <s:State name="inactive"/>
-        <s:State name="phrase"/>
         <s:State name="word"/>
         <s:State name="verb"/>
     </core:states>
@@ -184,7 +180,6 @@
         <form:NoteForm id="form"
                        visible="false"
                        bottom="0"
-                       moduleName.phrase="{ModuleName.PHRASE}"
                        moduleName.word="{ModuleName.WORD}"
                        moduleName.verb="{ModuleName.VERB}"
                        top="{HEADER_HEI}"/>

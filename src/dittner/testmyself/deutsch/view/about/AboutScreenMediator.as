@@ -15,9 +15,6 @@ public class AboutScreenMediator extends SFMediator {
 	override protected function activate():void {
 		sendRequest(ScreenMsg.LOCK, new RequestMessage());
 
-		addListenerTo(ModuleName.PHRASE, NoteMsg.NOTES_INFO_CHANGED_NOTIFICATION, phrasesInfoChanged);
-		sendRequestTo(ModuleName.PHRASE, NoteMsg.GET_NOTES_INFO, new RequestMessage(phrasesInfoLoaded));
-
 		addListenerTo(ModuleName.WORD, NoteMsg.NOTES_INFO_CHANGED_NOTIFICATION, wordsInfoChanged);
 		sendRequestTo(ModuleName.WORD, NoteMsg.GET_NOTES_INFO, new RequestMessage(wordsInfoLoaded));
 
@@ -26,13 +23,6 @@ public class AboutScreenMediator extends SFMediator {
 
 		addListenerTo(ModuleName.LESSON, NoteMsg.NOTES_INFO_CHANGED_NOTIFICATION, lessonInfoChanged);
 		sendRequestTo(ModuleName.LESSON, NoteMsg.GET_NOTES_INFO, new RequestMessage(lessonInfoLoaded));
-	}
-
-	private function phrasesInfoChanged(info:NotesInfo):void {
-		view.infoBoard.phraseInfo = info;
-	}
-	private function phrasesInfoLoaded(res:CommandResult):void {
-		view.infoBoard.phraseInfo = res.data as NotesInfo;
 	}
 
 	private function wordsInfoChanged(info:NotesInfo):void {

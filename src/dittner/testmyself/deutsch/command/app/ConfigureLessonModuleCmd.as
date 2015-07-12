@@ -13,14 +13,14 @@ import dittner.testmyself.deutsch.model.domain.lesson.LessonTestModel;
 
 public class ConfigureLessonModuleCmd implements IConfigureCommand {
 
-	public function execute(phraseModule:SFModule):void {
+	public function execute(lessonModule:SFModule):void {
 		//register models and services
-		phraseModule.registerProxy("model", new NoteModel());
-		phraseModule.registerProxy("testModel", createTestModel());
-		phraseModule.registerProxy("sqlFactory", new SQLFactory());
+		lessonModule.registerProxy("model", new NoteModel());
+		lessonModule.registerProxy("testModel", createTestModel());
+		lessonModule.registerProxy("sqlFactory", new SQLFactory());
 		var spec:NoteServiceSpec = createSpec();
-		phraseModule.registerProxy("spec", spec);
-		phraseModule.registerProxy("service", new NoteService());
+		lessonModule.registerProxy("spec", spec);
+		lessonModule.registerProxy("service", new NoteService());
 	}
 
 	private function createSpec():NoteServiceSpec {
