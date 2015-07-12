@@ -6,8 +6,6 @@
                  horizontalCenter="0">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
         ]]></fx:Script>
 
     <s:Group width="100%" height="100%" clipAndEnableScrolling="true">
@@ -42,10 +40,9 @@
 
     </s:Group>
 
-    <s:Label fontFamily="{Fonts.VANTA_THIN}"
-             fontSize="60"
-             top="60" bottom="150" width="800" right="{2*PADDING}"
-             color="{AppColors.YELLOW}" textAlign="right"
-             text="Das ist ein System, das automatisiert des Testens, um Ihre Deutschkenntnisse zu verbessern"/>
+    <s:BitmapImage right="{2*PADDING}"
+                   top="40"
+                   smooth="true"
+                   source="@Embed('/hymne_text.png')"/>
 
 </core:ScreenBase>

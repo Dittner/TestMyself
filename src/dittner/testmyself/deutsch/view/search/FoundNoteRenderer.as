@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.search {
 import dittner.testmyself.core.model.note.INote;
+import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.domain.verb.IVerb;
 import dittner.testmyself.deutsch.model.domain.word.IWord;
 import dittner.testmyself.deutsch.model.search.FoundNote;
@@ -7,6 +8,8 @@ import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
+import flash.display.Bitmap;
+import flash.display.BitmapData;
 import flash.display.GradientType;
 import flash.display.Graphics;
 import flash.geom.Matrix;
@@ -21,8 +24,23 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 
 	private static const PAD:uint = 20;
 	private static const GAP:uint = 10;
-	private static const COLOR:uint = AppColors.WHITE;
 	private static const SEP_COLOR:uint = 0xc5c5cd;
+
+	[Embed(source='/assets/search/word_icon.png')]
+	private static const WordIconClass:Class;
+	private static var wordIcon:BitmapData;
+
+	[Embed(source='/assets/search/lesson_icon.png')]
+	private static const LessonIconClass:Class;
+	private static var lessonIcon:BitmapData;
+
+	[Embed(source='/assets/search/verb_icon.png')]
+	private static const VerbIconClass:Class;
+	private static var verbIcon:BitmapData;
+
+	[Embed(source='/assets/search/example_icon.png')]
+	private static const ExampleIconClass:Class;
+	private static var exampleIcon:BitmapData;
 
 	public function FoundNoteRenderer() {
 		super();
@@ -32,6 +50,8 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 
 	private var titleTf:TextField;
 	private var descriptionTf:TextField;
+	private var noteBitmap:Bitmap;
+	private var noteExampleBitmap:Bitmap;
 
 	private function get foundNote():FoundNote {
 		return data as FoundNote;
@@ -43,6 +63,10 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 		addChild(descriptionTf);
 		titleTf = createMultilineTextField(TITLE_FORMAT);
 		addChild(titleTf);
+		noteExampleBitmap = new Bitmap(getExampleIcon());
+		addChild(noteExampleBitmap);
+		noteBitmap = new Bitmap();
+		addChild(noteBitmap);
 	}
 
 	public function invalidateLayout():void {
@@ -113,6 +137,8 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 		var g:Graphics = graphics;
 		g.clear();
 
+		if (!foundNote) return;
+
 		if (w != measuredWidth) {
 			invalidateSize();
 			invalidateDisplayList();
@@ -126,11 +152,18 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
+
+			noteBitmap.bitmapData = getNoteIcon();
+			noteBitmap.visible = true;
+			noteExampleBitmap.visible = selected && foundNote.isExample;
 		}
 		else {
 			g.lineStyle(1, SEP_COLOR, 0.5);
 			g.moveTo(PAD, h - 1);
 			g.lineTo(w - 2 * PAD, h - 1);
+
+			noteBitmap.visible = false;
+			noteExampleBitmap.visible = false;
 		}
 
 		titleTf.textColor = selected ? 0xffFFff : 0;
@@ -142,6 +175,29 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 			descriptionTf.y = PAD + titleTf.textHeight + GAP - TEXT_DEFAULT_OFFSET;
 			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
+	}
+
+	private function getNoteIcon():BitmapData {
+		if (!foundNote) return null;
+
+		switch (foundNote.moduleName) {
+			case ModuleName.WORD :
+				if (!wordIcon) wordIcon = (new WordIconClass() as Bitmap).bitmapData;
+				return wordIcon;
+			case ModuleName.VERB :
+				if (!verbIcon) verbIcon = (new VerbIconClass() as Bitmap).bitmapData;
+				return verbIcon;
+			case ModuleName.LESSON :
+				if (!lessonIcon) lessonIcon = (new LessonIconClass() as Bitmap).bitmapData;
+				return lessonIcon;
+			default :
+				return null
+		}
+	}
+
+	private function getExampleIcon():BitmapData {
+		if (!exampleIcon) exampleIcon = (new ExampleIconClass() as Bitmap).bitmapData;
+		return exampleIcon;
 	}
 
 }
