@@ -59,9 +59,9 @@
 
         override protected function commitProperties():void {
             super.commitProperties();
-            if (notesOnPage == 0) titleLbl.text = "Keine Notizen";
-            else if (notesOnPage == 1) titleLbl.text = "Ein Notiz ist nur gezeigt";
-            else titleLbl.text = notesOnPage + " aus " + totalNotes + " Notizen sind gezeigt";
+            if (notesOnPage == 0) titleLbl.text = "Keine Notiz";
+            else if (notesOnPage == 1) titleLbl.text = "Eine Notiz";
+            else titleLbl.text = "Notiz " + notesOnPage + " von " + totalNotes;
 
             prevPageBtn.enabled = curPageNum > 0;
             nextPageBtn.enabled = curPageNum + 1 < totalPages;
