@@ -51,6 +51,7 @@
         <input:HistoryTextArea id="textArea"
                                skinClass="{TextAreaFormSkin}"
                                fontFamily="{Fonts.MYRIAD}"
+                               focusedTextSelectionColor="#555555"
                                fontSize="18"
                                color="{AppColors.YELLOW}"
                                left="25" top="25" right="25" bottom="25"/>

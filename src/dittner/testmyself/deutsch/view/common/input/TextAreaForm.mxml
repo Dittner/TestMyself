@@ -116,7 +116,8 @@
                            text="@{text}"
                            fontSize="16"
                            color="#333333"
-                           fontFamily="{Fonts.MYRIAD_MX}"
+                           focusedTextSelectionColor="{AppColors.YELLOW}"
+                           fontFamily="{Fonts.MYRIAD}"
                            focusSkin="{UIComponent}"
                            borderVisible="false"
                            change="area_changeHandler(event)"/>
