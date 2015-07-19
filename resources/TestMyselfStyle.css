@@ -109,10 +109,11 @@ s|Label {
 /************************** INPUT **************************/
 
 input|TextInputForm {
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextInputFormSkin");
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.DesktopTextInputFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: MyriadProMX;
+    fontFamily: MyriadPro;
+    focusedTextSelectionColor: #ffcc00;
     fontSize: 16px;
     color: #333333;
 }
@@ -122,6 +123,7 @@ s|TextArea {
     focusSkin: ClassReference("mx.core.UIComponent");
     skinClass: ClassReference("spark.skins.spark.TextAreaSkin");
     horizontalScrollPolicy: off;
+    focusedTextSelectionColor: #ffcc00;
     fontFamily: MyriadPro;
     fontSize: 16px;
     color: #333333;

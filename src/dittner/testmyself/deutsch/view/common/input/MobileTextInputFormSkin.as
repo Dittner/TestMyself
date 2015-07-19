@@ -9,11 +9,11 @@ import flash.text.TextFormat;
 
 import spark.skins.mobile.TextInputSkin;
 
-public class TextInputFormSkin extends TextInputSkin {
+public class MobileTextInputFormSkin extends TextInputSkin {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_DARK);
 	private static const TITLE_HEIGHT:uint = 20;
 
-	public function TextInputFormSkin() {
+	public function MobileTextInputFormSkin() {
 	}
 
 	private var titleDisplay:TextField;
