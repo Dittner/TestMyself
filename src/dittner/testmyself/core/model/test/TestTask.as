@@ -42,5 +42,20 @@ public class TestTask implements ITestTask {
 	private var _complexity:int = TestTaskComplexity.HIGH;
 	public function get complexity():int {return _complexity;}
 	public function set complexity(value:int):void {_complexity = value;}
+
+	//--------------------------------------
+	//  isFailed
+	//--------------------------------------
+	private var _isFailed:Boolean;
+	public function get isFailed():Boolean {return _isFailed;}
+	public function set isFailed(value:Boolean):void {_isFailed = value;}
+
+	//--------------------------------------
+	//  lastTestedDate
+	//--------------------------------------
+	private var _lastTestedDate:Number;
+	public function get lastTestedDate():Number {return _lastTestedDate;}
+	public function set lastTestedDate(value:Number):void {_lastTestedDate = value;}
+
 }
 }

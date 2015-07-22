@@ -33,6 +33,8 @@ public class UpdateTestTaskSQLOperation extends DeferredOperation {
 			sqlParams.correct = task.correct;
 			sqlParams.incorrect = task.incorrect;
 			sqlParams.complexity = task.complexity;
+			sqlParams.isFailed = task.isFailed ? 1 : 0;
+			sqlParams.lastTestedDate = task.lastTestedDate;
 			sqlParams.rate = testModel.calcTaskRate(task);
 			sqlParams.updatingTestID = task.testID;
 			sqlParams.updatingNoteID = task.noteID;

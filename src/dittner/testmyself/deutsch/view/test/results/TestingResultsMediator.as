@@ -6,6 +6,7 @@ import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.page.ITestPageInfo;
+import dittner.testmyself.core.model.page.TestPageInfo;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
@@ -48,12 +49,29 @@ public class TestingResultsMediator extends SFMediator {
 		view.title = selectedTestInfo.title;
 		view.list.addEventListener(SelectableDataGroup.SELECTED, taskSelectedHandler);
 		view.goBackBtn.addEventListener(MouseEvent.CLICK, goBackClickHandler);
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS_AMOUNT, new RequestMessage(onTestTasksAmountLoaded));
+		view.lastFailedNotesFilterBox.addEventListener(Event.CHANGE, onlyFailedNotesFilterChanged);
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, null, createTestPageInfo()));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS_AMOUNT, new RequestMessage(onTestTasksAmountLoaded, null, onlyFailedNotes));
 		paginationBar.nextPageBtn.addEventListener(MouseEvent.CLICK, nextPageBtnClickHandler);
 		paginationBar.prevPageBtn.addEventListener(MouseEvent.CLICK, prevPageBtnClickHandler);
 		paginationBar.firstPageBtn.addEventListener(MouseEvent.CLICK, firstPageBtnClickHandler);
 		paginationBar.lastPageBtn.addEventListener(MouseEvent.CLICK, lastPageBtnClickHandler);
+	}
+
+	private function onlyFailedNotesFilterChanged(event:Event):void {
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, null, createTestPageInfo()));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS_AMOUNT, new RequestMessage(onTestTasksAmountLoaded, null, onlyFailedNotes));
+	}
+
+	private function get onlyFailedNotes():Boolean {
+		return view.lastFailedNotesFilterBox.selected;
+	}
+
+	private function createTestPageInfo(pageNum:uint = 0):TestPageInfo {
+		var res:TestPageInfo = new TestPageInfo();
+		res.pageNum = pageNum;
+		res.onlyFailedNotes = onlyFailedNotes;
+		return res;
 	}
 
 	private function onPageInfoLoaded(res:CommandResult):void {
@@ -104,7 +122,7 @@ public class TestingResultsMediator extends SFMediator {
 	}
 
 	private function loadPageInfo(pageNum:uint):void {
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, null, pageNum))
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, null, createTestPageInfo(pageNum)));
 	}
 
 	private function goBackClickHandler(event:MouseEvent):void {
@@ -117,7 +135,7 @@ public class TestingResultsMediator extends SFMediator {
 
 	private function taskSelectedHandler(event:Event):void {
 		var renData:TestRendererData = view.list.selectedItem as TestRendererData;
-		if (renData) loadExamples(renData.note);
+		if (renData && selectedTestInfo.loadExamplesWhenTesting) loadExamples(renData.note);
 		else hideList();
 	}
 
@@ -143,6 +161,7 @@ public class TestingResultsMediator extends SFMediator {
 	override protected function deactivate():void {
 		view.list.removeEventListener(SelectableDataGroup.SELECTED, taskSelectedHandler);
 		view.goBackBtn.removeEventListener(MouseEvent.CLICK, goBackClickHandler);
+		view.lastFailedNotesFilterBox.removeEventListener(Event.CHANGE, onlyFailedNotesFilterChanged);
 		paginationBar.nextPageBtn.removeEventListener(MouseEvent.CLICK, nextPageBtnClickHandler);
 		paginationBar.prevPageBtn.removeEventListener(MouseEvent.CLICK, prevPageBtnClickHandler);
 		paginationBar.firstPageBtn.removeEventListener(MouseEvent.CLICK, firstPageBtnClickHandler);

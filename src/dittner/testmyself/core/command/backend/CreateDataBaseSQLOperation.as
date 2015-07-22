@@ -52,7 +52,9 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 
 			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);
 		}
-		else dispatchCompleteSuccess(CommandResult.OK);
+		else {
+			dispatchCompleteSuccess(CommandResult.OK);
+		}
 	}
 
 	private function executeComplete(results:Vector.<SQLResult>):void {

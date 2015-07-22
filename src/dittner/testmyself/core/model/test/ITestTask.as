@@ -5,5 +5,7 @@ public interface ITestTask {
 	function get correct():int;
 	function get incorrect():int;
 	function get complexity():int;
+	function get isFailed():Boolean;
+	function get lastTestedDate():Number;
 }
 }

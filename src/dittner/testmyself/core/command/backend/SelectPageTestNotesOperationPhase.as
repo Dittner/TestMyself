@@ -33,6 +33,7 @@ public class SelectPageTestNotesOperationPhase extends PhaseOperation {
 		params.startIndex = pageInfo.pageNum * pageInfo.pageSize;
 		params.amount = pageInfo.pageSize;
 		params.selectedTestID = pageInfo.testSpec.info.id;
+		params.onlyFailedNotes = pageInfo.onlyFailedNotes ? 1 : 0;
 
 		var filter:NoteFilter = pageInfo.testSpec.filter;
 		if (filter.selectedThemes.length > 0) {

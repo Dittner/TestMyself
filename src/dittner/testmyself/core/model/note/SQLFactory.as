@@ -50,6 +50,13 @@ public class SQLFactory extends SFProxy {
 		return CREATE_TEST_EXAMPLE_TBL_SQL;
 	}
 
+	[Embed(source="/dittner/testmyself/core/command/backend/sql/AddColumnInTestTable.sql", mimeType="application/octet-stream")]
+	private static const AddColumnInTestTblClass:Class;
+	private static const ADD_COLUMN_IN_TEST_TBL:String = new AddColumnInTestTblClass();
+	public function get addColumnInTestTblClass():String {
+		return ADD_COLUMN_IN_TEST_TBL;
+	}
+
 	//--------------------------------------
 	//  insert
 	//--------------------------------------

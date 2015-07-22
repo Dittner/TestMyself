@@ -5,6 +5,8 @@ SET
 	correct = :correct,
 	incorrect = :incorrect,
 	rate = :rate,
-	complexity = :complexity
+	complexity = :complexity,
+	isFailed = :isFailed,
+	lastTestedDate = :lastTestedDate
 WHERE testID = :updatingTestID
 AND noteID = :updatingNoteID

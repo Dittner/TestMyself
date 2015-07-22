@@ -72,6 +72,12 @@
     <common:TestHeader width="100%" height="30" padding="{padding}"
                        title="{title}" description="Testendaten"/>
 
+    <s:CheckBox id="lastFailedNotesFilterBox"
+                width="300" right="25" top="5"
+                selected="false"
+                skinClass="dittner.testmyself.deutsch.view.common.checkBox.DarkCheckBoxSkin"
+                label="Notiz mit Fehlern zeigen"/>
+
     <s:HGroup left="-1" right="-1" top="30" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}" gap="-1">
         <s:Scroller width="100%" height="100%"
                     minViewportInset="1"

@@ -12,14 +12,16 @@ import flash.data.SQLResult;
 
 public class CountTestTasksSQLOperation extends DeferredOperation {
 
-	public function CountTestTasksSQLOperation(service:NoteService, spec:TestSpec) {
+	public function CountTestTasksSQLOperation(service:NoteService, spec:TestSpec, onlyFailedNotes:Boolean) {
 		super();
 		this.service = service;
 		this.spec = spec;
+		this.onlyFailedNotes = onlyFailedNotes;
 	}
 
 	private var service:NoteService;
 	private var spec:TestSpec;
+	private var onlyFailedNotes:Boolean;
 
 	override public function process():void {
 		if (spec) {
@@ -36,6 +38,7 @@ public class CountTestTasksSQLOperation extends DeferredOperation {
 
 			var sqlParams:Object = {};
 			sqlParams.selectedTestID = spec.info.id;
+			sqlParams.onlyFailedNotes = onlyFailedNotes ? 1 : 0;
 
 			service.sqlRunner.execute(sqlStatement, sqlParams, loadCompleteHandler);
 		}

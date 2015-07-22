@@ -154,12 +154,9 @@ public class NoteService extends SFProxy {
 		deferredOperationManager.add(op);
 	}
 
-	public function loadTestPageInfo(requestMsg:IRequestMessage = null):void {
-		var pageNum:uint = requestMsg.data is uint ? requestMsg.data as uint : 0;
-
-		var pageInfo:TestPageInfo = new TestPageInfo();
+	public function loadTestPageInfo(requestMsg:IRequestMessage):void {
+		var pageInfo:TestPageInfo = requestMsg.data as TestPageInfo;
 		pageInfo.pageSize = settingsModel.info.pageSize;
-		pageInfo.pageNum = pageNum;
 		pageInfo.testSpec = testModel.testSpec;
 
 		var op:IDeferredOperation = new SelectPageTestTasksSQLOperation(this, pageInfo, spec.noteClass);
@@ -175,7 +172,8 @@ public class NoteService extends SFProxy {
 	}
 
 	public function countTestTasks(requestMsg:IRequestMessage = null):void {
-		var op:IDeferredOperation = new CountTestTasksSQLOperation(this, testModel.testSpec);
+		var onlyFailedNotes:Boolean = requestMsg && requestMsg.data;
+		var op:IDeferredOperation = new CountTestTasksSQLOperation(this, testModel.testSpec, onlyFailedNotes);
 		requestHandler(requestMsg, op);
 		deferredOperationManager.add(op);
 	}

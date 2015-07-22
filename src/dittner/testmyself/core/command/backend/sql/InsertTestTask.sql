@@ -5,7 +5,9 @@ INSERT INTO test
 	correct,
 	incorrect,
 	rate,
-	complexity
+	complexity,
+	isFailed,
+	lastTestedDate
 )
 VALUES
 (
@@ -14,5 +16,7 @@ VALUES
 	:correct,
 	:incorrect,
 	:rate,
-	:complexity
+	:complexity,
+	:isFailed,
+	:lastTestedDate
 )

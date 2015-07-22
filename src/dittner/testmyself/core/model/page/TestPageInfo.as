@@ -22,6 +22,15 @@ public class TestPageInfo implements ITestPageInfo {
 	}
 
 	//--------------------------------------
+	//  onlyFailedNotes
+	//--------------------------------------
+	private var _onlyFailedNotes:Boolean = false;
+	public function get onlyFailedNotes():Boolean {return _onlyFailedNotes;}
+	public function set onlyFailedNotes(value:Boolean):void {
+		_onlyFailedNotes = value;
+	}
+
+	//--------------------------------------
 	//  tasks
 	//--------------------------------------
 	private var _tasks:Array = [];

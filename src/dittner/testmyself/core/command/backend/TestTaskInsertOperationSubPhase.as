@@ -43,6 +43,8 @@ public class TestTaskInsertOperationSubPhase extends PhaseOperation {
 		sqlParams.noteID = note.id;
 		sqlParams.correct = 0;
 		sqlParams.incorrect = 0;
+		sqlParams.isFailed = 0;
+		sqlParams.lastTestedDate = 0;
 		sqlParams.rate = testModel.calcTaskRate(new TestTask());
 		sqlParams.complexity = TestTaskComplexity.HIGH;
 		statements.push(new QueuedStatement(sqlStatement, sqlParams));

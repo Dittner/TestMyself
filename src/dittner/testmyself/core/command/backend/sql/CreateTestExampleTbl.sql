@@ -5,5 +5,7 @@ CREATE TABLE testExample
 	correct int NOT NULL,
 	incorrect int NOT NULL,
 	rate int NOT NULL,
-	complexity int NOT NULL
+	complexity int NOT NULL,
+	isFailed int NOT NULL,
+	lastTestedDate int NOT NULL
 )

@@ -53,10 +53,12 @@ public class TestingMediator extends SFMediator {
 				break;
 			case TestingAction.CORRECT_ANSWER :
 				curTask.correct++;
+				curTask.isFailed = false;
 				updateTask();
 				break;
 			case TestingAction.INCORRECT_ANSWER :
 				curTask.incorrect++;
+				curTask.isFailed = true;
 				updateTask();
 				break;
 			case TestingAction.NEXT_TASK :
@@ -78,6 +80,7 @@ public class TestingMediator extends SFMediator {
 
 	private function updateTask():void {
 		curTask.complexity = view.complexity;
+		curTask.lastTestedDate = (new Date).time;
 		sendRequestTo(selectedTestInfo.moduleName, TestMsg.UPDATE_TEST_TASK, new RequestMessage(null, null, curTask));
 	}
 

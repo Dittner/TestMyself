@@ -39,6 +39,8 @@ public class ClearTestHistoryOperationSubPhase extends PhaseOperation {
 		sqlParams.rate = testModel.calcTaskRate(new TestTask());
 		sqlParams.incorrect = 0;
 		sqlParams.complexity = TestTaskComplexity.HIGH;
+		sqlParams.isFailed = 0;
+		sqlParams.lastTestedDate = 0;
 		sqlParams.updatingTestID = testID;
 		sqlParams.updatingNoteID = noteID;
 

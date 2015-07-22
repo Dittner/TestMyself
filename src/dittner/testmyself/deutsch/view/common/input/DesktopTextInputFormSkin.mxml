@@ -78,6 +78,6 @@
     <s:RichEditableText id="textDisplay"
                         verticalAlign="bottom"
                         height="30"
-                        left="5" right="5" top="1" bottom="7"/>
+                        left="5" right="5" top="1" bottom="6"/>
 
 </s:SparkSkin>
