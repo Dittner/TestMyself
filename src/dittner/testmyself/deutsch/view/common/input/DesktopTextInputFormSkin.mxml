@@ -50,6 +50,7 @@
             g.drawRect(0, bgVerOffset, w - 1, h - bgVerOffset - 1);
             g.endFill();
 
+            textDisplay.y = h - textDisplay.height - 6;
         }
         ]]>
     </fx:Script>
@@ -76,8 +77,6 @@
              width="100%" fontFamily="{Fonts.MYRIAD}" fontSize="16" color="{AppColors.TEXT_DARK}"/>
 
     <s:RichEditableText id="textDisplay"
-                        verticalAlign="bottom"
-                        height="30"
-                        left="5" right="5" top="1" bottom="6"/>
+                        left="5" right="5"/>
 
 </s:SparkSkin>

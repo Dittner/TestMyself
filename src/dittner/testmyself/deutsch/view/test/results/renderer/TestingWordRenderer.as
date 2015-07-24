@@ -76,28 +76,37 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 			if (word.options && selected)
 				title += ", " + word.options;
 
-			titleTf.text = title;
-			descriptionTf.text = description;
-			titleTf.setTextFormat(TITLE_FORMAT);
-			titleTf.textColor = selected ? 0xffFFff : 0;
-			descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
-			testTaskCard.label = task.correct + " / " + (task.correct + task.incorrect);
-			switch (word.article) {
-				case WordArticle.DIE :
-					titleTf.setTextFormat(DIE_FORMAT, 0, word.article.length);
-					break;
-				case WordArticle.DAS :
-					titleTf.setTextFormat(DAS_FORMAT, 0, word.article.length);
-					break;
-				case WordArticle.DER_DIE :
-					titleTf.setTextFormat(DIE_FORMAT, 4, word.article.length);
-					break;
-				case WordArticle.DER_DAS :
-					titleTf.setTextFormat(DAS_FORMAT, 4, word.article.length);
-					break;
+			if (renData.translationInverted) {
+				titleTf.text = description;
+				descriptionTf.text = title;
+				titleTf.setTextFormat(TITLE_FORMAT);
+				descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
+				titleTf.textColor = selected ? 0xffFFff : 0;
+			}
+			else {
+				titleTf.text = title;
+				descriptionTf.text = description;
+				titleTf.setTextFormat(TITLE_FORMAT);
+				titleTf.textColor = selected ? 0xffFFff : 0;
+				descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
+				switch (word.article) {
+					case WordArticle.DIE :
+						titleTf.setTextFormat(DIE_FORMAT, 0, word.article.length);
+						break;
+					case WordArticle.DAS :
+						titleTf.setTextFormat(DAS_FORMAT, 0, word.article.length);
+						break;
+					case WordArticle.DER_DIE :
+						titleTf.setTextFormat(DIE_FORMAT, 4, word.article.length);
+						break;
+					case WordArticle.DER_DAS :
+						titleTf.setTextFormat(DAS_FORMAT, 4, word.article.length);
+						break;
+				}
 			}
 
 			descriptionTf.visible = selected;
+			testTaskCard.label = task.correct + " / " + (task.correct + task.incorrect);
 		}
 		else {
 			titleTf.text = "";
@@ -116,8 +125,8 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 
 		if (descriptionTf.visible) {
 			if (renData) {
-				titleTf.width = descriptionTf.width = (measuredWidth - 2 * PAD - GAP) / 2;
-				measuredHeight = Math.max(titleTf.textHeight, descriptionTf.textHeight) + 2 * PAD;
+				titleTf.width = descriptionTf.width = measuredWidth - 2 * PAD;
+				measuredHeight = titleTf.textHeight + descriptionTf.textHeight + 2 * PAD + GAP;
 			}
 		}
 		else {
@@ -165,8 +174,8 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? 0xffFFff : 0;
-			descriptionTf.x = (w + GAP) / 2 - TEXT_DEFAULT_OFFSET;
-			descriptionTf.y = PAD - TEXT_DEFAULT_OFFSET;
+			descriptionTf.x = PAD - TEXT_DEFAULT_OFFSET;
+			descriptionTf.y = PAD + titleTf.textHeight + GAP - TEXT_DEFAULT_OFFSET;
 			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
 

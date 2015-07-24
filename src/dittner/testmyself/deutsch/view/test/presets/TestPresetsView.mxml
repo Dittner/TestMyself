@@ -9,7 +9,6 @@
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
         import mx.collections.ArrayCollection;
 
@@ -75,17 +74,7 @@
     <s:CheckBox id="useAudioRecordsBox"
                 width="{width -2*padding}"
                 selected="false"
-                label="Die Aufgaben vertonen"/>
-
-    <s:Label text="* nur die Aufgaben mit den Audioaufnahmen werden für das Testen ausgewählt"
-             fontFamily="{Fonts.MYRIAD}"
-             fontStyle="italic"
-             fontSize="14"
-             mouseChildren="false" mouseEnabled="false"
-             width="100%"
-             paddingTop="-15"
-             paddingLeft="48" paddingRight="20"
-             color="{AppColors.TEXT_GRAY}"/>
+                label="nur mit Audioaufnahmen"/>
 
     <s:HGroup width="{width -2*padding}" gap="0">
         <s:RadioButton id="highComplexityRadioBtn"
