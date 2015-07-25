@@ -29,12 +29,12 @@
 
     <s:Label id="labelDisplay"
              fontFamily="{Fonts.MYRIAD}"
-             fontSize="16"
+             fontSize="18"
              color="{AppColors.TEXT_DARK}"
              maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"
              verticalCenter="0" verticalAlign="middle"
              textAlign="center"
-             left="7" right="20" top="2" bottom="2"/>
+             left="3" right="16" top="2" bottom="2"/>
 
     <s:Path data="M 179.679 0.5 L 90.272 155.356 L 0.866 0.5 L 179.679 0.5 Z" winding="nonZero" verticalCenter="0" right="5"
             width="8" height="5">

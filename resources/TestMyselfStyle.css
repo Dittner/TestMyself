@@ -114,7 +114,7 @@ input|TextInputForm {
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: MyriadPro;
     focusedTextSelectionColor: #ffcc00;
-    fontSize: 16px;
+    fontSize: 18px;
     color: #333333;
 }
 
@@ -125,7 +125,7 @@ s|TextArea {
     horizontalScrollPolicy: off;
     focusedTextSelectionColor: #ffcc00;
     fontFamily: MyriadPro;
-    fontSize: 16px;
+    fontSize: 18px;
     color: #333333;
 }
 
@@ -135,7 +135,7 @@ list|ListForm {
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: MyriadProMX;
-    fontSize: 16px;
+    fontSize: 18px;
     color: #333333;
 }
 
