@@ -17,5 +17,5 @@ IN
       IN #filterList
    )
 )
-ORDER BY rate
+ORDER BY lastTestedDate DESC
 LIMIT :startIndex, :amount
