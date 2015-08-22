@@ -144,6 +144,7 @@ s|Scroller {
     interactionMode: mouse;
     horizontalScrollPolicy: off;
     verticalScrollPolicy: auto;
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.scroller.CustomScrollerSkin");
 }
 
 /************************** OTHER COMPONENTS **************************/
