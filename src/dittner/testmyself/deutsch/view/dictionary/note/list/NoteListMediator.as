@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.note.list {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.page.INotePageInfo;
@@ -31,15 +31,15 @@ public class NoteListMediator extends SFMediator {
 	private function noteRenDataSelectedHandler(event:Event):void {
 		var selectedNoteRenData:NoteRendererData = view.selectedItem as NoteRendererData;
 		var selectedNote:INote = selectedNoteRenData ? selectedNoteRenData.note : null;
-		sendRequest(NoteMsg.SELECT_NOTE, new RequestMessage(null, null, selectedNote));
+		sendRequest(NoteMsg.SELECT_NOTE, new RequestMessage(null, selectedNote));
 	}
 
 	private function onPageInfoChanged(pageInfo:INotePageInfo):void {
 		updateViewList(pageInfo);
 	}
 
-	private function onPageInfoLoaded(res:CommandResult):void {
-		updateViewList(res.data as INotePageInfo);
+	private function onPageInfoLoaded(op:IAsyncOperation):void {
+		updateViewList(op.result as INotePageInfo);
 	}
 
 	private function updateViewList(pageInfo:INotePageInfo):void {

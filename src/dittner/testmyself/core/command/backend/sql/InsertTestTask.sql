@@ -2,8 +2,6 @@ INSERT INTO test
 (
 	testID,
 	noteID,
-	correct,
-	incorrect,
 	rate,
 	complexity,
 	isFailed,
@@ -13,8 +11,6 @@ VALUES
 (
 	:testID,
 	:noteID,
-	:correct,
-	:incorrect,
 	:rate,
 	:complexity,
 	:isFailed,

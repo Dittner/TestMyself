@@ -1,11 +1,14 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectNoteSQLOperation extends DeferredOperation {
+public class SelectNoteSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SelectNoteSQLOperation(service:NoteService, noteID:int, noteClass:Class) {
 		super();
@@ -18,15 +21,19 @@ public class SelectNoteSQLOperation extends DeferredOperation {
 	private var noteID:int;
 	private var noteClass:Class;
 
-	override public function process():void {
-		var params:Object = {};
-		params.noteID = noteID;
-		service.sqlRunner.execute(service.sqlFactory.selectNote, params, loadedHandler, noteClass);
+	public function execute():void {
+		var sqlParams:Object = {};
+		sqlParams.noteID = noteID;
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(service.sqlFactory.selectNote, sqlParams);
+		statement.itemClass = noteClass;
+		statement.sqlConnection = service.sqlConnection;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		var notes:Array = result.data is Array ? result.data as Array : [];
-		dispatchCompleteSuccess(new CommandResult(notes.length > 0 ? notes[0] : null));
+		dispatchSuccess(notes.length > 0 ? notes[0] : null);
 	}
 }
 }

@@ -1,20 +1,23 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 
-public class TestTaskInsertOperationPhase extends PhaseOperation {
+import flash.data.SQLConnection;
 
-	public function TestTaskInsertOperationPhase(sqlRunner:SQLRunner, note:Note, examples:Array, testModel:TestModel, sqlFactory:SQLFactory) {
+public class TestTaskInsertOperationPhase extends AsyncOperation implements ICommand {
+
+	public function TestTaskInsertOperationPhase(conn:SQLConnection, note:Note, examples:Array, testModel:TestModel, sqlFactory:SQLFactory) {
 		this.note = note;
 		this.examples = examples;
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.testModel = testModel;
 		this.sqlFactory = sqlFactory;
 	}
@@ -22,27 +25,32 @@ public class TestTaskInsertOperationPhase extends PhaseOperation {
 	private var note:Note;
 	private var examples:Array;
 	private var testModel:TestModel;
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
-	private var subPhaseRunner:PhaseRunner;
 
-	override public function execute():void {
+	public function execute():void {
 		if (testModel && testModel.testInfos.length > 0) {
-			subPhaseRunner = new PhaseRunner();
-			subPhaseRunner.completeCallback = dispatchComplete;
+			var composite:CompositeOperation = new CompositeOperation();
 
 			for each(var info:TestInfo in testModel.testInfos) {
 				if (info.useNoteExample) {
 					for each(var noteExample:INote in examples)
-						subPhaseRunner.addPhase(TestTaskInsertOperationSubPhase, noteExample, info, sqlRunner, sqlFactory.insertTestExampleTask, testModel);
+						composite.addOperation(TestTaskInsertOperationSubPhase, noteExample, info, conn, sqlFactory.insertTestExampleTask, testModel);
 				}
 				else {
-					subPhaseRunner.addPhase(TestTaskInsertOperationSubPhase, note, info, sqlRunner, sqlFactory.insertTestTask, testModel);
+					composite.addOperation(TestTaskInsertOperationSubPhase, note, info, conn, sqlFactory.insertTestTask, testModel);
 				}
 			}
-			subPhaseRunner.execute();
+
+			composite.addCompleteCallback(completeHandler);
+			composite.execute();
 		}
-		else dispatchComplete();
+		else dispatchSuccess();
+	}
+
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 
 	override public function destroy():void {
@@ -50,8 +58,7 @@ public class TestTaskInsertOperationPhase extends PhaseOperation {
 		note = null;
 		testModel = null;
 		examples = null;
-		sqlRunner = null;
-		subPhaseRunner = null;
+		conn = null;
 	}
 }
 }

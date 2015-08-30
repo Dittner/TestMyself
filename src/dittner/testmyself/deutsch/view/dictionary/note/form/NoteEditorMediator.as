@@ -1,7 +1,6 @@
 package dittner.testmyself.deutsch.view.dictionary.note.form {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.theme.ITheme;
@@ -26,13 +25,13 @@ public class NoteEditorMediator extends NoteFormMediator {
 		}
 	}
 
-	override protected function onThemesLoaded(res:CommandResult):void {
-		super.onThemesLoaded(res);
-		sendRequest(NoteMsg.GET_SELECTED_THEMES_ID, new RequestMessage(onSelectedThemesIDLoaded, null, selectedNote));
+	override protected function onThemesLoaded(op:IAsyncOperation):void {
+		super.onThemesLoaded(op);
+		sendRequest(NoteMsg.GET_SELECTED_THEMES_ID, new RequestMessage(onSelectedThemesIDLoaded, selectedNote));
 	}
 
-	private function onSelectedThemesIDLoaded(res:CommandResult):void {
-		var themesID:Array = res.data as Array;
+	private function onSelectedThemesIDLoaded(op:IAsyncOperation):void {
+		var themesID:Array = op.result as Array;
 		if (view.themes && themesID && view.themes.length > 0 && themesID.length > 0) {
 			var isSelectedThemeHash:Object = {};
 			var selectedItems:Vector.<Object> = new Vector.<Object>();
@@ -74,25 +73,22 @@ public class NoteEditorMediator extends NoteFormMediator {
 	}
 
 	override protected function send(suite:NoteSuite):void {
-		sendRequest(NoteMsg.UPDATE_NOTE, new RequestMessage(updateNoteCompleteHandler, updateNoteErrorHandler, suite));
+		sendRequest(NoteMsg.UPDATE_NOTE, new RequestMessage(updateNoteCompleteHandler, suite));
 	}
 
-	protected function updateNoteCompleteHandler(res:CommandResult):void {
-		closeForm();
-	}
-
-	protected function updateNoteErrorHandler(exc:CommandException):void {
-		view.notifyInvalidData(exc.details);
+	protected function updateNoteCompleteHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) closeForm();
+		else view.notifyInvalidData(op.error.details);
 	}
 
 	protected function loadExamples():void {
 		if (selectedNote) {
-			sendRequest(NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, null, selectedNote.id));
+			sendRequest(NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, selectedNote.id));
 		}
 	}
 
-	protected function onExamplesLoaded(res:CommandResult):void {
-		view.examplesForm.examples = new ArrayCollection(res.data as Array || []);
+	protected function onExamplesLoaded(op:IAsyncOperation):void {
+		view.examplesForm.examples = new ArrayCollection(op.result as Array || []);
 	}
 }
 }

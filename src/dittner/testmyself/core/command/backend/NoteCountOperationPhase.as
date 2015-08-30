@@ -1,30 +1,37 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class NoteCountOperationPhase extends PhaseOperation {
+public class NoteCountOperationPhase extends AsyncOperation implements ICommand {
 
-	public function NoteCountOperationPhase(sqlRunner:SQLRunner, info:NotesInfo, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+	public function NoteCountOperationPhase(conn:SQLConnection, info:NotesInfo, sqlFactory:SQLFactory) {
+		this.conn = conn;
 		this.info = info;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var info:NotesInfo;
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
 
-	override public function execute():void {
-		var params:Object = {};
-		params.searchFilter = "%%";
-		sqlRunner.execute(sqlFactory.selectCountNote, params, executeComplete);
+	public function execute():void {
+		var sqlParams:Object = {};
+		sqlParams.searchFilter = "%%";
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sqlFactory.selectCountNote, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
 	private function executeComplete(result:SQLResult):void {
@@ -34,17 +41,17 @@ public class NoteCountOperationPhase extends PhaseOperation {
 				info.notesAmount = countData[prop] as int;
 				break;
 			}
-			dispatchComplete();
+			dispatchSuccess();
 		}
 		else {
-			throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число записей в таблице");
+			dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число записей в таблице"));
 		}
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		info = null;
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

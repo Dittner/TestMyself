@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.command.ISFCommand;
 import dittner.satelliteFlight.message.IRequestMessage;
+import dittner.testmyself.core.async.AsyncOperation;
 import dittner.testmyself.core.model.note.INoteModel;
 
 public class GetNoteFilterCmd implements ISFCommand {
@@ -10,7 +10,9 @@ public class GetNoteFilterCmd implements ISFCommand {
 	public var model:INoteModel;
 
 	public function execute(msg:IRequestMessage):void {
-		msg.completeSuccess(new CommandResult(model.filter));
+		var op:AsyncOperation = new AsyncOperation();
+		op.dispatchSuccess(model.filter);
+		msg.onComplete(op);
 	}
 }
 }

@@ -1,47 +1,54 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.test.TestInfo;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectTestNotesIDsOperationPhase extends PhaseOperation {
+public class SelectTestNotesIDsOperationPhase extends AsyncOperation implements ICommand {
 
-	public function SelectTestNotesIDsOperationPhase(sqlRunner:SQLRunner, testInfo:TestInfo, sqlFactory:SQLFactory, notesIDs:Array) {
+	public function SelectTestNotesIDsOperationPhase(conn:SQLConnection, testInfo:TestInfo, sqlFactory:SQLFactory, notesIDs:Array) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.testInfo = testInfo;
 		this.sqlFactory = sqlFactory;
 		this.notesIDs = notesIDs;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var testInfo:TestInfo;
 	private var sqlFactory:SQLFactory;
 	private var notesIDs:Array;
 
-	override public function execute():void {
-		var sqlStatement:String = sqlFactory.selectTestNoteID;
+	public function execute():void {
+		var sql:String = sqlFactory.selectTestNoteID;
 		var sqlParams:Object = {};
 		sqlParams.selectedTestID = testInfo.id;
-		sqlRunner.execute(sqlStatement, sqlParams, loadedHandler);
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		if (result.data is Array) {
 			for (var i:int = 0; i < result.data.length; i++) {
 				notesIDs.push(result.data[i].noteID);
 			}
 		}
-		dispatchComplete();
+		dispatchSuccess();
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		testInfo = null;
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

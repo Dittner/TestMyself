@@ -1,69 +1,72 @@
 package dittner.testmyself.core.command.backend {
 
-import com.probertson.data.QueuedStatement;
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
-import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.model.test.TestTaskComplexity;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class TestTaskInsertOperationSubPhase extends PhaseOperation {
-	public function TestTaskInsertOperationSubPhase(note:INote, testInfo:TestInfo, sqlRunner:SQLRunner, sqlStatement:String, testModel:TestModel) {
+public class TestTaskInsertOperationSubPhase extends AsyncOperation implements ICommand {
+	public function TestTaskInsertOperationSubPhase(note:INote, testInfo:TestInfo, conn:SQLConnection, sql:String, testModel:TestModel) {
 		this.note = note;
 		this.testInfo = testInfo;
-		this.sqlRunner = sqlRunner;
-		this.sqlStatement = sqlStatement;
+		this.conn = conn;
+		this.sql = sql;
 		this.testModel = testModel;
 	}
 
 	private var note:INote;
 	private var testInfo:TestInfo;
-	private var sqlRunner:SQLRunner;
-	private var sqlStatement:String;
+	private var conn:SQLConnection;
+	private var sql:String;
 	private var testModel:TestModel;
 
-	override public function execute():void {
-		if (note.id == -1) throw new CommandException(ErrorCode.NOTE_OF_TEST_TASK_HAS_NO_ID, "Нет ID записи, необходимого для сохранения тестовой задачи");
+	public function execute():void {
+		if (note.id == -1) {
+			dispatchError(new CommandException(ErrorCode.NOTE_OF_TEST_TASK_HAS_NO_ID, "Нет ID записи, необходимого для сохранения тестовой задачи"));
+			return;
+		}
 		if (!testModel.validate(note, testInfo)) {
-			dispatchComplete();
+			dispatchSuccess();
 			return;
 		}
 
-		var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
 		var sqlParams:Object = {};
 		sqlParams.testID = testInfo.id;
 		sqlParams.noteID = note.id;
-		sqlParams.correct = 0;
-		sqlParams.incorrect = 0;
 		sqlParams.isFailed = 0;
 		sqlParams.lastTestedDate = 0;
-		sqlParams.rate = testModel.calcTaskRate(new TestTask());
+		sqlParams.rate = testModel.calcTaskRate();
 		sqlParams.complexity = TestTaskComplexity.HIGH;
-		statements.push(new QueuedStatement(sqlStatement, sqlParams));
-		sqlRunner.executeModify(statements, executeComplete, executeError);
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchComplete();
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
 	}
 
 	private function executeError(error:SQLError):void {
-		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details);
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		testInfo = null;
-		sqlRunner = null;
-		sqlStatement = null;
+		conn = null;
+		sql = null;
 	}
 }
 }

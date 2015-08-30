@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.note.filter {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.theme.ITheme;
@@ -62,15 +62,15 @@ public class NoteFilterMediator extends SFMediator {
 		if (!filter) return;
 		filter.selectedThemes = [];
 		for each(var item:* in view.themesList.selectedItems) filter.selectedThemes.push(item);
-		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(null, null, filter));
+		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(null, filter));
 	}
 
 	private function loadThemes():void {
 		sendRequest(NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
 	}
 
-	private function onThemesLoaded(res:CommandResult):void {
-		var themeItems:Array = res.data as Array;
+	private function onThemesLoaded(op:IAsyncOperation):void {
+		var themeItems:Array = op.result as Array;
 		view.themes = new ArrayCollection(themeItems);
 		loadFilter();
 	}
@@ -79,8 +79,8 @@ public class NoteFilterMediator extends SFMediator {
 		sendRequest(NoteMsg.GET_FILTER, new RequestMessage(onFilterLoaded));
 	}
 
-	private function onFilterLoaded(res:CommandResult):void {
-		filter = res.data as NoteFilter;
+	private function onFilterLoaded(op:IAsyncOperation):void {
+		filter = op.result as NoteFilter;
 
 		if (filter && filter.selectedThemes.length > 0 && view.themes.length > 0) {
 			var theme:ITheme;

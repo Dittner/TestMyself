@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.lesson {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.core.model.theme.Theme;
@@ -37,7 +37,7 @@ public class LessonListMediator extends SFMediator {
 		if (!view.lessonColl) view.lessonColl = new ArrayCollection();
 		var lesson:Theme = new Theme();
 		lesson.name = view.addLessonForm.addLessonInput.text;
-		sendRequest(NoteMsg.ADD_THEME, new RequestMessage(null, null, lesson));
+		sendRequest(NoteMsg.ADD_THEME, new RequestMessage(null, lesson));
 
 		lessonNameHash[lesson.name] = true;
 		view.lessonColl.addItem(lesson);
@@ -61,8 +61,8 @@ public class LessonListMediator extends SFMediator {
 		}
 	}
 
-	private function onThemesLoaded(res:CommandResult):void {
-		var themeItems:Array = res.data as Array;
+	private function onThemesLoaded(op:IAsyncOperation):void {
+		var themeItems:Array = op.result as Array;
 		themeItems.sortOn("name");
 		view.lessonColl = new ArrayCollection(themeItems);
 

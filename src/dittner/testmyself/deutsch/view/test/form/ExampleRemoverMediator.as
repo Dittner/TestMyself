@@ -9,7 +9,7 @@ public class ExampleRemoverMediator extends NoteRemoverMediator {
 	override protected function sendRemoveUnitRequest():void {
 		var suite:NoteSuite = new NoteSuite();
 		suite.note = selectedNote;
-		sendRequest(NoteMsg.REMOVE_EXAMPLE, new RequestMessage(removeUnitCompleteHandler, removeUnitErrorHandler, suite));
+		sendRequest(NoteMsg.REMOVE_EXAMPLE, new RequestMessage(removeUnitCompleteHandler, suite));
 	}
 
 }

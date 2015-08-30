@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.test.testing {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.note.INote;
@@ -42,7 +42,7 @@ public class TestingMediator extends SFMediator {
 		if (view.activeNote) {
 			view.taskNumber--;
 			var msg:String = selectedTestInfo.useNoteExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
-			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, null, curTask.noteID));
+			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, curTask.noteID));
 		}
 	}
 
@@ -52,12 +52,10 @@ public class TestingMediator extends SFMediator {
 				sendNotification(TestMsg.SHOW_TEST_PRESETS_NOTIFICATION);
 				break;
 			case TestingAction.CORRECT_ANSWER :
-				curTask.correct++;
 				curTask.isFailed = false;
 				updateTask();
 				break;
 			case TestingAction.INCORRECT_ANSWER :
-				curTask.incorrect++;
 				curTask.isFailed = true;
 				updateTask();
 				break;
@@ -71,8 +69,8 @@ public class TestingMediator extends SFMediator {
 		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS, new RequestMessage(onTasksLoaded));
 	}
 
-	private function onTasksLoaded(res:CommandResult):void {
-		testTasks = res.data as Array;
+	private function onTasksLoaded(op:IAsyncOperation):void {
+		testTasks = op.result as Array;
 		view.taskNumber = 0;
 		view.totalTask = testTasks ? testTasks.length : 0;
 		showNextTask();
@@ -81,7 +79,7 @@ public class TestingMediator extends SFMediator {
 	private function updateTask():void {
 		curTask.complexity = view.complexity;
 		curTask.lastTestedDate = (new Date).time;
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.UPDATE_TEST_TASK, new RequestMessage(null, null, curTask));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.UPDATE_TEST_TASK, new RequestMessage(null, curTask));
 	}
 
 	private function showNextTask():void {
@@ -89,17 +87,17 @@ public class TestingMediator extends SFMediator {
 			curTask = testTasks.shift();
 			view.complexity = curTask.complexity;
 			var msg:String = selectedTestInfo.useNoteExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
-			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, null, curTask.noteID));
+			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, curTask.noteID));
 		}
 		else view.answerEnabled = false;
 	}
 
-	private function onNoteLoaded(res:CommandResult):void {
+	private function onNoteLoaded(op:IAsyncOperation):void {
 		view.taskNumber++;
-		if (res.data is INote) {
-			view.activeNote = res.data as INote;
+		if (op.result is INote) {
+			view.activeNote = op.result as INote;
 			if (selectedTestInfo.loadExamplesWhenTesting) loadExamples(view.activeNote);
-			sendNotification(TestMsg.TESTING_NOTE_SELECTED, res.data as INote);
+			sendNotification(TestMsg.TESTING_NOTE_SELECTED, op.result as INote);
 		}
 		else {
 			showNextTask();
@@ -107,12 +105,12 @@ public class TestingMediator extends SFMediator {
 	}
 
 	private function loadExamples(note:INote):void {
-		sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, null, note.id));
+		sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, note.id));
 	}
 
-	private function onExamplesLoaded(res:CommandResult):void {
-		if (res.data is Array && res.data.length > 0) {
-			view.activeNoteExampleColl = new ArrayCollection(res.data as Array);
+	private function onExamplesLoaded(op:IAsyncOperation):void {
+		if (op.result is Array && op.result.length > 0) {
+			view.activeNoteExampleColl = new ArrayCollection(op.result as Array);
 		}
 		else {
 			view.activeNoteExampleColl = null;

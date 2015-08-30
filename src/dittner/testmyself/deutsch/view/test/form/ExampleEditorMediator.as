@@ -37,7 +37,7 @@ public class ExampleEditorMediator extends NoteEditorMediator {
 	}
 
 	override protected function send(suite:NoteSuite):void {
-		sendRequest(NoteMsg.UPDATE_EXAMPLE, new RequestMessage(updateNoteCompleteHandler, updateNoteErrorHandler, suite));
+		sendRequest(NoteMsg.UPDATE_EXAMPLE, new RequestMessage(updateNoteCompleteHandler, suite));
 	}
 
 	override protected function validateNote(note:Note):String {

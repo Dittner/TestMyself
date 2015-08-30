@@ -1,32 +1,39 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectAllExamplesOperationPhase extends PhaseOperation {
+public class SelectAllExamplesOperationPhase extends AsyncOperation implements ICommand {
 
-	public function SelectAllExamplesOperationPhase(sqlRunner:SQLRunner, sqlFactory:SQLFactory, examples:Array) {
+	public function SelectAllExamplesOperationPhase(conn:SQLConnection, sqlFactory:SQLFactory, examples:Array) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.sqlFactory = sqlFactory;
 		this.examples = examples;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
 	private var examples:Array;
 
-	override public function execute():void {
-		var sqlStatement:String = "SELECT * FROM example";
+	public function execute():void {
+		var sql:String = "SELECT * FROM example";
 		var sqlParams:Object = {};
-		sqlRunner.execute(sqlStatement, sqlParams, loadedHandler);
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		if (result.data is Array) {
 			var example:Note;
 			for each(var item:Object in result.data) {
@@ -38,12 +45,12 @@ public class SelectAllExamplesOperationPhase extends PhaseOperation {
 				examples.push(example);
 			}
 		}
-		dispatchComplete();
+		dispatchSuccess();
 	}
 
 	override public function destroy():void {
 		super.destroy();
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

@@ -1,14 +1,16 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.page.NotePageInfo;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectPageNotesSQLOperation extends DeferredOperation {
+public class SelectPageNotesSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SelectPageNotesSQLOperation(service:NoteService, pageInfo:NotePageInfo, noteClass:Class) {
 		super();
@@ -21,28 +23,33 @@ public class SelectPageNotesSQLOperation extends DeferredOperation {
 	private var pageInfo:NotePageInfo;
 	private var noteClass:Class;
 
-	override public function process():void {
+	public function execute():void {
 		var filter:NoteFilter = pageInfo.filter;
 
-		var params:Object = {};
-		params.startIndex = pageInfo.pageNum * pageInfo.pageSize;
-		params.amount = pageInfo.pageSize;
-		params.searchFilter = filter.searchFullIdentity ? filter.searchText : "%" + filter.searchText + "%";
+		var sqlParams:Object = {};
+		sqlParams.startIndex = pageInfo.pageNum * pageInfo.pageSize;
+		sqlParams.amount = pageInfo.pageSize;
+		sqlParams.searchFilter = filter.searchFullIdentity ? filter.searchText : "%" + filter.searchText + "%";
 
+		var sql:String;
 		if (filter.selectedThemes.length > 0) {
 			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-			var statement:String = service.sqlFactory.selectFilteredPageNotes;
-			statement = statement.replace("#filterList", themes);
-			service.sqlRunner.execute(statement, params, loadedHandler, noteClass);
+			sql = service.sqlFactory.selectFilteredPageNotes;
+			sql = sql.replace("#filterList", themes);
 		}
 		else {
-			service.sqlRunner.execute(service.sqlFactory.selectPageNotes, params, loadedHandler, noteClass);
+			sql = service.sqlFactory.selectPageNotes;
 		}
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.itemClass = noteClass;
+		statement.sqlConnection = service.sqlConnection;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		pageInfo.notes = result.data is Array ? result.data as Array : [];
-		dispatchCompleteSuccess(new CommandResult(pageInfo));
+		dispatchSuccess(pageInfo);
 	}
 }
 }

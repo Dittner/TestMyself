@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.NoteFilter;
@@ -9,45 +9,54 @@ import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.page.TestPageInfo;
 import dittner.testmyself.core.model.test.TestInfo;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectPageTestNotesOperationPhase extends PhaseOperation {
+public class SelectPageTestNotesOperationPhase extends AsyncOperation implements ICommand {
 
-	public function SelectPageTestNotesOperationPhase(sqlRunner:SQLRunner, pageInfo:TestPageInfo, sqlFactory:SQLFactory, noteClass:Class) {
+	public function SelectPageTestNotesOperationPhase(conn:SQLConnection, pageInfo:TestPageInfo, sqlFactory:SQLFactory, noteClass:Class) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.pageInfo = pageInfo;
 		this.sqlFactory = sqlFactory;
 		this.noteClass = noteClass;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var pageInfo:TestPageInfo;
 	private var sqlFactory:SQLFactory;
 	private var noteClass:Class;
 
-	override public function execute():void {
+	public function execute():void {
 		var testInfo:TestInfo = pageInfo.testSpec.info;
 
-		var params:Object = {};
-		params.startIndex = pageInfo.pageNum * pageInfo.pageSize;
-		params.amount = pageInfo.pageSize;
-		params.selectedTestID = pageInfo.testSpec.info.id;
-		params.onlyFailedNotes = pageInfo.onlyFailedNotes ? 1 : 0;
+		var sqlParams:Object = {};
+		sqlParams.startIndex = pageInfo.pageNum * pageInfo.pageSize;
+		sqlParams.amount = pageInfo.pageSize;
+		sqlParams.selectedTestID = pageInfo.testSpec.info.id;
+		sqlParams.onlyFailedNotes = pageInfo.onlyFailedNotes ? 1 : 0;
+
+		var sql:String;
 
 		var filter:NoteFilter = pageInfo.testSpec.filter;
 		if (filter.selectedThemes.length > 0) {
 			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-			var statement:String = testInfo.useNoteExample ? sqlFactory.selectFilteredPageTestExamples : sqlFactory.selectFilteredPageTestNotes;
-			statement = statement.replace("#filterList", themes);
-			sqlRunner.execute(statement, params, loadedHandler, testInfo.useNoteExample ? null : noteClass);
+			sql = testInfo.useNoteExample ? sqlFactory.selectFilteredPageTestExamples : sqlFactory.selectFilteredPageTestNotes;
+			sql = sql.replace("#filterList", themes);
 		}
 		else {
-			sqlRunner.execute(testInfo.useNoteExample ? sqlFactory.selectPageTestExamples : sqlFactory.selectPageTestNotes, params, loadedHandler, testInfo.useNoteExample ? null : noteClass);
+			sql = testInfo.useNoteExample ? sqlFactory.selectPageTestExamples : sqlFactory.selectPageTestNotes;
 		}
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		if (!testInfo.useNoteExample) statement.itemClass = noteClass;
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		if (pageInfo.testSpec.info.useNoteExample) {
 			var examples:Array = [];
 			var example:Note;
@@ -64,13 +73,13 @@ public class SelectPageTestNotesOperationPhase extends PhaseOperation {
 		else {
 			pageInfo.notes = result.data || [];
 		}
-		dispatchComplete();
+		dispatchSuccess();
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		pageInfo = null;
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

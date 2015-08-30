@@ -1,7 +1,8 @@
 package dittner.testmyself.core.command.backend {
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.deutsch.model.AppConfig;
 import dittner.testmyself.deutsch.view.common.audio.mp3.MP3Writer;
@@ -11,23 +12,23 @@ import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.utils.ByteArray;
 
-public class MP3EncodingPhase extends PhaseOperation {
+public class MP3EncodingPhase extends AsyncOperation implements ICommand {
 	public function MP3EncodingPhase(note:Note) {
 		this.note = note;
 	}
 
 	private var note:Note;
 
-	override public function execute():void {
+	public function execute():void {
 		if (!note.audioComment.isMp3 && note.audioComment.bytes && note.audioComment.bytes.length > 0) {
 			try {
 				MP3Writer.encodeRawData(note.audioComment.bytes, encodeCompleteHandler);
 			}
 			catch (error:Error) {
-				throw new CommandException(ErrorCode.MP3_ENCODING_FAILED, error.message);
+				dispatchError(new CommandException(ErrorCode.MP3_ENCODING_FAILED, error.message));
 			}
 		}
-		else dispatchComplete();
+		else dispatchSuccess();
 	}
 
 	private function encodeCompleteHandler(output:ByteArray):void {
@@ -35,7 +36,7 @@ public class MP3EncodingPhase extends PhaseOperation {
 		note.audioComment.bytes.clear();
 		note.audioComment.bytes = output;
 		//saveLocally();
-		dispatchComplete();
+		dispatchSuccess();
 	}
 
 	private function saveLocally():void {

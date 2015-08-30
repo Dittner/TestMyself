@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.about {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.deutsch.message.ScreenMsg;
@@ -28,22 +28,22 @@ public class AboutScreenMediator extends SFMediator {
 	private function wordsInfoChanged(info:NotesInfo):void {
 		view.infoBoard.wordInfo = info;
 	}
-	private function wordsInfoLoaded(res:CommandResult):void {
-		view.infoBoard.wordInfo = res.data as NotesInfo;
+	private function wordsInfoLoaded(op:IAsyncOperation):void {
+		view.infoBoard.wordInfo = op.result as NotesInfo;
 	}
 
 	private function verbsInfoChanged(info:NotesInfo):void {
 		view.infoBoard.verbInfo = info;
 	}
-	private function verbsInfoLoaded(res:CommandResult):void {
-		view.infoBoard.verbInfo = res.data as NotesInfo;
+	private function verbsInfoLoaded(op:IAsyncOperation):void {
+		view.infoBoard.verbInfo = op.result as NotesInfo;
 	}
 
 	private function lessonInfoChanged(info:NotesInfo):void {
 		view.infoBoard.lessonInfo = info;
 	}
-	private function lessonInfoLoaded(res:CommandResult):void {
-		view.infoBoard.lessonInfo = res.data as NotesInfo;
+	private function lessonInfoLoaded(op:IAsyncOperation):void {
+		view.infoBoard.lessonInfo = op.result as NotesInfo;
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 

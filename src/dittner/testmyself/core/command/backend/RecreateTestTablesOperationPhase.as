@@ -1,46 +1,59 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class RecreateTestTablesOperationPhase extends PhaseOperation {
+public class RecreateTestTablesOperationPhase extends AsyncOperation implements ICommand {
 
-	public function RecreateTestTablesOperationPhase(sqlRunner:SQLRunner, sqlFactory:SQLFactory) {
+	public function RecreateTestTablesOperationPhase(conn:SQLConnection, sqlFactory:SQLFactory) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.sqlFactory = sqlFactory;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
 
-	override public function execute():void {
-		var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
-		statements.push(new QueuedStatement("DROP TABLE test"));
-		statements.push(new QueuedStatement("DROP TABLE testExample"));
-		statements.push(new QueuedStatement(sqlFactory.createTestTbl));
-		statements.push(new QueuedStatement(sqlFactory.createTestExampleTbl));
+	public function execute():void {
+		var statement:SQLStatement;
 
-		sqlRunner.executeModify(statements, executeComplete, deleteFailedHandler, null);
+		statement = SQLUtils.createSQLStatement("DROP TABLE test");
+		statement.sqlConnection = conn;
+		statement.execute();
+
+		statement = SQLUtils.createSQLStatement("DROP TABLE testExample");
+		statement.sqlConnection = conn;
+		statement.execute();
+
+		statement = SQLUtils.createSQLStatement(sqlFactory.createTestTbl);
+		statement.sqlConnection = conn;
+		statement.execute();
+
+		statement = SQLUtils.createSQLStatement(sqlFactory.createTestExampleTbl);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchComplete();
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
 	}
 
-	private function deleteFailedHandler(error:SQLError):void {
-		dispatchComplete();
+	private function executeError(error:SQLError):void {
+		dispatchError(error);
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		sqlFactory = null;
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

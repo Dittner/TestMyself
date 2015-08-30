@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.note.pagination {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.model.page.INotePageInfo;
@@ -29,8 +29,8 @@ public class NotePaginationMediator extends SFMediator {
 		updateView(pageInfo);
 	}
 
-	private function onPageInfoLoaded(res:CommandResult):void {
-		updateView(res.data as INotePageInfo);
+	private function onPageInfoLoaded(op:IAsyncOperation):void {
+		updateView(op.result as INotePageInfo);
 	}
 
 	private function updateView(info:INotePageInfo):void {
@@ -43,8 +43,8 @@ public class NotePaginationMediator extends SFMediator {
 		view.totalNotes = info.filteredNotesAmount;
 	}
 
-	private function notesInfoLoaded(res:CommandResult):void {
-		view.totalNotes = (res.data as NotesInfo).filteredNotesAmount;
+	private function notesInfoLoaded(op:IAsyncOperation):void {
+		view.totalNotes = (op.result as NotesInfo).filteredNotesAmount;
 	}
 
 	private function nextPageBtnClickHandler(event:MouseEvent):void {
@@ -64,7 +64,7 @@ public class NotePaginationMediator extends SFMediator {
 	}
 
 	private function loadPageInfo(pageNum:uint):void {
-		sendRequest(NoteMsg.GET_NOTE_PAGE_INFO, new RequestMessage(null, null, pageNum))
+		sendRequest(NoteMsg.GET_NOTE_PAGE_INFO, new RequestMessage(null, pageNum))
 	}
 
 	override protected function deactivate():void {

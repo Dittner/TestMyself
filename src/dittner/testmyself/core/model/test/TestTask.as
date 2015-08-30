@@ -16,25 +16,11 @@ public class TestTask implements ITestTask {
 	public function set noteID(value:int):void {_noteID = value;}
 
 	//--------------------------------------
-	//  correct
-	//--------------------------------------
-	private var _correct:int = 0;
-	public function get correct():int {return _correct;}
-	public function set correct(value:int):void {_correct = value;}
-
-	//--------------------------------------
-	//  incorrect
-	//--------------------------------------
-	private var _incorrect:int = 0;
-	public function get incorrect():int {return _incorrect;}
-	public function set incorrect(value:int):void {_incorrect = value;}
-
-	//--------------------------------------
 	//  rate
 	//--------------------------------------
-	private var _rate:int = -1;
-	public function get rate():int {return _rate;}
-	public function set rate(value:int):void {_rate = value;}
+	private var _rate:Number = -1;
+	public function get rate():Number {return _rate;}
+	public function set rate(value:Number):void {_rate = value;}
 
 	//--------------------------------------
 	//  complexity

@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.test.testList {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 
@@ -46,8 +46,8 @@ public class TestListMediator extends SFMediator {
 		return "";
 	}
 
-	private function testInfoListLoaded(res:CommandResult):void {
-		view.testInfoColl = new ArrayCollection(res.data as Array);
+	private function testInfoListLoaded(op:IAsyncOperation):void {
+		view.testInfoColl = new ArrayCollection(op.result as Array);
 	}
 
 	private function onTestApplied(event:MouseEvent):void {

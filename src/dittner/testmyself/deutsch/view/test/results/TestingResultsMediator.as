@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.test.results {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.note.INote;
@@ -50,8 +50,8 @@ public class TestingResultsMediator extends SFMediator {
 		view.list.addEventListener(SelectableDataGroup.SELECTED, taskSelectedHandler);
 		view.goBackBtn.addEventListener(MouseEvent.CLICK, goBackClickHandler);
 		view.lastFailedNotesFilterBox.addEventListener(Event.CHANGE, onlyFailedNotesFilterChanged);
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, null, createTestPageInfo()));
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS_AMOUNT, new RequestMessage(onTestTasksAmountLoaded, null, onlyFailedNotes));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, createTestPageInfo()));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS_AMOUNT, new RequestMessage(onTestTasksAmountLoaded, onlyFailedNotes));
 		paginationBar.nextPageBtn.addEventListener(MouseEvent.CLICK, nextPageBtnClickHandler);
 		paginationBar.prevPageBtn.addEventListener(MouseEvent.CLICK, prevPageBtnClickHandler);
 		paginationBar.firstPageBtn.addEventListener(MouseEvent.CLICK, firstPageBtnClickHandler);
@@ -59,8 +59,8 @@ public class TestingResultsMediator extends SFMediator {
 	}
 
 	private function onlyFailedNotesFilterChanged(event:Event):void {
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, null, createTestPageInfo()));
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS_AMOUNT, new RequestMessage(onTestTasksAmountLoaded, null, onlyFailedNotes));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, createTestPageInfo()));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_TASKS_AMOUNT, new RequestMessage(onTestTasksAmountLoaded, onlyFailedNotes));
 	}
 
 	private function get onlyFailedNotes():Boolean {
@@ -74,8 +74,8 @@ public class TestingResultsMediator extends SFMediator {
 		return res;
 	}
 
-	private function onPageInfoLoaded(res:CommandResult):void {
-		updateView(res.data as ITestPageInfo);
+	private function onPageInfoLoaded(op:IAsyncOperation):void {
+		updateView(op.result as ITestPageInfo);
 	}
 
 	private function updateView(info:ITestPageInfo):void {
@@ -97,8 +97,8 @@ public class TestingResultsMediator extends SFMediator {
 		return res;
 	}
 
-	private function onTestTasksAmountLoaded(res:CommandResult):void {
-		paginationBar.totalNotes = res.data as uint;
+	private function onTestTasksAmountLoaded(op:IAsyncOperation):void {
+		paginationBar.totalNotes = op.result as uint;
 	}
 
 	//--------------------------------------
@@ -122,7 +122,7 @@ public class TestingResultsMediator extends SFMediator {
 	}
 
 	private function loadPageInfo(pageNum:uint):void {
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, null, createTestPageInfo(pageNum)));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.GET_TEST_PAGE_INFO, new RequestMessage(onPageInfoLoaded, createTestPageInfo(pageNum)));
 	}
 
 	private function goBackClickHandler(event:MouseEvent):void {
@@ -140,12 +140,12 @@ public class TestingResultsMediator extends SFMediator {
 	}
 
 	private function loadExamples(note:INote):void {
-		sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, null, note.id));
+		sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, note.id));
 	}
 
-	protected function onExamplesLoaded(res:CommandResult):void {
-		if (res.data is Array && res.data.length > 0) {
-			view.exampleList.dataProvider = new ArrayCollection(res.data as Array);
+	protected function onExamplesLoaded(op:IAsyncOperation):void {
+		if (op.result is Array && op.result.length > 0) {
+			view.exampleList.dataProvider = new ArrayCollection(op.result as Array);
 			view.exampleList.visible = view.exampleList.includeInLayout = true;
 		}
 		else {

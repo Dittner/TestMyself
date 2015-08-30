@@ -1,17 +1,20 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 
-public class ClearTestHistoryOperationPhase extends PhaseOperation {
+import flash.data.SQLConnection;
 
-	public function ClearTestHistoryOperationPhase(sqlRunner:SQLRunner, testInfo:TestInfo, noteIDs:Array, testModel:TestModel, sqlFactory:SQLFactory) {
+public class ClearTestHistoryOperationPhase extends AsyncOperation implements ICommand {
+
+	public function ClearTestHistoryOperationPhase(conn:SQLConnection, testInfo:TestInfo, noteIDs:Array, testModel:TestModel, sqlFactory:SQLFactory) {
 		this.noteIDs = noteIDs;
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.testModel = testModel;
 		this.testInfo = testInfo;
 		this.sqlFactory = sqlFactory;
@@ -20,30 +23,36 @@ public class ClearTestHistoryOperationPhase extends PhaseOperation {
 	private var noteIDs:Array;
 	private var testModel:TestModel;
 	private var testInfo:TestInfo;
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
-	private var subPhaseRunner:PhaseRunner;
+	private var composite:CompositeOperation;
 
-	override public function execute():void {
+	public function execute():void {
 		if (noteIDs.length > 0) {
-			subPhaseRunner = new PhaseRunner();
-			subPhaseRunner.completeCallback = dispatchComplete;
+			composite = new CompositeOperation();
 
 			for each(var noteID:int in noteIDs) {
-				subPhaseRunner.addPhase(ClearTestHistoryOperationSubPhase, testInfo.id, noteID, sqlRunner, sqlFactory.updateTestTask, testModel);
+				composite.addOperation(ClearTestHistoryOperationSubPhase, testInfo.id, noteID, conn, sqlFactory.updateTestTask, testModel);
 			}
-			subPhaseRunner.execute();
+
+			composite.addCompleteCallback(completeHandler);
+			composite.execute();
 		}
-		else dispatchComplete();
+		else dispatchSuccess();
+	}
+
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		sqlFactory = null;
 		testModel = null;
-		sqlRunner = null;
+		conn = null;
 		testInfo = null;
-		subPhaseRunner = null;
+		composite = null;
 	}
 }
 }

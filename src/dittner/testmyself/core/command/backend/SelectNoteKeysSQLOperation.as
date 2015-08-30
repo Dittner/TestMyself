@@ -1,12 +1,15 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectNoteKeysSQLOperation extends DeferredOperation {
+public class SelectNoteKeysSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SelectNoteKeysSQLOperation(service:NoteService, sqlFactory:SQLFactory, noteClass:Class) {
 		super();
@@ -19,13 +22,16 @@ public class SelectNoteKeysSQLOperation extends DeferredOperation {
 	private var sqlFactory:SQLFactory;
 	private var noteClass:Class;
 
-	override public function process():void {
-		service.sqlRunner.execute(sqlFactory.selectNoteKeys, null, loadedHandler, noteClass);
+	public function execute():void {
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sqlFactory.selectNoteKeys);
+		statement.itemClass = noteClass;
+		statement.sqlConnection = service.sqlConnection;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		var keys:Array = result.data is Array ? result.data as Array : [];
-		dispatchCompleteSuccess(new CommandResult(keys));
+		dispatchSuccess(keys);
 	}
 }
 }

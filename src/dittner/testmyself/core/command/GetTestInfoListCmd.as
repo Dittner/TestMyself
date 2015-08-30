@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.command.ISFCommand;
 import dittner.satelliteFlight.message.IRequestMessage;
+import dittner.testmyself.core.async.AsyncOperation;
 import dittner.testmyself.core.model.test.TestModel;
 
 public class GetTestInfoListCmd implements ISFCommand {
@@ -10,7 +10,9 @@ public class GetTestInfoListCmd implements ISFCommand {
 	public var testModel:TestModel;
 
 	public function execute(msg:IRequestMessage):void {
-		msg.completeSuccess(new CommandResult(testModel.testInfos));
+		var op:AsyncOperation = new AsyncOperation();
+		op.dispatchSuccess(testModel.testInfos);
+		msg.onComplete(op);
 	}
 
 }

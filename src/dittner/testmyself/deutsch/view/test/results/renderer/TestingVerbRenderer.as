@@ -5,7 +5,6 @@ import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;
 import dittner.testmyself.deutsch.view.test.common.TestRendererData;
-import dittner.testmyself.deutsch.view.test.results.TestTaskCard;
 
 import flash.display.GradientType;
 import flash.display.Graphics;
@@ -36,7 +35,6 @@ public class TestingVerbRenderer extends ItemRendererBase {
 	private var pastTf:TextField;
 	private var perfectTf:TextField;
 	private var translationTf:TextField;
-	private var testTaskCard:TestTaskCard;
 
 	private function get renData():TestRendererData {
 		return data as TestRendererData;
@@ -68,9 +66,6 @@ public class TestingVerbRenderer extends ItemRendererBase {
 
 		perfectTf = createMultilineTextField(FORMAT);
 		addChild(perfectTf);
-
-		testTaskCard = new TestTaskCard();
-		addChild(testTaskCard);
 	}
 
 	override protected function commitProperties():void {
@@ -88,7 +83,6 @@ public class TestingVerbRenderer extends ItemRendererBase {
 			presentTf.text = verb.present;
 			pastTf.text = verb.past;
 			perfectTf.text = verb.perfect;
-			testTaskCard.label = task.correct + " / " + (task.correct + task.incorrect);
 		}
 		else {
 			infinitiveTf.text = "";
@@ -96,7 +90,6 @@ public class TestingVerbRenderer extends ItemRendererBase {
 			presentTf.text = "";
 			pastTf.text = "";
 			perfectTf.text = "";
-			testTaskCard.label = "0 / 0";
 		}
 	}
 
@@ -167,9 +160,6 @@ public class TestingVerbRenderer extends ItemRendererBase {
 			perfectTf.visible = false;
 			translationTf.visible = false;
 		}
-
-		testTaskCard.x = w - testTaskCard.width - HPAD;
-		testTaskCard.y = 5;
 
 		const WID:Number = w / 4;
 		infinitiveTf.x = HPAD;

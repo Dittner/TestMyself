@@ -1,8 +1,8 @@
 package dittner.testmyself.deutsch.view.main {
 
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.screen.ScreenBase;
@@ -34,8 +34,8 @@ public class MainViewMediator extends SFMediator {
 		view.screenList.addEventListener(SelectableDataGroup.SELECTED, screenListItemSelectedHandler);
 	}
 
-	private function showScreenInfoList(res:CommandResult):void {
-		var screenInfos:Array = res.data as Array;
+	private function showScreenInfoList(op:IAsyncOperation):void {
+		var screenInfos:Array = op.result as Array;
 		view.screenListProvider = new ArrayCollection(screenInfos);
 		view.screenList.selectedIndex = 0;
 	}
@@ -44,8 +44,8 @@ public class MainViewMediator extends SFMediator {
 		showScreen(screen);
 	}
 
-	private function selectedScreenLoaded(res:CommandResult):void {
-		showScreen(res.data as ScreenBase);
+	private function selectedScreenLoaded(op:IAsyncOperation):void {
+		showScreen(op.result as ScreenBase);
 	}
 
 	private function showScreen(screen:ScreenBase):void {
@@ -56,7 +56,7 @@ public class MainViewMediator extends SFMediator {
 	}
 
 	private function screenListItemSelectedHandler(event:Event):void {
-		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, null, view.screenList.selectedItem.id));
+		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, view.screenList.selectedItem.id));
 	}
 
 	override protected function deactivate():void {

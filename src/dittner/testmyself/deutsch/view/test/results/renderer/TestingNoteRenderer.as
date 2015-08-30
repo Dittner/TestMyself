@@ -5,7 +5,6 @@ import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;
 import dittner.testmyself.deutsch.view.test.common.TestRendererData;
-import dittner.testmyself.deutsch.view.test.results.TestTaskCard;
 
 import flash.display.GradientType;
 import flash.display.Graphics;
@@ -32,7 +31,6 @@ public class TestingNoteRenderer extends NoteBaseRenderer {
 
 	private var titleTf:TextField;
 	private var descriptionTf:TextField;
-	private var testTaskCard:TestTaskCard;
 
 	private function get renData():TestRendererData {
 		return data as TestRendererData;
@@ -52,8 +50,6 @@ public class TestingNoteRenderer extends NoteBaseRenderer {
 		addChild(descriptionTf);
 		titleTf = createMultilineTextField(TITLE_FORMAT);
 		addChild(titleTf);
-		testTaskCard = new TestTaskCard();
-		addChild(testTaskCard);
 	}
 
 	override protected function commitProperties():void {
@@ -69,13 +65,11 @@ public class TestingNoteRenderer extends NoteBaseRenderer {
 			titleTf.text = renData.translationInverted ? note.description : note.title;
 			descriptionTf.text = renData.translationInverted ? note.title : note.description;
 			descriptionTf.visible = selected;
-			testTaskCard.label = task.correct + " / " + (task.incorrect + task.correct);
 		}
 		else {
 			titleTf.text = "";
 			descriptionTf.text = "";
 			descriptionTf.visible = false;
-			testTaskCard.label = "0 / 0";
 		}
 	}
 
@@ -135,10 +129,6 @@ public class TestingNoteRenderer extends NoteBaseRenderer {
 			descriptionTf.y = PAD + titleTf.textHeight + GAP - TEXT_DEFAULT_OFFSET;
 			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
-
-		testTaskCard.x = w - testTaskCard.width - PAD;
-		testTaskCard.y = 5;
 	}
-
 }
 }

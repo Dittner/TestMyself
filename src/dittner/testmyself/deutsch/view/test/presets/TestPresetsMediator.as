@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.test.presets {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.core.model.test.TestInfo;
@@ -34,8 +34,8 @@ public class TestPresetsMediator extends SFMediator {
 		}
 	}
 
-	private function onThemesLoaded(res:CommandResult):void {
-		var themeItems:Array = res.data as Array;
+	private function onThemesLoaded(op:IAsyncOperation):void {
+		var themeItems:Array = op.result as Array;
 		themeItems.sortOn("name");
 		view.themeColl = new ArrayCollection(themeItems);
 		addListeners();
@@ -53,13 +53,13 @@ public class TestPresetsMediator extends SFMediator {
 
 	private function showResultsHandler(event:MouseEvent):void {
 		var spec:TestSpec = createSpec();
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.SELECT_TEST_SPEC, new RequestMessage(null, null, spec));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.SELECT_TEST_SPEC, new RequestMessage(null, spec));
 		sendNotification(TestMsg.SHOW_TEST_RESULTS_NOTIFICATION);
 	}
 
 	private function startTestingHandler(event:MouseEvent):void {
 		var spec:TestSpec = createSpec();
-		sendRequestTo(selectedTestInfo.moduleName, TestMsg.SELECT_TEST_SPEC, new RequestMessage(null, null, spec));
+		sendRequestTo(selectedTestInfo.moduleName, TestMsg.SELECT_TEST_SPEC, new RequestMessage(null, spec));
 		sendNotification(TestMsg.START_TESTING_NOTIFICATION);
 	}
 

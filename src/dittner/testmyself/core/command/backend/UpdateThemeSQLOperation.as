@@ -1,17 +1,19 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
 
 import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.theme.Theme;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class UpdateThemeSQLOperation extends DeferredOperation {
+public class UpdateThemeSQLOperation extends AsyncOperation implements ICommand {
 
 	public function UpdateThemeSQLOperation(service:NoteService, theme:Theme) {
 		this.service = service;
@@ -21,25 +23,27 @@ public class UpdateThemeSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var theme:Theme;
 
-	override public function process():void {
+	public function execute():void {
 		if (theme && theme.id != -1 && theme.name) {
 			var sqlParams:Object = {};
 			sqlParams.themeID = theme.id;
 			sqlParams.name = theme.name;
 
-			service.sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(service.sqlFactory.updateTheme, sqlParams)]), executeComplete, executeError);
+			var statement:SQLStatement = SQLUtils.createSQLStatement(service.sqlFactory.updateTheme, sqlParams);
+			statement.sqlConnection = service.sqlConnection;
+			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
 		else {
-			dispatchCompleteWithError(new CommandException(ErrorCode.EMPTY_THEME_NAME, "Отсутствует имя у созданной темы"));
+			dispatchError(new CommandException(ErrorCode.EMPTY_THEME_NAME, "Отсутствует имя у созданной темы"));
 		}
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchCompleteSuccess(CommandResult.OK);
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
 	}
 
 	private function executeError(error:SQLError):void {
-		dispatchCompleteWithError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
 }

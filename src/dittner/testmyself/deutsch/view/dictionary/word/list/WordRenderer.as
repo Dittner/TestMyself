@@ -155,7 +155,6 @@ public class WordRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
-
 		}
 		else {
 			g.lineStyle(1, SEP_COLOR, 0.5);

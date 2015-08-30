@@ -1,16 +1,19 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;
 
-public class FilterInsertOperationPhase extends PhaseOperation {
+import flash.data.SQLConnection;
 
-	public function FilterInsertOperationPhase(sqlRunner:SQLRunner, note:Note, themes:Array, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+public class FilterInsertOperationPhase extends AsyncOperation implements ICommand {
+
+	public function FilterInsertOperationPhase(conn:SQLConnection, note:Note, themes:Array, sqlFactory:SQLFactory) {
+		this.conn = conn;
 		this.note = note;
 		this.themes = themes;
 		this.sqlFactory = sqlFactory;
@@ -19,20 +22,24 @@ public class FilterInsertOperationPhase extends PhaseOperation {
 	private var note:Note;
 	private var themes:Array;
 	private var sqlFactory:SQLFactory;
-	private var sqlRunner:SQLRunner;
-	private var subPhaseRunner:PhaseRunner;
+	private var conn:SQLConnection;
 
-	override public function execute():void {
+	public function execute():void {
 		if (themes.length > 0) {
-			subPhaseRunner = new PhaseRunner();
-			subPhaseRunner.completeCallback = dispatchComplete;
+			var composite:CompositeOperation = new CompositeOperation();
 
-			for each(var theme:Theme in themes) {
-				subPhaseRunner.addPhase(FilterInsertOperationSubPhase, note.id, theme, sqlRunner, sqlFactory.insertFilter);
-			}
-			subPhaseRunner.execute();
+			for each(var theme:Theme in themes)
+				composite.addOperation(FilterInsertOperationSubPhase, note.id, theme, conn, sqlFactory.insertFilter);
+
+			composite.addCompleteCallback(completeHandler);
+			composite.execute();
 		}
-		else dispatchComplete();
+		else dispatchSuccess();
+	}
+
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 }
 }

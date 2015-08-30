@@ -1,28 +1,34 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class NoteWithAudioCountOperationPhase extends PhaseOperation {
+public class NoteWithAudioCountOperationPhase extends AsyncOperation implements ICommand {
 
-	public function NoteWithAudioCountOperationPhase(sqlRunner:SQLRunner, info:NotesInfo, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+	public function NoteWithAudioCountOperationPhase(conn:SQLConnection, info:NotesInfo, sqlFactory:SQLFactory) {
+		this.conn = conn;
 		this.info = info;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var info:NotesInfo;
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
 
-	override public function execute():void {
-		sqlRunner.execute(sqlFactory.selectCountNoteWithAudio, null, executeComplete);
+	public function execute():void {
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sqlFactory.selectCountNoteWithAudio);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
 	private function executeComplete(result:SQLResult):void {
@@ -32,17 +38,17 @@ public class NoteWithAudioCountOperationPhase extends PhaseOperation {
 				info.audioCommentsAmount += countData[prop] as int;
 				break;
 			}
-			dispatchComplete();
+			dispatchSuccess();
 		}
 		else {
-			throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число записей с аудио в таблице");
+			dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число записей с аудио в таблице"));
 		}
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		info = null;
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

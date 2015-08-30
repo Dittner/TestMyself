@@ -1,11 +1,11 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.service.NoteService;
 
-public class DeleteNotesByThemeSQLOperation extends DeferredOperation {
+public class DeleteNotesByThemeSQLOperation extends AsyncOperation implements ICommand {
 
 	public function DeleteNotesByThemeSQLOperation(service:NoteService, themeID:int) {
 		super();
@@ -16,25 +16,20 @@ public class DeleteNotesByThemeSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var themeID:int;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
 
-		try {
-			phaseRunner.addPhase(DeleteNotesByThemeOperationPhase, service.sqlRunner, themeID, service.sqlFactory);
-			phaseRunner.addPhase(DeleteThemeOperationPhase, service.sqlRunner, themeID, service.sqlFactory);
-			phaseRunner.addPhase(DeleteFilterByIDOperationPhase, service.sqlRunner, themeID, service.sqlFactory);
+		composite.addOperation(DeleteNotesByThemeOperationPhase, service.sqlConnection, themeID, service.sqlFactory);
+		composite.addOperation(DeleteThemeOperationPhase, service.sqlConnection, themeID, service.sqlFactory);
+		composite.addOperation(DeleteFilterByIDOperationPhase, service.sqlConnection, themeID, service.sqlFactory);
 
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(CommandResult.OK);
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 
 }

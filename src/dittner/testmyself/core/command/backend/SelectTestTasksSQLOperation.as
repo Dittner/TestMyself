@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
 import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
@@ -11,8 +11,10 @@ import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectTestTasksSQLOperation extends DeferredOperation {
+public class SelectTestTasksSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SelectTestTasksSQLOperation(service:NoteService, spec:TestSpec) {
 		super();
@@ -23,10 +25,10 @@ public class SelectTestTasksSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var spec:TestSpec;
 
-	override public function process():void {
+	public function execute():void {
 		if (spec) {
 			var info:TestInfo = spec.info;
-			var sqlStatement:String;
+			var sql:String;
 			var filter:NoteFilter = spec.filter;
 
 			var sqlParams:Object = {};
@@ -35,23 +37,26 @@ public class SelectTestTasksSQLOperation extends DeferredOperation {
 			sqlParams.complexity = spec.complexity;
 
 			if (filter.selectedThemes.length > 0) {
-				sqlStatement = info.useNoteExample ? service.sqlFactory.selectFilteredTestExampleTask : service.sqlFactory.selectFilteredTestTask;
+				sql = info.useNoteExample ? service.sqlFactory.selectFilteredTestExampleTask : service.sqlFactory.selectFilteredTestTask;
 				var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-				sqlStatement = sqlStatement.replace("#filterList", themes);
+				sql = sql.replace("#filterList", themes);
 			}
 			else {
-				sqlStatement = info.useNoteExample ? service.sqlFactory.selectTestExampleTask : service.sqlFactory.selectTestTask;
+				sql = info.useNoteExample ? service.sqlFactory.selectTestExampleTask : service.sqlFactory.selectTestTask;
 			}
 
-			service.sqlRunner.execute(sqlStatement, sqlParams, loadCompleteHandler, TestTask);
+			var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+			statement.sqlConnection = service.sqlConnection;
+			statement.itemClass = TestTask;
+			statement.execute(-1, new Responder(executeComplete));
 		}
 		else {
-			dispatchCompleteWithError(new CommandException(ErrorCode.NULLABLE_TEST_SPEC, "Отсутствует спецификация к тесту, необходимая для выборки тестовых задач"));
+			dispatchError(new CommandException(ErrorCode.NULLABLE_TEST_SPEC, "Отсутствует спецификация к тесту, необходимая для выборки тестовых задач"));
 		}
 	}
 
-	private function loadCompleteHandler(result:SQLResult):void {
-		dispatchCompleteSuccess(new CommandResult(result.data));
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess(result.data);
 	}
 }
 }

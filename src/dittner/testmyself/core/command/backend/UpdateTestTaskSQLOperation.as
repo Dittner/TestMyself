@@ -1,19 +1,21 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
 
 import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class UpdateTestTaskSQLOperation extends DeferredOperation {
+public class UpdateTestTaskSQLOperation extends AsyncOperation implements ICommand {
 
 	public function UpdateTestTaskSQLOperation(service:NoteService, task:TestTask, testModel:TestModel) {
 		this.service = service;
@@ -25,36 +27,36 @@ public class UpdateTestTaskSQLOperation extends DeferredOperation {
 	private var task:TestTask;
 	private var testModel:TestModel;
 
-	override public function process():void {
+	public function execute():void {
 		if (task && task.testID != -1 && task.noteID != -1) {
 			var sqlParams:Object = {};
 			sqlParams.testID = task.testID;
 			sqlParams.noteID = task.noteID;
-			sqlParams.correct = task.correct;
-			sqlParams.incorrect = task.incorrect;
 			sqlParams.complexity = task.complexity;
 			sqlParams.isFailed = task.isFailed ? 1 : 0;
 			sqlParams.lastTestedDate = task.lastTestedDate;
-			sqlParams.rate = testModel.calcTaskRate(task);
+			sqlParams.rate = testModel.calcTaskRate();
 			sqlParams.updatingTestID = task.testID;
 			sqlParams.updatingNoteID = task.noteID;
 
 			var testInfo:TestInfo = testModel.testSpec.info;
-			var statement:String = testInfo.useNoteExample ? service.sqlFactory.updateTestExampleTask : service.sqlFactory.updateTestTask;
+			var sql:String = testInfo.useNoteExample ? service.sqlFactory.updateTestExampleTask : service.sqlFactory.updateTestTask;
 
-			service.sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(statement, sqlParams)]), executeComplete, executeError);
+			var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+			statement.sqlConnection = service.sqlConnection;
+			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
 		else {
-			dispatchCompleteWithError(new CommandException(ErrorCode.EMPTY_THEME_NAME, "Отсутствует тестовая задача, которую требуется обновить в БД."));
+			dispatchError(new CommandException(ErrorCode.EMPTY_THEME_NAME, "Отсутствует тестовая задача, которую требуется обновить в БД."));
 		}
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchCompleteSuccess(CommandResult.OK);
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
 	}
 
 	private function executeError(error:SQLError):void {
-		dispatchCompleteWithError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
 }

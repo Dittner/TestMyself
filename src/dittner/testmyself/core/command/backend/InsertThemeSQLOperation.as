@@ -1,17 +1,19 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
 
 import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.theme.Theme;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class InsertThemeSQLOperation extends DeferredOperation {
+public class InsertThemeSQLOperation extends AsyncOperation implements ICommand {
 
 	public function InsertThemeSQLOperation(service:NoteService, theme:Theme) {
 		super();
@@ -22,30 +24,31 @@ public class InsertThemeSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var theme:Theme;
 
-	override public function process():void {
+	public function execute():void {
 		if (theme) {
-			var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
+			var sql:String = service.sqlFactory.insertTheme;
 			var sqlParams:Object = {};
 			sqlParams.name = theme.name;
-			statements.push(new QueuedStatement(service.sqlFactory.insertTheme, sqlParams));
-			service.sqlRunner.executeModify(statements, executeComplete, executeError);
+
+			var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+			statement.sqlConnection = service.sqlConnection;
+			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
 		else {
-			dispatchCompleteWithError(new CommandException(ErrorCode.NULLABLE_THEME, "Отсутствует добавляемая тема"));
+			dispatchError(new CommandException(ErrorCode.NULLABLE_THEME, "Отсутствует добавляемая тема"));
 		}
 	}
 
 	private function executeError(error:SQLError):void {
-		dispatchCompleteWithError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		var result:SQLResult = results[0];
+	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
 			theme.id = result.lastInsertRowID;
-			dispatchCompleteSuccess(CommandResult.OK);
+			dispatchSuccess();
 		}
-		else dispatchCompleteWithError(new CommandException(ErrorCode.THEME_ADDED_WITHOUT_ID, "База данных не вернула ID добавленной темы"));
+		else dispatchError(new CommandException(ErrorCode.THEME_ADDED_WITHOUT_ID, "База данных не вернула ID добавленной темы"));
 	}
 
 }

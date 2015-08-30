@@ -1,13 +1,13 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.service.NoteService;
 
-public class InsertNoteSQLOperation extends DeferredOperation {
+public class InsertNoteSQLOperation extends AsyncOperation implements ICommand {
 
 	public function InsertNoteSQLOperation(service:NoteService, suite:NoteSuite, testModel:TestModel) {
 		this.service = service;
@@ -19,28 +19,23 @@ public class InsertNoteSQLOperation extends DeferredOperation {
 	private var suite:NoteSuite;
 	private var testModel:TestModel;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
 
-		try {
-			phaseRunner.addPhase(MP3EncodingPhase, suite.note);
-			phaseRunner.addPhase(NoteInsertOperationPhase, service.sqlRunner, suite.note, service.sqlFactory);
-			phaseRunner.addPhase(ThemeInsertOperationPhase, service.sqlRunner, suite.themes, service.sqlFactory);
-			phaseRunner.addPhase(FilterInsertOperationPhase, service.sqlRunner, suite.note, suite.themes, service.sqlFactory);
-			phaseRunner.addPhase(ExampleInsertOperationPhase, service.sqlRunner, suite.note, suite.examples, service.sqlFactory);
-			phaseRunner.addPhase(TestTaskInsertOperationPhase, service.sqlRunner, suite.note, suite.examples, testModel, service.sqlFactory);
+		composite.addOperation(MP3EncodingPhase, suite.note);
+		composite.addOperation(NoteInsertOperationPhase, service.sqlConnection, suite.note, service.sqlFactory);
+		composite.addOperation(ThemeInsertOperationPhase, service.sqlConnection, suite.themes, service.sqlFactory);
+		composite.addOperation(FilterInsertOperationPhase, service.sqlConnection, suite.note, suite.themes, service.sqlFactory);
+		composite.addOperation(ExampleInsertOperationPhase, service.sqlConnection, suite.note, suite.examples, service.sqlFactory);
+		composite.addOperation(TestTaskInsertOperationPhase, service.sqlConnection, suite.note, suite.examples, testModel, service.sqlFactory);
 
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(new CommandResult(suite));
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(suite);
+		else dispatchError(op.error);
 	}
 }
 }

@@ -34,7 +34,7 @@ import dittner.testmyself.core.command.UpdateNoteCmd;
 import dittner.testmyself.core.command.UpdateNoteExampleCmd;
 import dittner.testmyself.core.command.UpdateNoteThemeCmd;
 import dittner.testmyself.core.command.UpdateTestTaskCmd;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperationManager;
+import dittner.testmyself.core.command.backend.deferredOperation.DeferredCommandManager;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.TestMsg;
 import dittner.testmyself.deutsch.command.screen.EditModeScreenCmd;
@@ -106,7 +106,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 
 		//register models and services
 		mainModule.registerProxy("settingsModel", new SettingsModel());
-		mainModule.registerProxy("deferredOperationManager", new DeferredOperationManager());
+		mainModule.registerProxy("deferredCommandManager", new DeferredCommandManager());
 		mainModule.registerProxy("screenFactory", new ScreenFactory());
 		mainModule.registerProxy("screenMediatorFactory", new ScreenMediatorFactory());
 		mainModule.registerProxy("screenModel", new ScreenModel());

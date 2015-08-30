@@ -1,44 +1,46 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;
 
-public class ThemeInsertOperationPhase extends PhaseOperation {
+import flash.data.SQLConnection;
 
-	public function ThemeInsertOperationPhase(sqlRunner:SQLRunner, themes:Array, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+public class ThemeInsertOperationPhase extends AsyncOperation implements ICommand {
+
+	public function ThemeInsertOperationPhase(conn:SQLConnection, themes:Array, sqlFactory:SQLFactory) {
+		this.conn = conn;
 		this.themes = themes;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var themes:Array;
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
-	private var subPhaseRunner:PhaseRunner;
 
-	override public function execute():void {
+	public function execute():void {
 		var addedThemes:Vector.<Theme> = getAddedThemes();
 		if (addedThemes.length > 0) {
-			subPhaseRunner = new PhaseRunner();
-			subPhaseRunner.completeCallback = dispatchComplete;
+			var composite:CompositeOperation = new CompositeOperation();
 
-			for each(var theme:Theme in addedThemes) {
-				subPhaseRunner.addPhase(ThemeInsertOperationSubPhase, theme, sqlRunner, sqlFactory.insertTheme);
-			}
-			subPhaseRunner.execute();
+			for each(var theme:Theme in addedThemes)
+				composite.addOperation(ThemeInsertOperationSubPhase, theme, conn, sqlFactory.insertTheme);
+
+			composite.addCompleteCallback(completeHandler);
+			composite.execute();
 		}
-		else dispatchComplete();
+		else dispatchSuccess();
 	}
 
 	private function getAddedThemes():Vector.<Theme> {
 		var res:Vector.<Theme> = new <Theme>[];
 
-		for each(var theme:Theme in themes) {
+		for each(var theme:Theme in themes)
 			if (isNewTheme(theme)) res.push(theme);
-		}
+
 		return res;
 	}
 
@@ -46,11 +48,15 @@ public class ThemeInsertOperationPhase extends PhaseOperation {
 		return theme.id == -1;
 	}
 
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
+	}
+
 	override public function destroy():void {
 		super.destroy();
 		themes = null;
-		sqlRunner = null;
-		subPhaseRunner = null;
+		conn = null;
 	}
 }
 }

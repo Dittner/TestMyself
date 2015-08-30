@@ -1,46 +1,52 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 
-public class ExampleInsertOperationPhase extends PhaseOperation {
+import flash.data.SQLConnection;
 
-	public function ExampleInsertOperationPhase(sqlRunner:SQLRunner, note:Note, examples:Array, sqlFactory:SQLFactory) {
+public class ExampleInsertOperationPhase extends AsyncOperation implements ICommand {
+
+	public function ExampleInsertOperationPhase(conn:SQLConnection, note:Note, examples:Array, sqlFactory:SQLFactory) {
 		this.note = note;
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.examples = examples;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var note:Note;
 	private var examples:Array;
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
-	private var subPhaseRunner:PhaseRunner;
 
-	override public function execute():void {
+	public function execute():void {
 		if (examples && examples.length > 0) {
-			subPhaseRunner = new PhaseRunner();
-			subPhaseRunner.completeCallback = dispatchComplete;
+			var composite:CompositeOperation = new CompositeOperation();
 
 			for each(var example:INote in examples) {
-				subPhaseRunner.addPhase(MP3EncodingPhase, example);
-				subPhaseRunner.addPhase(ExampleInsertOperationSubPhase, note.id, example, sqlRunner, sqlFactory.insertExample);
+				composite.addOperation(MP3EncodingPhase, example);
+				composite.addOperation(ExampleInsertOperationSubPhase, note.id, example, conn, sqlFactory.insertExample);
 			}
-			subPhaseRunner.execute();
+			composite.addCompleteCallback(completeHandler);
+			composite.execute();
 		}
-		else dispatchComplete();
+		else dispatchSuccess();
+	}
+
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		examples = null;
-		sqlRunner = null;
-		subPhaseRunner = null;
+		conn = null;
 	}
 }
 }

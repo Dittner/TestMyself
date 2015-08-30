@@ -1,11 +1,11 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.service.NoteService;
 
-public class MergeThemesSQLOperation extends DeferredOperation {
+public class MergeThemesSQLOperation extends AsyncOperation implements ICommand {
 
 	public function MergeThemesSQLOperation(service:NoteService, destThemeID:int, srcThemeID:int) {
 		super();
@@ -18,24 +18,19 @@ public class MergeThemesSQLOperation extends DeferredOperation {
 	private var destThemeID:int;
 	private var srcThemeID:int;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
 
-		try {
-			phaseRunner.addPhase(DeleteThemeOperationPhase, service.sqlRunner, srcThemeID, service.sqlFactory);
-			phaseRunner.addPhase(UpdateFilterOperationPhase, service.sqlRunner, destThemeID, srcThemeID, service.sqlFactory);
+		composite.addOperation(DeleteThemeOperationPhase, service.sqlConnection, srcThemeID, service.sqlFactory);
+		composite.addOperation(UpdateFilterOperationPhase, service.sqlConnection, destThemeID, srcThemeID, service.sqlFactory);
 
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(CommandResult.OK);
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 
 }

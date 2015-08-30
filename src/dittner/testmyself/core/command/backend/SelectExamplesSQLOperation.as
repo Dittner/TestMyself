@@ -1,14 +1,17 @@
 package dittner.testmyself.core.command.backend {
 import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectExamplesSQLOperation extends DeferredOperation {
+public class SelectExamplesSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SelectExamplesSQLOperation(service:NoteService, noteID:int) {
 		super();
@@ -19,16 +22,18 @@ public class SelectExamplesSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var noteID:int;
 
-	override public function process():void {
-		if (noteID != -1) {
-			service.sqlRunner.execute(service.sqlFactory.selectExample, {selectedNoteID: noteID}, loadCompleteHandler);
+	public function execute():void {
+		if (noteID == -1) {
+			dispatchError(new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID записи"));
 		}
 		else {
-			dispatchCompleteWithError(new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID записи"));
+			var statement:SQLStatement = SQLUtils.createSQLStatement(service.sqlFactory.selectExample, {selectedNoteID: noteID});
+			statement.sqlConnection = service.sqlConnection;
+			statement.execute(-1, new Responder(executeComplete));
 		}
 	}
 
-	private function loadCompleteHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		var examples:Array = [];
 		var example:Note;
 		for each(var item:Object in result.data) {
@@ -39,7 +44,7 @@ public class SelectExamplesSQLOperation extends DeferredOperation {
 			example.audioComment = item.audioComment;
 			examples.push(example);
 		}
-		dispatchCompleteSuccess(new CommandResult(examples));
+		dispatchSuccess(examples);
 	}
 }
 }

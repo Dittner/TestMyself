@@ -1,48 +1,51 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
-import com.probertson.data.SQLRunner;
 
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class DeleteFilterByIDOperationPhase extends PhaseOperation {
+public class DeleteFilterByIDOperationPhase extends AsyncOperation implements ICommand {
 
-	public function DeleteFilterByIDOperationPhase(sqlRunner:SQLRunner, themeID:int, sqlFactory:SQLFactory) {
+	public function DeleteFilterByIDOperationPhase(conn:SQLConnection, themeID:int, sqlFactory:SQLFactory) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.themeID = themeID;
 		this.sqlFactory = sqlFactory;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var themeID:int;
 	private var sqlFactory:SQLFactory;
 
-	override public function execute():void {
+	public function execute():void {
 		if (themeID != -1) {
-			var statements:Vector.<QueuedStatement> = new <QueuedStatement>[];
-			statements.push(new QueuedStatement(sqlFactory.deleteFilterByID, {deletingThemeID: themeID}));
-			sqlRunner.executeModify(statements, deleteCompleteHandler, deleteFailedHandler);
+			var statement:SQLStatement = SQLUtils.createSQLStatement(sqlFactory.deleteFilterByID, {deletingThemeID: themeID});
+			statement.sqlConnection = conn;
+			statement.execute(-1, new Responder(deleteCompleteHandler, deleteFailedHandler));
 		}
-		else throw new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID темы");
+		else dispatchError(new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID темы"));
 	}
 
-	private function deleteCompleteHandler(results:Vector.<SQLResult>):void {
-		dispatchComplete();
+	private function deleteCompleteHandler(result:SQLResult):void {
+		dispatchSuccess();
 	}
 
 	private function deleteFailedHandler(error:SQLError):void {
-		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details);
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
 	override public function destroy():void {
 		super.destroy();
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

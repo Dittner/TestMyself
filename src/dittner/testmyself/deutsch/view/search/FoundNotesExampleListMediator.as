@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.search {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.SearchMsg;
 import dittner.testmyself.deutsch.model.domain.verb.IVerb;
@@ -30,12 +30,12 @@ public class FoundNotesExampleListMediator extends SFMediator {
 	}
 
 	private function loadExamples(fnote:FoundNote):void {
-		sendRequestTo(fnote.moduleName, NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, null, fnote.note.id));
+		sendRequestTo(fnote.moduleName, NoteMsg.GET_EXAMPLES, new RequestMessage(onExamplesLoaded, fnote.note.id));
 	}
 
-	protected function onExamplesLoaded(res:CommandResult):void {
-		if (res.data is Array && res.data.length > 0) {
-			view.dataProvider = new ArrayCollection(res.data as Array);
+	protected function onExamplesLoaded(op:IAsyncOperation):void {
+		if (op.result is Array && op.result.length > 0) {
+			view.dataProvider = new ArrayCollection(op.result as Array);
 			view.visible = view.includeInLayout = true;
 		}
 		else {

@@ -1,12 +1,12 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.page.TestPageInfo;
 import dittner.testmyself.core.service.NoteService;
 
-public class SelectPageTestTasksSQLOperation extends DeferredOperation {
+public class SelectPageTestTasksSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SelectPageTestTasksSQLOperation(service:NoteService, pageInfo:TestPageInfo, noteClass:Class) {
 		super();
@@ -19,23 +19,19 @@ public class SelectPageTestTasksSQLOperation extends DeferredOperation {
 	private var pageInfo:TestPageInfo;
 	private var noteClass:Class;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
 
-		try {
-			phaseRunner.addPhase(SelectPageTestTasksOperationPhase, service.sqlRunner, pageInfo, service.sqlFactory);
-			phaseRunner.addPhase(SelectPageTestNotesOperationPhase, service.sqlRunner, pageInfo, service.sqlFactory, noteClass);
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addOperation(SelectPageTestTasksOperationPhase, service.sqlConnection, pageInfo, service.sqlFactory);
+		composite.addOperation(SelectPageTestNotesOperationPhase, service.sqlConnection, pageInfo, service.sqlFactory, noteClass);
+
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(new CommandResult(pageInfo));
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(pageInfo);
+		else dispatchError(op.error);
 	}
 }
 }

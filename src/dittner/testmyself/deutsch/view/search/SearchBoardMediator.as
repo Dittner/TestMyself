@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.search {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.SearchMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
@@ -56,15 +56,15 @@ public class SearchBoardMediator extends SFMediator {
 			var searchSpec:SearchSpec = new SearchSpec();
 			searchSpec.searchText = view.searchInput.text;
 			searchSpec.needExample = search.needExample;
-			sendRequestTo(search.moduleName, NoteMsg.SEARCH_NOTES, new RequestMessage(foundNotesLoaded, null, searchSpec));
+			sendRequestTo(search.moduleName, NoteMsg.SEARCH_NOTES, new RequestMessage(foundNotesLoaded, searchSpec));
 		}
 		else {
 			sendNotification(SearchMsg.FOUND_NOTES_UPDATED_NOTIFICATION, foundNotes);
 		}
 	}
 
-	private function foundNotesLoaded(res:CommandResult):void {
-		if (res.data && res.data.length > 0) foundNotes = foundNotes.concat(res.data as Array);
+	private function foundNotesLoaded(op:IAsyncOperation):void {
+		if (op.result && op.result.length > 0) foundNotes = foundNotes.concat(op.result as Array);
 		findNext();
 	}
 

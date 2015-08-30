@@ -1,13 +1,16 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.deutsch.model.search.FoundNote;
 import dittner.testmyself.deutsch.model.search.SearchSpec;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SearchNotesSQLOperation extends DeferredOperation {
+public class SearchNotesSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SearchNotesSQLOperation(service:NoteService, searchSpec:SearchSpec) {
 		super();
@@ -18,19 +21,22 @@ public class SearchNotesSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var searchSpec:SearchSpec;
 
-	override public function process():void {
+	public function execute():void {
 		var sql:String = searchSpec.needExample ? service.sqlFactory.searchNoteExamples : service.sqlFactory.searchNotes;
-		var params:Object = {};
+		var sqlParams:Object = {};
 		var searchText:String;
 
 		searchText = searchSpec.searchText.charAt(0).toLowerCase() + searchSpec.searchText.substring(1, searchSpec.searchText.length);
-		params.searchFilter1 = "%" + searchText + "%";
+		sqlParams.searchFilter1 = "%" + searchText + "%";
 		searchText = searchSpec.searchText.charAt(0).toUpperCase() + searchSpec.searchText.substring(1, searchSpec.searchText.length);
-		params.searchFilter2 = "%" + searchText + "%";
-		service.sqlRunner.execute(sql, params, loadedHandler);
+		sqlParams.searchFilter2 = "%" + searchText + "%";
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.sqlConnection = service.sqlConnection;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		var fnotes:Array = [];
 		var fnote:FoundNote;
 		var ids:Array = result.data is Array ? result.data as Array : [];
@@ -44,7 +50,7 @@ public class SearchNotesSQLOperation extends DeferredOperation {
 			fnote.isExample = searchSpec.needExample;
 			fnotes.push(fnote);
 		}
-		dispatchCompleteSuccess(new CommandResult(fnotes));
+		dispatchSuccess(fnotes);
 	}
 }
 }

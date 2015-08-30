@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.search {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.SearchMsg;
 import dittner.testmyself.core.model.note.INote;
@@ -73,7 +73,7 @@ public class SearchPaginationMediator extends SFMediator {
 				return;
 			}
 			var msg:String = loadingFoundNote.isExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
-			sendRequestTo(loadingFoundNote.moduleName, msg, new RequestMessage(onNoteLoaded, null, loadingFoundNote.noteID));
+			sendRequestTo(loadingFoundNote.moduleName, msg, new RequestMessage(onNoteLoaded, loadingFoundNote.noteID));
 		}
 		else {
 			isLoading = false;
@@ -84,9 +84,9 @@ public class SearchPaginationMediator extends SFMediator {
 		}
 	}
 
-	private function onNoteLoaded(res:CommandResult):void {
-		if (res.data) {
-			loadingFoundNote.note = res.data as INote;
+	private function onNoteLoaded(op:IAsyncOperation):void {
+		if (op.isSuccess && op.result) {
+			loadingFoundNote.note = op.result as INote;
 			loadNext();
 		}
 	}

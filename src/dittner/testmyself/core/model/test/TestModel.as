@@ -25,8 +25,10 @@ public class TestModel extends SFProxy {
 		testInfos.push(info);
 	}
 
-	public function calcTaskRate(task:ITestTask):int {
-		return Math.round(Math.random() * 99) + (task.correct * 2 + task.incorrect) * 100;
+	private static const MSEC_IN_DAY:Number = 24 * 60 * 60 * 1000;
+
+	public function calcTaskRate():Number {
+		return (new Date).time + Math.round(Math.random() * MSEC_IN_DAY) - MSEC_IN_DAY / 2;
 	}
 
 	public function validate(note:INote, testInfo:TestInfo):Boolean {

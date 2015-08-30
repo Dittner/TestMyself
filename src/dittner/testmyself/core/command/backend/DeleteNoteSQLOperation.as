@@ -1,12 +1,12 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.service.NoteService;
 
-public class DeleteNoteSQLOperation extends DeferredOperation {
+public class DeleteNoteSQLOperation extends AsyncOperation implements ICommand {
 
 	public function DeleteNoteSQLOperation(service:NoteService, suite:NoteSuite) {
 		super();
@@ -17,27 +17,22 @@ public class DeleteNoteSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var suite:NoteSuite;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
 
-		try {
-			phaseRunner.addPhase(DeleteNoteOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
-			phaseRunner.addPhase(DeleteFilterByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
-			phaseRunner.addPhase(DeleteTestTaskByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
-			phaseRunner.addPhase(DeleteTestExampleTaskByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
-			phaseRunner.addPhase(DeleteExampleByNoteIDOperationPhase, service.sqlRunner, suite.note.id, service.sqlFactory);
+		composite.addOperation(DeleteNoteOperationPhase, service.sqlConnection, suite.note.id, service.sqlFactory);
+		composite.addOperation(DeleteFilterByNoteIDOperationPhase, service.sqlConnection, suite.note.id, service.sqlFactory);
+		composite.addOperation(DeleteTestTaskByNoteIDOperationPhase, service.sqlConnection, suite.note.id, service.sqlFactory);
+		composite.addOperation(DeleteTestExampleTaskByNoteIDOperationPhase, service.sqlConnection, suite.note.id, service.sqlFactory);
+		composite.addOperation(DeleteExampleByNoteIDOperationPhase, service.sqlConnection, suite.note.id, service.sqlFactory);
 
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(new CommandResult(suite));
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(suite);
+		else dispatchError(op.error);
 	}
 
 }

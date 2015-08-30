@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.note.search {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
@@ -73,15 +73,15 @@ public class NoteSearchMediator extends SFMediator {
 		if (!filter || (filter.searchText == view.searchInput.text && filter.searchFullIdentity == view.fullIdentityBox.selected)) return;
 		filter.searchText = view.searchInput.text;
 		filter.searchFullIdentity = view.fullIdentityBox.selected;
-		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(null, null, filter));
+		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(null, filter));
 	}
 
 	private function loadFilter():void {
 		sendRequest(NoteMsg.GET_FILTER, new RequestMessage(onFilterLoaded));
 	}
 
-	private function onFilterLoaded(res:CommandResult):void {
-		filter = res.data as NoteFilter;
+	private function onFilterLoaded(op:IAsyncOperation):void {
+		filter = op.result as NoteFilter;
 		view.searchInput.text = filter.searchText;
 		view.fullIdentityBox.selected = filter.searchFullIdentity;
 	}

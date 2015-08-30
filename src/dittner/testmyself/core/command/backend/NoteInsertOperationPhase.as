@@ -1,52 +1,56 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
-import com.probertson.data.SQLRunner;
 
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class NoteInsertOperationPhase extends PhaseOperation {
+public class NoteInsertOperationPhase extends AsyncOperation implements ICommand {
 
-	public function NoteInsertOperationPhase(sqlRunner:SQLRunner, note:Note, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+	public function NoteInsertOperationPhase(conn:SQLConnection, note:Note, sqlFactory:SQLFactory) {
+		this.conn = conn;
 		this.note = note;
 		this.sqlFactory = sqlFactory;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var note:Note;
 	private var sqlFactory:SQLFactory;
 
-	override public function execute():void {
+	public function execute():void {
 		var sqlParams:Object = note.toSQLData();
-		sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(sqlFactory.insertNote, sqlParams)]), executeComplete, executeError);
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sqlFactory.insertNote, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		var result:SQLResult = results[0];
+	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
 			note.id = result.lastInsertRowID;
-			dispatchComplete();
+			dispatchSuccess();
 		}
 		else {
-			throw new CommandException(ErrorCode.NOTE_ADDED_WITHOUT_ID, "База данных не вернула ID после добавления записи");
+			dispatchError(new CommandException(ErrorCode.NOTE_ADDED_WITHOUT_ID, "База данных не вернула ID после добавления записи"));
 		}
 	}
 
 	private function executeError(error:SQLError):void {
-		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details);
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		note = null;
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

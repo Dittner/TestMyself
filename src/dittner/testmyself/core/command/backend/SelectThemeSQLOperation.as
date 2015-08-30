@@ -1,12 +1,15 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.theme.Theme;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectThemeSQLOperation extends DeferredOperation {
+public class SelectThemeSQLOperation extends AsyncOperation implements ICommand {
 
 	public function SelectThemeSQLOperation(service:NoteService) {
 		super();
@@ -15,12 +18,15 @@ public class SelectThemeSQLOperation extends DeferredOperation {
 
 	private var service:NoteService;
 
-	override public function process():void {
-		service.sqlRunner.execute(service.sqlFactory.selectTheme, null, loadedHandler, Theme);
+	public function execute():void {
+		var statement:SQLStatement = SQLUtils.createSQLStatement(service.sqlFactory.selectTheme);
+		statement.sqlConnection = service.sqlConnection;
+		statement.itemClass = Theme;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
-		dispatchCompleteSuccess(new CommandResult(result.data));
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess(result.data);
 	}
 }
 }

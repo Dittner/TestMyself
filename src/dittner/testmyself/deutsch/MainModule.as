@@ -24,7 +24,7 @@ public class MainModule extends RootModule {
 		mainView.percentWidth = 100;
 		root.addElement(mainView);
 		registerMediator(mainView, new MainViewMediator());
-		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, null, ScreenID.ABOUT));
+		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, ScreenID.ABOUT));
 	}
 
 }

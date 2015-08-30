@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.command.ISFCommand;
 import dittner.satelliteFlight.message.IRequestMessage;
+import dittner.testmyself.core.async.AsyncOperation;
 import dittner.testmyself.core.model.note.INoteModel;
 
 public class GetNoteHashCmd implements ISFCommand {
@@ -10,7 +10,9 @@ public class GetNoteHashCmd implements ISFCommand {
 	public var model:INoteModel;
 
 	public function execute(msg:IRequestMessage):void {
-		msg.completeSuccess(new CommandResult(model.noteHash));
+		var op:AsyncOperation = new AsyncOperation();
+		op.dispatchSuccess(model.noteHash);
+		msg.onComplete(op);
 	}
 
 }

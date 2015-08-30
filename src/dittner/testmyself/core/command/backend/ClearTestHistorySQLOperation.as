@@ -1,13 +1,13 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.service.NoteService;
 
-public class ClearTestHistorySQLOperation extends DeferredOperation {
+public class ClearTestHistorySQLOperation extends AsyncOperation implements ICommand {
 
 	public function ClearTestHistorySQLOperation(service:NoteService, testInfo:TestInfo, testModel:TestModel) {
 		this.service = service;
@@ -19,25 +19,20 @@ public class ClearTestHistorySQLOperation extends DeferredOperation {
 	private var testInfo:TestInfo;
 	private var testModel:TestModel;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
 
-		try {
-			var notesIDs:Array = [];
-			phaseRunner.addPhase(SelectTestNotesIDsOperationPhase, service.sqlRunner, testInfo, service.sqlFactory, notesIDs);
-			phaseRunner.addPhase(ClearTestHistoryOperationPhase, service.sqlRunner, testInfo, notesIDs, testModel, service.sqlFactory);
+		var notesIDs:Array = [];
+		composite.addOperation(SelectTestNotesIDsOperationPhase, service.sqlConnection, testInfo, service.sqlFactory, notesIDs);
+		composite.addOperation(ClearTestHistoryOperationPhase, service.sqlConnection, testInfo, notesIDs, testModel, service.sqlFactory);
 
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(CommandResult.OK);
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 }
 }

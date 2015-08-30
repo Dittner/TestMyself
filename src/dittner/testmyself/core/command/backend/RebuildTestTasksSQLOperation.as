@@ -1,12 +1,12 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.service.NoteService;
 
-public class RebuildTestTasksSQLOperation extends DeferredOperation {
+public class RebuildTestTasksSQLOperation extends AsyncOperation implements ICommand {
 
 	public function RebuildTestTasksSQLOperation(service:NoteService, testModel:TestModel, noteClass:Class) {
 		this.service = service;
@@ -18,30 +18,23 @@ public class RebuildTestTasksSQLOperation extends DeferredOperation {
 	private var testModel:TestModel;
 	private var noteClass:Class;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
+		var notes:Array = [];
+		var examples:Array = [];
+		composite.addOperation(RecreateTestTablesOperationPhase, service.sqlConnection, service.sqlFactory);
+		composite.addOperation(SelectAllNotesOperationPhase, service.sqlConnection, service.sqlFactory, notes, noteClass);
+		composite.addOperation(AllTestTaskInsertOperationPhase, service.sqlConnection, notes, testModel, service.sqlFactory, false);
+		composite.addOperation(SelectAllExamplesOperationPhase, service.sqlConnection, service.sqlFactory, examples);
+		composite.addOperation(AllTestTaskInsertOperationPhase, service.sqlConnection, examples, testModel, service.sqlFactory, true);
 
-		try {
-			var notes:Array = [];
-			var examples:Array = [];
-			phaseRunner.addPhase(RecreateTestTablesOperationPhase, service.sqlRunner, service.sqlFactory);
-			phaseRunner.addPhase(SelectAllNotesOperationPhase, service.sqlRunner, service.sqlFactory, notes, noteClass);
-			phaseRunner.addPhase(AllTestTaskInsertOperationPhase, service.sqlRunner, notes, testModel, service.sqlFactory, false);
-
-			phaseRunner.addPhase(SelectAllExamplesOperationPhase, service.sqlRunner, service.sqlFactory, examples);
-			phaseRunner.addPhase(AllTestTaskInsertOperationPhase, service.sqlRunner, examples, testModel, service.sqlFactory, true);
-
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(CommandResult.OK);
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
 	}
 }
 }

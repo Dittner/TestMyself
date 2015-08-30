@@ -1,44 +1,51 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.SQLRunner;
 
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class SelectAllNotesOperationPhase extends PhaseOperation {
+public class SelectAllNotesOperationPhase extends AsyncOperation implements ICommand {
 
-	public function SelectAllNotesOperationPhase(sqlRunner:SQLRunner, sqlFactory:SQLFactory, notes:Array, noteClass:Class) {
+	public function SelectAllNotesOperationPhase(conn:SQLConnection, sqlFactory:SQLFactory, notes:Array, noteClass:Class) {
 		super();
-		this.sqlRunner = sqlRunner;
+		this.conn = conn;
 		this.sqlFactory = sqlFactory;
 		this.notes = notes;
 		this.noteClass = noteClass;
 	}
 
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
 	private var notes:Array;
 	private var noteClass:Class;
 
-	override public function execute():void {
-		var sqlStatement:String = "SELECT * FROM note";
+	public function execute():void {
+		var sql:String = "SELECT * FROM note";
 		var sqlParams:Object = {};
-		sqlRunner.execute(sqlStatement, sqlParams, loadedHandler, noteClass);
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete));
 	}
 
-	private function loadedHandler(result:SQLResult):void {
+	private function executeComplete(result:SQLResult):void {
 		if (result.data is Array) {
 			for (var i:int = 0; i < result.data.length; i++) {
 				notes.push(result.data[i]);
 			}
 		}
-		dispatchComplete();
+		dispatchSuccess();
 	}
 
 	override public function destroy():void {
 		super.destroy();
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

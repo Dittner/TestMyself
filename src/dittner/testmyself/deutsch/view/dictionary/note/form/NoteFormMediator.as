@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.note.form {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
@@ -43,7 +43,7 @@ public class NoteFormMediator extends SFMediator {
 			case ToolAction.ADD:
 			case ToolAction.EDIT:
 			case ToolAction.REMOVE:
-				sendRequest(ScreenMsg.EDIT, new RequestMessage(null, null, true));
+				sendRequest(ScreenMsg.EDIT, new RequestMessage(null, true));
 				break;
 		}
 	}
@@ -57,18 +57,18 @@ public class NoteFormMediator extends SFMediator {
 		sendRequest(NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
 	}
 
-	protected function onThemesLoaded(res:CommandResult):void {
-		var themeItems:Array = res.data as Array;
+	protected function onThemesLoaded(op:IAsyncOperation):void {
+		var themeItems:Array = op.result as Array;
 		view.themes = new ArrayCollection(themeItems);
 	}
 
-	private function infoLoaded(res:CommandResult):void {
-		var info:SettingsInfo = res.data as SettingsInfo;
+	private function infoLoaded(op:IAsyncOperation):void {
+		var info:SettingsInfo = op.result as SettingsInfo;
 		view.audioRecorder.maxRecordSize = info.maxAudioRecordDuration;
 	}
 
-	private function noteHashLoaded(res:CommandResult):void {
-		noteHash = res.data as NoteHash;
+	private function noteHashLoaded(op:IAsyncOperation):void {
+		noteHash = op.result as NoteHash;
 	}
 
 	protected function openForm():void {
@@ -91,7 +91,7 @@ public class NoteFormMediator extends SFMediator {
 	}
 
 	protected function closeForm():void {
-		sendRequest(ScreenMsg.EDIT, new RequestMessage(null, null, false));
+		sendRequest(ScreenMsg.EDIT, new RequestMessage(null, false));
 		view.visible = false;
 		isActive = false;
 		view.close();

@@ -1,46 +1,52 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
-import com.probertson.data.SQLRunner;
 
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class NoteUpdateOperationPhase extends PhaseOperation {
+public class NoteUpdateOperationPhase extends AsyncOperation implements ICommand {
 
-	public function NoteUpdateOperationPhase(sqlRunner:SQLRunner, note:Note, sqlFactory:SQLFactory) {
-		this.sqlRunner = sqlRunner;
+	public function NoteUpdateOperationPhase(conn:SQLConnection, note:Note, sqlFactory:SQLFactory) {
+		this.conn = conn;
 		this.note = note;
 		this.sqlFactory = sqlFactory;
 	}
 
 	private var note:Note;
 	private var sqlFactory:SQLFactory;
-	private var sqlRunner:SQLRunner;
+	private var conn:SQLConnection;
 
-	override public function execute():void {
+	public function execute():void {
 		var sqlParams:Object = note.toSQLData();
 		sqlParams.updatingNoteID = note.id;
-		sqlRunner.executeModify(Vector.<QueuedStatement>([new QueuedStatement(sqlFactory.updateNote, sqlParams)]), executeComplete, executeError);
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sqlFactory.updateNote, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchComplete();
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
 	}
 
 	private function executeError(error:SQLError):void {
-		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details);
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		note = null;
-		sqlRunner = null;
+		conn = null;
 	}
 }
 }

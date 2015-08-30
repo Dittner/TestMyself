@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.note.toolbar {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
@@ -66,8 +66,8 @@ public class NoteToolbarMediator extends SFMediator {
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, selectedAction);
 	}
 
-	private function noteSelectedHandler(res:CommandResult):void {
-		noteSelectedNotificationHandler(res.data as INote);
+	private function noteSelectedHandler(op:IAsyncOperation):void {
+		noteSelectedNotificationHandler(op.result as INote);
 	}
 
 	private function noteSelectedNotificationHandler(vo:INote):void {

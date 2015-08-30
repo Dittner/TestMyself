@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.lesson {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.view.dictionary.lesson.form.LessonCreatorMediator;
@@ -22,7 +22,7 @@ public class LessonContentMediator extends SFMediator {
 		sendRequest(NoteMsg.GET_NOTE_PAGE_INFO, new RequestMessage(onPageInfoLoaded));
 	}
 
-	private function onPageInfoLoaded(res:CommandResult):void {
+	private function onPageInfoLoaded(op:IAsyncOperation):void {
 		activateScreen()
 	}
 

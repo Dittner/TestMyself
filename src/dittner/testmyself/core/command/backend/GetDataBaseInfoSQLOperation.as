@@ -1,13 +1,13 @@
 package dittner.testmyself.core.command.backend {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseRunner;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.CompositeOperation;
+import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.service.NoteService;
 
-public class GetDataBaseInfoSQLOperation extends DeferredOperation {
+public class GetDataBaseInfoSQLOperation extends AsyncOperation implements ICommand {
 
 	public function GetDataBaseInfoSQLOperation(service:NoteService, filter:NoteFilter) {
 		this.service = service;
@@ -19,27 +19,22 @@ public class GetDataBaseInfoSQLOperation extends DeferredOperation {
 	private var info:NotesInfo;
 	private var filter:NoteFilter;
 
-	override public function process():void {
-		var phaseRunner:PhaseRunner = new PhaseRunner();
-		phaseRunner.completeCallback = phaseRunnerCompleteSuccessHandler;
+	public function execute():void {
+		var composite:CompositeOperation = new CompositeOperation();
 
-		try {
-			phaseRunner.addPhase(NoteCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
-			phaseRunner.addPhase(FilteredNoteCountOperationPhase, service.sqlRunner, info, filter, service.sqlFactory);
-			phaseRunner.addPhase(NoteWithAudioCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
-			phaseRunner.addPhase(ExampleCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
-			phaseRunner.addPhase(ExampleWithAudioCountOperationPhase, service.sqlRunner, info, service.sqlFactory);
+		composite.addOperation(NoteCountOperationPhase, service.sqlConnection, info, service.sqlFactory);
+		composite.addOperation(FilteredNoteCountOperationPhase, service.sqlConnection, info, filter, service.sqlFactory);
+		composite.addOperation(NoteWithAudioCountOperationPhase, service.sqlConnection, info, service.sqlFactory);
+		composite.addOperation(ExampleCountOperationPhase, service.sqlConnection, info, service.sqlFactory);
+		composite.addOperation(ExampleWithAudioCountOperationPhase, service.sqlConnection, info, service.sqlFactory);
 
-			phaseRunner.execute();
-		}
-		catch (exc:CommandException) {
-			phaseRunner.destroy();
-			dispatchCompleteWithError(exc);
-		}
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
 	}
 
-	private function phaseRunnerCompleteSuccessHandler():void {
-		dispatchCompleteSuccess(new CommandResult(info));
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(info);
+		else dispatchError(op.error);
 	}
 }
 }

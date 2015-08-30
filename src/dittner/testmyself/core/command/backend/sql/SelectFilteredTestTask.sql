@@ -8,4 +8,4 @@ AND n.id = f.noteID
 AND f.themeID = th.id
 AND th.name
 IN #filterList
-ORDER BY t.rate
+ORDER BY t.rate DESC

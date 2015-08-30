@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.settings.noteSettings {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.core.model.theme.Theme;
@@ -22,8 +22,8 @@ public class WordSettingsMediator extends SFMediator {
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyBtnClickHandler);
 	}
 
-	protected function onThemesLoaded(res:CommandResult):void {
-		var themeItems:Array = res.data as Array;
+	protected function onThemesLoaded(op:IAsyncOperation):void {
+		var themeItems:Array = op.result as Array;
 		view.themes = new ArrayCollection(themeItems);
 	}
 
@@ -36,7 +36,7 @@ public class WordSettingsMediator extends SFMediator {
 		if (!selectedTheme) return;
 
 		if (view.isThemeRemoving) {
-			sendRequestTo(ModuleName.WORD, NoteMsg.REMOVE_THEME, new RequestMessage(null, null, selectedTheme))
+			sendRequestTo(ModuleName.WORD, NoteMsg.REMOVE_THEME, new RequestMessage(null, selectedTheme))
 		}
 		else if (view.themeNameInputForm.text) {
 			var theme:Theme = new Theme();
@@ -44,8 +44,8 @@ public class WordSettingsMediator extends SFMediator {
 			theme.name = view.themeNameInputForm.text;
 
 			var duplicate:ITheme = getThemeWithName(theme.name);
-			if (duplicate) sendRequestTo(ModuleName.WORD, NoteMsg.MERGE_THEMES, new RequestMessage(null, null, {destTheme: duplicate, srcTheme: selectedTheme}));
-			else sendRequestTo(ModuleName.WORD, NoteMsg.UPDATE_THEME, new RequestMessage(null, null, theme));
+			if (duplicate) sendRequestTo(ModuleName.WORD, NoteMsg.MERGE_THEMES, new RequestMessage(null, {destTheme: duplicate, srcTheme: selectedTheme}));
+			else sendRequestTo(ModuleName.WORD, NoteMsg.UPDATE_THEME, new RequestMessage(null, theme));
 		}
 	}
 

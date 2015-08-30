@@ -136,11 +136,9 @@
         </s:Scroller>
 
         <list:ExampleList id="exampleList"
-                          width="66%" height="100%"
+                          width="100%" height="100%"
                           excludeFrom="inactive"
-                          visible="false"
                           showTitle="false"
-                          includeInLayout="false"
                           hasFocusableChildren="false"/>
     </s:HGroup>
 

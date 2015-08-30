@@ -3,7 +3,7 @@ import flash.events.TimerEvent;
 
 public class Invalidator {
 
-	private static const DELAYED_FRAMES:Number = 3;
+	private static const DELAYED_FRAMES:Number = 2;
 
 	private static var validateTimer:FrameTimer = new FrameTimer(DELAYED_FRAMES, validate);
 	private static var funcQueue:Array = [];

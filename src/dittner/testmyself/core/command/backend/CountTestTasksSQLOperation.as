@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
 import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
@@ -9,8 +9,10 @@ import dittner.testmyself.core.model.test.TestSpec;
 import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
-public class CountTestTasksSQLOperation extends DeferredOperation {
+public class CountTestTasksSQLOperation extends AsyncOperation implements ICommand {
 
 	public function CountTestTasksSQLOperation(service:NoteService, spec:TestSpec, onlyFailedNotes:Boolean) {
 		super();
@@ -23,42 +25,44 @@ public class CountTestTasksSQLOperation extends DeferredOperation {
 	private var spec:TestSpec;
 	private var onlyFailedNotes:Boolean;
 
-	override public function process():void {
+	public function execute():void {
 		if (spec) {
-			var sqlStatement:String;
+			var sql:String;
 			var filter:NoteFilter = spec.filter;
 			if (filter.selectedThemes.length > 0) {
-				sqlStatement = spec.info.useNoteExample ? service.sqlFactory.selectCountFilteredTestExampleTask : service.sqlFactory.selectCountFilteredTestTask;
+				sql = spec.info.useNoteExample ? service.sqlFactory.selectCountFilteredTestExampleTask : service.sqlFactory.selectCountFilteredTestTask;
 				var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-				sqlStatement = sqlStatement.replace("#filterList", themes);
+				sql = sql.replace("#filterList", themes);
 			}
 			else {
-				sqlStatement = spec.info.useNoteExample ? service.sqlFactory.selectCountTestExampleTask : service.sqlFactory.selectCountTestTask;
+				sql = spec.info.useNoteExample ? service.sqlFactory.selectCountTestExampleTask : service.sqlFactory.selectCountTestTask;
 			}
 
 			var sqlParams:Object = {};
 			sqlParams.selectedTestID = spec.info.id;
 			sqlParams.onlyFailedNotes = onlyFailedNotes ? 1 : 0;
 
-			service.sqlRunner.execute(sqlStatement, sqlParams, loadCompleteHandler);
+			var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+			statement.sqlConnection = service.sqlConnection;
+			statement.execute(-1, new Responder(loadCompleteHandler));
 		}
 		else {
-			dispatchCompleteWithError(new CommandException(ErrorCode.NULLABLE_TEST_SPEC, "Отсутствует спецификация к тесту, необходимая для подсчета тестовых задач"));
+			dispatchError(new CommandException(ErrorCode.NULLABLE_TEST_SPEC, "Отсутствует спецификация к тесту, необходимая для подсчета тестовых задач"));
 		}
 	}
 
 	private function loadCompleteHandler(result:SQLResult):void {
 		if (result.data && result.data.length > 0) {
 			var countData:Object = result.data[0];
-			var amout:uint = 0;
+			var amount:uint = 0;
 			for (var prop:String in countData) {
-				amout = countData[prop] as int;
+				amount = countData[prop] as int;
 				break;
 			}
-			dispatchCompleteSuccess(new CommandResult(amout));
+			dispatchSuccess(amount);
 		}
 		else {
-			dispatchCompleteWithError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число тестов в таблице"));
+			dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число тестов в таблице"));
 		}
 	}
 }

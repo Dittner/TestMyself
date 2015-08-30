@@ -1,57 +1,61 @@
 package dittner.testmyself.core.command.backend {
 
-import com.probertson.data.QueuedStatement;
-import com.probertson.data.SQLRunner;
-
 import dittner.satelliteFlight.command.CommandException;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
-import dittner.testmyself.core.command.backend.phaseOperation.PhaseOperation;
+import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.Note;
 
+import flash.data.SQLConnection;
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.net.Responder;
 
-public class ExampleInsertOperationSubPhase extends PhaseOperation {
-	public function ExampleInsertOperationSubPhase(noteID:int, example:Note, sqlRunner:SQLRunner, sqlStatement:String) {
+public class ExampleInsertOperationSubPhase extends AsyncOperation implements ICommand {
+	public function ExampleInsertOperationSubPhase(noteID:int, example:Note, conn:SQLConnection, sql:String) {
 		this.noteID = noteID;
 		this.example = example;
-		this.sqlRunner = sqlRunner;
-		this.sqlStatement = sqlStatement;
+		this.conn = conn;
+		this.sql = sql;
 	}
 
 	private var noteID:int;
 	private var example:Note;
-	private var sqlRunner:SQLRunner;
-	private var sqlStatement:String;
+	private var conn:SQLConnection;
+	private var sql:String;
 
-	override public function execute():void {
-		var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
+	public function execute():void {
+		if (noteID == -1) {
+			dispatchError(new CommandException(ErrorCode.PARENT_EXAMPLE_HAS_NO_ID, "Нет ID записи, необходимого для сохранения примера"));
+			return;
+		}
+
 		var sqlParams:Object = example.toSQLData();
 		sqlParams.noteID = noteID;
-		if (noteID == -1)
-			throw new CommandException(ErrorCode.PARENT_EXAMPLE_HAS_NO_ID, "Нет ID записи, необходимого для сохранения примера");
-		statements.push(new QueuedStatement(sqlStatement, sqlParams));
-		sqlRunner.executeModify(statements, executeComplete, executeError);
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		var result:SQLResult = results[0];
+	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
 			example.id = result.lastInsertRowID;
-			dispatchComplete();
+			dispatchSuccess();
 		}
-		else throw new CommandException(ErrorCode.THEME_ADDED_WITHOUT_ID, "База данных не вернула ID добавленного примера");
+		else dispatchError(new CommandException(ErrorCode.THEME_ADDED_WITHOUT_ID, "База данных не вернула ID добавленного примера"));
 	}
 
 	private function executeError(error:SQLError):void {
-		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details);
+		dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, error.details));
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		example = null;
-		sqlRunner = null;
-		sqlStatement = null;
+		conn = null;
+		sql = null;
 	}
 }
 }

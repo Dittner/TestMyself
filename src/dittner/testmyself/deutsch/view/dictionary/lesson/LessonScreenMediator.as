@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.lesson {
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.theme.ITheme;
@@ -35,8 +35,8 @@ public class LessonScreenMediator extends SFMediator {
 		sendRequest(NoteMsg.GET_FILTER, new RequestMessage(onFilterLoaded));
 	}
 
-	private function onFilterLoaded(res:CommandResult):void {
-		filter = res.data as NoteFilter;
+	private function onFilterLoaded(op:IAsyncOperation):void {
+		filter = op.result as NoteFilter;
 		view.lessonList.addEventListener(SelectableDataGroup.SELECTED, lessonSelectedHandler);
 		view.goBackBtn.addEventListener(MouseEvent.CLICK, goBackClicked);
 		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
@@ -49,10 +49,10 @@ public class LessonScreenMediator extends SFMediator {
 		if (!lesson) return;
 		view.selectedLessonName = lesson.name;
 		filter.selectedThemes = [lesson];
-		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(filterUpdated, null, filter));
+		sendRequest(NoteMsg.SET_FILTER, new RequestMessage(filterUpdated, filter));
 	}
 
-	private function filterUpdated(res:CommandResult):void {
+	private function filterUpdated(op:IAsyncOperation):void {
 		showLessonContent();
 	}
 

@@ -1,20 +1,19 @@
 package dittner.testmyself.core.command.backend {
-import com.probertson.data.QueuedStatement;
-import com.probertson.data.SQLRunner;
-
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
-import dittner.testmyself.core.command.backend.deferredOperation.DeferredOperation;
-import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
+import dittner.testmyself.core.async.AsyncOperation;
+import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.AppConfig;
 
 import flash.data.SQLResult;
+import flash.data.SQLStatement;
 import flash.errors.SQLError;
+import flash.events.SQLErrorEvent;
+import flash.events.SQLEvent;
 import flash.filesystem.File;
+import flash.net.Responder;
 
-public class CreateDataBaseSQLOperation extends DeferredOperation {
+public class CreateDataBaseSQLOperation extends AsyncOperation implements ICommand {
 
 	public function CreateDataBaseSQLOperation(service:NoteService, spec:NoteServiceSpec) {
 		super();
@@ -25,7 +24,7 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 	private var service:NoteService;
 	private var spec:NoteServiceSpec;
 
-	override public function process():void {
+	public function execute():void {
 		var dbRootFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath);
 		if (!dbRootFile.exists) {
 			var appDBDir:File = File.applicationDirectory.resolvePath(AppConfig.applicationDBPath);
@@ -39,30 +38,52 @@ public class CreateDataBaseSQLOperation extends DeferredOperation {
 		}
 
 		var dbFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + spec.dbName + ".db");
-		service.sqlRunner = new SQLRunner(dbFile);
 
 		if (!dbFile.exists) {
-			var statements:Vector.<QueuedStatement> = new Vector.<QueuedStatement>();
-			statements.push(new QueuedStatement(service.sqlFactory.createNoteTbl));
-			statements.push(new QueuedStatement(service.sqlFactory.createFilterTbl));
-			statements.push(new QueuedStatement(service.sqlFactory.createThemeTbl));
-			statements.push(new QueuedStatement(service.sqlFactory.createExampleTbl));
-			statements.push(new QueuedStatement(service.sqlFactory.createTestTbl));
-			statements.push(new QueuedStatement(service.sqlFactory.createTestExampleTbl));
+			var statements:Array = [];
+			statements.push(service.sqlFactory.createNoteTbl);
+			statements.push(service.sqlFactory.createFilterTbl);
+			statements.push(service.sqlFactory.createThemeTbl);
+			statements.push(service.sqlFactory.createExampleTbl);
+			statements.push(service.sqlFactory.createTestTbl);
+			statements.push(service.sqlFactory.createTestExampleTbl);
 
-			service.sqlRunner.executeModify(statements, executeComplete, executeError, null);
+			service.sqlConnection.open(dbFile);
+			createTables(statements);
+			service.sqlConnection.close();
 		}
-		else {
-			dispatchCompleteSuccess(CommandResult.OK);
+
+		service.sqlConnection.addEventListener(SQLErrorEvent.ERROR, openFailedHandler);
+		service.sqlConnection.addEventListener(SQLEvent.OPEN, openSuccessHandler);
+		service.sqlConnection.openAsync(dbFile);
+	}
+
+	private function createTables(statements:Array):void {
+		var createStmt:SQLStatement;
+
+		for (var i:int = 0; i < statements.length; i++) {
+			var statement:String = statements[i];
+			createStmt = new SQLStatement();
+			createStmt.sqlConnection = service.sqlConnection;
+			createStmt.text = statement;
+			if (i == statements.length - 1) createStmt.execute(-1, new Responder(executeComplete, executeError));
+			else createStmt.execute();
 		}
 	}
 
-	private function executeComplete(results:Vector.<SQLResult>):void {
-		dispatchCompleteSuccess(CommandResult.OK);
+	private function openSuccessHandler(event:SQLEvent):void {
+		dispatchSuccess();
 	}
+
+	private function openFailedHandler(event:SQLErrorEvent):void {
+		var errDetails:String = error.toString();
+		dispatchError(errDetails);
+	}
+
+	private function executeComplete(result:SQLResult):void {}
 
 	private function executeError(error:SQLError):void {
-		throw new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Ошибка при создании БД: " + error.toString());
+		dispatchError(error);
 	}
 
 }

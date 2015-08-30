@@ -1,7 +1,6 @@
 package dittner.testmyself.deutsch.view.dictionary.note.form {
-import dittner.satelliteFlight.command.CommandException;
-import dittner.satelliteFlight.command.CommandResult;
 import dittner.satelliteFlight.message.RequestMessage;
+import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
@@ -50,15 +49,12 @@ public class NoteCreatorMediator extends NoteFormMediator {
 	}
 
 	override protected function send(suite:NoteSuite):void {
-		sendRequest(NoteMsg.ADD_NOTE, new RequestMessage(addNoteCompleteHandler, addNoteErrorHandler, suite));
+		sendRequest(NoteMsg.ADD_NOTE, new RequestMessage(addNoteCompleteHandler, suite));
 	}
 
-	protected function addNoteCompleteHandler(res:CommandResult):void {
-		closeForm();
-	}
-
-	protected function addNoteErrorHandler(exc:CommandException):void {
-		view.notifyInvalidData(exc.details);
+	protected function addNoteCompleteHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) closeForm();
+		else view.notifyInvalidData(op.error.details);
 	}
 
 }
