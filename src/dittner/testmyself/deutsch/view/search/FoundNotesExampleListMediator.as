@@ -36,7 +36,6 @@ public class FoundNotesExampleListMediator extends SFMediator {
 	protected function onExamplesLoaded(op:IAsyncOperation):void {
 		if (op.result is Array && op.result.length > 0) {
 			view.dataProvider = new ArrayCollection(op.result as Array);
-			view.visible = view.includeInLayout = true;
 		}
 		else {
 			hideList();
@@ -45,7 +44,6 @@ public class FoundNotesExampleListMediator extends SFMediator {
 
 	private function hideList():void {
 		view.dataProvider = null;
-		view.visible = view.includeInLayout = false;
 	}
 
 	private function exampleSelectedHandler(event:Event):void {

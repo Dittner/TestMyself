@@ -18,4 +18,4 @@ IN
       IN #filterList
    )
 )
-ORDER BY rate DESC
+ORDER BY rate
