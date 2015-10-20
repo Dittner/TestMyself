@@ -3,14 +3,13 @@ import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.Fonts;
 
+import flash.display.DisplayObject;
 import flash.display.GradientType;
 import flash.display.Graphics;
 import flash.events.MouseEvent;
 import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
-
-import mx.core.UIComponent;
 
 import spark.components.DataGroup;
 
@@ -25,10 +24,11 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 		super();
 		percentWidth = 100;
 		addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+		mouseChildren = false;
 	}
 
 	private var themeName:TextField;
-	private var deleteBtnIcon:UIComponent;
+	private var deleteBtnIcon:DisplayObject;
 
 	private function get theme():ITheme {
 		return data as ITheme;
@@ -37,13 +37,10 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	override protected function createChildren():void {
 		super.createChildren();
 		themeName = createTextField(SELECTED_THEME_FORMAT);
-		addChild(themeName);
+		//addChild(themeName);
 
-		deleteBtnIcon = new UIComponent();
-		deleteBtnIcon.addChild(new DeleteBtnIconClass());
-		deleteBtnIcon.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-
-		addChild(deleteBtnIcon);
+		deleteBtnIcon = new DeleteBtnIconClass();
+		//addChild(deleteBtnIcon);
 	}
 
 	override protected function commitProperties():void {
@@ -80,7 +77,7 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	}
 
 	private function downHandler(event:MouseEvent):void {
-		if (event.currentTarget == deleteBtnIcon) {
+		if (event.localX >= deleteBtnIcon.x) {
 			if (parent is DataGroup) (parent as DataGroup).dataProvider.removeItemAt(itemIndex);
 		}
 		else event.stopImmediatePropagation();
