@@ -34,6 +34,8 @@ public class SearchBoardMediator extends SFMediator {
 	public function startSearch(event:* = null):void {
 		if (view.searchInput.text.length <= 1) return;
 
+		FoundNoteRenderer.searchingText = view.searchInput.text;
+
 		if (history.row != view.searchInput.text)
 			history.push(view.searchInput.text);
 

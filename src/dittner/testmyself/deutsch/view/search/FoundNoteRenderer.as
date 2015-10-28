@@ -53,6 +53,15 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 	private var noteBitmap:Bitmap;
 	private var noteExampleBitmap:Bitmap;
 
+	public static var _searchingText:String = "";
+	public static var pattern:RegExp;
+	public static function set searchingText(value:String):void {
+		if (_searchingText != value) {
+			_searchingText = value;
+			pattern = new RegExp(_searchingText, "gi");
+		}
+	}
+
 	private function get foundNote():FoundNote {
 		return data as FoundNote;
 	}
@@ -85,8 +94,8 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 	}
 
 	private function updateData():void {
-		titleTf.text = getTitle();
-		descriptionTf.text = getDescription();
+		titleTf.htmlText = getTitle();
+		descriptionTf.htmlText = getDescription();
 		descriptionTf.visible = selected;
 	}
 
@@ -174,6 +183,12 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 			descriptionTf.x = PAD - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP - TEXT_DEFAULT_OFFSET;
 			descriptionTf.alpha = selected ? 0.7 : 1;
+		}
+
+		if (_searchingText) {
+			titleTf.htmlText = titleTf.htmlText.replace(pattern, '<font color = "#ed4671">' + _searchingText + '</font>');
+			if (descriptionTf.visible)
+				descriptionTf.htmlText = descriptionTf.htmlText.replace(pattern, '<font color = "#ed4671">' + _searchingText + '</font>');
 		}
 	}
 

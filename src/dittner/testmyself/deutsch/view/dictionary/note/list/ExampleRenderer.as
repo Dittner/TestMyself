@@ -47,13 +47,13 @@ public class ExampleRenderer extends NoteBaseRenderer {
 
 	private function updateData():void {
 		if (note) {
-			titleTf.text = note.title;
-			descriptionTf.text = note.description;
+			titleTf.htmlText = note.title;
+			descriptionTf.htmlText = note.description;
 			descriptionTf.visible = selected;
 		}
 		else {
-			titleTf.text = "";
-			descriptionTf.text = "";
+			titleTf.htmlText = "";
+			descriptionTf.htmlText = "";
 			descriptionTf.visible = false;
 		}
 	}

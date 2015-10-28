@@ -58,13 +58,13 @@ public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 
 	private function updateData():void {
 		if (noteData) {
-			titleTf.text = noteData.layout.inverted ? noteData.note.description : noteData.note.title;
-			descriptionTf.text = noteData.layout.inverted ? noteData.note.title : noteData.note.description;
+			titleTf.htmlText = noteData.layout.inverted ? noteData.note.description : noteData.note.title;
+			descriptionTf.htmlText = noteData.layout.inverted ? noteData.note.title : noteData.note.description;
 			descriptionTf.visible = noteData.layout.showDetails || selected;
 		}
 		else {
-			titleTf.text = "";
-			descriptionTf.text = "";
+			titleTf.htmlText = "";
+			descriptionTf.htmlText = "";
 			descriptionTf.visible = false;
 		}
 	}

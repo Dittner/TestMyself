@@ -62,13 +62,13 @@ public class TestingNoteRenderer extends NoteBaseRenderer {
 
 	private function updateData():void {
 		if (note) {
-			titleTf.text = renData.translationInverted ? note.description : note.title;
-			descriptionTf.text = renData.translationInverted ? note.title : note.description;
+			titleTf.htmlText = renData.translationInverted ? note.description : note.title;
+			descriptionTf.htmlText = renData.translationInverted ? note.title : note.description;
 			descriptionTf.visible = selected;
 		}
 		else {
-			titleTf.text = "";
-			descriptionTf.text = "";
+			titleTf.htmlText = "";
+			descriptionTf.htmlText = "";
 			descriptionTf.visible = false;
 		}
 	}

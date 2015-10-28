@@ -73,15 +73,15 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 				title += ", " + word.options;
 
 			if (renData.translationInverted) {
-				titleTf.text = description;
-				descriptionTf.text = title;
+				titleTf.htmlText = description;
+				descriptionTf.htmlText = title;
 				titleTf.setTextFormat(TITLE_FORMAT);
 				descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
 				titleTf.textColor = selected ? 0xffFFff : 0;
 			}
 			else {
-				titleTf.text = title;
-				descriptionTf.text = description;
+				titleTf.htmlText = title;
+				descriptionTf.htmlText = description;
 				titleTf.setTextFormat(TITLE_FORMAT);
 				titleTf.textColor = selected ? 0xffFFff : 0;
 				descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
@@ -104,8 +104,8 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 			descriptionTf.visible = selected;
 		}
 		else {
-			titleTf.text = "";
-			descriptionTf.text = "";
+			titleTf.htmlText = "";
+			descriptionTf.htmlText = "";
 			descriptionTf.visible = false;
 		}
 	}
