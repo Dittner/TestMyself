@@ -116,6 +116,7 @@
                          top="30" bottom="0"
                          width="100%"
                          maxRecordSize="{maxRecordSize}"
+                         removeCommentClick="mp3Player_removeCommentClickHandler(event)"
                          skinClass="dittner.testmyself.deutsch.view.common.audio.skins.RawDataPlayerSkin"/>
 
     <mp3:MP3Player id="mp3Player"

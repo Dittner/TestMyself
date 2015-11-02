@@ -8,7 +8,7 @@ public class WordCreatorMediator extends NoteCreatorMediator {
 	override protected function createNote():Note {
 		var word:Word = new Word();
 		word.title = view.wordInput.text;
-		word.description = view.descriptionArea.text;
+		word.description = correctDescriptionText(view.descriptionArea.text);
 		word.audioComment = view.audioRecorder.comment;
 		word.article = view.articleBox.selectedItem;
 		word.options = view.wordOptionsInput.text;

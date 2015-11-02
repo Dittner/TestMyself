@@ -120,6 +120,29 @@ public class NoteFormMediator extends SFMediator {
 		return "";
 	}
 
+	protected function correctDescriptionText(txt:String):String {
+		var res:String = "";
+		if (txt) {
+			txt = txt.replace(/(\r)/gi, "\n");
+			txt = txt.replace(/(\t)/gi, "\n");
+			txt = txt.replace(/(\n\n)/gi, "\n");
+			txt = txt.replace(/(\n\n)/gi, "\n");
+			txt = txt.replace(/(  )/gi, " ");
+			txt = txt.replace(/(  )/gi, " ");
+			txt = txt.replace(/(;;)/gi, ";");
+			txt = txt.replace(/(;)/gi, ",");
+			txt = txt.replace(/(,,)/gi, ",");
+			txt = txt.replace(/(,\n)/gi, "\n");
+			if (txt && (txt.charAt(txt.length - 1) == "\n" || txt.charAt(txt.length - 1) == "." || txt.charAt(txt.length - 1) == "," || txt.charAt(txt.length - 1) == ";"))
+				txt = txt.substr(0, txt.length - 1);
+			txt = txt.replace(/(,;|;;|\n)/gi, ";");
+			txt = txt.replace(/(;)/gi, ";\n");
+			txt = txt.replace(/(, ;)/gi, ";");
+			res = txt;
+		}
+		return res;
+	}
+
 	protected function createThemes():Array {
 		var res:Array = [];
 		for each(var theme:ITheme in view.themesList.selectedItems) res.push(theme);

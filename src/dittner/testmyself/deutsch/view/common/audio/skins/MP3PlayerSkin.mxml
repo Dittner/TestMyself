@@ -19,6 +19,10 @@
         public function secToStr(sec:int):String {
             return PlayerUtils.convertToHHMMSS(sec);
         }
+
+        private function removeRecord():void {
+            hostComponent.remove();
+        }
         ]]></fx:Script>
 
     <s:states>
@@ -76,7 +80,7 @@
                          downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
                          top="0"
                          right="10"
-                         click="hostComponent.remove()"
+                         click="removeRecord()"
                          enabled="{hostComponent.removeRecordEnabled}"
                          visible="{hostComponent.removeRecordEnabled}"
                          description="Die Audioaufnahme entfernen"/>
