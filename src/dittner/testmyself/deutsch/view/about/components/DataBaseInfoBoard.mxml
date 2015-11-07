@@ -42,15 +42,16 @@
             }
         }
 
+        private const rightColumnText:String = "Wörter\nStarken Verben\nÜbungen\nBeispielen\nAudioaufnahmen"
         override protected function commitProperties():void {
             super.commitProperties();
             var infoText:String;
             if (wordInfo && verbInfo && lessonInfo) {
-                infoText = "Anzahl der Wörter: " + wordInfo.notesAmount;
-                infoText += "\nAnzahl der starken Verben: " + verbInfo.notesAmount;
-                infoText += "\nAnzahl der Lektionaufgaben: " + lessonInfo.notesAmount;
-                infoText += "\nAnzahl der Beispielen: " + (wordInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount);
-                infoText += "\nAnzahl der Audioaufnahmen: " + (wordInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
+                infoText = wordInfo.notesAmount + "\n";
+                infoText += verbInfo.notesAmount + "\n";
+                infoText += lessonInfo.notesAmount + "\n";
+                infoText += (wordInfo.examplesAmount + verbInfo.examplesAmount + lessonInfo.examplesAmount) + "\n";
+                infoText += (wordInfo.audioCommentsAmount + verbInfo.audioCommentsAmount + lessonInfo.audioCommentsAmount);
             }
             else infoText = "";
             infoLbl.text = infoText;
@@ -58,18 +59,28 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="2" verticalAlign="middle"/>
+        <s:VerticalLayout gap="10"/>
     </s:layout>
 
     <s:Label fontFamily="{Fonts.MYRIAD}"
-             fontSize="14"
+             fontSize="25"
              fontWeight="bold"
-             color="{AppColors.WHITE}"
+             paddingLeft="130"
+             color="{AppColors.YELLOW}"
              text="Die Statistik"/>
 
-    <s:Label id="infoLbl"
-             fontFamily="{Fonts.MYRIAD}"
-             fontSize="13"
-             color="{AppColors.WHITE}"/>
+    <s:HGroup gap="10">
+        <s:Label id="infoLbl"
+                 width="120"
+                 textAlign="right"
+                 fontFamily="{Fonts.MYRIAD}"
+                 fontSize="20"
+                 color="{AppColors.YELLOW}"/>
+
+        <s:Label fontFamily="{Fonts.MYRIAD}"
+                 fontSize="20"
+                 text="{rightColumnText}"
+                 color="{AppColors.YELLOW}"/>
+    </s:HGroup>
 
 </s:Group>

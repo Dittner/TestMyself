@@ -17,11 +17,11 @@ public class LessonSettingsMediator extends SFMediator {
 	public var view:NoteSettings;
 
 	override protected function activate():void {
-		view.editLbl.text = "Lektionname ändern";
-		view.removeLbl.text = "Lektion mit den Aufgaben entfernen";
-		view.themesList.title = "Lektionenliste";
-		view.notifyLbl.text = "Sind Sie sicher, die Lektion mit den Aufgaben Sie entfernen möchten?";
-		view.themeNameInputForm.title = "Geben Sie bitte den neuen Namen der Lektion ein";
+		view.editLbl.text = "Übungname ändern";
+		view.removeLbl.text = "Übung mit den Aufgaben entfernen";
+		view.themesList.title = "Übungenliste";
+		view.notifyLbl.text = "Sind Sie sicher, die Übung mit den Aufgaben Sie entfernen möchten?";
+		view.themeNameInputForm.title = "Geben Sie bitte den neuen Namen der Übung ein";
 
 		sendRequestTo(ModuleName.LESSON, NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
 		addListenerTo(ModuleName.LESSON, NoteMsg.THEMES_CHANGED_NOTIFICATION, themesChangedHandler);

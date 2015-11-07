@@ -67,7 +67,7 @@
                 <fx:Object label="Allgemein" state="common"/>
                 <fx:Object label="Wörter" state="word"/>
                 <fx:Object label="Starke Verben" state="verb"/>
-                <fx:Object label="Lektionen" state="lesson"/>
+                <fx:Object label="Übungen" state="lesson"/>
                 <fx:Object label="Testen" state="test"/>
             </s:ArrayCollection>
         </list:dataProvider>

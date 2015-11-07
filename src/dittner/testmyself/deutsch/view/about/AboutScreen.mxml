@@ -21,17 +21,9 @@
         </s:Rect>
     </s:Group>
 
-    <s:Group width="100%" height="120" bottom="0">
-        <components:DataBaseInfoBoard id="infoBoard" height="100%"
-                                      left="{PADDING}"/>
+    <components:DataBaseInfoBoard id="infoBoard"
+                                  top="20" right="{PADDING}"/>
 
-        <components:Logo bottom="5" right="5"/>
-
-    </s:Group>
-
-    <s:BitmapImage right="{2*PADDING}"
-                   top="40"
-                   smooth="true"
-                   source="@Embed('/hymne_text.png')"/>
+    <components:Logo bottom="5" right="5"/>
 
 </core:ScreenBase>

@@ -129,7 +129,7 @@
               paddingLeft="{PADDING}" paddingRight="{PADDING}">
 
         <button:ToolButton id="goBackBtn"
-                           description="Zurück zur Lektionliste"
+                           description="Zurück zur Übungenliste"
                            visible="false" visible.lessonContent="true"
                            includeInLayout="false" includeInLayout.lessonContent="true"
                            image="@Embed(source='/assets/tools/goback.png')"/>
@@ -143,7 +143,7 @@
                  color="#54545d"/>
 
         <button:ToolButton id="addLessonBtn"
-                           description="Neue Lektion hinzufügen"
+                           description="Neue Übung hinzufügen"
                            visible="false" visible.lessonList="true"
                            includeInLayout="false" includeInLayout.lessonList="true"
                            image="@Embed(source='/assets/tools/add.png')"/>

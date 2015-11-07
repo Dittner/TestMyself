@@ -27,7 +27,7 @@ public class SubjectTestInfoRenderer extends StringItemRenderer {
 			case ModuleName.VERB:
 				return "Starke Verben";
 			case ModuleName.LESSON:
-				return "Lektionen";
+				return "Übungen";
 		}
 		return "";
 	}

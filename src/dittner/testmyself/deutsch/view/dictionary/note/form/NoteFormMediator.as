@@ -123,6 +123,8 @@ public class NoteFormMediator extends SFMediator {
 	protected function correctDescriptionText(txt:String):String {
 		var res:String = "";
 		if (txt) {
+			txt = txt.replace(/(\[)/gi, "(");
+			txt = txt.replace(/(\])/gi, ")");
 			txt = txt.replace(/(\r)/gi, "\n");
 			txt = txt.replace(/(\t)/gi, "\n");
 			txt = txt.replace(/(\n\n)/gi, "\n");

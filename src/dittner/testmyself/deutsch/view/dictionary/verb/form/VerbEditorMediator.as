@@ -9,7 +9,7 @@ public class VerbEditorMediator extends NoteEditorMediator {
 	override protected function createNote():Note {
 		var verb:Verb = new Verb();
 		verb.title = view.verbInputsForm.infinitiveInput.text;
-		verb.description = view.verbInputsForm.translateInput.text;
+		verb.description = correctDescriptionText(view.verbInputsForm.translateInput.text);
 		verb.audioComment = view.audioRecorder.comment;
 		verb.present = view.verbInputsForm.presentInput.text;
 		verb.past = view.verbInputsForm.pastInput.text;

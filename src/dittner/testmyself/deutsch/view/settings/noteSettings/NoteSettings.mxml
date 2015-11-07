@@ -120,7 +120,7 @@
                  fontSize="16"
                  visible="false" visible.removeTheme="true"
                  includeInLayout="false" includeInLayout.removeTheme="true"
-                 text="Sind Sie sicher, die Lektion ohne die Aufgaben Sie entfernen möchten?"/>
+                 text="Sind Sie sicher, die Übung ohne die Aufgaben Sie entfernen möchten?"/>
 
         <input:TextInputForm id="themeNameInputForm"
                              top="row1:10" left="col2:10" right="10"

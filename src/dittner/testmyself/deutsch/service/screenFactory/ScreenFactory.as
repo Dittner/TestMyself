@@ -63,7 +63,7 @@ public class ScreenFactory extends SFProxy implements IScreenFactory {
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 
-		info = new ScreenInfo(ScreenID.LESSON, "LEKTIONEN", "Lektionen", getIcon(ScreenID.LESSON));
+		info = new ScreenInfo(ScreenID.LESSON, "ÜBUNGEN", "Übungen", getIcon(ScreenID.LESSON));
 		_screenInfos.push(info);
 		screensHash[info.id] = info;
 

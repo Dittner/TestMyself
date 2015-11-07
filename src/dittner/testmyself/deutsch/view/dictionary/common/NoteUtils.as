@@ -31,12 +31,9 @@ public class NoteUtils {
 
 	public static function changeSymbols(str:String):String {
 		if (str) {
-			str = str.replace("[", "(");
-			str = str.replace("[", "(");
-			str = str.replace("]", ")");
-			str = str.replace("]", ")");
-			str = str.replace(" - ", " – ");
-			str = str.replace(" - ", " – ");
+			str = str.replace(/(\[)/gi, "(");
+			str = str.replace(/(\])/gi, ")");
+			str = str.replace(/( - )/gi, " – ");
 		}
 		return str;
 	}
