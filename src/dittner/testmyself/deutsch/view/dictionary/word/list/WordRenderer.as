@@ -170,10 +170,9 @@ public class WordRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
 		if (descriptionTf.visible) {
-			descriptionTf.textColor = selected ? 0xffFFff : 0;
+			descriptionTf.textColor = selected ? AppColors.DESCRIPTION_SELECTED_TEXT_COLOR : 0;
 			descriptionTf.x = (noteData.layout.isHorizontal ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = (noteData.layout.isHorizontal ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
-			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
 	}
 

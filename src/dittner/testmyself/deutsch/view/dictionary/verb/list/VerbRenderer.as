@@ -47,7 +47,6 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		super.createChildren();
 
 		translationTf = createMultilineTextField(DESCRIPTION_FORMAT);
-		translationTf.alpha = 0.7;
 		addChild(translationTf);
 
 		infinitiveTf = createMultilineTextField(FORMAT);
@@ -130,7 +129,7 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			presentTf.textColor = 0xffFFff;
 			pastTf.textColor = 0xffFFff;
 			perfectTf.textColor = 0xffFFff;
-			translationTf.textColor = 0xffFFff;
+			translationTf.textColor = AppColors.DESCRIPTION_SELECTED_TEXT_COLOR;
 
 			translationTf.visible = true;
 		}

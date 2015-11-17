@@ -179,16 +179,15 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 		titleTf.x = titleTf.y = PAD - TEXT_DEFAULT_OFFSET;
 
 		if (descriptionTf.visible) {
-			descriptionTf.textColor = selected ? 0xffFFff : 0;
+			descriptionTf.textColor = selected ? AppColors.DESCRIPTION_SELECTED_TEXT_COLOR : 0;
 			descriptionTf.x = PAD - TEXT_DEFAULT_OFFSET;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP - TEXT_DEFAULT_OFFSET;
-			descriptionTf.alpha = selected ? 0.7 : 1;
 		}
 
 		if (_searchingText) {
-			titleTf.htmlText = titleTf.htmlText.replace(pattern, '<font color = "#ed4671">' + "$&" + '</font>');
+			titleTf.htmlText = titleTf.htmlText.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>');
 			if (descriptionTf.visible)
-				descriptionTf.htmlText = descriptionTf.htmlText.replace(pattern, '<font color = "#ed4671">' + "$&" + '</font>');
+				descriptionTf.htmlText = descriptionTf.htmlText.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>');
 		}
 	}
 
