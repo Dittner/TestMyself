@@ -59,7 +59,7 @@ public class WordFormState extends NoteFormState {
 
 			descriptionArea.x = wordInput.x;
 			descriptionArea.y = wordOptionsInput.y + wordOptionsInput.height + VGAP;
-			descriptionArea.height = 4 * wordInput.height;
+			descriptionArea.height = 6 * wordInput.height;
 			descriptionArea.width = firstColumnWid - wordInput.x + 2 * HGAP;
 
 			examplesForm.x = PAD;

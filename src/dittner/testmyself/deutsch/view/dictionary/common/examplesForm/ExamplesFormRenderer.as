@@ -97,11 +97,11 @@ public class ExamplesFormRenderer extends NoteBaseRenderer {
 			g.lineTo(w, h - 1);
 		}
 
-		titleTf.textColor = selected ? 0xffFFff : 0;
+		titleTf.textColor = selected ? AppColors.DESCRIPTION_SELECTED_TEXT_COLOR : 0;
 		titleTf.x = titleTf.y = PAD;
 
 		if (descriptionTf.visible) {
-			descriptionTf.textColor = selected ? AppColors.TEXT_WHITE : AppColors.TEXT_GRAY;
+			descriptionTf.textColor = selected ? AppColors.DESCRIPTION_SELECTED_TEXT_COLOR : AppColors.TEXT_GRAY;
 			descriptionTf.x = PAD;
 			descriptionTf.y = PAD + titleTf.textHeight + GAP;
 		}
