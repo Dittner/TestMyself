@@ -93,7 +93,7 @@ public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 		}
 	}
 
-	private var matr:Matrix = new Matrix();
+	private var mtr:Matrix = new Matrix();
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
@@ -102,8 +102,8 @@ public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 		updateSoundIconPos(w, h);
 
 		if (selected) {
-			matr.createGradientBox(w, h, Math.PI / 2);
-			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
+			mtr.createGradientBox(w, h, Math.PI / 2);
+			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], mtr);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}
