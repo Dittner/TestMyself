@@ -15,7 +15,6 @@
             present = "";
             past = "";
             perfect = "";
-            translation = "";
         }
 
         //--------------------------------------
@@ -62,17 +61,6 @@
             dispatchEvent(new Event("perfectChanged"));
         }
 
-        //--------------------------------------
-        //  translation
-        //--------------------------------------
-        private var _translation:String = "";
-        [Bindable("translationChanged")]
-        public function get translation():String {return _translation;}
-        public function set translation(value:String):void {
-            _translation = value;
-            dispatchEvent(new Event("translationChanged"));
-        }
-
         private const regexp:RegExp = NoteUtils.LETTERS_AND_SYMBOLS;
         private function wordValidationHandler(event:TextOperationEvent):void {
             if (event.operation is TextInputOperation) {
@@ -80,59 +68,38 @@
                 if (match == null) event.preventDefault();
             }
         }
-
-        //--------------------------------------
-        //  gap
-        //--------------------------------------
-        private var _gap:Number;
-        [Bindable("gapChanged")]
-        public function get gap():Number {return _gap;}
-        public function set gap(value:Number):void {
-            if (_gap != value) {
-                _gap = value;
-                dispatchEvent(new Event("gapChanged"));
-            }
-        }
         ]]></fx:Script>
 
     <s:layout>
-        <s:HorizontalLayout gap="{gap}"/>
+        <s:VerticalLayout gap="15" paddingLeft="85"/>
     </s:layout>
 
-    <input:TextAreaForm id="translateInput"
-                        text="{translation}"
-                        width="100%" height="300"
-                        maxChars="{AppConfig.MAX_TEXT_LENGTH}"
-                        title="Übersetzung"/>
+    <input:TextInputForm id="infinitiveInput"
+                         changing="wordValidationHandler(event)"
+                         text="{infinitive}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Infinitiv"/>
 
-    <s:VGroup id="formsCont" width="100%" gap="{gap}" height="100%">
-        <input:TextInputForm id="infinitiveInput"
-                             changing="wordValidationHandler(event)"
-                             text="{infinitive}"
-                             width="100%"
-                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                             title="Infinitiv"/>
+    <input:TextInputForm id="presentInput"
+                         changing="wordValidationHandler(event)"
+                         text="{present}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Präsens"/>
 
-        <input:TextInputForm id="presentInput"
-                             changing="wordValidationHandler(event)"
-                             text="{present}"
-                             width="100%"
-                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                             title="Präsens"/>
+    <input:TextInputForm id="pastInput"
+                         changing="wordValidationHandler(event)"
+                         text="{past}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Präteritum"/>
 
-        <input:TextInputForm id="pastInput"
-                             changing="wordValidationHandler(event)"
-                             text="{past}"
-                             width="100%"
-                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                             title="Präteritum"/>
-
-        <input:TextInputForm id="perfectInput"
-                             changing="wordValidationHandler(event)"
-                             text="{perfect}"
-                             width="100%"
-                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                             title="Partizip II"/>
-    </s:VGroup>
+    <input:TextInputForm id="perfectInput"
+                         changing="wordValidationHandler(event)"
+                         text="{perfect}"
+                         width="100%"
+                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         title="Partizip II"/>
 
 </s:Group>

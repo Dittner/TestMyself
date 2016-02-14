@@ -225,10 +225,10 @@
     </fx:Declarations>
 
     <s:layout>
-        <s:HorizontalLayout id="horizontalLayout"/>
+        <s:HorizontalLayout/>
     </s:layout>
 
-    <s:VGroup id="toolsCont" width="100" paddingLeft="5" paddingTop="20">
+    <s:VGroup id="toolsCont" width="80" paddingLeft="5" paddingTop="20">
         <button:BitmapButton id="addBtn"
                              upImage="@Embed(source='/assets/button/add_example_btn_up.png')"
                              downImage="@Embed(source='/assets/button/add_example_btn_down.png')"

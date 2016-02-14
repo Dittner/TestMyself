@@ -79,6 +79,7 @@ public class NoteFormMediator extends SFMediator {
 		sendNotification(NoteMsg.FORM_ACTIVATED_NOTIFICATION);
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
+		view.formatBtn.addEventListener(MouseEvent.CLICK, formatHandler);
 		view.addThemeBtn.addEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
 		view.wordInput.addEventListener(TextOperationEvent.CHANGE, validateInputText);
 		view.titleArea.addEventListener(TextOperationEvent.CHANGE, validateInputText);
@@ -98,6 +99,7 @@ public class NoteFormMediator extends SFMediator {
 		sendNotification(NoteMsg.FORM_DEACTIVATED_NOTIFICATION);
 		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
+		view.formatBtn.removeEventListener(MouseEvent.CLICK, formatHandler);
 		view.addThemeBtn.removeEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
 		view.wordInput.removeEventListener(TextOperationEvent.CHANGE, validateInputText);
 		view.titleArea.removeEventListener(TextOperationEvent.CHANGE, validateInputText);
@@ -120,15 +122,59 @@ public class NoteFormMediator extends SFMediator {
 		return "";
 	}
 
+	protected function formatHandler(event:MouseEvent):void {
+		view.descriptionArea.text = correctDescriptionText(view.descriptionArea.text);
+	}
+
 	protected function correctDescriptionText(txt:String):String {
 		var res:String = "";
 		if (txt) {
-			txt = txt.replace(/(\[)/gi, "(");
+			txt = txt.replace(/(\[)/gi, "");
+			txt = txt.replace(/(\])/gi, "");
+			txt = txt.replace(/(\()/gi, "");
+			txt = txt.replace(/(0\))/gi, "0]");
+			txt = txt.replace(/(1\))/gi, "1]");
+			txt = txt.replace(/(2\))/gi, "2]");
+			txt = txt.replace(/(3\))/gi, "3]");
+			txt = txt.replace(/(4\))/gi, "4]");
+			txt = txt.replace(/(5\))/gi, "5]");
+			txt = txt.replace(/(6\))/gi, "6]");
+			txt = txt.replace(/(7\))/gi, "7]");
+			txt = txt.replace(/(8\))/gi, "8]");
+			txt = txt.replace(/(9\))/gi, "9]");
+			txt = txt.replace(/(\))/gi, "");
 			txt = txt.replace(/(\])/gi, ")");
+
 			txt = txt.replace(/(\r)/gi, "\n");
 			txt = txt.replace(/(\t)/gi, "\n");
 			txt = txt.replace(/(\n\n)/gi, "\n");
 			txt = txt.replace(/(\n\n)/gi, "\n");
+
+			txt = txt.replace(/(что-л\.)/gi, "ч-л.");
+			txt = txt.replace(/(что-либо)/gi, "ч-л.");
+			txt = txt.replace(/(кто-либо)/gi, "к-л.");
+			txt = txt.replace(/(кто-л\.)/gi, "к-л.");
+
+			txt = txt.replace(/(чего-л\.)/gi, "ч-л.");
+			txt = txt.replace(/(чего-либо)/gi, "ч-л.");
+			txt = txt.replace(/(кого-л\.)/gi, "к-л.");
+			txt = txt.replace(/(кого-либо)/gi, "к-л.");
+
+			txt = txt.replace(/(чему-л\.)/gi, "ч-л.");
+			txt = txt.replace(/(чему-либо)/gi, "ч-л.");
+			txt = txt.replace(/(кому-л\.)/gi, "к-л.");
+			txt = txt.replace(/(кому-либо)/gi, "к-л.");
+
+			txt = txt.replace(/(чем-л\.)/gi, "ч-л.");
+			txt = txt.replace(/(чем-либо)/gi, "ч-л.");
+			txt = txt.replace(/(кем-л\.)/gi, "к-л.");
+			txt = txt.replace(/(кем-либо)/gi, "к-л.");
+
+			txt = txt.replace(/(чём-л\.)/gi, "ч-л.");
+			txt = txt.replace(/(чём-либо)/gi, "ч-л.");
+			txt = txt.replace(/(ком-л\.)/gi, "к-л.");
+			txt = txt.replace(/(ком-либо)/gi, "к-л.");
+
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(;;)/gi, ";");

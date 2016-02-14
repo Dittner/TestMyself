@@ -5,7 +5,7 @@
 
     <fx:Declarations>
 
-        <fx:Component className="CancelButtonSkin">
+        <fx:Component className="GrayButtonSkin">
 
             <s:SparkSkin alpha="1" alpha.disabled="0.5">
 
@@ -45,6 +45,6 @@
 
     </fx:Declarations>
 
-    <s:skinClass>{CancelButtonSkin}</s:skinClass>
+    <s:skinClass>{GrayButtonSkin}</s:skinClass>
 
 </s:Button>

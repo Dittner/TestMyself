@@ -5,8 +5,8 @@
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>1.11.0</versionNumber>
-    <versionLabel>1.11</versionLabel>
+    <versionNumber>1.12.0</versionNumber>
+    <versionLabel>1.12</versionLabel>
 
     <initialWindow>
         <content></content>
@@ -23,7 +23,7 @@
         <softKeyboardBehavior>none</softKeyboardBehavior>
     </initialWindow>
 
-    <supportedProfiles>extendedDesktop</supportedProfiles>
+    <supportedProfiles>desktop</supportedProfiles>
 
     <icon>
         <image60x60>/icons/logo60.png</image60x60>

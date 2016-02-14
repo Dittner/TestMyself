@@ -8,32 +8,64 @@
          xmlns:button="dittner.testmyself.deutsch.view.common.button.*"
          xmlns:listBox="dittner.testmyself.deutsch.view.dictionary.common.articleList.*"
          xmlns:examplelist="dittner.testmyself.deutsch.view.dictionary.common.examplesForm.*"
-         xmlns:lettersbar="dittner.testmyself.deutsch.view.dictionary.common.lettersBar.*"
-         xmlns:common2="dittner.testmyself.deutsch.view.dictionary.common.*"
          xmlns:form="dittner.testmyself.deutsch.view.dictionary.verb.form.*"
-         maxHeight.remove="300"
-         initialize="initializeHandler(event)">
+         xmlns:common2="dittner.testmyself.deutsch.view.dictionary.common.*"
+         currentState="normal">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.core.model.note.INote;
         import dittner.testmyself.core.model.theme.ITheme;
         import dittner.testmyself.deutsch.model.AppConfig;
         import dittner.testmyself.deutsch.model.ModuleName;
+        import dittner.testmyself.deutsch.model.domain.verb.IVerb;
+        import dittner.testmyself.deutsch.model.domain.verb.Verb;
+        import dittner.testmyself.deutsch.model.domain.word.IWord;
+        import dittner.testmyself.deutsch.model.domain.word.Word;
         import dittner.testmyself.deutsch.model.domain.word.WordArticle;
         import dittner.testmyself.deutsch.view.common.renderer.AddedThemeItemRenderer;
         import dittner.testmyself.deutsch.view.common.renderer.ThemeItemRenderer;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
         import dittner.testmyself.deutsch.view.dictionary.common.NoteUtils;
-        import dittner.testmyself.deutsch.view.dictionary.lesson.form.LessonFormState;
-        import dittner.testmyself.deutsch.view.dictionary.verb.form.VerbFormState;
-        import dittner.testmyself.deutsch.view.dictionary.word.form.WordFormState;
 
         import mx.collections.ArrayCollection;
-        import mx.events.FlexEvent;
 
         import spark.components.supportClasses.TextInputOperation;
         import spark.events.TextOperationEvent;
+
+        protected const HGAP:uint = 10;
+        protected const VGAP:uint = 5;
+
+        //--------------------------------------
+        //  mode
+        //--------------------------------------
+        private var _mode:String = "";
+        [Bindable("modeChanged")]
+        public function get mode():String {return _mode;}
+        public function setMode(value:String):void {
+            if (_mode != value) {
+                _mode = value;
+                dispatchEvent(new Event("modeChanged"));
+            }
+        }
+
+        //--------------------------------------
+        // isCreateMode
+        //--------------------------------------
+        [Bindable("modeChanged")]
+        public function get isCreateMode():Boolean {return mode == "add";}
+
+        //--------------------------------------
+        // isEditMode
+        //--------------------------------------
+        [Bindable("modeChanged")]
+        public function get isEditMode():Boolean {return mode == "edit";}
+
+        //--------------------------------------
+        // isRemoveMode
+        //--------------------------------------
+        [Bindable("modeChanged")]
+        public function get isRemoveMode():Boolean {return mode == "remove";}
 
         //--------------------------------------
         //  title
@@ -73,7 +105,6 @@
                 _moduleName = value;
                 moduleNameChanged = true;
                 invalidateProperties();
-                validateNow();
                 dispatchEvent(new Event("moduleNameChanged"));
             }
         }
@@ -84,61 +115,81 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        private var curFormState:NoteFormState;
-        private var defaultFormState:NoteFormState;
-        private var wordFormState:NoteFormState;
-        private var verbFormState:NoteFormState;
-        private var lessonFormState:NoteFormState;
-
-        private function initializeHandler(event:FlexEvent):void {
-            defaultFormState = new NoteFormState(this);
-            wordFormState = new WordFormState(this);
-            verbFormState = new VerbFormState(this);
-            lessonFormState = new LessonFormState(this);
-
-            curFormState = defaultFormState;
+        private function clear():void {
+            articleBox.selectedItem = "";
+            wordInput.text = "";
+            wordOptionsInput.text = "";
+            descriptionArea.text = "";
+            addThemeInput.text = "";
+            audioRecorder.clear();
+            examplesForm.clear();
+            invalidNotifier.alpha = 0;
+            themes = new ArrayCollection();
         }
 
         override protected function commitProperties():void {
             super.commitProperties()
             if (moduleNameChanged) {
                 moduleNameChanged = false;
-                curFormState.clear();
                 switch (moduleName) {
                     case ModuleName.WORD :
-                        curFormState = wordFormState;
+                        currentState = "word";
                         break;
                     case ModuleName.VERB :
-                        curFormState = verbFormState;
+                        currentState = "verb";
                         break;
                     case ModuleName.LESSON :
-                        curFormState = lessonFormState;
+                        currentState = "lesson";
                         break;
                     default :
-                        curFormState = defaultFormState;
+                        currentState = "normal";
                 }
             }
         }
 
         public function add():void {
-            currentState = "add";
-            curFormState.add();
+            setMode("add");
+            dispatchEvent(new Event("taskChanged"));
         }
 
         public function edit(note:INote):void {
-            currentState = "edit";
+            setMode("edit");
+
+            if (note is Word) {
+                var word:IWord = note as IWord;
+                articleBox.selectedItem = word.article;
+                wordInput.text = word.title;
+                wordOptionsInput.text = word.options;
+                descriptionArea.text = word.description;
+                audioRecorder.comment = word.audioComment;
+            }
+            else if (note is Verb) {
+                var verb:IVerb = note as IVerb;
+                verbInputsForm.infinitive = verb.title;
+                verbInputsForm.present = verb.present;
+                verbInputsForm.past = verb.past;
+                verbInputsForm.perfect = verb.perfect;
+                descriptionArea.text = verb.description;
+                audioRecorder.comment = verb.audioComment;
+            }
+            else {
+                titleArea.text = note.title;
+                descriptionArea.text = note.description;
+                audioRecorder.comment = note.audioComment;
+            }
+
             invalidateDisplayList();
-            curFormState.edit(note);
+            dispatchEvent(new Event("taskChanged"));
         }
 
         public function remove(note:INote):void {
-            currentState = "remove";
-            curFormState.remove(note);
+            setMode("remove");
+            removeNoteTitleLbl.text = '«' + note.title + '»';
         }
 
         public function close():void {
             if (isOpen()) {
-                curFormState.clear();
+                clear();
                 setCurrentState("normal");
             }
         }
@@ -154,13 +205,11 @@
             }
         }
 
-        private function correctText():void {
-            curFormState.correctText();
-        }
-
-        override protected function updateDisplayList(w:Number, h:Number):void {
-            super.updateDisplayList(w, h);
-            curFormState.updateLayout(w, h);
+        public function correctText():void {
+            if (currentState == "lesson") {
+                titleArea.text = NoteUtils.correctText(titleArea.text);
+                descriptionArea.text = NoteUtils.correctText(descriptionArea.text);
+            }
         }
 
         private function themesRendererFunc(item:Object):IFactory {
@@ -169,8 +218,8 @@
             else return new ClassFactory(ThemeItemRenderer);
         }
 
-        private function applyBtnEnabled(audioRecording:Boolean):Boolean {
-            return !audioRecording;
+        private function applyBtnEnabled(mode:String, audioRecording:Boolean):Boolean {
+            return isRemoveMode || !audioRecording;
         }
 
         private function wordValidationHandler(event:TextOperationEvent):void {
@@ -181,24 +230,24 @@
                 if (match == null) event.preventDefault();
             }
         }
+
+        private function modeToApplyBtnTitle(mode:String):String {
+            return isCreateMode ? "Hinzufügen" : isEditMode ? "Speichern" : "Entfernen";
+        }
         ]]></fx:Script>
 
     <s:states>
         <s:State name="disabled"/>
         <s:State name="normal"/>
-        <s:State name="add"/>
-        <s:State name="edit"/>
-        <s:State name="remove"/>
+        <s:State name="word"/>
+        <s:State name="verb"/>
+        <s:State name="lesson"/>
     </s:states>
 
     <editor:EditorBg width="100%"
                      height="100%"
                      title="{title}"
-                     mode.add="add"
-                     mode.edit="edit"
-                     mode.remove="remove"/>
-
-    <lettersbar:LettersBar right="20" top="5" visible.remove="false"/>
+                     mode="{mode}"/>
 
     <s:Rect left="{EditorBg.BORDER_THICKNESS}"
             right="{EditorBg.BORDER_THICKNESS}"
@@ -209,87 +258,144 @@
         </s:fill>
     </s:Rect>
 
+    <button:WhiteButton id="formatBtn"
+                        width="250" right="15" top="5"
+                        label="Formatieren"
+                        visible="{!isRemoveMode}"/>
+
     <!--ADD EDIT MODE-->
 
-    <s:Group width="100%" height="100%"
-             visible.add="true"
-             visible.edit="true"
-             visible="false">
-        <listBox:ListBox id="articleBox"
-                         verticalScrollPolicy="off"
-                         requireSelection="true"
-                         width="77"
-                         itemRenderer="dittner.testmyself.deutsch.view.dictionary.common.articleList.ArticleItemRenderer"
-                         skinClass="dittner.testmyself.deutsch.view.dictionary.common.articleList.ListBoxSkin"
-                         dataProvider="{new ArrayCollection(WordArticle.ARTICLES)}"/>
+    <s:HGroup width="100%" top="50" bottom="55" gap="{HGAP}" paddingLeft="15" paddingRight="15"
+              visible="{!isRemoveMode}" includeInLayout="{!isRemoveMode}">
+        <s:VGroup width="100%" height="100%" gap="{VGAP}">
+            <s:HGroup width="100%" height="100%" gap="{HGAP}">
+                <listBox:ListBox id="articleBox"
+                                 verticalScrollPolicy="off"
+                                 requireSelection="true"
+                                 visible.lesson="false" includeInLayout.lesson="false"
+                                 visible.word="true" includeInLayout.word="true"
+                                 visible.verb="false" includeInLayout.verb="false"
+                                 width="77"
+                                 itemRenderer="dittner.testmyself.deutsch.view.dictionary.common.articleList.ArticleItemRenderer"
+                                 skinClass="dittner.testmyself.deutsch.view.dictionary.common.articleList.ListBoxSkin"
+                                 dataProvider="{new ArrayCollection(WordArticle.ARTICLES)}"/>
 
-        <input:TextAreaForm id="titleArea"
-                            title="Deutschsatz"
-                            maxChars="{AppConfig.MAX_TEXT_LENGTH}"/>
+                <s:VGroup width="100%" height="100%" gap="{VGAP}">
+                    <input:TextAreaForm id="titleArea"
+                                        visible.lesson="true" includeInLayout.lesson="true"
+                                        visible.word="false" includeInLayout.word="false"
+                                        visible.verb="false" includeInLayout.verb="false"
+                                        width="100%" height="100%"
+                                        title="Deutschsatz"
+                                        maxChars="{AppConfig.MAX_TEXT_LENGTH}"/>
 
-        <input:TextInputForm id="wordInput"
-                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                             changing="wordValidationHandler(event)"
-                             title="Deutschtwort"/>
+                    <s:HGroup width="100%" gap="{HGAP}">
+                        <input:TextInputForm id="wordInput"
+                                             visible.lesson="false" includeInLayout.lesson="false"
+                                             visible.verb="false" includeInLayout.verb="false"
+                                             visible.word="true" includeInLayout.word="true"
+                                             width="50%"
+                                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                                             changing="wordValidationHandler(event)"
+                                             title="Deutschtwort"/>
 
-        <form:VerbInputsForm id="verbInputsForm"/>
+                        <input:TextInputForm id="wordOptionsInput"
+                                             visible.lesson="false" includeInLayout.lesson="false"
+                                             visible.verb="false" includeInLayout.verb="false"
+                                             visible.word="true" includeInLayout.word="true"
+                                             width="50%"
+                                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                                             title="Zusätzliche Daten"/>
+                    </s:HGroup>
 
-        <input:TextInputForm id="wordOptionsInput"
-                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
-                             title="Zusätzliche Daten"/>
+                    <s:HGroup width="100%" height="100%" gap="{HGAP}">
+                        <form:VerbInputsForm id="verbInputsForm"
+                                             width="100%" height="100%"
+                                             visible.lesson="false" includeInLayout.lesson="false"
+                                             visible.word="false" includeInLayout.word="false"
+                                             visible.verb="true" includeInLayout.verb="true"/>
 
-        <input:TextAreaForm id="descriptionArea"
-                            maxChars="{AppConfig.MAX_TEXT_LENGTH}"
-                            title="Übersetzung"/>
+                        <input:TextAreaForm id="descriptionArea"
+                                            width="100%" height="100%"
+                                            maxChars="{AppConfig.MAX_TEXT_LENGTH}"
+                                            title="Übersetzung"/>
+                    </s:HGroup>
 
-        <examplelist:ExamplesForm id="examplesForm" mainForm="{this}"/>
+                </s:VGroup>
 
-        <audio:AudioRecorder id="audioRecorder"/>
+            </s:HGroup>
 
-        <list:ListForm id="themesList"
-                       dataProvider="{themes}"
-                       title="Themenliste"
-                       itemRendererFunction="themesRendererFunc"
-                       allowMultipleSelection="true">
-            <list:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </list:layout>
-        </list:ListForm>
+            <examplelist:ExamplesForm id="examplesForm"
+                                      width="100%" height="100%"
+                                      visible.lesson="false" includeInLayout.lesson="false"
+                                      visible.word="true" includeInLayout.word="true"
+                                      visible.verb="true" includeInLayout.verb="true"
+                                      mainForm="{this}"/>
 
-        <input:TextInputForm id="addThemeInput"
-                             maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
-                             title="Neuer Themaname"/>
+            <s:Group width="100%" height="72">
+                <audio:AudioRecorder id="audioRecorder"
+                                     height="72" left="85" left.lesson="0" right="0"/>
+            </s:Group>
+        </s:VGroup>
 
-        <button:BitmapButton id="addThemeBtn"
-                             description="Neues Thema hinzufügen"
-                             upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
-                             downImage="@Embed(source='/assets/button/add_element_btn_down.png')"/>
+        <s:VGroup width="250" height="100%" gap="{VGAP}"
+                  visible.lesson="false" includeInLayout.lesson="false"
+                  visible.word="true" includeInLayout.word="true"
+                  visible.verb="true" includeInLayout.verb="true">
+            <list:ListForm id="themesList"
+                           width="100%" height="100%"
+                           dataProvider="{themes}"
+                           title="Themenliste"
+                           itemRendererFunction="themesRendererFunc"
+                           allowMultipleSelection="true">
+                <list:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+                </list:layout>
+            </list:ListForm>
 
-        <common2:InvalidNotifier id="invalidNotifier"/>
-    </s:Group>
+            <s:HGroup width="100%" height="72" gap="0" verticalAlign="bottom">
+                <input:TextInputForm id="addThemeInput"
+                                     width="100%"
+                                     maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
+                                     title="Neuer Themaname"/>
 
-    <button:GrayButton id="cancelBtn"
-                       label="Abbrechen"/>
+                <button:BitmapButton id="addThemeBtn"
+                                     description="Neues Thema hinzufügen"
+                                     upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
+                                     downImage="@Embed(source='/assets/button/add_element_btn_down.png')"/>
+            </s:HGroup>
+        </s:VGroup>
 
-    <button:BlackButton id="applyBtn"
-                        label.add="Hinzufügen"
-                        label.edit="Speichern"
-                        label.remove="Entfernen"
-                        enabled.remove="true"
-                        enabled="{applyBtnEnabled(audioRecorder.isRecording)}"
-                        click="correctText()"/>
+    </s:HGroup>
+
+    <s:HGroup left="10" right="15" height="42" verticalAlign="middle" bottom="5" gap="{HGAP}">
+        <common2:InvalidNotifier id="invalidNotifier"
+                                 height="30" width="100%"/>
+
+        <button:GrayButton id="cancelBtn" width="250"
+                           label="Abbrechen"/>
+
+        <button:BlackButton id="applyBtn"
+                            width="250"
+                            label="{modeToApplyBtnTitle(mode)}"
+                            enabled="{applyBtnEnabled(mode, audioRecorder.isRecording)}"
+                            click="correctText()"/>
+    </s:HGroup>
 
     <!--REMOVE MODE-->
 
     <s:Label id="removeTitleLbl"
-             visible.remove="true" visible="false"
+             visible="{isRemoveMode}"
+             width="100%"
              textAlign="center"
-             color="{AppColors.TEXT_DARK}" fontSize="16"
+             top="100"
+             color="{AppColors.TEXT_DARK}" fontSize="24"
              text="Sind Sie sicher, das Sie entfernen möchten?"/>
 
     <s:Label id="removeNoteTitleLbl"
-             visible.remove="true" visible="false"
-             color="{AppColors.TEXT_DARK}" fontSize="20" fontWeight="bold"
+             visible="{isRemoveMode}"
+             width="100%" top="150"
+             color="{AppColors.TEXT_DARK}" fontSize="18" fontWeight="bold"
              textAlign="center" verticalAlign="middle"/>
 
 </s:Group>
