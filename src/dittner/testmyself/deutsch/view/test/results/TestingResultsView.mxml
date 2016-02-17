@@ -97,7 +97,7 @@
         </s:Scroller>
 
         <list2:ExampleList id="exampleList"
-                           width="66%" height="100%"
+                           width="100%" height="100%"
                            visible="false"
                            showTitle="false"
                            includeInLayout="false"

@@ -188,14 +188,14 @@
         }
 
         public function close():void {
-            if (isOpen()) {
+            if (isOpen) {
                 clear();
-                setCurrentState("normal");
+                setMode("");
             }
         }
 
-        public function isOpen():Boolean {
-            return currentState == "add" || currentState == "edit" || currentState == "remove";
+        public function get isOpen():Boolean {
+            return isCreateMode || isEditMode || isRemoveMode;
         }
 
         public function notifyInvalidData(msg:String):void {

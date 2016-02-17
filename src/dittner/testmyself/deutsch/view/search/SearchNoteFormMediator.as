@@ -89,7 +89,7 @@ public class SearchNoteFormMediator extends SFMediator {
 	}
 
 	override protected function deactivate():void {
-		if (view.isOpen()) {
+		if (view.isOpen) {
 			view.close();
 			sendGlobalNotification(SearchMsg.HIDE_NOTE_FORM);
 		}

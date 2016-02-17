@@ -92,7 +92,7 @@ public class TestingNoteFormMediator extends SFMediator {
 	}
 
 	override protected function deactivate():void {
-		if (view.isOpen()) {
+		if (view.isOpen) {
 			view.close();
 			sendGlobalNotification(TestMsg.HIDE_NOTE_FORM);
 		}
