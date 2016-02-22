@@ -1,11 +1,9 @@
 package dittner.testmyself.deutsch.view.common.preloader {
-import flash.desktop.NativeApplication;
 import flash.display.MovieClip;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
 import flash.events.TimerEvent;
-import flash.system.Capabilities;
 import flash.utils.Timer;
 import flash.utils.getTimer;
 
@@ -21,14 +19,7 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 
 	private static const MINIMUM_DISPLAY_TIME:uint = 3000;
 
-	public function ClockPreloader(color:uint = 0xFFffFF):void {
-		var nativeApplication:NativeApplication = NativeApplication.nativeApplication;
-		nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
-	}
-
-	private function nativeApplication_activateHandler(event:Event):void {
-		NativeApplication.nativeApplication.activeWindow.x = (Capabilities.screenResolutionX - NativeApplication.nativeApplication.activeWindow.width) / 2;
-	}
+	public function ClockPreloader(color:uint = 0xFFffFF):void {}
 
 	private var clock:MovieClip;
 	private var minDisplayTimer:Timer;

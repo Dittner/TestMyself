@@ -7,6 +7,8 @@ import dittner.testmyself.core.message.SearchMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.search.SearchSpec;
 
+import flash.desktop.NativeApplication;
+import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.events.FlexEvent;
@@ -28,6 +30,11 @@ public class SearchBoardMediator extends SFMediator {
 		view.searchInput.addEventListener(FlexEvent.ENTER, startSearch);
 		view.undoBtn.addEventListener(MouseEvent.CLICK, undoSearch);
 		view.redoBtn.addEventListener(MouseEvent.CLICK, redoSearch);
+		if (view.stage) view.stage.focus = view.searchInput;
+		NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
+	}
+
+	private function nativeApplication_activateHandler(event:Event):void {
 		if (view.stage) view.stage.focus = view.searchInput;
 	}
 
@@ -92,6 +99,7 @@ public class SearchBoardMediator extends SFMediator {
 		view.undoBtn.removeEventListener(MouseEvent.CLICK, undoSearch);
 		view.redoBtn.removeEventListener(MouseEvent.CLICK, redoSearch);
 		view.searchInput.text = "";
+		NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
 	}
 
 }
