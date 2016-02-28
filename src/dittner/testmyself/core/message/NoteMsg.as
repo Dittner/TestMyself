@@ -39,6 +39,5 @@ public class NoteMsg {
 	public static const GET_NOTE:String = "getNote";
 	public static const GET_NOTES_INFO:String = "getNotesInfo";
 	public static const SEARCH_NOTES:String = "searchNotes";
-
 }
 }

@@ -12,7 +12,7 @@
     <fx:Script>
 		<![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         private static const focusExclusions:Array = ["labelDisplay"];
         override public function get focusSkinExclusions():Array { return focusExclusions;}
@@ -54,7 +54,7 @@
 
     <s:Label id="labelDisplay"
              left="28" right="0" verticalCenter="1"
-             fontFamily="{Fonts.MYRIAD}"
+             fontFamily="{FontName.MYRIAD}"
              fontStyle="italic"
              fontSize="16"
              color="{AppColors.TEXT_LIGHT}"

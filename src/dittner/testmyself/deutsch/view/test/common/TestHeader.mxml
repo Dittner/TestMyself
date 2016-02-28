@@ -5,7 +5,7 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         //--------------------------------------
         //  title
@@ -50,7 +50,7 @@
     <utils:BG width="100%" height="100%" color="#0"/>
 
     <s:Label text="{title}"
-             fontFamily="{Fonts.MYRIAD}"
+             fontFamily="{FontName.MYRIAD}"
              fontSize="16"
              mouseChildren="false" mouseEnabled="false"
              width="70%" height="100%" verticalAlign="middle"
@@ -58,7 +58,7 @@
              color="{AppColors.WHITE}"/>
 
     <s:Label text="{description}"
-             fontFamily="{Fonts.MYRIAD}"
+             fontFamily="{FontName.MYRIAD}"
              fontSize="16"
              height="100%" verticalAlign="middle"
              mouseChildren="false" mouseEnabled="false"

@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.dictionary.common.articleList {
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 import dittner.testmyself.deutsch.view.common.utils.TextFieldFactory;
 
 import flash.text.TextField;
@@ -10,7 +10,7 @@ import spark.components.Button;
 import spark.skins.mobile.ListSkin;
 
 public class ListBoxSkin extends ListSkin {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
 	private static const TITLE_HEIGHT:uint = 20;
 	private static const DROP_DOWN_BUTTON_HEIGHT:uint = 30;
 	public function ListBoxSkin() {

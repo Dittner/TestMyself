@@ -11,7 +11,7 @@
 
         import dittner.testmyself.deutsch.view.common.input.TextAreaFormSkin;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         import mx.events.FlexEvent;
 
@@ -22,7 +22,7 @@
             if (!isOpened && !isMoving) {
                 isMoving = true;
                 cont.x = collapsedXPos;
-                TweenLite.to(cont, 1, { x: 0, ease: Expo.easeOut, onComplete: animationComplete});
+                TweenLite.to(cont, 1, {x: 0, ease: Expo.easeOut, onComplete: animationComplete});
             }
         }
 
@@ -30,7 +30,7 @@
             if (isOpened && !isMoving) {
                 isMoving = true;
                 cont.x = 0;
-                TweenLite.to(cont, 1, { x: collapsedXPos, ease: Expo.easeOut, onComplete: animationComplete});
+                TweenLite.to(cont, 1, {x: collapsedXPos, ease: Expo.easeOut, onComplete: animationComplete});
             }
         }
 
@@ -50,7 +50,7 @@
 
         <input:HistoryTextArea id="textArea"
                                skinClass="{TextAreaFormSkin}"
-                               fontFamily="{Fonts.MYRIAD}"
+                               fontFamily="{FontName.MYRIAD}"
                                focusedTextSelectionColor="#555555"
                                fontSize="18"
                                color="{AppColors.YELLOW}"

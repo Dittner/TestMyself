@@ -1,11 +1,11 @@
 package dittner.testmyself.deutsch.view.dictionary.verb {
+import dittner.async.IAsyncOperation;
+import dittner.async.utils.doLaterInFrames;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
-import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.model.ModuleName;
-import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInFrames;
 import dittner.testmyself.deutsch.view.dictionary.note.NoteScreen;
 import dittner.testmyself.deutsch.view.dictionary.note.filter.NoteFilterMediator;
 import dittner.testmyself.deutsch.view.dictionary.note.form.NoteRemoverMediator;

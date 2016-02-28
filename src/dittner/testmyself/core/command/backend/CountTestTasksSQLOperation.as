@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.satelliteFlight.command.CommandException;
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
@@ -12,7 +12,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class CountTestTasksSQLOperation extends AsyncOperation implements ICommand {
+public class CountTestTasksSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function CountTestTasksSQLOperation(service:NoteService, spec:TestSpec, onlyFailedNotes:Boolean) {
 		super();

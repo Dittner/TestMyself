@@ -1,12 +1,12 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.model.page.TestPageInfo;
 import dittner.testmyself.core.service.NoteService;
 
-public class SelectPageTestTasksSQLOperation extends AsyncOperation implements ICommand {
+public class SelectPageTestTasksSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function SelectPageTestTasksSQLOperation(service:NoteService, pageInfo:TestPageInfo, noteClass:Class) {
 		super();
@@ -20,7 +20,7 @@ public class SelectPageTestTasksSQLOperation extends AsyncOperation implements I
 	private var noteClass:Class;
 
 	public function execute():void {
-		var composite:CompositeOperation = new CompositeOperation();
+		var composite:CompositeCommand = new CompositeCommand();
 
 		composite.addOperation(SelectPageTestTasksOperationPhase, service.sqlConnection, pageInfo, service.sqlFactory);
 		composite.addOperation(SelectPageTestNotesOperationPhase, service.sqlConnection, pageInfo, service.sqlFactory, noteClass);

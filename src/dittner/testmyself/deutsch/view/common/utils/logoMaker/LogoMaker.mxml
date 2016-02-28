@@ -7,16 +7,13 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.model.AppConfig;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         import mx.graphics.codec.PNGEncoder;
 
-        private var words:Array = [
-            "House", "sterben", "Informationen", "Auskünfte", "streiten", "zuwiderlaufen", "Straße", "Zug", "Tischlampe", "Grundstücksverkehrsgenehmigungs", "zuständigkeitsübertragungsverordnung", "Rindfleischetickettierung", "überwachungsaufgabenübertragungsgesetz", "Verkehrsinfrastruktur", "finanzierungsgesellschaft", "Gleichgewichtsdichte", "gradientenzentrifugation", "Elektrizitätswirtschaft", "sorganisationsgesetz", "Verkehrswegeplanungs", "beschleunigungsgesetz", "Hochleistungsflüssigkeits", "chromatographie", "Restriktionsfragment", "längenpolymorphismus", "Telekommunikations", "überwachungsverordnung", "Unternehmenssteuerfortentwicklungsgesetz", "Erstimmatrikulationsbescheinigung", "Bundesausbildungsförderungsgesetz", "Rechtsschutzversicherungsgesellschaften", "Donaudampfschifffahrtsgesellschaftskapitänswitwe", "Donaudampfschifffahrtselektrizitäten", "hauptbetriebswerkbauunter", "beamtengesellschaft", "Gemutlichkeit", "Sehnsucht", "allein", "sein", "Frauelein", "Menschheit", "Kosmologie", "Oper", "vergessen", "Gewissensbisse", "Vergissmeinnicht", "Habseligkeiten", "Geborgenheit", "Augenblick", "Entschuldigung", "kennenzulernen", "Vergnuegen", "Gefühle", "Einheit", "Leben", "Liebe", "Kampf", "Musik", "Kunst", "Informationsmaterial", "Literatur", "Einsatzübung", "lesen", "verben", "existieren", "Psychologie", "Mythologie", "Nibelungen", "dämonenhaft", "stark", "deutsch", "Heimatland", "Arbeit", "Tradition", "Sprache", "Kultur", "Objektivität", "Zielbewusstheit", "Präzision", "Pünktlichkeit", "Genauigkeit", "Disziplin", "Bücher", "Ordnung", "Freiheit", "Wörterbuch", "Metaphysik", "Wissenschaft", "Philosophie", "Geist", "Einsamkeit", "Zusammengehörigkeit"];
+        private var words:Array = ["House", "sterben", "Informationen", "Auskünfte", "streiten", "zuwiderlaufen", "Straße", "Zug", "Tischlampe", "Grundstücksverkehrsgenehmigungs", "zuständigkeitsübertragungsverordnung", "Rindfleischetickettierung", "überwachungsaufgabenübertragungsgesetz", "Verkehrsinfrastruktur", "finanzierungsgesellschaft", "Gleichgewichtsdichte", "gradientenzentrifugation", "Elektrizitätswirtschaft", "sorganisationsgesetz", "Verkehrswegeplanungs", "beschleunigungsgesetz", "Hochleistungsflüssigkeits", "chromatographie", "Restriktionsfragment", "längenpolymorphismus", "Telekommunikations", "überwachungsverordnung", "Unternehmenssteuerfortentwicklungsgesetz", "Erstimmatrikulationsbescheinigung", "Bundesausbildungsförderungsgesetz", "Rechtsschutzversicherungsgesellschaften", "Donaudampfschifffahrtsgesellschaftskapitänswitwe", "Donaudampfschifffahrtselektrizitäten", "hauptbetriebswerkbauunter", "beamtengesellschaft", "Gemutlichkeit", "Sehnsucht", "allein", "sein", "Frauelein", "Menschheit", "Kosmologie", "Oper", "vergessen", "Gewissensbisse", "Vergissmeinnicht", "Habseligkeiten", "Geborgenheit", "Augenblick", "Entschuldigung", "kennenzulernen", "Vergnuegen", "Gefühle", "Einheit", "Leben", "Liebe", "Kampf", "Musik", "Kunst", "Informationsmaterial", "Literatur", "Einsatzübung", "lesen", "verben", "existieren", "Psychologie", "Mythologie", "Nibelungen", "dämonenhaft", "stark", "deutsch", "Heimatland", "Arbeit", "Tradition", "Sprache", "Kultur", "Objektivität", "Zielbewusstheit", "Präzision", "Pünktlichkeit", "Genauigkeit", "Disziplin", "Bücher", "Ordnung", "Freiheit", "Wörterbuch", "Metaphysik", "Wissenschaft", "Philosophie", "Geist", "Einsamkeit", "Zusammengehörigkeit"];
 
-        private var alphabet:Array = [
-            "A", "Z", "z", "u", "t", "z", "U", "W", "w", "o", "r", "ö", "B", "ö", "i", "ä", "ß", "ß", "ü", "s", "ü", "Ö", "Ä", "Ü"
-        ];
+        private var alphabet:Array = ["A", "Z", "z", "u", "t", "z", "U", "W", "w", "o", "r", "ö", "B", "ö", "i", "ä", "ß", "ß", "ü", "s", "ü", "Ö", "Ä", "Ü"];
 
         private var cards:Array = [];
         private var buchen:Array = [];
@@ -177,7 +174,7 @@
     <s:Label id="logoLbl" width="100%" height="100%"
              textAlign="center" verticalAlign="middle"
              fontWeight="bold"
-             color="#ffFFff" fontFamily="{Fonts.DEUTSCH_GOTHIC}"
+             color="#ffFFff" fontFamily="{FontName.DEUTSCH_GOTHIC}"
              text="Testen">
         <s:filters>
             <s:DropShadowFilter color="0" alpha="1" angle="-90" blurX="15" blurY="15" inner="false" strength="3" distance="0"/>

@@ -3,7 +3,7 @@ import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.test.ITestTask;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 import dittner.testmyself.deutsch.view.test.common.TestRendererData;
 
 import flash.display.GradientType;
@@ -13,8 +13,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class TestingNoteRenderer extends NoteBaseRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 28, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 28, AppColors.TEXT_BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT_BLACK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 

@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.note.form {
+import dittner.async.IAsyncOperation;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
-import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;

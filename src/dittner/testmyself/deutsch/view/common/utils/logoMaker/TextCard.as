@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.common.utils.logoMaker {
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 import dittner.testmyself.deutsch.view.common.utils.TextFieldFactory;
 
 import flash.display.GradientType;
@@ -42,7 +42,7 @@ public class TextCard extends UIComponent {
 
 	override protected function createChildren():void {
 		super.createChildren();
-		tf = TextFieldFactory.create(new TextFormat(Fonts.MYRIAD_MX, fs, color));
+		tf = TextFieldFactory.create(new TextFormat(FontName.MYRIAD_MX, fs, color));
 		addChild(tf);
 	}
 

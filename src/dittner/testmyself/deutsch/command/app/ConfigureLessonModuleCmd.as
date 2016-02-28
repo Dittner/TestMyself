@@ -25,7 +25,7 @@ public class ConfigureLessonModuleCmd implements IConfigureCommand {
 
 	private function createSpec():NoteServiceSpec {
 		var spec:NoteServiceSpec = new NoteServiceSpec();
-		spec.dbName = "lesson";
+		spec.dbName = ModuleName.LESSON;
 		return spec;
 	}
 

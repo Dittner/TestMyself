@@ -1,11 +1,11 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.service.NoteService;
 
-public class DeleteNotesByThemeSQLOperation extends AsyncOperation implements ICommand {
+public class DeleteNotesByThemeSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function DeleteNotesByThemeSQLOperation(service:NoteService, themeID:int) {
 		super();
@@ -17,7 +17,7 @@ public class DeleteNotesByThemeSQLOperation extends AsyncOperation implements IC
 	private var themeID:int;
 
 	public function execute():void {
-		var composite:CompositeOperation = new CompositeOperation();
+		var composite:CompositeCommand = new CompositeCommand();
 
 		composite.addOperation(DeleteNotesByThemeOperationPhase, service.sqlConnection, themeID, service.sqlFactory);
 		composite.addOperation(DeleteThemeOperationPhase, service.sqlConnection, themeID, service.sqlFactory);

@@ -8,7 +8,7 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
         ]]></fx:Script>
 
     <s:states>
@@ -28,7 +28,7 @@
     </s:Rect>
 
     <s:Label id="labelDisplay"
-             fontFamily="{Fonts.MYRIAD}"
+             fontFamily="{FontName.MYRIAD}"
              fontSize="18"
              color="{AppColors.TEXT_DARK}"
              maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"

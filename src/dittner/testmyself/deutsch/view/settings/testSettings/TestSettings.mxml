@@ -7,7 +7,7 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         import mx.collections.ArrayCollection;
 
@@ -48,7 +48,7 @@
     </s:layout>
 
     <button:DottedLabelBtn text="Die Testendaten entfernen"
-                           fontFamily="{Fonts.MYRIAD}"
+                           fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
                            upColor="{AppColors.TEXT_DARK}"
@@ -88,7 +88,7 @@
         </list:ListForm>
 
         <s:Label left="col2:10" top="row1:10" right="10"
-                 fontFamily="{Fonts.MYRIAD}"
+                 fontFamily="{FontName.MYRIAD}"
                  color="{AppColors.TEXT_DARK}"
                  fontSize="16"
                  includeIn="removeHistory"

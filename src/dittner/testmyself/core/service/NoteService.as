@@ -1,8 +1,8 @@
 package dittner.testmyself.core.service {
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.satelliteFlight.message.IRequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.ClearTestHistorySQLOperation;
 import dittner.testmyself.core.command.backend.CountTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.CreateDataBaseSQLOperation;
@@ -80,7 +80,7 @@ public class NoteService extends SFProxy {
 	//----------------------------------------------------------------------------------------------
 
 	override protected function activate():void {
-		var op:ICommand = new CreateDataBaseSQLOperation(this, spec);
+		var op:IAsyncCommand = new CreateDataBaseSQLOperation(this, spec);
 		deferredCommandManager.add(op);
 		updateNoteHash();
 
@@ -94,14 +94,14 @@ public class NoteService extends SFProxy {
 	}
 
 	private function updateNoteHash():void {
-		var op:ICommand = new SelectNoteKeysSQLOperation(this, sqlFactory, spec.noteClass);
+		var op:IAsyncCommand = new SelectNoteKeysSQLOperation(this, sqlFactory, spec.noteClass);
 		op.addCompleteCallback(initializeNoteHash);
 		deferredCommandManager.add(op);
 	}
 
 	public function add(requestMsg:IRequestMessage):void {
 		var suite:NoteSuite = requestMsg.data as NoteSuite;
-		var op:ICommand = new InsertNoteSQLOperation(this, suite, testModel);
+		var op:IAsyncCommand = new InsertNoteSQLOperation(this, suite, testModel);
 		op.addCompleteCallback(noteAdded);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -109,7 +109,7 @@ public class NoteService extends SFProxy {
 
 	public function update(requestMsg:IRequestMessage):void {
 		var suite:NoteSuite = requestMsg.data as NoteSuite;
-		var op:ICommand = new UpdateNoteSQLOperation(this, suite, testModel);
+		var op:IAsyncCommand = new UpdateNoteSQLOperation(this, suite, testModel);
 		op.addCompleteCallback(noteUpdated);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -117,14 +117,14 @@ public class NoteService extends SFProxy {
 
 	public function remove(requestMsg:IRequestMessage):void {
 		var suite:NoteSuite = requestMsg.data as NoteSuite;
-		var op:ICommand = new DeleteNoteSQLOperation(this, suite);
+		var op:IAsyncCommand = new DeleteNoteSQLOperation(this, suite);
 		op.addCompleteCallback(noteRemoved);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function removeNotesByTheme(requestMsg:IRequestMessage):void {
-		var op:ICommand = new DeleteNotesByThemeSQLOperation(this, (requestMsg.data as Theme).id);
+		var op:IAsyncCommand = new DeleteNotesByThemeSQLOperation(this, (requestMsg.data as Theme).id);
 		op.addCompleteCallback(notesByThemeRemoved);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -132,7 +132,7 @@ public class NoteService extends SFProxy {
 
 	public function addTheme(requestMsg:IRequestMessage):void {
 		var theme:Theme = requestMsg.data as Theme;
-		var op:ICommand = new InsertThemeSQLOperation(this, theme);
+		var op:IAsyncCommand = new InsertThemeSQLOperation(this, theme);
 		op.addCompleteCallback(themeAdded);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -140,7 +140,7 @@ public class NoteService extends SFProxy {
 
 	public function loadNote(requestMsg:IRequestMessage):void {
 		var noteID:int = requestMsg.data as int;
-		var op:ICommand = new SelectNoteSQLOperation(this, noteID, spec.noteClass);
+		var op:IAsyncCommand = new SelectNoteSQLOperation(this, noteID, spec.noteClass);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
@@ -156,7 +156,7 @@ public class NoteService extends SFProxy {
 		pageInfo.pageNum = pageNum;
 		pageInfo.filter = model.filter;
 
-		var op:ICommand = new SelectPageNotesSQLOperation(this, pageInfo, spec.noteClass);
+		var op:IAsyncCommand = new SelectPageNotesSQLOperation(this, pageInfo, spec.noteClass);
 		op.addCompleteCallback(notePageInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -167,27 +167,27 @@ public class NoteService extends SFProxy {
 		pageInfo.pageSize = settingsModel.info.pageSize;
 		pageInfo.testSpec = testModel.testSpec;
 
-		var op:ICommand = new SelectPageTestTasksSQLOperation(this, pageInfo, spec.noteClass);
+		var op:IAsyncCommand = new SelectPageTestTasksSQLOperation(this, pageInfo, spec.noteClass);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function searchNotes(requestMsg:IRequestMessage):void {
 		var searchSpec:SearchSpec = requestMsg.data as SearchSpec;
-		var op:ICommand = new SearchNotesSQLOperation(this, searchSpec);
+		var op:IAsyncCommand = new SearchNotesSQLOperation(this, searchSpec);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function countTestTasks(requestMsg:IRequestMessage = null):void {
 		var onlyFailedNotes:Boolean = requestMsg && requestMsg.data;
-		var op:ICommand = new CountTestTasksSQLOperation(this, testModel.testSpec, onlyFailedNotes);
+		var op:IAsyncCommand = new CountTestTasksSQLOperation(this, testModel.testSpec, onlyFailedNotes);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function loadThemes(requestMsg:IRequestMessage = null):void {
-		var op:ICommand = new SelectThemeSQLOperation(this);
+		var op:IAsyncCommand = new SelectThemeSQLOperation(this);
 		op.addCompleteCallback(themesLoaded);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -195,63 +195,63 @@ public class NoteService extends SFProxy {
 
 	public function loadExamples(requestMsg:IRequestMessage):void {
 		var noteID:int = requestMsg.data as int;
-		var op:ICommand = new SelectExamplesSQLOperation(this, noteID);
+		var op:IAsyncCommand = new SelectExamplesSQLOperation(this, noteID);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function loadExample(requestMsg:IRequestMessage):void {
 		var exampleID:int = requestMsg.data as int;
-		var op:ICommand = new SelectExampleSQLOperation(this, exampleID);
+		var op:IAsyncCommand = new SelectExampleSQLOperation(this, exampleID);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function loadTestTasks(requestMsg:IRequestMessage):void {
-		var op:ICommand = new SelectTestTasksSQLOperation(this, testModel.testSpec);
+		var op:IAsyncCommand = new SelectTestTasksSQLOperation(this, testModel.testSpec);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function clearTestHistory(requestMsg:IRequestMessage):void {
 		var testInfo:TestInfo = requestMsg.data as TestInfo;
-		var op:ICommand = new ClearTestHistorySQLOperation(this, testInfo, testModel);
+		var op:IAsyncCommand = new ClearTestHistorySQLOperation(this, testInfo, testModel);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function rebuildTestTasks():void {
-		var op:ICommand = new RebuildTestTasksSQLOperation(this, testModel, spec.noteClass);
+		var op:IAsyncCommand = new RebuildTestTasksSQLOperation(this, testModel, spec.noteClass);
 		deferredCommandManager.add(op);
 	}
 
 	public function updateTheme(requestMsg:IRequestMessage):void {
-		var op:ICommand = new UpdateThemeSQLOperation(this, requestMsg.data as Theme);
+		var op:IAsyncCommand = new UpdateThemeSQLOperation(this, requestMsg.data as Theme);
 		op.addCompleteCallback(themesUpdated);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function updateExample(requestMsg:IRequestMessage):void {
-		var op:ICommand = new UpdateNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
+		var op:IAsyncCommand = new UpdateNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function removeExample(requestMsg:IRequestMessage):void {
-		var op:ICommand = new DeleteNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
+		var op:IAsyncCommand = new DeleteNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function updateTestTask(requestMsg:IRequestMessage):void {
-		var op:ICommand = new UpdateTestTaskSQLOperation(this, requestMsg.data as TestTask, testModel);
+		var op:IAsyncCommand = new UpdateTestTaskSQLOperation(this, requestMsg.data as TestTask, testModel);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function removeTheme(requestMsg:IRequestMessage):void {
-		var op:ICommand = new DeleteThemeSQLOperation(this, (requestMsg.data as Theme).id);
+		var op:IAsyncCommand = new DeleteThemeSQLOperation(this, (requestMsg.data as Theme).id);
 		op.addCompleteCallback(themesUpdated);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -260,7 +260,7 @@ public class NoteService extends SFProxy {
 	public function mergeThemes(requestMsg:IRequestMessage):void {
 		var destThemeID:int = (requestMsg.data.destTheme as Theme).id;
 		var srcThemeID:int = (requestMsg.data.srcTheme as Theme).id;
-		var op:ICommand = new MergeThemesSQLOperation(this, destThemeID, srcThemeID);
+		var op:IAsyncCommand = new MergeThemesSQLOperation(this, destThemeID, srcThemeID);
 		op.addCompleteCallback(themesUpdated);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
@@ -268,13 +268,13 @@ public class NoteService extends SFProxy {
 
 	public function getSelectedThemesID(requestMsg:IRequestMessage):void {
 		var noteID:int = (requestMsg.data as Note).id;
-		var op:ICommand = new SelectFilterSQLOperation(this, noteID);
+		var op:IAsyncCommand = new SelectFilterSQLOperation(this, noteID);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}
 
 	public function loadDBInfo(requestMsg:IRequestMessage = null):void {
-		var op:ICommand = new GetDataBaseInfoSQLOperation(this, model.filter);
+		var op:IAsyncCommand = new GetDataBaseInfoSQLOperation(this, model.filter);
 		op.addCompleteCallback(dbInfoLoaded);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);

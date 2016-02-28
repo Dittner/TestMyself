@@ -1,22 +1,22 @@
 package dittner.testmyself.core.command.backend.deferredOperation {
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
+import dittner.async.utils.clearDelay;
+import dittner.async.utils.doLaterInMSec;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.deutsch.message.ScreenMsg;
-import dittner.testmyself.deutsch.utils.pendingInvoke.clearDelay;
-import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInMSec;
 
 public class DeferredCommandManager extends SFProxy implements IDeferredCommandManager {
 	private static const TIME_OUT:Number = 60 * 1000;//ms
 
 	public function DeferredCommandManager() {}
 
-	private var processingCmd:ICommand;
+	private var processingCmd:IAsyncCommand;
 	private var commandsQueue:Array = [];
 	private var timeOutFuncIndex:Number;
 
-	public function add(cmd:ICommand):void {
+	public function add(cmd:IAsyncCommand):void {
 		commandsQueue.push(cmd);
 		executeNextCommand();
 	}

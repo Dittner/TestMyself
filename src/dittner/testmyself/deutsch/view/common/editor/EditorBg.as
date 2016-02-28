@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.common.editor {
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
 import dittner.testmyself.deutsch.view.common.utils.AppSizes;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 import dittner.testmyself.deutsch.view.common.utils.TextFieldFactory;
 
 import flash.display.Bitmap;
@@ -30,7 +30,7 @@ public class EditorBg extends UIComponent {
 
 	private var toolIcon:Bitmap;
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_LIGHT, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_LIGHT, true);
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
 	public static const PAD:uint = 20;
 	public static const VOFFSET:uint = 0;

@@ -1,13 +1,13 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.model.test.TestInfo;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.service.NoteService;
 
-public class ClearTestHistorySQLOperation extends AsyncOperation implements ICommand {
+public class ClearTestHistorySQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function ClearTestHistorySQLOperation(service:NoteService, testInfo:TestInfo, testModel:TestModel) {
 		this.service = service;
@@ -20,7 +20,7 @@ public class ClearTestHistorySQLOperation extends AsyncOperation implements ICom
 	private var testModel:TestModel;
 
 	public function execute():void {
-		var composite:CompositeOperation = new CompositeOperation();
+		var composite:CompositeCommand = new CompositeCommand();
 
 		var notesIDs:Array = [];
 		composite.addOperation(SelectTestNotesIDsOperationPhase, service.sqlConnection, testInfo, service.sqlFactory, notesIDs);

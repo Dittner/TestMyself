@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.command.settings {
+import dittner.async.AsyncOperation;
 import dittner.satelliteFlight.command.ISFCommand;
 import dittner.satelliteFlight.message.IRequestMessage;
-import dittner.testmyself.core.async.AsyncOperation;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;
 
 public class LoadSettings implements ISFCommand {

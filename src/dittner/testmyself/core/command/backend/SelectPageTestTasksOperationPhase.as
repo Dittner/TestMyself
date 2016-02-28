@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.SQLFactory;
@@ -14,7 +14,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class SelectPageTestTasksOperationPhase extends AsyncOperation implements ICommand {
+public class SelectPageTestTasksOperationPhase extends AsyncOperation implements IAsyncCommand {
 
 	public function SelectPageTestTasksOperationPhase(conn:SQLConnection, pageInfo:TestPageInfo, sqlFactory:SQLFactory) {
 		super();

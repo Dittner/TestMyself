@@ -1,6 +1,6 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.page.NotePageInfo;
@@ -10,7 +10,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class SelectPageNotesSQLOperation extends AsyncOperation implements ICommand {
+public class SelectPageNotesSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function SelectPageNotesSQLOperation(service:NoteService, pageInfo:NotePageInfo, noteClass:Class) {
 		super();

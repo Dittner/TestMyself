@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.satelliteFlight.command.CommandException;
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.deutsch.model.AppConfig;
@@ -12,7 +12,7 @@ import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.utils.ByteArray;
 
-public class MP3EncodingPhase extends AsyncOperation implements ICommand {
+public class MP3EncodingPhase extends AsyncOperation implements IAsyncCommand {
 	public function MP3EncodingPhase(note:Note) {
 		this.note = note;
 	}

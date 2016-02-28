@@ -1,9 +1,9 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.test.TestInfo;
@@ -11,7 +11,7 @@ import dittner.testmyself.core.model.test.TestModel;
 
 import flash.data.SQLConnection;
 
-public class AllTestTaskInsertOperationPhase extends AsyncOperation implements ICommand {
+public class AllTestTaskInsertOperationPhase extends AsyncOperation implements IAsyncCommand {
 
 	public function AllTestTaskInsertOperationPhase(conn:SQLConnection, notes:Array, testModel:TestModel, sqlFactory:SQLFactory, isExample:Boolean) {
 		this.notes = notes;
@@ -25,12 +25,12 @@ public class AllTestTaskInsertOperationPhase extends AsyncOperation implements I
 	private var testModel:TestModel;
 	private var conn:SQLConnection;
 	private var sqlFactory:SQLFactory;
-	private var composite:CompositeOperation;
+	private var composite:CompositeCommand;
 	private var isExample:Boolean;
 
 	public function execute():void {
 		if (testModel && testModel.testInfos.length > 0) {
-			composite = new CompositeOperation();
+			composite = new CompositeCommand();
 			var info:TestInfo;
 			if (isExample) {
 				for each(info in testModel.testInfos) {

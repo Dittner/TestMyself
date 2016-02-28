@@ -1,6 +1,6 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.service.NoteService;
 
@@ -8,7 +8,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class SelectNoteSQLOperation extends AsyncOperation implements ICommand {
+public class SelectNoteSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function SelectNoteSQLOperation(service:NoteService, noteID:int, noteClass:Class) {
 		super();

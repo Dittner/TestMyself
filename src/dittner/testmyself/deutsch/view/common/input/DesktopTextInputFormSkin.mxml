@@ -16,7 +16,7 @@
     <fx:Script fb:purpose="styling">
         <![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         import mx.core.FlexVersion;
 
@@ -74,7 +74,7 @@
              mouseEnabled="false" focusEnabled="false"
              text="{hostComponent.title}"
              top="5"
-             width="100%" fontFamily="{Fonts.MYRIAD}" fontSize="16" color="{AppColors.TEXT_DARK}"/>
+             width="100%" fontFamily="{FontName.MYRIAD}" fontSize="16" color="{AppColors.TEXT_DARK}"/>
 
     <s:RichEditableText id="textDisplay"
                         left="5" right="5"/>

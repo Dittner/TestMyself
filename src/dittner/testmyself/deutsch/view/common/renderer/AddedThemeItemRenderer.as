@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.common.renderer {
 import dittner.testmyself.core.model.theme.ITheme;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 
 import flash.display.DisplayObject;
 import flash.display.GradientType;
@@ -14,7 +14,7 @@ import flash.text.TextFormat;
 import spark.components.DataGroup;
 
 public class AddedThemeItemRenderer extends ItemRendererBase {
-	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
+	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 
 	[Embed(source="/assets/button/delete_white_btn.png")]

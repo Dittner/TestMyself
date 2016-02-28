@@ -10,7 +10,7 @@
         import dittner.testmyself.core.model.theme.ITheme;
         import dittner.testmyself.deutsch.model.AppConfig;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         import mx.collections.ArrayCollection;
 
@@ -61,7 +61,7 @@
 
     <button:DottedLabelBtn id="editLbl"
                            text="Den Themanamen ändern"
-                           fontFamily="{Fonts.MYRIAD}"
+                           fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
                            visible="{haveThemes}"
@@ -72,7 +72,7 @@
 
     <button:DottedLabelBtn id="removeLbl"
                            text="Den Themanamen entfernen"
-                           fontFamily="{Fonts.MYRIAD}"
+                           fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
                            visible="{haveThemes}"
@@ -115,7 +115,7 @@
 
         <s:Label id="notifyLbl"
                  left="col2:10" top="row1:10" right="10"
-                 fontFamily="{Fonts.MYRIAD}"
+                 fontFamily="{FontName.MYRIAD}"
                  color="{AppColors.TEXT_DARK}"
                  fontSize="16"
                  visible="false" visible.removeTheme="true"

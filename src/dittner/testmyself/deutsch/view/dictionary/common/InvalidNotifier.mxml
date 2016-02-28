@@ -4,10 +4,10 @@
          alpha="0">
 
     <fx:Script><![CDATA[
-        import dittner.testmyself.deutsch.utils.pendingInvoke.clearDelay;
-        import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInMSec;
+        import dittner.async.utils.clearDelay;
+        import dittner.async.utils.doLaterInMSec;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         private static const PAD:uint = 2;
 
@@ -69,7 +69,7 @@
              left="{PAD}" right="{PAD}" top="{PAD}" bottom="{PAD}"
              textAlign="center" verticalAlign="middle"
              text="{text}"
-             fontFamily="{Fonts.MYRIAD}"
+             fontFamily="{FontName.MYRIAD}"
              fontSize="14"
              maxDisplayedLines="2"
              color="{AppColors.TEXT_RED}"/>

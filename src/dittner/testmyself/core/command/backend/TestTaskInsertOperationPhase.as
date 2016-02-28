@@ -1,9 +1,9 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
@@ -12,7 +12,7 @@ import dittner.testmyself.core.model.test.TestModel;
 
 import flash.data.SQLConnection;
 
-public class TestTaskInsertOperationPhase extends AsyncOperation implements ICommand {
+public class TestTaskInsertOperationPhase extends AsyncOperation implements IAsyncCommand {
 
 	public function TestTaskInsertOperationPhase(conn:SQLConnection, note:Note, examples:Array, testModel:TestModel, sqlFactory:SQLFactory) {
 		this.note = note;
@@ -30,7 +30,7 @@ public class TestTaskInsertOperationPhase extends AsyncOperation implements ICom
 
 	public function execute():void {
 		if (testModel && testModel.testInfos.length > 0) {
-			var composite:CompositeOperation = new CompositeOperation();
+			var composite:CompositeCommand = new CompositeCommand();
 
 			for each(var info:TestInfo in testModel.testInfos) {
 				if (info.useNoteExample) {

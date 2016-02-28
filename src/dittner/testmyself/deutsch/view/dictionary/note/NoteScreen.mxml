@@ -17,7 +17,7 @@
         import dittner.testmyself.deutsch.model.ModuleName;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         //--------------------------------------
         //  editing
@@ -101,7 +101,7 @@
               paddingLeft="{PADDING}" paddingRight="{PADDING}">
 
         <s:Label text="{title}"
-                 fontFamily="{Fonts.MYRIAD}"
+                 fontFamily="{FontName.MYRIAD}"
                  fontSize="18"
                  paddingTop="2"
                  width="100%"

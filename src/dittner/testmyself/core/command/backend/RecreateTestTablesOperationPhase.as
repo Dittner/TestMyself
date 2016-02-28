@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.SQLFactory;
 
@@ -11,7 +11,7 @@ import flash.data.SQLStatement;
 import flash.errors.SQLError;
 import flash.net.Responder;
 
-public class RecreateTestTablesOperationPhase extends AsyncOperation implements ICommand {
+public class RecreateTestTablesOperationPhase extends AsyncOperation implements IAsyncCommand {
 
 	public function RecreateTestTablesOperationPhase(conn:SQLConnection, sqlFactory:SQLFactory) {
 		super();

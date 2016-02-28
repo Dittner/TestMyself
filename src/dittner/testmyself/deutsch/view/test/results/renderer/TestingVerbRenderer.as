@@ -3,7 +3,7 @@ import dittner.testmyself.core.model.test.ITestTask;
 import dittner.testmyself.deutsch.model.domain.verb.IVerb;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 import dittner.testmyself.deutsch.view.test.common.TestRendererData;
 
 import flash.display.GradientType;
@@ -13,8 +13,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class TestingVerbRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.WHITE);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.WHITE);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.WHITE);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.WHITE);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 

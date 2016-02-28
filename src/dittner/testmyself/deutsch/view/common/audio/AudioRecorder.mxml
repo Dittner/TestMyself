@@ -8,7 +8,7 @@
         import dittner.testmyself.core.model.audioComment.AudioComment;
         import dittner.testmyself.deutsch.view.common.audio.event.VoiceCommentEvent;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         //--------------------------------------
         //  comment
@@ -99,7 +99,7 @@
 
     <s:Label text="Audioaufnahme"
              paddingTop="4"
-             fontFamily="{Fonts.MYRIAD}"
+             fontFamily="{FontName.MYRIAD}"
              fontSize="16"
              color="{AppColors.TEXT_DARK}"/>
 

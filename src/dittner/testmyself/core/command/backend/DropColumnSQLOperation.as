@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 
 import flash.data.SQLConnection;
@@ -10,7 +10,7 @@ import flash.data.SQLStatement;
 import flash.errors.SQLError;
 import flash.net.Responder;
 
-public class DropColumnSQLOperation extends AsyncOperation implements ICommand {
+public class DropColumnSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function DropColumnSQLOperation(conn:SQLConnection, tableName:String, deletingColumnNameHash:Object, createTblSql:String, insertItemSql:String) {
 		super();

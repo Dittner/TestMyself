@@ -12,7 +12,7 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         private static const TAB_BAR_HEI:uint = 40;
 
@@ -50,7 +50,7 @@
     <utils:BG width="100%" top="{HEADER_HEI + PADDING + TAB_BAR_HEI}" bottom="0" color="#ffFFff"/>
 
     <s:Label text="{title}"
-             fontFamily="{Fonts.MYRIAD}"
+             fontFamily="{FontName.MYRIAD}"
              fontSize="18"
              width="100%" height="{HEADER_HEI}"
              verticalAlign="middle"

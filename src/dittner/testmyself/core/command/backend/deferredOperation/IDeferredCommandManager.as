@@ -1,7 +1,7 @@
 package dittner.testmyself.core.command.backend.deferredOperation {
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.IAsyncCommand;
 
 public interface IDeferredCommandManager {
-	function add(cmd:ICommand):void;
+	function add(cmd:IAsyncCommand):void;
 }
 }

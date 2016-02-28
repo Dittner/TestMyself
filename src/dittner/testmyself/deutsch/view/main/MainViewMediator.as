@@ -1,8 +1,8 @@
 package dittner.testmyself.deutsch.view.main {
 
+import dittner.async.IAsyncOperation;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
-import dittner.testmyself.core.async.IAsyncOperation;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.screen.ScreenBase;

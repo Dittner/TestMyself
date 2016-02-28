@@ -1,13 +1,13 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.service.NoteService;
 
-public class GetDataBaseInfoSQLOperation extends AsyncOperation implements ICommand {
+public class GetDataBaseInfoSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function GetDataBaseInfoSQLOperation(service:NoteService, filter:NoteFilter) {
 		this.service = service;

@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.common.input {
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 import dittner.testmyself.deutsch.view.common.utils.TextFieldFactory;
 
 import flash.display.Graphics;
@@ -10,7 +10,7 @@ import flash.text.TextFormat;
 import spark.skins.mobile.TextInputSkin;
 
 public class MobileTextInputFormSkin extends TextInputSkin {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
 	private static const TITLE_HEIGHT:uint = 20;
 
 	public function MobileTextInputFormSkin() {

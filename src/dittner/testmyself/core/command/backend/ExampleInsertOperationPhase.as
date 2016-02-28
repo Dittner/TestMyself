@@ -1,16 +1,16 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 
 import flash.data.SQLConnection;
 
-public class ExampleInsertOperationPhase extends AsyncOperation implements ICommand {
+public class ExampleInsertOperationPhase extends AsyncOperation implements IAsyncCommand {
 
 	public function ExampleInsertOperationPhase(conn:SQLConnection, note:Note, examples:Array, sqlFactory:SQLFactory) {
 		this.note = note;
@@ -26,7 +26,7 @@ public class ExampleInsertOperationPhase extends AsyncOperation implements IComm
 
 	public function execute():void {
 		if (examples && examples.length > 0) {
-			var composite:CompositeOperation = new CompositeOperation();
+			var composite:CompositeCommand = new CompositeCommand();
 
 			for each(var example:INote in examples) {
 				composite.addOperation(MP3EncodingPhase, example);

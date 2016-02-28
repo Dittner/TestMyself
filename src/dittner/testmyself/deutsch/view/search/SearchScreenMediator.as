@@ -1,11 +1,11 @@
 package dittner.testmyself.deutsch.view.search {
+import dittner.async.utils.doLaterInFrames;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.SearchMsg;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.model.search.FoundNote;
-import dittner.testmyself.deutsch.utils.pendingInvoke.doLaterInFrames;
 import dittner.testmyself.deutsch.view.dictionary.note.mp3Player.NotePlayerMediator;
 
 import flash.events.MouseEvent;

@@ -1,4 +1,9 @@
 package dittner.testmyself.core.async {
+import dittner.async.AsyncOperation;
+import dittner.async.ClassUtils;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
+
 public class CompositeOperation extends AsyncOperation {
 	public function CompositeOperation() {
 		super();
@@ -38,7 +43,7 @@ public class CompositeOperation extends AsyncOperation {
 				var info:ClassInfo = opClassInfoQueue.shift();
 				var childOp:IAsyncOperation = ClassUtils.instantiate(info.clazz, info.args);
 				childOp.addCompleteCallback(executeNextOperation);
-				if (childOp is ICommand) (childOp as ICommand).execute();
+				if (childOp is IAsyncCommand) (childOp as IAsyncCommand).execute();
 			}
 		}
 		else {

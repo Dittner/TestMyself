@@ -11,7 +11,7 @@
         import dittner.testmyself.deutsch.model.domain.verb.IVerb;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.AppSizes;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
         import dittner.testmyself.deutsch.view.test.common.TestingAction;
 
         //--------------------------------------
@@ -89,7 +89,7 @@
         <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
 
         <s:Label text="{'Anzahl der Fehler: '+errorsNum}"
-                 fontFamily="{Fonts.MYRIAD}"
+                 fontFamily="{FontName.MYRIAD}"
                  fontSize="14"
                  opaqueBackground="0"
                  mouseChildren="false" mouseEnabled="false"
@@ -100,7 +100,7 @@
                   gap="20" horizontalAlign="center">
 
             <s:Label text="{taskNumber + '/' + totalTask}"
-                     fontFamily="{Fonts.MYRIAD_COND}"
+                     fontFamily="{FontName.MYRIAD_COND}"
                      fontWeight="bold"
                      fontSize="20" textAlign="center"
                      mouseChildren="false" mouseEnabled="false"
@@ -110,7 +110,7 @@
             <s:Group width="{width - 2*padding}" height="100">
                 <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
                 <s:Label text="Infinitiv"
-                         fontFamily="{Fonts.MYRIAD_COND}"
+                         fontFamily="{FontName.MYRIAD_COND}"
                          fontWeight="bold"
                          fontSize="20"
                          mouseChildren="false" mouseEnabled="false"
@@ -119,7 +119,7 @@
 
                 <s:Label id="titleLbl"
                          left="{padding}" right="{padding}" top="{padding}"
-                         fontFamily="{Fonts.MYRIAD_COND}"
+                         fontFamily="{FontName.MYRIAD_COND}"
                          fontWeight="bold"
                          textAlign="center"
                          color="{AppColors.TEXT_DARK}"
@@ -129,7 +129,7 @@
             <s:Group width="{width - 2*padding}" height="100">
                 <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
                 <s:Label text="Präsens, Präteritum, Partizip II"
-                         fontFamily="{Fonts.MYRIAD_COND}"
+                         fontFamily="{FontName.MYRIAD_COND}"
                          fontWeight="bold"
                          fontSize="20"
                          mouseChildren="false" mouseEnabled="false"
@@ -139,7 +139,7 @@
                 <s:Label id="verbsFormsLbl"
                          visible="{showDetails}"
                          left="{padding}" right="{padding}" top="{padding}"
-                         fontFamily="{Fonts.MYRIAD_COND}"
+                         fontFamily="{FontName.MYRIAD_COND}"
                          fontWeight="bold"
                          textAlign="center"
                          color="{AppColors.TEXT_DARK}"

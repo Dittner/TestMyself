@@ -4,7 +4,7 @@
     <fx:Script><![CDATA[
         import dittner.testmyself.core.model.note.NotesInfo;
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         //--------------------------------------
         //  wordInfo
@@ -62,7 +62,7 @@
         <s:VerticalLayout gap="10"/>
     </s:layout>
 
-    <s:Label fontFamily="{Fonts.MYRIAD}"
+    <s:Label fontFamily="{FontName.MYRIAD}"
              fontSize="25"
              fontWeight="bold"
              paddingLeft="130"
@@ -73,11 +73,11 @@
         <s:Label id="infoLbl"
                  width="120"
                  textAlign="right"
-                 fontFamily="{Fonts.MYRIAD}"
+                 fontFamily="{FontName.MYRIAD}"
                  fontSize="20"
                  color="{AppColors.YELLOW}"/>
 
-        <s:Label fontFamily="{Fonts.MYRIAD}"
+        <s:Label fontFamily="{FontName.MYRIAD}"
                  fontSize="20"
                  text="{rightColumnText}"
                  color="{AppColors.YELLOW}"/>

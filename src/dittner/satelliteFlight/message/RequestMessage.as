@@ -1,5 +1,5 @@
 package dittner.satelliteFlight.message {
-import dittner.testmyself.core.async.IAsyncOperation;
+import dittner.async.IAsyncOperation;
 
 public class RequestMessage implements IRequestMessage {
 	public function RequestMessage(completeCallback:Function = null, data:Object = null) {

@@ -1,6 +1,6 @@
 package dittner.testmyself.deutsch.view.common.renderer {
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 
 import flash.display.GradientType;
 import flash.display.Graphics;
@@ -9,8 +9,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class StringItemRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
-	private static const SELECTED_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
+	private static const SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
 	private static const VPAD:uint = 5;
 	private static const HPAD:uint = 5;
 

@@ -29,7 +29,7 @@
 
                 <s:Label id="labelDisplay"
                          textAlign="center"
-                         fontFamily="{Fonts.MYRIAD_COND}"
+                         fontFamily="{FontName.MYRIAD_COND}"
                          fontWeight="bold"
                          fontSize="15"
                          maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"
@@ -42,7 +42,7 @@
                 </s:Rect>
 
                 <fx:Script><![CDATA[
-                    import dittner.testmyself.deutsch.view.common.utils.Fonts;
+                    import dittner.testmyself.deutsch.view.common.utils.FontName;
                     ]]></fx:Script>
             </s:SparkSkin>
 

@@ -2,7 +2,7 @@ package dittner.testmyself.deutsch.view.dictionary.verb.list {
 import dittner.testmyself.deutsch.model.domain.verb.IVerb;
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 import dittner.testmyself.deutsch.view.dictionary.note.list.NoteRendererData;
 
 import flash.display.GradientType;
@@ -12,8 +12,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer {
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 16, AppColors.TEXT_DARK);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 

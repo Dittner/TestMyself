@@ -1,13 +1,13 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.model.test.TestModel;
 import dittner.testmyself.core.service.NoteService;
 
-public class InsertNoteSQLOperation extends AsyncOperation implements ICommand {
+public class InsertNoteSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function InsertNoteSQLOperation(service:NoteService, suite:NoteSuite, testModel:TestModel) {
 		this.service = service;
@@ -20,7 +20,7 @@ public class InsertNoteSQLOperation extends AsyncOperation implements ICommand {
 	private var testModel:TestModel;
 
 	public function execute():void {
-		var composite:CompositeOperation = new CompositeOperation();
+		var composite:CompositeCommand = new CompositeCommand();
 
 		composite.addOperation(MP3EncodingPhase, suite.note);
 		composite.addOperation(NoteInsertOperationPhase, service.sqlConnection, suite.note, service.sqlFactory);

@@ -121,6 +121,7 @@
             wordOptionsInput.text = "";
             descriptionArea.text = "";
             addThemeInput.text = "";
+            titleArea.text = "";
             audioRecorder.clear();
             examplesForm.clear();
             invalidNotifier.alpha = 0;

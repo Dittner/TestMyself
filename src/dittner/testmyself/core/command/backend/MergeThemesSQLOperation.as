@@ -1,11 +1,11 @@
 package dittner.testmyself.core.command.backend {
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.service.NoteService;
 
-public class MergeThemesSQLOperation extends AsyncOperation implements ICommand {
+public class MergeThemesSQLOperation extends AsyncOperation implements IAsyncCommand {
 
 	public function MergeThemesSQLOperation(service:NoteService, destThemeID:int, srcThemeID:int) {
 		super();
@@ -19,7 +19,7 @@ public class MergeThemesSQLOperation extends AsyncOperation implements ICommand 
 	private var srcThemeID:int;
 
 	public function execute():void {
-		var composite:CompositeOperation = new CompositeOperation();
+		var composite:CompositeCommand = new CompositeCommand();
 
 		composite.addOperation(DeleteThemeOperationPhase, service.sqlConnection, srcThemeID, service.sqlFactory);
 		composite.addOperation(UpdateFilterOperationPhase, service.sqlConnection, destThemeID, srcThemeID, service.sqlFactory);

@@ -1,16 +1,16 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.CompositeOperation;
-import dittner.testmyself.core.async.IAsyncOperation;
-import dittner.testmyself.core.async.ICommand;
+import dittner.async.AsyncOperation;
+import dittner.async.CompositeCommand;
+import dittner.async.IAsyncCommand;
+import dittner.async.IAsyncOperation;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;
 
 import flash.data.SQLConnection;
 
-public class FilterInsertOperationPhase extends AsyncOperation implements ICommand {
+public class FilterInsertOperationPhase extends AsyncOperation implements IAsyncCommand {
 
 	public function FilterInsertOperationPhase(conn:SQLConnection, note:Note, themes:Array, sqlFactory:SQLFactory) {
 		this.conn = conn;
@@ -26,7 +26,7 @@ public class FilterInsertOperationPhase extends AsyncOperation implements IComma
 
 	public function execute():void {
 		if (themes.length > 0) {
-			var composite:CompositeOperation = new CompositeOperation();
+			var composite:CompositeCommand = new CompositeCommand();
 
 			for each(var theme:Theme in themes)
 				composite.addOperation(FilterInsertOperationSubPhase, note.id, theme, conn, sqlFactory.insertFilter);

@@ -6,7 +6,7 @@
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
-        import dittner.testmyself.deutsch.view.common.utils.Fonts;
+        import dittner.testmyself.deutsch.view.common.utils.FontName;
 
         import mx.collections.ArrayCollection;
 
@@ -66,7 +66,7 @@
     <utils:BG left="0" right="1" top="1" bottom="0" color="{bgColor}"/>
 
     <s:Label text="Beispiele"
-             fontFamily="{Fonts.MYRIAD_COND}"
+             fontFamily="{FontName.MYRIAD_COND}"
              fontSize="20"
              fontWeight="bold"
              mouseChildren="false" mouseEnabled="false"

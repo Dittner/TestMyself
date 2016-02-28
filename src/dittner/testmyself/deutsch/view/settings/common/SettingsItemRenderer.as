@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.settings.common {
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 
 import flash.display.Graphics;
 import flash.text.TextField;
@@ -10,7 +10,7 @@ import flash.text.TextFormat;
 import spark.components.DataGroup;
 
 public class SettingsItemRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 20, AppColors.TEXT, true);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT, true);
 	private static const PADDING:uint = 3;
 
 	public function SettingsItemRenderer() {

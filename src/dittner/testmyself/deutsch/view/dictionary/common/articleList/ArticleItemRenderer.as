@@ -1,7 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.common.articleList {
 import dittner.testmyself.deutsch.view.common.renderer.*;
 import dittner.testmyself.deutsch.view.common.utils.AppColors;
-import dittner.testmyself.deutsch.view.common.utils.Fonts;
+import dittner.testmyself.deutsch.view.common.utils.FontName;
 
 import flash.display.GradientType;
 import flash.display.Graphics;
@@ -10,8 +10,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ArticleItemRenderer extends ItemRendererBase {
-	private static const THEME_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_GRAY);
-	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(Fonts.MYRIAD_MX, 18, AppColors.TEXT_WHITE);
+	private static const THEME_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_GRAY);
+	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;
 	private static const REN_HEI:uint = 35;

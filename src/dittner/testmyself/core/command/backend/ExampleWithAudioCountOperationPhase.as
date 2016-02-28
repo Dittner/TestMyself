@@ -1,8 +1,8 @@
 package dittner.testmyself.core.command.backend {
 
+import dittner.async.AsyncOperation;
+import dittner.async.IAsyncCommand;
 import dittner.satelliteFlight.command.CommandException;
-import dittner.testmyself.core.async.AsyncOperation;
-import dittner.testmyself.core.async.ICommand;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.NotesInfo;
@@ -13,7 +13,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class ExampleWithAudioCountOperationPhase extends AsyncOperation implements ICommand {
+public class ExampleWithAudioCountOperationPhase extends AsyncOperation implements IAsyncCommand {
 
 	public function ExampleWithAudioCountOperationPhase(conn:SQLConnection, info:NotesInfo, sqlFactory:SQLFactory) {
 		this.conn = conn;

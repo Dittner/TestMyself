@@ -1,5 +1,5 @@
 package dittner.testmyself.deutsch.view.common.utils {
-public class Fonts {
+public class FontName {
 
 	public static const MYRIAD_MX:String = "MyriadProMX";
 	public static const MYRIAD:String = "MyriadPro";
