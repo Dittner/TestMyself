@@ -8,6 +8,7 @@ import dittner.testmyself.core.service.NoteService;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
+import flash.errors.SQLError;
 import flash.net.Responder;
 
 public class SelectFilterSQLOperation extends AsyncOperation implements IAsyncCommand {
@@ -25,7 +26,7 @@ public class SelectFilterSQLOperation extends AsyncOperation implements IAsyncCo
 		if (noteID != -1) {
 			var statement:SQLStatement = SQLUtils.createSQLStatement(service.sqlFactory.selectFilter, {selectedNoteID: noteID});
 			statement.sqlConnection = service.sqlConnection;
-			statement.execute(-1, new Responder(executeComplete));
+			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
 		else {
 			dispatchError(new CommandException(ErrorCode.NULLABLE_NOTE, "Отсутствует ID записи"));
@@ -36,6 +37,10 @@ public class SelectFilterSQLOperation extends AsyncOperation implements IAsyncCo
 		var themesID:Array = [];
 		for each(var item:Object in result.data) themesID.push(item.themeID);
 		dispatchSuccess(themesID);
+	}
+
+	private function executeError(error:SQLError):void {
+		dispatchError(error);
 	}
 }
 }

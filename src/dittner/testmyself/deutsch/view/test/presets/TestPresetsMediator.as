@@ -36,7 +36,6 @@ public class TestPresetsMediator extends SFMediator {
 
 	private function onThemesLoaded(op:IAsyncOperation):void {
 		var themeItems:Array = op.result as Array;
-		themeItems.sortOn("name");
 		view.themeColl = new ArrayCollection(themeItems);
 		addListeners();
 	}

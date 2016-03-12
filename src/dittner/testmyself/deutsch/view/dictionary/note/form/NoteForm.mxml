@@ -340,7 +340,6 @@
         </s:VGroup>
 
         <s:VGroup width="250" height="100%" gap="{VGAP}"
-                  visible.lesson="false" includeInLayout.lesson="false"
                   visible.word="true" includeInLayout.word="true"
                   visible.verb="true" includeInLayout.verb="true">
             <list:ListForm id="themesList"
@@ -348,13 +347,15 @@
                            dataProvider="{themes}"
                            title="Themenliste"
                            itemRendererFunction="themesRendererFunc"
+                           allowMultipleSelection.lesson="false"
                            allowMultipleSelection="true">
                 <list:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="false"/>
                 </list:layout>
             </list:ListForm>
 
-            <s:HGroup width="100%" height="72" gap="0" verticalAlign="bottom">
+            <s:HGroup width="100%" height="72" gap="0" verticalAlign="bottom"
+                      visible.lesson="false" includeInLayout.lesson="false">
                 <input:TextInputForm id="addThemeInput"
                                      width="100%"
                                      maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
@@ -389,13 +390,13 @@
              visible="{isRemoveMode}"
              width="100%"
              textAlign="center"
-             top="100"
+             verticalCenter="-100"
              color="{AppColors.TEXT_DARK}" fontSize="24"
              text="Sind Sie sicher, das Sie entfernen möchten?"/>
 
     <s:Label id="removeNoteTitleLbl"
              visible="{isRemoveMode}"
-             width="100%" top="150"
+             width="100%" verticalCenter="0"
              color="{AppColors.TEXT_DARK}" fontSize="18" fontWeight="bold"
              textAlign="center" verticalAlign="middle"/>
 

@@ -37,10 +37,9 @@ public class DeferredCommandManager extends SFProxy implements IDeferredCommandM
 	}
 
 	private function commandCompleteHandler(op:IAsyncOperation):void {
-		//trace("deferred cmd complete");
+		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 		destroyProcessingCmd();
 		executeNextCommand();
-		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
 	private function destroyProcessingCmd():void {

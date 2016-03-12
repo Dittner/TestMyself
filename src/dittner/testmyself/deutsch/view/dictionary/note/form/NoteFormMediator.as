@@ -79,7 +79,7 @@ public class NoteFormMediator extends SFMediator {
 		sendNotification(NoteMsg.FORM_ACTIVATED_NOTIFICATION);
 		view.cancelBtn.addEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
-		view.formatBtn.addEventListener(MouseEvent.CLICK, formatHandler);
+		view.formatBtn.addEventListener(MouseEvent.CLICK, formatFields);
 		view.addThemeBtn.addEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
 		view.wordInput.addEventListener(TextOperationEvent.CHANGE, validateInputText);
 		view.titleArea.addEventListener(TextOperationEvent.CHANGE, validateInputText);
@@ -99,7 +99,7 @@ public class NoteFormMediator extends SFMediator {
 		sendNotification(NoteMsg.FORM_DEACTIVATED_NOTIFICATION);
 		view.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelHandler);
 		view.applyBtn.removeEventListener(MouseEvent.CLICK, applyHandler);
-		view.formatBtn.removeEventListener(MouseEvent.CLICK, formatHandler);
+		view.formatBtn.removeEventListener(MouseEvent.CLICK, formatFields);
 		view.addThemeBtn.removeEventListener(MouseEvent.CLICK, addThemeBtnClickHandler);
 		view.wordInput.removeEventListener(TextOperationEvent.CHANGE, validateInputText);
 		view.titleArea.removeEventListener(TextOperationEvent.CHANGE, validateInputText);
@@ -122,7 +122,10 @@ public class NoteFormMediator extends SFMediator {
 		return "";
 	}
 
-	protected function formatHandler(event:MouseEvent):void {
+	protected function formatFields(event:MouseEvent = null):void {
+		view.wordOptionsInput.text = removeSpaces(view.wordOptionsInput.text);
+		view.wordInput.text = removeSpaces(view.wordInput.text);
+		view.titleArea.text = removeSpaces(view.titleArea.text);
 		view.descriptionArea.text = correctDescriptionText(view.descriptionArea.text);
 	}
 
@@ -186,7 +189,23 @@ public class NoteFormMediator extends SFMediator {
 			txt = txt.replace(/(,;|;;|\n)/gi, ";");
 			txt = txt.replace(/(;)/gi, ";\n");
 			txt = txt.replace(/(, ;)/gi, ";");
-			res = txt;
+			res = removeSpaces(txt);
+
+		}
+		return res;
+	}
+
+	private function removeSpaces(txt:String):String {
+		var res:String = txt;
+		if (res.length > 0) {
+			while (res.charAt(0) == ' ') {
+				res = res.substr(1);
+			}
+		}
+		if (res.length > 0) {
+			while (res.charAt(res.length - 1) == ' ') {
+				res = res.substr(0, res.length - 1);
+			}
 		}
 		return res;
 	}

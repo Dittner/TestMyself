@@ -21,7 +21,7 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="10"/>
+        <s:VerticalLayout gap="15"/>
     </s:layout>
 
     <s:CheckBox id="showTooltipBox"
@@ -57,36 +57,31 @@
                  color="{AppColors.TEXT_DARK}"/>
     </s:HGroup>
 
-    <s:VGroup left="0" right="40" width="100%" height="100%" gap="15"
-              enabled="{!progressBar.visible}"
-              horizontalAlign="left"
-              paddingLeft="20" paddingTop="50" paddingRight="20" paddingBottom="20">
-        <s:Label text="Die Kopie der Dateibank auf den Server exportieren"
-                 fontFamily="{FontName.MYRIAD}"
-                 fontStyle="italic"
-                 fontSize="20"
-                 color="{AppColors.TEXT_DARK}"/>
+    <s:Label text="Die Kopie der Dateibank auf den Server exportieren"
+             fontFamily="{FontName.MYRIAD}"
+             fontStyle="italic"
+             fontSize="20"
+             paddingTop="50"
+             color="{AppColors.TEXT_DARK}"/>
 
-        <input:TextInputForm id="hostInput"
-                             width="400" title="Server"/>
+    <input:TextInputForm id="hostInput"
+                         width="400" title="Server"/>
 
-        <input:TextInputForm id="portInput"
-                             width="400" title="Port"/>
+    <input:TextInputForm id="portInput"
+                         width="400" title="Port"/>
 
-        <input:TextInputForm id="userNameInput"
-                             width="400" title="Benutzer"/>
+    <input:TextInputForm id="userNameInput"
+                         width="400" title="Benutzer"/>
 
-        <input:TextInputForm id="pwdInput"
-                             width="400" title="Passwort"/>
+    <input:TextInputForm id="pwdInput"
+                         width="400" title="Passwort"/>
 
-        <input:TextInputForm id="remoteDirInput"
-                             width="400" title="Remoteverzeichnis"/>
+    <input:TextInputForm id="remoteDirInput"
+                         width="400" title="Remoteverzeichnis"/>
 
-        <button:BlackButton id="copySendBtn"
-                            width="400" label="Senden"
-                            enabled="{sendCopyEnabled(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"/>
-
-    </s:VGroup>
+    <button:BlackButton id="copySendBtn"
+                        width="400" label="Senden"
+                        enabled="{sendCopyEnabled(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"/>
 
     <progressbar:ProgressBar id="progressBar"
                              visible="false"

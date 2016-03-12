@@ -63,7 +63,6 @@ public class LessonListMediator extends SFMediator {
 
 	private function onThemesLoaded(op:IAsyncOperation):void {
 		var themeItems:Array = op.result as Array;
-		themeItems.sortOn("name");
 		view.lessonColl = new ArrayCollection(themeItems);
 
 		lessonNameHash = {};
