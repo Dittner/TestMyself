@@ -107,8 +107,9 @@ public class NoteFormMediator extends SFMediator {
 		view.articleBox.removeEventListener(Event.CHANGE, validateInputText);
 	}
 
-	//abstract
-	protected function applyHandler(event:MouseEvent):void {}
+	protected function applyHandler(event:MouseEvent):void {
+		formatFields();
+	}
 
 	//abstract
 	protected function createNote():Note {return null;}

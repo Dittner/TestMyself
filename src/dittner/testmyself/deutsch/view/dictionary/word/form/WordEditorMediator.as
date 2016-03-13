@@ -6,7 +6,6 @@ import dittner.testmyself.deutsch.view.dictionary.note.form.NoteEditorMediator;
 public class WordEditorMediator extends NoteEditorMediator {
 
 	override protected function createNote():Note {
-		formatFields();
 		var word:Word = new Word();
 		word.title = view.wordInput.text;
 		word.description = view.descriptionArea.text;

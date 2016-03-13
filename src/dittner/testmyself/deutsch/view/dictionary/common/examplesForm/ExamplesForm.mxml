@@ -199,7 +199,7 @@
                              text="{exampleList.selectedItem.title}"/>
 
                     <s:Spacer/>
-                    <s:HGroup excludeFrom="normal"
+                    <s:HGroup excludeFrom="normal" gap="10"
                               width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                               verticalAlign="middle">
 

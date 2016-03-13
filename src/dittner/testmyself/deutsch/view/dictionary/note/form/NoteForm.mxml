@@ -13,6 +13,7 @@
          currentState="normal">
 
     <fx:Script><![CDATA[
+        import dittner.async.utils.invalidateOf;
         import dittner.testmyself.core.model.note.INote;
         import dittner.testmyself.core.model.theme.ITheme;
         import dittner.testmyself.deutsch.model.AppConfig;
@@ -151,6 +152,7 @@
         public function add():void {
             setMode("add");
             dispatchEvent(new Event("taskChanged"));
+            invalidateOf(focusTextInput);
         }
 
         public function edit(note:INote):void {
@@ -180,7 +182,12 @@
             }
 
             invalidateDisplayList();
+            invalidateOf(focusTextInput);
             dispatchEvent(new Event("taskChanged"));
+        }
+
+        private function focusTextInput():void {
+            if (stage) stage.focus = currentState == "lesson" ? titleArea.area : wordInput;
         }
 
         public function remove(note:INote):void {
@@ -340,6 +347,7 @@
         </s:VGroup>
 
         <s:VGroup width="250" height="100%" gap="{VGAP}"
+                  visible.lesson="{!isCreateMode}" includeInLayout.lesson="{!isCreateMode}"
                   visible.word="true" includeInLayout.word="true"
                   visible.verb="true" includeInLayout.verb="true">
             <list:ListForm id="themesList"

@@ -22,6 +22,7 @@ public class NoteCreatorMediator extends NoteFormMediator {
 	}
 
 	override protected function applyHandler(event:MouseEvent):void {
+		super.applyHandler(event);
 		var errMsg:String;
 		var suite:NoteSuite = new NoteSuite();
 
