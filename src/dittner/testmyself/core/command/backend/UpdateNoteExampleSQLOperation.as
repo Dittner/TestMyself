@@ -8,11 +8,13 @@ import dittner.testmyself.core.command.backend.utils.SQLUtils;
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.NoteSuite;
 import dittner.testmyself.core.service.NoteService;
+import dittner.testmyself.deutsch.view.common.audio.mp3.MP3Writer;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.errors.SQLError;
 import flash.net.Responder;
+import flash.utils.ByteArray;
 
 public class UpdateNoteExampleSQLOperation extends AsyncOperation implements IAsyncCommand {
 
@@ -25,6 +27,27 @@ public class UpdateNoteExampleSQLOperation extends AsyncOperation implements IAs
 	private var example:Note;
 
 	public function execute():void {
+		if (example.audioComment && example.audioComment.bytes && example.audioComment.bytes.length > 0 && !example.audioComment.isMp3) {
+			try {
+				MP3Writer.encodeRawData(example.audioComment.bytes, encodeCompleteHandler);
+			}
+			catch (error:Error) {
+				dispatchError(new CommandException(ErrorCode.MP3_ENCODING_FAILED, error.message));
+			}
+		}
+		else {
+			store();
+		}
+	}
+
+	private function encodeCompleteHandler(output:ByteArray):void {
+		example.audioComment.isMp3 = true;
+		example.audioComment.bytes.clear();
+		example.audioComment.bytes = output;
+		store();
+	}
+
+	private function store():void {
 		var sqlParams:Object = example.toSQLData();
 		sqlParams.updatingNoteID = example.id;
 

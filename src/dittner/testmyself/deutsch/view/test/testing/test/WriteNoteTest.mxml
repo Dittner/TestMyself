@@ -55,7 +55,7 @@
                     titleBoard.text = note.title;
                     translateBoard.text = note.description;
 
-                    if (note.audioComment.bytes) {
+                    if (note.audioComment.bytes && note.audioComment.isMp3) {
                         mp3Player.visible = true;
                         mp3Player.comment = note.audioComment;
                         mp3Player.play();
