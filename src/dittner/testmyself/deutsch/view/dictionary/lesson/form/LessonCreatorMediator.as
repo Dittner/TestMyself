@@ -10,6 +10,7 @@ public class LessonCreatorMediator extends NoteCreatorMediator {
 
 	override protected function activate():void {
 		super.activate();
+		autoFormat = false;
 		sendRequest(NoteMsg.GET_FILTER, new RequestMessage(filterLoaded));
 	}
 

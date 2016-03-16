@@ -17,13 +17,9 @@ public class ExampleEditorMediator extends NoteEditorMediator {
 		return note;
 	}
 
-	override protected function loadThemes():void {}
-
 	override protected function loadExamples():void {}
 
 	override protected function applyHandler(event:MouseEvent):void {
-		formatFields();
-
 		var errMsg:String;
 		var suite:NoteSuite = new NoteSuite();
 

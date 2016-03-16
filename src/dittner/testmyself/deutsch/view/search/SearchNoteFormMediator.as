@@ -31,7 +31,7 @@ public class SearchNoteFormMediator extends SFMediator {
 	public function startEditing(fnote:FoundNote):void {
 		selectedFoundNote = fnote;
 		if (selectedFoundNote && selectedFoundNote.note) {
-			view.moduleName = selectedFoundNote.isExample ? ModuleName.LESSON : selectedFoundNote.moduleName;
+			view.moduleName = selectedFoundNote.isExample ? "" : selectedFoundNote.moduleName;
 			registerEditorMediator(selectedFoundNote.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, selectedFoundNote.note);
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT);
@@ -68,7 +68,7 @@ public class SearchNoteFormMediator extends SFMediator {
 		selectedFoundNote = fnote;
 
 		if (selectedFoundNote && selectedFoundNote.note) {
-			view.moduleName = selectedFoundNote.isExample ? ModuleName.LESSON : selectedFoundNote.moduleName;
+			view.moduleName = selectedFoundNote.isExample ? "" : selectedFoundNote.moduleName;
 			registerRemoverMediator(selectedFoundNote.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, selectedFoundNote.note);
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE);

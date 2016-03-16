@@ -29,6 +29,7 @@ public class NoteFormMediator extends SFMediator {
 	protected var isActive:Boolean = false;
 	protected var selectedNote:Note;
 	protected var noteHash:NoteHash;
+	protected var autoFormat:Boolean = true;
 
 	override protected function activate():void {
 		addListener(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, toolActionSelectedHandler);
@@ -107,9 +108,8 @@ public class NoteFormMediator extends SFMediator {
 		view.articleBox.removeEventListener(Event.CHANGE, validateInputText);
 	}
 
-	protected function applyHandler(event:MouseEvent):void {
-		formatFields();
-	}
+	//abstract
+	protected function applyHandler(event:MouseEvent):void {}
 
 	//abstract
 	protected function createNote():Note {return null;}

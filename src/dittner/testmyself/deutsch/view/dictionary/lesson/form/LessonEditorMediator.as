@@ -6,6 +6,7 @@ public class LessonEditorMediator extends NoteEditorMediator {
 
 	override protected function activate():void {
 		super.activate();
+		autoFormat = false;
 	}
 
 	override protected function createNote():Note {

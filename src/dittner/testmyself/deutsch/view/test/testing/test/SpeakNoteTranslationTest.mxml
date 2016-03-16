@@ -40,7 +40,7 @@
                     titleBoard.text = translateInDeutsch ? note.description : note.title;
                     translateBoard.text = translateInDeutsch ? noteToTitle() : note.description;
 
-                    if (note.audioComment.bytes && !translateInDeutsch) {
+                    if (note.audioComment.bytes) {
                         mp3Player.visible = true;
                         mp3Player.comment = note.audioComment;
                     }

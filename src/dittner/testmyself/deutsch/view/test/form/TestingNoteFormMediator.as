@@ -36,7 +36,7 @@ public class TestingNoteFormMediator extends SFMediator {
 
 	public function startEditing():void {
 		if (testingNote) {
-			view.moduleName = selectedTestInfo.useNoteExample ? ModuleName.LESSON : selectedTestInfo.moduleName;
+			view.moduleName = selectedTestInfo.useNoteExample ? "" : selectedTestInfo.moduleName;
 			registerEditorMediator(selectedTestInfo.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT);
@@ -45,7 +45,7 @@ public class TestingNoteFormMediator extends SFMediator {
 
 	public function startRemoving():void {
 		if (testingNote) {
-			view.moduleName = selectedTestInfo.useNoteExample ? ModuleName.LESSON : selectedTestInfo.moduleName;
+			view.moduleName = selectedTestInfo.useNoteExample ? "" : selectedTestInfo.moduleName;
 			registerRemoverMediator(selectedTestInfo.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE);

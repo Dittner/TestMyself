@@ -28,7 +28,8 @@ public class TestPresetsMediator extends SFMediator {
 	override protected function activate():void {
 		view.title = selectedTestInfo.title;
 		sendRequestTo(selectedTestInfo.moduleName, NoteMsg.GET_THEMES, new RequestMessage(onThemesLoaded));
-		if (selectedTestInfo.id == TestID.WRITE_WORD) {
+		var tid:uint = selectedTestInfo.id;
+		if (tid == TestID.WRITE_WORD || tid == TestID.WRITE_LESSON || tid == TestID.WRITE_VERB_EXAMPLE || tid == TestID.WRITE_WORD_EXAMPLE) {
 			view.useAudioRecordsBox.selected = true;
 			view.useAudioRecordsBox.enabled = false;
 		}
