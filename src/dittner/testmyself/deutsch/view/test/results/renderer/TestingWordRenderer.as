@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.test.results.renderer {
 import dittner.testmyself.core.model.test.ITestTask;
+import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.model.domain.word.IWord;
 import dittner.testmyself.deutsch.model.domain.word.WordArticle;
 import dittner.testmyself.deutsch.view.common.renderer.*;
@@ -67,8 +68,12 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 		if (word) {
 			var description:String = word.description;
 			var title:String = "";
-			if (word.article) title = word.article + " ";
+			var showArticle:Boolean = word.article && (selected || renData.task.testID != TestID.SELECT_ARTICLE);
+			if (showArticle)
+				title = word.article + " ";
+
 			title += word.title;
+
 			if (word.options && selected)
 				title += ", " + word.options;
 
@@ -85,20 +90,21 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 				titleTf.setTextFormat(TITLE_FORMAT);
 				titleTf.textColor = selected ? 0xffFFff : 0;
 				descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
-				switch (word.article) {
-					case WordArticle.DIE :
-						titleTf.setTextFormat(DIE_FORMAT, 0, word.article.length);
-						break;
-					case WordArticle.DAS :
-						titleTf.setTextFormat(DAS_FORMAT, 0, word.article.length);
-						break;
-					case WordArticle.DER_DIE :
-						titleTf.setTextFormat(DIE_FORMAT, 4, word.article.length);
-						break;
-					case WordArticle.DER_DAS :
-						titleTf.setTextFormat(DAS_FORMAT, 4, word.article.length);
-						break;
-				}
+				if (showArticle)
+					switch (word.article) {
+						case WordArticle.DIE :
+							titleTf.setTextFormat(DIE_FORMAT, 0, word.article.length);
+							break;
+						case WordArticle.DAS :
+							titleTf.setTextFormat(DAS_FORMAT, 0, word.article.length);
+							break;
+						case WordArticle.DER_DIE :
+							titleTf.setTextFormat(DIE_FORMAT, 4, word.article.length);
+							break;
+						case WordArticle.DER_DAS :
+							titleTf.setTextFormat(DAS_FORMAT, 4, word.article.length);
+							break;
+					}
 			}
 
 			descriptionTf.visible = selected;
