@@ -25,6 +25,7 @@ public class TestScreenMediator extends SFMediator {
 	private var selectedTestInfo:TestInfo;
 
 	override protected function activate():void {
+		view.editForm.visible = false;
 		addListener(TestMsg.TEST_INFO_SELECTED_NOTIFICATION, testInfoSelected);
 		addListener(TestMsg.SHOW_TEST_PRESETS_NOTIFICATION, showTestPresets);
 		addListener(TestMsg.SHOW_TEST_LIST_NOTIFICATION, showTestList);

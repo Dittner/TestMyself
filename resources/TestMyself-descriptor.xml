@@ -5,8 +5,8 @@
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>1.15.0</versionNumber>
-    <versionLabel>1.15</versionLabel>
+    <versionNumber>1.16.0</versionNumber>
+    <versionLabel>1.16</versionLabel>
 
     <initialWindow>
         <content></content>
@@ -14,8 +14,8 @@
         <maximizable>true</maximizable>
         <resizable>true</resizable>
         <width>1450</width>
-        <height>900</height>
-        <minSize>1280 800</minSize>
+        <height>2000</height>
+        <minSize>1450 900</minSize>
         <aspectRatio>landscape</aspectRatio>
         <autoOrients>false</autoOrients>
         <fullScreen>true</fullScreen>

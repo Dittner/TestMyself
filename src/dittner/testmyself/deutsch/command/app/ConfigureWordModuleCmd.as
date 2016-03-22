@@ -44,8 +44,8 @@ public class ConfigureWordModuleCmd implements IConfigureCommand {
 		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_IN_DEUTSCH, ModuleName.WORD, "Ins Deutsche übersetzen"));
 		model.addTestInfo(new TestInfo(TestID.WRITE_WORD, ModuleName.WORD, "Rechtschreibung"));
 		model.addTestInfo(new TestInfo(TestID.SELECT_ARTICLE, ModuleName.WORD, "Artikel auswählen"));
-		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH, ModuleName.WORD, "Aus dem Deutschen die Beispiele übersetzen", false, true));
-		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_EXAMPLE_TRANSLATION, ModuleName.WORD, "Ins Deutsche die Beispiele übersetzen", false, true));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_EXAMPLE_TRANSLATION, ModuleName.WORD, "Aus dem Deutschen die Beispiele übersetzen", false, true));
+		model.addTestInfo(new TestInfo(TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH, ModuleName.WORD, "Ins Deutsche die Beispiele übersetzen", false, true));
 		model.addTestInfo(new TestInfo(TestID.WRITE_WORD_EXAMPLE, ModuleName.WORD, "Rechtschreibung der Beispiele", false, true));
 		return model;
 	}
