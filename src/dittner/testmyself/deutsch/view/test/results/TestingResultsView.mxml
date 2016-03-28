@@ -79,7 +79,7 @@
                 label="nur Notiz mit Fehlern"/>
 
     <s:HGroup left="-1" right="-1" top="29" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}" gap="-1">
-    <s:Scroller width="100%" height="100%"
+        <s:Scroller width="100%" height="100%"
                     minViewportInset="1"
                     horizontalScrollPolicy="off"
                     hasFocusableChildren="false">
@@ -98,9 +98,7 @@
 
         <list2:ExampleList id="exampleList"
                            width="100%" height="100%"
-                           visible="false"
                            showTitle="false"
-                           includeInLayout="false"
                            hasFocusableChildren="false"/>
     </s:HGroup>
 

@@ -17,6 +17,7 @@ public class SFMediator extends SFComponent {
 		children.push(mediator);
 		if (injector.hasInjectDeclaration(mediator, SFConstants.MEDIATOR_VIEW_INJECT_NAME)) {
 			mediator[SFConstants.MEDIATOR_VIEW_INJECT_NAME] = view;
+			injector.injectMediator(mediator, moduleName);
 		}
 		mediator.module = module;
 		mediator.messageSender = messageSender;

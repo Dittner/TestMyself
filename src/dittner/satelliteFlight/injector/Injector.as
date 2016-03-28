@@ -1,9 +1,11 @@
 package dittner.satelliteFlight.injector {
 import dittner.satelliteFlight.command.ISFCommand;
+import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.module.RootModule;
 import dittner.satelliteFlight.module.SFModule;
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.satelliteFlight.sf_namespace;
+import dittner.satelliteFlight.utils.SFConstants;
 import dittner.satelliteFlight.utils.SFException;
 import dittner.satelliteFlight.utils.SFExceptionMsg;
 
@@ -52,6 +54,17 @@ public class Injector implements IInjector {
 			if (module && module.hasProxy(prop)) cmd[prop] = module.getProxy(prop);
 			else if (root.hasProxy(prop)) cmd[prop] = root.getProxy(prop);
 			else throw new SFException(SFExceptionMsg.PROXY_NOT_FOUND + "; proxy id: '" + prop + "'; required for command: " + Class(getDefinitionByName(getQualifiedClassName(cmd))) + "; module name: " + moduleName);
+		}
+	}
+
+	public function injectMediator(m:SFMediator, moduleName:String):void {
+		var module:SFModule = root.getModule(moduleName);
+		var props:Array = getInjectedProps(m);
+		for each (var prop:String in props) {
+			if (prop == SFConstants.MEDIATOR_VIEW_INJECT_NAME) continue;
+			if (module && module.hasProxy(prop)) m[prop] = module.getProxy(prop);
+			else if (root.hasProxy(prop)) m[prop] = root.getProxy(prop);
+			else throw new SFException(SFExceptionMsg.PROXY_NOT_FOUND + "; proxy id: '" + prop + "'; required for command: " + Class(getDefinitionByName(getQualifiedClassName(m))) + "; module name: " + moduleName);
 		}
 	}
 

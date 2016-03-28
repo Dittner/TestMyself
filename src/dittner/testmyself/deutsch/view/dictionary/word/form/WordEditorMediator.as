@@ -25,7 +25,7 @@ public class WordEditorMediator extends NoteEditorMediator {
 		if (selectedNote is Word) {
 			var word:Word = note as Word;
 			var origin:Word = selectedNote as Word;
-			if (word.article != origin.article || word.title != origin.title)
+			if (word.title != origin.title)
 				if (word.title && noteHash.has(word)) return "Die Datenbank hat schon die gleiche Notiz!";
 		}
 		return "";

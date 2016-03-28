@@ -6,6 +6,7 @@ import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.SearchMsg;
 import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.deutsch.model.search.FoundNote;
+import dittner.testmyself.deutsch.model.settings.SettingsModel;
 import dittner.testmyself.deutsch.view.common.pagination.PaginationBar;
 
 import flash.events.MouseEvent;
@@ -15,11 +16,15 @@ public class SearchPaginationMediator extends SFMediator {
 	[Inject]
 	public var view:PaginationBar;
 
-	private const PAGE_SIZE:uint = 20;
+	[Inject]
+	public var settingsModel:SettingsModel;
+
 	private var foundNotes:Array;
 	private var loadingNoteQueue:Array = [];
 	private var isLoading:Boolean = false;
 	private var loadingFoundNote:FoundNote;
+
+	private function get pageSize():uint {return settingsModel.info.pageSize;}
 
 	override protected function activate():void {
 		addListener(SearchMsg.FOUND_NOTES_UPDATED_NOTIFICATION, foundNotesUpdated);
@@ -31,9 +36,9 @@ public class SearchPaginationMediator extends SFMediator {
 
 	private function foundNotesUpdated(foundNotes:Array):void {
 		this.foundNotes = foundNotes;
-		view.notesOnPage = Math.min(PAGE_SIZE, foundNotes.length);
+		view.notesOnPage = Math.min(pageSize, foundNotes.length);
 		view.curPageNum = 0;
-		view.pageSize = PAGE_SIZE;
+		view.pageSize = pageSize;
 		view.totalNotes = foundNotes.length;
 		loadPageInfo(0);
 	}
@@ -60,7 +65,7 @@ public class SearchPaginationMediator extends SFMediator {
 		isLoading = true;
 		loadingNoteQueue.length = 0;
 		loadingNoteQueue = [];
-		for (var i:uint = pageNum * PAGE_SIZE; i < foundNotes.length && loadingNoteQueue.length < PAGE_SIZE; i++)
+		for (var i:uint = pageNum * pageSize; i < foundNotes.length && loadingNoteQueue.length < pageSize; i++)
 			loadingNoteQueue.push(foundNotes[i]);
 		loadNext();
 	}
@@ -78,7 +83,7 @@ public class SearchPaginationMediator extends SFMediator {
 		else {
 			isLoading = false;
 			var loadedNotes:Array = [];
-			for (var i:uint = view.curPageNum * PAGE_SIZE; i < foundNotes.length && loadedNotes.length < PAGE_SIZE; i++)
+			for (var i:uint = view.curPageNum * pageSize; i < foundNotes.length && loadedNotes.length < pageSize; i++)
 				loadedNotes.push(foundNotes[i]);
 			sendNotification(SearchMsg.FOUND_NOTES_LOADED_NOTIFICATION, loadedNotes);
 		}

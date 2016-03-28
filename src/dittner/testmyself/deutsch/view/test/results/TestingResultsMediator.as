@@ -47,6 +47,7 @@ public class TestingResultsMediator extends SFMediator {
 
 	override protected function activate():void {
 		view.title = selectedTestInfo.title;
+		view.exampleList.visible = view.exampleList.includeInLayout = selectedTestInfo.loadExamplesWhenTesting;
 		view.list.addEventListener(SelectableDataGroup.SELECTED, taskSelectedHandler);
 		view.goBackBtn.addEventListener(MouseEvent.CLICK, goBackClickHandler);
 		view.lastFailedNotesFilterBox.addEventListener(Event.CHANGE, onlyFailedNotesFilterChanged);
@@ -146,7 +147,6 @@ public class TestingResultsMediator extends SFMediator {
 	protected function onExamplesLoaded(op:IAsyncOperation):void {
 		if (op.result is Array && op.result.length > 0) {
 			view.exampleList.dataProvider = new ArrayCollection(op.result as Array);
-			view.exampleList.visible = view.exampleList.includeInLayout = true;
 		}
 		else {
 			hideList();
@@ -155,7 +155,6 @@ public class TestingResultsMediator extends SFMediator {
 
 	private function hideList():void {
 		view.exampleList.dataProvider = null;
-		view.exampleList.visible = view.exampleList.includeInLayout = false;
 	}
 
 	override protected function deactivate():void {
