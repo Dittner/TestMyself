@@ -190,18 +190,16 @@
 
             </s:HGroup>
 
-            <s:HGroup width="480" gap="15"
-                      visible="{!isCorrectlyAnswered}"
-                      includeInLayout="{!isCorrectlyAnswered}">
+            <s:HGroup width="480" gap="15">
                 <button:GrayButton id="showAnswerBtn"
                                    width="100%"
-                                   label="Die richtige Antwort zeigen"
+                                   label="Die Antwort zeigen"
                                    click="showDetails = true"/>
 
-                <button:BlackButton id="nextBtn"
-                                    width="100%"
-                                    label="Weiter"
-                                    click="goNext()"/>
+                <button:GrayButton id="nextBtn"
+                                   width="100%"
+                                   label="Weiter"
+                                   click="goNext()"/>
 
             </s:HGroup>
 
