@@ -82,7 +82,7 @@
                        width="300"
                        value="high"
                        selected="true"
-                       label="Schwierige Aufgaben"/>
+                       label="Unsortierte Aufgaben"/>
 
         <s:Spacer width="100%"/>
 
@@ -90,7 +90,7 @@
                        groupName="radioBar"
                        width="300"
                        value="middle"
-                       label="Leichte Aufgaben"/>
+                       label="Schwierige Aufgaben"/>
 
         <s:Spacer width="100%"/>
 
@@ -98,7 +98,7 @@
                        groupName="radioBar"
                        width="300"
                        value="low"
-                       label="Leichteste Aufgaben"/>
+                       label="Leichte Aufgaben"/>
     </s:HGroup>
 
     <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">

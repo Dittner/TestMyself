@@ -78,7 +78,7 @@
         </s:fill>
     </s:Rect>
 
-    <utils:BG excludeFrom="inactive" width="100%" top="{HEADER_HEI + searchBoard.height}" bottom="0" color="#ffFFff"/>
+    <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
 
     <!--header bg-->
     <s:Rect width="100%" height="{HEADER_HEI}">
