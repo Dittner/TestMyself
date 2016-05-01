@@ -5,8 +5,8 @@
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>1.17.0</versionNumber>
-    <versionLabel>1.17</versionLabel>
+    <versionNumber>1.18.0</versionNumber>
+    <versionLabel>1.18</versionLabel>
 
     <initialWindow>
         <content></content>

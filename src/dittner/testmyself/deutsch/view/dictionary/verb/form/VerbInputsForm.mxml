@@ -71,7 +71,7 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="15" paddingLeft="85"/>
+        <s:VerticalLayout gap="15" paddingLeft="118"/>
     </s:layout>
 
     <input:TextInputForm id="infinitiveInput"

@@ -79,7 +79,7 @@
         private function onDerAnswered():void {
             if (word && actionCallback) {
                 answerEnabled = false;
-                isCorrectlyAnswered = word.article == WordArticle.DER || word.article == WordArticle.DER_DIE || word.article == WordArticle.DER_DAS;
+                isCorrectlyAnswered = word.article == WordArticle.DER || word.article == WordArticle.DER_DIE || word.article == WordArticle.DER_DAS || word.article == WordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
@@ -87,7 +87,7 @@
         private function onDieAnswered():void {
             if (word && actionCallback) {
                 answerEnabled = false;
-                isCorrectlyAnswered = word.article == WordArticle.DIE || word.article == WordArticle.DER_DIE;
+                isCorrectlyAnswered = word.article == WordArticle.DIE || word.article == WordArticle.DER_DIE || word.article == WordArticle.DIE_DAS || word.article == WordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
@@ -95,7 +95,7 @@
         private function onDasAnswered():void {
             if (word && actionCallback) {
                 answerEnabled = false;
-                isCorrectlyAnswered = word.article == WordArticle.DAS || word.article == WordArticle.DER_DAS;
+                isCorrectlyAnswered = word.article == WordArticle.DAS || word.article == WordArticle.DER_DAS || word.article == WordArticle.DIE_DAS || word.article == WordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
