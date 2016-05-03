@@ -108,11 +108,11 @@
         ]]></fx:Script>
 
     <common:TestHeader id="header"
-                       width="100%" height="30" padding="{padding}"
+                       width="100%" padding="{padding}"
                        title="{title}"
                        description="{durationLbl}"/>
 
-    <s:Group width="100%" top="30" bottom="0">
+    <s:Group width="100%" top="{header.height}" bottom="0">
 
         <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
 

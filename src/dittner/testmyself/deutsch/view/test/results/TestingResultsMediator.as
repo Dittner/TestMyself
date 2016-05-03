@@ -8,6 +8,7 @@ import dittner.testmyself.core.model.note.INote;
 import dittner.testmyself.core.model.page.ITestPageInfo;
 import dittner.testmyself.core.model.page.TestPageInfo;
 import dittner.testmyself.core.model.test.TestInfo;
+import dittner.testmyself.core.model.test.TestTask;
 import dittner.testmyself.deutsch.model.domain.common.TestID;
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.pagination.PaginationBar;
@@ -48,6 +49,7 @@ public class TestingResultsMediator extends SFMediator {
 	override protected function activate():void {
 		view.title = selectedTestInfo.title;
 		view.exampleList.visible = view.exampleList.includeInLayout = selectedTestInfo.loadExamplesWhenTesting;
+		view.setTaskAsRightBtn.addEventListener(MouseEvent.CLICK, hideFalseTaskClickHandler);
 		view.list.addEventListener(SelectableDataGroup.SELECTED, taskSelectedHandler);
 		view.goBackBtn.addEventListener(MouseEvent.CLICK, goBackClickHandler);
 		view.lastFailedNotesFilterBox.addEventListener(Event.CHANGE, onlyFailedNotesFilterChanged);
@@ -130,6 +132,19 @@ public class TestingResultsMediator extends SFMediator {
 		sendNotification(TestMsg.SHOW_TEST_PRESETS_NOTIFICATION);
 	}
 
+	private function hideFalseTaskClickHandler(event:MouseEvent):void {
+		updateTask();
+		loadPageInfo(paginationBar.curPageNum);
+	}
+
+	private function updateTask():void {
+		var curTask:TestTask = view.list.selectedItem is TestRendererData ? (view.list.selectedItem as TestRendererData).task : null;
+		if (curTask) {
+			curTask.isFailed = false;
+			sendRequestTo(selectedTestInfo.moduleName, TestMsg.UPDATE_TEST_TASK, new RequestMessage(null, curTask));
+		}
+	}
+
 	//--------------------------------------
 	//  examples
 	//--------------------------------------
@@ -159,6 +174,7 @@ public class TestingResultsMediator extends SFMediator {
 
 	override protected function deactivate():void {
 		view.list.removeEventListener(SelectableDataGroup.SELECTED, taskSelectedHandler);
+		view.setTaskAsRightBtn.removeEventListener(MouseEvent.CLICK, hideFalseTaskClickHandler);
 		view.goBackBtn.removeEventListener(MouseEvent.CLICK, goBackClickHandler);
 		view.lastFailedNotesFilterBox.removeEventListener(Event.CHANGE, onlyFailedNotesFilterChanged);
 		paginationBar.nextPageBtn.removeEventListener(MouseEvent.CLICK, nextPageBtnClickHandler);
