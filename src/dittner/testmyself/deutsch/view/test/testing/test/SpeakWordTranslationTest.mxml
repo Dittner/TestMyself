@@ -182,6 +182,8 @@
                                visible="false"
                                skinClass="dittner.testmyself.deutsch.view.common.audio.skins.MP3PlayerSkin"/>
 
+                <test:RateBoard horizontalCenter="0" verticalCenter="0" complexity="@{complexity}"/>
+
                 <button:GrayButton id="cancelBtn"
                                    width="250"
                                    verticalCenter="0"
@@ -190,8 +192,6 @@
                                    click="goBack()"/>
             </s:Group>
         </s:VGroup>
-
-        <test:RateBoard left="14" complexity="@{complexity}"/>
 
     </s:Group>
 

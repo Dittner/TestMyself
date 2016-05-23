@@ -78,7 +78,7 @@
 
     <button:WhiteButton id="setTaskAsRightBtn"
                         horizontalCenter="-125" top="5"
-                        label="Als richtig zeichen"
+                        label="Als richtig zeichnen"
                         width="250"
                         enabled="{setTaskAsRightBtnEnabled(list.selectedItem, lastFailedNotesFilterBox.selected)}"/>
 
