@@ -63,10 +63,10 @@
     </s:layout>
 
     <s:Label fontFamily="{FontName.MYRIAD}"
-             fontSize="25"
+             fontSize="30"
              fontWeight="bold"
              paddingLeft="130"
-             color="{AppColors.YELLOW}"
+             color="{AppColors.TEXT_RED}"
              text="Die Statistik"/>
 
     <s:HGroup gap="10">
@@ -75,12 +75,14 @@
                  textAlign="right"
                  fontFamily="{FontName.MYRIAD}"
                  fontSize="20"
-                 color="{AppColors.YELLOW}"/>
+                 fontWeight="bold"
+                 color="{AppColors.TEXT_RED}"/>
 
         <s:Label fontFamily="{FontName.MYRIAD}"
                  fontSize="20"
+                 fontWeight="bold"
                  text="{rightColumnText}"
-                 color="{AppColors.YELLOW}"/>
+                 color="{AppColors.TEXT_RED}"/>
     </s:HGroup>
 
 </s:Group>
