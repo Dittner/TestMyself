@@ -1,0 +1,169 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace input "dittner.testmyself.deutsch.view.common.input.*";
+@namespace list "dittner.testmyself.deutsch.view.common.list.*";
+@namespace spinner "dittner.testmyself.deutsch.view.common.spinner.*";
+
+@font-face {
+    src: url("/fonts/vantathin.ttf");
+    font-family: VantaThin;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/DeutschGothic.ttf");
+    font-family: DeutschGothic;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-It.otf");
+    font-family: MyriadPro;
+    fontStyle: italic;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-Regular.otf");
+    font-family: MyriadPro;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-Semibold.otf");
+    font-family: MyriadPro;
+    fontWeight: bold;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-Cond.otf");
+    font-family: MyriadProCond;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-BoldCond.otf");
+    font-family: MyriadProCond;
+    font-weight: bold;
+    embedAsCFF: true;
+}
+
+/**************************** MX **************************/
+
+@font-face {
+    src: url("/fonts/MyriadPro-Regular.otf");
+    font-family: MyriadProMX;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-It.otf");
+    font-family: MyriadProMX;
+    fontStyle: italic;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-Semibold.otf");
+    font-family: MyriadProMX;
+    fontWeight: bold;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-Cond.otf");
+    font-family: MyriadProCondMX;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/MyriadPro-BoldCond.otf");
+    font-family: MyriadProCondMX;
+    font-weight: bold;
+    embedAsCFF: false;
+}
+
+/***********************************************************/
+
+global {
+    fontSize: 14px;
+    fontFamily: MyriadProMX;
+    fontWeight: normal;
+    contentBackgroundAlpha: 0;
+    backgroundColor: 0;
+    backgroundAlpha: 0;
+}
+
+s|Button {
+    fontSize: 14px;
+    fontFamily: MyriadPro;
+    fontWeight: normal;
+}
+
+s|Label {
+    fontSize: 14px;
+    fontFamily: MyriadPro;
+    fontWeight: normal;
+}
+
+/************************** INPUT **************************/
+
+input|TextInputForm {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.MobileTextInputFormSkin");
+    borderVisible: false;
+    focusSkin: ClassReference("mx.core.UIComponent");
+    fontFamily: MyriadProMX;
+    focusedTextSelectionColor: #ffcc00;
+    fontSize: 18px;
+    color: #333333;
+}
+
+s|TextArea {
+    contentBackgroundAlpha: 0;
+    borderVisible: false;
+    skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+    horizontalScrollPolicy: off;
+    focusedTextSelectionColor: #ffcc00;
+    fontFamily: MyriadPro;
+    fontSize: 18px;
+    color: #333333;
+}
+
+input|HistoryTextArea {
+    skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+}
+
+/************************** LIST **************************/
+list|ListForm {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.list.ListFormSkin");
+    borderVisible: false;
+    focusSkin: ClassReference("mx.core.UIComponent");
+    fontFamily: MyriadProMX;
+    fontSize: 18px;
+    color: #333333;
+}
+
+/************************** SCROLL **************************/
+s|Scroller {
+    horizontalScrollPolicy: off;
+}
+
+/************************** OTHER COMPONENTS **************************/
+s|CheckBox {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.checkBox.CustomCheckBoxSkin");
+}
+
+s|RadioButton {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.radioButton.CustomRadioButtonSkin");
+}
+
+spinner|CustomSpinner {
+    skin-class: ClassReference("dittner.testmyself.deutsch.view.common.spinner.CustomSpinnerSkin");
+    fontSize: 16px;
+    color: #4e4f61;
+    fontFamily: MyriadPro;
+}
+
+s|Button.dropDownBtnStyle {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.dictionary.common.articleList.ListBoxDropDownButtonSkin");
+}

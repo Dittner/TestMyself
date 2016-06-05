@@ -1,5 +1,5 @@
 package dittner.testmyself.deutsch.view.common.preloader {
-import flash.display.MovieClip;
+import flash.display.Bitmap;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
@@ -14,14 +14,14 @@ import mx.preloaders.Preloader;
 
 public final class ClockPreloader extends SpriteAsset implements IPreloaderDisplay {
 
-	[Embed(source='/swf/clockBusyIndicator.swf')]
-	private var ClockClass:Class;
+	[Embed(source='/assets/clock_icon.png')]
+	private var ClockIcon:Class;
+	private var clockBitmap:Bitmap;
 
 	private static const MINIMUM_DISPLAY_TIME:uint = 3000;
 
 	public function ClockPreloader(color:uint = 0xFFffFF):void {}
 
-	private var clock:MovieClip;
 	private var minDisplayTimer:Timer;
 
 	//----------------------------------------------------------------------------------------------
@@ -124,16 +124,16 @@ public final class ClockPreloader extends SpriteAsset implements IPreloaderDispl
 	}
 
 	protected function createChildren():void {
-		clock = new ClockClass;
-		clock.visible = false;
-		addChild(clock);
+		clockBitmap = new ClockIcon();
+		clockBitmap.visible = false;
+		addChild(clockBitmap);
 	}
 
 	private function updateClockPos():void {
-		if (clock && !clock.visible) {
-			clock.visible = true;
-			clock.x = Math.floor(stage.stageWidth - clock.width >> 1) + 33;
-			clock.y = Math.floor(stage.stageHeight - clock.height >> 1);
+		if (clockBitmap && !clockBitmap.visible) {
+			clockBitmap.visible = true;
+			clockBitmap.x = Math.floor(stage.stageWidth - clockBitmap.width >> 1) + 33;
+			clockBitmap.y = Math.floor(stage.stageHeight - clockBitmap.height >> 1);
 		}
 	}
 

@@ -58,7 +58,7 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = icon ? icon.width : 0;
-		measuredHeight = measuredMinHeight = icon ? icon.height + VGAP : VGAP;
+		measuredHeight = measuredMinHeight = icon ? icon.height + VGAP : 50 + VGAP;
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
