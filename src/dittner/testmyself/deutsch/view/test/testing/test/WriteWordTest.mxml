@@ -51,7 +51,7 @@
                 clear();
 
                 if (word) {
-                    stage.focus = wordInput;
+                    if (AppConfig.isDesktop) stage.focus = wordInput;
                     articleLbl.text = word.article;
                     if (word.article == WordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
                     else if (word.article == WordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);

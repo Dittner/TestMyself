@@ -4,6 +4,7 @@ import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.model.note.NoteFilter;
+import dittner.testmyself.deutsch.model.AppConfig;
 import dittner.testmyself.deutsch.view.common.toobar.ToolAction;
 
 import flash.events.Event;
@@ -38,7 +39,7 @@ public class NoteSearchMediator extends SFMediator {
 		view.clearBtn.addEventListener(MouseEvent.CLICK, clearHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
 		view.searchInput.addEventListener(FlexEvent.ENTER, applyHandler);
-		if (view.stage) view.stage.focus = view.searchInput;
+		if (view.stage && AppConfig.isDesktop) view.stage.focus = view.searchInput;
 	}
 
 	private function clearHandler(event:MouseEvent):void {

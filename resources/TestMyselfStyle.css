@@ -129,6 +129,10 @@ s|TextArea {
     color: #333333;
 }
 
+input|HistoryTextArea {
+    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.TextAreaFormSkin");
+}
+
 /************************** LIST **************************/
 list|ListForm {
     skinClass: ClassReference("dittner.testmyself.deutsch.view.common.list.ListFormSkin");

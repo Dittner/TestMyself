@@ -4,6 +4,7 @@ import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.core.message.SearchMsg;
+import dittner.testmyself.deutsch.model.AppConfig;
 import dittner.testmyself.deutsch.model.ModuleName;
 import dittner.testmyself.deutsch.model.search.SearchSpec;
 
@@ -30,12 +31,12 @@ public class SearchBoardMediator extends SFMediator {
 		view.searchInput.addEventListener(FlexEvent.ENTER, startSearch);
 		view.undoBtn.addEventListener(MouseEvent.CLICK, undoSearch);
 		view.redoBtn.addEventListener(MouseEvent.CLICK, redoSearch);
-		if (view.stage) view.stage.focus = view.searchInput;
+		if (view.stage && AppConfig.isDesktop) view.stage.focus = view.searchInput;
 		NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
 	}
 
 	private function nativeApplication_activateHandler(event:Event):void {
-		if (view.stage) view.stage.focus = view.searchInput;
+		if (view.stage && AppConfig.isDesktop) view.stage.focus = view.searchInput;
 	}
 
 	public function startSearch(event:* = null):void {
@@ -89,7 +90,7 @@ public class SearchBoardMediator extends SFMediator {
 
 	private function updateSearchInput():void {
 		view.searchInput.text = history.row;
-		view.stage.focus = view.searchInput;
+		if (AppConfig.isDesktop) view.stage.focus = view.searchInput;
 		view.searchInput.selectAll();
 	}
 

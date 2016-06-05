@@ -50,7 +50,7 @@
                 clear();
 
                 if (note) {
-                    stage.focus = input;
+                    if (AppConfig.isDesktop) stage.focus = input;
 
                     titleBoard.text = note.title;
                     translateBoard.text = note.description;

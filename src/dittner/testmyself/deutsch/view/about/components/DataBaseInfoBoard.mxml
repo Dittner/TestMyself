@@ -59,11 +59,11 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="10"/>
+        <s:VerticalLayout gap="5"/>
     </s:layout>
 
     <s:Label fontFamily="{FontName.MYRIAD}"
-             fontSize="30"
+             fontSize="20"
              fontWeight="bold"
              paddingLeft="130"
              color="{AppColors.TEXT_RED}"
@@ -74,12 +74,12 @@
                  width="120"
                  textAlign="right"
                  fontFamily="{FontName.MYRIAD}"
-                 fontSize="20"
+                 fontSize="16"
                  fontWeight="bold"
                  color="{AppColors.TEXT_RED}"/>
 
         <s:Label fontFamily="{FontName.MYRIAD}"
-                 fontSize="20"
+                 fontSize="16"
                  fontWeight="bold"
                  text="{rightColumnText}"
                  color="{AppColors.TEXT_RED}"/>

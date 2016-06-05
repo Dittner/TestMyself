@@ -44,6 +44,6 @@
     </s:Group>
 
     <components:DataBaseInfoBoard id="infoBoard"
-                                  top="20" right="{PADDING}"/>
+                                  top="5" right="{PADDING}"/>
 
 </core:ScreenBase>

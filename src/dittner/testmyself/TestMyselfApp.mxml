@@ -43,6 +43,6 @@
         }
         ]]></fx:Script>
 
-    <fx:Style source="/TestMyselfStyle.css"/>
+    <fx:Style source="/TestMyselfMobileStyle.css"/>
 
 </s:Application>

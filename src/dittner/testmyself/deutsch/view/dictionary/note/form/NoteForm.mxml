@@ -187,7 +187,7 @@
         }
 
         private function focusTextInput():void {
-            if (stage) stage.focus = currentState == "lesson" || currentState == "normal" ? titleArea.area : wordInput;
+            if (stage && AppConfig.isDesktop) stage.focus = currentState == "lesson" || currentState == "normal" ? titleArea.area : wordInput;
         }
 
         public function remove(note:INote):void {

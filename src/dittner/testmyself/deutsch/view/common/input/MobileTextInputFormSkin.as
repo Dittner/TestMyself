@@ -14,6 +14,7 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 	private static const TITLE_HEIGHT:uint = 20;
 
 	public function MobileTextInputFormSkin() {
+		super();
 	}
 
 	private var titleDisplay:TextField;
@@ -38,7 +39,7 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 		var textHeight:Number = getElementPreferredHeight(textDisplay);
 
 		if (hostInput.showTitle) {
-			setElementSize(textDisplay, w - 10, h - textDisplay.y - 100);
+			setElementSize(textDisplay, w - 10, textHeight);
 			setElementPosition(textDisplay, 5, TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2));
 		}
 		else {
