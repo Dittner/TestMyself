@@ -21,7 +21,7 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:HorizontalLayout gap="50"/>
+        <s:HorizontalLayout gap="10"/>
     </s:layout>
 
     <s:VGroup width="100%" height="100%" gap="15">
@@ -39,7 +39,7 @@
             <s:Label text="Anzahl der Notizen pro Seite"
                      fontFamily="{FontName.MYRIAD}"
                      fontStyle="italic"
-                     fontSize="20"
+                     fontSize="18"
                      color="{AppColors.TEXT_DARK}"/>
         </s:HGroup>
 
@@ -54,16 +54,18 @@
             <s:Label text="Höchsgröße der Audioaufnahme in Minuten"
                      fontFamily="{FontName.MYRIAD}"
                      fontStyle="italic"
-                     fontSize="20"
+                     fontSize="18"
                      color="{AppColors.TEXT_DARK}"/>
         </s:HGroup>
     </s:VGroup>
 
-    <s:VGroup gap="15" width="100%" height="100%" paddingRight="20">
+    <s:Spacer width="100%"/>
+
+    <s:VGroup gap="15" width="100%" height="100%" paddingRight="10">
         <s:Label text="Die Kopie der Dateibank auf den Server exportieren"
                  fontFamily="{FontName.MYRIAD}"
                  fontStyle="italic"
-                 fontSize="20"
+                 fontSize="18"
                  color="{AppColors.TEXT_DARK}"/>
 
         <input:TextInputForm id="hostInput"
@@ -89,12 +91,12 @@
                                  visible="false"
                                  verticalCenter="100" horizontalCenter="0"
                                  title="Die Dateibank wird hochgeladen..."
-                                 width="500"/>
+                                 width="400"/>
 
         <s:Label fontFamily="{FontName.MYRIAD}"
                  fontWeight="bold"
                  visible="{errorText}"
-                 fontSize="20"
+                 fontSize="18"
                  color="{AppColors.INVALID_INPUT_BORDER}"
                  width="400"
                  textAlign="center"

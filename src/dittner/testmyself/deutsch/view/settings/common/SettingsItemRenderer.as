@@ -35,8 +35,7 @@ public class SettingsItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		var dg:DataGroup = parent as DataGroup;
-		measuredMinWidth = measuredWidth = dg ? dg.width / dg.numElements : 50;
-		if (measuredWidth < tf.textWidth + 10) measuredMinWidth = measuredWidth = tf.textWidth + 10;
+		measuredWidth = dg ? dg.width / dg.numElements : tf.textWidth + 10;
 		minHeight = 10;
 		measuredHeight = tf.textHeight + 5 + 2 * PADDING;
 	}
