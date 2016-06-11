@@ -1,11 +1,14 @@
 package dittner.testmyself.deutsch.view.settings {
-import dittner.async.CompositeCommand;
-import dittner.async.IAsyncOperation;
-import dittner.ftpClient.FtpClient;
+import de.dittner.async.CompositeCommand;
+import de.dittner.async.IAsyncOperation;
+import de.dittner.async.utils.doLaterInMSec;
+import de.dittner.ftpClient.FtpClient;
+
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.TestMyselfApp;
 import dittner.testmyself.core.message.NoteMsg;
+import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.message.SettingsMsg;
 import dittner.testmyself.deutsch.model.AppConfig;
 import dittner.testmyself.deutsch.model.ModuleName;
@@ -17,6 +20,8 @@ import dittner.testmyself.deutsch.view.settings.testSettings.TestSettingsMediato
 
 import flash.events.MouseEvent;
 import flash.filesystem.File;
+import flash.filesystem.FileMode;
+import flash.filesystem.FileStream;
 
 public class SettingsScreenMediator extends SFMediator {
 
@@ -26,14 +31,25 @@ public class SettingsScreenMediator extends SFMediator {
 	private static var ftp:FtpClient;
 
 	override protected function activate():void {
+		sendRequest(ScreenMsg.LOCK, new RequestMessage());
+		doLaterInMSec(preActivation, 500);
+	}
+
+	private function preActivation():void {
+		activateScreen();
+		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
+	}
+
+	private function activateScreen():void {
+		view.activate();
 		if (!ftp) ftp = new FtpClient(TestMyselfApp.stage);
-		view.clear();
 		sendRequest(SettingsMsg.LOAD, new RequestMessage(infoLoaded));
 		registerMediator(view.wordSettings, new WordSettingsMediator());
 		registerMediator(view.verbSettings, new VerbSettingsMediator());
 		registerMediator(view.lessonSettings, new LessonSettingsMediator());
 		registerMediator(view.testSettings, new TestSettingsMediator());
-		view.commonSettings.copySendBtn.addEventListener(MouseEvent.CLICK, sendCopyClicked);
+		view.commonSettings.uploadBtn.addEventListener(MouseEvent.CLICK, uploadBtnClicked);
+		view.commonSettings.downloadBtn.addEventListener(MouseEvent.CLICK, downloadBtnClicked);
 	}
 
 	private function infoLoaded(op:IAsyncOperation):void {
@@ -48,10 +64,16 @@ public class SettingsScreenMediator extends SFMediator {
 		view.commonSettings.remoteDirInput.text = info.backUpServerInfo.remoteDirPath;
 	}
 
-	private function sendCopyClicked(event:MouseEvent):void {
+	//--------------------------------------
+	//  upload data base
+	//--------------------------------------
+
+	private function uploadBtnClicked(event:MouseEvent):void {
+		sendRequest(ScreenMsg.LOCK, new RequestMessage());
+		view.commonSettings.isUploading = true;
 		view.commonSettings.progressBar.visible = true;
 		view.commonSettings.errorText = "";
-		view.commonSettings.isUploadSuccess = false;
+		view.commonSettings.isDataBaseTransferOperationSuccess = false;
 		var info:SettingsInfo = storeSettings();
 		uploadDataBase(info);
 	}
@@ -71,21 +93,92 @@ public class SettingsScreenMediator extends SFMediator {
 	}
 
 	private function uploadComplete(op:IAsyncOperation):void {
+		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
+
 		if (op.isSuccess) {
-			view.commonSettings.isUploadSuccess = true;
+			view.commonSettings.isDataBaseTransferOperationSuccess = true;
 		}
 		else {
 			view.commonSettings.errorText = "Error: " + op.error;
-			view.commonSettings.isUploadSuccess = false;
+			view.commonSettings.isDataBaseTransferOperationSuccess = false;
 		}
 		view.commonSettings.progressBar.visible = false;
 	}
 
-	override protected function deactivate():void {
-		storeSettings();
-		sendRequestTo(ModuleName.WORD, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
-		sendRequestTo(ModuleName.VERB, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
-		view.commonSettings.copySendBtn.removeEventListener(MouseEvent.CLICK, sendCopyClicked);
+	//--------------------------------------
+	//  download data base
+	//--------------------------------------
+
+	private function downloadBtnClicked(event:MouseEvent):void {
+		sendRequest(ScreenMsg.LOCK, new RequestMessage());
+		view.commonSettings.isUploading = false;
+		view.commonSettings.progressBar.visible = true;
+		view.commonSettings.errorText = "";
+		view.commonSettings.isDataBaseTransferOperationSuccess = false;
+		var info:SettingsInfo = storeSettings();
+		downloadDataBase(info);
+	}
+
+	private function downloadDataBase(info:SettingsInfo):void {
+		var tempFolder:File = File.documentsDirectory.resolvePath(AppConfig.dbTempPath);
+		if (tempFolder.exists) tempFolder.deleteDirectory(true);
+		tempFolder.createDirectory();
+
+		var wordDbFile:File = tempFolder.resolvePath(ModuleName.WORD + ".db");
+		createFile(wordDbFile);
+		var lessonDbFile:File = tempFolder.resolvePath(ModuleName.LESSON + ".db");
+		createFile(lessonDbFile);
+		var verbDbFile:File = tempFolder.resolvePath(ModuleName.VERB + ".db");
+		createFile(verbDbFile);
+
+		var downloadCmd:CompositeCommand = ftp.download([wordDbFile, lessonDbFile, verbDbFile], info.backUpServerInfo);
+		downloadCmd.addCompleteCallback(downloadComplete);
+		downloadCmd.addProgressCallback(downloadProgress);
+	}
+
+	private function createFile(file:File):void {
+		var stream:FileStream = new FileStream();
+		stream.open(file, FileMode.WRITE);
+		stream.writeUTFBytes("");
+		stream.close();
+	}
+
+	private function downloadProgress(value:Number):void {
+		view.commonSettings.progressBar.progress = value;
+	}
+
+	private function downloadComplete(op:IAsyncOperation):void {
+		if (op.isSuccess) {
+			view.commonSettings.isDataBaseTransferOperationSuccess = true;
+			reloadDataBase();
+		}
+		else {
+			view.commonSettings.errorText = "Error: " + op.error;
+			view.commonSettings.isDataBaseTransferOperationSuccess = false;
+		}
+		view.commonSettings.progressBar.visible = false;
+	}
+
+	private var dbNum:int = 0;
+	private function reloadDataBase():void {
+		dbNum = 3;
+		var appDBFile:File = File.documentsDirectory.resolvePath(AppConfig.APP_NAME);
+		if (AppConfig.isDesktop)
+			appDBFile.moveToTrash();
+		else
+			appDBFile.deleteDirectory(true);
+		var tempDBFile:File = File.documentsDirectory.resolvePath(AppConfig.TEMP_APP_NAME);
+		tempDBFile.moveTo(File.documentsDirectory.resolvePath(AppConfig.APP_NAME));
+
+		sendRequestTo(ModuleName.WORD, SettingsMsg.RELOAD_DB, new RequestMessage(dbReloaded));
+		sendRequestTo(ModuleName.VERB, SettingsMsg.RELOAD_DB, new RequestMessage(dbReloaded));
+		sendRequestTo(ModuleName.LESSON, SettingsMsg.RELOAD_DB, new RequestMessage(dbReloaded));
+	}
+
+	private function dbReloaded(op:IAsyncOperation):void {
+		dbNum--;
+		if (dbNum == 0)
+			sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
 	private function storeSettings():SettingsInfo {
@@ -102,6 +195,15 @@ public class SettingsScreenMediator extends SFMediator {
 		sendRequest(SettingsMsg.STORE, new RequestMessage(null, info));
 
 		return info;
+	}
+
+	override protected function deactivate():void {
+		view.clear();
+		storeSettings();
+		sendRequestTo(ModuleName.WORD, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
+		sendRequestTo(ModuleName.VERB, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
+		view.commonSettings.uploadBtn.removeEventListener(MouseEvent.CLICK, uploadBtnClicked);
+		view.commonSettings.downloadBtn.removeEventListener(MouseEvent.CLICK, downloadBtnClicked);
 	}
 
 }

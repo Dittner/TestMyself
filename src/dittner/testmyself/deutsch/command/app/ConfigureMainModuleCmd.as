@@ -22,6 +22,7 @@ import dittner.testmyself.core.command.GetTestSpecCmd;
 import dittner.testmyself.core.command.GetTestTasksAmountCmd;
 import dittner.testmyself.core.command.GetTestTasksCmd;
 import dittner.testmyself.core.command.MergeNoteThemesCmd;
+import dittner.testmyself.core.command.ReloadDataBaseCmd;
 import dittner.testmyself.core.command.RemoveNoteCmd;
 import dittner.testmyself.core.command.RemoveNoteExampleCmd;
 import dittner.testmyself.core.command.RemoveNoteThemeCmd;
@@ -66,6 +67,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(ScreenMsg.UNLOCK, UnlockScreenCmd);
 		mainModule.registerCmd(SettingsMsg.LOAD, LoadSettings);
 		mainModule.registerCmd(SettingsMsg.STORE, StoreSettings);
+		mainModule.registerCmd(SettingsMsg.RELOAD_DB, ReloadDataBaseCmd);
 		mainModule.registerCmd(TestMsg.GET_TEST_INFO_LIST, GetTestInfoListCmd);
 		mainModule.registerCmd(TestMsg.GET_TEST_SPEC, GetTestSpecCmd);
 		mainModule.registerCmd(TestMsg.SELECT_TEST_SPEC, SelectTestSpecCmd);

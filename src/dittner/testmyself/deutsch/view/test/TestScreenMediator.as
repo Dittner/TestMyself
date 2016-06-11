@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.test {
-import dittner.async.utils.doLaterInFrames;
+import de.dittner.async.utils.doLaterInFrames;
+
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.TestMsg;

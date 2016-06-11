@@ -1,8 +1,8 @@
 package dittner.testmyself.core.async {
-import dittner.async.AsyncOperation;
-import dittner.async.ClassUtils;
-import dittner.async.IAsyncCommand;
-import dittner.async.IAsyncOperation;
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.ClassUtils;
+import de.dittner.async.IAsyncCommand;
+import de.dittner.async.IAsyncOperation;
 
 public class CompositeOperation extends AsyncOperation {
 	public function CompositeOperation() {

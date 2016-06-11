@@ -1,6 +1,7 @@
 package dittner.testmyself.deutsch.view.dictionary.verb {
-import dittner.async.IAsyncOperation;
-import dittner.async.utils.doLaterInFrames;
+import de.dittner.async.IAsyncOperation;
+import de.dittner.async.utils.doLaterInMSec;
+
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
@@ -27,7 +28,7 @@ public class VerbScreenMediator extends SFMediator {
 
 	override protected function activate():void {
 		sendRequest(ScreenMsg.LOCK, new RequestMessage());
-		doLaterInFrames(preActivation, 5);
+		doLaterInMSec(preActivation, 500);
 	}
 
 	private function preActivation():void {

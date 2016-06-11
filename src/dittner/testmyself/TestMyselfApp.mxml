@@ -9,7 +9,8 @@
                addedToStage="addedToStageHandler(event)">
 
     <fx:Script><![CDATA[
-        import dittner.async.Async;
+        import de.dittner.async.AsyncCallbacksLib;
+
         import dittner.testmyself.deutsch.*;
         import dittner.testmyself.deutsch.model.ModuleName;
         import dittner.testmyself.deutsch.view.common.utils.TextFieldFactory;
@@ -34,8 +35,8 @@
 
         private function addedToStageHandler(event:Event):void {
             _stage = stage;
-            Async.fps = 30;
-            Async.stage = stage;
+            AsyncCallbacksLib.fps = 30;
+            AsyncCallbacksLib.stage = stage;
             TestMyselfApp.root = this;
             TextFieldFactory.useEmbedFonts = true;
             mainModule = new MainModule(ModuleName.ROOT);

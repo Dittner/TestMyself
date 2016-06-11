@@ -1,5 +1,5 @@
 package dittner.testmyself.deutsch.model.settings {
-import dittner.ftpClient.utils.ServerInfo;
+import de.dittner.ftpClient.utils.ServerInfo;
 
 [RemoteClass(alias="dittner.testmyself.deutsch.model.settings.SettingsInfo")]
 public class SettingsInfo {

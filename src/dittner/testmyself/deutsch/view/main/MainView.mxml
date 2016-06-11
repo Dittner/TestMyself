@@ -79,7 +79,7 @@
     <s:transitions>
         <s:Transition fromState="*" toState="lock" autoReverse="true">
             <s:Parallel>
-                <s:Fade duration="1000" target="{busyIndicatorLayer}" alphaFrom="0" alphaTo="1"/>
+                <s:Fade duration="500" target="{busyIndicatorLayer}" alphaFrom="0" alphaTo="1"/>
             </s:Parallel>
         </s:Transition>
     </s:transitions>

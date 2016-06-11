@@ -1,7 +1,8 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.async.AsyncOperation;
-import dittner.async.IAsyncCommand;
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.IAsyncCommand;
+
 import dittner.satelliteFlight.command.CommandException;
 import dittner.testmyself.core.command.backend.deferredOperation.ErrorCode;
 import dittner.testmyself.core.command.backend.utils.SQLUtils;

@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.command.settings {
-import dittner.async.AsyncOperation;
+import de.dittner.async.AsyncOperation;
+
 import dittner.satelliteFlight.command.ISFCommand;
 import dittner.satelliteFlight.message.IRequestMessage;
 import dittner.testmyself.deutsch.model.settings.SettingsModel;

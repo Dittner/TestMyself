@@ -5,8 +5,8 @@
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>1.20.0</versionNumber>
-    <versionLabel>1.20</versionLabel>
+    <versionNumber>1.21.0</versionNumber>
+    <versionLabel>1.21</versionLabel>
 
     <initialWindow>
         <content></content>
@@ -20,6 +20,7 @@
         <autoOrients>false</autoOrients>
         <fullScreen>true</fullScreen>
         <visible>true</visible>
+        <renderMode>gpu</renderMode>
         <softKeyboardBehavior>none</softKeyboardBehavior>
     </initialWindow>
 

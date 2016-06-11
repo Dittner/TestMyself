@@ -4,8 +4,9 @@
          alpha="0">
 
     <fx:Script><![CDATA[
-        import dittner.async.utils.clearDelay;
-        import dittner.async.utils.doLaterInMSec;
+        import de.dittner.async.utils.clearDelay;
+        import de.dittner.async.utils.doLaterInMSec;
+
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
         import dittner.testmyself.deutsch.view.common.utils.FontName;
 

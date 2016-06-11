@@ -1,6 +1,7 @@
 package dittner.testmyself.deutsch.view.main {
 
-import dittner.async.IAsyncOperation;
+import de.dittner.async.IAsyncOperation;
+
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.deutsch.message.ScreenMsg;

@@ -5,15 +5,15 @@
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>1.20.0</versionNumber>
-    <versionLabel>1.20</versionLabel>
+    <versionNumber>1.21.0</versionNumber>
+    <versionLabel>1.21</versionLabel>
 
     <initialWindow>
         <content>TestMyself.swf</content>
         <visible>true</visible>
         <fullScreen>false</fullScreen>
-        <autoOrients>true</autoOrients>
-        <aspectRatio>any</aspectRatio>
+        <autoOrients>false</autoOrients>
+        <aspectRatio>landscape</aspectRatio>
         <renderMode>gpu</renderMode>
         <softKeyboardBehavior>none</softKeyboardBehavior>
     </initialWindow>

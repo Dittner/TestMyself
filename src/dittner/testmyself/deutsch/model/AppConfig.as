@@ -5,6 +5,7 @@ import flash.system.Capabilities;
 public class AppConfig {
 
 	public static const APP_NAME:String = "TestMyself";
+	public static const TEMP_APP_NAME:String = "TestMyself_temp";
 	public static const LANGUAGE_NAME:String = "deutsch";
 
 	public static const MAX_TEXT_LENGTH:uint = 5000;
@@ -13,6 +14,10 @@ public class AppConfig {
 
 	public static function get dbRootPath():String {
 		return APP_NAME + File.separator + LANGUAGE_NAME + File.separator;
+	}
+
+	public static function get dbTempPath():String {
+		return TEMP_APP_NAME + File.separator + LANGUAGE_NAME + File.separator;
 	}
 
 	public static function get applicationDBPath():String {

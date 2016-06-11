@@ -1,6 +1,7 @@
 package dittner.testmyself.core.service {
-import dittner.async.IAsyncCommand;
-import dittner.async.IAsyncOperation;
+import de.dittner.async.IAsyncCommand;
+import de.dittner.async.IAsyncOperation;
+
 import dittner.satelliteFlight.message.IRequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.command.backend.ClearTestHistorySQLOperation;
@@ -49,9 +50,7 @@ import flash.data.SQLConnection;
 
 public class NoteService extends SFProxy {
 
-	public function NoteService() {
-		sqlConnection = new SQLConnection();
-	}
+	public function NoteService() {}
 
 	[Inject]
 	public var deferredCommandManager:IDeferredCommandManager;
@@ -80,8 +79,20 @@ public class NoteService extends SFProxy {
 	//----------------------------------------------------------------------------------------------
 
 	override protected function activate():void {
+		reloadDataBase();
+	}
+
+	public function reloadDataBase(requestMsg:IRequestMessage = null):void {
+		if (sqlConnection) {
+			sqlConnection.close();
+		}
+
+		sqlConnection = new SQLConnection();
+
+
 		var op:IAsyncCommand = new CreateDataBaseSQLOperation(this, spec);
 		deferredCommandManager.add(op);
+		if (requestMsg) requestHandler(requestMsg, op);
 		updateNoteHash();
 
 		/*var columns:Object = {};

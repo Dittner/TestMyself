@@ -1,7 +1,8 @@
 package dittner.testmyself.core.command.backend {
-import dittner.async.AsyncOperation;
-import dittner.async.IAsyncCommand;
-import dittner.async.IAsyncOperation;
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.IAsyncCommand;
+import de.dittner.async.IAsyncOperation;
+
 import dittner.testmyself.core.async.CompositeOperation;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.NotesInfo;

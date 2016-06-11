@@ -13,7 +13,8 @@
          currentState="normal">
 
     <fx:Script><![CDATA[
-        import dittner.async.utils.invalidateOf;
+        import de.dittner.async.utils.invalidateOf;
+
         import dittner.testmyself.core.model.note.INote;
         import dittner.testmyself.core.model.theme.ITheme;
         import dittner.testmyself.deutsch.model.AppConfig;

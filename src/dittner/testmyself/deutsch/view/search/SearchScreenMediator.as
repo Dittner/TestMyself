@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.search {
-import dittner.async.utils.doLaterInFrames;
+import de.dittner.async.utils.doLaterInMSec;
+
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.core.message.NoteMsg;
@@ -21,11 +22,12 @@ public class SearchScreenMediator extends SFMediator {
 
 	override protected function activate():void {
 		sendRequest(ScreenMsg.LOCK, new RequestMessage());
-		doLaterInFrames(preActivation, 5);
+		doLaterInMSec(preActivation, 500);
 	}
 
 	private function preActivation():void {
 		activateScreen();
+		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
 	private function activateScreen():void {
@@ -40,7 +42,6 @@ public class SearchScreenMediator extends SFMediator {
 		registerMediator(view.paginationBar, new SearchPaginationMediator());
 		registerMediator(view.mp3Player, new NotePlayerMediator());
 		registerMediator(view.exampleList, new FoundNotesExampleListMediator());
-		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 		view.editBtn.addEventListener(MouseEvent.CLICK, editNote);
 		view.removeBtn.addEventListener(MouseEvent.CLICK, removeNote);
 	}

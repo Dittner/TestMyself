@@ -1,8 +1,9 @@
 package dittner.testmyself.core.command.backend.deferredOperation {
-import dittner.async.IAsyncCommand;
-import dittner.async.IAsyncOperation;
-import dittner.async.utils.clearDelay;
-import dittner.async.utils.doLaterInMSec;
+import de.dittner.async.IAsyncCommand;
+import de.dittner.async.IAsyncOperation;
+import de.dittner.async.utils.clearDelay;
+import de.dittner.async.utils.doLaterInMSec;
+
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.deutsch.message.ScreenMsg;

@@ -1,6 +1,7 @@
 package dittner.testmyself.core.command.backend {
-import dittner.async.AsyncOperation;
-import dittner.async.IAsyncCommand;
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.IAsyncCommand;
+
 import dittner.testmyself.core.service.NoteService;
 import dittner.testmyself.core.service.NoteServiceSpec;
 import dittner.testmyself.deutsch.model.AppConfig;

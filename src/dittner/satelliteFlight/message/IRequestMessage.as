@@ -1,5 +1,5 @@
 package dittner.satelliteFlight.message {
-import dittner.async.IAsyncOperation;
+import de.dittner.async.IAsyncOperation;
 
 public interface IRequestMessage {
 	function get data():Object;

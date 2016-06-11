@@ -1,5 +1,6 @@
 package dittner.testmyself.deutsch.view.dictionary.note.list {
-import dittner.async.utils.invalidateOf;
+import de.dittner.async.utils.invalidateOf;
+
 import dittner.testmyself.deutsch.view.common.list.SelectableDataGroup;
 import dittner.testmyself.deutsch.view.common.renderer.IFlexibleRenderer;
 

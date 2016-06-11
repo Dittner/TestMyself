@@ -1,9 +1,10 @@
 package dittner.testmyself.core.command.backend {
 
-import dittner.async.AsyncOperation;
-import dittner.async.CompositeCommand;
-import dittner.async.IAsyncCommand;
-import dittner.async.IAsyncOperation;
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.CompositeCommand;
+import de.dittner.async.IAsyncCommand;
+import de.dittner.async.IAsyncOperation;
+
 import dittner.testmyself.core.model.note.Note;
 import dittner.testmyself.core.model.note.SQLFactory;
 import dittner.testmyself.core.model.theme.Theme;

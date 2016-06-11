@@ -8,7 +8,7 @@
                  xmlns:noteSettings="dittner.testmyself.deutsch.view.settings.noteSettings.*"
                  xmlns:testsettings="dittner.testmyself.deutsch.view.settings.testSettings.*"
                  horizontalCenter="0"
-                 currentState="common">
+                 currentState="inactive">
 
     <fx:Script><![CDATA[
         import dittner.testmyself.deutsch.view.common.utils.AppColors;
@@ -16,16 +16,22 @@
 
         private static const TAB_BAR_HEI:uint = 40;
 
-        public function clear():void {
-            tabBar.selectedIndex = 0;
+        public function activate():void {
             currentState = "common";
+            tabBar.selectedIndex = 0;
         }
+
+        public function clear():void {
+            currentState = "inactive";
+        }
+
         private function tabBar_selectedItemChangeHandler(event:Event):void {
             currentState = tabBar.selectedItem.state;
         }
         ]]></fx:Script>
 
     <core:states>
+        <s:State name="inactive"/>
         <s:State name="common"/>
         <s:State name="word"/>
         <s:State name="verb"/>
@@ -58,6 +64,7 @@
              color="#54545d"/>
 
     <list:SelectableDataGroup id="tabBar"
+                              excludeFrom="inactive"
                               left="{PADDING}" right="{PADDING}" height="{TAB_BAR_HEI}"
                               top="{HEADER_HEI+PADDING}"
                               selectedItemChange="tabBar_selectedItemChangeHandler(event)"
@@ -76,7 +83,8 @@
         </list:layout>
     </list:SelectableDataGroup>
 
-    <s:Group left="{PADDING}" top="{HEADER_HEI + 2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}">
+    <s:Group left="{PADDING}" top="{HEADER_HEI + 2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}"
+             excludeFrom="inactive">
 
         <commonsettings:CommonSettings id="commonSettings"
                                        width="100%" height="100%"
