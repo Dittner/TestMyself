@@ -36,7 +36,8 @@ public class WordScreenMediator extends SFMediator {
 	}
 
 	private function onPageInfoLoaded(op:IAsyncOperation):void {
-		activateScreen()
+		activateScreen();
+		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
 	private function activateScreen():void {
@@ -53,7 +54,6 @@ public class WordScreenMediator extends SFMediator {
 		registerMediator(view.paginationBar, new NotePaginationMediator());
 		registerMediator(view.mp3Player, new NotePlayerMediator());
 		registerMediator(view.exampleList, new ExampleListMediator());
-		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 	}
 
 	private function showEditor(params:* = null):void {

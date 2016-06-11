@@ -155,6 +155,7 @@ public class SettingsScreenMediator extends SFMediator {
 		else {
 			view.commonSettings.errorText = "Error: " + op.error;
 			view.commonSettings.isDataBaseTransferOperationSuccess = false;
+			sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
 		}
 		view.commonSettings.progressBar.visible = false;
 	}

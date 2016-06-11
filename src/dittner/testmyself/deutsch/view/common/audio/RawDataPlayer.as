@@ -48,9 +48,6 @@ public class RawDataPlayer extends SkinnableComponent {
 	private static const RECORDED:String = "recorded";
 	private static const PLAYING:String = "playing";
 
-	[Embed('/swf/voiceRecordPreloader.swf')]
-	private static var RecordingBarClass:Class;
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Constructor
@@ -113,9 +110,7 @@ public class RawDataPlayer extends SkinnableComponent {
 	//--------------------------------------
 	protected var _comment:AudioComment;
 	[Bindable("commentChanged")]
-	public function get comment():AudioComment {
-		return _comment;
-	}
+	public function get comment():AudioComment {return _comment;}
 	public function set comment(value:AudioComment):void {
 		if (_comment != value) {
 			_comment = value;
@@ -217,7 +212,7 @@ public class RawDataPlayer extends SkinnableComponent {
 			removeRecordBtn.addEventListener(MouseEvent.CLICK, removeRecordBtn_clickHandler);
 		}
 		else if (instance == recordingAnimation) {
-			animation = new RecordingBarClass();
+			animation = new BlackProgressbar();
 			recordingAnimation.addChild(animation);
 		}
 

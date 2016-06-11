@@ -15,7 +15,6 @@
         <autoOrients>false</autoOrients>
         <aspectRatio>landscape</aspectRatio>
         <renderMode>gpu</renderMode>
-        <softKeyboardBehavior>none</softKeyboardBehavior>
     </initialWindow>
 
     <supportedProfiles>mobileDevice</supportedProfiles>

@@ -30,7 +30,7 @@
         }
 
         private function map_creationCompleteHandler(event:FlexEvent):void {
-            map.x = width - map.width >> 1;
+            map.x = (width - map.width >> 1) - 100;
         }
         ]]></fx:Script>
 
