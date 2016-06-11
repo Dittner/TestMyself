@@ -23,12 +23,14 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:HorizontalLayout gap="10"/>
+        <s:VerticalLayout gap="10" horizontalAlign="center"/>
     </s:layout>
 
-    <s:VGroup width="100%" height="100%" gap="15">
+    <s:HGroup width="100%" verticalAlign="middle" gap="0">
         <s:CheckBox id="showTooltipBox"
                     label="Vorsagen zeigen"/>
+
+        <s:Spacer width="100%"/>
 
         <s:HGroup verticalAlign="bottom">
             <spinner:CustomSpinner id="pageSizeSpinner"
@@ -45,6 +47,8 @@
                      color="{AppColors.TEXT_DARK}"/>
         </s:HGroup>
 
+        <s:Spacer width="100%"/>
+
         <s:HGroup verticalAlign="bottom">
             <spinner:CustomSpinner id="maxAudioRecordDurationSpinner"
                                    fontFamily="{FontName.MYRIAD}"
@@ -59,68 +63,79 @@
                      fontSize="18"
                      color="{AppColors.TEXT_DARK}"/>
         </s:HGroup>
-    </s:VGroup>
+    </s:HGroup>
 
-    <s:Spacer width="100%"/>
+    <s:Spacer height="15%"/>
 
-    <s:VGroup gap="15" width="100%" height="100%" paddingRight="10">
-        <s:Label text="Server Einstellungen"
-                 fontFamily="{FontName.MYRIAD}"
-                 fontStyle="italic"
-                 fontSize="18"
-                 color="{AppColors.TEXT_DARK}"/>
+    <s:Label text="Die Dataibank kopieren/aktualisieren"
+             width="815"
+             fontFamily="{FontName.MYRIAD}"
+             fontStyle="italic"
+             fontSize="18"
+             color="{AppColors.TEXT_DARK}"/>
 
+    <s:HGroup gap="15">
         <input:TextInputForm id="hostInput"
                              width="400" title="Server"/>
 
+        <input:TextInputForm id="userNameInput"
+                             width="400" title="Benutzer"/>
+    </s:HGroup>
+
+    <s:HGroup gap="15">
         <input:TextInputForm id="portInput"
                              width="400" title="Port"/>
 
-        <input:TextInputForm id="userNameInput"
-                             width="400" title="Benutzer"/>
-
         <input:TextInputForm id="pwdInput"
                              width="400" title="Passwort"/>
+    </s:HGroup>
 
+    <s:Group width="815">
         <input:TextInputForm id="remoteDirInput"
                              width="400" title="Remoteverzeichnis"/>
+    </s:Group>
 
+    <s:Spacer height="5%"/>
+
+    <s:HGroup width="815" gap="20" verticalAlign="middle">
         <button:BlackButton id="uploadBtn"
-                            width="400"
-                            label="Die Kopie der Dateibank auf den Server exportieren"
+                            width="100%"
+                            label="Auf den Server exportieren"
                             enabled="{hasServerInfo(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"/>
 
-        <progressbar:ProgressBar id="progressBar"
-                                 visible="false"
-                                 verticalCenter="100" horizontalCenter="0"
-                                 title="{isUploading ? 'Die Dateibank wird hochgeladen...' : 'Die Dateibank wird aktualisiert...'}"
-                                 width="400"/>
-
-        <s:Label fontFamily="{FontName.MYRIAD}"
-                 fontWeight="bold"
-                 visible="{errorText}"
-                 fontSize="18"
-                 color="{AppColors.INVALID_INPUT_BORDER}"
-                 width="400"
-                 textAlign="center"
-                 maxDisplayedLines="5"
-                 text="{errorText}"/>
-
-        <s:Label fontFamily="{FontName.MYRIAD}"
-                 fontWeight="bold"
-                 visible="{isDataBaseTransferOperationSuccess}"
-                 color="{AppColors.TEXT_DARK}"
-                 width="400"
-                 fontSize="16"
-                 textAlign="center"
-                 text="{isUploading ? 'Die Dateibank wurde erfolgreich hochgeladen!' : 'Die Dateibank wurde aktualisiert!'}"/>
-
-        <s:Spacer height="100%"/>
+        <s:BitmapImage source="@Embed(source='/assets/uploadDownloadIcon.png')"/>
 
         <button:GrayButton id="downloadBtn"
-                           width="400"
-                           label="Die Dateibank vom Server aktualisieren"
+                           width="100%"
+                           label="Vom Server aktualisieren"
                            enabled="{hasServerInfo(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"/>
-    </s:VGroup>
+    </s:HGroup>
+
+    <s:Spacer height="5%"/>
+
+    <progressbar:ProgressBar id="progressBar"
+                             visible="false"
+                             verticalCenter="100" horizontalCenter="0"
+                             title="{isUploading ? 'Die Dateibank wird hochgeladen...' : 'Die Dateibank wird aktualisiert...'}"
+                             width="400"/>
+
+    <s:Label fontFamily="{FontName.MYRIAD}"
+             fontWeight="bold"
+             visible="{errorText}"
+             fontSize="18"
+             color="{AppColors.INVALID_INPUT_BORDER}"
+             width="815"
+             textAlign="center"
+             maxDisplayedLines="5"
+             text="{errorText}"/>
+
+    <s:Label fontFamily="{FontName.MYRIAD}"
+             fontWeight="bold"
+             visible="{isDataBaseTransferOperationSuccess}"
+             color="{AppColors.TEXT_DARK}"
+             width="815"
+             fontSize="16"
+             textAlign="center"
+             text="{isUploading ? 'Die Dateibank wurde erfolgreich hochgeladen!' : 'Die Dateibank wurde aktualisiert!'}"/>
 
 </s:Group>
