@@ -121,7 +121,7 @@ input|TextInputForm {
 s|TextArea {
     contentBackgroundAlpha: 0;
     borderVisible: false;
-    skinClass: ClassReference("spark.skins.mobile.TextAreaSkin");
+    skinClass: ClassReference("spark.skins.mobile.StageTextAreaSkin");
     horizontalScrollPolicy: off;
     focusedTextSelectionColor: #ffcc00;
     fontFamily: MyriadPro;
