@@ -77,14 +77,14 @@
                        title="{title}"/>
 
     <button:WhiteButton id="setTaskAsRightBtn"
-                        horizontalCenter="-125" top="5"
+                        horizontalCenter="-110" top="5"
                         label="Als richtig zeichnen"
-                        width="250"
+                        width="220"
                         enabled="{setTaskAsRightBtnEnabled(list.selectedItem, lastFailedNotesFilterBox.selected)}"/>
 
     <s:CheckBox id="lastFailedNotesFilterBox"
                 right="25" top="10"
-                selected="false"
+                selected="true"
                 skinClass="dittner.testmyself.deutsch.view.common.checkBox.DarkCheckBoxSkin"
                 label="nur Notiz mit Fehlern"/>
 

@@ -44,7 +44,7 @@
         }
         ]]></fx:Script>
 
-    <!--   <fx:Style source="/TestMyselfMobileStyle.css"/>-->
-    <fx:Style source="/TestMyselfStyle.css"/>
+    <fx:Style source="/TestMyselfMobileStyle.css"/>
+    <!--<fx:Style source="/TestMyselfStyle.css"/>-->
 
 </s:Application>

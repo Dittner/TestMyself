@@ -95,17 +95,18 @@
              paddingLeft="{PADDING}" paddingRight="{PADDING}"
              color="#54545d"/>
 
+    <button:ToolButton id="removeBtn"
+                       enabled="{list.selectedItem}"
+                       top="8" right="{editBtn.width}"
+                       description="Die Notiz entfernen"
+                       image="@Embed(source='/assets/tools/recycle_bin.png')"/>
+
     <button:ToolButton id="editBtn"
-                       top="8" right="{25 + 2*PADDING}"
+                       top="8" right="0"
                        enabled="{list.selectedItem}"
                        description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"/>
 
-    <button:ToolButton id="removeBtn"
-                       enabled="{list.selectedItem}"
-                       top="8" right="{PADDING}"
-                       description="Die Notiz entfernen"
-                       image="@Embed(source='/assets/tools/recycle_bin.png')"/>
 
     <search:SearchBoard id="searchBoard"
                         width="100%"

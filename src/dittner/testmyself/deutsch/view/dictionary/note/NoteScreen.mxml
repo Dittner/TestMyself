@@ -98,7 +98,7 @@
 
     <s:HGroup width="100%" height="{HEADER_HEI}"
               verticalAlign="middle"
-              paddingLeft="{PADDING}" paddingRight="{PADDING}">
+              paddingLeft="{PADDING}">
 
         <s:Label text="{title}"
                  fontFamily="{FontName.MYRIAD}"

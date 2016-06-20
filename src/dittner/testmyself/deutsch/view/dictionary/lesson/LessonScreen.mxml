@@ -126,7 +126,7 @@
 
     <s:HGroup width="100%" height="{HEADER_HEI}"
               verticalAlign="middle"
-              paddingLeft="{PADDING}" paddingRight="{PADDING}">
+              paddingLeft="{PADDING}">
 
         <button:ToolButton id="goBackBtn"
                            description="Zurück zur Übungenliste"

@@ -73,7 +73,7 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:HorizontalLayout gap="20" verticalAlign="middle" horizontalAlign="right"/>
+        <s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="right"/>
     </s:layout>
 
     <button:ToolButton id="addBtn"
@@ -88,18 +88,22 @@
                        description="Die Notiz entfernen"
                        image="@Embed(source='/assets/tools/recycle_bin.png')"/>
 
-    <s:Group>
-        <s:Rect width="1" height="20">
+    <s:Group height="100%">
+        <s:Rect width="1" height="100%">
             <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_BORDER}" alpha=".75"/>
+                <s:SolidColor color="{AppColors.EDITOR_BORDER}" alpha=".5"/>
             </s:fill>
         </s:Rect>
-        <s:Rect left="1" width="1" height="20">
+        <s:Rect left="1" width="1" height="100%">
             <s:fill>
-                <s:SolidColor color="#ffFFff" alpha=".75"/>
+                <s:SolidColor color="#ffFFff" alpha=".5"/>
             </s:fill>
         </s:Rect>
     </s:Group>
+
+    <s:Spacer width="20"
+              visible="{verLayoutToolEnabled || hideDetailsToolEnabled}"
+              includeInLayout="{verLayoutToolEnabled || hideDetailsToolEnabled}"/>
 
     <button:ToolToggleButton id="verLayoutBtn"
                              selected="true"
@@ -109,6 +113,10 @@
                              visible="{verLayoutToolEnabled}"
                              includeInLayout="{verLayoutToolEnabled}"/>
 
+    <s:Spacer width="25"
+              visible="{verLayoutToolEnabled &amp;&amp; hideDetailsToolEnabled}"
+              includeInLayout="{verLayoutToolEnabled &amp;&amp; hideDetailsToolEnabled}"/>
+
     <button:ToolToggleButton id="hideDetailsBtn"
                              selected="true"
                              description="Die Details zeigen / verbergen"
@@ -116,6 +124,9 @@
                              image="@Embed(source='/assets/tools/expand.png')"
                              visible="{hideDetailsToolEnabled}"
                              includeInLayout="{hideDetailsToolEnabled}"/>
+
+    <s:Spacer width="10" visible="{verLayoutToolEnabled || hideDetailsToolEnabled}"
+              includeInLayout="{verLayoutToolEnabled || hideDetailsToolEnabled}"/>
 
     <button:ToolButton id="transInvertBtn"
                        description="Den Deutschtext / die Übersetzung invertieren"
