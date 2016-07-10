@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                 xmlns:core="de.dittner.testmyself.ui.common.screen.*"
+                 xmlns:s="library://ns.adobe.com/flex/spark"
+                 xmlns:testlist="de.dittner.testmyself.ui.view.test.testList.*"
+                 xmlns:presets="de.dittner.testmyself.ui.view.test.presets.*"
+                 xmlns:results="de.dittner.testmyself.ui.view.test.results.*"
+                 xmlns:testing="de.dittner.testmyself.ui.view.test.testing.*"
+                 xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                 xmlns:form="de.dittner.testmyself.ui.view.dictionary.note.form.*"
+                 horizontalCenter="0"
+                 currentState="inactive">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+
+        public function activate():void {
+            setCurrentState("testList");
+        }
+
+        public function deactivate():void {
+            setCurrentState("inactive");
+        }
+
+        public function showTestList():void {
+            setCurrentState("testList");
+        }
+
+        public function showTestPresets():void {
+            setCurrentState("presets");
+        }
+
+        public function showTestingResults():void {
+            setCurrentState("results");
+        }
+
+        public function showTesting():void {
+            setCurrentState("testing");
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            if (editForm) {
+                editForm.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                editForm.x = w - editForm.width;
+            }
+        }
+        ]]></fx:Script>
+
+    <core:states>
+        <s:State name="inactive"/>
+        <s:State name="normal"/>
+        <s:State name="testList"/>
+        <s:State name="presets"/>
+        <s:State name="results"/>
+        <s:State name="testing"/>
+    </core:states>
+
+    <!--content bg-->
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
+                          fillMode="repeat"/>
+        </s:fill>
+    </s:Rect>
+
+    <!--header bg-->
+    <s:Rect width="100%" height="{HEADER_HEI}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:Label text="{title}"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="18"
+             width="100%" height="{HEADER_HEI}"
+             verticalAlign="middle"
+             paddingLeft="{PADDING}" paddingRight="{PADDING}"
+             color="#54545d"/>
+
+    <button:ToolButton id="removeBtn"
+                       visible="false" visible.testing="true"
+                       top="8" right="{editBtn.width}"
+                       description="Die Notiz entfernen"
+                       image="@Embed(source='/assets/tools/recycle_bin.png')"/>
+
+    <button:ToolButton id="editBtn"
+                       visible="false" visible.testing="true"
+                       top="8" right="0"
+                       description="Die Notiz bearbeiten"
+                       image="@Embed(source='/assets/tools/edit.png')"/>
+
+    <s:BitmapImage width="100%"
+                   top="{HEADER_HEI}"
+                   smooth="true"
+                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
+
+    <s:Group width="100%" top="{HEADER_HEI}" bottom="0"
+             excludeFrom="inactive">
+
+        <testlist:TestListView id="testListView"
+                               width="100%" height="100%"
+                               padding="{PADDING}"
+                               visible="false" visible.testList="true"/>
+
+        <presets:TestPresetsView id="testPresetsView"
+                                 width="100%" height="100%"
+                                 padding="{PADDING}"
+                                 visible="false" visible.presets="true"/>
+
+        <testing:TestingView id="testingView"
+                             width="100%" height="100%"
+                             padding="{PADDING}"
+                             visible="false" visible.testing="true"/>
+
+        <results:TestingResultsView id="testingResultsView"
+                                    width="100%" height="100%"
+                                    padding="{PADDING}"
+                                    visible="false" visible.results="true"/>
+    </s:Group>
+
+    <s:Group width="100%" height="100%"
+             visible="{editForm.visible}"
+             mouseEnabled="{editForm.visible}">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <form:NoteForm id="editForm"
+                       visible="false"
+                       bottom="0"
+                       top="{HEADER_HEI}"/>
+    </s:Group>
+
+</core:ScreenBase>

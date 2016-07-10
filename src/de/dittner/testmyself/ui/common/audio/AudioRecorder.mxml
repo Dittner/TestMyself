@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:audio="de.dittner.testmyself.ui.common.audio.*"
+         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
+        import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+
+        //--------------------------------------
+        //  comment
+        //--------------------------------------
+        private var _comment:AudioComment;
+        public function get comment():AudioComment {
+            if (_comment && _comment.bytes) return _comment;
+            var ac:AudioComment = new AudioComment();
+
+            if (rawDataPlayer.recorder.recordedBytes && rawDataPlayer.recorder.recordedBytes.length > 0) {
+                ac.bytes = rawDataPlayer.recorder.recordedBytes;
+            }
+            return ac;
+        }
+
+        public function set comment(value:AudioComment):void {
+            if (_comment != value) {
+                _comment = value;
+                if (comment && comment.bytes) {
+                    if (value.isMp3) {
+                        mp3Player.comment = comment;
+                        showMP3Player();
+                    }
+                    else {
+                        rawDataPlayer.comment = comment;
+                        showRawDataRecorder();
+                    }
+                }
+                else showRawDataRecorder();
+            }
+        }
+
+        //--------------------------------------
+        //  recording
+        //--------------------------------------
+        private var _recording:Boolean;
+        [Bindable("recordingChanged")]
+        public function get isRecording():Boolean {return _recording;}
+        private function set recording(value:Boolean):void {
+            if (_recording != value) {
+                _recording = value;
+                dispatchEvent(new Event("recordingChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  maxRecordSize
+        //--------------------------------------
+        private var _maxRecordSize:Number = 1;
+        [Bindable("maxRecordSizeChanged")]
+        public function get maxRecordSize():Number {return _maxRecordSize;}
+        public function set maxRecordSize(value:Number):void {
+            if (_maxRecordSize != value) {
+                _maxRecordSize = value;
+                dispatchEvent(new Event("maxRecordSizeChanged"));
+            }
+        }
+
+        private function showRawDataRecorder():void {
+            mp3Player.visible = false;
+            rawDataPlayer.visible = true;
+        }
+
+        private function showMP3Player():void {
+            mp3Player.visible = true;
+            rawDataPlayer.visible = false;
+        }
+
+        public function clear():void {
+            clearBytes();
+            rawDataPlayer.clear();
+            mp3Player.clear();
+            showRawDataRecorder();
+        }
+
+        private function mp3Player_removeCommentClickHandler(event:VoiceCommentEvent):void {
+            clearBytes();
+            showRawDataRecorder();
+        }
+
+        private function clearBytes():void {
+            rawDataPlayer.comment = null;
+            mp3Player.comment = null;
+            _comment = null;
+        }
+        ]]></fx:Script>
+    <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
+
+    <s:Label text="Audioaufnahme"
+             paddingTop="4"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="16"
+             color="{AppColors.TEXT_DARK}"/>
+
+    <s:Rect width="100%" top="20" bottom="0">
+        <s:fill>
+            <s:SolidColor alpha="0"/>
+        </s:fill>
+        <s:stroke>
+            <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
+        </s:stroke>
+    </s:Rect>
+
+    <audio:RawDataPlayer id="rawDataPlayer"
+                         top="30" bottom="0"
+                         width="100%"
+                         maxRecordSize="{maxRecordSize}"
+                         removeCommentClick="mp3Player_removeCommentClickHandler(event)"
+                         skinClass="de.dittner.testmyself.ui.common.audio.skins.RawDataPlayerSkin"/>
+
+    <mp3:MP3Player id="mp3Player"
+                   top="30" bottom="0"
+                   width="100%"
+                   visible="false"
+                   skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"
+                   removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
+</s:Group>

@@ -1,0 +1,39 @@
+package de.dittner.testmyself.ui.view.dictionary.verb.form {
+import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.model.domain.verb.IVerb;
+import de.dittner.testmyself.model.domain.verb.Verb;
+import de.dittner.testmyself.ui.view.dictionary.note.form.NoteCreatorMediator;
+
+public class VerbCreatorMediator extends NoteCreatorMediator {
+
+	override protected function createNote():Note {
+		var verb:Verb = new Verb();
+		verb.title = view.verbInputsForm.infinitiveInput.text;
+		verb.description = correctDescriptionText(view.descriptionArea.text);
+		verb.audioComment = view.audioRecorder.comment;
+		verb.present = view.verbInputsForm.presentInput.text;
+		verb.past = view.verbInputsForm.pastInput.text;
+		verb.perfect = view.verbInputsForm.perfectInput.text;
+		return verb;
+	}
+
+	override protected function validateNote(note:Note):String {
+		var verb:IVerb = note as IVerb;
+		if (!verb) return "Die Notiz fehlt!";
+
+		if (!verb.title) return "Die Form is nicht ergänzt: Infinitiv darf man nicht verpassen!";
+		if (!verb.present || !verb.past || !verb.perfect) return "Die Form is nicht ergänzt: Präsens, Präteritum und Partizip II darf man nicht verpassen!";
+
+		return validateDuplicateNote(note);
+	}
+
+	override protected function validateDuplicateNote(note:Note):String {
+		var verb:IVerb = note as IVerb;
+		if (!verb) return "Die Notiz fehlt!";
+
+		if (noteHash.has(verb)) return "Die Datenbank hat schon die gleiche Notiz!";
+		return "";
+	}
+
+}
+}

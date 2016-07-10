@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark"
+             xmlns:components2="de.dittner.testmyself.ui.common.audio.components.*"
+             xmlns:button="de.dittner.testmyself.ui.common.button.*">
+
+    <fx:Metadata>
+        [HostComponent("de.dittner.testmyself.ui.common.audio.mp3.MP3Player")]
+    </fx:Metadata>
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.audio.utils.PlayerUtils;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+        }
+
+        public function secToStr(sec:int):String {
+            return PlayerUtils.convertToHHMMSS(sec);
+        }
+
+        private function removeRecord():void {
+            hostComponent.remove();
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="stopped"/>
+        <s:State name="paused"/>
+        <s:State name="playing"/>
+    </s:states>
+
+    <button:BitmapButton id="playBtn"
+                         upImage="@Embed(source='/assets/voiceRecording/play_btn_up.png')"
+                         downImage="@Embed(source='/assets/voiceRecording/play_btn_down.png')"
+                         visible="true" visible.playing="false"
+                         enabled="true" enabled.normal="false"
+                         top="0"
+                         left="10"
+                         click="hostComponent.play()"/>
+
+    <button:BitmapButton id="pauseBtn"
+                         upImage="@Embed(source='/assets/voiceRecording/pause_btn_up.png')"
+                         downImage="@Embed(source='/assets/voiceRecording/pause_btn_down.png')"
+                         visible="false" visible.playing="true"
+                         top="0"
+                         left="10"
+                         click="hostComponent.pause()"/>
+
+    <s:Label text="{secToStr(hostComponent.playbackTime)}"
+             top="10" left="50"
+             fontSize="14"
+             color="{AppColors.TEXT_DARK}"/>
+
+    <components2:RewindingSlider id="rewindingSlider"
+                                 mouseEnabled.normal="false"
+                                 minimum="0"
+                                 maximum="{hostComponent.soundDuration}"
+                                 showDataTip="false"
+                                 stepSize="0.0"
+                                 value="@{hostComponent.playbackTime}"
+                                 snapInterval="1"
+                                 liveDragging="true"
+                                 top="3"
+                                 left="100"
+                                 right="100"
+                                 height="30"
+                                 skinClass="de.dittner.testmyself.ui.common.audio.skins.slider.RewindingSliderSkin"/>
+
+    <s:Label text="{secToStr(hostComponent.soundDuration)}"
+             text.normal="00:00"
+             top="10" right="50"
+             fontSize="14"
+             color="{AppColors.TEXT_DARK}"/>
+
+    <button:BitmapButton id="removeRecordBtn"
+                         upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
+                         downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
+                         top="0"
+                         right="10"
+                         click="removeRecord()"
+                         enabled="{hostComponent.removeRecordEnabled}"
+                         visible="{hostComponent.removeRecordEnabled}"
+                         description="Die Audioaufnahme entfernen"/>
+
+</s:SparkSkin>

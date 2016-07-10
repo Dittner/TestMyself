@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               frameRate="30"
+               usePreloader="true"
+               preloader="de.dittner.testmyself.ui.common.preloader.ClockPreloader"
+               backgroundColor="0x3d3f4b"
+               uncaughtError="uncaughtErrorHandler(event)"
+               addedToStage="addedToStageHandler(event)">
+
+    <fx:Script><![CDATA[
+        import de.dittner.async.AsyncCallbacksLib;
+        import de.dittner.testmyself.model.ModuleName;
+        import de.dittner.testmyself.ui.MainModule;
+        import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
+
+        import mx.logging.Log;
+
+        public static var root:TestMyselfApp;
+        private static var mainModule:MainModule;
+
+        private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {
+            var error:* = event.error;
+            if (error is Error) {
+                Log.getLogger("UnchaughtErrors").error((error as Error).getStackTrace().toString());
+            }
+            else {
+                Log.getLogger("UnchaughtErrors").error(error ? error.toString() : "unknown error");
+            }
+        }
+
+        private static var _stage:Stage;
+        public static function get stage():Stage {return _stage;}
+
+        private function addedToStageHandler(event:Event):void {
+            _stage = stage;
+            AsyncCallbacksLib.fps = 30;
+            AsyncCallbacksLib.stage = stage;
+            TestMyselfApp.root = this;
+            TextFieldFactory.useEmbedFonts = true;
+            mainModule = new MainModule(ModuleName.ROOT);
+            mainModule.start(this);
+        }
+        ]]></fx:Script>
+
+    <fx:Style source="/TestMyselfMobileStyle.css"/>
+    <!--<fx:Style source="/TestMyselfStyle.css"/>-->
+
+</s:Application>

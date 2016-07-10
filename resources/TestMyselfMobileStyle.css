@@ -1,7 +1,7 @@
 @namespace s "library://ns.adobe.com/flex/spark";
-@namespace input "dittner.testmyself.deutsch.view.common.input.*";
-@namespace list "dittner.testmyself.deutsch.view.common.list.*";
-@namespace spinner "dittner.testmyself.deutsch.view.common.spinner.*";
+@namespace input "de.dittner.testmyself.ui.view.common.input.*";
+@namespace list "de.dittner.testmyself.ui.view.common.list.*";
+@namespace spinner "de.dittner.testmyself.ui.view.common.spinner.*";
 
 @font-face {
     src: url("/fonts/vantathin.ttf");
@@ -109,7 +109,7 @@ s|Label {
 /************************** INPUT **************************/
 
 input|TextInputForm {
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.input.MobileTextInputFormSkin");
+    skinClass: ClassReference("de.dittner.testmyself.ui.common.input.MobileTextInputFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: MyriadProMX;
@@ -135,7 +135,7 @@ input|HistoryTextArea {
 
 /************************** LIST **************************/
 list|ListForm {
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.list.ListFormSkin");
+    skinClass: ClassReference("de.dittner.testmyself.ui.common.list.ListFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: MyriadProMX;
@@ -150,20 +150,20 @@ s|Scroller {
 
 /************************** OTHER COMPONENTS **************************/
 s|CheckBox {
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.checkBox.CustomCheckBoxSkin");
+    skinClass: ClassReference("de.dittner.testmyself.ui.common.checkBox.CustomCheckBoxSkin");
 }
 
 s|RadioButton {
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.common.radioButton.CustomRadioButtonSkin");
+    skinClass: ClassReference("de.dittner.testmyself.ui.common.radioButton.CustomRadioButtonSkin");
 }
 
 spinner|CustomSpinner {
-    skin-class: ClassReference("dittner.testmyself.deutsch.view.common.spinner.CustomSpinnerSkin");
+    skin-class: ClassReference("de.dittner.testmyself.ui.common.spinner.CustomSpinnerSkin");
     fontSize: 16px;
     color: #4e4f61;
     fontFamily: MyriadPro;
 }
 
 s|Button.dropDownBtnStyle {
-    skinClass: ClassReference("dittner.testmyself.deutsch.view.dictionary.common.articleList.ListBoxDropDownButtonSkin");
+    skinClass: ClassReference("de.dittner.testmyself.ui.view.dictionary.common.articleList.ListBoxDropDownButtonSkin");
 }

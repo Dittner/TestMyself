@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:navigation="de.dittner.testmyself.ui.common.pagination.*"
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:list="de.dittner.testmyself.ui.common.list.*"
+         xmlns:list2="de.dittner.testmyself.ui.view.dictionary.note.list.*"
+         xmlns:common="de.dittner.testmyself.ui.view.test.common.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.verb.IVerb;
+        import de.dittner.testmyself.model.domain.word.IWord;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.view.test.common.TestRendererData;
+        import de.dittner.testmyself.ui.view.test.results.renderer.TestingNoteRenderer;
+        import de.dittner.testmyself.ui.view.test.results.renderer.TestingVerbRenderer;
+        import de.dittner.testmyself.ui.view.test.results.renderer.TestingWordRenderer;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  title
+        //--------------------------------------
+        private var _title:String = "";
+        [Bindable("titleChanged")]
+        public function get title():String {return _title;}
+        public function set title(value:String):void {
+            if (_title != value) {
+                _title = value;
+                dispatchEvent(new Event("titleChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:uint = 0;
+        [Bindable("paddingChanged")]
+        public function get padding():uint {return _padding;}
+        public function set padding(value:uint):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  dataProvider
+        //--------------------------------------
+        private var _dataProvider:ArrayCollection;
+        [Bindable("dataProviderChanged")]
+        public function get dataProvider():ArrayCollection {return _dataProvider;}
+        public function set dataProvider(value:ArrayCollection):void {
+            if (_dataProvider != value) {
+                _dataProvider = value;
+                dispatchEvent(new Event("dataProviderChanged"));
+            }
+        }
+
+        public function resultItemRendererFunction(item:*):IFactory {
+            var note:* = (item as TestRendererData).note;
+            if (note is IWord) return new ClassFactory(TestingWordRenderer);
+            else if (note is IVerb) return new ClassFactory(TestingVerbRenderer);
+            else return new ClassFactory(TestingNoteRenderer);
+        }
+
+        private function setTaskAsRightBtnEnabled(selectedTask:*, isFailedTaskShown:Boolean):Boolean {
+            return selectedTask && isFailedTaskShown;
+        }
+        ]]></fx:Script>
+
+    <utils:BG width="100%" height="100%" color="#ffFFff"/>
+
+    <common:TestHeader width="100%" padding="{padding}"
+                       title="{title}"/>
+
+    <button:WhiteButton id="setTaskAsRightBtn"
+                        horizontalCenter="-110" top="5"
+                        label="Als richtig zeichnen"
+                        width="220"
+                        enabled="{setTaskAsRightBtnEnabled(list.selectedItem, lastFailedNotesFilterBox.selected)}"/>
+
+    <s:CheckBox id="lastFailedNotesFilterBox"
+                right="25" top="10"
+                selected="true"
+                skinClass="de.dittner.testmyself.ui.common.checkBox.DarkCheckBoxSkin"
+                label="nur Notiz mit Fehlern"/>
+
+    <s:HGroup left="-1" right="-1" top="39" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}" gap="-1">
+        <s:Scroller width="100%" height="100%"
+                    minViewportInset="1"
+                    horizontalScrollPolicy="off"
+                    hasFocusableChildren="false">
+
+            <list:SelectableDataGroup id="list"
+                                      dataProvider="{dataProvider}"
+                                      width="100%"
+                                      contentBackgroundAlpha="0"
+                                      deselectEnabled="true"
+                                      itemRendererFunction="resultItemRendererFunction">
+                <list:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                </list:layout>
+            </list:SelectableDataGroup>
+        </s:Scroller>
+
+        <list2:ExampleList id="exampleList"
+                           width="100%" height="100%"
+                           showTitle="false"
+                           hasFocusableChildren="false"/>
+    </s:HGroup>
+
+    <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+
+        <navigation:PaginationBar id="paginationBar"
+                                  left="{padding}" right="{padding}"
+                                  height="100%"/>
+
+        <button:GrayButton id="goBackBtn"
+                           width="250"
+                           verticalCenter="0"
+                           left="{padding}"
+                           label="Zurück"/>
+
+    </s:Group>
+</s:Group>

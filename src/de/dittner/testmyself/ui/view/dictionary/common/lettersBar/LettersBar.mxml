@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         addedToStage="addedToStageHandler(event)"
+         removedFromStage="removedFromStageHandler(event)">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.utils.FontName;
+
+        import mx.core.IButton;
+
+        import spark.components.supportClasses.StyleableTextField;
+
+        private function addedToStageHandler(event:Event):void {
+            stage.addEventListener(FocusEvent.FOCUS_OUT, stageFocusChangedHandler);
+        }
+
+        private function removedFromStageHandler(event:Event):void {
+            stage.removeEventListener(FocusEvent.FOCUS_OUT, stageFocusChangedHandler);
+        }
+
+        private var curFocus:InteractiveObject;
+        private var prevFocus:InteractiveObject;
+        private function stageFocusChangedHandler(event:FocusEvent):void {
+            prevFocus = curFocus;
+            curFocus = event.relatedObject;
+        }
+
+        private function letterClickHandler(event:MouseEvent):void {
+            if (prevFocus is StyleableTextField) {
+                (prevFocus as StyleableTextField).insertText((event.target as IButton).label);
+                stage.focus = prevFocus;
+            }
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:HorizontalLayout gap="6"/>
+    </s:layout>
+
+    <button:IconButton id="ABtn"
+                       fontFamily="{FontName.MYRIAD_COND}"
+                       fontSize="22"
+                       color="#ffFFff"
+                       upImage="@Embed(source='/assets/button/black_btn_up.png')"
+                       downImage="@Embed(source='/assets/button/black_btn_down.png')"
+                       label="Ä"
+                       click="letterClickHandler(event)"/>
+
+    <button:IconButton id="OBtn"
+                       fontFamily="{FontName.MYRIAD_COND}"
+                       fontSize="22"
+                       color="#ffFFff"
+                       upImage="@Embed(source='/assets/button/black_btn_up.png')"
+                       downImage="@Embed(source='/assets/button/black_btn_down.png')"
+                       label="Ö"
+                       click="letterClickHandler(event)"/>
+
+    <button:IconButton id="UBtn"
+                       fontFamily="{FontName.MYRIAD_COND}"
+                       fontSize="22"
+                       color="#ffFFff"
+                       upImage="@Embed(source='/assets/button/black_btn_up.png')"
+                       downImage="@Embed(source='/assets/button/black_btn_down.png')"
+                       label="Ü"
+                       click="letterClickHandler(event)"/>
+
+    <button:IconButton id="aBtn"
+                       fontFamily="{FontName.MYRIAD_COND}"
+                       fontSize="22"
+                       color="#ffFFff"
+                       upImage="@Embed(source='/assets/button/black_btn_up.png')"
+                       downImage="@Embed(source='/assets/button/black_btn_down.png')"
+                       label="ä"
+                       click="letterClickHandler(event)"/>
+
+    <button:IconButton id="oBtn"
+                       fontFamily="{FontName.MYRIAD_COND}"
+                       fontSize="22"
+                       color="#ffFFff"
+                       upImage="@Embed(source='/assets/button/black_btn_up.png')"
+                       downImage="@Embed(source='/assets/button/black_btn_down.png')"
+                       label="ö"
+                       click="letterClickHandler(event)"/>
+
+    <button:IconButton id="uBtn"
+                       fontFamily="{FontName.MYRIAD_COND}"
+                       fontSize="22"
+                       color="#ffFFff"
+                       upImage="@Embed(source='/assets/button/black_btn_up.png')"
+                       downImage="@Embed(source='/assets/button/black_btn_down.png')"
+                       label="ü"
+                       click="letterClickHandler(event)"/>
+
+    <button:IconButton id="ssBtn"
+                       fontFamily="{FontName.MYRIAD_COND}"
+                       fontSize="22"
+                       color="#ffFFff"
+                       upImage="@Embed(source='/assets/button/black_btn_up.png')"
+                       downImage="@Embed(source='/assets/button/black_btn_down.png')"
+                       label="ß"
+                       click="letterClickHandler(event)"/>
+</s:Group>

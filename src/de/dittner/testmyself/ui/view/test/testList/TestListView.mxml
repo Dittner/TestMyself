@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:list="de.dittner.testmyself.ui.common.list.*"
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         horizontalCenter="0">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  testSubjectColl
+        //--------------------------------------
+        private var _testSubjectColl:ArrayCollection;
+        [Bindable("testSubjectCollChanged")]
+        public function get testSubjectColl():ArrayCollection {return _testSubjectColl;}
+        public function set testSubjectColl(value:ArrayCollection):void {
+            if (_testSubjectColl != value) {
+                _testSubjectColl = value;
+                dispatchEvent(new Event("testSubjectCollChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  testInfoColl
+        //--------------------------------------
+        private var _testInfoColl:ArrayCollection;
+        [Bindable("testInfoCollChanged")]
+        public function get testInfoColl():ArrayCollection {return _testInfoColl;}
+        public function set testInfoColl(value:ArrayCollection):void {
+            if (_testInfoColl != value) {
+                _testInfoColl = value;
+                dispatchEvent(new Event("testInfoCollChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:Number = 0;
+        [Bindable("paddingChanged")]
+        public function get padding():Number {return _padding;}
+        public function set padding(value:Number):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:VerticalLayout gap="15" paddingTop="{padding}" horizontalAlign="center"/>
+    </s:layout>
+
+    <list:ListForm id="testSubjectList"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="{width - 2*padding}"
+                   dataProvider="{testSubjectColl}"
+                   title="Wählen Sie bitte die wünschen Notizart aus der Liste aus"
+                   itemRenderer="de.dittner.testmyself.ui.view.test.testList.TestSubjectRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <list:ListForm id="testInfoList"
+                   visible="{testSubjectList.selectedItem}"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="{width - 2*padding}" height="100%"
+                   dataProvider="{testInfoColl}"
+                   title="Wählen Sie bitte den wünschen Test aus der Liste aus"
+                   itemRenderer="de.dittner.testmyself.ui.view.test.testList.TestInfoRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+
+        <button:BlackButton id="applyTestBtn"
+                            width="250"
+                            right="{padding}"
+                            verticalCenter="0"
+                            label="Weiter"
+                            enabled="{testInfoList.selectedItem}"/>
+    </s:Group>
+
+</s:Group>
