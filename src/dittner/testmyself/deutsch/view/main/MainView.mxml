@@ -79,7 +79,7 @@
     <s:transitions>
         <s:Transition fromState="*" toState="lock" autoReverse="true">
             <s:Parallel>
-                <s:Fade duration="500" target="{busyIndicatorLayer}" alphaFrom="0" alphaTo="1"/>
+                <s:Fade duration="1000" target="{busyIndicatorLayer}" alphaFrom="0" alphaTo="1"/>
             </s:Parallel>
         </s:Transition>
     </s:transitions>
@@ -119,9 +119,9 @@
              width="100%" height="100%"
              alpha.normal="0" alpha.disabled="0" alpha.lock="1">
         <s:Rect width="100%" height="100%"
-                visible="false" visible.lock="true">
+                visible="{busyIndicatorLayer.alpha != 0}">
             <s:fill>
-                <s:SolidColor color="#aaAAaa" alpha="0"/>
+                <s:SolidColor color="0xff1d5d" alpha="0.3"/>
             </s:fill>
         </s:Rect>
         <s:BitmapImage verticalCenter="0" horizontalCenter="33"

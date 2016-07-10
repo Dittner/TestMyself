@@ -1,9 +1,9 @@
 package dittner.testmyself.core.command.backend {
 import de.dittner.async.AsyncOperation;
+import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 
-import dittner.testmyself.core.async.CompositeOperation;
 import dittner.testmyself.core.model.note.NoteFilter;
 import dittner.testmyself.core.model.note.NotesInfo;
 import dittner.testmyself.core.service.NoteService;
@@ -21,7 +21,7 @@ public class GetDataBaseInfoSQLOperation extends AsyncOperation implements IAsyn
 	private var filter:NoteFilter;
 
 	public function execute():void {
-		var composite:CompositeOperation = new CompositeOperation();
+		var composite:CompositeCommand = new CompositeCommand();
 
 		composite.addOperation(NoteCountOperationPhase, service.sqlConnection, info, service.sqlFactory);
 		composite.addOperation(FilteredNoteCountOperationPhase, service.sqlConnection, info, filter, service.sqlFactory);
