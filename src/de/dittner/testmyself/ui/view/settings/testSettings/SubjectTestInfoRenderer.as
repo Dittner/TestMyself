@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.view.settings.testSettings {
-import de.dittner.testmyself.model.ModuleName;
-import de.dittner.testmyself.model.domain.test.TestInfo;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
@@ -16,8 +15,8 @@ public class SubjectTestInfoRenderer extends StringItemRenderer {
 	}
 
 	override protected function get text():String {
-		var test:TestInfo = data as TestInfo;
-		return test ? moduleNameToStr(test.moduleName) + ". " + (data as TestInfo).title : "";
+		var test:Test = data as Test;
+		return test ? moduleNameToStr(test.moduleName) + ". " + (data as Test).title : "";
 	}
 
 	private function moduleNameToStr(moduleName:String):String {

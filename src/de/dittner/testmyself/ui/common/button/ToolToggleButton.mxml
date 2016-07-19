@@ -24,15 +24,15 @@
         }
 
         //--------------------------------------
-        //  toolId
+        //  toolID
         //--------------------------------------
-        private var _toolId:String = "";
-        [Bindable("toolIdChanged")]
-        public function get toolId():String {return _toolId;}
-        public function set toolId(value:String):void {
-            if (_toolId != value) {
-                _toolId = value;
-                dispatchEvent(new Event("toolIdChanged"));
+        private var _toolID:String = "";
+        [Bindable("toolIDChanged")]
+        public function get toolID():String {return _toolID;}
+        public function set toolID(value:String):void {
+            if (_toolID != value) {
+                _toolID = value;
+                dispatchEvent(new Event("toolIDChanged"));
             }
         }
 

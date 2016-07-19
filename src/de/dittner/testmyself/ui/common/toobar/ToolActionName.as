@@ -12,8 +12,8 @@ public class ToolActionName {
 		return names;
 	}
 
-	public static function getNameById(toolId:String):String {
-		return hash[toolId] || "";
+	public static function getNameByID(toolID:String):String {
+		return hash[toolID] || "";
 	}
 }
 }

@@ -3,12 +3,9 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.async.utils.doLaterInMSec;
 import de.dittner.ftpClient.FtpClient;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.TestMyselfApp;
 import de.dittner.testmyself.backend.message.NoteMsg;
-import de.dittner.testmyself.model.AppConfig;
-import de.dittner.testmyself.model.ModuleName;
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.settings.SettingsInfo;
 import de.dittner.testmyself.ui.message.ScreenMsg;
 import de.dittner.testmyself.ui.message.SettingsMsg;
@@ -78,9 +75,9 @@ public class SettingsScreenMediator extends SFMediator {
 	}
 
 	private function uploadDataBase(info:SettingsInfo):void {
-		var wordDbFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + ModuleName.WORD + ".db");
-		var lessonDbFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + ModuleName.LESSON + ".db");
-		var verbDbFile:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + ModuleName.VERB + ".db");
+		var wordDbFile:File = File.documentsDirectory.resolvePath(Device.dbRootPath + ModuleName.WORD + ".db");
+		var lessonDbFile:File = File.documentsDirectory.resolvePath(Device.dbRootPath + ModuleName.LESSON + ".db");
+		var verbDbFile:File = File.documentsDirectory.resolvePath(Device.dbRootPath + ModuleName.VERB + ".db");
 
 		var uploadCmd:CompositeCommand = ftp.upload([wordDbFile, lessonDbFile, verbDbFile], info.backUpServerInfo);
 		uploadCmd.addCompleteCallback(uploadComplete);
@@ -119,7 +116,7 @@ public class SettingsScreenMediator extends SFMediator {
 	}
 
 	private function downloadDataBase(info:SettingsInfo):void {
-		var tempFolder:File = File.documentsDirectory.resolvePath(AppConfig.dbTempPath);
+		var tempFolder:File = File.documentsDirectory.resolvePath(Device.dbTempPath);
 		if (tempFolder.exists) tempFolder.deleteDirectory(true);
 		tempFolder.createDirectory();
 
@@ -162,13 +159,13 @@ public class SettingsScreenMediator extends SFMediator {
 	private var dbNum:int = 0;
 	private function reloadDataBase():void {
 		dbNum = 3;
-		var appDBFile:File = File.documentsDirectory.resolvePath(AppConfig.APP_NAME);
-		if (AppConfig.isDesktop)
+		var appDBFile:File = File.documentsDirectory.resolvePath(Device.APP_NAME);
+		if (Device.isDesktop)
 			appDBFile.moveToTrash();
 		else
 			appDBFile.deleteDirectory(true);
-		var tempDBFile:File = File.documentsDirectory.resolvePath(AppConfig.TEMP_APP_NAME);
-		tempDBFile.moveTo(File.documentsDirectory.resolvePath(AppConfig.APP_NAME));
+		var tempDBFile:File = File.documentsDirectory.resolvePath(Device.TEMP_APP_NAME);
+		tempDBFile.moveTo(File.documentsDirectory.resolvePath(Device.APP_NAME));
 
 		sendRequestTo(ModuleName.WORD, SettingsMsg.RELOAD_DB, new RequestMessage(dbReloaded));
 		sendRequestTo(ModuleName.VERB, SettingsMsg.RELOAD_DB, new RequestMessage(dbReloaded));

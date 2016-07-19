@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
-<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-                 xmlns:s="library://ns.adobe.com/flex/spark"
-                 xmlns:core="de.dittner.testmyself.ui.common.screen.*"
-                 xmlns:list="de.dittner.testmyself.ui.common.list.*"
-                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-                 xmlns:commonsettings="de.dittner.testmyself.ui.view.settings.commonSettings.*"
-                 xmlns:noteSettings="de.dittner.testmyself.ui.view.settings.noteSettings.*"
-                 xmlns:testsettings="de.dittner.testmyself.ui.view.settings.testSettings.*"
-                 horizontalCenter="0"
-                 currentState="inactive">
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:core="de.dittner.testmyself.ui.common.view.*"
+                xmlns:list="de.dittner.testmyself.ui.common.list.*"
+                xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+                xmlns:commonsettings="de.dittner.testmyself.ui.view.settings.commonSettings.*"
+                xmlns:noteSettings="de.dittner.testmyself.ui.view.settings.noteSettings.*"
+                xmlns:testsettings="de.dittner.testmyself.ui.view.settings.testSettings.*"
+                horizontalCenter="0"
+                currentState="inactive"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -16,7 +17,7 @@
 
         private static const TAB_BAR_HEI:uint = 40;
 
-        public function activate():void {
+        override protected function activate():void {
             currentState = "common";
             tabBar.selectedIndex = 0;
         }
@@ -108,4 +109,4 @@
 
     </s:Group>
 
-</core:ScreenBase>
+</view:SmartView>

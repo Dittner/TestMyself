@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.view.dictionary.note.form {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.model.domain.note.NoteSuite;
 import de.dittner.testmyself.ui.common.toobar.ToolAction;
@@ -15,7 +14,7 @@ public class NoteRemoverMediator extends NoteFormMediator {
 		if (!isActive && toolAction == ToolAction.REMOVE && selectedNote) {
 			isActive = true;
 			view.remove(selectedNote);
-			view.title = ToolActionName.getNameById(ToolAction.REMOVE);
+			view.title = ToolActionName.getNameByID(ToolAction.REMOVE);
 			openForm();
 		}
 	}

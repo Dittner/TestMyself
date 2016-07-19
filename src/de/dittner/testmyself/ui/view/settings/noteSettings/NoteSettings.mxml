@@ -7,7 +7,7 @@
          xmlns:input="de.dittner.testmyself.ui.common.input.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppConfig;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.theme.ITheme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -126,7 +126,7 @@
                              top="row1:10" left="col2:10" right="10"
                              text="{themesList.selectedItem.name}"
                              title="Geben Sie bitte den neuen Namen des Themas ein"
-                             maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
+                             maxChars="{Device.MAX_THEME_NAME_LENGTH}"
                              visible="false" visible.renameTheme="true"
                              includeInLayout="false" includeInLayout.renameTheme="true"/>
 

@@ -1,23 +1,21 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:s="library://ns.adobe.com/flex/spark" xmlns:main="de.dittner.testmyself.ui.view.main.*"
                frameRate="30"
                usePreloader="true"
-               preloader="de.dittner.testmyself.ui.common.preloader.ClockPreloader"
+               preloader="de.dittner.testmyself.ui.common.preloader.AppPreloader"
                backgroundColor="0x3d3f4b"
                uncaughtError="uncaughtErrorHandler(event)"
                addedToStage="addedToStageHandler(event)">
 
     <fx:Script><![CDATA[
-        import de.dittner.async.AsyncCallbacksLib;
-        import de.dittner.testmyself.model.ModuleName;
-        import de.dittner.testmyself.ui.MainModule;
+        import de.dittner.testmyself.model.AppModel;
         import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 
         import mx.logging.Log;
 
         public static var root:TestMyselfApp;
-        private static var mainModule:MainModule;
+        public static var appModel:AppModel;
 
         private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {
             var error:* = event.error;
@@ -29,21 +27,21 @@
             }
         }
 
-        private static var _stage:Stage;
-        public static function get stage():Stage {return _stage;}
-
         private function addedToStageHandler(event:Event):void {
-            _stage = stage;
-            AsyncCallbacksLib.fps = 30;
-            AsyncCallbacksLib.stage = stage;
             TestMyselfApp.root = this;
             TextFieldFactory.useEmbedFonts = true;
-            mainModule = new MainModule(ModuleName.ROOT);
-            mainModule.start(this);
+            if (!appModel) {
+                appModel = new AppModel();
+                appModel.init();
+            }
+            if (!mainView.isActive) mainView.activate();
         }
         ]]></fx:Script>
 
-    <fx:Style source="/TestMyselfMobileStyle.css"/>
-    <!--<fx:Style source="/TestMyselfStyle.css"/>-->
+    <!--<fx:Style source="/TestMyselfMobileStyle.css"/>-->
+    <fx:Style source="/TestMyselfStyle.css"/>
+
+    <main:MainView id="mainView"
+                   width="100%" height="100%"/>
 
 </s:Application>

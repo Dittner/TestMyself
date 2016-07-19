@@ -1,8 +1,7 @@
 package de.dittner.testmyself.ui.view.test.results.renderer {
 import de.dittner.testmyself.model.domain.common.TestID;
+import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
 import de.dittner.testmyself.model.domain.test.ITestTask;
-import de.dittner.testmyself.model.domain.word.IWord;
-import de.dittner.testmyself.model.domain.word.WordArticle;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
@@ -92,23 +91,23 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 				descriptionTf.setTextFormat(DESCRIPTION_FORMAT);
 				if (showArticle)
 					switch (word.article) {
-						case WordArticle.DIE :
+						case DeWordArticle.DIE :
 							titleTf.setTextFormat(DIE_FORMAT, 0, word.article.length);
 							break;
-						case WordArticle.DAS :
+						case DeWordArticle.DAS :
 							titleTf.setTextFormat(DAS_FORMAT, 0, word.article.length);
 							break;
-						case WordArticle.DER_DIE :
+						case DeWordArticle.DER_DIE :
 							titleTf.setTextFormat(DIE_FORMAT, 4, word.article.length);
 							break;
-						case WordArticle.DER_DAS :
+						case DeWordArticle.DER_DAS :
 							titleTf.setTextFormat(DAS_FORMAT, 4, word.article.length);
 							break;
-						case WordArticle.DIE_DAS :
+						case DeWordArticle.DIE_DAS :
 							titleTf.setTextFormat(DIE_FORMAT, 0, 4);
 							titleTf.setTextFormat(DAS_FORMAT, 4, word.article.length);
 							break;
-						case WordArticle.DER_DIE_DAS :
+						case DeWordArticle.DER_DIE_DAS :
 							titleTf.setTextFormat(DIE_FORMAT, 4, word.article.length);
 							titleTf.setTextFormat(DAS_FORMAT, 8, word.article.length);
 							break;

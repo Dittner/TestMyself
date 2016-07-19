@@ -1,9 +1,9 @@
 package de.dittner.testmyself.model.settings {
-import de.dittner.satelliteFlight.proxy.SFProxy;
+import de.dittner.walter.WalterProxy;
 
 import flash.net.SharedObject;
 
-public class SettingsModel extends SFProxy {
+public class SettingsModel extends WalterProxy {
 
 	private var _info:SettingsInfo;
 	public function get info():SettingsInfo {return _info;}

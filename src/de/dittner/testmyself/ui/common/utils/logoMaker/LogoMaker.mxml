@@ -6,7 +6,7 @@
          mask="{maskObj}">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppConfig;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
         import mx.graphics.codec.PNGEncoder;
@@ -151,7 +151,7 @@
             ba.position = 0;
 
             var fileStream:FileStream = new FileStream();
-            var file:File = File.documentsDirectory.resolvePath(AppConfig.dbRootPath + "image.png");
+            var file:File = File.documentsDirectory.resolvePath(Device.dbRootPath + "image.png");
             fileStream.open(file, FileMode.WRITE);
             fileStream.writeBytes(ba, 0, ba.length);
             fileStream.close();

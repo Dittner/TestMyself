@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.view.test.results.renderer {
 import de.dittner.testmyself.model.domain.test.ITestTask;
-import de.dittner.testmyself.model.domain.verb.IVerb;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;

@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
-<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-                 xmlns:core="de.dittner.testmyself.ui.common.screen.*"
-                 xmlns:s="library://ns.adobe.com/flex/spark"
-                 xmlns:testlist="de.dittner.testmyself.ui.view.test.testList.*"
-                 xmlns:presets="de.dittner.testmyself.ui.view.test.presets.*"
-                 xmlns:results="de.dittner.testmyself.ui.view.test.results.*"
-                 xmlns:testing="de.dittner.testmyself.ui.view.test.testing.*"
-                 xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                 xmlns:form="de.dittner.testmyself.ui.view.dictionary.note.form.*"
-                 horizontalCenter="0"
-                 currentState="inactive">
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:core="de.dittner.testmyself.ui.common.view.*"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:testlist="de.dittner.testmyself.ui.view.test.testList.*"
+                xmlns:presets="de.dittner.testmyself.ui.view.test.presets.*"
+                xmlns:results="de.dittner.testmyself.ui.view.test.results.*"
+                xmlns:testing="de.dittner.testmyself.ui.view.test.testing.*"
+                xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                xmlns:form="de.dittner.testmyself.ui.view.dictionary.note.form.*"
+                horizontalCenter="0"
+                currentState="inactive"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
-        public function activate():void {
+        override protected function activate():void {
             setCurrentState("testList");
         }
 
@@ -137,4 +138,4 @@
                        top="{HEADER_HEI}"/>
     </s:Group>
 
-</core:ScreenBase>
+</view:SmartView>

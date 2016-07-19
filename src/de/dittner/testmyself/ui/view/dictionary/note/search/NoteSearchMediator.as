@@ -1,9 +1,7 @@
 package de.dittner.testmyself.ui.view.dictionary.note.search {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
-import de.dittner.testmyself.model.AppConfig;
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.NoteFilter;
 import de.dittner.testmyself.ui.common.toobar.ToolAction;
 
@@ -39,7 +37,7 @@ public class NoteSearchMediator extends SFMediator {
 		view.clearBtn.addEventListener(MouseEvent.CLICK, clearHandler);
 		view.applyBtn.addEventListener(MouseEvent.CLICK, applyHandler);
 		view.searchInput.addEventListener(FlexEvent.ENTER, applyHandler);
-		if (view.stage && AppConfig.isDesktop) view.stage.focus = view.searchInput;
+		if (view.stage && Device.isDesktop) view.stage.focus = view.searchInput;
 	}
 
 	private function clearHandler(event:MouseEvent):void {

@@ -6,7 +6,7 @@
          xmlns:input="de.dittner.testmyself.ui.common.input.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppConfig;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.editor.EditorBg;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -35,7 +35,7 @@
                              top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
                              width="50%"
                              left="15"
-                             maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
+                             maxChars="{Device.MAX_THEME_NAME_LENGTH}"
                              title="Für die Suche ein Wort oder einen Wortteil eingeben"/>
 
         <s:CheckBox id="fullIdentityBox"

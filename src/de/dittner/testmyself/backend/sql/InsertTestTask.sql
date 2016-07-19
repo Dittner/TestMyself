@@ -1,0 +1,20 @@
+INSERT INTO test
+(
+	testID,
+	noteID,
+	isExample,
+	rate,
+	complexity,
+	isFailed,
+	lastTestedDate
+)
+VALUES
+(
+	:testID,
+	:noteID,
+	:isExample,
+	:rate,
+	:complexity,
+	:isFailed,
+	:lastTestedDate
+)

@@ -1,8 +1,5 @@
 package de.dittner.testmyself.ui.view.search {
-import de.dittner.testmyself.model.ModuleName;
 import de.dittner.testmyself.model.domain.note.INote;
-import de.dittner.testmyself.model.domain.verb.IVerb;
-import de.dittner.testmyself.model.domain.word.IWord;
 import de.dittner.testmyself.model.search.FoundNote;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;

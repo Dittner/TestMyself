@@ -1,12 +1,12 @@
 package de.dittner.testmyself.ui.view.dictionary.word.form {
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.word.Word;
+import de.dittner.testmyself.model.domain.note.word.DeWord;
 import de.dittner.testmyself.ui.view.dictionary.note.form.NoteCreatorMediator;
 
 public class WordCreatorMediator extends NoteCreatorMediator {
 
 	override protected function createNote():Note {
-		var word:Word = new Word();
+		var word:DeWord = new DeWord();
 		word.title = view.wordInput.text;
 		word.description = view.descriptionArea.text;
 		word.audioComment = view.audioRecorder.comment;

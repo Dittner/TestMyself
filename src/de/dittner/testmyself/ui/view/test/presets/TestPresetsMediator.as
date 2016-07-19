@@ -1,11 +1,9 @@
 package de.dittner.testmyself.ui.view.test.presets {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.TestMsg;
 import de.dittner.testmyself.model.domain.common.TestID;
-import de.dittner.testmyself.model.domain.test.TestInfo;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestSpec;
 import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
 import de.dittner.testmyself.model.domain.theme.ITheme;
@@ -19,9 +17,9 @@ public class TestPresetsMediator extends SFMediator {
 	[Inject]
 	public var view:TestPresetsView;
 
-	private var selectedTestInfo:TestInfo;
+	private var selectedTestInfo:Test;
 
-	public function TestPresetsMediator(info:TestInfo):void {
+	public function TestPresetsMediator(info:Test):void {
 		selectedTestInfo = info;
 	}
 

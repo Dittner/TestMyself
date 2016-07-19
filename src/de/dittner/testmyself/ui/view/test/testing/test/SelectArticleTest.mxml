@@ -8,8 +8,7 @@
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.word.IWord;
-        import de.dittner.testmyself.model.domain.word.WordArticle;
+        import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -49,8 +48,8 @@
 
                 if (word) {
                     articleLbl.text = word.article;
-                    if (word.article == WordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                    else if (word.article == WordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
+                    if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
+                    else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
                     else articleLbl.setStyle("color", AppColors.TEXT_DARK);
 
                     titleLbl.text = word.article ? " " + word.title : word.title;
@@ -79,7 +78,7 @@
         private function onDerAnswered():void {
             if (word && actionCallback) {
                 answerEnabled = false;
-                isCorrectlyAnswered = word.article == WordArticle.DER || word.article == WordArticle.DER_DIE || word.article == WordArticle.DER_DAS || word.article == WordArticle.DER_DIE_DAS;
+                isCorrectlyAnswered = word.article == DeWordArticle.DER || word.article == DeWordArticle.DER_DIE || word.article == DeWordArticle.DER_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
@@ -87,7 +86,7 @@
         private function onDieAnswered():void {
             if (word && actionCallback) {
                 answerEnabled = false;
-                isCorrectlyAnswered = word.article == WordArticle.DIE || word.article == WordArticle.DER_DIE || word.article == WordArticle.DIE_DAS || word.article == WordArticle.DER_DIE_DAS;
+                isCorrectlyAnswered = word.article == DeWordArticle.DIE || word.article == DeWordArticle.DER_DIE || word.article == DeWordArticle.DIE_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
@@ -95,7 +94,7 @@
         private function onDasAnswered():void {
             if (word && actionCallback) {
                 answerEnabled = false;
-                isCorrectlyAnswered = word.article == WordArticle.DAS || word.article == WordArticle.DER_DAS || word.article == WordArticle.DIE_DAS || word.article == WordArticle.DER_DIE_DAS;
+                isCorrectlyAnswered = word.article == DeWordArticle.DAS || word.article == DeWordArticle.DER_DAS || word.article == DeWordArticle.DIE_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }

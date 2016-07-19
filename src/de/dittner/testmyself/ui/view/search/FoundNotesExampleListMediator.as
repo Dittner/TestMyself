@@ -1,11 +1,7 @@
 package de.dittner.testmyself.ui.view.search {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.SearchMsg;
-import de.dittner.testmyself.model.domain.verb.IVerb;
-import de.dittner.testmyself.model.domain.word.IWord;
 import de.dittner.testmyself.model.search.FoundNote;
 import de.dittner.testmyself.ui.common.list.SelectableDataGroup;
 import de.dittner.testmyself.ui.view.dictionary.note.list.ExampleList;

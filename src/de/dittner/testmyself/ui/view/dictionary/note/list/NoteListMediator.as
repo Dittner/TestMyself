@@ -1,7 +1,5 @@
 package de.dittner.testmyself.ui.view.dictionary.note.list {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.model.domain.note.INote;
 import de.dittner.testmyself.model.page.INotePageInfo;
@@ -57,8 +55,8 @@ public class NoteListMediator extends SFMediator {
 		return items;
 	}
 
-	private function toolActionSelectedHandler(toolId:String):void {
-		switch (toolId) {
+	private function toolActionSelectedHandler(toolID:String):void {
+		switch (toolID) {
 			case(ToolAction.INVERT) :
 				pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
 				break;

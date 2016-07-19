@@ -4,71 +4,124 @@
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
          xmlns:tafel="de.dittner.testmyself.ui.view.main.tafel.*"
          height="100%" width="100%"
-         addedToStage="addedToStageHandler(event)">
+         creationComplete="creationCompleteHandler(event)">
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.logging.CLog;
+        import de.dittner.testmyself.logging.LogPanel;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.renderer.SeparatorItemRenderer;
         import de.dittner.testmyself.ui.common.renderer.SeparatorVo;
-        import de.dittner.testmyself.ui.common.screen.ScreenBase;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.service.screenFactory.ScreenInfo;
+        import de.dittner.testmyself.ui.common.view.ViewBase;
+        import de.dittner.testmyself.ui.common.view.ViewInfo;
+        import de.dittner.testmyself.utils.TapEventKit;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
+        import mx.events.FlexEvent;
+
+        [Bindable]
+        public var vm:MainVM;
 
         //--------------------------------------
-        //  screenListProvider
+        //  isActive
         //--------------------------------------
-        private var _screenListProvider:ArrayCollection;
-        [Bindable("screenListProviderChanged")]
-        public function get screenListProvider():ArrayCollection {return _screenListProvider;}
-        public function set screenListProvider(value:ArrayCollection):void {
-            if (_screenListProvider != value) {
-                _screenListProvider = value;
-                dispatchEvent(new Event("screenListProviderChanged"));
+        private var _isActive:Boolean = false;
+        public function get isActive():Boolean {return _isActive;}
+
+        //--------------------------------------
+        //  selectedView
+        //--------------------------------------
+        private var _selectedView:ViewBase;
+        private var selectedViewChanged:Boolean;
+        public function get selectedView():ViewBase {return _selectedView;}
+        public function set selectedView(value:ViewBase):void {
+            if (_selectedView != value) {
+                _selectedView = value;
+                selectedViewChanged = true;
+                invalidateProperties();
             }
         }
 
         //--------------------------------------
-        //  selectedScreenInfo
+        //  viewLocked
         //--------------------------------------
-        private var _selectedScreenInfo:ScreenInfo;
-        [Bindable("selectedScreenInfoChanged")]
-        public function get selectedScreenInfo():ScreenInfo {return _selectedScreenInfo;}
-        public function set selectedScreenInfo(value:ScreenInfo):void {
-            if (_selectedScreenInfo != value) {
-                _selectedScreenInfo = value;
-                dispatchEvent(new Event("selectedScreenInfoChanged"));
+        private var _viewLocked:Boolean = false;
+        [Bindable("viewLockedChanged")]
+        public function get viewLocked():Boolean {return _viewLocked;}
+        public function set viewLocked(value:Boolean):void {
+            if (_viewLocked != value) {
+                _viewLocked = value;
+                currentState = _viewLocked ? "lock" : "normal";
+                dispatchEvent(new Event("viewLockedChanged"));
             }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        public function activate():void {
+            _isActive = true;
+            if (!vm) vm = new MainVM();
+        }
+
+        override protected function commitProperties():void {
+            super.commitProperties();
+            if (selectedViewChanged) {
+                selectedViewChanged = false;
+                if (selectedView) {
+                    viewCont.removeAllElements();
+                    viewCont.addElement(selectedView);
+                }
+            }
+        }
+
+        private function selectedViewInfoHandler():void {
+            if (viewList.selectedItem is ViewInfo)
+                vm.viewNavigator.navigate(viewList.selectedItem as ViewInfo);
         }
 
         private function screenRendererFunc(item:Object):IFactory {
-            if (item is ScreenInfo) return new ClassFactory(ScreenListItemRenderer);
+            if (item is ViewInfo) return new ClassFactory(ScreenListItemRenderer);
             else if (item is SeparatorVo) return new ClassFactory(SeparatorItemRenderer);
             else throw new Error("Unknown screen item type:" + item.toString() + "!");
         }
 
-        public function addScreen(screen:ScreenBase):void {
-            screenCont.addElement(screen);
-        }
-
-        public function removeScreen():void {
-            screenCont.removeAllElements();
-        }
-
-        public function lock():void {
-            setCurrentState("lock");
-        }
-
-        public function unlock():void {
-            setCurrentState("normal");
-        }
-
-        private function addedToStageHandler(event:Event):void {
+        private function creationCompleteHandler(event:FlexEvent):void {
             SimplePopup.container.percentHeight = 100;
             SimplePopup.container.percentWidth = 100;
             popupLayer.addElement(SimplePopup.container);
+            TapEventKit.registerLongTapListener(parent, showHideConsole, new Rectangle(0, 0, 3000, INTERACTION_AREA_HEI));
+        }
+
+        private static const INTERACTION_AREA_HEI:uint = Values.PT80;
+        private var logPanel:LogPanel;
+
+        private function showHideConsole():void {
+            if (!logPanel) {
+                logPanel = new LogPanel();
+                logPanel.logNoteColl = new ArrayCollection(CLog.logBank);
+                CLog.changeCallback = scrollToLastLogNote;
+            }
+
+            if (logPanel.parent) {
+                popupLayer.removeElement(logPanel);
+            }
+            else {
+                popupLayer.addElement(logPanel);
+                logPanel.y = INTERACTION_AREA_HEI;
+            }
+        }
+
+        private function scrollToLastLogNote():void {
+            if (logPanel.parent) logPanel.refresh();
         }
         ]]></fx:Script>
+    <fx:Binding source="vm.viewNavigator.selectedView" destination="selectedView"/>
+    <fx:Binding source="vm.viewLocked" destination="viewLocked"/>
 
     <s:states>
         <s:State name="disabled"/>
@@ -88,30 +141,31 @@
                    source="@Embed('/assets/app_bg.png')"
                    fillMode="scale" scaleMode="zoom" smooth="true"/>
 
-    <s:Group id="screenCont"
+    <s:Group id="viewCont"
              left="66" right="0"
              height="100%"/>
 
     <s:Rect width="66" height="100%">
         <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_LIST_BG}"/>
+            <s:SolidColor color="{AppColors.VIEW_LIST_BG}"/>
         </s:fill>
     </s:Rect>
 
-    <list:SelectableDataGroup id="screenList"
+    <list:SelectableDataGroup id="viewList"
                               width="66" height="100%"
                               minWidth="0"
-                              dataProvider="{screenListProvider}"
-                              selectedItem="{selectedScreenInfo}"
+                              dataProvider="{vm.viewFactory.viewInfoColl}"
+                              selectedItem="{vm.viewNavigator.selectedViewInfo}"
                               contentBackgroundAlpha="0"
                               autoLayout="true"
-                              itemRendererFunction="screenRendererFunc">
+                              itemRendererFunction="screenRendererFunc"
+                              selectedItemChange="selectedViewInfoHandler()">
         <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false" variableRowHeight="true"/>
         </list:layout>
     </list:SelectableDataGroup>
 
-    <tafel:Tafel id="tafel" width="400" height="100%" right="0"/>
+    <tafel:CommentsBoard id="tafel" width="400" height="100%" right="0"/>
 
     <s:Group id="popupLayer" width="100%" height="100%"/>
 

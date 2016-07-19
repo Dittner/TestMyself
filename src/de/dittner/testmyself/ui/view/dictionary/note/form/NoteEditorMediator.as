@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.view.dictionary.note.form {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.model.domain.note.NoteSuite;
 import de.dittner.testmyself.model.domain.theme.ITheme;
@@ -18,7 +17,7 @@ public class NoteEditorMediator extends NoteFormMediator {
 		if (!isActive && toolAction == ToolAction.EDIT && selectedNote) {
 			isActive = true;
 			view.edit(selectedNote);
-			view.title = ToolActionName.getNameById(ToolAction.EDIT);
+			view.title = ToolActionName.getNameByID(ToolAction.EDIT);
 			openForm();
 			loadThemes();
 			loadExamples();

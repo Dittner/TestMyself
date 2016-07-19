@@ -10,9 +10,8 @@
                    xmlns:common2="de.dittner.testmyself.ui.view.dictionary.common.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppConfig;
-        import de.dittner.testmyself.model.domain.word.IWord;
-        import de.dittner.testmyself.model.domain.word.WordArticle;
+        import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -51,10 +50,10 @@
                 clear();
 
                 if (word) {
-                    if (AppConfig.isDesktop) stage.focus = wordInput;
+                    if (Device.isDesktop) stage.focus = wordInput;
                     articleLbl.text = word.article;
-                    if (word.article == WordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                    else if (word.article == WordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
+                    if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
+                    else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
                     else articleLbl.setStyle("color", AppColors.TEXT_DARK);
 
                     titleLbl.text = word.article ? " " + word.title : word.title;
@@ -182,7 +181,7 @@
 
                 <input:TextInputForm id="wordInput"
                                      width="75%"
-                                     maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                                     maxChars="{Device.MAX_WORD_LENGTH}"
                                      enter="onAnswered()"
                                      title="Schreiben Sie bitte das vertonende Wort"/>
 

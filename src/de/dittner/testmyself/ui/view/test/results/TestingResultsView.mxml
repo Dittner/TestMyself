@@ -9,8 +9,6 @@
          xmlns:common="de.dittner.testmyself.ui.view.test.common.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.verb.IVerb;
-        import de.dittner.testmyself.model.domain.word.IWord;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.view.test.common.TestRendererData;

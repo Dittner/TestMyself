@@ -10,7 +10,7 @@
                    xmlns:common2="de.dittner.testmyself.ui.view.dictionary.common.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppConfig;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.note.INote;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -50,7 +50,7 @@
                 clear();
 
                 if (note) {
-                    if (AppConfig.isDesktop) stage.focus = input;
+                    if (Device.isDesktop) stage.focus = input;
 
                     titleBoard.text = note.title;
                     translateBoard.text = note.description;
@@ -146,7 +146,7 @@
 
             <input:TextAreaForm id="input"
                                 width="{width - 2*padding}" height="100%"
-                                maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                                maxChars="{Device.MAX_WORD_LENGTH}"
                                 title="Schreiben Sie bitte die vertonende Notiz"/>
 
             <button:BlackButton id="validateBtn"

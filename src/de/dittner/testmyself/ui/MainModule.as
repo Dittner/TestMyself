@@ -1,12 +1,9 @@
 package de.dittner.testmyself.ui {
-import de.dittner.satelliteFlight.command.IConfigureCommand;
-import de.dittner.satelliteFlight.message.RequestMessage;
-import de.dittner.satelliteFlight.module.RootModule;
-import de.dittner.testmyself.backend.command.app.ConfigureMainModuleCmd;
+import de.dittner.testmyself.backend.command.ConfigureMainModuleCmd;
+import de.dittner.testmyself.ui.common.view.ViewID;
 import de.dittner.testmyself.ui.message.ScreenMsg;
-import de.dittner.testmyself.ui.service.screenFactory.ScreenID;
+import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.testmyself.ui.view.main.MainView;
-import de.dittner.testmyself.ui.view.main.MainViewMediator;
 
 import mx.core.IVisualElementContainer;
 
@@ -23,8 +20,8 @@ public class MainModule extends RootModule {
 		mainView.percentHeight = 100;
 		mainView.percentWidth = 100;
 		root.addElement(mainView);
-		registerMediator(mainView, new MainViewMediator());
-		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, ScreenID.ABOUT));
+		registerMediator(mainView, new MainVM());
+		sendRequest(ScreenMsg.SELECT_SCREEN, new RequestMessage(null, ViewID.ABOUT));
 	}
 
 }

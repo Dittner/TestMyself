@@ -1,12 +1,10 @@
 package de.dittner.testmyself.ui.view.test.results {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.TestMsg;
 import de.dittner.testmyself.model.domain.common.TestID;
 import de.dittner.testmyself.model.domain.note.INote;
-import de.dittner.testmyself.model.domain.test.TestInfo;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.page.ITestPageInfo;
 import de.dittner.testmyself.model.page.TestPageInfo;
@@ -23,10 +21,10 @@ public class TestingResultsMediator extends SFMediator {
 
 	[Inject]
 	public var view:TestingResultsView;
-	private var selectedTestInfo:TestInfo;
+	private var selectedTestInfo:Test;
 	private var needTranslationInvert:Boolean = false;
 
-	public function TestingResultsMediator(testInfo:TestInfo):void {
+	public function TestingResultsMediator(testInfo:Test):void {
 		super();
 		selectedTestInfo = testInfo;
 		switch (testInfo.id) {

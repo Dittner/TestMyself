@@ -1,11 +1,8 @@
 package de.dittner.testmyself.ui.view.search {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.SearchMsg;
-import de.dittner.testmyself.model.AppConfig;
-import de.dittner.testmyself.model.ModuleName;
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.search.SearchSpec;
 
 import flash.desktop.NativeApplication;
@@ -31,12 +28,12 @@ public class SearchBoardMediator extends SFMediator {
 		view.searchInput.addEventListener(FlexEvent.ENTER, startSearch);
 		view.undoBtn.addEventListener(MouseEvent.CLICK, undoSearch);
 		view.redoBtn.addEventListener(MouseEvent.CLICK, redoSearch);
-		if (view.stage && AppConfig.isDesktop) view.stage.focus = view.searchInput;
+		if (view.stage && Device.isDesktop) view.stage.focus = view.searchInput;
 		NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
 	}
 
 	private function nativeApplication_activateHandler(event:Event):void {
-		if (view.stage && AppConfig.isDesktop) view.stage.focus = view.searchInput;
+		if (view.stage && Device.isDesktop) view.stage.focus = view.searchInput;
 	}
 
 	public function startSearch(event:* = null):void {
@@ -90,7 +87,7 @@ public class SearchBoardMediator extends SFMediator {
 
 	private function updateSearchInput():void {
 		view.searchInput.text = history.row;
-		if (AppConfig.isDesktop) view.stage.focus = view.searchInput;
+		if (Device.isDesktop) view.stage.focus = view.searchInput;
 		view.searchInput.selectAll();
 	}
 

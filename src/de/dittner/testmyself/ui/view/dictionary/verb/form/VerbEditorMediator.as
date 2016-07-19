@@ -1,13 +1,12 @@
 package de.dittner.testmyself.ui.view.dictionary.verb.form {
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.verb.IVerb;
-import de.dittner.testmyself.model.domain.verb.Verb;
+import de.dittner.testmyself.model.domain.note.verb.DeVerb;
 import de.dittner.testmyself.ui.view.dictionary.note.form.NoteEditorMediator;
 
 public class VerbEditorMediator extends NoteEditorMediator {
 
 	override protected function createNote():Note {
-		var verb:Verb = new Verb();
+		var verb:DeVerb = new DeVerb();
 		verb.title = view.verbInputsForm.infinitiveInput.text;
 		verb.description = correctDescriptionText(view.descriptionArea.text);
 		verb.audioComment = view.audioRecorder.comment;

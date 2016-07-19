@@ -9,7 +9,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.INote;
-        import de.dittner.testmyself.model.domain.word.Word;
+        import de.dittner.testmyself.model.domain.note.word.DeWord;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -54,8 +54,8 @@
 
         private function noteToTitle():String {
             var res:String;
-            if (note is Word) {
-                var w:Word = note as Word;
+            if (note is DeWord) {
+                var w:DeWord = note as DeWord;
                 res = w.article ? w.article + " " : "";
                 res += w.title;
                 res += w.options ? ", " + w.options : "";

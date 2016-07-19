@@ -2,7 +2,7 @@ package de.dittner.testmyself.ui.view.main {
 import de.dittner.testmyself.ui.common.renderer.ItemRendererBase;
 import de.dittner.testmyself.ui.common.utils.hideTooltip;
 import de.dittner.testmyself.ui.common.utils.showTooltip;
-import de.dittner.testmyself.ui.service.screenFactory.ScreenInfo;
+import de.dittner.testmyself.ui.common.view.ViewInfo;
 
 import flash.display.Bitmap;
 import flash.display.Graphics;
@@ -26,8 +26,8 @@ public class ScreenListItemRenderer extends ItemRendererBase {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private function get screenInfo():ScreenInfo {
-		return data as ScreenInfo;
+	private function get screenInfo():ViewInfo {
+		return data as ViewInfo;
 	}
 
 	override public function set data(value:Object):void {

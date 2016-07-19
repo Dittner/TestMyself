@@ -4,7 +4,7 @@
          xmlns:input="de.dittner.testmyself.ui.common.input.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppConfig;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.view.dictionary.common.NoteUtils;
 
         import spark.components.supportClasses.TextInputOperation;
@@ -78,28 +78,28 @@
                          changing="wordValidationHandler(event)"
                          text="{infinitive}"
                          width="100%"
-                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         maxChars="{Device.MAX_WORD_LENGTH}"
                          title="Infinitiv"/>
 
     <input:TextInputForm id="presentInput"
                          changing="wordValidationHandler(event)"
                          text="{present}"
                          width="100%"
-                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         maxChars="{Device.MAX_WORD_LENGTH}"
                          title="Präsens"/>
 
     <input:TextInputForm id="pastInput"
                          changing="wordValidationHandler(event)"
                          text="{past}"
                          width="100%"
-                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         maxChars="{Device.MAX_WORD_LENGTH}"
                          title="Präteritum"/>
 
     <input:TextInputForm id="perfectInput"
                          changing="wordValidationHandler(event)"
                          text="{perfect}"
                          width="100%"
-                         maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                         maxChars="{Device.MAX_WORD_LENGTH}"
                          title="Partizip II"/>
 
 </s:Group>

@@ -1,9 +1,7 @@
 package de.dittner.testmyself.ui.view.test {
 import de.dittner.async.utils.doLaterInFrames;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.TestMsg;
-import de.dittner.testmyself.model.domain.test.TestInfo;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.ui.message.ScreenMsg;
 import de.dittner.testmyself.ui.view.test.form.TestingNoteFormMediator;
 import de.dittner.testmyself.ui.view.test.presets.TestPresetsMediator;
@@ -22,7 +20,7 @@ public class TestScreenMediator extends SFMediator {
 	private var testingMediator:TestingMediator;
 	private var resultsMediator:TestingResultsMediator;
 	private var noteFormMediator:TestingNoteFormMediator;
-	private var selectedTestInfo:TestInfo;
+	private var selectedTestInfo:Test;
 
 	override protected function activate():void {
 		view.editForm.visible = false;
@@ -35,7 +33,7 @@ public class TestScreenMediator extends SFMediator {
 		doLaterInFrames(activateScreen, 5);
 	}
 
-	private function testInfoSelected(testInfo:TestInfo):void {
+	private function testInfoSelected(testInfo:Test):void {
 		selectedTestInfo = testInfo;
 	}
 

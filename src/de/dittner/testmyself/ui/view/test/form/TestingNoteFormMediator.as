@@ -1,10 +1,8 @@
 package de.dittner.testmyself.ui.view.test.form {
-import de.dittner.satelliteFlight.mediator.SFMediator;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.TestMsg;
-import de.dittner.testmyself.model.ModuleName;
 import de.dittner.testmyself.model.domain.note.INote;
-import de.dittner.testmyself.model.domain.test.TestInfo;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.ui.common.toobar.ToolAction;
 import de.dittner.testmyself.ui.view.dictionary.lesson.form.LessonEditorMediator;
 import de.dittner.testmyself.ui.view.dictionary.note.form.NoteEditorMediator;
@@ -20,7 +18,7 @@ public class TestingNoteFormMediator extends SFMediator {
 	[Inject]
 	public var view:NoteForm;
 
-	public var selectedTestInfo:TestInfo;
+	public var selectedTestInfo:Test;
 	private var testingNote:INote;
 	private var activeEditorMediator:NoteEditorMediator;
 	private var activeRemoverMediator:NoteRemoverMediator;
@@ -36,7 +34,7 @@ public class TestingNoteFormMediator extends SFMediator {
 
 	public function startEditing():void {
 		if (testingNote) {
-			view.moduleName = selectedTestInfo.useNoteExample ? "" : selectedTestInfo.moduleName;
+			view.moduleName = selectedTestInfo.useExamples ? "" : selectedTestInfo.moduleName;
 			registerEditorMediator(selectedTestInfo.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT);
@@ -45,7 +43,7 @@ public class TestingNoteFormMediator extends SFMediator {
 
 	public function startRemoving():void {
 		if (testingNote) {
-			view.moduleName = selectedTestInfo.useNoteExample ? "" : selectedTestInfo.moduleName;
+			view.moduleName = selectedTestInfo.useExamples ? "" : selectedTestInfo.moduleName;
 			registerRemoverMediator(selectedTestInfo.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
 			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE);
@@ -56,7 +54,7 @@ public class TestingNoteFormMediator extends SFMediator {
 		if (activeEditorMediator) {
 			unregisterMediator(activeEditorMediator);
 		}
-		if (selectedTestInfo.useNoteExample) {
+		if (selectedTestInfo.useExamples) {
 			activeEditorMediator = new ExampleEditorMediator();
 		}
 		else {
@@ -83,7 +81,7 @@ public class TestingNoteFormMediator extends SFMediator {
 			unregisterMediator(activeRemoverMediator);
 		}
 
-		activeRemoverMediator = selectedTestInfo.useNoteExample ? new ExampleRemoverMediator() : new NoteRemoverMediator();
+		activeRemoverMediator = selectedTestInfo.useExamples ? new ExampleRemoverMediator() : new NoteRemoverMediator();
 		registerMediator(view, activeRemoverMediator);
 	}
 

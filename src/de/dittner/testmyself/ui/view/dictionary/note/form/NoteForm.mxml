@@ -14,15 +14,12 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.utils.invalidateOf;
-        import de.dittner.testmyself.model.AppConfig;
-        import de.dittner.testmyself.model.ModuleName;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.note.INote;
+        import de.dittner.testmyself.model.domain.note.verb.DeVerb;
+        import de.dittner.testmyself.model.domain.note.word.DeWord;
+        import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
         import de.dittner.testmyself.model.domain.theme.ITheme;
-        import de.dittner.testmyself.model.domain.verb.IVerb;
-        import de.dittner.testmyself.model.domain.verb.Verb;
-        import de.dittner.testmyself.model.domain.word.IWord;
-        import de.dittner.testmyself.model.domain.word.Word;
-        import de.dittner.testmyself.model.domain.word.WordArticle;
         import de.dittner.testmyself.ui.common.editor.EditorBg;
         import de.dittner.testmyself.ui.common.renderer.AddedThemeItemRenderer;
         import de.dittner.testmyself.ui.common.renderer.ThemeItemRenderer;
@@ -159,7 +156,7 @@
         public function edit(note:INote):void {
             setMode("edit");
 
-            if (note is Word) {
+            if (note is DeWord) {
                 var word:IWord = note as IWord;
                 articleBox.selectedItem = word.article;
                 wordInput.text = word.title;
@@ -167,7 +164,7 @@
                 descriptionArea.text = word.description;
                 audioRecorder.comment = word.audioComment;
             }
-            else if (note is Verb) {
+            else if (note is DeVerb) {
                 var verb:IVerb = note as IVerb;
                 verbInputsForm.infinitive = verb.title;
                 verbInputsForm.present = verb.present;
@@ -188,7 +185,7 @@
         }
 
         private function focusTextInput():void {
-            if (stage && AppConfig.isDesktop) stage.focus = currentState == "lesson" || currentState == "normal" ? titleArea.area : wordInput;
+            if (stage && Device.isDesktop) stage.focus = currentState == "lesson" || currentState == "normal" ? titleArea.area : wordInput;
         }
 
         public function remove(note:INote):void {
@@ -287,7 +284,7 @@
                                  width="110"
                                  itemRenderer="de.dittner.testmyself.ui.view.dictionary.common.articleList.ArticleItemRenderer"
                                  skinClass="de.dittner.testmyself.ui.view.dictionary.common.articleList.ListBoxSkin"
-                                 dataProvider="{new ArrayCollection(WordArticle.ARTICLES)}"/>
+                                 dataProvider="{new ArrayCollection(DeWordArticle.ARTICLES)}"/>
 
                 <s:VGroup width="100%" height="100%" gap="{VGAP}">
                     <input:TextAreaForm id="titleArea"
@@ -296,14 +293,14 @@
                                         visible.verb="false" includeInLayout.verb="false"
                                         width="100%" height="100%"
                                         title="Deutschsatz"
-                                        maxChars="{AppConfig.MAX_TEXT_LENGTH}"/>
+                                        maxChars="{Device.MAX_TEXT_LENGTH}"/>
 
                     <s:HGroup width="100%" gap="{HGAP}">
                         <input:TextInputForm id="wordInput"
                                              visible="false" includeInLayout="false"
                                              visible.word="true" includeInLayout.word="true"
                                              width="50%"
-                                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                                             maxChars="{Device.MAX_WORD_LENGTH}"
                                              changing="wordValidationHandler(event)"
                                              title="Deutschtwort"/>
 
@@ -311,7 +308,7 @@
                                              visible="false" includeInLayout="false"
                                              visible.word="true" includeInLayout.word="true"
                                              width="50%"
-                                             maxChars="{AppConfig.MAX_WORD_LENGTH}"
+                                             maxChars="{Device.MAX_WORD_LENGTH}"
                                              title="Zusätzliche Daten"/>
                     </s:HGroup>
 
@@ -324,7 +321,7 @@
 
                         <input:TextAreaForm id="descriptionArea"
                                             width="100%" height="100%"
-                                            maxChars="{AppConfig.MAX_TEXT_LENGTH}"
+                                            maxChars="{Device.MAX_TEXT_LENGTH}"
                                             title="Übersetzung"/>
                     </s:HGroup>
 
@@ -366,7 +363,7 @@
                       visible.lesson="false" includeInLayout.lesson="false">
                 <input:TextInputForm id="addThemeInput"
                                      width="100%"
-                                     maxChars="{AppConfig.MAX_THEME_NAME_LENGTH}"
+                                     maxChars="{Device.MAX_THEME_NAME_LENGTH}"
                                      title="Neuer Themaname"/>
 
                 <button:BitmapButton id="addThemeBtn"

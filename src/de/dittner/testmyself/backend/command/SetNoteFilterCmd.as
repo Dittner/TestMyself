@@ -1,15 +1,12 @@
 package de.dittner.testmyself.backend.command {
-import de.dittner.satelliteFlight.command.ISFCommand;
-import de.dittner.satelliteFlight.message.IRequestMessage;
-import de.dittner.satelliteFlight.message.RequestMessage;
-import de.dittner.testmyself.backend.NoteService;
+import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.model.domain.note.INoteModel;
 import de.dittner.testmyself.model.domain.note.NoteFilter;
 
 public class SetNoteFilterCmd implements ISFCommand {
 
 	[Inject]
-	public var service:NoteService;
+	public var service:SQLStorage;
 
 	[Inject]
 	public var model:INoteModel;

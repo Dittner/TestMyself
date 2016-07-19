@@ -1,20 +1,15 @@
 package de.dittner.testmyself.model.screen {
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.proxy.SFProxy;
-import de.dittner.satelliteFlight.sf_namespace;
-import de.dittner.testmyself.model.ModuleName;
-import de.dittner.testmyself.ui.common.screen.ScreenBase;
+import de.dittner.testmyself.ui.common.view.IScreenMediatorFactory;
+import de.dittner.testmyself.ui.common.view.IViewFactory;
+import de.dittner.testmyself.ui.common.view.ViewID;
 import de.dittner.testmyself.ui.message.ScreenMsg;
-import de.dittner.testmyself.ui.service.screenFactory.IScreenFactory;
-import de.dittner.testmyself.ui.service.screenFactory.ScreenID;
-import de.dittner.testmyself.ui.service.screenMediatorFactory.IScreenMediatorFactory;
 
 use namespace sf_namespace;
 
 public class ScreenModel extends SFProxy {
 
 	[Inject]
-	public var screenFactory:IScreenFactory;
+	public var screenFactory:IViewFactory;
 
 	[Inject]
 	public var screenMediatorFactory:IScreenMediatorFactory;
@@ -30,16 +25,16 @@ public class ScreenModel extends SFProxy {
 		if (_selectedScreenID != value) {
 			unregisterMediator();
 			_selectedScreenID = value;
-			selectedScreen = screenFactory.createScreen(selectedScreenID);
+			selectedScreen = screenFactory.createView(selectedScreenID);
 		}
 	}
 
 	//--------------------------------------
 	//  selectedScreen
 	//--------------------------------------
-	private var _selectedScreen:ScreenBase;
-	public function get selectedScreen():ScreenBase {return _selectedScreen;}
-	public function set selectedScreen(value:ScreenBase):void {
+	private var _selectedScreen:ViewBaseOLD;
+	public function get selectedScreen():ViewBaseOLD {return _selectedScreen;}
+	public function set selectedScreen(value:ViewBaseOLD):void {
 		_selectedScreen = value;
 		registerMediator();
 		sendNotification(ScreenMsg.SELECTED_SCREEN_CHANGED_NOTIFICATION, selectedScreen);
@@ -91,13 +86,13 @@ public class ScreenModel extends SFProxy {
 	public function getModuleNameByScreen(screenID:String):String {
 		var moduleName:String;
 		switch (screenID) {
-			case ScreenID.WORD :
+			case ViewID.WORD :
 				moduleName = ModuleName.WORD;
 				break;
-			case ScreenID.VERB :
+			case ViewID.VERB :
 				moduleName = ModuleName.VERB;
 				break;
-			case ScreenID.LESSON :
+			case ViewID.LESSON :
 				moduleName = ModuleName.LESSON;
 				break;
 			default :

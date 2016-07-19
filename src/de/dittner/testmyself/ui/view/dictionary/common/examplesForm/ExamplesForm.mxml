@@ -8,7 +8,7 @@
          xmlns:editor="de.dittner.testmyself.ui.common.editor.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppConfig;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.editor.EditorBg;
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -167,7 +167,7 @@
                                         visible.add="true" includeInLayout.add="true"
                                         visible.edit="true" includeInLayout.edit="true"
                                         visible="false" includeInLayout="false"
-                                        maxChars="{AppConfig.MAX_TEXT_LENGTH}"/>
+                                        maxChars="{Device.MAX_TEXT_LENGTH}"/>
 
                     <input:TextAreaForm id="descriptionArea"
                                         width="100%"
@@ -175,7 +175,7 @@
                                         visible.add="true" includeInLayout.add="true"
                                         visible.edit="true" includeInLayout.edit="true"
                                         visible="false" includeInLayout="false"
-                                        maxChars="{AppConfig.MAX_TEXT_LENGTH}"
+                                        maxChars="{Device.MAX_TEXT_LENGTH}"
                                         title="Übersetzung"/>
 
                     <audio:AudioRecorder id="audioRecorder" width="100%" height="72"

@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
-<core:ScreenBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-                 xmlns:s="library://ns.adobe.com/flex/spark"
-                 xmlns:core="de.dittner.testmyself.ui.common.screen.*"
-                 xmlns:list="de.dittner.testmyself.ui.view.dictionary.note.list.*"
-                 xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
-                 xmlns:navigation="de.dittner.testmyself.ui.common.pagination.*"
-                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-                 xmlns:search="de.dittner.testmyself.ui.view.search.*"
-                 xmlns:list2="de.dittner.testmyself.ui.common.list.*"
-                 xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                 xmlns:form="de.dittner.testmyself.ui.view.dictionary.note.form.*"
-                 currentState="inactive"
-                 horizontalCenter="0">
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:core="de.dittner.testmyself.ui.common.view.*"
+                xmlns:list="de.dittner.testmyself.ui.view.dictionary.note.list.*"
+                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+                xmlns:navigation="de.dittner.testmyself.ui.common.pagination.*"
+                xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+                xmlns:search="de.dittner.testmyself.ui.view.search.*"
+                xmlns:list2="de.dittner.testmyself.ui.common.list.*"
+                xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                xmlns:form="de.dittner.testmyself.ui.view.dictionary.note.form.*"
+                currentState="inactive"
+                horizontalCenter="0"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -37,7 +38,7 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        public function activate():void {
+        override protected function activate():void {
             setCurrentState("active");
         }
 
@@ -185,4 +186,4 @@
                    smooth="true"
                    source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
-</core:ScreenBase>
+</view:SmartView>

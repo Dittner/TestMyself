@@ -8,7 +8,6 @@
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.verb.IVerb;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;

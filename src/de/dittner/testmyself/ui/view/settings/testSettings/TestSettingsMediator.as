@@ -1,10 +1,7 @@
 package de.dittner.testmyself.ui.view.settings.testSettings {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.TestMsg;
-import de.dittner.testmyself.model.ModuleName;
-import de.dittner.testmyself.model.domain.test.TestInfo;
+import de.dittner.testmyself.model.domain.test.Test;
 
 import flash.events.MouseEvent;
 
@@ -27,10 +24,10 @@ public class TestSettingsMediator extends SFMediator {
 		for each(var item:* in op.result) view.testColl.addItem(item);
 	}
 
-	private var selectedTestInfo:TestInfo;
+	private var selectedTestInfo:Test;
 	private function onTestHistoryRemoved(event:MouseEvent):void {
 		if (view.testList.selectedItem) {
-			selectedTestInfo = view.testList.selectedItem as TestInfo;
+			selectedTestInfo = view.testList.selectedItem as Test;
 			sendRequestTo(selectedTestInfo.moduleName, TestMsg.CLEAR_TEST_HISTORY, new RequestMessage(testHistoryCleared, selectedTestInfo));
 		}
 	}

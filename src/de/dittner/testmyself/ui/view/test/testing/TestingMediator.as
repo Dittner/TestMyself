@@ -1,11 +1,9 @@
 package de.dittner.testmyself.ui.view.test.testing {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.TestMsg;
 import de.dittner.testmyself.model.domain.note.INote;
-import de.dittner.testmyself.model.domain.test.TestInfo;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.view.test.common.TestingAction;
 import de.dittner.testmyself.ui.view.test.testing.test.ITestableView;
@@ -17,11 +15,11 @@ public class TestingMediator extends SFMediator {
 	[Inject]
 	public var view:ITestableView;
 
-	private var selectedTestInfo:TestInfo;
+	private var selectedTestInfo:Test;
 	private var testTasks:Array;
 	private var curTask:TestTask;
 
-	public function TestingMediator(testInfo:TestInfo):void {
+	public function TestingMediator(testInfo:Test):void {
 		super();
 		selectedTestInfo = testInfo;
 	}
@@ -41,7 +39,7 @@ public class TestingMediator extends SFMediator {
 	private function reloadNote():void {
 		if (view.activeNote) {
 			view.taskNumber--;
-			var msg:String = selectedTestInfo.useNoteExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
+			var msg:String = selectedTestInfo.useExamples ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
 			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, curTask.noteID));
 		}
 	}
@@ -86,7 +84,7 @@ public class TestingMediator extends SFMediator {
 		if (testTasks && testTasks.length > 0) {
 			curTask = testTasks.shift();
 			view.complexity = curTask.complexity;
-			var msg:String = selectedTestInfo.useNoteExample ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
+			var msg:String = selectedTestInfo.useExamples ? NoteMsg.GET_EXAMPLE : NoteMsg.GET_NOTE;
 			sendRequestTo(selectedTestInfo.moduleName, msg, new RequestMessage(onNoteLoaded, curTask.noteID));
 		}
 		else view.answerEnabled = false;
