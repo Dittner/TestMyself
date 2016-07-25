@@ -4,8 +4,10 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
-import de.dittner.testmyself.model.domain.note.NotesInfo;
+import de.dittner.testmyself.logging.CLog;
+import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.SQLLib;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
 import flash.data.SQLConnection;
 import flash.data.SQLResult;
@@ -14,18 +16,16 @@ import flash.net.Responder;
 
 public class ExampleCountOperationPhase extends AsyncOperation implements IAsyncCommand {
 
-	public function ExampleCountOperationPhase(conn:SQLConnection, info:NotesInfo, sqlFactory:SQLLib) {
+	public function ExampleCountOperationPhase(conn:SQLConnection, info:VocabularyInfo) {
 		this.conn = conn;
 		this.info = info;
-		this.sqlFactory = sqlFactory;
 	}
 
-	private var info:NotesInfo;
+	private var info:VocabularyInfo;
 	private var conn:SQLConnection;
-	private var sqlFactory:SQLLib;
 
 	public function execute():void {
-		var statement:SQLStatement = SQLUtils.createSQLStatement(sqlFactory.selectCountExample);
+		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_COUNT_EXAMPLE_SQL, {vocabularyID: info.vocabulary.id});
 		statement.sqlConnection = conn;
 		statement.execute(-1, new Responder(executeComplete));
 	}
@@ -40,7 +40,8 @@ public class ExampleCountOperationPhase extends AsyncOperation implements IAsync
 			dispatchSuccess();
 		}
 		else {
-			dispatchError(new CommandException(ErrorCode.SQL_TRANSACTION_FAILED, "Не удалось получить число записей в таблице"));
+			CLog.err(LogCategory.STORAGE, ErrorCode.SQL_TRANSACTION_FAILED + ": Не удалось получить число записей в таблице");
+			dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 		}
 	}
 

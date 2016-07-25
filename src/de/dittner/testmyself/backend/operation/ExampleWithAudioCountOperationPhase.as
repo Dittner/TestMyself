@@ -4,8 +4,8 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
-import de.dittner.testmyself.model.domain.note.NotesInfo;
 import de.dittner.testmyself.model.domain.note.SQLLib;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
 import flash.data.SQLConnection;
 import flash.data.SQLResult;
@@ -14,13 +14,13 @@ import flash.net.Responder;
 
 public class ExampleWithAudioCountOperationPhase extends AsyncOperation implements IAsyncCommand {
 
-	public function ExampleWithAudioCountOperationPhase(conn:SQLConnection, info:NotesInfo, sqlFactory:SQLLib) {
+	public function ExampleWithAudioCountOperationPhase(conn:SQLConnection, info:VocabularyInfo, sqlFactory:SQLLib) {
 		this.conn = conn;
 		this.info = info;
 		this.sqlFactory = sqlFactory;
 	}
 
-	private var info:NotesInfo;
+	private var info:VocabularyInfo;
 	private var conn:SQLConnection;
 	private var sqlFactory:SQLLib;
 

@@ -13,8 +13,8 @@ public class SetNoteFilterCmd implements ISFCommand {
 
 	public function execute(msg:IRequestMessage):void {
 		model.filter = msg.data as NoteFilter;
-		service.loadNotePageInfo(new RequestMessage(null, 0));
-		service.loadDBInfo(msg);
+		service.loadNotePage(new RequestMessage(null, 0));
+		service.loadLanguageInfo(msg);
 	}
 }
 }

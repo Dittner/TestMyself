@@ -1,9 +1,8 @@
 package de.dittner.testmyself.ui.view.test.form {
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.note.NoteSuite;
-import de.dittner.testmyself.ui.view.dictionary.note.form.NoteEditorMediator;
+import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteEditorMediator;
 
 import flash.events.MouseEvent;
 

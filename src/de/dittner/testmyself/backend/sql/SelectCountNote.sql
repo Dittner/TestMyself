@@ -1,3 +1,3 @@
 SELECT COUNT(id)
 FROM note
-WHERE title LIKE :searchFilter
+WHERE isExample = 0 AND vocabularyID = :vocabularyID

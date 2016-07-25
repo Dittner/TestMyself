@@ -18,7 +18,7 @@ public class GetNotesInfoCmd implements ISFCommand {
 			msg.onComplete(op);
 		}
 		else {
-			service.loadDBInfo(msg);
+			service.loadLanguageInfo(msg);
 		}
 	}
 }

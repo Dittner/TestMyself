@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:tafel="de.dittner.testmyself.ui.view.main.tafel.*"
+         xmlns:main="de.dittner.testmyself.ui.view.main.*"
          height="100%" width="100%"
          creationComplete="creationCompleteHandler(event)">
     <fx:Script><![CDATA[
@@ -14,6 +14,7 @@
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.view.ViewBase;
         import de.dittner.testmyself.ui.common.view.ViewInfo;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.TapEventKit;
         import de.dittner.testmyself.utils.Values;
 
@@ -65,7 +66,7 @@
 
         public function activate():void {
             _isActive = true;
-            if (!vm) vm = new MainVM();
+            if (!vm) vm = ViewModelFactory.instance.mainVM;
         }
 
         override protected function commitProperties():void {
@@ -85,7 +86,7 @@
         }
 
         private function screenRendererFunc(item:Object):IFactory {
-            if (item is ViewInfo) return new ClassFactory(ScreenListItemRenderer);
+            if (item is ViewInfo) return new ClassFactory(VewListItemRenderer);
             else if (item is SeparatorVo) return new ClassFactory(SeparatorItemRenderer);
             else throw new Error("Unknown screen item type:" + item.toString() + "!");
         }
@@ -165,7 +166,9 @@
         </list:layout>
     </list:SelectableDataGroup>
 
-    <tafel:CommentsBoard id="tafel" width="400" height="100%" right="0"/>
+    <main:CommentsBoard id="commentsBoard"
+                        text="{vm.commentsBoardText}"
+                        width="400" height="100%" right="0"/>
 
     <s:Group id="popupLayer" width="100%" height="100%"/>
 

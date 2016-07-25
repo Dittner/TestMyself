@@ -4,7 +4,7 @@ import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.SearchMsg;
 import de.dittner.testmyself.model.search.FoundNote;
 import de.dittner.testmyself.ui.common.list.SelectableDataGroup;
-import de.dittner.testmyself.ui.view.dictionary.note.list.ExampleList;
+import de.dittner.testmyself.ui.view.vocabulary.note.list.ExampleList;
 
 import flash.events.Event;
 

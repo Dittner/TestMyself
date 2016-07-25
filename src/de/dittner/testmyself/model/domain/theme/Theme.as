@@ -36,10 +36,10 @@ public class Theme implements ITheme {
 		return res;
 	}
 
-	public function deserialize(obj:Object):void {
-		_id = obj.id;
-		_vocabularyID = obj.vocabularyID;
-		_name = obj.name;
+	public function deserialize(data:Object):void {
+		_id = data.id;
+		_vocabularyID = data.vocabularyID;
+		_name = data.name;
 	}
 
 }

@@ -1,3 +1,3 @@
 SELECT *
-FROM example
+FROM note
 WHERE noteID = :selectedNoteID

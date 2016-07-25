@@ -9,6 +9,9 @@ import de.dittner.walter.WalterProxy;
 import flash.events.Event;
 
 public class MainVM extends WalterProxy {
+	public function MainVM() {
+		super();
+	}
 
 	private static const COMMENTS_BOARD_TEXT_KEY:String = "COMMENTS_BOARD_TEXT_KEY";
 

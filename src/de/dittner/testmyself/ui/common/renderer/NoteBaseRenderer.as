@@ -1,8 +1,8 @@
 package de.dittner.testmyself.ui.common.renderer {
 import de.dittner.testmyself.model.domain.note.INote;
 import de.dittner.testmyself.model.search.FoundNote;
-import de.dittner.testmyself.ui.view.dictionary.note.list.NoteRendererData;
 import de.dittner.testmyself.ui.view.test.common.TestRendererData;
+import de.dittner.testmyself.ui.view.vocabulary.note.list.NoteRendererData;
 
 import flash.display.DisplayObject;
 

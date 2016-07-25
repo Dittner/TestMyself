@@ -6,16 +6,15 @@
                preloader="de.dittner.testmyself.ui.common.preloader.AppPreloader"
                backgroundColor="0x3d3f4b"
                uncaughtError="uncaughtErrorHandler(event)"
-               addedToStage="addedToStageHandler(event)">
+               creationComplete="creationCompleteHandler(event)">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.AppModel;
+        import de.dittner.testmyself.model.Bootstrap;
         import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 
         import mx.logging.Log;
 
         public static var root:TestMyselfApp;
-        public static var appModel:AppModel;
 
         private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {
             var error:* = event.error;
@@ -27,14 +26,11 @@
             }
         }
 
-        private function addedToStageHandler(event:Event):void {
+        private function creationCompleteHandler(event:Event):void {
             TestMyselfApp.root = this;
             TextFieldFactory.useEmbedFonts = true;
-            if (!appModel) {
-                appModel = new AppModel();
-                appModel.init();
-            }
-            if (!mainView.isActive) mainView.activate();
+            var boot:Bootstrap = new Bootstrap(mainView);
+            boot.start();
         }
         ]]></fx:Script>
 

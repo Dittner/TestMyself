@@ -1,7 +1,7 @@
 package de.dittner.testmyself.model.domain.note {
-import de.dittner.satelliteFlight.proxy.SFProxy;
 import de.dittner.testmyself.backend.message.NoteMsg;
-import de.dittner.testmyself.model.page.INotePageInfo;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
+import de.dittner.testmyself.model.page.INotePageRequest;
 
 public class NoteModel extends SFProxy implements INoteModel {
 
@@ -12,9 +12,9 @@ public class NoteModel extends SFProxy implements INoteModel {
 	//--------------------------------------
 	//  pageInfo
 	//--------------------------------------
-	private var _pageInfo:INotePageInfo = null;
-	public function get pageInfo():INotePageInfo {return _pageInfo;}
-	public function set pageInfo(value:INotePageInfo):void {
+	private var _pageInfo:INotePageRequest = null;
+	public function get pageInfo():INotePageRequest {return _pageInfo;}
+	public function set pageInfo(value:INotePageRequest):void {
 		_pageInfo = value;
 		sendNotification(NoteMsg.NOTE_PAGE_INFO_CHANGED_NOTIFICATION, pageInfo);
 	}
@@ -34,9 +34,9 @@ public class NoteModel extends SFProxy implements INoteModel {
 	//--------------------------------------
 	//  dataBaseInfo
 	//--------------------------------------
-	private var _dataBaseInfo:NotesInfo;
-	public function get dataBaseInfo():NotesInfo {return _dataBaseInfo;}
-	public function set dataBaseInfo(value:NotesInfo):void {
+	private var _dataBaseInfo:VocabularyInfo;
+	public function get dataBaseInfo():VocabularyInfo {return _dataBaseInfo;}
+	public function set dataBaseInfo(value:VocabularyInfo):void {
 		if (_dataBaseInfo != value) {
 			_dataBaseInfo = value;
 			sendNotification(NoteMsg.NOTES_INFO_CHANGED_NOTIFICATION, dataBaseInfo);

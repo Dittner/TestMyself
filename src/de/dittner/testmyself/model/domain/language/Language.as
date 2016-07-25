@@ -1,4 +1,7 @@
 package de.dittner.testmyself.model.domain.language {
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.utils.HashList;
 
@@ -6,8 +9,11 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 
 public class Language extends EventDispatcher {
-	public function Language() {
+	public function Language(storage:SQLStorage) {
+		this.storage = storage;
 	}
+
+	protected var storage:SQLStorage;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -58,5 +64,16 @@ public class Language extends EventDispatcher {
 		vocabularyHash.write(v.id, v);
 	}
 
+	public function init():IAsyncOperation {
+		var op:IAsyncOperation;
+		for each(var v:Vocabulary in vocabularyHash.getList())
+			op = v.init();
+
+		if (!op) {
+			op = new AsyncOperation();
+			op.dispatchSuccess();
+		}
+		return op;
+	}
 }
 }

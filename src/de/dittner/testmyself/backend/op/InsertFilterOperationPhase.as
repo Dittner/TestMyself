@@ -20,10 +20,10 @@ public class InsertFilterOperationPhase extends AsyncOperation implements IAsync
 	private var conn:SQLConnection;
 
 	public function execute():void {
-		if (note.themes.length > 0) {
+		if (note.themeIDs.length > 0) {
 			var composite:CompositeCommand = new CompositeCommand();
 
-			for each(var theme:Theme in note.themes)
+			for each(var theme:Theme in note.themeIDs)
 				composite.addOperation(InsertFilterOperationSubPhase, note.id, theme, conn, SQLLib.INSERT_FILTER_SQL);
 
 			composite.addCompleteCallback(completeHandler);

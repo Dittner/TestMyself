@@ -5,8 +5,8 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.model.domain.note.NoteFilter;
-import de.dittner.testmyself.model.domain.note.NotesInfo;
 import de.dittner.testmyself.model.domain.note.SQLLib;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
 import flash.data.SQLConnection;
 import flash.data.SQLResult;
@@ -15,14 +15,14 @@ import flash.net.Responder;
 
 public class FilteredNoteCountOperationPhase extends AsyncOperation implements IAsyncCommand {
 
-	public function FilteredNoteCountOperationPhase(conn:SQLConnection, info:NotesInfo, filter:NoteFilter, sqlFactory:SQLLib) {
+	public function FilteredNoteCountOperationPhase(conn:SQLConnection, info:VocabularyInfo, filter:NoteFilter, sqlFactory:SQLLib) {
 		this.conn = conn;
 		this.info = info;
 		this.filter = filter;
 		this.sqlFactory = sqlFactory;
 	}
 
-	private var info:NotesInfo;
+	private var info:VocabularyInfo;
 	private var conn:SQLConnection;
 	private var filter:NoteFilter;
 	private var sqlFactory:SQLLib;

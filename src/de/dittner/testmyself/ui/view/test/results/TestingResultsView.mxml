@@ -5,7 +5,7 @@
          xmlns:navigation="de.dittner.testmyself.ui.common.pagination.*"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:list2="de.dittner.testmyself.ui.view.dictionary.note.list.*"
+         xmlns:list2="de.dittner.testmyself.ui.view.vocabulary.note.list.*"
          xmlns:common="de.dittner.testmyself.ui.view.test.common.*">
 
     <fx:Script><![CDATA[

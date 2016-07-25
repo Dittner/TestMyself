@@ -84,9 +84,9 @@ public class SQLLib {
 	private static const SelectCountNoteClass:Class;
 	public static const SELECT_COUNT_NOTE_SQL:String = new SelectCountNoteClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountNoteWithAudio.sql", mimeType="application/octet-stream")]
-	private static const SelectCountNoteWithAudioClass:Class;
-	public static const SELECT_COUNT_NOTE_WITH_AUDIO_SQL:String = new SelectCountNoteWithAudioClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountAudioComment.sql", mimeType="application/octet-stream")]
+	private static const SelectCountAudioComment:Class;
+	public static const SELECT_COUNT_AUDIO_COMMENT_SQL:String = new SelectCountAudioComment();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountFilteredNote.sql", mimeType="application/octet-stream")]
 	private static const SelectCountFilteredNoteClass:Class;
@@ -167,6 +167,10 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilter.sql", mimeType="application/octet-stream")]
 	private static const SelectFilterClass:Class;
 	public static const SELECT_FILTER_SQL:String = new SelectFilterClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNoteThemes.sql", mimeType="application/octet-stream")]
+	private static const SelectNoteThemesClass:Class;
+	public static const SELECT_NOTE_THEMES_SQL:String = new SelectNoteThemesClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectExample.sql", mimeType="application/octet-stream")]
 	private static const SelectExampleClass:Class;

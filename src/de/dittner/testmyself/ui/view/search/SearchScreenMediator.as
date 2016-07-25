@@ -1,12 +1,10 @@
 package de.dittner.testmyself.ui.view.search {
 import de.dittner.async.utils.doLaterInMSec;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.SearchMsg;
 import de.dittner.testmyself.model.search.FoundNote;
 import de.dittner.testmyself.ui.message.ScreenMsg;
-import de.dittner.testmyself.ui.view.dictionary.note.mp3Player.NotePlayerMediator;
+import de.dittner.testmyself.ui.view.vocabulary.note.mp3Player.NotePlayerMediator;
 
 import flash.events.MouseEvent;
 

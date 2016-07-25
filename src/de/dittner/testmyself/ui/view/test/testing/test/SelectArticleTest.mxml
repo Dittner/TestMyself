@@ -4,7 +4,7 @@
                    xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
-                   xmlns:common2="de.dittner.testmyself.ui.view.dictionary.common.*"
+                   xmlns:common2="de.dittner.testmyself.ui.view.vocabulary.common.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*">
 
     <fx:Script><![CDATA[

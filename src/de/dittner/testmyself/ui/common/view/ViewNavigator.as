@@ -6,6 +6,9 @@ use namespace walter_namespace;
 
 public class ViewNavigator extends WalterProxy {
 	public static const SELECTED_VIEW_CHANGED_MSG:String = "selectedViewChangedMsg";
+	public function ViewNavigator() {
+		super();
+	}
 
 	[Inject]
 	public var viewFactory:IViewFactory;

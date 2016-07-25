@@ -1,12 +1,12 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.ui.common.renderer.SeparatorVo;
 import de.dittner.testmyself.ui.common.utils.AppColors;
-import de.dittner.testmyself.ui.view.about.AboutScreen;
-import de.dittner.testmyself.ui.view.dictionary.lesson.LessonScreen;
-import de.dittner.testmyself.ui.view.dictionary.note.NoteScreen;
+import de.dittner.testmyself.ui.view.map.MapView;
 import de.dittner.testmyself.ui.view.search.SearchScreen;
 import de.dittner.testmyself.ui.view.settings.SettingsScreen;
 import de.dittner.testmyself.ui.view.test.TestScreen;
+import de.dittner.testmyself.ui.view.vocabulary.lesson.LessonScreen;
+import de.dittner.testmyself.ui.view.wordList.NoteListView;
 import de.dittner.walter.WalterProxy;
 
 import flash.display.BitmapData;
@@ -35,7 +35,12 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 	[Embed(source='/assets/screen/settings.png')]
 	private static const SettingsIconClass:Class;
 
+	public static var instance:ViewFactory;
+
 	public function ViewFactory():void {
+		super();
+		if (instance) throw  new Error("ViewFactory must be Singleton!");
+		instance = this;
 		createViewInfoList();
 	}
 
@@ -44,11 +49,15 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 		return _viewInfoColl;
 	}
 
+	private var _firstViewInfo:ViewInfo;
+	public function get firstViewInfo():ViewInfo {return _firstViewInfo;}
+
 	private function createViewInfoList():void {
 		var _viewInfoArr:Array = [];
 		var info:ViewInfo;
 
 		info = new ViewInfo(ViewID.ABOUT, "", "Die Beschreibung des Programms", getIcon(ViewID.ABOUT));
+		_firstViewInfo = info;
 		_viewInfoArr.push(info);
 
 		_viewInfoArr.push(createViewItemSeparator());
@@ -114,7 +123,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 		return bitmapData;
 	}
 
-	private static var noteScreen:NoteScreen = new NoteScreen();
+	private static var noteScreen:NoteListView = new NoteListView();
 	private static var lessonScreen:LessonScreen = new LessonScreen();
 	private static var testScreen:TestScreen = new TestScreen();
 	private static var searchScreen:SearchScreen = new SearchScreen();
@@ -122,7 +131,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 		var view:ViewBase;
 		switch (viewInfo.id) {
 			case ViewID.ABOUT :
-				view = new AboutScreen();
+				view = new MapView();
 				break;
 			case ViewID.WORD :
 				view = noteScreen;

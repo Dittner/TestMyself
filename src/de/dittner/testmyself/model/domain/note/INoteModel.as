@@ -1,16 +1,17 @@
 package de.dittner.testmyself.model.domain.note {
-import de.dittner.testmyself.model.page.INotePageInfo;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
+import de.dittner.testmyself.model.page.INotePageRequest;
 
 public interface INoteModel {
 
-	function get pageInfo():INotePageInfo;
-	function set pageInfo(value:INotePageInfo):void;
+	function get pageInfo():INotePageRequest;
+	function set pageInfo(value:INotePageRequest):void;
 
 	function get themes():Array;
 	function set themes(value:Array):void;
 
-	function get dataBaseInfo():NotesInfo;
-	function set dataBaseInfo(value:NotesInfo):void;
+	function get dataBaseInfo():VocabularyInfo;
+	function set dataBaseInfo(value:VocabularyInfo):void;
 
 	function get selectedNote():INote;
 	function set selectedNote(value:INote):void;

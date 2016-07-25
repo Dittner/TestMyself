@@ -15,7 +15,7 @@ public class InsertThemeOperationPhase extends AsyncOperation implements IAsyncC
 
 	public function InsertThemeOperationPhase(conn:SQLConnection, note:Note) {
 		this.conn = conn;
-		this.themes = note.themes;
+		this.themes = note.themeIDs;
 		this.sqlFactory = sqlFactory;
 	}
 

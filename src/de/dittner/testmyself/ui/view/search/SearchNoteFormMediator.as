@@ -1,17 +1,15 @@
 package de.dittner.testmyself.ui.view.search {
-import de.dittner.satelliteFlight.mediator.SFMediator;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.SearchMsg;
-import de.dittner.testmyself.model.ModuleName;
 import de.dittner.testmyself.model.search.FoundNote;
 import de.dittner.testmyself.ui.common.toobar.ToolAction;
-import de.dittner.testmyself.ui.view.dictionary.lesson.form.LessonEditorMediator;
-import de.dittner.testmyself.ui.view.dictionary.note.form.NoteEditorMediator;
-import de.dittner.testmyself.ui.view.dictionary.note.form.NoteForm;
-import de.dittner.testmyself.ui.view.dictionary.note.form.NoteRemoverMediator;
-import de.dittner.testmyself.ui.view.dictionary.verb.form.VerbEditorMediator;
-import de.dittner.testmyself.ui.view.dictionary.word.form.WordEditorMediator;
 import de.dittner.testmyself.ui.view.test.form.*;
+import de.dittner.testmyself.ui.view.vocabulary.lesson.form.LessonEditorMediator;
+import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteEditorMediator;
+import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteForm;
+import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteRemoverMediator;
+import de.dittner.testmyself.ui.view.vocabulary.verb.form.VerbEditorMediator;
+import de.dittner.testmyself.ui.view.vocabulary.word.form.WordEditorMediator;
 
 public class SearchNoteFormMediator extends SFMediator {
 

@@ -11,7 +11,6 @@ public class SettingsInfo {
 	}
 
 	public var showTooltip:Boolean = false;
-	public var pageSize:uint = 10;
 	public var maxAudioRecordDuration:Number = 30;//min
 	public var backUpServerInfo:ServerInfo;
 }

@@ -87,7 +87,7 @@ public class Note extends EventDispatcher implements INote, ITestable {
 	//  themes
 	//--------------------------------------
 	private var _themes:Array = [];
-	[Bindable("themesChanged")]
+	[Bindable("themeIDsChanged")]
 	public function get themes():Array {return _themes;}
 	public function set themes(value:Array):void {
 		if (_themes != value) {

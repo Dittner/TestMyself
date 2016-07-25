@@ -19,7 +19,7 @@ public class GetNotePageInfoCmd implements ISFCommand {
 			msg.onComplete(op);
 		}
 		else {
-			service.loadNotePageInfo(msg);
+			service.loadNotePage(msg);
 		}
 	}
 }

@@ -1,17 +1,13 @@
 package de.dittner.testmyself.model {
-import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.model.domain.language.GermanLang;
 import de.dittner.testmyself.model.domain.language.Language;
-import de.dittner.testmyself.model.settings.SettingsModel;
-import de.dittner.testmyself.ui.common.view.ViewFactory;
-import de.dittner.testmyself.ui.common.view.ViewID;
-import de.dittner.testmyself.ui.common.view.ViewNavigator;
-import de.dittner.testmyself.ui.view.main.MainVM;
-import de.dittner.walter.Walter;
+import de.dittner.walter.WalterProxy;
 
 import flash.events.Event;
 
-public class AppModel extends Walter {
+public class AppModel extends WalterProxy {
+	private static const SELECTED_LANG_CHANGED_MSG:String = "SELECTED_LANG_CHANGED_MSG";
+	private static const SELECTED_VOCABULARY_CHANGED_MSG:String = "SELECTED_VOCABULARY_CHANGED_MSG";
+
 	public function AppModel() {
 		super();
 	}
@@ -26,6 +22,7 @@ public class AppModel extends Walter {
 		if (_selectedLanguage != value) {
 			_selectedLanguage = value;
 			dispatchEvent(new Event("selectedLanguageChanged"));
+			sendMessage(SELECTED_LANG_CHANGED_MSG, selectedLanguage);
 		}
 	}
 
@@ -34,28 +31,6 @@ public class AppModel extends Walter {
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
-
-	private var initialized:Boolean = false;
-	public function init():void {
-		if (initialized) return;
-		initialized = true;
-
-		selectedLanguage = new GermanLang();
-
-		var viewNavigator:ViewNavigator = new ViewNavigator();
-		registerProxy("viewNavigator", viewNavigator);
-		registerProxy("viewFactory", new ViewFactory());
-		registerProxy("mainVM", new MainVM());
-		registerProxy("sqlStorage", new SQLStorage);
-		registerProxy("settingsModel", new SettingsModel);
-		registerProxy("viewMediatorFactory", new ViewMediatorFactory());
-		registerProxy("encryptionService", new EncryptionService);
-		registerProxy("system", new SiegmarFileSystem());
-		registerProxy("user", new User());
-
-		viewNavigator.navigate(ViewID.WORD);
-
-	}
 
 }
 }
