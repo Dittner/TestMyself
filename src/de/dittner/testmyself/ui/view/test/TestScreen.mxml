@@ -7,7 +7,7 @@
                 xmlns:results="de.dittner.testmyself.ui.view.test.results.*"
                 xmlns:testing="de.dittner.testmyself.ui.view.test.testing.*"
                 xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                xmlns:form="de.dittner.testmyself.ui.view.vocabulary.note.form.*"
+                xmlns:form="de.dittner.testmyself.ui.view.noteList.common.form.*"
                 horizontalCenter="0"
                 currentState="inactive"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">

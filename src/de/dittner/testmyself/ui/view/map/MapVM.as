@@ -4,12 +4,13 @@ import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
+import de.dittner.testmyself.ui.common.view.ViewInfo;
+import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.utils.HashList;
-import de.dittner.walter.WalterProxy;
 
 import flash.events.Event;
 
-public class MapVM extends WalterProxy {
+public class MapVM extends ViewModel {
 	public function MapVM() {
 		super();
 	}
@@ -58,7 +59,8 @@ public class MapVM extends WalterProxy {
 
 	override protected function activate():void {}
 
-	public function viewActivated():void {
+	override public function viewActivated(info:ViewInfo):void {
+		super.viewActivated(info);
 		var op:IAsyncOperation;
 		var vocabularyList:HashList = appModel.selectedLanguage.vocabularyHash;
 		if (vocabularyList.has(VocabularyID.DE_WORD)) {

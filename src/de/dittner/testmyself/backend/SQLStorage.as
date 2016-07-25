@@ -33,7 +33,7 @@ import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.page.INotePageRequest;
-import de.dittner.testmyself.model.page.NotePageRequest;
+import de.dittner.testmyself.model.page.NotePageInfo;
 import de.dittner.testmyself.model.page.TestPageInfo;
 import de.dittner.testmyself.model.search.SearchSpec;
 import de.dittner.walter.WalterProxy;
@@ -110,8 +110,8 @@ public class SQLStorage extends WalterProxy {
 		return op;
 	}
 
-	public function loadNotePage(pageRequest:NotePageRequest):IAsyncOperation {
-		var op:IAsyncCommand = new LoadNotePageCmd(this, pageRequest);
+	public function loadNotePage(page:NotePageInfo):IAsyncOperation {
+		var op:IAsyncCommand = new LoadNotePageCmd(this, page);
 		op.addCompleteCallback(notePageInfoLoaded);
 		deferredCommandManager.add(op);
 		return op;
@@ -275,7 +275,7 @@ public class SQLStorage extends WalterProxy {
 
 	private function notePageInfoLoaded(op:IAsyncOperation):void {
 		model.selectedNote = (op.result as INotePageRequest).selectedNote;
-		model.pageInfo = op.result as NotePageRequest;
+		model.pageInfo = op.result as NotePageInfo;
 	}
 
 	private function themesLoaded(op:IAsyncOperation):void {

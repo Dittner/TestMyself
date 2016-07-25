@@ -4,27 +4,29 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.backend.operation.*;
+import de.dittner.testmyself.backend.op.CountAudioCommentOperationPhase;
+import de.dittner.testmyself.backend.op.CountExampleOperationPhase;
+import de.dittner.testmyself.backend.op.CountNoteOperationPhase;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
 public class LoadVocabularyInfoCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function LoadVocabularyInfoCmd(service:SQLStorage, vocabulary:Vocabulary) {
-		this.service = service;
+	public function LoadVocabularyInfoCmd(storage:SQLStorage, vocabulary:Vocabulary) {
+		this.storage = storage;
 		info = new VocabularyInfo();
 		info.vocabulary = vocabulary;
 	}
 
-	private var service:SQLStorage;
+	private var storage:SQLStorage;
 	private var info:VocabularyInfo;
 
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(NoteCountOperationPhase, service.sqlConnection, info);
-		composite.addOperation(AudioCommentCountOperationPhase, service.sqlConnection, info);
-		composite.addOperation(ExampleCountOperationPhase, service.sqlConnection, info);
+		composite.addOperation(CountNoteOperationPhase, storage.sqlConnection, info);
+		composite.addOperation(CountAudioCommentOperationPhase, storage.sqlConnection, info);
+		composite.addOperation(CountExampleOperationPhase, storage.sqlConnection, info);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

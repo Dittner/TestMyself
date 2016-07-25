@@ -1,0 +1,334 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:core="de.dittner.testmyself.ui.common.view.*"
+                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+                xmlns:navigation="de.dittner.testmyself.ui.view.noteList.common.pagination.*"
+                xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+                xmlns:list2="de.dittner.testmyself.ui.common.list.*"
+                xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                xmlns:form2="de.dittner.testmyself.ui.view.noteList.common.form.*"
+                xmlns:toobar="de.dittner.testmyself.ui.view.noteList.common.toolbar.*"
+                xmlns:common="de.dittner.testmyself.ui.view.noteList.common.*"
+                currentState="inactive"
+                horizontalCenter="0"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.domain.theme.Theme;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.ui.view.noteList.common.PageLayout;
+        import de.dittner.testmyself.ui.view.noteList.common.toolbar.ToolAction;
+        import de.dittner.testmyself.ui.view.noteList.common.toolbar.ToolbarEvent;
+
+        import mx.collections.ArrayCollection;
+
+        [Bindable]
+        public var vm:NoteListVM;
+
+        //--------------------------------------
+        //  editing
+        //--------------------------------------
+        private var _editing:Boolean = false;
+        [Bindable("editingChanged")]
+        public function get editing():Boolean {return _editing;}
+        public function set editing(value:Boolean):void {
+            if (_editing != value) {
+                _editing = value;
+                dispatchEvent(new Event("editingChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  selectedLessonName
+        //--------------------------------------
+        private var _selectedLessonName:String = "";
+        [Bindable("selectedLessonNameChanged")]
+        public function get selectedLessonName():String {return _selectedLessonName;}
+        public function set selectedLessonName(value:String):void {
+            if (_selectedLessonName != value) {
+                _selectedLessonName = value;
+                dispatchEvent(new Event("selectedLessonNameChanged"));
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        override protected function activate():void {
+            vm = ViewModelFactory.instance.noteListVM;
+            vm.viewActivated(info);
+            currentState = "lessonList";
+            lessonList.dataProvider = new ArrayCollection(vm.selectedVocabulary.themes);
+        }
+
+        override protected function deactivate():void {
+            editing = false;
+            selectedLessonName = "";
+            mp3Player.visible = false;
+            setCurrentState("inactive");
+        }
+
+        private function showLessonList():void {
+            setCurrentState("lessonList");
+        }
+
+        private function showLessonContent():void {
+            setCurrentState("lessonContent");
+        }
+
+        private function showEditor():void {
+            editing = true;
+        }
+
+        private function hideEditor():void {
+            editing = false;
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            if (form) {
+                form.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                form.x = w - form.width;
+            }
+        }
+
+        private function showAddLessonForm():void {
+            if (!addLessonForm.visible) {
+                addLessonForm.visible = true;
+                addLessonForm.cancelBtn.addEventListener(MouseEvent.CLICK, cancelAddLessonClicked);
+                addLessonForm.applyBtn.addEventListener(MouseEvent.CLICK, applyAddLessonClicked);
+            }
+        }
+
+        private function hideAddLessonForm():void {
+            if (addLessonForm.visible) {
+                addLessonForm.visible = false;
+                addLessonForm.addLessonInput.text = "";
+                addLessonForm.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelAddLessonClicked);
+                addLessonForm.applyBtn.removeEventListener(MouseEvent.CLICK, applyAddLessonClicked);
+            }
+        }
+
+        private function cancelAddLessonClicked(event:MouseEvent):void {
+            hideAddLessonForm();
+        }
+
+        private function applyAddLessonClicked(event:MouseEvent):void {
+            var theme:Theme = vm.selectedVocabulary.createTheme();
+            theme.name = addLessonForm.addLessonInput.text;
+            var errKey:String = theme.validate();
+
+            if (errKey) {
+                addLessonForm.addLessonInput.isValidInput = false;
+            }
+            else {
+                var op:IAsyncOperation = theme.store();
+                op.addCompleteCallback(function (op:IAsyncOperation):void {
+                    lessonList.dataProvider = new ArrayCollection(vm.selectedVocabulary.themes);
+                });
+
+                hideAddLessonForm();
+            }
+
+        }
+
+        private function lessonSelectedHandler(event:Event):void {
+            if (lessonList.selectedItem) {
+                vm.selectedTheme = lessonList.selectedItem as Theme;
+                showLessonContent();
+            }
+        }
+
+        private var pageLayoutInfo:PageLayout = new PageLayout();
+        private function toolActionSelectedHandler(event:ToolbarEvent):void {
+            switch (event.toolAction) {
+                case(ToolAction.CREATE_NOTE) :
+                    break;
+                case(ToolAction.EDIT_NOTE) :
+                    break;
+                case(ToolAction.REMOVE_NOTE) :
+                    break;
+                case(ToolAction.INVERT) :
+                    pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.VER_LAYOUT) :
+                    pageLayoutInfo.isHorizontal = false;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.HOR_LAYOUT) :
+                    pageLayoutInfo.isHorizontal = true;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.HIDE_DETAILS) :
+                    pageLayoutInfo.showDetails = false;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.SHOW_DETAILS) :
+                    pageLayoutInfo.showDetails = true;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+            }
+        }
+        ]]></fx:Script>
+
+    <core:states>
+        <s:State name="disabled"/>
+        <s:State name="inactive"/>
+        <s:State name="lessonList"/>
+        <s:State name="lessonContent"/>
+    </core:states>
+
+    <!--content bg-->
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
+                          fillMode="repeat"/>
+        </s:fill>
+    </s:Rect>
+
+    <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
+
+    <!--header bg-->
+    <s:Rect width="100%" height="{HEADER_HEI}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:HGroup width="100%" height="{HEADER_HEI}"
+              verticalAlign="middle"
+              paddingLeft="{PADDING}">
+
+        <button:ToolButton id="goBackBtn"
+                           description="Zurück zur Übungenliste"
+                           visible="false" visible.lessonContent="true"
+                           includeInLayout="false" includeInLayout.lessonContent="true"
+                           image="@Embed(source='/assets/tools/goback.png')"
+                           click="showLessonList()"/>
+
+        <s:Label text.lessonContent="{selectedLessonName}" text="{info.title}"
+                 textAlign.lessonContent="center" textAlign="left"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontSize="18"
+                 paddingTop="2"
+                 width="100%"
+                 color="#54545d"/>
+
+        <button:ToolButton id="addLessonBtn"
+                           description="Neue Übung hinzufügen"
+                           visible="false" visible.lessonList="true"
+                           includeInLayout="false" includeInLayout.lessonList="true"
+                           image="@Embed(source='/assets/tools/add.png')"
+                           click="showAddLessonForm()"/>
+
+        <toobar:NoteToolbar id="toolbar"
+                            excludeFrom="inactive"
+                            height="{HEADER_HEI}"
+                            visible="false" visible.lessonContent="true"
+                            includeInLayout="false" includeInLayout.lessonContent="true"
+                            createNoteBtnEnabled="true"
+                            editNoteBtnEnabled="{noteList.selectedItem}"
+                            removeNoteBtnEnabled="{noteList.selectedItem}"
+                            filterToolEnabled="false"
+                            selected="toolActionSelectedHandler(event)"/>
+    </s:HGroup>
+
+    <s:Scroller left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}"
+                excludeFrom="inactive"
+                visible="false" visible.lessonContent="true"
+                minViewportInset="1"
+                horizontalScrollPolicy="off"
+                hasFocusableChildren="false">
+        <common:NoteList id="noteList"
+                         dataProvider="{vm.noteColl}"
+                         width="100%"
+                         contentBackgroundAlpha="0"
+                         deselectEnabled="true"
+                         itemRenderer="de.dittner.testmyself.ui.view.noteList.common.renderer.NoteRenderer">
+            <common:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+            </common:layout>
+        </common:NoteList>
+    </s:Scroller>
+
+    <s:Scroller left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}"
+                excludeFrom="inactive"
+                visible="false" visible.lessonList="true"
+                minViewportInset="1"
+                horizontalScrollPolicy="off"
+                hasFocusableChildren="false">
+        <list2:SelectableDataGroup id="lessonList"
+                                   width="100%"
+                                   visible="false" visible.lessonList="true"
+                                   itemRenderer="de.dittner.testmyself.ui.view.noteList.common.theme.LessonThemeRenderer"
+                                   selectedItemChange="lessonSelectedHandler(event)">
+            <list2:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+            </list2:layout>
+        </list2:SelectableDataGroup>
+    </s:Scroller>
+
+    <!--footer-->
+    <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
+             excludeFrom="inactive">
+        <s:Rect width="100%" bottom="0" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+            </s:fill>
+        </s:Rect>
+
+        <mp3:MP3Player id="mp3Player"
+                       comment="{noteList.selectedItem.audioComment}"
+                       width="400"
+                       left="{PADDING - 10}"
+                       verticalCenter="0"
+                       removeRecordEnabled="false"
+                       visible="false"
+                       skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
+
+        <navigation:PaginationBar id="paginationBar"
+                                  visible="false" visible.lessonContent="true"
+                                  left="{PADDING}" right="{PADDING}"
+                                  height="100%"
+                                  allNotesAmount="{vm.allNotesAmount}"
+                                  notesOnCurPage="{vm.noteColl.length}"
+                                  pageSize="{vm.pageSize}"
+                                  curPageNum="@{vm.curPageNum}"/>
+
+    </s:Group>
+
+    <s:Group width="100%" height="100%"
+             excludeFrom="inactive"
+             visible="{editing}"
+             mouseEnabled="{editing}">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <form2:NoteForm id="form"
+                        visible="false"
+                        bottom="0"
+                        top="{HEADER_HEI}"/>
+    </s:Group>
+
+    <form2:AddLessonForm id="addLessonForm"
+                         visible="false"
+                         height="100%" width="100%"/>
+
+    <s:BitmapImage width="100%"
+                   top="{HEADER_HEI}"
+                   smooth="true"
+                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
+
+</view:SmartView>

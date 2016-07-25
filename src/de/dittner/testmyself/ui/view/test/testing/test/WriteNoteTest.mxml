@@ -7,7 +7,7 @@
                    xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*"
                    xmlns:input="de.dittner.testmyself.ui.common.input.*"
-                   xmlns:common2="de.dittner.testmyself.ui.view.vocabulary.common.*">
+                   xmlns:form="de.dittner.testmyself.ui.view.noteList.common.form.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
@@ -170,9 +170,9 @@
 
             </s:HGroup>
 
-            <common2:InvalidNotifier id="invalidNotifier"
-                                     width="480" height="30"
-                                     text="Falsch"/>
+            <form:InvalidNotifier id="invalidNotifier"
+                                  width="480" height="30"
+                                  text="Falsch"/>
 
             <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 

@@ -70,7 +70,7 @@ public class ViewBase extends SkinnableContainer {
 	 *  Life cycle abstract methods
 	 * */
 	protected function activate():void {}
-	protected function remove():void {}
+	protected function deactivate():void {}
 	protected function destroy():void {}
 
 	/*
@@ -82,7 +82,7 @@ public class ViewBase extends SkinnableContainer {
 				_isActive = false;
 				CLog.info(LogCategory.UI, "View: " + fullName + " is deactivated");
 				dispatchEvent(new Event("isRemovingChange"));
-				remove();
+				deactivate();
 				break;
 		}
 	}

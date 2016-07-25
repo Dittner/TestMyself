@@ -33,7 +33,7 @@ public class SelectExamplesSQLOperation extends AsyncOperation implements IAsync
 			dispatchError(ErrorCode.NULLABLE_NOTE);
 		}
 		else {
-			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_EXAMPLE_SQL, {selectedNoteID: note.id});
+			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_EXAMPLE_BY_PARENT_ID_SQL, {parentID: note.id});
 			statement.sqlConnection = service.sqlConnection;
 			statement.execute(-1, new Responder(executeComplete));
 		}

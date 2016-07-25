@@ -2,11 +2,11 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.ui.common.renderer.SeparatorVo;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.view.map.MapView;
+import de.dittner.testmyself.ui.view.noteList.LessonView;
+import de.dittner.testmyself.ui.view.noteList.NoteListView;
 import de.dittner.testmyself.ui.view.search.SearchScreen;
 import de.dittner.testmyself.ui.view.settings.SettingsScreen;
 import de.dittner.testmyself.ui.view.test.TestScreen;
-import de.dittner.testmyself.ui.view.vocabulary.lesson.LessonScreen;
-import de.dittner.testmyself.ui.view.wordList.NoteListView;
 import de.dittner.walter.WalterProxy;
 
 import flash.display.BitmapData;
@@ -124,7 +124,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 	}
 
 	private static var noteScreen:NoteListView = new NoteListView();
-	private static var lessonScreen:LessonScreen = new LessonScreen();
+	private static var lessonScreen:LessonView = new LessonView();
 	private static var testScreen:TestScreen = new TestScreen();
 	private static var searchScreen:SearchScreen = new SearchScreen();
 	public function createView(viewInfo:ViewInfo):ViewBase {

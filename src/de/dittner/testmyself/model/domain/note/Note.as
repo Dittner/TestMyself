@@ -1,21 +1,18 @@
 package de.dittner.testmyself.model.domain.note {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.common.ITestable;
+import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.walter.Walter;
+import de.dittner.testmyself.ui.view.noteList.common.form.NoteValidationErrorKey;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
 public class Note extends EventDispatcher implements INote, ITestable {
 	public function Note() {
-		Walter.instance.injector.inject(this);
+		super();
 	}
-
-	[Inject]
-	public var sqlStorage:SQLStorage;
 
 	//--------------------------------------
 	//  id
@@ -86,12 +83,12 @@ public class Note extends EventDispatcher implements INote, ITestable {
 	//--------------------------------------
 	//  themes
 	//--------------------------------------
-	private var _themes:Array = [];
+	private var _themes:Vector.<Theme> = new <Theme>[];
 	[Bindable("themeIDsChanged")]
-	public function get themes():Array {return _themes;}
-	public function set themes(value:Array):void {
+	public function get themes():Vector.<Theme> {return _themes;}
+	public function set themes(value:Vector.<Theme>):void {
 		if (_themes != value) {
-			_themes = value || [];
+			_themes = value || new <Theme>[];
 			dispatchEvent(new Event("themesChanged"));
 		}
 	}
@@ -144,12 +141,17 @@ public class Note extends EventDispatcher implements INote, ITestable {
 	public function createExample():Note {
 		var res:Note = new Note();
 		res.isExample = true;
+		res.vocabulary = vocabulary;
 		res.parentID = id;
 		return res;
 	}
 
 	public function store():IAsyncOperation {
-		return sqlStorage.storeNote(this);
+		return vocabulary.storage.storeNote(this);
+	}
+
+	public function remove():IAsyncOperation {
+		return vocabulary.storage.removeNote(this);
 	}
 
 	public function serialize():Object {
@@ -165,14 +167,32 @@ public class Note extends EventDispatcher implements INote, ITestable {
 		return res;
 	}
 
+	private var _originalTitle:String = "";
+	public function get originalTitle():String {return _originalTitle;}
+
 	public function deserialize(data:Object):void {
 		_id = data.id;
 		_parentID = data.parentID;
-		_title = data.title;
+		_title = _originalTitle = data.title;
 		_description = data.description;
 		_isExample = data.isExample;
 		_options = data.options;
 		_audioComment = data.audioComment;
+	}
+
+	public function validate():String {
+		if (!title) {
+			return NoteValidationErrorKey.EMPTY_NOTE_TITLE;
+		}
+		else if (!description) {
+			return NoteValidationErrorKey.EMPTY_NOTE_DESCRIPTION;
+		}
+		else if (!isExample) {
+			for each(var e:Note in examples)
+				if (!e.title) return NoteValidationErrorKey.EMPTY_EXAMPLE_TITLE;
+				else if (!e.description) return NoteValidationErrorKey.EMPTY_EXAMPLE_DESCRIPTION;
+		}
+		return "";
 	}
 
 }

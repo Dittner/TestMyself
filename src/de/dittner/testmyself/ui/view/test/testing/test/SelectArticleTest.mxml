@@ -4,8 +4,7 @@
                    xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
-                   xmlns:common2="de.dittner.testmyself.ui.view.vocabulary.common.*"
-                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*">
+                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*" xmlns:form="de.dittner.testmyself.ui.view.noteList.common.form.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
@@ -202,9 +201,9 @@
 
             </s:HGroup>
 
-            <common2:InvalidNotifier id="invalidNotifier"
-                                     width="480" height="30"
-                                     text="Falsch"/>
+            <form:InvalidNotifier id="invalidNotifier"
+                                  width="480" height="30"
+                                  text="Falsch"/>
 
             <s:Spacer height="100%"/>
 

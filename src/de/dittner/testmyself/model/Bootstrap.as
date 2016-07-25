@@ -2,14 +2,14 @@ package de.dittner.testmyself.model {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.model.domain.language.GermanLang;
+import de.dittner.testmyself.model.domain.language.DeLang;
 import de.dittner.testmyself.ui.common.view.ViewFactory;
 import de.dittner.testmyself.ui.common.view.ViewModelFactory;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.map.MapVM;
-import de.dittner.testmyself.ui.view.wordList.WordListVM;
+import de.dittner.testmyself.ui.view.noteList.NoteListVM;
 import de.dittner.walter.Walter;
 
 public class Bootstrap extends Walter {
@@ -42,7 +42,7 @@ public class Bootstrap extends Walter {
 		registerProxy("storage", storage);
 
 		var appModel:AppModel = new AppModel();
-		appModel.selectedLanguage = new GermanLang(storage);
+		appModel.selectedLanguage = new DeLang(storage);
 		registerProxy("appModel", appModel);
 
 		registerProxy("viewNavigator", new ViewNavigator());
@@ -51,7 +51,7 @@ public class Bootstrap extends Walter {
 
 		registerProxy("mainVM", new MainVM());
 		registerProxy("mapVM", new MapVM());
-		registerProxy("wordListVM", new WordListVM());
+		registerProxy("noteListVM", new NoteListVM());
 
 		initOp = appModel.selectedLanguage.init();
 		initOp.addCompleteCallback(initCompelteHandler);

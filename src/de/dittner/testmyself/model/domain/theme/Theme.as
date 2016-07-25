@@ -1,4 +1,8 @@
 package de.dittner.testmyself.model.domain.theme {
+import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+import de.dittner.testmyself.ui.view.noteList.common.form.NoteValidationErrorKey;
+
 public class Theme implements ITheme {
 	public function Theme() {}
 
@@ -22,24 +26,42 @@ public class Theme implements ITheme {
 	public function set name(value:String):void {_name = value;}
 
 	//--------------------------------------
-	//  vocabularyID
+	//  vocabulary
 	//--------------------------------------
-	private var _vocabularyID:int = -1;
-	public function get vocabularyID():int {return _vocabularyID;}
-	public function set vocabularyID(value:int):void {_vocabularyID = value;}
+	private var _vocabulary:Vocabulary;
+	public function get vocabulary():Vocabulary {return _vocabulary;}
+	public function set vocabulary(value:Vocabulary):void {_vocabulary = value;}
+
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Methods
+	//
+	//----------------------------------------------------------------------------------------------
+
+	public function store():IAsyncOperation {
+		return vocabulary.storage.storeTheme(this);
+	}
 
 	public function serialize():Object {
 		var res:Object = {};
 		res.id = id;
-		res.vocabularyID = vocabularyID;
+		res.vocabularyID = vocabulary.id;
 		res.name = name;
 		return res;
 	}
 
 	public function deserialize(data:Object):void {
 		_id = data.id;
-		_vocabularyID = data.vocabularyID;
 		_name = data.name;
+	}
+
+	public function validate():String {
+		if (!name) return NoteValidationErrorKey.EMPTY_THEME_NAME;
+		else if (isNew) {
+			for each(var t:Theme in vocabulary.themes)
+				if (t.name == name) return NoteValidationErrorKey.THEME_NAME_DUPLICATE;
+		}
+		return "";
 	}
 
 }

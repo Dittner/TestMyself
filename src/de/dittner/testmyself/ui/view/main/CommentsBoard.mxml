@@ -62,7 +62,7 @@
         <utils:BG width="10" height="100%" color="#0"/>
 
         <input:HistoryTextArea id="textArea"
-                               text="{@text}"
+                               text="@{text}"
                                fontFamily="{FontName.MYRIAD}"
                                fontSize="18"
                                color="{AppColors.TEXT_BLACK}"

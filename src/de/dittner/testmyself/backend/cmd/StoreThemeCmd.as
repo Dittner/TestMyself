@@ -38,13 +38,13 @@ public class StoreThemeCmd extends AsyncOperation implements IAsyncCommand {
 
 		if (theme.isNew) {
 			sqlParams.name = theme.name;
-			sqlParams.vocabularyID = theme.vocabularyID;
+			sqlParams.vocabularyID = theme.vocabulary.id;
 			statement = SQLUtils.createSQLStatement(SQLLib.INSERT_THEME_SQL, sqlParams);
 		}
 		else {
 			sqlParams.themeID = theme.id;
 			sqlParams.name = theme.name;
-			sqlParams.vocabularyID = theme.vocabularyID;
+			sqlParams.vocabularyID = theme.vocabulary.id;
 			statement = SQLUtils.createSQLStatement(SQLLib.UPDATE_THEME_SQL, sqlParams);
 		}
 
@@ -60,6 +60,8 @@ public class StoreThemeCmd extends AsyncOperation implements IAsyncCommand {
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
+			if (theme.isNew)
+				theme.vocabulary.themes.push(theme);
 			theme.id = result.lastInsertRowID;
 			dispatchSuccess();
 		}

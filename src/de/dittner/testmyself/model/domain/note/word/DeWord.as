@@ -13,6 +13,15 @@ public class DeWord extends Note {
 		_article = value || "";
 	}
 
+	//--------------------------------------
+	//  declension
+	//--------------------------------------
+	private var _declension:String;
+	public function get declension():String {return _declension;}
+	public function set declension(value:String):void {
+		_declension = value || "";
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -22,12 +31,14 @@ public class DeWord extends Note {
 	override public function serialize():Object {
 		var res:Object = super.serialize();
 		res.options.article = article || null;
+		res.options.declension = declension || null;
 		return res;
 	}
 
 	override public function deserialize(data:Object):void {
 		super.deserialize(data);
 		article = data.options.article || "";
+		declension = data.options.declension || "";
 	}
 
 }

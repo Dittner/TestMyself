@@ -2,14 +2,9 @@ package de.dittner.testmyself.ui.view.search {
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.SearchMsg;
 import de.dittner.testmyself.model.search.FoundNote;
-import de.dittner.testmyself.ui.common.toobar.ToolAction;
+import de.dittner.testmyself.ui.view.noteList.common.form.NoteForm;
+import de.dittner.testmyself.ui.view.noteList.common.toolbar.ToolAction;
 import de.dittner.testmyself.ui.view.test.form.*;
-import de.dittner.testmyself.ui.view.vocabulary.lesson.form.LessonEditorMediator;
-import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteEditorMediator;
-import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteForm;
-import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteRemoverMediator;
-import de.dittner.testmyself.ui.view.vocabulary.verb.form.VerbEditorMediator;
-import de.dittner.testmyself.ui.view.vocabulary.word.form.WordEditorMediator;
 
 public class SearchNoteFormMediator extends SFMediator {
 
@@ -32,7 +27,7 @@ public class SearchNoteFormMediator extends SFMediator {
 			view.moduleName = selectedFoundNote.isExample ? "" : selectedFoundNote.moduleName;
 			registerEditorMediator(selectedFoundNote.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, selectedFoundNote.note);
-			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT);
+			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT_NOTE);
 		}
 	}
 
@@ -69,7 +64,7 @@ public class SearchNoteFormMediator extends SFMediator {
 			view.moduleName = selectedFoundNote.isExample ? "" : selectedFoundNote.moduleName;
 			registerRemoverMediator(selectedFoundNote.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, selectedFoundNote.note);
-			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE);
+			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE_NOTE);
 		}
 	}
 

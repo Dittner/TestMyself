@@ -1,7 +1,7 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.testmyself.ui.view.map.MapVM;
-import de.dittner.testmyself.ui.view.wordList.WordListVM;
+import de.dittner.testmyself.ui.view.noteList.NoteListVM;
 import de.dittner.walter.WalterProxy;
 
 public class ViewModelFactory extends WalterProxy {
@@ -18,7 +18,7 @@ public class ViewModelFactory extends WalterProxy {
 	[Inject]
 	public var mapVM:MapVM;
 	[Inject]
-	public var wordListVM:WordListVM;
+	public var noteListVM:NoteListVM;
 
 }
 }

@@ -10,9 +10,10 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 
 public class Vocabulary extends EventDispatcher {
-	public function Vocabulary(id:int, noteClass:Class, storage:SQLStorage) {
+	public function Vocabulary(id:int, langID:uint, noteClass:Class, storage:SQLStorage) {
 		super();
 		_id = id;
+		_langID = langID;
 		_noteClass = noteClass;
 		_storage = storage;
 	}
@@ -28,6 +29,12 @@ public class Vocabulary extends EventDispatcher {
 	//--------------------------------------
 	private var _id:int = -1;
 	public function get id():int {return _id;}
+
+	//--------------------------------------
+	//  langID
+	//--------------------------------------
+	private var _langID:uint = 0;
+	public function get langID():uint {return _langID;}
 
 	//--------------------------------------
 	//  noteClass
@@ -72,7 +79,7 @@ public class Vocabulary extends EventDispatcher {
 	//--------------------------------------
 	//  themes
 	//--------------------------------------
-	private var _themes:Array;
+	private var _themes:Array = [];
 	[Bindable("themesChanged")]
 	public function get themes():Array {return _themes;}
 	private function setThemes(value:Array):void {
@@ -105,7 +112,7 @@ public class Vocabulary extends EventDispatcher {
 			noteTitleHash.write(title, true);
 	}
 
-	private function reloadThemes():IAsyncOperation {
+	public function reloadThemes():IAsyncOperation {
 		var op:IAsyncOperation = storage.loadAllThemes(this);
 		op.addCompleteCallback(allThemesLoaded);
 		return op;
@@ -127,7 +134,7 @@ public class Vocabulary extends EventDispatcher {
 
 	public function createTheme():Theme {
 		var theme:Theme = new Theme();
-		theme.vocabularyID = id;
+		theme.vocabulary = this;
 		return theme;
 	}
 

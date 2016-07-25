@@ -15,7 +15,7 @@
 
         override protected function activate():void {
             vm = ViewModelFactory.instance.mapVM;
-            vm.viewActivated();
+            vm.viewActivated(info);
         }
 
         private var downPoint:Point;

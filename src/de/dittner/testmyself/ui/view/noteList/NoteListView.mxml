@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:core="de.dittner.testmyself.ui.common.view.*"
+                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+                xmlns:navigation="de.dittner.testmyself.ui.view.noteList.common.pagination.*"
+                xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+                xmlns:form="de.dittner.testmyself.ui.view.noteList.common.form.*"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                xmlns:toobar="de.dittner.testmyself.ui.view.noteList.common.toolbar.*"
+                xmlns:common="de.dittner.testmyself.ui.view.noteList.common.*"
+                xmlns:theme="de.dittner.testmyself.ui.view.noteList.common.theme.*"
+                horizontalCenter="0"
+                currentState="inactive">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
+        import de.dittner.testmyself.model.domain.note.INote;
+        import de.dittner.testmyself.model.domain.note.Note;
+        import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.ui.view.noteList.common.PageLayout;
+        import de.dittner.testmyself.ui.view.noteList.common.toolbar.ToolAction;
+        import de.dittner.testmyself.ui.view.noteList.common.toolbar.ToolbarEvent;
+
+        import mx.collections.ArrayCollection;
+
+        [Bindable]
+        public var vm:NoteListVM;
+
+        //--------------------------------------
+        //  editing
+        //--------------------------------------
+        private var _editing:Boolean = false;
+        [Bindable("editingChanged")]
+        public function get editing():Boolean {return _editing;}
+        public function set editing(value:Boolean):void {
+            if (_editing != value) {
+                _editing = value;
+                dispatchEvent(new Event("editingChanged"));
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        override protected function activate():void {
+            vm = ViewModelFactory.instance.noteListVM;
+            vm.viewActivated(info);
+
+            switch (vm.selectedVocabulary.id) {
+                case VocabularyID.DE_WORD :
+                    setCurrentState("word");
+                    break;
+                case VocabularyID.DE_VERB :
+                    setCurrentState("verb");
+                    break;
+                default :
+                    throw Error("Unknown vocabulary: " + vm.selectedVocabulary.id);
+            }
+        }
+
+        override protected function deactivate():void {
+            vm.viewDeactivated();
+            editing = false;
+            mp3Player.visible = false;
+            setCurrentState("inactive");
+        }
+
+        public function showEditor():void {
+            editing = true;
+        }
+
+        public function hideEditor():void {
+            editing = false;
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            if (form) {
+                form.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                form.x = w - form.width;
+            }
+        }
+
+        private function getAudioComment(selectedNote:INote, selectedExample:INote):AudioComment {
+            if (hasAudioComment(selectedExample) return selectedExample.audioComment;
+            else if (hasAudioComment(selectedNote)) return selectedNote.audioComment;
+            else return null;
+        }
+
+        private function hasAudioComment(note:INote):Boolean {
+            return note && note.audioComment.bytes;
+        }
+
+        private var pageLayoutInfo:PageLayout = new PageLayout();
+        private function toolActionSelectedHandler(event:ToolbarEvent):void {
+            switch (event.toolAction) {
+                case(ToolAction.CREATE_NOTE) :
+                    form.visible = true;
+                    form.addNewNote(vm.selectedVocabulary.createNote());
+                    break;
+                case(ToolAction.EDIT_NOTE) :
+                    break;
+                case(ToolAction.REMOVE_NOTE) :
+                    break;
+                case(ToolAction.FILTER) :
+                    if (!filter.visible) filter.visible = true;
+                    break;
+                case(ToolAction.INVERT) :
+                    pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.VER_LAYOUT) :
+                    pageLayoutInfo.isHorizontal = false;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.HOR_LAYOUT) :
+                    pageLayoutInfo.isHorizontal = true;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.HIDE_DETAILS) :
+                    pageLayoutInfo.showDetails = false;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.SHOW_DETAILS) :
+                    pageLayoutInfo.showDetails = true;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+            }
+        }
+        ]]></fx:Script>
+
+    <core:states>
+        <s:State name="disabled"/>
+        <s:State name="inactive"/>
+        <s:State name="word"/>
+        <s:State name="verb"/>
+    </core:states>
+
+    <!--content bg-->
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
+                          fillMode="repeat"/>
+        </s:fill>
+    </s:Rect>
+
+    <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
+
+    <!--header bg-->
+    <s:Rect width="100%" height="{HEADER_HEI}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:HGroup width="100%" height="{HEADER_HEI}"
+              verticalAlign="middle"
+              paddingLeft="{PADDING}">
+
+        <s:Label text="{info.title}"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontSize="18"
+                 paddingTop="2"
+                 width="100%"
+                 color="#54545d"/>
+
+        <toobar:NoteToolbar id="toolbar"
+                            excludeFrom="inactive"
+                            width="100%"
+                            height="{HEADER_HEI}"
+                            createNoteBtnEnabled="true"
+                            editNoteBtnEnabled="{noteList.selectedItem}"
+                            removeNoteBtnEnabled="{noteList.selectedItem}"
+                            verLayoutToolEnabled.verb="false"
+                            hideDetailsToolEnabled.verb="false"
+                            transInvertToolEnabled.verb="false"
+                            selected="toolActionSelectedHandler(event)"/>
+    </s:HGroup>
+
+    <s:HGroup left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}" gap="-1">
+        <s:Scroller width="100%" height="100%"
+                    excludeFrom="inactive"
+                    minViewportInset="1"
+                    horizontalScrollPolicy="off"
+                    hasFocusableChildren="false">
+            <common:NoteList id="noteList"
+                             dataProvider="{vm.noteColl}"
+                             width="100%"
+                             contentBackgroundAlpha="0"
+                             deselectEnabled="true"
+                             itemRenderer="de.dittner.testmyself.ui.view.noteList.common.renderer.NoteRenderer"
+                             itemRenderer.word="de.dittner.testmyself.ui.view.noteList.common.renderer.WordRenderer"
+                             itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.common.renderer.VerbRenderer">
+                <common:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                </common:layout>
+            </common:NoteList>
+        </s:Scroller>
+
+        <common:ExampleList id="exampleList"
+                            dataProvider="{(noteList.selectedItem as Note).examples}"
+                            width="100%" height="100%"
+                            excludeFrom="inactive"
+                            showTitle="false"
+                            hasFocusableChildren="false"/>
+    </s:HGroup>
+
+    <!--footer-->
+    <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
+             excludeFrom="inactive">
+        <s:Rect width="100%" bottom="0" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+            </s:fill>
+        </s:Rect>
+
+        <mp3:MP3Player id="mp3Player"
+                       comment="{getAudioComment(noteList.selectedItem as Note, exampleList.dataGroup.selectedItem as Note)}"
+                       width="400"
+                       left="{PADDING - 10}"
+                       verticalCenter="0"
+                       removeRecordEnabled="false"
+                       visible="false"
+                       skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
+
+        <navigation:PaginationBar id="paginationBar"
+                                  allNotesAmount="{vm.allNotesAmount}"
+                                  notesOnCurPage="{vm.noteColl.length}"
+                                  pageSize="{vm.pageSize}"
+                                  curPageNum="@{vm.curPageNum}"
+                                  left="{PADDING}" right="{PADDING}"
+                                  height="100%"/>
+
+    </s:Group>
+
+    <s:Group width="100%" height="100%"
+             excludeFrom="inactive"
+             visible="{editing}"
+             mouseEnabled="{editing}">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <form:NoteForm id="form"
+                       visible="false"
+                       bottom="0"
+                       top="{HEADER_HEI}"/>
+
+        <theme:ThemeFilter id="filter"
+                           selectedTheme="@{vm.selectedTheme}"
+                           themes="{new ArrayCollection(vm.selectedVocabulary.themes)}"
+                           width="350"
+                           visible="false"
+                           right="0"
+                           bottom="0"
+                           top="{HEADER_HEI}"/>
+    </s:Group>
+
+    <s:BitmapImage width="100%"
+                   top="{HEADER_HEI}"
+                   smooth="true"
+                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
+
+</view:SmartView>

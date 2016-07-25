@@ -107,7 +107,7 @@
                        right="col1:10"
                        dataProvider="{themes}"
                        title="Themenliste"
-                       itemRenderer="de.dittner.testmyself.ui.common.renderer.ThemeItemRenderer">
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.common.theme.ThemeItemRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </list:layout>

@@ -9,8 +9,9 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 
 public class Language extends EventDispatcher {
-	public function Language(storage:SQLStorage) {
+	public function Language(id:uint, storage:SQLStorage) {
 		this.storage = storage;
+		_id = id;
 	}
 
 	protected var storage:SQLStorage;
@@ -25,14 +26,7 @@ public class Language extends EventDispatcher {
 	//  id
 	//--------------------------------------
 	private var _id:uint = 0;
-	[Bindable("idChanged")]
 	public function get id():uint {return _id;}
-	public function set id(value:uint):void {
-		if (_id != value) {
-			_id = value;
-			dispatchEvent(new Event("idChanged"));
-		}
-	}
 
 	//--------------------------------------
 	//  title

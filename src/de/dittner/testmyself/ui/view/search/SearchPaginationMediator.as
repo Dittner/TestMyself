@@ -1,13 +1,11 @@
 package de.dittner.testmyself.ui.view.search {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.satelliteFlight.mediator.SFMediator;
-import de.dittner.satelliteFlight.message.RequestMessage;
 import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.SearchMsg;
 import de.dittner.testmyself.model.domain.note.INote;
 import de.dittner.testmyself.model.search.FoundNote;
 import de.dittner.testmyself.model.settings.SettingsModel;
-import de.dittner.testmyself.ui.common.pagination.PaginationBar;
+import de.dittner.testmyself.ui.view.noteList.common.pagination.PaginationBar;
 
 import flash.events.MouseEvent;
 
@@ -36,10 +34,10 @@ public class SearchPaginationMediator extends SFMediator {
 
 	private function foundNotesUpdated(foundNotes:Array):void {
 		this.foundNotes = foundNotes;
-		view.notesOnPage = Math.min(pageSize, foundNotes.length);
+		view.notesOnCurPage = Math.min(pageSize, foundNotes.length);
 		view.curPageNum = 0;
 		view.pageSize = pageSize;
-		view.totalNotes = foundNotes.length;
+		view.allNotesAmount = foundNotes.length;
 		loadPageInfo(0);
 	}
 
@@ -97,10 +95,10 @@ public class SearchPaginationMediator extends SFMediator {
 	}
 
 	override protected function deactivate():void {
-		view.notesOnPage = 0;
+		view.notesOnCurPage = 0;
 		view.curPageNum = 0;
 		view.pageSize = 0;
-		view.totalNotes = 0;
+		view.allNotesAmount = 0;
 		view.nextPageBtn.removeEventListener(MouseEvent.CLICK, nextPageBtnClickHandler);
 		view.prevPageBtn.removeEventListener(MouseEvent.CLICK, prevPageBtnClickHandler);
 		view.firstPageBtn.removeEventListener(MouseEvent.CLICK, firstPageBtnClickHandler);

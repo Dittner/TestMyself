@@ -1,5 +1,6 @@
 package de.dittner.testmyself.model.domain.note.verb {
 import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.ui.view.noteList.common.form.NoteValidationErrorKey;
 
 public class DeVerb extends Note {
 	public function DeVerb():void {}
@@ -51,6 +52,13 @@ public class DeVerb extends Note {
 		present = data.options.present || "";
 		past = data.options.past = past || "";
 		perfect = data.options.perfect = perfect || "";
+	}
+
+	override public function validate():String {
+		if (!present || !past || !perfect)
+			return NoteValidationErrorKey.EMPTY_VERB_FIELDS;
+		else
+			return super.validate();
 	}
 
 }

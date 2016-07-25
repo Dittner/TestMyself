@@ -46,9 +46,7 @@ public class SelectableDataGroup extends DataGroup {
 	//--------------------------------------------------------------------------------
 	private var _selectedItem:Object;
 	[Bindable("selectedItemChange")]
-	public function get selectedItem():Object {
-		return _selectedItem;
-	}
+	public function get selectedItem():Object {return _selectedItem;}
 	public function set selectedItem(value:Object):void {
 		if (value == _selectedItem) {
 			if (allowSelectLastItem) dispatchEvent(new Event("selectedItemChange"));
@@ -71,9 +69,7 @@ public class SelectableDataGroup extends DataGroup {
 	private var _haveRenderersClickListeners:Boolean = true;
 	private var _allowSelectByClick:Boolean = true;
 	[Bindable("allowSelectByClickChange")]
-	public function get allowSelectByClick():Boolean {
-		return _allowSelectByClick;
-	}
+	public function get allowSelectByClick():Boolean {return _allowSelectByClick;}
 	public function set allowSelectByClick(value:Boolean):void {
 		if (value == _allowSelectByClick)return;
 		_allowSelectByClick = value;
@@ -85,9 +81,7 @@ public class SelectableDataGroup extends DataGroup {
 	//  allowSelectLastItem
 	//--------------------------------------------------------------------------------
 	private var _allowSelectLastItem:Boolean = false;
-	public function get allowSelectLastItem():Boolean {
-		return _allowSelectLastItem;
-	}
+	public function get allowSelectLastItem():Boolean {return _allowSelectLastItem;}
 	public function set allowSelectLastItem(value:Boolean):void {
 		_allowSelectLastItem = value;
 	}
@@ -105,15 +99,12 @@ public class SelectableDataGroup extends DataGroup {
 		}
 	}
 
-	//--------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
 	//
-	//  Overriden
+	//  Methods
 	//
-	//--------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
 
-	//--------------------------------------------------------------------------------
-	//  commitProperties
-	//--------------------------------------------------------------------------------
 	override protected function commitProperties():void {
 		super.commitProperties();
 		if (_allowSelectByClickChanged) {
@@ -131,9 +122,6 @@ public class SelectableDataGroup extends DataGroup {
 		}
 	}
 
-	//--------------------------------------------------------------------------------
-	//  updateRenderer
-	//--------------------------------------------------------------------------------
 	override public function updateRenderer(renderer:IVisualElement, itemIndex:int, data:Object):void {
 		super.updateRenderer(renderer, itemIndex, data);
 		if (!allowSelectLastItem && renderer is IItemRenderer)
@@ -149,15 +137,6 @@ public class SelectableDataGroup extends DataGroup {
 		return null;
 	}
 
-	//--------------------------------------------------------------------------
-	//
-	//  Protected methods
-	//
-	//--------------------------------------------------------------------------
-
-	//--------------------------------------------------------------------------------
-	//  addClickListeners
-	//--------------------------------------------------------------------------------
 	protected function addClickListeners():void {
 		for (var i:int = 0; i < numElements; i++) {
 			var renderer:IItemRenderer = getElementAt(i) as IItemRenderer;
@@ -165,9 +144,6 @@ public class SelectableDataGroup extends DataGroup {
 		}
 	}
 
-	//--------------------------------------------------------------------------------
-	//  removeClickListeners
-	//--------------------------------------------------------------------------------
 	protected function removeClickListeners():void {
 		for (var i:int = 0; i < numElements; i++) {
 			var renderer:IItemRenderer = getElementAt(i) as IItemRenderer;
@@ -181,17 +157,11 @@ public class SelectableDataGroup extends DataGroup {
 	//
 	//--------------------------------------------------------------------------
 
-	//--------------------------------------------------------------------------------
-	//  rendererAddHandler
-	//--------------------------------------------------------------------------------
 	protected function rendererAddHandler(event:RendererExistenceEvent):void {
 		renderers.push(event.renderer);
 		event.renderer.addEventListener(MouseEvent.CLICK, renderer_clickHandler);
 	}
 
-	//--------------------------------------------------------------------------------
-	//  rendererRemoveHandler
-	//--------------------------------------------------------------------------------
 	protected function rendererRemoveHandler(event:RendererExistenceEvent):void {
 		var ind:int = renderers.indexOf(event.renderer);
 		if (ind != -1) renderers.splice(ind, 1);
@@ -199,9 +169,6 @@ public class SelectableDataGroup extends DataGroup {
 		if (dataProvider is ListCollectionView)(dataProvider as ListCollectionView).refresh();
 	}
 
-	//--------------------------------------------------------------------------------
-	//  renderer_clickHandler
-	//--------------------------------------------------------------------------------
 	protected function renderer_clickHandler(event:MouseEvent):void {
 		var dataRenderer:IDataRenderer = event.currentTarget as IDataRenderer;
 		var selectedData:Object = dataRenderer ? dataRenderer.data : null;

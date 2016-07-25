@@ -172,9 +172,9 @@ public class SQLLib {
 	private static const SelectNoteThemesClass:Class;
 	public static const SELECT_NOTE_THEMES_SQL:String = new SelectNoteThemesClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectExample.sql", mimeType="application/octet-stream")]
-	private static const SelectExampleClass:Class;
-	public static const SELECT_EXAMPLE_SQL:String = new SelectExampleClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectExampleByParentID.sql", mimeType="application/octet-stream")]
+	private static const SelectExampleByParentIDClass:Class;
+	public static const SELECT_EXAMPLE_BY_PARENT_ID_SQL:String = new SelectExampleByParentIDClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectExampleByID.sql", mimeType="application/octet-stream")]
 	private static const SelectExampleByIDClass:Class;
@@ -248,7 +248,7 @@ public class SQLLib {
 	private static const DeleteTestTaskByNoteIDClass:Class;
 	public static const DELETE_TEST_TASK_BY_NOTE_ID_SQL:String = new DeleteTestTaskByNoteIDClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteTestTaskByNoteID.sql", mimeType="application/octet-stream")]
+	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteTestTaskByParentID.sql", mimeType="application/octet-stream")]
 	private static const DeleteTestTaskByParentIDClass:Class;
 	public static const DELETE_TEST_TASK_BY_PARENT_ID_SQL:String = new DeleteTestTaskByParentIDClass();
 

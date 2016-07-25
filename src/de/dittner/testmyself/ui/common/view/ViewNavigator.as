@@ -14,12 +14,6 @@ public class ViewNavigator extends WalterProxy {
 	public var viewFactory:IViewFactory;
 
 	//--------------------------------------
-	//  selectedViewInfo
-	//--------------------------------------
-	private var _selectedViewInfo:ViewInfo;
-	public function get selectedViewInfo():ViewInfo {return _selectedViewInfo;}
-
-	//--------------------------------------
 	//  selectedView
 	//--------------------------------------
 	private var _selectedView:ViewBase;
@@ -32,15 +26,11 @@ public class ViewNavigator extends WalterProxy {
 	//----------------------------------------------------------------------------------------------
 
 	public function navigate(viewInfo:ViewInfo):void {
-		if (_selectedViewInfo != viewInfo) {
-			_selectedViewInfo = viewInfo;
+		if (_selectedView) _selectedView.invalidate(NavigationPhase.VIEW_REMOVE);
+		_selectedView = viewFactory.createView(viewInfo);
+		_selectedView.invalidate(NavigationPhase.VIEW_ACTIVATE);
 
-			if (_selectedView) _selectedView.invalidate(NavigationPhase.VIEW_REMOVE);
-			_selectedView = viewFactory.createView(viewInfo);
-			_selectedView.invalidate(NavigationPhase.VIEW_ACTIVATE);
-
-			sendMessage(SELECTED_VIEW_CHANGED_MSG, selectedView);
-		}
+		sendMessage(SELECTED_VIEW_CHANGED_MSG, selectedView);
 	}
 
 	override protected function activate():void {}

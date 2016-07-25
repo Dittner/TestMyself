@@ -3,10 +3,9 @@
                    xmlns:s="library://ns.adobe.com/flex/spark"
                    xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                   xmlns:list="de.dittner.testmyself.ui.view.vocabulary.note.list.*"
                    xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                    xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
-                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*">
+                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*" xmlns:common2="de.dittner.testmyself.ui.view.noteList.common.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
@@ -139,12 +138,12 @@
                             width="{width - 2*padding}" height="33%"
                             title="Übersetzung" showText="{showDetails}"/>
 
-            <list:ExampleList id="exampleList"
-                              dataProvider="{activeNoteExampleColl}"
-                              bgColor="{AppColors.EDITOR_CONTENT_BG}"
-                              width="{width - 2*padding}" height="66%"
-                              shownList="{showDetails}"
-                              hasFocusableChildren="false"/>
+            <common2:ExampleList id="exampleList"
+                                 dataProvider="{activeNoteExampleColl}"
+                                 bgColor="{AppColors.EDITOR_CONTENT_BG}"
+                                 width="{width - 2*padding}" height="66%"
+                                 shownList="{showDetails}"
+                                 hasFocusableChildren="false"/>
 
             <s:HGroup width="100%"
                       horizontalAlign="center"

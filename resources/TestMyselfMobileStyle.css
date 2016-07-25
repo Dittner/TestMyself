@@ -165,5 +165,5 @@ spinner|CustomSpinner {
 }
 
 s|Button.dropDownBtnStyle {
-    skinClass: ClassReference("de.dittner.testmyself.ui.view.vocabulary.common.articleList.ListBoxDropDownButtonSkin");
+    skinClass: ClassReference("de.dittner.testmyself.ui.view.noteList.common.form.articleList.ListBoxDropDownButtonSkin");
 }

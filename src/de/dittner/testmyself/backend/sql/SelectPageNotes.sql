@@ -1,5 +1,5 @@
 SELECT *
 FROM note
-WHERE title LIKE :searchFilter
+WHERE isExample = 0 vocabularyID = :vocabularyID
 ORDER BY id DESC
 LIMIT :startIndex, :amount

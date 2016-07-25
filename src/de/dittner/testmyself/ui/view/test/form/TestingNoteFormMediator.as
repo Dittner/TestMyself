@@ -3,13 +3,8 @@ import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.TestMsg;
 import de.dittner.testmyself.model.domain.note.INote;
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.ui.common.toobar.ToolAction;
-import de.dittner.testmyself.ui.view.vocabulary.lesson.form.LessonEditorMediator;
-import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteEditorMediator;
-import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteForm;
-import de.dittner.testmyself.ui.view.vocabulary.note.form.NoteRemoverMediator;
-import de.dittner.testmyself.ui.view.vocabulary.verb.form.VerbEditorMediator;
-import de.dittner.testmyself.ui.view.vocabulary.word.form.WordEditorMediator;
+import de.dittner.testmyself.ui.view.noteList.common.form.NoteForm;
+import de.dittner.testmyself.ui.view.noteList.common.toolbar.ToolAction;
 
 public class TestingNoteFormMediator extends SFMediator {
 
@@ -37,7 +32,7 @@ public class TestingNoteFormMediator extends SFMediator {
 			view.moduleName = selectedTestInfo.useExamples ? "" : selectedTestInfo.moduleName;
 			registerEditorMediator(selectedTestInfo.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
-			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT);
+			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.EDIT_NOTE);
 		}
 	}
 
@@ -46,7 +41,7 @@ public class TestingNoteFormMediator extends SFMediator {
 			view.moduleName = selectedTestInfo.useExamples ? "" : selectedTestInfo.moduleName;
 			registerRemoverMediator(selectedTestInfo.moduleName);
 			sendNotification(NoteMsg.NOTE_SELECTED_NOTIFICATION, testingNote);
-			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE);
+			sendNotification(NoteMsg.TOOL_ACTION_SELECTED_NOTIFICATION, ToolAction.REMOVE_NOTE);
 		}
 	}
 
