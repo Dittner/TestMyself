@@ -12,6 +12,7 @@ public class ErrorCode {
 	public static const NOTE_OF_TEST_TASK_HAS_NO_ID:String = "noteOfTestTaskHasNoID";
 
 	public static const EMPTY_THEME_NAME:String = "emptyThemeName";
+	public static const EMPTY_TEST_TASK:String = "EMPTY_TEST_TASK";
 	public static const SQL_TRANSACTION_FAILED:String = "sqlTransactionFailed";
 
 }

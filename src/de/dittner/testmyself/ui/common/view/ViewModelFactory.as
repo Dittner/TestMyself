@@ -4,6 +4,7 @@ import de.dittner.testmyself.ui.view.map.MapVM;
 import de.dittner.testmyself.ui.view.noteList.NoteListVM;
 import de.dittner.testmyself.ui.view.search.SearchVM;
 import de.dittner.testmyself.ui.view.settings.SettingsVM;
+import de.dittner.testmyself.ui.view.test.TestVM;
 import de.dittner.walter.WalterProxy;
 
 public class ViewModelFactory extends WalterProxy {
@@ -23,6 +24,8 @@ public class ViewModelFactory extends WalterProxy {
 	public var noteListVM:NoteListVM;
 	[Inject]
 	public var searchVM:SearchVM;
+	[Inject]
+	public var testVM:TestVM;
 	[Inject]
 	public var settingsVM:SettingsVM;
 

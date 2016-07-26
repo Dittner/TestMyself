@@ -3,7 +3,7 @@ import de.dittner.testmyself.ui.view.map.MapVM;
 import de.dittner.testmyself.ui.view.noteList.NoteListVM;
 import de.dittner.testmyself.ui.view.search.SearchVM;
 import de.dittner.testmyself.ui.view.settings.SettingsVM;
-import de.dittner.testmyself.ui.view.test.TestScreenMediator;
+import de.dittner.testmyself.ui.view.test.TestVM;
 
 public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFactory {
 
@@ -12,7 +12,7 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 	private var wordMediator:SFMediator = new NoteListVM();
 	private var verbMediator:SFMediator = new VerbScreenMediator();
 	private var lessonMediator:SFMediator = new LessonScreenMediator();
-	private var testMediator:SFMediator = new TestScreenMediator();
+	private var testMediator:SFMediator = new TestVM();
 	private var searchMediator:SFMediator = new SearchVM();
 
 	public function createScreenMediator(screenID:String):SFMediator {

@@ -1,47 +1,123 @@
 package de.dittner.testmyself.model.domain.test {
-public class TestTask implements ITestTask {
+import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.model.domain.note.Note;
+
+import flash.events.Event;
+import flash.events.EventDispatcher;
+
+public class TestTask extends EventDispatcher {
+
+	public function TestTask() {}
 
 	//--------------------------------------
-	//  testID
+	//  test
 	//--------------------------------------
-	private var _testID:int = -1;
-	public function get testID():int {return _testID;}
-	public function set testID(value:int):void {_testID = value;}
+	private var _test:Test;
+	[Bindable("testChanged")]
+	public function get test():Test {return _test;}
+	public function set test(value:Test):void {
+		if (_test != value) {
+			_test = value;
+			dispatchEvent(new Event("testChanged"));
+		}
+	}
 
 	//--------------------------------------
-	//  noteID
+	//  note
 	//--------------------------------------
-	private var _noteID:int = -1;
-	public function get noteID():int {return _noteID;}
-	public function set noteID(value:int):void {_noteID = value;}
+	private var _note:Note;
+	[Bindable("noteChanged")]
+	public function get note():Note {return _note;}
+	public function set note(value:Note):void {
+		if (_note != value) {
+			_note = value;
+			dispatchEvent(new Event("noteChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  rate
 	//--------------------------------------
-	private var _rate:Number = -1;
+	private var _rate:Number = 0;
+	[Bindable("rateChanged")]
 	public function get rate():Number {return _rate;}
-	public function set rate(value:Number):void {_rate = value;}
+	public function set rate(value:Number):void {
+		if (_rate != value) {
+			_rate = value;
+			dispatchEvent(new Event("rateChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  complexity
 	//--------------------------------------
-	private var _complexity:int = TestTaskComplexity.HIGH;
-	public function get complexity():int {return _complexity;}
-	public function set complexity(value:int):void {_complexity = value;}
+	private var _complexity:uint = TestTaskComplexity.HIGH;
+	[Bindable("complexityChanged")]
+	public function get complexity():uint {return _complexity;}
+	public function set complexity(value:uint):void {
+		if (_complexity != value) {
+			_complexity = value;
+			dispatchEvent(new Event("complexityChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  isFailed
 	//--------------------------------------
-	private var _isFailed:Boolean;
+	private var _isFailed:Boolean = false;
+	[Bindable("isFailedChanged")]
 	public function get isFailed():Boolean {return _isFailed;}
-	public function set isFailed(value:Boolean):void {_isFailed = value;}
+	public function set isFailed(value:Boolean):void {
+		if (_isFailed != value) {
+			_isFailed = value;
+			dispatchEvent(new Event("isFailedChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  lastTestedDate
 	//--------------------------------------
-	private var _lastTestedDate:Number;
+	private var _lastTestedDate:Number = 0;
+	[Bindable("lastTestedDateChanged")]
 	public function get lastTestedDate():Number {return _lastTestedDate;}
-	public function set lastTestedDate(value:Number):void {_lastTestedDate = value;}
+	public function set lastTestedDate(value:Number):void {
+		if (_lastTestedDate != value) {
+			_lastTestedDate = value;
+			dispatchEvent(new Event("lastTestedDateChanged"));
+		}
+	}
+
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Methods
+	//
+	//----------------------------------------------------------------------------------------------
+
+	public function store():IAsyncOperation {
+		return test.vocabulary.storage.storeTestTask(this);
+	}
+
+	public function serialize():Object {
+		var res:Object = {};
+		res.testID = test.id;
+		res.noteID = note.id;
+		res.rate = test.calcTaskRate();
+		res.complexity = complexity;
+		res.isFailed = isFailed;
+		res.lastTestedDate = test.calcTaskRate();
+		return res;
+	}
+
+	private var _originalData:Object = {};
+	public function get originalData():Object {return _originalData;}
+
+	public function deserialize(data:Object):void {
+		_originalData = data;
+		_rate = data.rate;
+		_complexity = data.complexity;
+		_isFailed = data.isFailed;
+		_lastTestedDate = data.lastTestedDate;
+	}
 
 }
 }

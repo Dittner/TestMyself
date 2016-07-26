@@ -6,7 +6,7 @@ import de.dittner.testmyself.ui.view.noteList.LessonView;
 import de.dittner.testmyself.ui.view.noteList.NoteListView;
 import de.dittner.testmyself.ui.view.search.SearchView;
 import de.dittner.testmyself.ui.view.settings.SettingsView;
-import de.dittner.testmyself.ui.view.test.TestScreen;
+import de.dittner.testmyself.ui.view.test.TestView;
 import de.dittner.walter.WalterProxy;
 
 import flash.display.BitmapData;
@@ -125,7 +125,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 
 	private static var noteScreen:NoteListView = new NoteListView();
 	private static var lessonScreen:LessonView = new LessonView();
-	private static var testScreen:TestScreen = new TestScreen();
+	private static var testScreen:TestView = new TestView();
 	private static var searchScreen:SearchView = new SearchView();
 	public function createView(viewInfo:ViewInfo):ViewBase {
 		var view:ViewBase;

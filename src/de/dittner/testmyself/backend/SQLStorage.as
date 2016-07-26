@@ -1,38 +1,31 @@
 package de.dittner.testmyself.backend {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
+import de.dittner.testmyself.backend.cmd.LoadAllThemesCmd;
 import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
+import de.dittner.testmyself.backend.cmd.LoadTestPageInfoCmd;
 import de.dittner.testmyself.backend.cmd.LoadVocabularyInfoCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNoteCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNotesByThemeCmd;
+import de.dittner.testmyself.backend.cmd.RemoveThemeCmd;
 import de.dittner.testmyself.backend.cmd.RunDataBaseCmd;
 import de.dittner.testmyself.backend.cmd.SearchNotesCmd;
 import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
+import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
 import de.dittner.testmyself.backend.cmd.StoreThemeCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
+import de.dittner.testmyself.backend.op.MergeThemesSQLOperation;
 import de.dittner.testmyself.backend.op.SelectAllNotesTitlesSQLOperation;
-import de.dittner.testmyself.backend.op.SelectExamplesSQLOperation;
-import de.dittner.testmyself.backend.operation.ClearTestHistorySQLOperation;
-import de.dittner.testmyself.backend.operation.CountTestTasksSQLOperation;
-import de.dittner.testmyself.backend.operation.DeleteNoteExampleSQLOperation;
-import de.dittner.testmyself.backend.operation.LoadAllThemesCmd;
-import de.dittner.testmyself.backend.operation.MergeThemesSQLOperation;
-import de.dittner.testmyself.backend.operation.RebuildTestTasksSQLOperation;
-import de.dittner.testmyself.backend.operation.RemoveThemeCmd;
-import de.dittner.testmyself.backend.operation.SelectExampleSQLOperation;
-import de.dittner.testmyself.backend.operation.SelectPageTestTasksSQLOperation;
-import de.dittner.testmyself.backend.operation.SelectTestTasksSQLOperation;
-import de.dittner.testmyself.backend.operation.UpdateNoteExampleSQLOperation;
-import de.dittner.testmyself.backend.operation.UpdateTestTaskSQLOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.model.page.TestPageInfo;
 import de.dittner.testmyself.ui.common.page.NotePageInfo;
 import de.dittner.testmyself.ui.common.page.SearchPageInfo;
+import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
 import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
@@ -120,9 +113,10 @@ public class SQLStorage extends WalterProxy {
 		return op;
 	}
 
-	public function loadNote(v:Vocabulary, noteID:int):void {
+	public function loadNote(v:Vocabulary, noteID:int):IAsyncOperation {
 		var op:IAsyncCommand = new LoadNoteByNoteIDCmd(this, v, noteID);
 		deferredCommandManager.add(op);
+		return op;
 	}
 
 	//--------------------------------------
@@ -161,81 +155,39 @@ public class SQLStorage extends WalterProxy {
 	//  search
 	//--------------------------------------
 
-	public function searchNotes(page:SearchPageInfo):void {
+	public function searchNotes(page:SearchPageInfo):IAsyncOperation {
 		var op:IAsyncCommand = new SearchNotesCmd(this, page);
 		deferredCommandManager.add(op);
+		return op;
 	}
 
 	//--------------------------------------
 	//  test
 	//--------------------------------------
 
-	public function loadTestPageInfo(requestMsg:IRequestMessage):void {
-		var pageInfo:TestPageInfo = requestMsg.data as TestPageInfo;
-		pageInfo.pageSize = settingsModel.info.pageSize;
-		pageInfo.testSpec = testModel.testSpec;
-
-		var op:IAsyncCommand = new SelectPageTestTasksSQLOperation(this, pageInfo, spec.noteClass);
-		requestHandler(requestMsg, op);
+	public function storeTestTask(task:TestTask):IAsyncOperation {
+		var op:IAsyncCommand = new StoreTestTaskCmd(this, task);
 		deferredCommandManager.add(op);
+		return op;
 	}
 
-	public function countTestTasks(requestMsg:IRequestMessage = null):void {
-		var onlyFailedNotes:Boolean = requestMsg && requestMsg.data;
-		var op:IAsyncCommand = new CountTestTasksSQLOperation(this, testModel.testSpec, onlyFailedNotes);
-		requestHandler(requestMsg, op);
+	public function loadTestPageInfo(page:TestPageInfo):IAsyncOperation {
+		var op:IAsyncCommand = new LoadTestPageInfoCmd(this, page);
 		deferredCommandManager.add(op);
+		return op;
 	}
 
-	public function loadExamples(requestMsg:IRequestMessage):void {
-		var noteID:int = requestMsg.data as int;
-		var op:IAsyncCommand = new SelectExamplesSQLOperation(this, noteID);
-		requestHandler(requestMsg, op);
+	public function clearTestHistory(test:Test):IAsyncOperation {
+		var op:IAsyncCommand = new ClearTestHistoryCmd(this, test);
 		deferredCommandManager.add(op);
+		return op;
 	}
 
-	public function loadExample(requestMsg:IRequestMessage):void {
-		var exampleID:int = requestMsg.data as int;
-		var op:IAsyncCommand = new SelectExampleSQLOperation(this, exampleID);
-		requestHandler(requestMsg, op);
-		deferredCommandManager.add(op);
-	}
-
-	public function loadTestTasks(requestMsg:IRequestMessage):void {
-		var op:IAsyncCommand = new SelectTestTasksSQLOperation(this, testModel.testSpec);
-		requestHandler(requestMsg, op);
-		deferredCommandManager.add(op);
-	}
-
-	public function clearTestHistory(requestMsg:IRequestMessage):void {
-		var testInfo:Test = requestMsg.data as Test;
-		var op:IAsyncCommand = new ClearTestHistorySQLOperation(this, testInfo, testModel);
-		requestHandler(requestMsg, op);
-		deferredCommandManager.add(op);
-	}
-
-	public function rebuildTestTasks():void {
-		var op:IAsyncCommand = new RebuildTestTasksSQLOperation(this, testModel, spec.noteClass);
-		deferredCommandManager.add(op);
-	}
-
-	public function updateExample(requestMsg:IRequestMessage):void {
-		var op:IAsyncCommand = new UpdateNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
-		requestHandler(requestMsg, op);
-		deferredCommandManager.add(op);
-	}
-
-	public function removeExample(requestMsg:IRequestMessage):void {
-		var op:IAsyncCommand = new DeleteNoteExampleSQLOperation(this, requestMsg.data as NoteSuite);
-		requestHandler(requestMsg, op);
-		deferredCommandManager.add(op);
-	}
-
-	public function updateTestTask(requestMsg:IRequestMessage):void {
-		var op:IAsyncCommand = new UpdateTestTaskSQLOperation(this, requestMsg.data as TestTask, testModel);
-		requestHandler(requestMsg, op);
-		deferredCommandManager.add(op);
-	}
+	/*public function rebuildTestTasks():IAsyncOperation {
+	 var op:IAsyncCommand = new RebuildTestTasksSQLOperation(this);
+	 deferredCommandManager.add(op);
+	 return op;
+	 }*/
 
 	//----------------------------------------------------------------------------------------------
 	//

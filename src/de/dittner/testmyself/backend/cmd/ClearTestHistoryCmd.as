@@ -1,0 +1,37 @@
+package de.dittner.testmyself.backend.cmd {
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.CompositeCommand;
+import de.dittner.async.IAsyncCommand;
+import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.op.ClearTestHistoryOperationPhase;
+import de.dittner.testmyself.backend.op.SelectTestNotesIDsOperationPhase;
+import de.dittner.testmyself.model.domain.test.Test;
+
+public class ClearTestHistoryCmd extends AsyncOperation implements IAsyncCommand {
+
+	public function ClearTestHistoryCmd(storage:SQLStorage, test:Test) {
+		this.storage = storage;
+		this.test = test;
+	}
+
+	private var storage:SQLStorage;
+	private var test:Test;
+
+	public function execute():void {
+		var composite:CompositeCommand = new CompositeCommand();
+
+		var notesIDs:Array = [];
+		composite.addOperation(SelectTestNotesIDsOperationPhase, storage, test, notesIDs);
+		composite.addOperation(ClearTestHistoryOperationPhase, storage, test, notesIDs);
+
+		composite.addCompleteCallback(completeHandler);
+		composite.execute();
+	}
+
+	private function completeHandler(op:IAsyncOperation):void {
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError(op.error);
+	}
+}
+}

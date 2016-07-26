@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:core="de.dittner.testmyself.ui.common.view.*"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:testlist="de.dittner.testmyself.ui.view.test.testList.*"
+                xmlns:presets="de.dittner.testmyself.ui.view.test.presets.*"
+                xmlns:results="de.dittner.testmyself.ui.view.test.statistics.*"
+                xmlns:testing="de.dittner.testmyself.ui.view.test.testing.*"
+                xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
+                horizontalCenter="0"
+                currentState="inactive"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.domain.test.Test;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+
+        [Bindable]
+        public var vm:TestVM;
+
+        override protected function activate():void {
+            vm = ViewModelFactory.instance.testVM;
+            vm.viewActivated(info);
+            setCurrentState("testList");
+        }
+
+        override protected function deactivate():void {
+            setCurrentState("inactive");
+            vm.viewDeactivated();
+        }
+
+        private function showTestList():void {
+            setCurrentState("testList");
+        }
+
+        private function showTestPresets():void {
+            setCurrentState("presets");
+        }
+
+        private function showStatistics():void {
+            vm.pageInfo.selectedTaskComplexity = testPresetsScreen.selectedComplexity;
+            vm.pageInfo.selectedTheme = testPresetsScreen.themesList.selectedItem;
+            statisticsScreen.activate();
+            setCurrentState("statistics");
+        }
+
+        private function startTesting():void {
+            vm.pageInfo.selectedTaskComplexity = testPresetsScreen.selectedComplexity;
+            vm.pageInfo.selectedTheme = testPresetsScreen.themesList.selectedItem;
+            testingScreen.activate();
+            setCurrentState("testing");
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            if (form) {
+                form.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
+                form.x = w - form.width;
+            }
+        }
+
+        private function testSelected():void {
+            vm.pageInfo.test = testListScreen.testList.selectedItem;
+            vm.selectedVocabulary = testListScreen.vocabularyList.selectedItem;
+            if (testListScreen.testList.selectedItem is Test)
+                showStatistics();
+        }
+
+        private function openFormToRemoveTaskNote():void {
+            form.visible = true;
+            var op:IAsyncOperation = form.edit(vm.curTestTask.note);
+            op.addCompleteCallback(formOperationComplete);
+        }
+
+        private function openFormToEditTaskNote():void {
+            form.visible = true;
+            var op:IAsyncOperation = form.edit(vm.curTestTask.note);
+            op.addCompleteCallback(formOperationComplete);
+        }
+
+        private function formOperationComplete(op:IAsyncOperation):void {
+            vm.loadTestTaskPageInfo();
+        }
+        ]]></fx:Script>
+
+    <core:states>
+        <s:State name="inactive"/>
+        <s:State name="normal"/>
+        <s:State name="testList"/>
+        <s:State name="presets"/>
+        <s:State name="statistics"/>
+        <s:State name="testing"/>
+    </core:states>
+
+    <!--content bg-->
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
+                          fillMode="repeat"/>
+        </s:fill>
+    </s:Rect>
+
+    <!--header bg-->
+    <s:Rect width="100%" height="{HEADER_HEI}">
+        <s:fill>
+            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:Label text="{info.title}"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="18"
+             width="100%" height="{HEADER_HEI}"
+             verticalAlign="middle"
+             paddingLeft="{PADDING}" paddingRight="{PADDING}"
+             color="#54545d"/>
+
+    <button:ToolButton id="removeBtn"
+                       visible="false" visible.testing="true"
+                       enabled="{vm.curTestTask.note}"
+                       top="8" right="{editBtn.width}"
+                       description="Die Notiz entfernen"
+                       image="@Embed(source='/assets/tools/recycle_bin.png')"
+                       click="openFormToRemoveTaskNote()"/>
+
+    <button:ToolButton id="editBtn"
+                       visible="false" visible.testing="true"
+                       enabled="{vm.curTestTask.note}"
+                       top="8" right="0"
+                       description="Die Notiz bearbeiten"
+                       image="@Embed(source='/assets/tools/edit.png')"
+                       click="openFormToEditTaskNote()"/>
+
+    <s:BitmapImage width="100%"
+                   top="{HEADER_HEI}"
+                   smooth="true"
+                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
+
+    <s:Group width="100%" top="{HEADER_HEI}" bottom="0"
+             excludeFrom="inactive">
+
+        <testlist:TestListScreen id="testListScreen"
+                                 width="100%" height="100%"
+                                 vocabularyColl="{vm.vocabularyColl}"
+                                 padding="{PADDING}"
+                                 visible="false" visible.testList="true"
+                                 testSelected="testSelected()"/>
+
+        <presets:TestPresetsScreen id="testPresetsScreen"
+                                   title="{vm.pageInfo.test.title}"
+                                   width="100%" height="100%"
+                                   padding="{PADDING}"
+                                   visible="false" visible.presets="true"
+                                   goBack="showTestList()"
+                                   showStatistics="showStatistics()"
+                                   startTest="startTesting()"/>
+
+        <testing:TestingScreen id="testingScreen"
+                               vm="{vm}"
+                               width="100%" height="100%"
+                               padding="{PADDING}"
+                               visible="false" visible.testing="true"
+                               goBack="showTestPresets()"/>
+
+        <results:StatisticsScreen id="statisticsScreen"
+                                  vm="{vm}"
+                                  width="100%" height="100%"
+                                  padding="{PADDING}"
+                                  visible="false" visible.statistics="true"
+                                  goBack="showTestPresets()"/>
+    </s:Group>
+
+    <s:Group width="100%" height="100%"
+             visible="{form.visible}"
+             mouseEnabled="{form.visible}">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
+            </s:fill>
+        </s:Rect>
+
+        <form:NoteForm id="form"
+                       visible="false"
+                       bottom="0"
+                       top="{HEADER_HEI}"/>
+    </s:Group>
+
+</view:SmartView>

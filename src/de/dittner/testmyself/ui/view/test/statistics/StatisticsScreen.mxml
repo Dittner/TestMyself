@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:list="de.dittner.testmyself.ui.common.list.*"
+         xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
+         xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*">
+    <fx:Metadata>
+        [Event(name="goBack", type="flash.events.Event")]
+    </fx:Metadata>
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.note.verb.DeVerb;
+        import de.dittner.testmyself.model.domain.note.word.DeWord;
+        import de.dittner.testmyself.model.domain.test.TestTask;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.view.test.TestVM;
+        import de.dittner.testmyself.ui.view.test.statistics.renderer.TestingNoteRenderer;
+        import de.dittner.testmyself.ui.view.test.statistics.renderer.TestingVerbRenderer;
+        import de.dittner.testmyself.ui.view.test.statistics.renderer.TestingWordRenderer;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  title
+        //--------------------------------------
+        private var _title:String = "";
+        [Bindable("titleChanged")]
+        public function get title():String {return _title;}
+        public function set title(value:String):void {
+            if (_title != value) {
+                _title = value;
+                dispatchEvent(new Event("titleChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:uint = 0;
+        [Bindable("paddingChanged")]
+        public function get padding():uint {return _padding;}
+        public function set padding(value:uint):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  vm
+        //--------------------------------------
+        private var _vm:TestVM;
+        [Bindable("vmChanged")]
+        public function get vm():TestVM {return _vm;}
+        public function set vm(value:TestVM):void {
+            if (_vm != value) {
+                _vm = value;
+                dispatchEvent(new Event("vmChanged"));
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+        private var needTranslationInvert:Boolean = false;
+
+        public function activate():void {
+            title = vm.pageInfo.test.title;
+            vm.pageInfo.amountAllTasks = -1;
+            vm.pageInfo.tasks = null;
+            vm.loadStatisticsPageInfo();
+        }
+
+        public function resultItemRendererFunction(item:*):IFactory {
+            var note:* = (item as TestTask).note;
+            if (note is DeWord) return new ClassFactory(TestingWordRenderer);
+            else if (note is DeVerb) return new ClassFactory(TestingVerbRenderer);
+            else return new ClassFactory(TestingNoteRenderer);
+        }
+
+        private function setTaskAsRightBtnEnabled(selectedTask:*, isFailedTaskShown:Boolean):Boolean {
+            return selectedTask && isFailedTaskShown;
+        }
+
+        private function goBack():void {
+            dispatchEvent(new Event("goBack"));
+        }
+
+        private function setTaskAsRightBtnClickHandler(event:MouseEvent):void {
+            var task:TestTask = list.selectedItem as TestTask;
+            task.isFailed = false;
+            task.store();
+            if (showOnlyFailedNotesFilterBox.selected)
+                vm.loadStatisticsPageInfo();
+        }
+
+        private function pageNumChanged():void {
+            vm.loadStatisticsPageInfo();
+        }
+
+        private function showOnlyFailedNotes(event:Event):void {
+            if (vm.pageInfo.onlyFailedNotes != showOnlyFailedNotesFilterBox.selected) {
+                vm.pageInfo.onlyFailedNotes = showOnlyFailedNotesFilterBox.selected;
+                vm.pageInfo.pageNum = 0;
+                vm.pageInfo.amountAllTasks = -1;
+                vm.loadStatisticsPageInfo();
+            }
+        }
+        ]]></fx:Script>
+
+    <utils:BG width="100%" height="100%" color="#ffFFff"/>
+
+    <common:TestHeader width="100%" padding="{padding}"
+                       title="{title}"/>
+
+    <button:WhiteButton id="setTaskAsRightBtn"
+                        horizontalCenter="-110" top="5"
+                        label="Als richtig zeichnen"
+                        width="220"
+                        enabled="{setTaskAsRightBtnEnabled(list.selectedItem, showOnlyFailedNotesFilterBox.selected)}"
+                        click="setTaskAsRightBtnClickHandler"/>
+
+    <s:CheckBox id="showOnlyFailedNotesFilterBox"
+                right="25" top="10"
+                selected="true"
+                skinClass="de.dittner.testmyself.ui.common.checkBox.DarkCheckBoxSkin"
+                label="nur Notiz mit Fehlern"
+                change="showOnlyFailedNotes(event)"/>
+
+    <s:HGroup left="-1" right="-1" top="39" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}" gap="-1">
+        <s:Scroller width="100%" height="100%"
+                    minViewportInset="1"
+                    horizontalScrollPolicy="off"
+                    hasFocusableChildren="false">
+
+            <list:SelectableDataGroup id="list"
+                                      dataProvider="{new ArrayCollection(vm.pageInfo.tasks)}"
+                                      width="100%"
+                                      contentBackgroundAlpha="0"
+                                      deselectEnabled="true"
+                                      itemRendererFunction="resultItemRendererFunction">
+                <list:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                </list:layout>
+            </list:SelectableDataGroup>
+        </s:Scroller>
+
+        <common2:ExampleList id="exampleList"
+                             visible="{vm.pageInfo.test.loadExamplesWhenTesting}"
+                             width="100%" height="100%"
+                             showTitle="false"
+                             hasFocusableChildren="false"/>
+    </s:HGroup>
+
+    <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+
+        <navigation:PaginationBar id="paginationBar"
+                                  left="{padding}" right="{padding}"
+                                  height="100%"
+                                  allNotesAmount="{vm.pageInfo.amountAllTasks}"
+                                  notesOnCurPage="{vm.pageInfo.tasks.length}"
+                                  pageSize="{vm.pageInfo.pageSize}"
+                                  pageNum="@{vm.pageInfo.pageNum}"
+                                  pageNumChanged="pageNumChanged()"/>
+
+        <button:GrayButton id="goBackBtn"
+                           width="250"
+                           verticalCenter="0"
+                           left="{padding}"
+                           label="Zurück"/>
+
+    </s:Group>
+</s:Group>

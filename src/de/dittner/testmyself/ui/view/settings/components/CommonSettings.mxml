@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:spinner="de.dittner.testmyself.ui.common.spinner.*"
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:progressbar="de.dittner.testmyself.ui.common.progressBar.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.async.ProgressCommand;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.view.settings.SettingsVM;
+
+        [Bindable]
+        public var vm:SettingsVM;
+        [Bindable]
+        public var errorText:String = "";
+        [Bindable]
+        public var isDataBaseTransferOperationSuccess:Boolean = false;
+        [Bindable]
+        public var isUploading:Boolean = false;
+
+        private function hasServerInfo(hostText:String, portText:String, pwdText:String, userName:String):Boolean {
+            return hostText && portText && pwdText && userName;
+        }
+
+        //--------------------------------------
+        //  uploadDB
+        //--------------------------------------
+
+        private function uploadDB():void {
+            isUploading = true;
+            progressBar.visible = true;
+            errorText = "";
+            isDataBaseTransferOperationSuccess = false;
+            var cmd:ProgressCommand = vm.uploadDB(getSettings());
+            cmd.addProgressCallback(uploadDBProgress);
+            cmd.addCompleteCallback(uploadDBComplete);
+        }
+
+        private function uploadDBProgress(value:Number):void {
+            progressBar.progress = value;
+        }
+
+        private function uploadDBComplete(op:IAsyncOperation):void {
+            if (op.isSuccess) {
+                isDataBaseTransferOperationSuccess = true;
+            }
+            else {
+                errorText = "Error: " + op.error;
+                isDataBaseTransferOperationSuccess = false;
+            }
+            progressBar.visible = false;
+        }
+
+        //--------------------------------------
+        //  downloadDB
+        //--------------------------------------
+
+        private function downloadDB():void {
+            isUploading = false;
+            progressBar.visible = true;
+            errorText = "";
+            isDataBaseTransferOperationSuccess = false;
+            var cmd:ProgressCommand = vm.downloadDB(getSettings());
+            cmd.addCompleteCallback(downloadDBComplete);
+            cmd.addProgressCallback(downloadProgress);
+        }
+
+        private function downloadProgress(value:Number):void {
+            progressBar.progress = value;
+        }
+
+        private function downloadDBComplete(op:IAsyncOperation):void {
+            if (op.isSuccess) {
+                isDataBaseTransferOperationSuccess = true;
+            }
+            else {
+                errorText = "Error: " + op.error;
+                isDataBaseTransferOperationSuccess = false;
+            }
+            progressBar.visible = false;
+        }
+
+        public function getSettings():SettingsInfo {
+            var info:SettingsInfo = new SettingsInfo();
+            info.maxAudioRecordDuration = maxAudioRecordDurationSpinner.value;
+            info.backUpServerInfo.host = hostInput.text;
+            info.backUpServerInfo.port = int(portInput.text);
+            info.backUpServerInfo.user = userNameInput.text;
+            info.backUpServerInfo.password = pwdInput.text;
+            info.backUpServerInfo.remoteDirPath = remoteDirInput.text;
+            return info;
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:VerticalLayout gap="10" horizontalAlign="center"/>
+    </s:layout>
+
+    <s:HGroup width="100%" verticalAlign="middle" gap="0">
+        <s:HGroup verticalAlign="bottom">
+            <spinner:CustomSpinner id="maxAudioRecordDurationSpinner"
+                                   fontFamily="{FontName.MYRIAD}"
+                                   fontStyle="italic"
+                                   fontSize="20"
+                                   color="{AppColors.TEXT_DARK}"
+                                   minimum="1" maximum="30" value="1"/>
+
+            <s:Label text="Höchsgröße der Audioaufnahme in Minuten"
+                     fontFamily="{FontName.MYRIAD}"
+                     fontStyle="italic"
+                     fontSize="18"
+                     color="{AppColors.TEXT_DARK}"/>
+        </s:HGroup>
+    </s:HGroup>
+
+    <s:Spacer height="15%"/>
+
+    <s:Label text="Die Dataibank kopieren/aktualisieren"
+             width="815"
+             fontFamily="{FontName.MYRIAD}"
+             fontStyle="italic"
+             fontSize="18"
+             color="{AppColors.TEXT_DARK}"/>
+
+    <s:HGroup gap="15">
+        <input:TextInputForm id="hostInput"
+                             width="400" title="Server"/>
+
+        <input:TextInputForm id="userNameInput"
+                             width="400" title="Benutzer"/>
+    </s:HGroup>
+
+    <s:HGroup gap="15">
+        <input:TextInputForm id="portInput"
+                             width="400" title="Port"/>
+
+        <input:TextInputForm id="pwdInput"
+                             width="400" title="Passwort"/>
+    </s:HGroup>
+
+    <s:Group width="815">
+        <input:TextInputForm id="remoteDirInput"
+                             width="400" title="Remoteverzeichnis"/>
+    </s:Group>
+
+    <s:Spacer height="5%"/>
+
+    <s:HGroup width="815" gap="20" verticalAlign="middle">
+        <button:BlackButton id="uploadBtn"
+                            width="100%"
+                            label="Auf den Server exportieren"
+                            enabled="{hasServerInfo(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                            click="uploadDB()"/>
+
+        <s:BitmapImage source="@Embed(source='/assets/uploadDownloadIcon.png')"/>
+
+        <button:GrayButton id="downloadBtn"
+                           width="100%"
+                           label="Vom Server aktualisieren"
+                           enabled="{hasServerInfo(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                           click="downloadDB()"/>
+    </s:HGroup>
+
+    <s:Spacer height="5%"/>
+
+    <progressbar:ProgressBar id="progressBar"
+                             visible="false"
+                             verticalCenter="100" horizontalCenter="0"
+                             title="{isUploading ? 'Die Dateibank wird hochgeladen...' : 'Die Dateibank wird aktualisiert...'}"
+                             width="400"/>
+
+    <s:Label fontFamily="{FontName.MYRIAD}"
+             fontWeight="bold"
+             visible="{errorText}"
+             fontSize="18"
+             color="{AppColors.INVALID_INPUT_BORDER}"
+             width="815"
+             textAlign="center"
+             maxDisplayedLines="5"
+             text="{errorText}"/>
+
+    <s:Label fontFamily="{FontName.MYRIAD}"
+             fontWeight="bold"
+             visible="{isDataBaseTransferOperationSuccess}"
+             color="{AppColors.TEXT_DARK}"
+             width="815"
+             fontSize="16"
+             textAlign="center"
+             text="{isUploading ? 'Die Dateibank wurde erfolgreich hochgeladen!' : 'Die Dateibank wurde aktualisiert!'}"/>
+
+</s:Group>

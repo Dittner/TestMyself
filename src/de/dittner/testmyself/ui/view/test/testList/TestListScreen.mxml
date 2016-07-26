@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:list="de.dittner.testmyself.ui.common.list.*"
+         horizontalCenter="0">
+
+    <fx:Metadata>
+        [Event(name="testSelected", type="flash.events.Event")]
+    </fx:Metadata>
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+
+        import mx.collections.ArrayCollection;
+
+        import spark.events.IndexChangeEvent;
+
+        //--------------------------------------
+        //  vocabularyColl
+        //--------------------------------------
+        private var _vocabularyColl:ArrayCollection;
+        [Bindable("vocabularyCollChanged")]
+        public function get vocabularyColl():ArrayCollection {return _vocabularyColl;}
+        public function set vocabularyColl(value:ArrayCollection):void {
+            if (_vocabularyColl != value) {
+                _vocabularyColl = value;
+                dispatchEvent(new Event("vocabularyCollChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:Number = 0;
+        [Bindable("paddingChanged")]
+        public function get padding():Number {return _padding;}
+        public function set padding(value:Number):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+
+        private function getTestInfoList(vocabulary:Vocabulary):ArrayCollection {
+            return new ArrayCollection(vocabulary ? vocabulary.availableTests : []);
+        }
+
+        private function selectedTestHandler(event:IndexChangeEvent):void {
+            dispatchEvent(new Event("testSelected"));
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:VerticalLayout gap="15" paddingTop="{padding}" horizontalAlign="center"/>
+    </s:layout>
+
+    <list:ListForm id="vocabularyList"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="{width - 2*padding}"
+                   dataProvider="{vocabularyColl}"
+                   title="Wählen Sie bitte die wünschen Notizart aus der Liste aus"
+                   itemRenderer="de.dittner.testmyself.ui.view.test.testList.VocabularyRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <list:ListForm id="testList"
+                   visible="{vocabularyList.selectedItem}"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="{width - 2*padding}" height="100%"
+                   dataProvider="{getTestInfoList(vocabularyList.selectedItem)}"
+                   title="Wählen Sie bitte den wünschen Test aus der Liste aus"
+                   itemRenderer="de.dittner.testmyself.ui.view.test.testList.TestInfoRenderer"
+                   change="selectedTestHandler(event)">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+</s:Group>

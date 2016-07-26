@@ -1,15 +1,16 @@
 package de.dittner.testmyself.model.domain.test {
+import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 
+use namespace domain_internal;
+
 public class Test {
-	public function Test(id:uint, vocabulary:Vocabulary, title:String, loadExamplesWhenTesting:Boolean, isWritten:Boolean, useNoteExample:Boolean) {
+	public function Test(id:uint, vocabulary:Vocabulary, title:String) {
 		_id = id;
 		_title = title;
-		_loadExamplesWhenTesting = loadExamplesWhenTesting;
 		_vocabulary = vocabulary;
-		_isWritten = isWritten;
-		_useExamples = useNoteExample;
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -25,34 +26,40 @@ public class Test {
 	public function get id():uint {return _id;}
 
 	//--------------------------------------
-	//  title
-	//--------------------------------------
-	private var _title:String;
-	public function get title():String {return _title;}
-
-	//--------------------------------------
-	//  isWritten
-	//--------------------------------------
-	private var _isWritten:Boolean;
-	public function get isWritten():Boolean {return _isWritten;}
-
-	//--------------------------------------
-	//  loadExamplesWhenTesting
-	//--------------------------------------
-	private var _loadExamplesWhenTesting:Boolean;
-	public function get loadExamplesWhenTesting():Boolean {return _loadExamplesWhenTesting;}
-
-	//--------------------------------------
 	//  vocabulary
 	//--------------------------------------
 	private var _vocabulary:Vocabulary;
 	public function get vocabulary():Vocabulary {return _vocabulary;}
 
 	//--------------------------------------
+	//  title
+	//--------------------------------------
+	private var _title:String;
+	public function get title():String {return _title;}
+
+	//--------------------------------------
+	//  loadExamplesWhenTesting
+	//--------------------------------------
+	domain_internal var _loadExamplesWhenTesting:Boolean;
+	public function get loadExamplesWhenTesting():Boolean {return _loadExamplesWhenTesting;}
+
+	//--------------------------------------
+	//  isWritten
+	//--------------------------------------
+	domain_internal var _isWritten:Boolean;
+	public function get isWritten():Boolean {return _isWritten;}
+
+	//--------------------------------------
 	//  useExamples
 	//--------------------------------------
-	private var _useExamples:Boolean;
+	domain_internal var _useExamples:Boolean = false;
 	public function get useExamples():Boolean {return _useExamples;}
+
+	//--------------------------------------
+	//  needTranslationInvert
+	//--------------------------------------
+	domain_internal var _needTranslationInvert:Boolean = false;
+	public function get needTranslationInvert():Boolean {return _needTranslationInvert;}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -71,6 +78,17 @@ public class Test {
 	private static const MSEC_INS_HOURS:Number = 5 * 60 * 60 * 1000;
 	public function calcTaskRate():Number {
 		return (new Date).time + Math.round(Math.random() * MSEC_INS_HOURS);
+	}
+
+	public function createTestTask():TestTask {
+		var res:TestTask = new TestTask();
+		res.test = this;
+		return res;
+	}
+
+	public function clearHistory():IAsyncOperation {
+		var op:IAsyncOperation = vocabulary.storage.clearTestHistory(this);
+		return op;
 	}
 }
 }

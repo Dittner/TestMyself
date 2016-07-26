@@ -24,10 +24,6 @@ public class SQLLib {
 	private static const CreateTestTblClass:Class;
 	public static const CREATE_TEST_TBL_SQL:String = new CreateTestTblClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/AddColumnInTestTable.sql", mimeType="application/octet-stream")]
-	private static const AddColumnInTestTblClass:Class;
-	public static const ADD_COLUMN_IN_TEST_TBL:String = new AddColumnInTestTblClass();
-
 	//--------------------------------------
 	//  insert
 	//--------------------------------------
@@ -56,10 +52,6 @@ public class SQLLib {
 	private static const UpdateNoteClass:Class;
 	public static const UPDATE_NOTE_SQL:String = new UpdateNoteClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateNoteExample.sql", mimeType="application/octet-stream")]
-	private static const UpdateNoteExampleClass:Class;
-	public static const UPDATE_NOTE_EXAMPLE_SQL:String = new UpdateNoteExampleClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTheme.sql", mimeType="application/octet-stream")]
 	private static const UpdateThemeClass:Class;
 	public static const UPDATE_THEME_SQL:String = new UpdateThemeClass();
@@ -71,10 +63,6 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTestTask.sql", mimeType="application/octet-stream")]
 	private static const UpdateTestTaskClass:Class;
 	public static const UPDATE_TEST_TASK_SQL:String = new UpdateTestTaskClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTestExampleTask.sql", mimeType="application/octet-stream")]
-	private static const UpdateTestExampleTaskClass:Class;
-	public static const UPDATE_TEST_EXAMPLE_TASK_SQL:String = new UpdateTestExampleTaskClass();
 
 	//--------------------------------------
 	//  select
@@ -100,10 +88,6 @@ public class SQLLib {
 	private static const SelectCountExampleClass:Class;
 	public static const SELECT_COUNT_EXAMPLE_SQL:String = new SelectCountExampleClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountExampleWithAudio.sql", mimeType="application/octet-stream")]
-	private static const SelectCountExampleWithAudioClass:Class;
-	public static const SELECT_COUNT_EXAMPLE_WITH_AUDIO_SQL:String = new SelectCountExampleWithAudioClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNote.sql", mimeType="application/octet-stream")]
 	private static const SelectNoteClass:Class;
 	public static const SELECT_NOTE_SQL:String = new SelectNoteClass();
@@ -116,10 +100,6 @@ public class SQLLib {
 	private static const SelectNotesIDsByThemeClass:Class;
 	public static const SELECT_NOTES_IDS_BY_THEME_SQL:String = new SelectNotesIDsByThemeClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNoteExamplesIDs.sql", mimeType="application/octet-stream")]
-	private static const SearchNoteExampleClass:Class;
-	public static const SEARCH_NOTE_EXAMPLE_SQL:String = new SearchNoteExampleClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectPageNotes.sql", mimeType="application/octet-stream")]
 	private static const SelectPageNotesClass:Class;
 	public static const SELECT_PAGE_NOTES_SQL:String = new SelectPageNotesClass();
@@ -128,33 +108,9 @@ public class SQLLib {
 	private static const SelectPageTestTasksClass:Class;
 	public static const SELECT_PAGE_TEST_TASKS_SQL:String = new SelectPageTestTasksClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectPageTestExampleTasks.sql", mimeType="application/octet-stream")]
-	private static const SelectPageTestExampleTasksClass:Class;
-	public static const SELECT_PAGE_TEST_EXAMPLE_TASKS_SQL:String = new SelectPageTestExampleTasksClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredPageTestTasks.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredPageTestTasksClass:Class;
 	public static const SELECT_FILTERED_PAGE_TEST_TASKS_SQL:String = new SelectFilteredPageTestTasksClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredPageTestExampleTasks.sql", mimeType="application/octet-stream")]
-	private static const SelectFilteredPageTestExampleTasksClass:Class;
-	public static const SELECT_FILTERED_PAGE_TEST_EXAMPLE_TASKS_SQL:String = new SelectFilteredPageTestExampleTasksClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectPageTestNotes.sql", mimeType="application/octet-stream")]
-	private static const SelectPageTestNotesClass:Class;
-	public static const SELECT_PAGE_TEST_NOTES_SQL:String = new SelectPageTestNotesClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectPageTestExamples.sql", mimeType="application/octet-stream")]
-	private static const SelectPageTestExamplesClass:Class;
-	public static const SELECT_PAGE_TEST_EXAMPLES_SQL:String = new SelectPageTestExamplesClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredPageTestNotes.sql", mimeType="application/octet-stream")]
-	private static const SelectFilteredPageTestNotesClass:Class;
-	public static const SELECT_FILTERED_PAGE_TEST_NOTES_SQL:String = new SelectFilteredPageTestNotesClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredPageTestExamples.sql", mimeType="application/octet-stream")]
-	private static const SelectFilteredPageTestExamplesClass:Class;
-	public static const SELECT_FILTERED_PAGE_TEST_EXAMPLES_SQL:String = new SelectFilteredPageTestExamplesClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectAllNotesTitles.sql", mimeType="application/octet-stream")]
 	private static const SelectAllNotesTitlesClass:Class;
@@ -168,10 +124,6 @@ public class SQLLib {
 	private static const SelectThemeClass:Class;
 	public static const SELECT_THEME_SQL:String = new SelectThemeClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilter.sql", mimeType="application/octet-stream")]
-	private static const SelectFilterClass:Class;
-	public static const SELECT_FILTER_SQL:String = new SelectFilterClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNoteThemes.sql", mimeType="application/octet-stream")]
 	private static const SelectNoteThemesClass:Class;
 	public static const SELECT_NOTE_THEMES_SQL:String = new SelectNoteThemesClass();
@@ -180,45 +132,17 @@ public class SQLLib {
 	private static const SelectExampleByParentIDClass:Class;
 	public static const SELECT_EXAMPLE_BY_PARENT_ID_SQL:String = new SelectExampleByParentIDClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectExampleByID.sql", mimeType="application/octet-stream")]
-	private static const SelectExampleByIDClass:Class;
-	public static const SELECT_EXAMPLE_BY_ID_SQL:String = new SelectExampleByIDClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTestNoteID.sql", mimeType="application/octet-stream")]
 	private static const SelectTestNoteIDClass:Class;
 	public static const SELECT_TEST_NOTE_ID_SQL:String = new SelectTestNoteIDClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTestTask.sql", mimeType="application/octet-stream")]
-	private static const SelectTestTaskClass:Class;
-	public static const SELECT_TEST_TASK_SQL:String = new SelectTestTaskClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTestExampleTask.sql", mimeType="application/octet-stream")]
-	private static const SelectTestExampleTaskClass:Class;
-	public static const SELECT_TEST_EXAMPLE_TASK_SQL:String = new SelectTestExampleTaskClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredTestTask.sql", mimeType="application/octet-stream")]
-	private static const SelectFilteredTestTaskClass:Class;
-	public static const SELECT_FILTERED_TEST_TASK_SQL:String = new SelectFilteredTestTaskClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredTestExampleTask.sql", mimeType="application/octet-stream")]
-	private static const SelectFilteredTestExampleTaskClass:Class;
-	public static const SELECT_FILTERED_TEST_EXAMPLE_TASK_SQL:String = new SelectFilteredTestExampleTaskClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectCountTestTaskClass:Class;
 	public static const SELECT_COUNT_TEST_TASK_SQL:String = new SelectCountTestTaskClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountTestExampleTask.sql", mimeType="application/octet-stream")]
-	private static const SelectCountTestExampleTaskClass:Class;
-	public static const SELECT_COUNT_TEST_EXAMPLE_TASK_SQL:String = new SelectCountTestExampleTaskClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountFilteredTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectCountFilteredTestTaskClass:Class;
 	public static const SELECT_COUNT_FILTERED_TEST_TASK_SQL:String = new SelectCountFilteredTestTaskClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountFilteredTestExampleTask.sql", mimeType="application/octet-stream")]
-	private static const SelectCountFilteredTestExampleTaskClass:Class;
-	public static const SELECT_COUNT_FILTERED_TEST_EXAMPLE_TASK_SQL:String = new SelectCountFilteredTestExampleTaskClass();
 
 	//--------------------------------------
 	//  delete
@@ -244,10 +168,6 @@ public class SQLLib {
 	private static const DeleteExampleByParentIDClass:Class;
 	public static const DELETE_EXAMPLE_BY_PARENT_ID_SQL:String = new DeleteExampleByParentIDClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteExampleByID.sql", mimeType="application/octet-stream")]
-	private static const DeleteExampleByIDClass:Class;
-	public static const DELETE_EXAMPLE_BY_ID_SQL:String = new DeleteExampleByIDClass();
-
 	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteTestTaskByNoteID.sql", mimeType="application/octet-stream")]
 	private static const DeleteTestTaskByNoteIDClass:Class;
 	public static const DELETE_TEST_TASK_BY_NOTE_ID_SQL:String = new DeleteTestTaskByNoteIDClass();
@@ -255,7 +175,6 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteTestTaskByParentID.sql", mimeType="application/octet-stream")]
 	private static const DeleteTestTaskByParentIDClass:Class;
 	public static const DELETE_TEST_TASK_BY_PARENT_ID_SQL:String = new DeleteTestTaskByParentIDClass();
-
 
 }
 }

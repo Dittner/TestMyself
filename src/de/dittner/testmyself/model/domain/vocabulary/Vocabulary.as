@@ -10,12 +10,13 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 
 public class Vocabulary extends EventDispatcher {
-	public function Vocabulary(id:int, langID:uint, noteClass:Class, storage:SQLStorage) {
+	public function Vocabulary(id:int, langID:uint, noteClass:Class, storage:SQLStorage, title:String) {
 		super();
 		_id = id;
 		_langID = langID;
 		_noteClass = noteClass;
 		_storage = storage;
+		_title = title;
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -52,14 +53,7 @@ public class Vocabulary extends EventDispatcher {
 	//  title
 	//--------------------------------------
 	private var _title:String = "";
-	[Bindable("titleChanged")]
 	public function get title():String {return _title;}
-	public function set title(value:String):void {
-		if (_title != value) {
-			_title = value;
-			dispatchEvent(new Event("titleChanged"));
-		}
-	}
 
 	//--------------------------------------
 	//  availableTests

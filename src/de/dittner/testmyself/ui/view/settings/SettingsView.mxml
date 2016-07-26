@@ -4,18 +4,16 @@
                 xmlns:core="de.dittner.testmyself.ui.common.view.*"
                 xmlns:list="de.dittner.testmyself.ui.common.list.*"
                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-                xmlns:commonsettings="de.dittner.testmyself.ui.view.settings.commonSettings.*"
-                xmlns:noteSettings="de.dittner.testmyself.ui.view.settings.noteSettings.*"
-                xmlns:testsettings="de.dittner.testmyself.ui.view.settings.testSettings.*"
+                xmlns:components="de.dittner.testmyself.ui.view.settings.components.*"
                 horizontalCenter="0"
                 currentState="inactive"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.settings.SettingsInfo;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 
         [Bindable]
         public var vm:SettingsVM;
@@ -96,7 +94,7 @@
                               left="{PADDING}" right="{PADDING}" height="{TAB_BAR_HEI}"
                               top="{HEADER_HEI+PADDING}"
                               selectedItemChange="tabBar_selectedItemChangeHandler(event)"
-                              itemRenderer="de.dittner.testmyself.ui.view.settings.common.SettingsItemRenderer">
+                              itemRenderer="de.dittner.testmyself.ui.view.settings.components.SettingsItemRenderer">
         <list:dataProvider>
             <s:ArrayCollection>
                 <fx:Object label="Allgemein" state="common"/>
@@ -114,35 +112,36 @@
     <s:Group left="{PADDING}" top="{HEADER_HEI + 2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}"
              excludeFrom="inactive">
 
-        <commonsettings:CommonSettings id="commonSettings"
-                                       vm="{vm}"
-                                       width="100%" height="100%"
-                                       visible.common="true" visible="false"/>
-
-        <noteSettings:NoteSettings id="wordSettings"
+        <components:CommonSettings id="commonSettings"
+                                   vm="{vm}"
                                    width="100%" height="100%"
-                                   visible.word="true" visible="false"
-                                   vocabulary="{vm.wordVocabulary}"/>
+                                   visible.common="true" visible="false"/>
 
-        <noteSettings:NoteSettings id="verbSettings"
-                                   width="100%" height="100%"
-                                   visible.verb="true" visible="false"
-                                   vocabulary="{vm.verbVocabulary}"/>
+        <components:NoteSettings id="wordSettings"
+                                 width="100%" height="100%"
+                                 visible.word="true" visible="false"
+                                 vocabulary="{vm.wordVocabulary}"/>
 
-        <noteSettings:NoteSettings id="lessonSettings"
-                                   removeNotesByThemeRemoving="true"
-                                   width="100%" height="100%"
-                                   visible.lesson="true" visible="false"
-                                   editLblText="Übungname ändern"
-                                   removeLblText="Übung mit den Aufgaben entfernen"
-                                   themesListTitle="Übungenliste"
-                                   notificationText="Sind Sie sicher, die Übung mit den Aufgaben Sie entfernen möchten?"
-                                   themeNameInputTitle="Geben Sie bitte den neuen Namen der Übung ein"
-                                   vocabulary="{vm.lessonVocabulary}"/>
+        <components:NoteSettings id="verbSettings"
+                                 width="100%" height="100%"
+                                 visible.verb="true" visible="false"
+                                 vocabulary="{vm.verbVocabulary}"/>
 
-        <testsettings:TestSettings id="testSettings"
-                                   width="100%" height="100%"
-                                   visible.test="true" visible="false"/>
+        <components:NoteSettings id="lessonSettings"
+                                 removeNotesByThemeRemoving="true"
+                                 width="100%" height="100%"
+                                 visible.lesson="true" visible="false"
+                                 editLblText="Übungname ändern"
+                                 removeLblText="Übung mit den Aufgaben entfernen"
+                                 themesListTitle="Übungenliste"
+                                 notificationText="Sind Sie sicher, die Übung mit den Aufgaben Sie entfernen möchten?"
+                                 themeNameInputTitle="Geben Sie bitte den neuen Namen der Übung ein"
+                                 vocabulary="{vm.lessonVocabulary}"/>
+
+        <components:TestSettings id="testSettings"
+                                 testColl="{vm.allTestColl}"
+                                 width="100%" height="100%"
+                                 visible.test="true" visible="false"/>
 
     </s:Group>
 

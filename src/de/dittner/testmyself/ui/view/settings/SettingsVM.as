@@ -7,17 +7,19 @@ import de.dittner.testmyself.backend.LocalStorage;
 import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.Device;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-import de.dittner.testmyself.model.settings.SettingsInfo;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
-import de.dittner.testmyself.ui.view.settings.testSettings.TestSettingsMediator;
+import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 
 import flash.events.Event;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
+
+import mx.collections.ArrayCollection;
 
 public class SettingsVM extends ViewModel {
 	private static const SETTINGS_KEY:String = "SETTINGS_KEY";
@@ -79,6 +81,19 @@ public class SettingsVM extends ViewModel {
 		}
 	}
 
+	//--------------------------------------
+	//  allTestColl
+	//--------------------------------------
+	private var _allTestColl:ArrayCollection;
+	[Bindable("allTestCollChanged")]
+	public function get allTestColl():ArrayCollection {return _allTestColl;}
+	public function set allTestColl(value:ArrayCollection):void {
+		if (_allTestColl != value) {
+			_allTestColl = value;
+			dispatchEvent(new Event("allTestCollChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -93,7 +108,12 @@ public class SettingsVM extends ViewModel {
 		setVerbVocabulary(appModel.selectedLanguage.vocabularyHash.read(VocabularyID.DE_VERB));
 		setLessonVocabulary(appModel.selectedLanguage.vocabularyHash.read(VocabularyID.DE_LESSON));
 
-		registerMediator(view.testSettings, new TestSettingsMediator());
+		var allTests:Array = [];
+		var test:Test;
+		for each(test in wordVocabulary.availableTests) allTests.push(test);
+		for each(test in verbVocabulary.availableTests) allTests.push(test);
+		for each(test in lessonVocabulary.availableTests) allTests.push(test);
+		allTestColl = new ArrayCollection(allTests);
 	}
 
 	public function uploadDB(info:SettingsInfo):ProgressCommand {

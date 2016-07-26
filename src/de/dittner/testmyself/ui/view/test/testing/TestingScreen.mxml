@@ -1,0 +1,199 @@
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*">
+    <fx:Metadata>
+        [Event(name="goBack", type="flash.events.Event")]
+    </fx:Metadata>
+    <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.domain.common.TestID;
+        import de.dittner.testmyself.model.domain.test.Test;
+        import de.dittner.testmyself.ui.view.test.TestVM;
+        import de.dittner.testmyself.ui.view.test.common.TestingAction;
+        import de.dittner.testmyself.ui.view.test.testing.components.ITestableView;
+        import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
+        import de.dittner.testmyself.ui.view.test.testing.components.TestableView;
+
+        //--------------------------------------
+        //  testTitle
+        //--------------------------------------
+        private var _testTitle:String = "";
+        [Bindable("testTitleChanged")]
+        public function get testTitle():String {return _testTitle;}
+        public function set testTitle(value:String):void {
+            if (_testTitle != value) {
+                _testTitle = value;
+                dispatchEvent(new Event("testTitleChanged"));
+            }
+        }
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:uint = 0;
+        [Bindable("paddingChanged")]
+        public function get padding():uint {return _padding;}
+        public function set padding(value:uint):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  vm
+        //--------------------------------------
+        private var _vm:TestVM;
+        [Bindable("vmChanged")]
+        public function get vm():TestVM {return _vm;}
+        public function set vm(value:TestVM):void {
+            if (_vm != value) {
+                _vm = value;
+                dispatchEvent(new Event("vmChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  testableView
+        //--------------------------------------
+        private var _activeView:TestableView;
+        public function get activeView():TestableView {return _activeView;}
+
+        //--------------------------------------
+        //  testTaskPageInfo
+        //--------------------------------------
+        private var _testTaskPageInfo:ITestableView;
+        public function get testTaskPageInfo():ITestableView {return _activeView;}
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        public function activate():void {
+            findTestScreen(vm.pageInfo.test);
+            activeView.actionCallback = actionCallback;
+            activeView.answerEnabled = true;
+            activeView.title = testTitle;
+            activeView.padding = padding;
+            activeView.start();
+            vm.pageInfo.pageNum = 0;
+            vm.pageInfo.amountAllTasks = -1;
+            vm.pageInfo.tasks = null;
+            loadTestTaskPageInfo();
+        }
+
+        private function findTestScreen(test:Test):void {
+            switch (test.id) {
+                case TestID.SPEAK_WORD_TRANSLATION :
+                    _activeView = speakWordTranslationTest;
+                    setCurrentState("speakWordTranslation");
+                    break;
+                case TestID.SELECT_ARTICLE :
+                    _activeView = selectArticleTest;
+                    setCurrentState("selectArticle");
+                    break;
+                case TestID.WRITE_WORD :
+                    _activeView = writeWordTest;
+                    setCurrentState("writeWordTranslation");
+                    break;
+                case TestID.WRITE_LESSON :
+                case TestID.WRITE_VERB_EXAMPLE :
+                case TestID.WRITE_WORD_EXAMPLE :
+                    _activeView = writeNoteTest;
+                    setCurrentState("writeNote");
+                    break;
+                case TestID.SPEAK_LESSON_TRANSLATION :
+                case TestID.SPEAK_VERB_EXAMPLE_TRANSLATION :
+                case TestID.SPEAK_WORD_EXAMPLE_TRANSLATION :
+                    speakNoteTranslationTest.translateInDeutsch = false;
+                    _activeView = speakNoteTranslationTest;
+                    setCurrentState("speakNoteTranslation");
+                    break;
+                case TestID.SPEAK_WORD_IN_DEUTSCH :
+                case TestID.SPEAK_LESSON_IN_DEUTSCH :
+                case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH :
+                case TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH :
+                    speakNoteTranslationTest.translateInDeutsch = true;
+                    _activeView = speakNoteTranslationTest;
+                    setCurrentState("speakNoteTranslation");
+                    break;
+                case TestID.SPEAK_VERB_FORMS :
+                    _activeView = speakVerbFormsTest;
+                    setCurrentState("speakVerbForms");
+                    break;
+            }
+        }
+
+        private function actionCallback(action:String):void {
+            switch (action) {
+                case TestingAction.EXIT_TEST :
+                    break;
+                case TestingAction.CORRECT_ANSWER :
+                    vm.storeTestTask(false, activeView.complexity);
+                    break;
+                case TestingAction.INCORRECT_ANSWER :
+                    vm.storeTestTask(true, activeView.complexity);
+                    break;
+                case TestingAction.NEXT_TASK :
+                    vm.pageInfo.pageNum++;
+                    loadTestTaskPageInfo();
+                    break;
+            }
+        }
+
+        private function loadTestTaskPageInfo():void {
+            var op:IAsyncOperation = vm.loadTestTaskPageInfo();
+            op.addCompleteCallback(testPageInfoLoaded);
+        }
+
+        private function testPageInfoLoaded(op:IAsyncOperation):void {
+            if (op.isSuccess) {
+                var page:TestPageInfo = op.result;
+                activeView.activeNote = page.tasks.length > 0 ? page.tasks[0] : null;
+                activeView.taskNumber = page.pageNum;
+                activeView.totalTask = page.amountAllTasks;
+            }
+            else {
+                goBack();
+            }
+        }
+
+        private function goBack():void {
+            dispatchEvent(new Event("goBack"));
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="speakWordTranslation"/>
+        <s:State name="writeWordTranslation"/>
+        <s:State name="selectArticle"/>
+        <s:State name="writeNote"/>
+        <s:State name="speakNoteTranslation"/>
+        <s:State name="speakVerbForms"/>
+    </s:states>
+
+    <test:SpeakWordTranslationTest id="speakWordTranslationTest"
+                                   width="100%" height="100%"
+                                   visible="false" visible.speakWordTranslation="true"/>
+
+    <test:SelectArticleTest id="selectArticleTest"
+                            width="100%" height="100%"
+                            visible="false" visible.selectArticle="true"/>
+
+    <test:WriteWordTest id="writeWordTest"
+                        width="100%" height="100%"
+                        visible="false" visible.writeWordTranslation="true"/>
+
+    <test:WriteNoteTest id="writeNoteTest"
+                        width="100%" height="100%"
+                        visible="false" visible.writeNote="true"/>
+
+    <test:SpeakNoteTranslationTest id="speakNoteTranslationTest"
+                                   width="100%" height="100%"
+                                   visible="false" visible.speakNoteTranslation="true"/>
+
+    <test:SpeakVerbFormsTest id="speakVerbFormsTest"
+                             width="100%" height="100%"
+                             visible="false" visible.speakVerbForms="true"/>
+</s:Group>

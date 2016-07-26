@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:list="de.dittner.testmyself.ui.common.list.*"
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.test.Test;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  tests
+        //--------------------------------------
+        private var _testColl:ArrayCollection;
+        [Bindable("testCollChanged")]
+        public function get testColl():ArrayCollection {return _testColl;}
+        public function set testColl(value:ArrayCollection):void {
+            if (_testColl != value) {
+                _testColl = value;
+                dispatchEvent(new Event("testCollChanged"));
+            }
+        }
+
+        private function cancelBtn_clickHandler(event:MouseEvent):void {
+            if (testList) testList.selectedItem = null;
+            setCurrentState("normal");
+        }
+
+        public function get isHistoryRemoving():Boolean {
+            return currentState == "removeHistory";
+        }
+
+        public function clear():void {
+            setCurrentState('normal');
+        }
+
+        private function removeTestHistory():void {
+            if (testList.selectedItem is Test) {
+                var selectedTest:Test = testList.selectedItem as Test;
+                selectedTest.clearHistory();
+            }
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="removeHistory"/>
+    </s:states>
+
+    <s:layout>
+        <s:VerticalLayout gap="10"/>
+    </s:layout>
+
+    <button:DottedLabelBtn text="Die Testendaten entfernen"
+                           fontFamily="{FontName.MYRIAD}"
+                           fontStyle="italic"
+                           fontSize="20"
+                           upColor="{AppColors.TEXT_DARK}"
+                           downColor="{AppColors.TEXT_BLACK}"
+                           click="setCurrentState('removeHistory')"/>
+
+    <s:Group width="100%" height="100%"
+             visible.removeHistory="true"
+             visible="false">
+        <s:layout>
+            <s:ConstraintLayout>
+                <s:constraintColumns>
+                    <s:ConstraintColumn id="col1" width="50%"/>
+                    <s:ConstraintColumn id="col2" width="25%"/>
+                    <s:ConstraintColumn id="col3" width="25%"/>
+                </s:constraintColumns>
+                <s:constraintRows>
+                    <s:ConstraintRow id="row1"/>
+                    <s:ConstraintRow id="row2" height="100%"/>
+                </s:constraintRows>
+            </s:ConstraintLayout>
+        </s:layout>
+
+        <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+
+        <list:ListForm id="testList"
+                       top="10"
+                       bottom="10"
+                       left="col1:10"
+                       right="col1:10"
+                       dataProvider="{testColl}"
+                       title="Testenliste"
+                       itemRenderer="de.dittner.testmyself.ui.view.settings.components.SettingsTestRenderer">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:ListForm>
+
+        <s:Label left="col2:10" top="row1:10" right="10"
+                 fontFamily="{FontName.MYRIAD}"
+                 color="{AppColors.TEXT_DARK}"
+                 fontSize="16"
+                 includeIn="removeHistory"
+                 text="Sind Sie sicher, die Testendaten Sie entfernen möchten?"/>
+
+        <button:GrayButton id="cancelBtn"
+                           top="row2:10"
+                           left="col2:10"
+                           right="col2:10"
+                           label="Abbrechen"
+                           click="cancelBtn_clickHandler(event)"/>
+
+        <button:BlackButton id="removeBtn"
+                            enabled="{testList.selectedItem != null}"
+                            label="Entfernen"
+                            top="row2:10"
+                            left="col3:10"
+                            right="10"
+                            click="removeTestHistory()"/>
+    </s:Group>
+
+</s:Group>

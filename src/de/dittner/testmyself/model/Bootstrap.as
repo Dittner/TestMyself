@@ -12,6 +12,7 @@ import de.dittner.testmyself.ui.view.map.MapVM;
 import de.dittner.testmyself.ui.view.noteList.NoteListVM;
 import de.dittner.testmyself.ui.view.search.SearchVM;
 import de.dittner.testmyself.ui.view.settings.SettingsVM;
+import de.dittner.testmyself.ui.view.test.TestVM;
 import de.dittner.walter.Walter;
 
 public class Bootstrap extends Walter {
@@ -55,6 +56,7 @@ public class Bootstrap extends Walter {
 		registerProxy("mapVM", new MapVM());
 		registerProxy("noteListVM", new NoteListVM());
 		registerProxy("searchVM", new SearchVM());
+		registerProxy("testVM", new TestVM());
 		registerProxy("settingsVM", new SettingsVM());
 
 		initOp = appModel.selectedLanguage.init();

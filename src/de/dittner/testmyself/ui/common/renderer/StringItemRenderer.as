@@ -22,7 +22,7 @@ public class StringItemRenderer extends ItemRendererBase {
 	private var tf:TextField;
 
 	protected function get text():String {
-		return data as String || "";
+		return data is String ? data as String : "";
 	}
 
 	override protected function createChildren():void {

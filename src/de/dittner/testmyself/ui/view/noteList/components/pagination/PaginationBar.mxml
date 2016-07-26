@@ -17,7 +17,7 @@
         public function get allNotesAmount():int {return _allNotesAmount;}
         public function set allNotesAmount(value:int):void {
             if (_allNotesAmount != value) {
-                _allNotesAmount = value;
+                _allNotesAmount = value == -1 ? 0 : value;
                 invalidateProperties();
             }
         }
