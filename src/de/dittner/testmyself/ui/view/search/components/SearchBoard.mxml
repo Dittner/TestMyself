@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         currentState="collapsed">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+
+        [Embed(source='/assets/screen/screen_bg_pattern.png')]
+        private static const BgClass:Class;
+        private static var bgBitmapData:BitmapData;
+
+        //--------------------------------------
+        //  history
+        //--------------------------------------
+        private var _history:TextHistory;
+        [Bindable("historyChanged")]
+        public function get history():TextHistory {return _history;}
+        public function set history(value:TextHistory):void {
+            if (_history != value) {
+                _history = value;
+                dispatchEvent(new Event("historyChanged"));
+            }
+        }
+
+        override protected function measure():void {
+            super.measure();
+            measuredHeight = measuredMinHeight = currentState == "normal" ? 170 : 90;
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            var g:Graphics = graphics;
+            g.clear();
+            if (!bgBitmapData) bgBitmapData = (new BgClass() as Bitmap).bitmapData;
+            g.beginBitmapFill(bgBitmapData);
+            g.drawRect(0, 0, w, h);
+            g.endFill();
+        }
+
+        private static var history:TextHistory = new TextHistory();
+        private function undoSearch():void {
+            history.undo();
+            updateSearchInput();
+        }
+
+        private function redoSearch():void {
+            history.redo();
+            updateSearchInput();
+        }
+
+        public function updateSearchInput():void {
+            searchInput.text = history.row;
+            if (Device.isDesktop) Device.stage.focus = searchInput;
+            searchInput.selectAll();
+        }
+
+        private function startSearch():void {
+            if (searchInput.text.length <= 1) return;
+
+            FoundNoteRenderer.searchingText = searchInput.text;
+
+            if (history.row != searchInput.text)
+                history.push(searchInput.text);
+
+            updateSearchInput();
+        }
+        ]]></fx:Script>
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="collapsed"/>
+    </s:states>
+
+    <s:layout>
+        <s:VerticalLayout gap="15" paddingTop="20" paddingRight="20" paddingLeft="20" paddingBottom="10"/>
+    </s:layout>
+
+    <s:Group width="100%"
+             visible="true" includeInLayout="true"
+             visible.collapsed="false" includeInLayout.collapsed="false">
+        <s:CheckBox id="wordBox"
+                    label="Wörter" selected="true"
+                    left="0"/>
+
+        <s:CheckBox id="verbBox"
+                    label="Starke Verben" selected="true"
+                    horizontalCenter="0"/>
+
+        <s:CheckBox id="lessonBox"
+                    label="Übungen" selected="true"
+                    right="0"/>
+
+        <s:CheckBox id="examplesBox" label="Beispiele" selected="true"
+                    horizontalCenter="0" top="50"/>
+
+    </s:Group>
+
+    <s:HGroup width="100%"
+              gap="10" verticalAlign="bottom">
+
+        <input:TextInputForm id="searchInput"
+                             top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
+                             width="100%"
+                             left="15"
+                             maxChars="{Device.MAX_THEME_NAME_LENGTH}"
+                             title="Für die Suche ein Wort oder einen Satz eingeben"
+                             enter="startSearch()"/>
+
+        <button:BlackButton id="applyBtn"
+                            width="215"
+                            enabled="{searchInput.text.length > 1}"
+                            label="Suchen"
+                            click="startSearch()"/>
+
+        <button:GrayButton id="undoBtn"
+                           enabled="{history.canUndo}"
+                           width="100"
+                           label="Zurück"
+                           click="undoSearch()"/>
+
+        <button:GrayButton id="redoBtn"
+                           enabled="{history.canRedo}"
+                           width="100"
+                           label="Vorwärts"
+                           click="redoSearch()"/>
+
+        <s:Spacer width="23%"/>
+
+        <button:BitmapButton id="openFilterBtn"
+                             visible="false" includeInLayout="false"
+                             visible.collapsed="true" includeInLayout.collapsed="true"
+                             upImage="@Embed(source='/assets/button/search_open_filter_btn_up.png')"
+                             downImage="@Embed(source='/assets/button/search_open_filter_btn_down.png')"
+                             click="setCurrentState('normal')"/>
+
+        <button:BitmapButton id="closeFilterBtn"
+                             visible="false" includeInLayout="false"
+                             visible.normal="true" includeInLayout.normal="true"
+                             upImage="@Embed(source='/assets/button/search_close_filter_btn_up.png')"
+                             downImage="@Embed(source='/assets/button/search_close_filter_btn_down.png')"
+                             click="setCurrentState('collapsed')"/>
+
+    </s:HGroup>
+
+</s:Group>

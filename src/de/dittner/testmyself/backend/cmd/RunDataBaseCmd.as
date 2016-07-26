@@ -2,6 +2,7 @@ package de.dittner.testmyself.backend.cmd {
 import de.dittner.async.AsyncCommand;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.model.Device;
 
 import flash.data.SQLConnection;
 import flash.data.SQLStatement;
@@ -11,26 +12,18 @@ import flash.filesystem.File;
 
 public class RunDataBaseCmd extends AsyncCommand {
 
-	private static const APP_NAME:String = "TestMyself";
-
-	public function RunDataBaseCmd(dbName:String, createTableStatements:Array) {
+	public function RunDataBaseCmd(createTableStatements:Array) {
 		super();
-		this.dbName = dbName;
 		this.createTableStatements = createTableStatements;
 	}
 
-	private var dbName:String;
 	private var createTableStatements:Array;
 	private var conn:SQLConnection = new SQLConnection();
 
-	private function get dbRootPath():String {
-		return APP_NAME + File.separator;
-	}
-
 	override public function execute():void {
-		var dbRootFile:File = File.applicationStorageDirectory.resolvePath(dbRootPath);
+		var dbRootFile:File = File.documentsDirectory.resolvePath(Device.dbRootPath);
 		if (!dbRootFile.exists) dbRootFile.createDirectory();
-		var dbFile:File = File.applicationStorageDirectory.resolvePath(dbRootPath + dbName + ".db");
+		var dbFile:File = File.documentsDirectory.resolvePath(Device.dbPath);
 
 		conn.addEventListener(SQLEvent.OPEN, openHandler);
 		conn.addEventListener(SQLErrorEvent.ERROR, errorHandler);
@@ -58,13 +51,13 @@ public class RunDataBaseCmd extends AsyncCommand {
 	}
 
 	private function createResult(event:SQLEvent):void {
-		CLog.info(LogCategory.STORAGE, "SQL DB " + dbName + " has been created and launched");
+		CLog.info(LogCategory.STORAGE, "SQL DB " + Device.APP_NAME + " has been created and launched");
 		dispatchSuccess(conn);
 	}
 
 	private function errorHandler(event:SQLErrorEvent):void {
 		var errDetails:String = error.toString();
-		CLog.err(LogCategory.STORAGE, "SQL DB " + dbName + " open is failed, details: " + errDetails);
+		CLog.err(LogCategory.STORAGE, "SQL DB " + Device.APP_NAME + " open is failed, details: " + errDetails);
 		dispatchError(errDetails);
 	}
 

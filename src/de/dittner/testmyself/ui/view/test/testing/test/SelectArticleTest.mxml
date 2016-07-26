@@ -4,7 +4,7 @@
                    xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
-                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*" xmlns:form="de.dittner.testmyself.ui.view.noteList.common.form.*">
+                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*" xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.word.DeWordArticle;

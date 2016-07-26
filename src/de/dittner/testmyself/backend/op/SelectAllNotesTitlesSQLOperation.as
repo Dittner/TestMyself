@@ -1,9 +1,9 @@
 package de.dittner.testmyself.backend.op {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.backend.SQLUtils;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 
 import flash.data.SQLResult;

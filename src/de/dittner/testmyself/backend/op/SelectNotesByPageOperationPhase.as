@@ -1,10 +1,10 @@
 package de.dittner.testmyself.backend.op {
 import de.dittner.async.AsyncOperation;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.note.SQLLib;
-import de.dittner.testmyself.model.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.NotePageInfo;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;

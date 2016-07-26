@@ -64,7 +64,7 @@
                    width="{width -2*padding}" height="100%"
                    dataProvider="{themeColl}"
                    title="Wählen Sie die Themen aus, um die Aufgaben zu filtern"
-                   itemRenderer="de.dittner.testmyself.ui.view.noteList.common.theme.ThemeItemRenderer"
+                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer"
                    allowMultipleSelection="true">
         <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>

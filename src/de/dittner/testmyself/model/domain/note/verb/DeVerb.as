@@ -1,6 +1,6 @@
 package de.dittner.testmyself.model.domain.note.verb {
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.ui.view.noteList.common.form.NoteValidationErrorKey;
+import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
 public class DeVerb extends Note {
 	public function DeVerb():void {}

@@ -10,6 +10,7 @@ public interface INote {
 	function get audioComment():AudioComment;
 	function get vocabulary():Vocabulary;
 	function get isNew():Boolean;
+	function get isExample():Boolean;
 
 	function store():IAsyncOperation;
 }

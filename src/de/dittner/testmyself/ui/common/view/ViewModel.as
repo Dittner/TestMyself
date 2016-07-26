@@ -24,6 +24,7 @@ public class ViewModel extends WalterProxy {
 	public function viewActivated(info:ViewInfo):void {
 		isActive = true;
 	}
+
 	public function viewDeactivated():void {
 		isActive = false;
 	}

@@ -2,10 +2,10 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:navigation="de.dittner.testmyself.ui.view.noteList.common.pagination.*"
+         xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:common="de.dittner.testmyself.ui.view.test.common.*" xmlns:common2="de.dittner.testmyself.ui.view.noteList.common.*">
+         xmlns:common="de.dittner.testmyself.ui.view.test.common.*" xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;

@@ -3,10 +3,10 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.theme.Theme;
 
 import flash.data.SQLConnection;

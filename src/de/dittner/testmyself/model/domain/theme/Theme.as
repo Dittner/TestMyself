@@ -1,9 +1,9 @@
 package de.dittner.testmyself.model.domain.theme {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.ui.view.noteList.common.form.NoteValidationErrorKey;
+import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
-public class Theme implements ITheme {
+public class Theme {
 	public function Theme() {}
 
 	//--------------------------------------
@@ -40,6 +40,14 @@ public class Theme implements ITheme {
 
 	public function store():IAsyncOperation {
 		return vocabulary.storage.storeTheme(this);
+	}
+
+	public function remove():IAsyncOperation {
+		return vocabulary.storage.removeTheme(this);
+	}
+
+	public function mergeWith(theme:Theme):IAsyncOperation {
+		return vocabulary.storage.mergeThemes(this, theme);
 	}
 
 	public function serialize():Object {

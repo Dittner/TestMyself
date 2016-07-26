@@ -6,7 +6,7 @@ import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-import de.dittner.testmyself.model.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.NotePageInfo;
 import de.dittner.testmyself.ui.common.view.ViewID;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
@@ -67,7 +67,7 @@ public class NoteListVM extends ViewModel {
 		if (_selectedTheme != value) {
 			_selectedTheme = value;
 			if (isActive) {
-				curPageNum = 0;
+				pageNum = 0;
 				loadPage();
 			}
 			dispatchEvent(new Event("selectedThemeChanged"));
@@ -80,16 +80,16 @@ public class NoteListVM extends ViewModel {
 	public function get pageSize():uint {return 10;}
 
 	//--------------------------------------
-	//  curPageNum
+	//  pageNum
 	//--------------------------------------
-	private var _curPageNum:uint = 0;
-	[Bindable("curPageNumChanged")]
-	public function get curPageNum():uint {return _curPageNum;}
-	public function set curPageNum(value:uint):void {
-		if (_curPageNum != value) {
-			_curPageNum = value;
+	private var _pageNum:uint = 0;
+	[Bindable("pageNumChanged")]
+	public function get pageNum():uint {return _pageNum;}
+	public function set pageNum(value:uint):void {
+		if (_pageNum != value) {
+			_pageNum = value;
 			if (isActive) loadPage();
-			dispatchEvent(new Event("curPageNumChanged"));
+			dispatchEvent(new Event("pageNumChanged"));
 		}
 	}
 
@@ -111,8 +111,6 @@ public class NoteListVM extends ViewModel {
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
-
-	override protected function activate():void {}
 
 	override public function viewActivated(info:ViewInfo):void {
 		super.viewActivated(info);
@@ -139,7 +137,7 @@ public class NoteListVM extends ViewModel {
 
 	private function loadPage():void {
 		var page:NotePageInfo = new NotePageInfo();
-		page.pageNum = curPageNum;
+		page.pageNum = pageNum;
 		page.pageSize = pageSize;
 		page.vocabulary = selectedVocabulary;
 		var op:IAsyncOperation = sqlStorage.loadNotePage(page);

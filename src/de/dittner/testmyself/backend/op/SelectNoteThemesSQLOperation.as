@@ -1,15 +1,14 @@
 package de.dittner.testmyself.backend.op {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.theme.Theme;
-import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -18,15 +17,13 @@ import flash.net.Responder;
 
 public class SelectNoteThemesSQLOperation extends AsyncOperation implements IAsyncCommand {
 
-	public function SelectNoteThemesSQLOperation(service:SQLStorage, vocabulary:Vocabulary, note:Note) {
+	public function SelectNoteThemesSQLOperation(service:SQLStorage, note:Note) {
 		super();
 		this.service = service;
-		this.vocabulary = vocabulary;
 		this.note = note;
 	}
 
 	private var service:SQLStorage;
-	private var vocabulary:Vocabulary;
 	private var note:Note;
 
 	public function execute():void {
@@ -36,8 +33,7 @@ public class SelectNoteThemesSQLOperation extends AsyncOperation implements IAsy
 		}
 		else {
 			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_NOTE_THEMES_SQL, {
-				selectedNoteID: note.id,
-				vocabularyID: vocabulary.id
+				selectedNoteID: note.id, vocabularyID: note.vocabulary.id
 			});
 			statement.sqlConnection = service.sqlConnection;
 			statement.execute(-1, new Responder(executeComplete, executeError));
@@ -45,11 +41,11 @@ public class SelectNoteThemesSQLOperation extends AsyncOperation implements IAsy
 	}
 
 	private function executeComplete(result:SQLResult):void {
-		var themes:Array = [];
+		var themes:Vector.<Theme> = new <Theme>[];
 		for each(var item:Object in result.data) {
-			var theme:Theme = vocabulary.createTheme();
+			var theme:Theme = note.vocabulary.createTheme();
 			theme.deserialize(item);
-			themes.push(item.themeID);
+			themes.push(theme);
 		}
 		note.themes = themes;
 		dispatchSuccess(themes);

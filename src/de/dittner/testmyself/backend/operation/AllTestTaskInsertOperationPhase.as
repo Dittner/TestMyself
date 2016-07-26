@@ -3,9 +3,9 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.op.InsertTestTaskOperationSubPhase;
 import de.dittner.testmyself.model.domain.note.INote;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.test.Test;
 
 import flash.data.SQLConnection;

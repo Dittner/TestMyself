@@ -1,7 +1,6 @@
 package de.dittner.testmyself.backend.command {
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.model.domain.note.NoteModel;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.test.Test;
 
 public class ConfigureLessonModuleCmd implements IConfigureCommand {

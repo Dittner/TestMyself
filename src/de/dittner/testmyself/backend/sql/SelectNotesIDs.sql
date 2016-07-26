@@ -1,4 +1,6 @@
-SELECT id
+SELECT *
 FROM note
-WHERE description LIKE :searchFilter1 OR description LIKE :searchFilter2 OR title LIKE :searchFilter1 OR title LIKE :searchFilter2
-ORDER BY id DESC
+WHERE (isExample = 1 AND :loadExamples = 1 AND searchText LIKE :searchText AND vocabularyID in #allVocabularyList)
+OR (isExample = 0 AND searchText LIKE :searchText AND vocabularyID in #selectedVocabularyList)
+ORDER BY isExample, vocabularyID, id DESC
+LIMIT :startIndex, :amount

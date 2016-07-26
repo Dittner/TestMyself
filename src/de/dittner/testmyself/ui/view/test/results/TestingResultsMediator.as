@@ -9,7 +9,7 @@ import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.page.ITestPageInfo;
 import de.dittner.testmyself.model.page.TestPageInfo;
 import de.dittner.testmyself.ui.common.list.SelectableDataGroup;
-import de.dittner.testmyself.ui.view.noteList.common.pagination.PaginationBar;
+import de.dittner.testmyself.ui.view.noteList.components.pagination.PaginationBar;
 import de.dittner.testmyself.ui.view.test.common.TestRendererData;
 
 import flash.events.Event;
@@ -81,7 +81,7 @@ public class TestingResultsMediator extends SFMediator {
 
 	private function updateView(info:ITestPageInfo):void {
 		paginationBar.notesOnCurPage = info.notes.length;
-		paginationBar.curPageNum = info.pageNum;
+		paginationBar.pageNum = info.pageNum;
 		paginationBar.pageSize = info.pageSize;
 
 		var rendererData:Array = wrapNotesAndTasks(info.notes, info.tasks);

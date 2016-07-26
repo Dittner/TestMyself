@@ -7,6 +7,7 @@ public class Device {
 
 	public static const APP_NAME:String = "TestMyself";
 	public static const TEMP_APP_NAME:String = "TestMyself_temp";
+	public static const DB_NAME:String = "vocabularies.db";
 
 	public static const MAX_TEXT_LENGTH:uint = 5000;
 	public static const MAX_THEME_NAME_LENGTH:uint = 100;
@@ -31,12 +32,12 @@ public class Device {
 		return APP_NAME + File.separator;
 	}
 
-	public static function get dbTempPath():String {
-		return TEMP_APP_NAME + File.separator + File.separator;
+	public static function get dbPath():String {
+		return APP_NAME + File.separator + DB_NAME;
 	}
 
-	public static function get applicationDBPath():String {
-		return "dataBase" + File.separator + APP_NAME + File.separator;
+	public static function get dbTempPath():String {
+		return TEMP_APP_NAME + File.separator;
 	}
 
 	public static function get isWIN():Boolean {

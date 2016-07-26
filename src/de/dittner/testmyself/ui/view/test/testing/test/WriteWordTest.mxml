@@ -7,7 +7,7 @@
                    xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.test.*"
                    xmlns:input="de.dittner.testmyself.ui.common.input.*"
-                   xmlns:form="de.dittner.testmyself.ui.view.noteList.common.form.*">
+                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;

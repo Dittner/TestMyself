@@ -8,7 +8,7 @@ import de.dittner.testmyself.backend.op.CountFilteredNoteByPageOperationPhase;
 import de.dittner.testmyself.backend.op.SelectExamplesByPageSQLOperation;
 import de.dittner.testmyself.backend.op.SelectNotesByPageOperationPhase;
 import de.dittner.testmyself.backend.op.SelectThemesByPageSQLOperation;
-import de.dittner.testmyself.model.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.NotePageInfo;
 
 public class LoadNotePageCmd extends AsyncOperation implements IAsyncCommand {
 

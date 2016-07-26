@@ -2,9 +2,9 @@ package de.dittner.testmyself.backend.operation {
 
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 
 import flash.data.SQLConnection;
 import flash.data.SQLResult;

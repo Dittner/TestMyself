@@ -2,6 +2,8 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.testmyself.ui.view.map.MapVM;
 import de.dittner.testmyself.ui.view.noteList.NoteListVM;
+import de.dittner.testmyself.ui.view.search.SearchVM;
+import de.dittner.testmyself.ui.view.settings.SettingsVM;
 import de.dittner.walter.WalterProxy;
 
 public class ViewModelFactory extends WalterProxy {
@@ -19,6 +21,10 @@ public class ViewModelFactory extends WalterProxy {
 	public var mapVM:MapVM;
 	[Inject]
 	public var noteListVM:NoteListVM;
+	[Inject]
+	public var searchVM:SearchVM;
+	[Inject]
+	public var settingsVM:SettingsVM;
 
 }
 }

@@ -2,11 +2,11 @@ package de.dittner.testmyself.backend.op {
 
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
 import flash.data.SQLConnection;

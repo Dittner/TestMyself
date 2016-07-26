@@ -1,11 +1,13 @@
 package de.dittner.testmyself.backend {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
 import de.dittner.testmyself.backend.cmd.LoadVocabularyInfoCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNoteCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNotesByThemeCmd;
 import de.dittner.testmyself.backend.cmd.RunDataBaseCmd;
+import de.dittner.testmyself.backend.cmd.SearchNotesCmd;
 import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
 import de.dittner.testmyself.backend.cmd.StoreThemeCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
@@ -18,24 +20,19 @@ import de.dittner.testmyself.backend.operation.LoadAllThemesCmd;
 import de.dittner.testmyself.backend.operation.MergeThemesSQLOperation;
 import de.dittner.testmyself.backend.operation.RebuildTestTasksSQLOperation;
 import de.dittner.testmyself.backend.operation.RemoveThemeCmd;
-import de.dittner.testmyself.backend.operation.SearchNotesSQLOperation;
 import de.dittner.testmyself.backend.operation.SelectExampleSQLOperation;
-import de.dittner.testmyself.backend.operation.SelectNoteSQLOperation;
 import de.dittner.testmyself.backend.operation.SelectPageTestTasksSQLOperation;
 import de.dittner.testmyself.backend.operation.SelectTestTasksSQLOperation;
 import de.dittner.testmyself.backend.operation.UpdateNoteExampleSQLOperation;
 import de.dittner.testmyself.backend.operation.UpdateTestTaskSQLOperation;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.note.NoteSuite;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.model.page.INotePageRequest;
-import de.dittner.testmyself.model.page.NotePageInfo;
 import de.dittner.testmyself.model.page.TestPageInfo;
-import de.dittner.testmyself.model.search.SearchSpec;
+import de.dittner.testmyself.ui.common.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.SearchPageInfo;
 import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
@@ -60,19 +57,19 @@ public class SQLStorage extends WalterProxy {
 
 	override protected function activate():void {
 		reloadDataBase();
-		//updateNoteHash();
 	}
 
-	private function reloadDataBase():void {
+	public function reloadDataBase():IAsyncOperation {
 		if (sqlConnection) {
 			sqlConnection.close();
 		}
 
 		_sqlConnection = new SQLConnection();
 
-		var cmd:IAsyncCommand = new RunDataBaseCmd("TestMyself", SQLLib.TABLES);
+		var cmd:IAsyncCommand = new RunDataBaseCmd(SQLLib.TABLES);
 		cmd.addCompleteCallback(dataBaseReadyHandler);
 		deferredCommandManager.add(cmd);
+		return cmd;
 	}
 
 	private function dataBaseReadyHandler(opEvent:*):void {
@@ -123,6 +120,11 @@ public class SQLStorage extends WalterProxy {
 		return op;
 	}
 
+	public function loadNote(v:Vocabulary, noteID:int):void {
+		var op:IAsyncCommand = new LoadNoteByNoteIDCmd(this, v, noteID);
+		deferredCommandManager.add(op);
+	}
+
 	//--------------------------------------
 	//  Themes
 	//--------------------------------------
@@ -156,15 +158,17 @@ public class SQLStorage extends WalterProxy {
 	}
 
 	//--------------------------------------
-	//  MethodName
+	//  search
 	//--------------------------------------
 
-	public function loadNote(requestMsg:IRequestMessage):void {
-		var noteID:int = requestMsg.data as int;
-		var op:IAsyncCommand = new SelectNoteSQLOperation(this, noteID, spec.noteClass);
-		requestHandler(requestMsg, op);
+	public function searchNotes(page:SearchPageInfo):void {
+		var op:IAsyncCommand = new SearchNotesCmd(this, page);
 		deferredCommandManager.add(op);
 	}
+
+	//--------------------------------------
+	//  test
+	//--------------------------------------
 
 	public function loadTestPageInfo(requestMsg:IRequestMessage):void {
 		var pageInfo:TestPageInfo = requestMsg.data as TestPageInfo;
@@ -172,13 +176,6 @@ public class SQLStorage extends WalterProxy {
 		pageInfo.testSpec = testModel.testSpec;
 
 		var op:IAsyncCommand = new SelectPageTestTasksSQLOperation(this, pageInfo, spec.noteClass);
-		requestHandler(requestMsg, op);
-		deferredCommandManager.add(op);
-	}
-
-	public function searchNotes(requestMsg:IRequestMessage):void {
-		var searchSpec:SearchSpec = requestMsg.data as SearchSpec;
-		var op:IAsyncCommand = new SearchNotesSQLOperation(this, searchSpec);
 		requestHandler(requestMsg, op);
 		deferredCommandManager.add(op);
 	}

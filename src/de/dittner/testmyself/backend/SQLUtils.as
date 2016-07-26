@@ -15,6 +15,17 @@ public class SQLUtils {
 		return res;
 	}
 
+	public static function vocabularyIDsToSqlStr(vocabulariesID:Array):String {
+		var res:String = "(";
+		for (var i:int = 0; i < vocabulariesID.length; i++) {
+			var id:int = vocabulariesID[i] as int;
+			res += "'" + id + "'";
+			if (i < vocabulariesID.length - 1) res += ","
+		}
+		res += ")";
+		return res;
+	}
+
 	public static function createSQLStatement(sqlText:String, params:Object = null):SQLStatement {
 		var stmt:SQLStatement = new SQLStatement();
 		stmt.text = sqlText;

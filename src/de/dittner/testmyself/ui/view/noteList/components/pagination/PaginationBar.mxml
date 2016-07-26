@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:pagination="de.dittner.testmyself.ui.view.noteList.components.pagination.*">
+
+    <fx:Metadata>
+        [Event(name="pageNumChanged", type="flash.events.Event")]
+    </fx:Metadata>
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+
+        //--------------------------------------
+        //  unitsTotal
+        //--------------------------------------
+        private var _allNotesAmount:int = 0;
+        public function get allNotesAmount():int {return _allNotesAmount;}
+        public function set allNotesAmount(value:int):void {
+            if (_allNotesAmount != value) {
+                _allNotesAmount = value;
+                invalidateProperties();
+            }
+        }
+
+        //--------------------------------------
+        //  notesOnPage
+        //--------------------------------------
+        private var _notesOnCurPage:int = 0;
+        public function get notesOnCurPage():int {return _notesOnCurPage;}
+        public function set notesOnCurPage(value:int):void {
+            if (_notesOnCurPage != value) {
+                _notesOnCurPage = value;
+                invalidateProperties();
+            }
+        }
+
+        //--------------------------------------
+        //  pageNum
+        //--------------------------------------
+        private var _pageNum:uint = 0;
+        [Bindable("pageNumChanged")]
+        public function get pageNum():uint {return _pageNum;}
+        public function set pageNum(value:uint):void {
+            if (_pageNum != value) {
+                _pageNum = value;
+                invalidateProperties();
+                dispatchEvent(new Event("pageNumChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  pageSize
+        //--------------------------------------
+        private var _pageSize:uint = 1;
+        public function get pageSize():uint {return _pageSize;}
+        public function set pageSize(value:uint):void {
+            if (_pageSize != value) {
+                _pageSize = value;
+                invalidateProperties();
+            }
+        }
+
+        public function get totalPages():uint {return Math.ceil(allNotesAmount / pageSize)}
+
+        override protected function commitProperties():void {
+            super.commitProperties();
+            if (notesOnCurPage == 0) titleLbl.text = "Keine Notiz";
+            else if (notesOnCurPage == 1) titleLbl.text = "Eine Notiz";
+            else titleLbl.text = "Notiz " + notesOnCurPage + " von " + allNotesAmount;
+
+            prevPageBtn.enabled = pageNum > 0;
+            nextPageBtn.enabled = pageNum + 1 < totalPages;
+            firstPageBtn.enabled = pageNum > 0;
+            lastPageBtn.enabled = pageNum + 1 < totalPages;
+
+            curPageBtn.label = (pageNum + 1).toString();
+            lastPageBtn.label = lastPageBtn.enabled ? totalPages.toString() : "";
+            firstPageBtn.label = firstPageBtn.enabled ? "1" : "";
+        }
+        ]]></fx:Script>
+
+    <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="5">
+
+        <button:BitmapButton id="prevPageBtn"
+                             description="Vorherige Seite"
+                             enabled="false"
+                             upImage="@Embed(source='/assets/button/page_prev_up.png')"
+                             downImage="@Embed(source='/assets/button/page_prev_down.png')"
+                             click="if(pageNum > 0) pageNum--"/>
+
+        <s:Spacer width="15"/>
+
+        <pagination:PaginationButton id="firstPageBtn"
+                                     label="1"
+                                     enabled="false"
+                                     color="#ffFFff"
+                                     upImage="@Embed(source='/assets/button/page_dark_up.png')"
+                                     downImage="@Embed(source='/assets/button/page_dark_down.png')"
+                                     click="pageNum=0"/>
+        <pagination:PaginationButton id="curPageBtn"
+                                     label="1"
+                                     color="{AppColors.TEXT_DARK}"
+                                     upImage="@Embed(source='/assets/button/page_light_up.png')"
+                                     downImage="@Embed(source='/assets/button/page_light_up.png')"/>
+        <pagination:PaginationButton id="lastPageBtn"
+                                     enabled="false"
+                                     color="#ffFFff"
+                                     upImage="@Embed(source='/assets/button/page_dark_up.png')"
+                                     downImage="@Embed(source='/assets/button/page_dark_down.png')"
+                                     click="pageNum = totalPages -1"/>
+
+        <s:Spacer width="15"/>
+
+        <button:BitmapButton id="nextPageBtn"
+                             enabled="false"
+                             description="Nächste Seite"
+                             upImage="@Embed(source='/assets/button/page_next_up.png')"
+                             downImage="@Embed(source='/assets/button/page_next_down.png')"
+                             click="if(pageNum < totalPages - 1) pageNum++"/>
+    </s:HGroup>
+
+    <s:Label id="titleLbl"
+             width="250" right="0" textAlign="right"
+             fontSize="14" verticalCenter="0"
+             color="{AppColors.TEXT_DARK}"/>
+</s:Group>

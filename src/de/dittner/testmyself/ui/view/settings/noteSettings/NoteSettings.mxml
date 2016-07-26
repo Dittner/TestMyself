@@ -8,27 +8,115 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.theme.ITheme;
+        import de.dittner.testmyself.model.domain.theme.Theme;
+        import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
         import mx.collections.ArrayCollection;
 
         //--------------------------------------
-        //  themes
+        //  vocabulary
         //--------------------------------------
-        private var _themes:ArrayCollection;
-        [Bindable("themesChanged")]
-        public function get themes():ArrayCollection {return _themes;}
-        public function set themes(value:ArrayCollection):void {
-            if (_themes != value) {
-                _themes = value;
-                dispatchEvent(new Event("themesChanged"));
+        private var _vocabulary:Vocabulary;
+        [Bindable("vocabularyChanged")]
+        public function get vocabulary():Vocabulary {return _vocabulary;}
+        public function set vocabulary(value:Vocabulary):void {
+            if (_vocabulary != value) {
+                _vocabulary = value;
+                dispatchEvent(new Event("vocabularyChanged"));
             }
         }
 
+        //--------------------------------------
+        //  removeNotesByThemeRemoving
+        //--------------------------------------
+        private var _removeNotesByThemeRemoving:Boolean = false;
+        [Bindable("removeNotesByThemeRemovingChanged")]
+        public function get removeNotesByThemeRemoving():Boolean {return _removeNotesByThemeRemoving;}
+        public function set removeNotesByThemeRemoving(value:Boolean):void {
+            if (_removeNotesByThemeRemoving != value) {
+                _removeNotesByThemeRemoving = value;
+                dispatchEvent(new Event("removeNotesByThemeRemovingChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  haveThemes
+        //--------------------------------------
         [Bindable("themesChanged")]
-        public function get haveThemes():Boolean {return themes && themes.length > 0;}
+        public function get haveThemes():Boolean {return vocabulary.themes && vocabulary.themes.length > 0;}
+
+        //--------------------------------------
+        //  editLblText
+        //--------------------------------------
+        private var _editLblText:String = "Den Themanamen ändern";
+        [Bindable("editLblTextChanged")]
+        public function get editLblText():String {return _editLblText;}
+        public function set editLblText(value:String):void {
+            if (_editLblText != value) {
+                _editLblText = value;
+                dispatchEvent(new Event("editLblTextChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  removeLblText
+        //--------------------------------------
+        private var _removeLblText:String = "Den Themanamen entfernen";
+        [Bindable("removeLblTextChanged")]
+        public function get removeLblText():String {return _removeLblText;}
+        public function set removeLblText(value:String):void {
+            if (_removeLblText != value) {
+                _removeLblText = value;
+                dispatchEvent(new Event("removeLblTextChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  themesListTitle
+        //--------------------------------------
+        private var _themesListTitle:String = "Themenliste";
+        [Bindable("themesListTitleChanged")]
+        public function get themesListTitle():String {return _themesListTitle;}
+        public function set themesListTitle(value:String):void {
+            if (_themesListTitle != value) {
+                _themesListTitle = value;
+                dispatchEvent(new Event("themesListTitleChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  notificationText
+        //--------------------------------------
+        private var _notificationText:String = "Sind Sie sicher, die Übung ohne die Aufgaben Sie entfernen möchten?";
+        [Bindable("notificationTextChanged")]
+        public function get notificationText():String {return _notificationText;}
+        public function set notificationText(value:String):void {
+            if (_notificationText != value) {
+                _notificationText = value;
+                dispatchEvent(new Event("notificationTextChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  themeNameInputTitle
+        //--------------------------------------
+        private var _themeNameInputTitle:String = "Geben Sie bitte den neuen Namen des Themas ein";
+        [Bindable("themeNameInputTitleChanged")]
+        public function get themeNameInputTitle():String {return _themeNameInputTitle;}
+        public function set themeNameInputTitle(value:String):void {
+            if (_themeNameInputTitle != value) {
+                _themeNameInputTitle = value;
+                dispatchEvent(new Event("themeNameInputTitleChanged"));
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
 
         private function cancelBtn_clickHandler(event:MouseEvent):void {
             if (themesList) themesList.selectedItem = null;
@@ -44,8 +132,35 @@
             themeNameInputForm.text = "";
         }
 
-        private function applyBtnEnabled(selectedTheme:ITheme, updatedThemeName:String):Boolean {
+        private function applyBtnEnabled(selectedTheme:Theme, updatedThemeName:String):Boolean {
             return selectedTheme && updatedThemeName && selectedTheme.name != updatedThemeName;
+        }
+
+        private function applyBtnClickHandler(event:MouseEvent):void {
+            var selectedTheme:Theme = themesList.selectedItem;
+            if (!selectedTheme || !vocabulary) return;
+
+            if (isThemeRemoving) {
+                if (removeNotesByThemeRemoving)
+                    vocabulary.storage.removeNotesByTheme(selectedTheme);
+                selectedTheme.remove();
+            }
+            else if (themeNameInputForm.text) {
+                var duplicate:Theme = getThemeWithName(themeNameInputForm.text);
+                if (duplicate) {
+                    duplicate.mergeWith(selectedTheme);
+                }
+                else {
+                    selectedTheme.name = themeNameInputForm.text;
+                    selectedTheme.store();
+                }
+            }
+        }
+
+        private function getThemeWithName(themeName:String):Theme {
+            for each(var theme:Theme in vocabulary.themes)
+                if (theme.name == themeName) return theme;
+            return null;
         }
         ]]></fx:Script>
 
@@ -60,7 +175,7 @@
     </s:layout>
 
     <button:DottedLabelBtn id="editLbl"
-                           text="Den Themanamen ändern"
+                           text="{editLblText}"
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
@@ -71,7 +186,7 @@
                            click="setCurrentState('renameTheme')"/>
 
     <button:DottedLabelBtn id="removeLbl"
-                           text="Den Themanamen entfernen"
+                           text="{removeLblText}"
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
@@ -105,9 +220,9 @@
                        bottom="10"
                        left="col1:10"
                        right="col1:10"
-                       dataProvider="{themes}"
-                       title="Themenliste"
-                       itemRenderer="de.dittner.testmyself.ui.view.noteList.common.theme.ThemeItemRenderer">
+                       dataProvider="{new ArrayCollection(vocabulary.themes)}"
+                       title="{themesListTitle}"
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </list:layout>
@@ -120,12 +235,12 @@
                  fontSize="16"
                  visible="false" visible.removeTheme="true"
                  includeInLayout="false" includeInLayout.removeTheme="true"
-                 text="Sind Sie sicher, die Übung ohne die Aufgaben Sie entfernen möchten?"/>
+                 text="{notificationText}"/>
 
         <input:TextInputForm id="themeNameInputForm"
                              top="row1:10" left="col2:10" right="10"
                              text="{themesList.selectedItem.name}"
-                             title="Geben Sie bitte den neuen Namen des Themas ein"
+                             title="{themeNameInputTitle}"
                              maxChars="{Device.MAX_THEME_NAME_LENGTH}"
                              visible="false" visible.renameTheme="true"
                              includeInLayout="false" includeInLayout.renameTheme="true"/>
@@ -144,7 +259,8 @@
                             label.removeTheme="Entfernen"
                             top="row2:10"
                             left="col3:10"
-                            right="10"/>
+                            right="10"
+                            click="applyBtnClickHandler(event)"/>
     </s:Group>
 
 </s:Group>

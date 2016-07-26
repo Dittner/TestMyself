@@ -3,8 +3,8 @@ import de.dittner.testmyself.backend.message.NoteMsg;
 import de.dittner.testmyself.backend.message.TestMsg;
 import de.dittner.testmyself.model.domain.note.INote;
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.ui.view.noteList.common.form.NoteForm;
-import de.dittner.testmyself.ui.view.noteList.common.toolbar.ToolAction;
+import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
+import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
 
 public class TestingNoteFormMediator extends SFMediator {
 

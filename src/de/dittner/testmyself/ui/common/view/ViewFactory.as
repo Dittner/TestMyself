@@ -4,8 +4,8 @@ import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.view.map.MapView;
 import de.dittner.testmyself.ui.view.noteList.LessonView;
 import de.dittner.testmyself.ui.view.noteList.NoteListView;
-import de.dittner.testmyself.ui.view.search.SearchScreen;
-import de.dittner.testmyself.ui.view.settings.SettingsScreen;
+import de.dittner.testmyself.ui.view.search.SearchView;
+import de.dittner.testmyself.ui.view.settings.SettingsView;
 import de.dittner.testmyself.ui.view.test.TestScreen;
 import de.dittner.walter.WalterProxy;
 
@@ -126,7 +126,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 	private static var noteScreen:NoteListView = new NoteListView();
 	private static var lessonScreen:LessonView = new LessonView();
 	private static var testScreen:TestScreen = new TestScreen();
-	private static var searchScreen:SearchScreen = new SearchScreen();
+	private static var searchScreen:SearchView = new SearchView();
 	public function createView(viewInfo:ViewInfo):ViewBase {
 		var view:ViewBase;
 		switch (viewInfo.id) {
@@ -149,7 +149,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 				view = searchScreen;
 				break;
 			case ViewID.SETTINGS :
-				view = new SettingsScreen();
+				view = new SettingsView();
 				break;
 			default :
 				throw new Error("Unknown screen ID:" + viewInfo.id);

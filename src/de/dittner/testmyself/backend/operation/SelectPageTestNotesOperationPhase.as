@@ -2,10 +2,9 @@ package de.dittner.testmyself.backend.operation {
 
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLUtils;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.note.NoteFilter;
-import de.dittner.testmyself.model.domain.note.SQLLib;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.page.TestPageInfo;
 
@@ -43,7 +42,7 @@ public class SelectPageTestNotesOperationPhase extends AsyncOperation implements
 		var filter:NoteFilter = pageInfo.testSpec.filter;
 		if (filter.selectedThemes.length > 0) {
 			var themes:String = SQLUtils.themesToSqlStr(filter.selectedThemes);
-			sql = testInfo.useExamples ? sqlFactory.selectFilteredPageTestExamples : sqlFactory.selectFilteredPageTestNotes;
+			sql = testInfo.useExamples ? SQLLib.SELECT_FILTERED_PAGE_TEST_EXAMPLES_SQL : sqlFactory.selectFilteredPageTestNotes;
 			sql = sql.replace("#filterList", themes);
 		}
 		else {

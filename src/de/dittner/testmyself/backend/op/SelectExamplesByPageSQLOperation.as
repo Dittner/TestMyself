@@ -5,25 +5,25 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.IPageInfo;
 
 public class SelectExamplesByPageSQLOperation extends AsyncOperation implements IAsyncCommand {
 
-	public function SelectExamplesByPageSQLOperation(storage:SQLStorage, page:NotePageInfo) {
+	public function SelectExamplesByPageSQLOperation(storage:SQLStorage, page:IPageInfo) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
 	private var storage:SQLStorage;
-	private var page:NotePageInfo;
+	private var page:IPageInfo;
 
 	public function execute():void {
 		if (page.notes.length > 0) {
 			var composite:CompositeCommand = new CompositeCommand();
 
 			for each(var note:Note in page.notes)
-				composite.addOperation(SelectExamplesSQLOperation, storage, page.vocabulary, note);
+				composite.addOperation(SelectExamplesSQLOperation, storage, note);
 
 			composite.addCompleteCallback(completeHandler);
 			composite.execute();

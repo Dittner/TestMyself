@@ -1,8 +1,8 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.ui.view.map.MapVM;
 import de.dittner.testmyself.ui.view.noteList.NoteListVM;
-import de.dittner.testmyself.ui.view.search.SearchScreenMediator;
-import de.dittner.testmyself.ui.view.settings.SettingsScreenMediator;
+import de.dittner.testmyself.ui.view.search.SearchVM;
+import de.dittner.testmyself.ui.view.settings.SettingsVM;
 import de.dittner.testmyself.ui.view.test.TestScreenMediator;
 
 public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFactory {
@@ -13,7 +13,7 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 	private var verbMediator:SFMediator = new VerbScreenMediator();
 	private var lessonMediator:SFMediator = new LessonScreenMediator();
 	private var testMediator:SFMediator = new TestScreenMediator();
-	private var searchMediator:SFMediator = new SearchScreenMediator();
+	private var searchMediator:SFMediator = new SearchVM();
 
 	public function createScreenMediator(screenID:String):SFMediator {
 		var mediator:SFMediator;
@@ -37,7 +37,7 @@ public class ScreenMediatorFactory extends SFProxy implements IScreenMediatorFac
 				mediator = searchMediator;
 				break;
 			case ViewID.SETTINGS :
-				mediator = new SettingsScreenMediator();
+				mediator = new SettingsVM();
 				break;
 			default :
 				throw new Error("Unknown screen ID:" + screenID);

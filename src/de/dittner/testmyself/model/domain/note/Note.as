@@ -1,15 +1,15 @@
 package de.dittner.testmyself.model.domain.note {
+import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
-import de.dittner.testmyself.model.domain.common.ITestable;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.ui.view.noteList.common.form.NoteValidationErrorKey;
+import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
-public class Note extends EventDispatcher implements INote, ITestable {
+public class Note extends EventDispatcher implements INote {
 	public function Note() {
 		super();
 	}
@@ -69,7 +69,7 @@ public class Note extends EventDispatcher implements INote, ITestable {
 	//--------------------------------------
 	//  audioComment
 	//--------------------------------------
-	private var _audioComment:AudioComment;
+	private var _audioComment:AudioComment = new AudioComment();
 	[Bindable("audioCommentChanged")]
 	public function get hasAudioComment():Boolean {return _audioComment && _audioComment.bytes;}
 	public function get audioComment():AudioComment {return _audioComment;}
@@ -167,13 +167,14 @@ public class Note extends EventDispatcher implements INote, ITestable {
 		return res;
 	}
 
-	private var _originalTitle:String = "";
-	public function get originalTitle():String {return _originalTitle;}
+	private var _originalData:Object = {};
+	public function get originalData():Object {return _originalData;}
 
 	public function deserialize(data:Object):void {
+		_originalData = data;
 		_id = data.id;
 		_parentID = data.parentID;
-		_title = _originalTitle = data.title;
+		_title = data.title;
 		_description = data.description;
 		_isExample = data.isExample;
 		_options = data.options;
@@ -193,6 +194,28 @@ public class Note extends EventDispatcher implements INote, ITestable {
 				else if (!e.description) return NoteValidationErrorKey.EMPTY_EXAMPLE_DESCRIPTION;
 		}
 		return "";
+	}
+
+	public function revertChanges():IAsyncOperation {
+		var op:IAsyncOperation;
+		if (isNew) {
+			op = new AsyncOperation();
+			op.dispatchSuccess();
+		}
+		else {
+			op = vocabulary.storage.loadNote(vocabulary, id);
+			op.addCompleteCallback(noteReloaded)
+		}
+		return op;
+	}
+
+	private function noteReloaded(op:IAsyncOperation):void {
+		if (op.isSuccess) {
+			var reloadedNote:Note = op.result;
+			deserialize(reloadedNote.originalData);
+			themes = reloadedNote.themes;
+			examples = reloadedNote.examples;
+		}
 	}
 
 }
