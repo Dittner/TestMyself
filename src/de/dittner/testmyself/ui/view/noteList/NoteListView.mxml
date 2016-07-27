@@ -26,8 +26,6 @@
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
 
-        import mx.collections.ArrayCollection;
-
         [Bindable]
         public var vm:NoteListVM;
 
@@ -262,7 +260,7 @@
 
         <theme:ThemeFilter id="filter"
                            selectedTheme="@{vm.selectedTheme}"
-                           themes="{new ArrayCollection(vm.selectedVocabulary.themes)}"
+                           themes="{vm.selectedVocabulary.themeColl}"
                            width="350"
                            visible="false"
                            right="0"

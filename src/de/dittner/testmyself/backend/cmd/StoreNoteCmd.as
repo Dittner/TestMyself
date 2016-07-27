@@ -9,9 +9,9 @@ import de.dittner.testmyself.backend.op.DeleteFilterByNoteIDOperation;
 import de.dittner.testmyself.backend.op.DeleteTestTaskByNoteIDOperation;
 import de.dittner.testmyself.backend.op.InsertExampleOperation;
 import de.dittner.testmyself.backend.op.InsertFilterOperation;
+import de.dittner.testmyself.backend.op.InsertNewThemeOperation;
 import de.dittner.testmyself.backend.op.InsertNoteOperation;
 import de.dittner.testmyself.backend.op.InsertTestTaskOperation;
-import de.dittner.testmyself.backend.op.InsertThemeOperation;
 import de.dittner.testmyself.backend.op.MP3EncodingOperation;
 import de.dittner.testmyself.backend.op.UpdateNoteOperation;
 import de.dittner.testmyself.model.domain.note.Note;
@@ -39,7 +39,7 @@ public class StoreNoteCmd extends AsyncOperation implements IAsyncCommand {
 			composite.addOperation(DeleteTestTaskByNoteIDOperation, storage.sqlConnection, note);
 			composite.addOperation(DeleteExampleByParentIDOperation, storage.sqlConnection, note);
 		}
-		composite.addOperation(InsertThemeOperation, storage.sqlConnection, note);
+		composite.addOperation(InsertNewThemeOperation, storage.sqlConnection, note);
 		composite.addOperation(InsertFilterOperation, storage.sqlConnection, note);
 		composite.addOperation(InsertExampleOperation, storage.sqlConnection, note);
 		composite.addOperation(InsertTestTaskOperation, storage.sqlConnection, note);
@@ -49,7 +49,7 @@ public class StoreNoteCmd extends AsyncOperation implements IAsyncCommand {
 	}
 
 	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) dispatchSuccess();
+		if (op.isSuccess) dispatchSuccess(note);
 		else dispatchError(op.error);
 	}
 }

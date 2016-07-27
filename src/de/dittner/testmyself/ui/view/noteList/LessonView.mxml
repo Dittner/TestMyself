@@ -15,7 +15,6 @@
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -24,8 +23,6 @@
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
-
-        import mx.collections.ArrayCollection;
 
         [Bindable]
         public var vm:NoteListVM;
@@ -66,7 +63,7 @@
             vm = ViewModelFactory.instance.noteListVM;
             vm.viewActivated(info);
             currentState = "lessonList";
-            lessonList.dataProvider = new ArrayCollection(vm.selectedVocabulary.themes);
+            lessonList.dataProvider =;
         }
 
         override protected function deactivate():void {
@@ -130,14 +127,9 @@
                 addLessonForm.addLessonInput.isValidInput = false;
             }
             else {
-                var op:IAsyncOperation = theme.store();
-                op.addCompleteCallback(function (op:IAsyncOperation):void {
-                    lessonList.dataProvider = new ArrayCollection(vm.selectedVocabulary.themes);
-                });
-
+                theme.store();
                 hideAddLessonForm();
             }
-
         }
 
         private function lessonSelectedHandler(event:Event):void {
@@ -273,6 +265,7 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <list2:SelectableDataGroup id="lessonList"
+                                   dataProvider="{vm.selectedVocabulary.themeColl}"
                                    width="100%"
                                    visible="false" visible.lessonList="true"
                                    itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.LessonThemeRenderer"

@@ -31,7 +31,6 @@ import de.dittner.walter.WalterProxy;
 import flash.data.SQLConnection;
 
 public class SQLStorage extends WalterProxy {
-
 	public function SQLStorage() {
 		super();
 	}
@@ -81,28 +80,24 @@ public class SQLStorage extends WalterProxy {
 
 	public function storeNote(note:Note):IAsyncOperation {
 		var op:IAsyncCommand = new StoreNoteCmd(this, note);
-		op.addCompleteCallback(noteAdded);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
 	public function removeNote(note:Note):IAsyncOperation {
 		var op:IAsyncCommand = new RemoveNoteCmd(this, note.id);
-		op.addCompleteCallback(noteRemoved);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
 	public function removeNotesByTheme(theme:Theme):IAsyncOperation {
 		var op:IAsyncCommand = new RemoveNotesByThemeCmd(this, theme);
-		op.addCompleteCallback(notesByThemeRemoved);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
 	public function loadNotePage(page:NotePageInfo):IAsyncOperation {
 		var op:IAsyncCommand = new LoadNotePageCmd(this, page);
-		op.addCompleteCallback(notePageInfoLoaded);
 		deferredCommandManager.add(op);
 		return op;
 	}
@@ -125,28 +120,24 @@ public class SQLStorage extends WalterProxy {
 
 	public function storeTheme(theme:Theme):IAsyncOperation {
 		var op:IAsyncCommand = new StoreThemeCmd(this, theme);
-		op.addCompleteCallback(themeAdded);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
 	public function loadAllThemes(vocabulary:Vocabulary):IAsyncOperation {
 		var op:IAsyncCommand = new LoadAllThemesCmd(this, vocabulary);
-		op.addCompleteCallback(themesLoaded);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
 	public function removeTheme(theme:Theme):IAsyncOperation {
 		var op:IAsyncCommand = new RemoveThemeCmd(this, theme.id);
-		op.addCompleteCallback(themesUpdated);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
 	public function mergeThemes(destTheme:Theme, srcTheme:Theme):IAsyncOperation {
 		var op:IAsyncCommand = new MergeThemesCmd(this, destTheme.id, srcTheme.id);
-		op.addCompleteCallback(themesUpdated);
 		deferredCommandManager.add(op);
 		return op;
 	}
@@ -181,56 +172,6 @@ public class SQLStorage extends WalterProxy {
 		var op:IAsyncCommand = new ClearTestHistoryCmd(this, test);
 		deferredCommandManager.add(op);
 		return op;
-	}
-
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Handlers
-	//
-	//----------------------------------------------------------------------------------------------
-
-	private function noteAdded(op:IAsyncOperation):void {
-		loadNotePage();
-		loadAllThemes();
-		loadLanguageInfo();
-		model.noteHash.add((op.result as NoteSuite).note);
-	}
-
-	private function noteUpdated(op:IAsyncOperation):void {
-		loadNotePage();
-		loadAllThemes();
-		loadLanguageInfo();
-		model.noteHash.update((op.result as NoteSuite).note, (op.result as NoteSuite).origin);
-	}
-
-	private function noteRemoved(op:IAsyncOperation):void {
-		loadNotePage();
-		loadLanguageInfo();
-		model.noteHash.remove((op.result as NoteSuite).note);
-	}
-
-	private function notesByThemeRemoved(op:IAsyncOperation):void {
-		loadNotePage();
-		loadAllThemes();
-		loadLanguageInfo();
-		updateNoteHash();
-	}
-
-	private function notePageInfoLoaded(op:IAsyncOperation):void {
-		model.selectedNote = (op.result as INotePageRequest).selectedNote;
-		model.pageInfo = op.result as NotePageInfo;
-	}
-
-	private function themesLoaded(op:IAsyncOperation):void {
-		model.themes = op.result as Array;
-	}
-
-	private function themeAdded(op:IAsyncOperation):void {
-		loadAllThemes();
-	}
-	private function themesUpdated(op:IAsyncOperation):void {
-		loadAllThemes();
-		model.filter.selectedThemes = [];
 	}
 
 }

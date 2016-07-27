@@ -13,8 +13,6 @@
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
-        import mx.collections.ArrayCollection;
-
         //--------------------------------------
         //  vocabulary
         //--------------------------------------
@@ -45,7 +43,7 @@
         //  haveThemes
         //--------------------------------------
         [Bindable("themesChanged")]
-        public function get haveThemes():Boolean {return vocabulary.themes && vocabulary.themes.length > 0;}
+        public function get haveThemes():Boolean {return vocabulary.themeColl && vocabulary.themeColl.length > 0;}
 
         //--------------------------------------
         //  editLblText
@@ -158,7 +156,7 @@
         }
 
         private function getThemeWithName(themeName:String):Theme {
-            for each(var theme:Theme in vocabulary.themes)
+            for each(var theme:Theme in vocabulary.themeColl)
                 if (theme.name == themeName) return theme;
             return null;
         }
@@ -220,7 +218,7 @@
                        bottom="10"
                        left="col1:10"
                        right="col1:10"
-                       dataProvider="{new ArrayCollection(vocabulary.themes)}"
+                       dataProvider="{vocabulary.themeColl}"
                        title="{themesListTitle}"
                        itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer">
             <list:layout>

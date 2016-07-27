@@ -1,6 +1,7 @@
 package de.dittner.testmyself.model.domain.vocabulary {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.theme.Theme;
@@ -8,6 +9,10 @@ import de.dittner.testmyself.utils.HashList;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
+
+import mx.collections.ArrayCollection;
+
+use namespace domain_internal;
 
 public class Vocabulary extends EventDispatcher {
 	public function Vocabulary(id:int, langID:uint, noteClass:Class, storage:SQLStorage, title:String) {
@@ -73,14 +78,22 @@ public class Vocabulary extends EventDispatcher {
 	//--------------------------------------
 	//  themes
 	//--------------------------------------
-	private var _themes:Array = [];
-	[Bindable("themesChanged")]
-	public function get themes():Array {return _themes;}
-	private function setThemes(value:Array):void {
-		if (_themes != value) {
-			_themes = value;
-			dispatchEvent(new Event("themesChanged"));
+	private var _themeColl:ArrayCollection = new ArrayCollection();
+	[Bindable("themeCollChanged")]
+	public function get themeColl():ArrayCollection {return _themeColl;}
+	private function setThemeColl(value:ArrayCollection):void {
+		if (_themeColl != value) {
+			_themeColl = value;
+			dispatchEvent(new Event("themeCollChanged"));
 		}
+	}
+
+	domain_internal function addThemeToList(t:Theme):void {
+		themeColl.addItem(t);
+	}
+
+	domain_internal function removeThemeFromList(t:Theme):void {
+		themeColl.removeItem(t);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -106,14 +119,14 @@ public class Vocabulary extends EventDispatcher {
 			noteTitleHash.write(title, true);
 	}
 
-	public function reloadThemes():IAsyncOperation {
+	private function reloadThemes():IAsyncOperation {
 		var op:IAsyncOperation = storage.loadAllThemes(this);
 		op.addCompleteCallback(allThemesLoaded);
 		return op;
 	}
 
 	private function allThemesLoaded(op:IAsyncOperation):void {
-		setThemes(op.result);
+		setThemeColl(new ArrayCollection(op.result));
 	}
 
 	public function loadInfo():IAsyncOperation {

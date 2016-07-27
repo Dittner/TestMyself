@@ -17,8 +17,6 @@
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
 
-        import mx.collections.ArrayCollection;
-
         //--------------------------------------
         //  title
         //--------------------------------------
@@ -93,7 +91,7 @@
 
     <list:ListForm id="themesList"
                    width="{width -2*padding}" height="100%"
-                   dataProvider="{new ArrayCollection(vocabulary.themes)}"
+                   dataProvider="{vocabulary.themeColl}"
                    title="Wählen Sie die Themen aus, um die Aufgaben zu filtern"
                    itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer"
                    allowMultipleSelection="false">

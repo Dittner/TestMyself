@@ -147,11 +147,26 @@ public class Note extends EventDispatcher implements INote {
 	}
 
 	public function store():IAsyncOperation {
-		return vocabulary.storage.storeNote(this);
+		var op:IAsyncOperation = vocabulary.storage.storeNote(this);
+		op.addCompleteCallback(noteStored);
+		return op;
+	}
+
+	private function noteStored(op:IAsyncOperation):void {
+		if (!isExample && originalData.title && originalData.title != title) {
+			vocabulary.noteTitleHash.clear(originalData.title);
+			vocabulary.noteTitleHash.write(title, true);
+		}
 	}
 
 	public function remove():IAsyncOperation {
-		return vocabulary.storage.removeNote(this);
+		var op:IAsyncOperation = vocabulary.storage.removeNote(this);
+		op.addCompleteCallback(noteRemoved);
+		return op;
+	}
+
+	private function noteRemoved(op:IAsyncOperation):void {
+		if (!isExample) vocabulary.noteTitleHash.clear(title);
 	}
 
 	public function serialize():Object {

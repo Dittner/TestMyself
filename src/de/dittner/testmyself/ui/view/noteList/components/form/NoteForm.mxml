@@ -131,7 +131,7 @@
             descriptionArea.text = note.description;
             audioRecorder.comment = note.audioComment;
             examplesForm.examples = new ArrayCollection(note.examples);
-            themeList.dataProvider = note.vocabulary.themes;
+            themeList.dataProvider = note.vocabulary.themeColl;
             showSelectedThemes(note.themes);
 
             invalidateDisplayList();

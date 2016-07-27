@@ -60,8 +60,6 @@ public class StoreThemeCmd extends AsyncOperation implements IAsyncCommand {
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
-			if (theme.isNew)
-				theme.vocabulary.themes.push(theme);
 			theme.id = result.lastInsertRowID;
 			dispatchSuccess();
 		}
@@ -70,6 +68,5 @@ public class StoreThemeCmd extends AsyncOperation implements IAsyncCommand {
 			dispatchError(ErrorCode.THEME_ADDED_WITHOUT_ID);
 		}
 	}
-
 }
 }

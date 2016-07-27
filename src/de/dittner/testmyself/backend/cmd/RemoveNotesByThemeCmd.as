@@ -48,6 +48,7 @@ public class RemoveNotesByThemeCmd extends AsyncOperation implements IAsyncComma
 		var composite:CompositeCommand = new CompositeCommand();
 
 		for each(var item:Object in result.data) {
+			theme.vocabulary.noteTitleHash.clear(item.title);
 			composite.addOperation(RemoveNoteCmd, storage, item.id);
 		}
 
