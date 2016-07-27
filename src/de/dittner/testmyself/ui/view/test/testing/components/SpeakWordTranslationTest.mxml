@@ -16,6 +16,8 @@
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.view.test.common.TestingAction;
 
+        import mx.collections.ArrayCollection;
+
         //--------------------------------------
         //  word
         //--------------------------------------
@@ -141,7 +143,7 @@
                             title="Übersetzung" showText="{showDetails}"/>
 
             <common2:ExampleList id="exampleList"
-                                 dataProvider="{activeNoteExampleColl}"
+                                 dataProvider="{new ArrayCollection(activeNote.examples)}"
                                  bgColor="{AppColors.EDITOR_CONTENT_BG}"
                                  width="{width - 2*padding}" height="66%"
                                  shownList="{showDetails}"

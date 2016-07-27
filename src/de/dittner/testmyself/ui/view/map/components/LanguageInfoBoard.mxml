@@ -42,7 +42,7 @@
             }
         }
 
-        private const rightColumnText:String = "Wörter\nStarken Verben\nÜbungen\nBeispielen\nAudioaufnahmen"
+        private const rightColumnText:String = "Wörter\nStarken Verben\nÜbungen\nBeispielen\nAudioaufnahmen";
         override protected function commitProperties():void {
             super.commitProperties();
             var infoText:String;

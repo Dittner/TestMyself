@@ -1,16 +1,14 @@
 package de.dittner.testmyself.model.domain.language {
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.model.domain.common.TestID;
 import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.note.verb.DeVerb;
 import de.dittner.testmyself.model.domain.note.word.DeWord;
 import de.dittner.testmyself.model.domain.test.SelectArticleTest;
 import de.dittner.testmyself.model.domain.test.Test;
+import de.dittner.testmyself.model.domain.test.TestID;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-
-import flash.events.Event;
 
 use namespace domain_internal;
 
@@ -18,19 +16,6 @@ public class DeLang extends Language {
 	public function DeLang(storage:SQLStorage) {
 		super(LanguageID.DE, storage);
 		initVocabularies();
-	}
-
-	//--------------------------------------
-	//  selectedVocabulary
-	//--------------------------------------
-	private var _selectedVocabulary:Vocabulary;
-	[Bindable("selectedVocabularyChanged")]
-	public function get selectedVocabulary():Vocabulary {return _selectedVocabulary;}
-	public function set selectedVocabulary(value:Vocabulary):void {
-		if (_selectedVocabulary != value) {
-			_selectedVocabulary = value;
-			dispatchEvent(new Event("selectedVocabularyChanged"));
-		}
 	}
 
 	//--------------------------------------

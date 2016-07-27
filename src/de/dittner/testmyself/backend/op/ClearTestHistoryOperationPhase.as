@@ -1,50 +1,69 @@
 package de.dittner.testmyself.backend.op {
+
 import de.dittner.async.AsyncOperation;
-import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
-import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.SQLLib;
+import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
+import de.dittner.testmyself.backend.utils.SQLUtils;
+import de.dittner.testmyself.logging.CLog;
+import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.test.Test;
+import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
+
+import flash.data.SQLConnection;
+import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.errors.SQLError;
+import flash.net.Responder;
 
 public class ClearTestHistoryOperationPhase extends AsyncOperation implements IAsyncCommand {
-
-	public function ClearTestHistoryOperationPhase(storage:SQLStorage, test:Test, notesIDs:Array) {
-		super();
-		this.storage = storage;
+	public function ClearTestHistoryOperationPhase(testID:int, noteID:int, conn:SQLConnection, test:Test) {
+		this.testID = testID;
+		this.noteID = noteID;
+		this.conn = conn;
 		this.test = test;
-		this.notesIDs = notesIDs;
 	}
 
-	private var storage:SQLStorage;
+	private var testID:int;
+	private var noteID:int;
+	private var conn:SQLConnection;
 	private var test:Test;
-	private var notesIDs:Array;
-	private var composite:CompositeCommand;
 
 	public function execute():void {
-		if (notesIDs.length > 0) {
-			composite = new CompositeCommand();
-
-			for each(var noteID:int in notesIDs) {
-				composite.addOperation(ClearTestHistoryOperationSubPhase, test.id, noteID, storage.sqlConnection, test);
-			}
-
-			composite.addCompleteCallback(completeHandler);
-			composite.execute();
+		if (noteID == -1) {
+			CLog.err(LogCategory.STORAGE, ErrorCode.NOTE_OF_TEST_TASK_HAS_NO_ID + ": Нет ID записи, необходимого для удаления результатов теста");
+			dispatchError(ErrorCode.NOTE_OF_TEST_TASK_HAS_NO_ID);
+			return;
 		}
-		else dispatchSuccess();
+
+		var sqlParams:Object = {};
+		sqlParams.testID = testID;
+		sqlParams.noteID = noteID;
+		sqlParams.rate = test.calcTaskRate();
+		sqlParams.complexity = TestTaskComplexity.HIGH;
+		sqlParams.isFailed = 0;
+		sqlParams.lastTestedDate = 0;
+		sqlParams.updatingTestID = testID;
+		sqlParams.updatingNoteID = noteID;
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.UPDATE_TEST_TASK_SQL, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) dispatchSuccess(op.result);
-		else dispatchError(op.error);
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
+	}
+
+	private function executeError(error:SQLError):void {
+		CLog.err(LogCategory.STORAGE, ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
+		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 
 	override public function destroy():void {
 		super.destroy();
-		storage = null;
+		conn = null;
 		test = null;
-		notesIDs = null;
-		composite = null;
 	}
 }
 }

@@ -71,14 +71,7 @@ public class TestVM extends ViewModel {
 	//  pageInfo
 	//--------------------------------------
 	private var _pageInfo:TestPageInfo = new TestPageInfo();
-	[Bindable("pageInfoChanged")]
 	public function get pageInfo():TestPageInfo {return _pageInfo;}
-	public function set pageInfo(value:TestPageInfo):void {
-		if (_pageInfo != value) {
-			_pageInfo = value;
-			dispatchEvent(new Event("pageInfoChanged"));
-		}
-	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -104,7 +97,11 @@ public class TestVM extends ViewModel {
 	public function loadTestTaskPageInfo():IAsyncOperation {
 		pageInfo.onlyFailedNotes = false;
 		pageInfo.pageSize = 1;
-		return storage.loadTestPageInfo(pageInfo);
+		var op:IAsyncOperation = storage.loadTestPageInfo(pageInfo);
+		op.addCompleteCallback(function (op:IAsyncOperation):void {
+			curTestTask = pageInfo.tasks && pageInfo.tasks.length > 0 ? pageInfo.tasks[0] : null;
+		});
+		return op;
 	}
 
 	public function loadStatisticsPageInfo():IAsyncOperation {

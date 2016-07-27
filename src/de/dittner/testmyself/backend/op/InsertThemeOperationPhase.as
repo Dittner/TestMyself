@@ -1,65 +1,56 @@
 package de.dittner.testmyself.backend.op {
+
 import de.dittner.async.AsyncOperation;
-import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
-import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLLib;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
-import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
+import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.theme.Theme;
 
 import flash.data.SQLConnection;
+import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.errors.SQLError;
+import flash.net.Responder;
 
 public class InsertThemeOperationPhase extends AsyncOperation implements IAsyncCommand {
-
-	public function InsertThemeOperationPhase(conn:SQLConnection, note:Note) {
+	public function InsertThemeOperationPhase(theme:Theme, conn:SQLConnection, sql:String) {
+		this.theme = theme;
 		this.conn = conn;
-		this.themes = note.themeIDs;
-		this.sqlFactory = sqlFactory;
+		this.sql = sql;
 	}
 
-	private var themes:Array;
+	private var theme:Theme;
 	private var conn:SQLConnection;
-	private var sqlFactory:SQLLib;
+	private var sql:String;
 
 	public function execute():void {
-		var addedThemes:Vector.<Theme> = getAddedThemes();
-		if (addedThemes.length > 0) {
-			var composite:CompositeCommand = new CompositeCommand();
+		var sqlParams:Object = {};
+		sqlParams.name = theme.name;
 
-			for each(var theme:Theme in addedThemes)
-				composite.addOperation(InsertThemeOperationSubPhase, theme, conn, SQLLib.INSERT_THEME_SQL);
-
-			composite.addCompleteCallback(completeHandler);
-			composite.execute();
-		}
-		else dispatchSuccess();
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function getAddedThemes():Vector.<Theme> {
-		var res:Vector.<Theme> = new <Theme>[];
-
-		for each(var theme:Theme in themes)
-			if (theme.isNew) res.push(theme);
-
-		return res;
-	}
-
-	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) {
-			dispatchSuccess(op.result);
+	private function executeComplete(result:SQLResult):void {
+		if (result.rowsAffected > 0) {
+			theme.id = result.lastInsertRowID;
+			dispatchSuccess();
 		}
 		else {
-			CLog.err(LogCategory.STORAGE, op.error);
-			dispatchError(op.error);
+			dispatchError(ErrorCode.THEME_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленной темы");
 		}
+	}
+
+	private function executeError(error:SQLError):void {
+		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
 	}
 
 	override public function destroy():void {
 		super.destroy();
-		themes = null;
+		theme = null;
 		conn = null;
+		sql = null;
 	}
 }
 }

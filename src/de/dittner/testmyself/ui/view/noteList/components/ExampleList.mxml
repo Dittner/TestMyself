@@ -82,7 +82,7 @@
                                   visible="{shownList}"
                                   width="100%"
                                   deselectEnabled="true"
-                                  itemRenderer="de.dittner.testmyself.ui.common.view.noteList.renderer.ExampleRenderer">
+                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="true"/>
             </list:layout>

@@ -3,7 +3,7 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.backend.SQLUtils;
+import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 

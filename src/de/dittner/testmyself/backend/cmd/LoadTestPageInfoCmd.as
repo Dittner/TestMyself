@@ -4,9 +4,9 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.backend.op.CountTestTasksSQLOperation;
-import de.dittner.testmyself.backend.op.SelectNotesByTestPageOperationPhase;
-import de.dittner.testmyself.backend.op.SelectPageTestTasksOperationPhase;
+import de.dittner.testmyself.backend.op.CountTestTasksOperation;
+import de.dittner.testmyself.backend.op.SelectNotesByTestPageOperation;
+import de.dittner.testmyself.backend.op.SelectPageTestTasksOperation;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
 
 public class LoadTestPageInfoCmd extends AsyncOperation implements IAsyncCommand {
@@ -23,10 +23,10 @@ public class LoadTestPageInfoCmd extends AsyncOperation implements IAsyncCommand
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(SelectPageTestTasksOperationPhase, storage, page);
-		composite.addOperation(SelectNotesByTestPageOperationPhase, storage, page);
+		composite.addOperation(SelectPageTestTasksOperation, storage, page);
+		composite.addOperation(SelectNotesByTestPageOperation, storage, page);
 		if (page.amountAllTasks == -1)
-			composite.addOperation(CountTestTasksSQLOperation, storage, page);
+			composite.addOperation(CountTestTasksOperation, storage, page);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.view.noteList.components.renderer {
+import de.dittner.testmyself.model.domain.note.verb.DeVerb;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
@@ -33,12 +34,8 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	private var perfectTf:TextField;
 	private var translationTf:TextField;
 
-	private function get noteData():NoteRendererData {
-		return data as NoteRendererData;
-	}
-
-	private function get verb():IVerb {
-		return noteData.note as IVerb;
+	private function get verb():DeVerb {
+		return data as DeVerb;
 	}
 
 	override protected function createChildren():void {
@@ -88,7 +85,7 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	}
 
 	override protected function measure():void {
-		if (!noteData || !parent) {
+		if (!verb || !parent) {
 			measuredWidth = measuredHeight = 0;
 			return;
 		}

@@ -1,6 +1,7 @@
 package de.dittner.testmyself.ui.common.audio {
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
+import de.dittner.testmyself.ui.common.audio.event.VoiceRecorderEvent;
 
 import flash.display.MovieClip;
 import flash.events.Event;

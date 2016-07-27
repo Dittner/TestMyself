@@ -52,9 +52,7 @@ public class CustomVScrollBar extends VScrollBar {
 	}
 
 	private var _inLayoutWhenInactive:Boolean = true;
-	public function set inLayoutWhenInactive(value:Boolean):void {
-		_inLayoutWhenInactive = value;
-	}
+	public function set inLayoutWhenInactive(value:Boolean):void {_inLayoutWhenInactive = value;}
 	override protected function getCurrentSkinState():String {
 		if (!_inLayoutWhenInactive) {
 			if (maximum <= minimum) {

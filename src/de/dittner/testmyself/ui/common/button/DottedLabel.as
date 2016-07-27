@@ -564,7 +564,7 @@ public class DottedLabel extends Label {
 					if (dotIndent < 0)dotIndent = 0;
 					g.lineStyle(fontMetrics.underlineThickness, elementFormat.color, elementFormat.alpha);
 
-					for (var xx:uint = 0 + dotIndent; xx < textLine.textWidth - dotIndent; xx += 4) {
+					for (var xx:uint = dotIndent; xx < textLine.textWidth - dotIndent; xx += 4) {
 						g.moveTo(xx, fontMetrics.underlineOffset + 3);
 						g.lineTo(xx + 2, fontMetrics.underlineOffset + 3);
 					}

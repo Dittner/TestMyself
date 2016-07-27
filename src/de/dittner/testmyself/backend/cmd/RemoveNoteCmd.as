@@ -4,10 +4,10 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.backend.op.DeleteExampleByParentIDOperationPhase;
-import de.dittner.testmyself.backend.op.DeleteFilterByNoteIDOperationPhase;
-import de.dittner.testmyself.backend.op.DeleteNoteOperationPhase;
-import de.dittner.testmyself.backend.op.DeleteTestTaskByNoteIDOperationPhase;
+import de.dittner.testmyself.backend.op.DeleteExampleByParentIDOperation;
+import de.dittner.testmyself.backend.op.DeleteFilterByNoteIDOperation;
+import de.dittner.testmyself.backend.op.DeleteNoteOperation;
+import de.dittner.testmyself.backend.op.DeleteTestTaskByNoteIDOperation;
 
 public class RemoveNoteCmd extends AsyncOperation implements IAsyncCommand {
 
@@ -23,10 +23,10 @@ public class RemoveNoteCmd extends AsyncOperation implements IAsyncCommand {
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(DeleteNoteOperationPhase, storage.sqlConnection, noteID);
-		composite.addOperation(DeleteFilterByNoteIDOperationPhase, storage.sqlConnection, noteID);
-		composite.addOperation(DeleteTestTaskByNoteIDOperationPhase, storage.sqlConnection, noteID);
-		composite.addOperation(DeleteExampleByParentIDOperationPhase, storage.sqlConnection, noteID);
+		composite.addOperation(DeleteNoteOperation, storage.sqlConnection, noteID);
+		composite.addOperation(DeleteFilterByNoteIDOperation, storage.sqlConnection, noteID);
+		composite.addOperation(DeleteTestTaskByNoteIDOperation, storage.sqlConnection, noteID);
+		composite.addOperation(DeleteExampleByParentIDOperation, storage.sqlConnection, noteID);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

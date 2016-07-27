@@ -1,5 +1,4 @@
 package de.dittner.testmyself.model.domain.test {
-import de.dittner.testmyself.model.domain.common.TestID;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.note.word.DeWord;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;

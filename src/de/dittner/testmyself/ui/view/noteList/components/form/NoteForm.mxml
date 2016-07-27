@@ -146,7 +146,7 @@
             var isSelectedThemeHash:Object = {};
             var selectedItems:Vector.<Theme> = new Vector.<Theme>();
             for each(var noteTheme:Theme in noteThemes) isSelectedThemeHash[noteTheme.id] = true;
-            for each(var theme:ITheme in themeList.dataProvider)
+            for each(var theme:Theme in themeList.dataProvider)
                 if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
             themeList.selectedItems = selectedItems;
         }
@@ -299,7 +299,7 @@
         }
 
         private function themesRendererFunc(item:Object):IFactory {
-            var theme:ITheme = item as ITheme;
+            var theme:Theme = item as Theme;
             if (theme.id == -1) return new ClassFactory(AddedThemeItemRenderer);
             else return new ClassFactory(ThemeItemRenderer);
         }

@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.view.noteList.components.theme {
+import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
@@ -14,7 +15,7 @@ public class LessonThemeRenderer extends StringItemRenderer {
 	}
 
 	override protected function get text():String {
-		return data is ITheme ? (data as ITheme).name : "";
+		return data is Theme ? (data as Theme).name : "";
 	}
 
 	override protected function get format():TextFormat {return TEST_FORMAT;}

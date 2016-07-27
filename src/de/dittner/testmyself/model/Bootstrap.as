@@ -2,6 +2,7 @@ package de.dittner.testmyself.model {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.deferredOperation.DeferredCommandManager;
 import de.dittner.testmyself.model.domain.language.DeLang;
 import de.dittner.testmyself.ui.common.view.ViewFactory;
 import de.dittner.testmyself.ui.common.view.ViewModelFactory;
@@ -48,6 +49,7 @@ public class Bootstrap extends Walter {
 		appModel.selectedLanguage = new DeLang(storage);
 		registerProxy("appModel", appModel);
 
+		registerProxy("deferredCommandManager", new DeferredCommandManager());
 		registerProxy("viewNavigator", new ViewNavigator());
 		registerProxy("viewFactory", new ViewFactory());
 		registerProxy("vmFactory", new ViewModelFactory());
@@ -60,11 +62,11 @@ public class Bootstrap extends Walter {
 		registerProxy("settingsVM", new SettingsVM());
 
 		initOp = appModel.selectedLanguage.init();
-		initOp.addCompleteCallback(initCompelteHandler);
+		initOp.addCompleteCallback(initCompleteHandler);
 		return initOp;
 	}
 
-	private function initCompelteHandler(op:IAsyncOperation) {
+	private function initCompleteHandler(op:IAsyncOperation):void {
 		var viewNavigator:ViewNavigator = getProxy("viewNavigator") as ViewNavigator;
 		var viewFactory:ViewFactory = getProxy("viewFactory") as ViewFactory;
 		viewNavigator.navigate(viewFactory.firstViewInfo);

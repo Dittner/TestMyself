@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.audio {
+import de.dittner.testmyself.ui.common.audio.event.VoiceRecorderEvent;
 import de.dittner.testmyself.ui.common.audio.utils.PlayerUtils;
 
 import flash.events.Event;
@@ -9,7 +10,7 @@ import flash.media.Sound;
 import flash.media.SoundChannel;
 import flash.utils.ByteArray;
 
-[Event(type='dittner.testmyself.ui.view.common.audio.event.VoiceCommentEvent', name='playbackFinished')]
+[Event(name="playbackFinished", type="de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent")]
 public class VoiceRecorder extends EventDispatcher {
 
 	public function VoiceRecorder() {

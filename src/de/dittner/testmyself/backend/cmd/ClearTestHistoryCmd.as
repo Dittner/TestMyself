@@ -4,8 +4,8 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.backend.op.ClearTestHistoryOperationPhase;
-import de.dittner.testmyself.backend.op.SelectTestNotesIDsOperationPhase;
+import de.dittner.testmyself.backend.op.ClearTestHistoryOperation;
+import de.dittner.testmyself.backend.op.SelectTestNotesIDsOperation;
 import de.dittner.testmyself.model.domain.test.Test;
 
 public class ClearTestHistoryCmd extends AsyncOperation implements IAsyncCommand {
@@ -22,8 +22,8 @@ public class ClearTestHistoryCmd extends AsyncOperation implements IAsyncCommand
 		var composite:CompositeCommand = new CompositeCommand();
 
 		var notesIDs:Array = [];
-		composite.addOperation(SelectTestNotesIDsOperationPhase, storage, test, notesIDs);
-		composite.addOperation(ClearTestHistoryOperationPhase, storage, test, notesIDs);
+		composite.addOperation(SelectTestNotesIDsOperation, storage, test, notesIDs);
+		composite.addOperation(ClearTestHistoryOperation, storage, test, notesIDs);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

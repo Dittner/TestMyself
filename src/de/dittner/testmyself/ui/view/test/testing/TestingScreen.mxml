@@ -6,8 +6,8 @@
     </fx:Metadata>
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.common.TestID;
         import de.dittner.testmyself.model.domain.test.Test;
+        import de.dittner.testmyself.model.domain.test.TestID;
         import de.dittner.testmyself.ui.view.test.TestVM;
         import de.dittner.testmyself.ui.view.test.common.TestingAction;
         import de.dittner.testmyself.ui.view.test.testing.components.ITestableView;
@@ -150,7 +150,7 @@
         private function testPageInfoLoaded(op:IAsyncOperation):void {
             if (op.isSuccess) {
                 var page:TestPageInfo = op.result;
-                activeView.activeNote = page.tasks.length > 0 ? page.tasks[0] : null;
+                activeView.activeNote = page.tasks.length > 0 ? page.tasks[0].note : null;
                 activeView.taskNumber = page.pageNum;
                 activeView.totalTask = page.amountAllTasks;
             }

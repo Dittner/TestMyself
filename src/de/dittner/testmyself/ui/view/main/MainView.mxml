@@ -156,7 +156,7 @@
                               width="66" height="100%"
                               minWidth="0"
                               dataProvider="{vm.viewFactory.viewInfoColl}"
-                              selectedItem="{vm.viewNavigator.selectedViewInfo}"
+                              selectedItem="{vm.viewNavigator.selectedView.info}"
                               contentBackgroundAlpha="0"
                               autoLayout="true"
                               itemRendererFunction="screenRendererFunc"

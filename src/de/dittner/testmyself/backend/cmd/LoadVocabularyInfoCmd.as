@@ -4,9 +4,9 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.backend.op.CountAudioCommentOperationPhase;
-import de.dittner.testmyself.backend.op.CountExampleOperationPhase;
-import de.dittner.testmyself.backend.op.CountNoteOperationPhase;
+import de.dittner.testmyself.backend.op.CountAudioCommentOperation;
+import de.dittner.testmyself.backend.op.CountExampleOperation;
+import de.dittner.testmyself.backend.op.CountNoteOperation;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
@@ -24,9 +24,9 @@ public class LoadVocabularyInfoCmd extends AsyncOperation implements IAsyncComma
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(CountNoteOperationPhase, storage.sqlConnection, info);
-		composite.addOperation(CountAudioCommentOperationPhase, storage.sqlConnection, info);
-		composite.addOperation(CountExampleOperationPhase, storage.sqlConnection, info);
+		composite.addOperation(CountNoteOperation, storage.sqlConnection, info);
+		composite.addOperation(CountAudioCommentOperation, storage.sqlConnection, info);
+		composite.addOperation(CountExampleOperation, storage.sqlConnection, info);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

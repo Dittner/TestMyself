@@ -84,7 +84,7 @@ public class Separator extends SpriteVisualElement {
 					g.lineTo(width, i - paddingBottom);
 				}
 				else {
-					g.moveTo(i + paddingLeft, 0 + paddingTop);
+					g.moveTo(i + paddingLeft, paddingTop);
 					g.lineTo(i, height - paddingBottom);
 				}
 			}

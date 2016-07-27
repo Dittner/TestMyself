@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.common.renderer {
-import de.dittner.testmyself.model.domain.theme.ITheme;
+import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -30,8 +30,8 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	private var themeName:TextField;
 	private var deleteBtnIcon:DisplayObject;
 
-	private function get theme():ITheme {
-		return data as ITheme;
+	private function get theme():Theme {
+		return data as Theme;
 	}
 
 	override protected function createChildren():void {

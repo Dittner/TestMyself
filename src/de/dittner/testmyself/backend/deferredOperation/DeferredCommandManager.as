@@ -3,12 +3,18 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.async.utils.clearDelay;
 import de.dittner.async.utils.doLaterInMSec;
-import de.dittner.testmyself.ui.message.ScreenMsg;
+import de.dittner.testmyself.ui.view.main.MainVM;
+import de.dittner.walter.WalterProxy;
 
-public class DeferredCommandManager extends SFProxy implements IDeferredCommandManager {
+public class DeferredCommandManager extends WalterProxy implements IDeferredCommandManager {
 	private static const TIME_OUT:Number = 60 * 1000;//ms
 
-	public function DeferredCommandManager() {}
+	public function DeferredCommandManager() {
+		super();
+	}
+
+	[Inject]
+	public var mainVM:MainVM;
 
 	private var processingCmd:IAsyncCommand;
 	private var commandsQueue:Array = [];
@@ -21,7 +27,7 @@ public class DeferredCommandManager extends SFProxy implements IDeferredCommandM
 
 	private function executeNextCommand():void {
 		if (!processingCmd && hasDeferredCmd()) {
-			sendRequest(ScreenMsg.LOCK, new RequestMessage());
+			mainVM.viewLocked = true;
 			processingCmd = commandsQueue.shift();
 			//trace("deferred deferredOperation: " + getQualifiedClassName(processingCmd) + ", start processing...");
 			processingCmd.addCompleteCallback(commandCompleteHandler);
@@ -35,7 +41,7 @@ public class DeferredCommandManager extends SFProxy implements IDeferredCommandM
 	}
 
 	private function commandCompleteHandler(op:IAsyncOperation):void {
-		sendRequest(ScreenMsg.UNLOCK, new RequestMessage());
+		mainVM.viewLocked = false;
 		destroyProcessingCmd();
 		executeNextCommand();
 	}

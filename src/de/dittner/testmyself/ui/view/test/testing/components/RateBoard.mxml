@@ -6,6 +6,8 @@
          click="clickHandler(event)">
 
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
+
         //--------------------------------------
         //  complexity
         //--------------------------------------
@@ -18,7 +20,7 @@
 
                 if (complexity == TestTaskComplexity.MIDDLE) setCurrentState("middleLevel");
                 else if (complexity == TestTaskComplexity.LOW) setCurrentState("lowLevel");
-                else setCurrentState("highLevel")
+                else setCurrentState("highLevel");
                 dispatchEvent(new Event("complexityChanged"));
             }
         }

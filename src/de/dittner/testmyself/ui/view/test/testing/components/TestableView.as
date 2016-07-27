@@ -8,8 +8,6 @@ import flash.events.Event;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
 
-import mx.collections.ArrayCollection;
-
 import spark.components.Group;
 
 public class TestableView extends Group implements ITestableView {
@@ -52,19 +50,6 @@ public class TestableView extends Group implements ITestableView {
 			activeNoteChanged = true;
 			invalidateProperties();
 			dispatchEvent(new Event("activeNoteChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  activeNoteExampleColl
-	//--------------------------------------
-	private var _activeNoteExampleColl:ArrayCollection;
-	[Bindable("activeNoteExampleCollChanged")]
-	public function get activeNoteExampleColl():ArrayCollection {return _activeNoteExampleColl;}
-	public function set activeNoteExampleColl(value:ArrayCollection):void {
-		if (_activeNoteExampleColl != value) {
-			_activeNoteExampleColl = value;
-			dispatchEvent(new Event("activeNoteExampleCollChanged"));
 		}
 	}
 

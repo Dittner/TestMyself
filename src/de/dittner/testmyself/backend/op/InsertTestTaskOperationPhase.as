@@ -1,53 +1,62 @@
 package de.dittner.testmyself.backend.op {
+
 import de.dittner.async.AsyncOperation;
-import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
-import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.SQLLib;
+import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
+import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
+import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
 
 import flash.data.SQLConnection;
+import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.errors.SQLError;
+import flash.net.Responder;
 
 public class InsertTestTaskOperationPhase extends AsyncOperation implements IAsyncCommand {
-
-	public function InsertTestTaskOperationPhase(conn:SQLConnection, note:Note) {
-		this.conn = conn;
+	public function InsertTestTaskOperationPhase(conn:SQLConnection, note:Note, test:Test) {
 		this.note = note;
-		this.availableTests = note.vocabulary.availableTests;
+		this.conn = conn;
+		this.test = test;
 	}
 
-	private var conn:SQLConnection;
 	private var note:Note;
-	private var availableTests:Array;
+	private var conn:SQLConnection;
+	private var test:Test;
 
 	public function execute():void {
-		if (availableTests.length > 0) {
-			var composite:CompositeCommand = new CompositeCommand();
-
-			for each(var test:Test in availableTests) {
-				if (test.isValidForTest(note))
-					composite.addOperation(InsertTestTaskOperationSubPhase, conn, note, test);
-
-				for each(var example:Note in note.examples)
-					if (test.isValidForTest(example))
-						composite.addOperation(InsertTestTaskOperationSubPhase, conn, example, test);
-
-			}
-
-			composite.addCompleteCallback(completeHandler);
-			composite.execute();
+		if (!note || note.id == -1) {
+			dispatchError(ErrorCode.NOTE_OF_TEST_TASK_HAS_NO_ID + ": Нет ID записи, необходимого для сохранения тестовой задачи");
+			return;
 		}
-		else dispatchSuccess();
+
+		var sqlParams:Object = {};
+		sqlParams.testID = test.id;
+		sqlParams.noteID = note.id;
+		sqlParams.isFailed = 0;
+		sqlParams.lastTestedDate = 0;
+		sqlParams.rate = test.calcTaskRate();
+		sqlParams.complexity = TestTaskComplexity.HIGH;
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.INSERT_TEST_TASK_SQL, sqlParams);
+		statement.sqlConnection = conn;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) dispatchSuccess(op.result);
-		else dispatchError(op.error);
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
+	}
+
+	private function executeError(error:SQLError):void {
+		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
 	}
 
 	override public function destroy():void {
 		super.destroy();
 		note = null;
+		test = null;
 		conn = null;
 	}
 }

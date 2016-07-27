@@ -7,17 +7,17 @@ import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
 import de.dittner.testmyself.backend.cmd.LoadTestPageInfoCmd;
 import de.dittner.testmyself.backend.cmd.LoadVocabularyInfoCmd;
+import de.dittner.testmyself.backend.cmd.MergeThemesCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNoteCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNotesByThemeCmd;
 import de.dittner.testmyself.backend.cmd.RemoveThemeCmd;
 import de.dittner.testmyself.backend.cmd.RunDataBaseCmd;
 import de.dittner.testmyself.backend.cmd.SearchNotesCmd;
+import de.dittner.testmyself.backend.cmd.SelectAllNotesTitlesCmd;
 import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
 import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
 import de.dittner.testmyself.backend.cmd.StoreThemeCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
-import de.dittner.testmyself.backend.op.MergeThemesSQLOperation;
-import de.dittner.testmyself.backend.op.SelectAllNotesTitlesSQLOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
@@ -108,7 +108,7 @@ public class SQLStorage extends WalterProxy {
 	}
 
 	public function loadAllNotesTitles(v:Vocabulary):IAsyncOperation {
-		var op:IAsyncCommand = new SelectAllNotesTitlesSQLOperation(this, v);
+		var op:IAsyncCommand = new SelectAllNotesTitlesCmd(this, v);
 		deferredCommandManager.add(op);
 		return op;
 	}
@@ -145,7 +145,7 @@ public class SQLStorage extends WalterProxy {
 	}
 
 	public function mergeThemes(destTheme:Theme, srcTheme:Theme):IAsyncOperation {
-		var op:IAsyncCommand = new MergeThemesSQLOperation(this, destTheme.id, srcTheme.id);
+		var op:IAsyncCommand = new MergeThemesCmd(this, destTheme.id, srcTheme.id);
 		op.addCompleteCallback(themesUpdated);
 		deferredCommandManager.add(op);
 		return op;
@@ -182,12 +182,6 @@ public class SQLStorage extends WalterProxy {
 		deferredCommandManager.add(op);
 		return op;
 	}
-
-	/*public function rebuildTestTasks():IAsyncOperation {
-	 var op:IAsyncCommand = new RebuildTestTasksSQLOperation(this);
-	 deferredCommandManager.add(op);
-	 return op;
-	 }*/
 
 	//----------------------------------------------------------------------------------------------
 	//

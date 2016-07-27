@@ -5,9 +5,9 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.backend.SQLUtils;
-import de.dittner.testmyself.backend.op.SelectExamplesSQLOperation;
-import de.dittner.testmyself.backend.op.SelectNoteThemesSQLOperation;
+import de.dittner.testmyself.backend.op.SelectExamplesOperation;
+import de.dittner.testmyself.backend.op.SelectNoteThemesOperation;
+import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
@@ -56,8 +56,8 @@ public class LoadNoteByNoteIDCmd extends AsyncOperation implements IAsyncCommand
 
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(SelectExamplesSQLOperation, storage, vocabulary, loadedNote);
-		composite.addOperation(SelectNoteThemesSQLOperation, storage, vocabulary, loadedNote);
+		composite.addOperation(SelectExamplesOperation, storage, vocabulary, loadedNote);
+		composite.addOperation(SelectNoteThemesOperation, storage, vocabulary, loadedNote);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

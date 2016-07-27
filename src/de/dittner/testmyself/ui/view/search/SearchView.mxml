@@ -73,7 +73,7 @@
         }
 
         private function getAudioComment(selectedNote:INote, selectedExample:INote):AudioComment {
-            if (hasAudioComment(selectedExample) return selectedExample.audioComment;
+            if (hasAudioComment(selectedExample)) return selectedExample.audioComment;
             else if (hasAudioComment(selectedNote)) return selectedNote.audioComment;
             else return null;
         }
