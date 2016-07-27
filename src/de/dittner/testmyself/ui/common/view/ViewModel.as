@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.view {
+import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.walter.WalterProxy;
 
 import flash.events.Event;
@@ -7,6 +8,9 @@ public class ViewModel extends WalterProxy {
 	public function ViewModel() {
 		super();
 	}
+
+	[Inject]
+	public var mainVM:MainVM;
 
 	//--------------------------------------
 	//  isActive
@@ -27,6 +31,14 @@ public class ViewModel extends WalterProxy {
 
 	public function viewDeactivated():void {
 		isActive = false;
+	}
+
+	public function lockViewList():void {
+		if (mainVM) mainVM.viewListLocked = true;
+	}
+
+	public function unlockViewList():void {
+		if (mainVM) mainVM.viewListLocked = false;
 	}
 }
 }

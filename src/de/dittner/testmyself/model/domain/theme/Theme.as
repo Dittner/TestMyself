@@ -42,31 +42,15 @@ public class Theme {
 	//----------------------------------------------------------------------------------------------
 
 	public function store():IAsyncOperation {
-		var op:IAsyncOperation = vocabulary.storage.storeTheme(this);
-		if (isNew) op.addCompleteCallback(newThemeStored);
-		return op;
-	}
-
-	private function newThemeStored(op:IAsyncOperation):void {
-		vocabulary.addThemeToList(this);
+		return vocabulary.storage.storeTheme(this);
 	}
 
 	public function remove():IAsyncOperation {
-		var op:IAsyncOperation = vocabulary.storage.removeTheme(this);
-		op.addCompleteCallback(themeRemoved);
-		return op;
-	}
-
-	private function themeRemoved(op:IAsyncOperation):void {
-		vocabulary.removeThemeFromList(this);
+		return vocabulary.storage.removeTheme(this);
 	}
 
 	public function mergeWith(theme:Theme):IAsyncOperation {
-		var op:IAsyncOperation = vocabulary.storage.mergeThemes(this, theme);
-		op.addCompleteCallback(function (op:IAsyncOperation):void {
-			vocabulary.removeThemeFromList(theme);
-		});
-		return op;
+		return vocabulary.storage.mergeThemes(this, theme);
 	}
 
 	public function serialize():Object {

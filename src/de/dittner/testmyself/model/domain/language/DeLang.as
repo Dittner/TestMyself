@@ -1,5 +1,5 @@
 package de.dittner.testmyself.model.domain.language {
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.note.verb.DeVerb;
@@ -13,7 +13,7 @@ import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 use namespace domain_internal;
 
 public class DeLang extends Language {
-	public function DeLang(storage:SQLStorage) {
+	public function DeLang(storage:Storage) {
 		super(LanguageID.DE, storage);
 		initVocabularies();
 	}
@@ -36,9 +36,6 @@ public class DeLang extends Language {
 	private var _lessonVocabulary:Vocabulary;
 	public function get lessonVocabulary():Vocabulary {return _lessonVocabulary;}
 
-	private var _vocabularies:Array;
-	public function get vocabularies():Array {return _vocabularies;}
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -50,7 +47,9 @@ public class DeLang extends Language {
 		initVerbVocabulary();
 		initLessonVocabulary();
 
-		_vocabularies = [wordVocabulary, verbVocabulary, lessonVocabulary];
+		addVocabulary(wordVocabulary);
+		addVocabulary(verbVocabulary);
+		addVocabulary(lessonVocabulary);
 	}
 
 	private function initWordVocabulary():void {

@@ -3,27 +3,28 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.*;
+import de.dittner.testmyself.model.domain.theme.Theme;
 
 public class MergeThemesCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function MergeThemesCmd(storage:SQLStorage, destThemeID:int, srcThemeID:int) {
+	public function MergeThemesCmd(storage:Storage, destTheme:Theme, srcTheme:Theme) {
 		super();
 		this.storage = storage;
-		this.destThemeID = destThemeID;
-		this.srcThemeID = srcThemeID;
+		this.destTheme = destTheme;
+		this.srcTheme = srcTheme;
 	}
 
-	private var storage:SQLStorage;
-	private var destThemeID:int;
-	private var srcThemeID:int;
+	private var storage:Storage;
+	private var destTheme:Theme;
+	private var srcTheme:Theme;
 
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(DeleteThemeOperation, storage.sqlConnection, srcThemeID);
-		composite.addOperation(UpdateFilterOperation, storage.sqlConnection, destThemeID, srcThemeID);
+		composite.addOperation(DeleteThemeOperation, storage, srcTheme);
+		composite.addOperation(UpdateFilterOperation, storage, destTheme, srcTheme);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

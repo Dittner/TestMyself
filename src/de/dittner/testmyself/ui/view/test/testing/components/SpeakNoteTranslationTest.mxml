@@ -58,7 +58,7 @@
                 var w:DeWord = note as DeWord;
                 res = w.article ? w.article + " " : "";
                 res += w.title;
-                res += w.options ? ", " + w.options : "";
+                res += w.declension ? ", " + w.declension : "";
             }
             else {
                 res = note ? note.title : ""

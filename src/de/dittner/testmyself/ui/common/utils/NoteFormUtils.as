@@ -3,12 +3,14 @@ public class NoteFormUtils {
 	public static const LETTERS:RegExp = /[a-zA-ZÄäÖöÜüß-]+/;
 	public static const LETTERS_AND_SYMBOLS:RegExp = /[a-zA-ZÄäÖöÜüß *\/-]+/;
 
-	public static function correctText(text:String):String {
+	public static function capitalizeText(text:String):String {
 		return addDot(capitalize(changeSymbols(removeSpaces(text))));
 	}
 
 	public static function removeSpaces(str:String):String {
 		if (str) {
+			str = str.replace(/(  )/gi, " ");
+			str = str.replace(/(  )/gi, " ");
 			while (str.length > 0 && (str.charAt(0) == " " || str.charAt(0) == "\n" || str.charAt(0) == "\r")) {
 				str = str.substring(1, str.length);
 			}
@@ -47,9 +49,10 @@ public class NoteFormUtils {
 		return str;
 	}
 
-	public static function formatDescriptionText(txt:String):String {
+	public static function formatText(txt:String):String {
 		var res:String = "";
 		if (txt) {
+			txt = removeSpaces(txt);
 			txt = txt.replace(/(\[)/gi, "");
 			txt = txt.replace(/(\])/gi, "");
 			txt = txt.replace(/(\()/gi, "");

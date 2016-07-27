@@ -1,16 +1,14 @@
 package de.dittner.testmyself.ui.view.search {
-import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.language.Language;
+import de.dittner.testmyself.model.domain.note.INote;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.page.SearchPageInfo;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 
 import flash.events.Event;
-
-import mx.collections.ArrayCollection;
 
 public class SearchVM extends ViewModel {
 
@@ -19,16 +17,10 @@ public class SearchVM extends ViewModel {
 	}
 
 	[Inject]
-	public var sqlStorage:SQLStorage;
+	public var storage:Storage;
 
 	[Inject]
 	public var appModel:AppModel;
-
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Variables
-	//
-	//----------------------------------------------------------------------------------------------
 
 	[Bindable]
 	public var selectedLang:Language;
@@ -40,46 +32,41 @@ public class SearchVM extends ViewModel {
 	//----------------------------------------------------------------------------------------------
 
 	//--------------------------------------
-	//  noteColl
+	//  page
 	//--------------------------------------
-	private var _noteColl:ArrayCollection;
-	[Bindable("noteCollChanged")]
-	public function get noteColl():ArrayCollection {return _noteColl;}
-	public function set noteColl(value:ArrayCollection):void {
-		if (_noteColl != value) {
-			_noteColl = value;
-			dispatchEvent(new Event("noteCollChanged"));
+	private var _page:SearchPageInfo;
+	[Bindable("pageChanged")]
+	public function get page():SearchPageInfo {return _page;}
+	public function set page(value:SearchPageInfo):void {
+		if (_page != value) {
+			_page = value;
+			dispatchEvent(new Event("pageChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  pageSize
+	//  selectedNote
 	//--------------------------------------
-	public function get pageSize():uint {return 10;}
-
-	//--------------------------------------
-	//  curPageNum
-	//--------------------------------------
-	private var _pageNum:uint = 0;
-	[Bindable("curPageNumChanged")]
-	public function get pageNum():uint {return _pageNum;}
-	public function set pageNum(value:uint):void {
-		if (_pageNum != value) {
-			_pageNum = value;
-			dispatchEvent(new Event("curPageNumChanged"));
+	private var _selectedNote:INote;
+	[Bindable("selectedNoteChanged")]
+	public function get selectedNote():INote {return _selectedNote;}
+	public function set selectedNote(value:INote):void {
+		if (_selectedNote != value) {
+			_selectedNote = value;
+			dispatchEvent(new Event("selectedNoteChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  allNotesAmount
+	//  selectedExample
 	//--------------------------------------
-	private var _allNotesAmount:int = 0;
-	[Bindable("allNotesAmountChanged")]
-	public function get allNotesAmount():int {return _allNotesAmount;}
-	public function set allNotesAmount(value:int):void {
-		if (_allNotesAmount != value) {
-			_allNotesAmount = value;
-			dispatchEvent(new Event("allNotesAmountChanged"));
+	private var _selectedExample:INote;
+	[Bindable("selectedExampleChanged")]
+	public function get selectedExample():INote {return _selectedExample;}
+	public function set selectedExample(value:INote):void {
+		if (_selectedExample != value) {
+			_selectedExample = value;
+			dispatchEvent(new Event("selectedExampleChanged"));
 		}
 	}
 
@@ -92,28 +79,22 @@ public class SearchVM extends ViewModel {
 	override public function viewActivated(info:ViewInfo):void {
 		super.viewActivated(info);
 		selectedLang = appModel.selectedLanguage;
+		page = new SearchPageInfo();
 	}
 
 	public function loadPage(searchText:String, loadExamples:Boolean, loadWords:Boolean, loadVerbs:Boolean, loadLessons:Boolean):void {
-		var page:SearchPageInfo = new SearchPageInfo();
+		selectedNote = null;
+		selectedExample = null;
+
 		page.lang = selectedLang;
 		page.searchText = searchText;
-		page.pageNum = pageNum;
-		page.pageSize = pageSize;
 		page.loadExamples = loadExamples;
 		page.vocabularyIDs = [];
 		if (loadWords) page.vocabularyIDs.push(VocabularyID.DE_WORD);
 		if (loadVerbs) page.vocabularyIDs.push(VocabularyID.DE_VERB);
 		if (loadLessons) page.vocabularyIDs.push(VocabularyID.DE_LESSON);
 
-		var op:IAsyncOperation = sqlStorage.searchNotes(page);
-		op.addCompleteCallback(onPageLoaded)
-	}
-
-	private function onPageLoaded(op:IAsyncOperation):void {
-		var page:SearchPageInfo = op.result as SearchPageInfo;
-		noteColl = new ArrayCollection(page.notes);
-		allNotesAmount = page.allNotesAmount;
+		storage.searchNotes(page);
 	}
 
 	override protected function deactivate():void {}

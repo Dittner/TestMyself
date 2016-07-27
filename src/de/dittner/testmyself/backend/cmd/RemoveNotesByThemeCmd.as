@@ -4,7 +4,7 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLLib;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.logging.CLog;
@@ -15,16 +15,17 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.errors.SQLError;
 import flash.net.Responder;
+import flash.utils.getQualifiedClassName;
 
 public class RemoveNotesByThemeCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function RemoveNotesByThemeCmd(storage:SQLStorage, theme:Theme) {
+	public function RemoveNotesByThemeCmd(storage:Storage, theme:Theme) {
 		super();
 		this.storage = storage;
 		this.theme = theme;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var theme:Theme;
 
 	public function execute():void {
@@ -34,13 +35,13 @@ public class RemoveNotesByThemeCmd extends AsyncOperation implements IAsyncComma
 			statement.execute(-1, new Responder(selectIDsCompleteHandler, selectIDsFailedHandler));
 		}
 		else {
-			CLog.err(LogCategory.STORAGE, ErrorCode.NULLABLE_NOTE + ": Отсутствует тема в БД с id = -1");
+			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.NULLABLE_NOTE + ": Отсутствует тема в БД с id = -1");
 			dispatchError(ErrorCode.NULLABLE_NOTE);
 		}
 	}
 
 	private function selectIDsFailedHandler(error:SQLError):void {
-		CLog.err(LogCategory.STORAGE, ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
+		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
 		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 

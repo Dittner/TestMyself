@@ -12,6 +12,7 @@ import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.utils.ByteArray;
+import flash.utils.getQualifiedClassName;
 
 public class MP3EncodingOperation extends AsyncOperation implements IAsyncCommand {
 	public function MP3EncodingOperation(comment:AudioComment) {
@@ -26,7 +27,7 @@ public class MP3EncodingOperation extends AsyncOperation implements IAsyncComman
 				MP3Writer.encodeRawData(comment.bytes, encodeCompleteHandler);
 			}
 			catch (error:Error) {
-				CLog.err(LogCategory.STORAGE, ErrorCode.MP3_ENCODING_FAILED + ": " + error.message);
+				CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.MP3_ENCODING_FAILED + ": " + error.message);
 				dispatchError(ErrorCode.MP3_ENCODING_FAILED);
 			}
 		}

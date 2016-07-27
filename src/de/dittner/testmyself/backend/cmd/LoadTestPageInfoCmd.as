@@ -3,7 +3,7 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.CountTestTasksOperation;
 import de.dittner.testmyself.backend.op.SelectNotesByTestPageOperation;
 import de.dittner.testmyself.backend.op.SelectPageTestTasksOperation;
@@ -11,13 +11,13 @@ import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
 
 public class LoadTestPageInfoCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function LoadTestPageInfoCmd(storage:SQLStorage, page:TestPageInfo) {
+	public function LoadTestPageInfoCmd(storage:Storage, page:TestPageInfo) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var page:TestPageInfo;
 
 	public function execute():void {

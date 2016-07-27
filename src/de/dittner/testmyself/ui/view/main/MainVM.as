@@ -50,6 +50,19 @@ public class MainVM extends WalterProxy {
 	}
 
 	//--------------------------------------
+	//  viewListLocked
+	//--------------------------------------
+	private var _viewListLocked:Boolean = false;
+	[Bindable("viewListLockedChanged")]
+	public function get viewListLocked():Boolean {return _viewListLocked;}
+	public function set viewListLocked(value:Boolean):void {
+		if (_viewListLocked != value) {
+			_viewListLocked = value;
+			dispatchEvent(new Event("viewListLockedChanged"));
+		}
+	}
+
+	//--------------------------------------
 	//  commentsBoardText
 	//--------------------------------------
 	private var _commentsBoardText:String = "Hier sind Ihre Notizen";

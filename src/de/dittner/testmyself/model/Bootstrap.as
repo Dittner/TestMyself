@@ -1,7 +1,7 @@
 package de.dittner.testmyself.model {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.DeferredCommandManager;
 import de.dittner.testmyself.model.domain.language.DeLang;
 import de.dittner.testmyself.ui.common.view.ViewFactory;
@@ -42,7 +42,7 @@ public class Bootstrap extends Walter {
 		}
 
 		initOp = new AsyncOperation();
-		var storage:SQLStorage = new SQLStorage();
+		var storage:Storage = new Storage();
 		registerProxy("storage", storage);
 
 		var appModel:AppModel = new AppModel();

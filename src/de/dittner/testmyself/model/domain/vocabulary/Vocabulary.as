@@ -1,7 +1,6 @@
 package de.dittner.testmyself.model.domain.vocabulary {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
-import de.dittner.testmyself.model.domain.domain_internal;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.theme.Theme;
@@ -12,10 +11,8 @@ import flash.events.EventDispatcher;
 
 import mx.collections.ArrayCollection;
 
-use namespace domain_internal;
-
 public class Vocabulary extends EventDispatcher {
-	public function Vocabulary(id:int, langID:uint, noteClass:Class, storage:SQLStorage, title:String) {
+	public function Vocabulary(id:int, langID:uint, noteClass:Class, storage:Storage, title:String) {
 		super();
 		_id = id;
 		_langID = langID;
@@ -51,8 +48,8 @@ public class Vocabulary extends EventDispatcher {
 	//--------------------------------------
 	//  storage
 	//--------------------------------------
-	private var _storage:SQLStorage;
-	public function get storage():SQLStorage {return _storage;}
+	private var _storage:Storage;
+	public function get storage():Storage {return _storage;}
 
 	//--------------------------------------
 	//  title
@@ -88,11 +85,19 @@ public class Vocabulary extends EventDispatcher {
 		}
 	}
 
-	domain_internal function addThemeToList(t:Theme):void {
-		themeColl.addItem(t);
+	public function addTheme(t:Theme):void {
+		if (t.id == -1) return;
+		var hasTheme:Boolean = false;
+		for each(var theme:Theme in themeColl)
+			if (theme.id == t.id) {
+				hasTheme = true;
+				break;
+			}
+
+		if (!hasTheme) themeColl.addItem(t);
 	}
 
-	domain_internal function removeThemeFromList(t:Theme):void {
+	public function removeTheme(t:Theme):void {
 		themeColl.removeItem(t);
 	}
 
@@ -115,8 +120,8 @@ public class Vocabulary extends EventDispatcher {
 
 	private function notesTitlesLoaded(op:IAsyncOperation):void {
 		noteTitleHash.clearAll();
-		for each(var title:String in op.result as Array)
-			noteTitleHash.write(title, true);
+		for each(var data:Object in op.result as Array)
+			noteTitleHash.write(data.title, true);
 	}
 
 	private function reloadThemes():IAsyncOperation {

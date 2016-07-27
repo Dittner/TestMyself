@@ -72,8 +72,8 @@ public class WordRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 			var title:String = "";
 			if (word.article) title = word.article + " ";
 			title += word.title;
-			if (word.options && (selected || pageLayout.showDetails))
-				title += ", " + word.options;
+			if (word.declension && (selected || pageLayout.showDetails))
+				title += ", " + word.declension;
 
 			if (pageLayout.inverted) {
 				titleTf.htmlText = description;

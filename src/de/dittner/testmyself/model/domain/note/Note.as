@@ -2,7 +2,6 @@ package de.dittner.testmyself.model.domain.note {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
-import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
@@ -83,12 +82,12 @@ public class Note extends EventDispatcher implements INote {
 	//--------------------------------------
 	//  themes
 	//--------------------------------------
-	private var _themes:Vector.<Theme> = new <Theme>[];
+	private var _themes:Array = [];
 	[Bindable("themeIDsChanged")]
-	public function get themes():Vector.<Theme> {return _themes;}
-	public function set themes(value:Vector.<Theme>):void {
+	public function get themes():Array {return _themes;}
+	public function set themes(value:Array):void {
 		if (_themes != value) {
-			_themes = value || new <Theme>[];
+			_themes = value || [];
 			dispatchEvent(new Event("themesChanged"));
 		}
 	}
@@ -122,15 +121,7 @@ public class Note extends EventDispatcher implements INote {
 	//--------------------------------------
 	//  options
 	//--------------------------------------
-	private var _options:Object = {};
-	[Bindable("optionsChanged")]
-	public function get options():Object {return _options;}
-	public function set options(value:Object):void {
-		if (_options != value) {
-			_options = value;
-			dispatchEvent(new Event("optionsChanged"));
-		}
-	}
+	protected var options:Object = {};
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -192,8 +183,8 @@ public class Note extends EventDispatcher implements INote {
 		_title = data.title;
 		_description = data.description;
 		_isExample = data.isExample;
-		_options = data.options;
-		_audioComment = data.audioComment;
+		_audioComment = data.audioComment || new AudioComment();
+		options = data.options;
 	}
 
 	public function validate():String {

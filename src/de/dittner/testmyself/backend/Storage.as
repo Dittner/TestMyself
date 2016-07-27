@@ -30,8 +30,8 @@ import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
 
-public class SQLStorage extends WalterProxy {
-	public function SQLStorage() {
+public class Storage extends WalterProxy {
+	public function Storage() {
 		super();
 	}
 
@@ -48,6 +48,7 @@ public class SQLStorage extends WalterProxy {
 	//----------------------------------------------------------------------------------------------
 
 	override protected function activate():void {
+		deferredCommandManager.stop();
 		reloadDataBase();
 	}
 
@@ -56,16 +57,15 @@ public class SQLStorage extends WalterProxy {
 			sqlConnection.close();
 		}
 
-		_sqlConnection = new SQLConnection();
-
-		var cmd:IAsyncCommand = new RunDataBaseCmd(SQLLib.TABLES);
+		var cmd:IAsyncCommand = new RunDataBaseCmd(SQLLib.getTables());
 		cmd.addCompleteCallback(dataBaseReadyHandler);
-		deferredCommandManager.add(cmd);
+		cmd.execute();
 		return cmd;
 	}
 
 	private function dataBaseReadyHandler(opEvent:*):void {
 		_sqlConnection = opEvent.result as SQLConnection;
+		deferredCommandManager.start();
 	}
 
 	public function loadVocabularyInfo(v:Vocabulary):IAsyncOperation {
@@ -131,13 +131,13 @@ public class SQLStorage extends WalterProxy {
 	}
 
 	public function removeTheme(theme:Theme):IAsyncOperation {
-		var op:IAsyncCommand = new RemoveThemeCmd(this, theme.id);
+		var op:IAsyncCommand = new RemoveThemeCmd(this, theme);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
 	public function mergeThemes(destTheme:Theme, srcTheme:Theme):IAsyncOperation {
-		var op:IAsyncCommand = new MergeThemesCmd(this, destTheme.id, srcTheme.id);
+		var op:IAsyncCommand = new MergeThemesCmd(this, destTheme, srcTheme);
 		deferredCommandManager.add(op);
 		return op;
 	}

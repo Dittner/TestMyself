@@ -69,8 +69,8 @@ public class TestingWordRenderer extends NoteBaseRenderer {
 
 			title += word.title;
 
-			if (word.options && selected)
-				title += ", " + word.options;
+			if (word.declension && selected)
+				title += ", " + word.declension;
 
 			if (task.test.needTranslationInvert) {
 				titleTf.htmlText = description;

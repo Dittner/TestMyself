@@ -55,7 +55,7 @@
 
                     titleLbl.text = word.article ? " " + word.title : word.title;
 
-                    optionsLbl.text = word.options ? ", " + word.options : "";
+                    optionsLbl.text = word.declension ? ", " + word.declension : "";
                     translateBoard.text = word.description;
                 }
             }

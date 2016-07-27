@@ -3,7 +3,7 @@ import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 
-import flash.display.DisplayObject;
+import flash.display.BitmapData;
 import flash.display.GradientType;
 import flash.display.Graphics;
 import flash.events.MouseEvent;
@@ -16,9 +16,11 @@ import spark.components.DataGroup;
 public class AddedThemeItemRenderer extends ItemRendererBase {
 	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
+	private static const RIGHT_PADDING:uint = 5;
 
 	[Embed(source="/assets/button/delete_white_btn.png")]
 	private static const DeleteBtnIconClass:Class;
+	private static var crossIcon:BitmapData = (new DeleteBtnIconClass()).bitmapData;
 
 	public function AddedThemeItemRenderer() {
 		super();
@@ -28,7 +30,6 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	}
 
 	private var themeName:TextField;
-	private var deleteBtnIcon:DisplayObject;
 
 	private function get theme():Theme {
 		return data as Theme;
@@ -37,10 +38,7 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	override protected function createChildren():void {
 		super.createChildren();
 		themeName = createTextField(SELECTED_THEME_FORMAT);
-		//addChild(themeName);
-
-		deleteBtnIcon = new DeleteBtnIconClass();
-		//addChild(deleteBtnIcon);
+		addChild(themeName);
 	}
 
 	override protected function commitProperties():void {
@@ -57,30 +55,35 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 		measuredHeight = themeName.textHeight + 5 + 2 * PADDING;
 	}
 
-	private var matr:Matrix = new Matrix();
+	private var gradMatrix:Matrix = new Matrix();
+	private var iconDrawMatrix:Matrix = new Matrix();
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
 		var g:Graphics = graphics;
 		g.clear();
 
-		matr.createGradientBox(w, h, Math.PI / 2);
-		g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
+		gradMatrix.createGradientBox(w, h, Math.PI / 2);
+		g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], gradMatrix);
 		g.drawRect(0, 0, w, h);
+		g.endFill();
+
+		iconDrawMatrix.tx = w - crossIcon.width - RIGHT_PADDING;
+		iconDrawMatrix.ty = h - crossIcon.height >> 1;
+		g.beginBitmapFill(crossIcon, iconDrawMatrix);
+		g.drawRect(w - crossIcon.width - RIGHT_PADDING, h - crossIcon.height >> 1, crossIcon.width, crossIcon.height);
 		g.endFill();
 
 		themeName.x = themeName.y = PADDING;
 		themeName.width = w - 2 * PADDING;
 		themeName.height = h - 2 * PADDING;
-
-		deleteBtnIcon.x = w - PADDING - 20;
-		deleteBtnIcon.y = (h - 20 >> 1) + 1;
 	}
 
 	private function downHandler(event:MouseEvent):void {
-		if (event.localX >= deleteBtnIcon.x) {
-			if (parent is DataGroup) (parent as DataGroup).dataProvider.removeItemAt(itemIndex);
+		if (event.localX >= measuredWidth - crossIcon.width - RIGHT_PADDING) {
+			if (theme && parent is DataGroup) (parent as DataGroup).dataProvider.removeItemAt(itemIndex);
 		}
 		else event.stopImmediatePropagation();
 	}
+
 }
 }

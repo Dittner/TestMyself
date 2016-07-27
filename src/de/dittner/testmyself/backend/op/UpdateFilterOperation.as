@@ -3,42 +3,44 @@ package de.dittner.testmyself.backend.op {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.model.domain.theme.Theme;
 
-import flash.data.SQLConnection;
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.errors.SQLError;
 import flash.net.Responder;
+import flash.utils.getQualifiedClassName;
 
 public class UpdateFilterOperation extends AsyncOperation implements IAsyncCommand {
 
-	public function UpdateFilterOperation(conn:SQLConnection, newThemeID:int, oldThemeID:int) {
+	public function UpdateFilterOperation(storage:Storage, newTheme:Theme, oldTheme:Theme) {
 		super();
-		this.conn = conn;
-		this.newThemeID = newThemeID;
-		this.oldThemeID = oldThemeID;
+		this.storage = storage;
+		this.newTheme = newTheme;
+		this.oldTheme = oldTheme;
 	}
 
-	private var conn:SQLConnection;
-	private var newThemeID:int;
-	private var oldThemeID:int;
+	private var storage:Storage;
+	private var newTheme:Theme;
+	private var oldTheme:Theme;
 
 	public function execute():void {
-		if (newThemeID == -1 || oldThemeID == -1) {
-			CLog.err(LogCategory.STORAGE, ErrorCode.NULLABLE_NOTE + ": Отсутствует ID темы");
+		if (newTheme.id == -1 || oldTheme.id == -1) {
+			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.NULLABLE_NOTE + ": Отсутствует ID темы");
 			dispatchError(ErrorCode.NULLABLE_NOTE);
 		}
 		else {
 			var sqlParams:Object = {};
-			sqlParams.newThemeID = newThemeID;
-			sqlParams.oldThemeID = oldThemeID;
+			sqlParams.newThemeID = newTheme.id;
+			sqlParams.oldThemeID = oldTheme.id;
 
 			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.UPDATE_FILTER_SQL, sqlParams);
-			statement.sqlConnection = conn;
+			statement.sqlConnection = storage.sqlConnection;
 			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
 	}
@@ -48,13 +50,13 @@ public class UpdateFilterOperation extends AsyncOperation implements IAsyncComma
 	}
 
 	private function executeError(error:SQLError):void {
-		CLog.err(LogCategory.STORAGE, ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
+		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
 		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 
 	override public function destroy():void {
 		super.destroy();
-		conn = null;
+		storage = null;
 	}
 }
 }

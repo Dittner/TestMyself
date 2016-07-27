@@ -2,6 +2,8 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.walter.WalterProxy;
 import de.dittner.walter.walter_namespace;
 
+import flash.events.Event;
+
 use namespace walter_namespace;
 
 public class ViewNavigator extends WalterProxy {
@@ -13,11 +15,19 @@ public class ViewNavigator extends WalterProxy {
 	[Inject]
 	public var viewFactory:IViewFactory;
 
+
 	//--------------------------------------
 	//  selectedView
 	//--------------------------------------
 	private var _selectedView:ViewBase;
+	[Bindable("selectedViewChanged")]
 	public function get selectedView():ViewBase {return _selectedView;}
+	private function setSelectedView(value:ViewBase):void {
+		if (_selectedView != value) {
+			_selectedView = value;
+			dispatchEvent(new Event("selectedViewChanged"));
+		}
+	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -26,9 +36,11 @@ public class ViewNavigator extends WalterProxy {
 	//----------------------------------------------------------------------------------------------
 
 	public function navigate(viewInfo:ViewInfo):void {
+		if (selectedView && selectedView.info.id == viewInfo.id) return;
 		if (_selectedView) _selectedView.invalidate(NavigationPhase.VIEW_REMOVE);
-		_selectedView = viewFactory.createView(viewInfo);
-		_selectedView.invalidate(NavigationPhase.VIEW_ACTIVATE);
+
+		setSelectedView(viewFactory.createView(viewInfo));
+		selectedView.invalidate(NavigationPhase.VIEW_ACTIVATE);
 
 		sendMessage(SELECTED_VIEW_CHANGED_MSG, selectedView);
 	}

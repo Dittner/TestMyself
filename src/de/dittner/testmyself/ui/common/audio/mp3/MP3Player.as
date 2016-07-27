@@ -29,6 +29,9 @@ public class MP3Player extends SkinnableComponent implements IPlayerContext {
 	private var pausedState:IPlayerState;
 	private var stoppedState:IPlayerState;
 
+	[Bindable("commentChanged")]
+	public function get hasComment():Boolean {return comment && comment.bytes;}
+
 	//--------------------------------------
 	//  comment
 	//--------------------------------------

@@ -6,6 +6,8 @@ import de.dittner.async.utils.doLaterInMSec;
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.walter.WalterProxy;
 
+import flash.events.Event;
+
 public class DeferredCommandManager extends WalterProxy implements IDeferredCommandManager {
 	private static const TIME_OUT:Number = 60 * 1000;//ms
 
@@ -16,13 +18,35 @@ public class DeferredCommandManager extends WalterProxy implements IDeferredComm
 	[Inject]
 	public var mainVM:MainVM;
 
+	//--------------------------------------
+	//  isRunning
+	//--------------------------------------
+	private var _isRunning:Boolean = false;
+	[Bindable("isRunningChanged")]
+	public function get isRunning():Boolean {return _isRunning;}
+	private function setIsRunning(value:Boolean):void {
+		if (_isRunning != value) {
+			_isRunning = value;
+			dispatchEvent(new Event("isRunningChanged"));
+		}
+	}
+
+	public function start():void {
+		setIsRunning(true);
+		executeNextCommand();
+	}
+
+	public function stop():void {
+		setIsRunning(false);
+	}
+
 	private var processingCmd:IAsyncCommand;
 	private var commandsQueue:Array = [];
 	private var timeOutFuncIndex:Number;
 
 	public function add(cmd:IAsyncCommand):void {
 		commandsQueue.push(cmd);
-		executeNextCommand();
+		if (isRunning) executeNextCommand();
 	}
 
 	private function executeNextCommand():void {

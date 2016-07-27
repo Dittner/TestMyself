@@ -3,26 +3,27 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.DeleteFilterByIDOperation;
 import de.dittner.testmyself.backend.op.DeleteThemeOperation;
+import de.dittner.testmyself.model.domain.theme.Theme;
 
 public class RemoveThemeCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function RemoveThemeCmd(service:SQLStorage, themeID:int) {
+	public function RemoveThemeCmd(storage:Storage, theme:Theme) {
 		super();
-		this.service = service;
-		this.themeID = themeID;
+		this.storage = storage;
+		this.theme = theme;
 	}
 
-	private var service:SQLStorage;
-	private var themeID:int;
+	private var storage:Storage;
+	private var theme:Theme;
 
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(DeleteThemeOperation, service.sqlConnection, themeID);
-		composite.addOperation(DeleteFilterByIDOperation, service.sqlConnection, themeID);
+		composite.addOperation(DeleteThemeOperation, storage, theme);
+		composite.addOperation(DeleteFilterByIDOperation, storage, theme);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

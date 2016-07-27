@@ -1,7 +1,7 @@
 package de.dittner.testmyself.model.domain.language {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.utils.HashList;
 
@@ -9,12 +9,12 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 
 public class Language extends EventDispatcher {
-	public function Language(id:uint, storage:SQLStorage) {
+	public function Language(id:uint, storage:Storage) {
 		this.storage = storage;
 		_id = id;
 	}
 
-	protected var storage:SQLStorage;
+	protected var storage:Storage;
 
 	//----------------------------------------------------------------------------------------------
 	//

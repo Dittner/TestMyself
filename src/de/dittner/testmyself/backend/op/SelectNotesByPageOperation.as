@@ -1,30 +1,39 @@
 package de.dittner.testmyself.backend.op {
+import avmplus.getQualifiedClassName;
+
 import de.dittner.async.AsyncOperation;
+import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
+import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
+import de.dittner.testmyself.logging.CLog;
+import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.ui.common.page.NotePageInfo;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
+import flash.errors.SQLError;
 import flash.net.Responder;
 
-public class SelectNotesByPageOperation extends AsyncOperation {
+import mx.collections.ArrayCollection;
 
-	public function SelectNotesByPageOperation(storage:SQLStorage, page:NotePageInfo) {
+public class SelectNotesByPageOperation extends AsyncOperation implements IAsyncCommand {
+
+	public function SelectNotesByPageOperation(storage:Storage, page:NotePageInfo) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var page:NotePageInfo;
 
 	public function execute():void {
 		var sqlParams:Object = {};
-		sqlParams.startIndex = page.pageNum * page.pageSize;
-		sqlParams.amount = page.pageSize;
+		sqlParams.startIndex = page.number * page.size;
+		sqlParams.amount = page.size;
 		sqlParams.vocabularyID = page.vocabulary.id;
 
 		var sql:String;
@@ -38,7 +47,7 @@ public class SelectNotesByPageOperation extends AsyncOperation {
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete));
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
 	private function executeComplete(result:SQLResult):void {
@@ -50,8 +59,13 @@ public class SelectNotesByPageOperation extends AsyncOperation {
 				notes.push(note);
 			}
 
-		page.notes = notes;
+		page.noteColl = new ArrayCollection(notes);
 		dispatchSuccess(page);
+	}
+
+	private function executeError(error:SQLError):void {
+		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
+		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 }
 }

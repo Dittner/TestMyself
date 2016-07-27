@@ -2,11 +2,14 @@ package de.dittner.walter {
 import de.dittner.walter.message.IMessageSender;
 import de.dittner.walter.message.WalterMessage;
 
+import flash.events.EventDispatcher;
+
 use namespace walter_namespace;
 
-public class WalterProxy {
+public class WalterProxy extends EventDispatcher {
 	private static var proxiesNum:uint = 0;
 	public function WalterProxy() {
+		super();
 		_uid = "walter" + (proxiesNum++);
 	}
 

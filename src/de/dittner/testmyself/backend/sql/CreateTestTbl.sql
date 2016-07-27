@@ -1,4 +1,4 @@
-CREATE TABLE test
+CREATE TABLE IF NOT EXISTS test
 (
 	testID int NOT NULL,
 	noteID int NOT NULL,

@@ -104,7 +104,7 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 			var word:DeWord = note as DeWord;
 			if (word.article) title = word.article + " ";
 			title += word.title;
-			if (word.options && selected) title += ", " + word.options;
+			if (word.declension && selected) title += ", " + word.declension;
 		}
 		else if (note is DeVerb) {
 			var verb:DeVerb = note as DeVerb;

@@ -100,6 +100,8 @@
             setNote(n);
             updateState();
             setMode("add");
+            themeList.dataProvider = note.vocabulary.themeColl;
+            showSelectedThemes(note.themes);
             dispatchEvent(new Event("taskChanged"));
             invalidateOf(focusTextInput);
             return curOperation;
@@ -140,15 +142,22 @@
             return curOperation;
         }
 
-        private function showSelectedThemes(noteThemes:Vector.<Theme>):void {
-            if (noteThemes.length == 0 || !themeList.dataProvider || !themeList.dataProvider.length == 0) return;
+        private function showSelectedThemes(noteThemes:Array):void {
+            if (noteThemes.length == 0 || !themeList.dataProvider || themeList.dataProvider.length == 0) return;
 
             var isSelectedThemeHash:Object = {};
-            var selectedItems:Vector.<Theme> = new Vector.<Theme>();
+            var selectedItems:Vector.<Object> = new Vector.<Object>();
             for each(var noteTheme:Theme in noteThemes) isSelectedThemeHash[noteTheme.id] = true;
             for each(var theme:Theme in themeList.dataProvider)
                 if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
             themeList.selectedItems = selectedItems;
+        }
+
+        private function getSelectedThemes():Array {
+            var res:Array = [];
+            for each(var theme:Theme in themeList.selectedItems)
+                res.push(theme);
+            return res;
         }
 
         public function remove(n:Note):IAsyncOperation {
@@ -181,6 +190,8 @@
             audioRecorder.clear();
             examplesForm.clear();
             invalidNotifier.alpha = 0;
+            themeList.dataProvider = null;
+            verbInputsForm.clear();
         }
 
         private function focusTextInput():void {
@@ -203,7 +214,7 @@
             if (isEditMode) {
                 note.revertChanges();
             }
-            curOperation.dispatchSuccess();
+            curOperation.dispatchSuccess(FormOperationResult.CANCEL);
             close();
         }
 
@@ -219,19 +230,19 @@
             if (isAddMode || isEditMode) {
                 correct();
                 fillNote();
-                var errKey:String = note.validate();
+                var errKey:String = validateDuplicateNote() || note.validate();
                 if (errKey) {
                     notifyInvalidData(NoteValidationErrorKey.keyToString(errKey, note.vocabulary.langID));
                 }
                 else {
                     storeChanges();
-                    curOperation.dispatchSuccess();
+                    curOperation.dispatchSuccess(FormOperationResult.OK);
                     close();
                 }
             }
             else {
                 storeChanges();
-                curOperation.dispatchSuccess();
+                curOperation.dispatchSuccess(FormOperationResult.OK);
                 close();
             }
         }
@@ -247,18 +258,18 @@
             var noteTitle:String = note is DeWord ? wordInput.text : note is DeVerb ? verbInputsForm.infinitiveInput.text : titleArea.text;
             if (!note.isExample && noteTitle && note.originalData.title != noteTitle && note.vocabulary.noteTitleHash.has(noteTitle))
                 return NoteValidationErrorKey.NOTE_DUPLICATE;
+            else return "";
         }
 
         private function correct():void {
             if (currentState == "word" || currentState == "verb") {
-                titleArea.text = NoteFormUtils.correctText(titleArea.text);
-                descriptionArea.text = NoteFormUtils.correctText(descriptionArea.text);
+                wordOptionsInput.text = NoteFormUtils.removeSpaces(wordOptionsInput.text);
+                wordInput.text = NoteFormUtils.removeSpaces(wordInput.text);
+                descriptionArea.text = NoteFormUtils.formatText(descriptionArea.text);
             }
             else {
-                titleArea.text = NoteFormUtils.correctText(titleArea.text);
-                wordOptionsInput.text = NoteFormUtils.correctText(wordOptionsInput.text);
-                wordInput.text = NoteFormUtils.correctText(wordInput.text);
-                descriptionArea.text = NoteFormUtils.formatDescriptionText(descriptionArea.text);
+                titleArea.text = NoteFormUtils.capitalizeText(titleArea.text);
+                descriptionArea.text = NoteFormUtils.capitalizeText(descriptionArea.text);
             }
         }
 
@@ -270,8 +281,8 @@
                 word.description = descriptionArea.text;
                 word.declension = wordOptionsInput.text;
                 word.audioComment = audioRecorder.comment;
-                word.examples = examplesForm.examples.source;
-                word.themes = themeList.selectedItems as Vector.<Theme>;
+                word.examples = examplesForm.examples ? examplesForm.examples.source : null;
+                word.themes = getSelectedThemes();
             }
             else if (note is DeVerb) {
                 var verb:DeVerb = note as DeVerb;
@@ -281,8 +292,8 @@
                 verb.present = verbInputsForm.presentInput.text;
                 verb.past = verbInputsForm.pastInput.text;
                 verb.perfect = verbInputsForm.perfectInput.text;
-                verb.examples = examplesForm.examples.source;
-                verb.themes = themeList.selectedItems as Vector.<Theme>;
+                verb.examples = examplesForm.examples ? examplesForm.examples.source : null;
+                verb.themes = getSelectedThemes();
             }
             else {
                 note.title = titleArea.text;
@@ -333,6 +344,8 @@
             else {
                 var selectedItems:Vector.<Object> = themeList.selectedItems || new Vector.<Object>();
                 selectedItems.push(theme);
+                if (!themeList.dataProvider) themeList.dataProvider = new ArrayCollection();
+                themeList.dataProvider.addItemAt(theme, 0);
                 themeList.selectedItems = selectedItems;
                 addThemeInput.text = "";
             }
@@ -450,6 +463,7 @@
                   visible.word="true" includeInLayout.word="true"
                   visible.verb="true" includeInLayout.verb="true">
             <list:ListForm id="themeList"
+                           depth="10"
                            width="100%" height="100%"
                            title="Themenliste"
                            itemRendererFunction="themesRendererFunc"

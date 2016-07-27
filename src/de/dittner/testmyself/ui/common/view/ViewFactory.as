@@ -56,7 +56,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 		var _viewInfoArr:Array = [];
 		var info:ViewInfo;
 
-		info = new ViewInfo(ViewID.ABOUT, "", "Die Beschreibung des Programms", getIcon(ViewID.ABOUT));
+		info = new ViewInfo(ViewID.MAP, "", "Die Beschreibung des Programms", getIcon(ViewID.MAP));
 		_firstViewInfo = info;
 		_viewInfoArr.push(info);
 
@@ -95,7 +95,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 		var bitmapData:BitmapData = new BitmapData(50, 50, true, 0x00ffffff);
 		var IconClass:Class;
 		switch (viewID) {
-			case ViewID.ABOUT :
+			case ViewID.MAP :
 				IconClass = AboutIconClass;
 				break;
 			case ViewID.WORD :
@@ -130,7 +130,7 @@ public class ViewFactory extends WalterProxy implements IViewFactory {
 	public function createView(viewInfo:ViewInfo):ViewBase {
 		var view:ViewBase;
 		switch (viewInfo.id) {
-			case ViewID.ABOUT :
+			case ViewID.MAP :
 				view = new MapView();
 				break;
 			case ViewID.WORD :

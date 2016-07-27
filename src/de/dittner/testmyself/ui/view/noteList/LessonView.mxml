@@ -15,12 +15,15 @@
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.domain.note.INote;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
+        import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
 
@@ -63,7 +66,6 @@
             vm = ViewModelFactory.instance.noteListVM;
             vm.viewActivated(info);
             currentState = "lessonList";
-            lessonList.dataProvider =;
         }
 
         override protected function deactivate():void {
@@ -79,14 +81,6 @@
 
         private function showLessonContent():void {
             setCurrentState("lessonContent");
-        }
-
-        private function showEditor():void {
-            editing = true;
-        }
-
-        private function hideEditor():void {
-            editing = false;
         }
 
         override protected function updateDisplayList(w:Number, h:Number):void {
@@ -119,7 +113,7 @@
         }
 
         private function applyAddLessonClicked(event:MouseEvent):void {
-            var theme:Theme = vm.selectedVocabulary.createTheme();
+            var theme:Theme = vm.page.vocabulary.createTheme();
             theme.name = addLessonForm.addLessonInput.text;
             var errKey:String = theme.validate();
 
@@ -133,26 +127,31 @@
         }
 
         private function lessonSelectedHandler(event:Event):void {
+            vm.selectedNote = lessonList.selectedItem as INote;
             if (lessonList.selectedItem) {
-                vm.selectedTheme = lessonList.selectedItem as Theme;
+                vm.page.selectedTheme = lessonList.selectedItem as Theme;
                 showLessonContent();
             }
         }
 
         private var pageLayoutInfo:PageLayout = new PageLayout();
         private function toolActionSelectedHandler(event:ToolbarEvent):void {
+            var op:IAsyncOperation;
             switch (event.toolAction) {
                 case(ToolAction.CREATE_NOTE) :
                     form.visible = true;
-                    form.add(vm.selectedVocabulary.createNote());
+                    op = form.add(vm.page.vocabulary.createNote());
+                    op.addCompleteCallback(noteListChanged);
                     break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
-                    form.edit(noteList.selectedNote);
+                    op = form.edit(noteList.selectedNote);
+                    op.addCompleteCallback(noteListChanged);
                     break;
                 case(ToolAction.REMOVE_NOTE) :
                     form.visible = true;
-                    form.remove(noteList.selectedNote);
+                    op = form.remove(noteList.selectedNote);
+                    op.addCompleteCallback(noteListChanged);
                     break;
                 case(ToolAction.INVERT) :
                     pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
@@ -175,6 +174,17 @@
                     noteList.pageLayout = pageLayoutInfo;
                     break;
             }
+        }
+
+        private function noteListChanged(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                vm.page.countAllNotes = true;
+                vm.reloadPage();
+            }
+        }
+
+        private function pageNumChangedHandler(event:Event):void {
+            vm.reloadPage();
         }
         ]]></fx:Script>
 
@@ -247,7 +257,7 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <common:NoteList id="noteList"
-                         dataProvider="{vm.noteColl}"
+                         dataProvider="{vm.page.noteColl}"
                          width="100%"
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
@@ -265,7 +275,8 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <list2:SelectableDataGroup id="lessonList"
-                                   dataProvider="{vm.selectedVocabulary.themeColl}"
+                                   selectedItem="{vm.selectedNote}"
+                                   dataProvider="{vm.page.vocabulary.themeColl}"
                                    width="100%"
                                    visible="false" visible.lessonList="true"
                                    itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.LessonThemeRenderer"
@@ -286,22 +297,23 @@
         </s:Rect>
 
         <mp3:MP3Player id="mp3Player"
-                       comment="{noteList.selectedItem.audioComment}"
+                       comment="{vm.selectedNote.audioComment}"
                        width="400"
                        left="{PADDING - 10}"
                        verticalCenter="0"
                        removeRecordEnabled="false"
-                       visible="false"
+                       visible="{mp3Player.hasComment}"
                        skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
 
         <navigation:PaginationBar id="paginationBar"
                                   visible="false" visible.lessonContent="true"
                                   left="{PADDING}" right="{PADDING}"
                                   height="100%"
-                                  allNotesAmount="{vm.allNotesAmount}"
-                                  notesOnCurPage="{vm.noteColl.length}"
-                                  pageSize="{vm.pageSize}"
-                                  pageNum="@{vm.pageNum}"/>
+                                  allNotesAmount="{vm.page.allNotesAmount}"
+                                  notesOnCurPage="{vm.page.noteColl.length}"
+                                  pageSize="{vm.page.size}"
+                                  pageNum="@{vm.page.number}"
+                                  pageNumChanged="pageNumChangedHandler(event)"/>
 
     </s:Group>
 

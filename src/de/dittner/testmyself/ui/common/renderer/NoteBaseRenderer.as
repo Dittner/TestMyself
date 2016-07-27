@@ -26,6 +26,7 @@ public class NoteBaseRenderer extends ItemRendererBase {
 	protected function hasAudioComment():Boolean {
 		if (data is INote && (data as INote).audioComment.bytes) return true;
 		else if (data is TestTask && (data as TestTask).note.audioComment.bytes) return true;
+		else return false;
 	}
 
 	protected function updateSoundIconPos(w:Number, h:Number):void {

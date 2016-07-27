@@ -5,7 +5,7 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLLib;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
@@ -18,12 +18,12 @@ import flash.net.Responder;
 
 public class SelectNoteForTestTaskOperation extends AsyncOperation implements IAsyncCommand {
 
-	public function SelectNoteForTestTaskOperation(storage:SQLStorage, task:TestTask) {
+	public function SelectNoteForTestTaskOperation(storage:Storage, task:TestTask) {
 		this.storage = storage;
 		this.task = task;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var task:TestTask;
 	private var loadedNote:Note;
 
@@ -52,8 +52,8 @@ public class SelectNoteForTestTaskOperation extends AsyncOperation implements IA
 
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(SelectExamplesOperation, storage, task.test.vocabulary, loadedNote);
-		composite.addOperation(SelectNoteThemesOperation, storage, task.test.vocabulary, loadedNote);
+		composite.addOperation(SelectExamplesOperation, loadedNote);
+		composite.addOperation(SelectNoteThemesOperation, storage, loadedNote);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

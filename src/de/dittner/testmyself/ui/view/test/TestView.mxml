@@ -187,7 +187,9 @@
         <form:NoteForm id="form"
                        visible="false"
                        bottom="0"
-                       top="{HEADER_HEI}"/>
+                       top="{HEADER_HEI}"
+                       show="vm.lockViewList()"
+                       hide="vm.unlockViewList()"/>
     </s:Group>
 
 </view:SmartView>

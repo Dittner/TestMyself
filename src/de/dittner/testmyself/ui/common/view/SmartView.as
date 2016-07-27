@@ -1,6 +1,7 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.model.Device;
 
 import flash.display.Graphics;
 import flash.utils.getTimer;
@@ -10,6 +11,9 @@ import mx.events.FlexEvent;
 public class SmartView extends ViewBase {
 	public function SmartView() {
 		super();
+		percentWidth = Device.isDesktop ? 97 : 100;
+		percentHeight = 100;
+		horizontalCenter = 0;
 		setStyle("backgroundAlpha", 0);
 		addEventListener(FlexEvent.PREINITIALIZE, preinitializeHandler);
 		addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
@@ -22,7 +26,7 @@ public class SmartView extends ViewBase {
 	//----------------------------------------------------------------------------------------------
 
 	public var bgColor:uint = 0xffFFff;
-	public var bgColorEnabled:Boolean = true;
+	public var bgColorEnabled:Boolean = false;
 
 	protected var activationTriggered:Boolean = false;
 	protected var preinitTime:int;
@@ -32,15 +36,13 @@ public class SmartView extends ViewBase {
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
-	//--------------------------------------
-	//  abstract
-	//--------------------------------------
-	protected function preinit():void {
-		//abstract
-	}
 
-	override protected function activate():void {
-		triggerActivation();
+	protected function preinit():void {}
+
+	override internal function invalidate(navigationPhase:String):void {
+		if (navigationPhase == NavigationPhase.VIEW_ACTIVATE)
+			triggerActivation();
+		super.invalidate(navigationPhase);
 	}
 
 	protected function preinitializeHandler(event:FlexEvent):void {

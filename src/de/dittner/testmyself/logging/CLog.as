@@ -17,7 +17,7 @@ public class CLog {
 
 	private static const MAX_LOG_NOTES:int = 500;
 	private static const SESSION_DELAY:int = 2000;
-	private static const LOG_KEEP_DAYS:uint = 14;
+	private static const LOG_KEEP_DAYS:uint = 2;
 	private static const MAX_MEMORY:uint = 250;
 	private static const LOGS_DIR:String = "TestMyselfLogs";
 
@@ -90,7 +90,7 @@ public class CLog {
 		var appVersion:String = appDescriptor.ns::versionNumber;
 
 		var logTxt:String = "";
-		logTxt += "FK client's log\n";
+		logTxt += "TM client's log\n";
 		logTxt += Capabilities.os + "\n";
 		logTxt += Capabilities.version + "\n";
 		logTxt += "pixelAspectRatio: " + Capabilities.pixelAspectRatio + "\n";

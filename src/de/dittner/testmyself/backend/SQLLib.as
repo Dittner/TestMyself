@@ -6,7 +6,9 @@ public class SQLLib {
 	//  create
 	//--------------------------------------
 
-	public static const TABLES:Array = [CREATE_NOTE_TBL_SQL, CREATE_THEME_TBL_SQL, CREATE_FILTER_TBL_SQL, CREATE_TEST_TBL_SQL];
+	public static function getTables():Array {
+		return [CREATE_NOTE_TBL_SQL, CREATE_THEME_TBL_SQL, CREATE_FILTER_TBL_SQL, CREATE_TEST_TBL_SQL];
+	}
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/CreateNoteTbl.sql", mimeType="application/octet-stream")]
 	private static const CreateNoteTblClass:Class;

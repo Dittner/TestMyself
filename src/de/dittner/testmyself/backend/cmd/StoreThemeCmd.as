@@ -3,7 +3,7 @@ package de.dittner.testmyself.backend.cmd {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.logging.CLog;
@@ -14,21 +14,22 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.errors.SQLError;
 import flash.net.Responder;
+import flash.utils.getQualifiedClassName;
 
 public class StoreThemeCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function StoreThemeCmd(storage:SQLStorage, theme:Theme) {
+	public function StoreThemeCmd(storage:Storage, theme:Theme) {
 		super();
 		this.storage = storage;
 		this.theme = theme;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var theme:Theme;
 
 	public function execute():void {
 		if (!theme || theme.id != -1) {
-			CLog.err(LogCategory.STORAGE, ErrorCode.NULLABLE_THEME + ": Отсутствует добавляемая тема");
+			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.NULLABLE_THEME + ": Отсутствует добавляемая тема");
 			dispatchError(ErrorCode.NULLABLE_THEME);
 			return
 		}
@@ -54,17 +55,18 @@ public class StoreThemeCmd extends AsyncOperation implements IAsyncCommand {
 	}
 
 	private function executeError(error:SQLError):void {
-		CLog.err(LogCategory.STORAGE, ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
+		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
 		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
 			theme.id = result.lastInsertRowID;
+			theme.vocabulary.addTheme(theme);
 			dispatchSuccess();
 		}
 		else {
-			CLog.err(LogCategory.STORAGE, ErrorCode.THEME_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленной темы");
+			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.THEME_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленной темы");
 			dispatchError(ErrorCode.THEME_ADDED_WITHOUT_ID);
 		}
 	}

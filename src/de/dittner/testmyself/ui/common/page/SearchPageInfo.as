@@ -1,42 +1,148 @@
 package de.dittner.testmyself.ui.common.page {
 import de.dittner.testmyself.model.domain.language.Language;
+import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 
-public class SearchPageInfo implements IPageInfo {
+import flash.events.Event;
+import flash.events.EventDispatcher;
+
+import mx.collections.ArrayCollection;
+
+public class SearchPageInfo extends EventDispatcher implements IPageInfo {
 
 	public function SearchPageInfo() {}
 
 	public var lang:Language;
-	public var searchText:String = "";
-	public var vocabularyIDs:Array;
-	public var loadExamples:Boolean;
 
 	//--------------------------------------
-	//  pageNum
+	//  loadExamples
 	//--------------------------------------
-	private var _pageNum:uint = 0;
-	public function get pageNum():uint {return _pageNum;}
-	public function set pageNum(value:uint):void {_pageNum = value;}
+	private var _loadExamples:Boolean = true;
+	[Bindable("loadExamplesChanged")]
+	public function get loadExamples():Boolean {return _loadExamples;}
+	public function set loadExamples(value:Boolean):void {
+		if (_loadExamples != value) {
+			_loadExamples = value;
+			dispatchEvent(new Event("loadExamplesChanged"));
+		}
+	}
 
 	//--------------------------------------
-	//  pageSize
+	//  vocabularyIDs
 	//--------------------------------------
-	private var _pageSize:uint = 10;
-	public function get pageSize():uint {return _pageSize;}
-	public function set pageSize(value:uint):void {_pageSize = value;}
+	private var _vocabularyIDs:Array = [];
+	[Bindable("vocabularyIDsChanged")]
+	public function get vocabularyIDs():Array {return _vocabularyIDs;}
+	public function set vocabularyIDs(value:Array):void {
+		if (_vocabularyIDs != value) {
+			_vocabularyIDs = value;
+			dispatchEvent(new Event("vocabularyIDsChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  searchText
+	//--------------------------------------
+	private var _searchText:String = "";
+	[Bindable("searchTextChanged")]
+	public function get searchText():String {return _searchText;}
+	public function set searchText(value:String):void {
+		if (_searchText != value) {
+			_searchText = value;
+			dispatchEvent(new Event("searchTextChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  number
+	//--------------------------------------
+	private var _number:uint = 0;
+	[Bindable("numberChanged")]
+	public function get number():uint {return _number;}
+	public function set number(value:uint):void {
+		if (_number != value) {
+			_number = value;
+			dispatchEvent(new Event("numberChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  size
+	//--------------------------------------
+	private var _size:uint = 10;
+	[Bindable("sizeChanged")]
+	public function get size():uint {return _size;}
+	public function set size(value:uint):void {
+		if (_size != value) {
+			_size = value;
+			dispatchEvent(new Event("sizeChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  allNotesAmount
 	//--------------------------------------
-	private var _allNotesAmount:int;
+	private var _allNotesAmount:int = 0;
+	[Bindable("allNotesAmountChanged")]
 	public function get allNotesAmount():int {return _allNotesAmount;}
-	public function set allNotesAmount(value:int):void {_allNotesAmount = value;}
+	public function set allNotesAmount(value:int):void {
+		if (_allNotesAmount != value) {
+			_allNotesAmount = value;
+			dispatchEvent(new Event("allNotesAmountChanged"));
+		}
+	}
 
 	//--------------------------------------
-	//  notes
+	//  countAllNotes
 	//--------------------------------------
-	private var _notes:Array = [];
-	public function get notes():Array {return _notes;}
-	public function set notes(value:Array):void {_notes = value;}
+	private var _countAllNotes:Boolean = true;
+	[Bindable("countAllNotesChanged")]
+	public function get countAllNotes():Boolean {return _countAllNotes;}
+	public function set countAllNotes(value:Boolean):void {
+		if (_countAllNotes != value) {
+			_countAllNotes = value;
+			dispatchEvent(new Event("countAllNotesChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  vocabulary
+	//--------------------------------------
+	private var _vocabulary:Vocabulary;
+	[Bindable("vocabularyChanged")]
+	public function get vocabulary():Vocabulary {return _vocabulary;}
+	public function set vocabulary(value:Vocabulary):void {
+		if (_vocabulary != value) {
+			_vocabulary = value;
+			dispatchEvent(new Event("vocabularyChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  noteColl
+	//--------------------------------------
+	private var _noteColl:ArrayCollection = new ArrayCollection();
+	[Bindable("noteCollChanged")]
+	public function get noteColl():ArrayCollection {return _noteColl;}
+	public function set noteColl(value:ArrayCollection):void {
+		if (_noteColl != value) {
+			_noteColl = value;
+			dispatchEvent(new Event("noteCollChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  selectedTheme
+	//--------------------------------------
+	private var _selectedTheme:Theme;
+	[Bindable("selectedThemeChanged")]
+	public function get selectedTheme():Theme {return _selectedTheme;}
+	public function set selectedTheme(value:Theme):void {
+		if (_selectedTheme != value) {
+			_selectedTheme = value;
+			dispatchEvent(new Event("selectedThemeChanged"));
+		}
+	}
 
 }
 }

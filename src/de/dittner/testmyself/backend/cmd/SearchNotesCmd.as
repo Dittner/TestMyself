@@ -3,28 +3,30 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.CountNotesBySearchOperation;
 import de.dittner.testmyself.backend.op.SelectExamplesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectNotesBySearchOperation;
 import de.dittner.testmyself.backend.op.SelectThemesByPageOperation;
 import de.dittner.testmyself.ui.common.page.SearchPageInfo;
 
+import mx.collections.ArrayCollection;
+
 public class SearchNotesCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function SearchNotesCmd(storage:SQLStorage, page:SearchPageInfo) {
+	public function SearchNotesCmd(storage:Storage, page:SearchPageInfo) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var page:SearchPageInfo;
 
 	public function execute():void {
 		if (!page.loadExamples && page.vocabularyIDs.length == 0) {
 			page.allNotesAmount = 0;
-			page.notes = [];
+			page.noteColl = new ArrayCollection();
 			dispatchSuccess(page);
 			return;
 		}
@@ -34,7 +36,8 @@ public class SearchNotesCmd extends AsyncOperation implements IAsyncCommand {
 		composite.addOperation(SelectNotesBySearchOperation, storage, page);
 		composite.addOperation(SelectExamplesByPageOperation, storage, page);
 		composite.addOperation(SelectThemesByPageOperation, storage, page);
-		composite.addOperation(CountNotesBySearchOperation, storage, page);
+		if (page.countAllNotes)
+			composite.addOperation(CountNotesBySearchOperation, storage, page);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

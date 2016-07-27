@@ -50,8 +50,8 @@ public class DeVerb extends Note {
 	override public function deserialize(data:Object):void {
 		super.deserialize(data);
 		present = data.options.present || "";
-		past = data.options.past = past || "";
-		perfect = data.options.perfect = perfect || "";
+		past = data.options.past || "";
+		perfect = data.options.perfect || "";
 	}
 
 	override public function validate():String {

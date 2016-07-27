@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         percentHeight="50" percentWidth="95" horizontalCenter="0">
+         percentHeight="75" percentWidth="95" horizontalCenter="33">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.utils.Values;

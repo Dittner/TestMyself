@@ -1,7 +1,5 @@
 package de.dittner.testmyself.ui.view.main {
 import de.dittner.testmyself.ui.common.renderer.ItemRendererBase;
-import de.dittner.testmyself.ui.common.utils.hideTooltip;
-import de.dittner.testmyself.ui.common.utils.showTooltip;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 
 import flash.display.Bitmap;
@@ -78,7 +76,6 @@ public class VewListItemRenderer extends ItemRendererBase {
 	override protected function overHandler(event:MouseEvent):void {
 		if (!selected) {
 			icon.alpha = 1;
-			showTooltip(viewInfo.description, this);
 		}
 	}
 
@@ -86,7 +83,6 @@ public class VewListItemRenderer extends ItemRendererBase {
 		if (!selected) {
 			icon.alpha = ICON_ALPHA_OUT;
 		}
-		hideTooltip();
 	}
 }
 }

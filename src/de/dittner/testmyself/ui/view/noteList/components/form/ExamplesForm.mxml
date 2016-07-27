@@ -129,8 +129,8 @@
         }
 
         private function correctText():void {
-            titleArea.text = NoteFormUtils.correctText(titleArea.text);
-            descriptionArea.text = NoteFormUtils.correctText(descriptionArea.text);
+            titleArea.text = NoteFormUtils.capitalizeText(titleArea.text);
+            descriptionArea.text = NoteFormUtils.capitalizeText(descriptionArea.text);
         }
         ]]></fx:Script>
 

@@ -3,20 +3,19 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 
-import flash.data.SQLConnection;
-
 public class InsertTestTaskOperation extends AsyncOperation implements IAsyncCommand {
 
-	public function InsertTestTaskOperation(conn:SQLConnection, note:Note) {
-		this.conn = conn;
+	public function InsertTestTaskOperation(storage:Storage, note:Note) {
+		this.storage = storage;
 		this.note = note;
 		this.availableTests = note.vocabulary.availableTests;
 	}
 
-	private var conn:SQLConnection;
+	private var storage:Storage;
 	private var note:Note;
 	private var availableTests:Array;
 
@@ -26,11 +25,11 @@ public class InsertTestTaskOperation extends AsyncOperation implements IAsyncCom
 
 			for each(var test:Test in availableTests) {
 				if (test.isValidForTest(note))
-					composite.addOperation(InsertTestTaskOperationPhase, conn, note, test);
+					composite.addOperation(InsertTestTaskOperationPhase, storage, note, test);
 
 				for each(var example:Note in note.examples)
 					if (test.isValidForTest(example))
-						composite.addOperation(InsertTestTaskOperationPhase, conn, example, test);
+						composite.addOperation(InsertTestTaskOperationPhase, storage, example, test);
 
 			}
 
@@ -48,7 +47,7 @@ public class InsertTestTaskOperation extends AsyncOperation implements IAsyncCom
 	override public function destroy():void {
 		super.destroy();
 		note = null;
-		conn = null;
+		storage = null;
 	}
 }
 }

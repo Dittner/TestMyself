@@ -77,6 +77,22 @@
             lastPageBtn.label = lastPageBtn.enabled ? totalPages.toString() : "";
             firstPageBtn.label = firstPageBtn.enabled ? "1" : "";
         }
+
+        private function nextPageBtnClickHandler(event:MouseEvent):void {
+            if (pageNum < totalPages - 1) pageNum++;
+        }
+
+        private function lastPageBtnClickHandler(event:MouseEvent):void {
+            pageNum = totalPages - 1;
+        }
+
+        private function firstPageBtnClickHandler(event:MouseEvent):void {
+            pageNum = 0;
+        }
+
+        private function prevPageBtnClickHandler(event:MouseEvent):void {
+            if (pageNum > 0) pageNum--;
+        }
         ]]></fx:Script>
 
     <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="5">
@@ -86,7 +102,7 @@
                              enabled="false"
                              upImage="@Embed(source='/assets/button/page_prev_up.png')"
                              downImage="@Embed(source='/assets/button/page_prev_down.png')"
-                             click="if(pageNum > 0) pageNum--"/>
+                             click="prevPageBtnClickHandler(event)"/>
 
         <s:Spacer width="15"/>
 
@@ -96,18 +112,20 @@
                                      color="#ffFFff"
                                      upImage="@Embed(source='/assets/button/page_dark_up.png')"
                                      downImage="@Embed(source='/assets/button/page_dark_down.png')"
-                                     click="pageNum=0"/>
+                                     click="firstPageBtnClickHandler(event)"/>
+
         <pagination:PaginationButton id="curPageBtn"
                                      label="1"
                                      color="{AppColors.TEXT_DARK}"
                                      upImage="@Embed(source='/assets/button/page_light_up.png')"
                                      downImage="@Embed(source='/assets/button/page_light_up.png')"/>
+
         <pagination:PaginationButton id="lastPageBtn"
                                      enabled="false"
                                      color="#ffFFff"
                                      upImage="@Embed(source='/assets/button/page_dark_up.png')"
                                      downImage="@Embed(source='/assets/button/page_dark_down.png')"
-                                     click="pageNum = totalPages -1"/>
+                                     click="lastPageBtnClickHandler(event)"/>
 
         <s:Spacer width="15"/>
 
@@ -116,7 +134,7 @@
                              description="Nächste Seite"
                              upImage="@Embed(source='/assets/button/page_next_up.png')"
                              downImage="@Embed(source='/assets/button/page_next_down.png')"
-                             click="if(pageNum < totalPages - 1) pageNum++"/>
+                             click="nextPageBtnClickHandler(event)"/>
     </s:HGroup>
 
     <s:Label id="titleLbl"

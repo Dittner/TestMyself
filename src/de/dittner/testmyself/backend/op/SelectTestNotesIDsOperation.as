@@ -3,7 +3,7 @@ package de.dittner.testmyself.backend.op {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.test.Test;
 
@@ -13,14 +13,14 @@ import flash.net.Responder;
 
 public class SelectTestNotesIDsOperation extends AsyncOperation implements IAsyncCommand {
 
-	public function SelectTestNotesIDsOperation(storage:SQLStorage, test:Test, notesIDs:Array) {
+	public function SelectTestNotesIDsOperation(storage:Storage, test:Test, notesIDs:Array) {
 		super();
 		this.storage = storage;
 		this.test = test;
 		this.notesIDs = notesIDs;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var test:Test;
 	private var notesIDs:Array;
 

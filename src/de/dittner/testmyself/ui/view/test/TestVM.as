@@ -1,6 +1,6 @@
 package de.dittner.testmyself.ui.view.test {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
@@ -20,7 +20,7 @@ public class TestVM extends ViewModel {
 	[Inject]
 	public var appModel:AppModel;
 	[Inject]
-	public var storage:SQLStorage;
+	public var storage:Storage;
 
 	//----------------------------------------------------------------------------------------------
 	//

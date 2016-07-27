@@ -5,6 +5,7 @@
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
 
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.note.INote;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -20,6 +21,19 @@
             if (_dataProvider != value) {
                 _dataProvider = value;
                 dispatchEvent(new Event("dataProviderChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  selectedNote
+        //--------------------------------------
+        private var _selectedNote:INote;
+        [Bindable("selectedNoteChanged")]
+        public function get selectedNote():INote {return _selectedNote;}
+        public function set selectedNote(value:INote):void {
+            if (_selectedNote != value) {
+                _selectedNote = value;
+                dispatchEvent(new Event("selectedNoteChanged"));
             }
         }
 
@@ -78,11 +92,13 @@
                 minViewportInset="1"
                 hasFocusableChildren="false">
         <list:SelectableDataGroup id="dataGroup"
+                                  selectedItem="{selectedNote}"
                                   dataProvider="{dataProvider}"
                                   visible="{shownList}"
                                   width="100%"
                                   deselectEnabled="true"
-                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer">
+                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer"
+                                  selectedItemChange="selectedNote = dataGroup.selectedItem as INote">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="true"/>
             </list:layout>

@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <s:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
-          xmlns:s="library://ns.adobe.com/flex/spark"
-          mouseOver="showDescriptionTip()"
-          mouseOut="hideDescriptionTip()">
+          xmlns:s="library://ns.adobe.com/flex/spark">
 
     <fx:Metadata>
         [Style(name="upImage", type="Object")]
@@ -10,9 +8,6 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.ui.common.utils.hideTooltip;
-        import de.dittner.testmyself.ui.common.utils.showTooltip;
-
         private var _description:String = "";
         [Bindable("descriptionChanged")]
         public function get description():String {return _description;}
@@ -21,14 +16,6 @@
                 _description = value;
                 dispatchEvent(new Event("descriptionChanged"));
             }
-        }
-
-        private function showDescriptionTip():void {
-            if (description) showTooltip(description, this);
-        }
-
-        private function hideDescriptionTip():void {
-            hideTooltip();
         }
         ]]></fx:Script>
 

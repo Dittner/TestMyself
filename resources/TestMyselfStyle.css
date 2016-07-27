@@ -1,7 +1,7 @@
 @namespace s "library://ns.adobe.com/flex/spark";
-@namespace input "de.dittner.testmyself.ui.view.common.input.*";
-@namespace list "de.dittner.testmyself.ui.view.common.list.*";
-@namespace spinner "de.dittner.testmyself.ui.view.common.spinner.*";
+@namespace input "de.dittner.testmyself.ui.common.input.*";
+@namespace list "de.dittner.testmyself.ui.common.list.*";
+@namespace spinner "de.dittner.testmyself.ui.common.spinner.*";
 
 @font-face {
     src: url("/fonts/vantathin.ttf");

@@ -35,7 +35,12 @@ public class NoteValidationErrorKey {
 					return "Die Übersetzung eines Beispiels is nicht ergänzt!";
 				case EMPTY_VERB_FIELDS :
 					return "Die Fielde 'Präsens', 'Präteritum' und 'Partizip II' müssen ergänzt sein!";
+				default :
+					return "Unknown Key : " + key;
 			}
+		}
+		else {
+			return "Unknown language";
 		}
 	}
 }

@@ -4,7 +4,7 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLLib;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.SelectExamplesOperation;
 import de.dittner.testmyself.backend.op.SelectNoteThemesOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
@@ -19,14 +19,14 @@ import flash.net.Responder;
 
 public class LoadNoteByNoteIDCmd extends AsyncOperation implements IAsyncCommand {
 
-	public function LoadNoteByNoteIDCmd(storage:SQLStorage, vocabulary:Vocabulary, noteID:int) {
+	public function LoadNoteByNoteIDCmd(storage:Storage, vocabulary:Vocabulary, noteID:int) {
 		super();
 		this.storage = storage;
 		this.vocabulary = vocabulary;
 		this.noteID = noteID;
 	}
 
-	private var storage:SQLStorage;
+	private var storage:Storage;
 	private var vocabulary:Vocabulary;
 	private var noteID:int;
 	private var loadedNote:Note;
@@ -56,8 +56,8 @@ public class LoadNoteByNoteIDCmd extends AsyncOperation implements IAsyncCommand
 
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(SelectExamplesOperation, storage, vocabulary, loadedNote);
-		composite.addOperation(SelectNoteThemesOperation, storage, vocabulary, loadedNote);
+		composite.addOperation(SelectExamplesOperation, storage, loadedNote);
+		composite.addOperation(SelectNoteThemesOperation, storage, loadedNote);
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();

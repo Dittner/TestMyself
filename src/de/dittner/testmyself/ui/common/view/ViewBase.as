@@ -78,10 +78,16 @@ public class ViewBase extends SkinnableContainer {
 	 * */
 	internal function invalidate(navigationPhase:String):void {
 		switch (navigationPhase) {
+			case NavigationPhase.VIEW_ACTIVATE:
+				_isActive = true;
+				CLog.info(LogCategory.UI, "View: " + fullName + " is activated");
+				dispatchEvent(new Event("isActiveChange"));
+				activate();
+				break;
 			case NavigationPhase.VIEW_REMOVE:
 				_isActive = false;
 				CLog.info(LogCategory.UI, "View: " + fullName + " is deactivated");
-				dispatchEvent(new Event("isRemovingChange"));
+				dispatchEvent(new Event("isActiveChange"));
 				deactivate();
 				break;
 		}

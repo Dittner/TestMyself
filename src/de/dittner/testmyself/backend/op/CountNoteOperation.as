@@ -3,30 +3,31 @@ package de.dittner.testmyself.backend.op {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
-import flash.data.SQLConnection;
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
+import flash.utils.getQualifiedClassName;
 
 public class CountNoteOperation extends AsyncOperation implements IAsyncCommand {
 
-	public function CountNoteOperation(conn:SQLConnection, info:VocabularyInfo) {
-		this.conn = conn;
+	public function CountNoteOperation(storage:Storage, info:VocabularyInfo) {
+		this.storage = storage;
 		this.info = info;
 	}
 
 	private var info:VocabularyInfo;
-	private var conn:SQLConnection;
+	private var storage:Storage;
 
 	public function execute():void {
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_COUNT_NOTE_SQL, {vocabularyID: info.vocabulary.id});
-		statement.sqlConnection = conn;
+		statement.sqlConnection = storage.sqlConnection;
 		statement.execute(-1, new Responder(executeComplete));
 	}
 
@@ -40,7 +41,7 @@ public class CountNoteOperation extends AsyncOperation implements IAsyncCommand 
 			dispatchSuccess();
 		}
 		else {
-			CLog.err(LogCategory.STORAGE, ErrorCode.SQL_TRANSACTION_FAILED + ": Не удалось получить число записей в таблице");
+			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": Не удалось получить число записей в таблице");
 			dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 		}
 	}
@@ -48,7 +49,7 @@ public class CountNoteOperation extends AsyncOperation implements IAsyncCommand 
 	override public function destroy():void {
 		super.destroy();
 		info = null;
-		conn = null;
+		storage = null;
 	}
 }
 }

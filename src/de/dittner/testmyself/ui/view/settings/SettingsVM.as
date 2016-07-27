@@ -4,7 +4,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.async.ProgressCommand;
 import de.dittner.ftpClient.FtpClient;
 import de.dittner.testmyself.backend.LocalStorage;
-import de.dittner.testmyself.backend.SQLStorage;
+import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.test.Test;
@@ -32,7 +32,7 @@ public class SettingsVM extends ViewModel {
 	[Inject]
 	public var appModel:AppModel;
 	[Inject]
-	public var storage:SQLStorage;
+	public var storage:Storage;
 
 	//----------------------------------------------------------------------------------------------
 	//
