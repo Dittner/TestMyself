@@ -13,8 +13,13 @@
         [Bindable]
         public var vm:MapVM;
 
-        override protected function activate():void {
+        override protected function activating():void {
             vm = ViewModelFactory.instance.mapVM;
+            vm.lockView();
+        }
+
+        override protected function activate():void {
+            vm.unlockView();
             vm.viewActivated(info);
         }
 

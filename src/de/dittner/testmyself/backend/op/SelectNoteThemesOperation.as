@@ -1,22 +1,17 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.theme.Theme;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
-import flash.errors.SQLError;
 import flash.net.Responder;
-import flash.utils.getQualifiedClassName;
 
-public class SelectNoteThemesOperation extends AsyncOperation implements IAsyncCommand {
+public class SelectNoteThemesOperation extends StorageOperation implements IAsyncCommand {
 
 	public function SelectNoteThemesOperation(storage:Storage, note:Note) {
 		super();
@@ -29,8 +24,7 @@ public class SelectNoteThemesOperation extends AsyncOperation implements IAsyncC
 
 	public function execute():void {
 		if (!note || note.id == -1) {
-			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.NULLABLE_NOTE + ": Отсутствует запись или ID записи");
-			dispatchError(ErrorCode.NULLABLE_NOTE);
+			dispatchError(ErrorCode.NULLABLE_NOTE + ": Отсутствует запись или ID записи");
 		}
 		else {
 			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_NOTE_THEMES_SQL, {
@@ -50,11 +44,6 @@ public class SelectNoteThemesOperation extends AsyncOperation implements IAsyncC
 		}
 		note.themes = themes;
 		dispatchSuccess(themes);
-	}
-
-	private function executeError(error:SQLError):void {
-		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
-		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 }
 }

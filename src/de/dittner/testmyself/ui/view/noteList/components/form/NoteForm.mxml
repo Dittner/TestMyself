@@ -14,10 +14,10 @@
         import de.dittner.async.IAsyncOperation;
         import de.dittner.async.utils.invalidateOf;
         import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.note.DeVerb;
+        import de.dittner.testmyself.model.domain.note.DeWord;
+        import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.model.domain.note.Note;
-        import de.dittner.testmyself.model.domain.note.verb.DeVerb;
-        import de.dittner.testmyself.model.domain.note.word.DeWord;
-        import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.renderer.AddedThemeItemRenderer;
@@ -89,6 +89,19 @@
             else return "Entfernen";
         }
 
+        //--------------------------------------
+        //  selectedFilter
+        //--------------------------------------
+        private var _selectedFilter:Theme;
+        [Bindable("selectedFilterChanged")]
+        public function get selectedFilter():Theme {return _selectedFilter;}
+        public function set selectedFilter(value:Theme):void {
+            if (_selectedFilter != value) {
+                _selectedFilter = value;
+                dispatchEvent(new Event("selectedFilterChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -132,7 +145,7 @@
 
             descriptionArea.text = note.description;
             audioRecorder.comment = note.audioComment;
-            examplesForm.examples = new ArrayCollection(note.examples);
+            examplesForm.exampleColl = note.exampleColl;
             themeList.dataProvider = note.vocabulary.themeColl;
             showSelectedThemes(note.themes);
 
@@ -143,11 +156,14 @@
         }
 
         private function showSelectedThemes(noteThemes:Array):void {
-            if (noteThemes.length == 0 || !themeList.dataProvider || themeList.dataProvider.length == 0) return;
+            if ((noteThemes.length == 0 && !selectedFilter) || !themeList.dataProvider || themeList.dataProvider.length == 0) return;
 
             var isSelectedThemeHash:Object = {};
             var selectedItems:Vector.<Object> = new Vector.<Object>();
-            for each(var noteTheme:Theme in noteThemes) isSelectedThemeHash[noteTheme.id] = true;
+            for each(var noteTheme:Theme in noteThemes)
+                isSelectedThemeHash[noteTheme.id] = true;
+            if (selectedFilter)
+                isSelectedThemeHash[selectedFilter.id] = true;
             for each(var theme:Theme in themeList.dataProvider)
                 if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
             themeList.selectedItems = selectedItems;
@@ -170,7 +186,9 @@
         }
 
         private function updateState():void {
-            if (note.vocabulary.id == VocabularyID.DE_WORD)
+            if (note.isExample)
+                currentState = "normal";
+            else if (note.vocabulary.id == VocabularyID.DE_WORD)
                 currentState = "word";
             else if (note.vocabulary.id == VocabularyID.DE_VERB)
                 currentState = "verb";
@@ -281,7 +299,7 @@
                 word.description = descriptionArea.text;
                 word.declension = wordOptionsInput.text;
                 word.audioComment = audioRecorder.comment;
-                word.examples = examplesForm.examples ? examplesForm.examples.source : null;
+                word.exampleColl = examplesForm.exampleColl;
                 word.themes = getSelectedThemes();
             }
             else if (note is DeVerb) {
@@ -292,13 +310,15 @@
                 verb.present = verbInputsForm.presentInput.text;
                 verb.past = verbInputsForm.pastInput.text;
                 verb.perfect = verbInputsForm.perfectInput.text;
-                verb.examples = examplesForm.examples ? examplesForm.examples.source : null;
+                verb.exampleColl = examplesForm.exampleColl;
                 verb.themes = getSelectedThemes();
             }
             else {
                 note.title = titleArea.text;
                 note.description = descriptionArea.text;
                 note.audioComment = audioRecorder.comment;
+                if (!note.isExample)
+                    note.themes = getSelectedThemes();
             }
         }
 

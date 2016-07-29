@@ -40,5 +40,13 @@ public class ViewModel extends WalterProxy {
 	public function unlockViewList():void {
 		if (mainVM) mainVM.viewListLocked = false;
 	}
+
+	public function lockView():void {
+		if (mainVM) mainVM.viewLocked = true;
+	}
+
+	public function unlockView():void {
+		if (mainVM) mainVM.viewLocked = false;
+	}
 }
 }

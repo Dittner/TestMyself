@@ -1,9 +1,6 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.ui.common.audio.mp3.MP3Writer;
@@ -12,9 +9,8 @@ import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.utils.ByteArray;
-import flash.utils.getQualifiedClassName;
 
-public class MP3EncodingOperation extends AsyncOperation implements IAsyncCommand {
+public class MP3EncodingOperation extends StorageOperation implements IAsyncCommand {
 	public function MP3EncodingOperation(comment:AudioComment) {
 		this.comment = comment;
 	}
@@ -27,8 +23,7 @@ public class MP3EncodingOperation extends AsyncOperation implements IAsyncComman
 				MP3Writer.encodeRawData(comment.bytes, encodeCompleteHandler);
 			}
 			catch (error:Error) {
-				CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.MP3_ENCODING_FAILED + ": " + error.message);
-				dispatchError(ErrorCode.MP3_ENCODING_FAILED);
+				dispatchError(ErrorCode.MP3_ENCODING_FAILED + ": " + error.message);
 			}
 		}
 		else dispatchSuccess();

@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.view.test.statistics.renderer {
-import de.dittner.testmyself.model.domain.note.verb.DeVerb;
+import de.dittner.testmyself.model.domain.note.DeVerb;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;

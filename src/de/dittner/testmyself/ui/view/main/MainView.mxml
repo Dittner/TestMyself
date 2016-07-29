@@ -152,7 +152,6 @@
     </s:Rect>
 
     <list:SelectableDataGroup id="viewList"
-                              enabled="{!vm.viewListLocked}"
                               width="66" height="100%"
                               minWidth="0"
                               dataProvider="{vm.viewFactory.viewInfoColl}"

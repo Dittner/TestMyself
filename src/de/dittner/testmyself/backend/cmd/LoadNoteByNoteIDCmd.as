@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -7,9 +6,8 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.SelectExamplesOperation;
 import de.dittner.testmyself.backend.op.SelectNoteThemesOperation;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 
@@ -17,7 +15,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class LoadNoteByNoteIDCmd extends AsyncOperation implements IAsyncCommand {
+public class LoadNoteByNoteIDCmd extends StorageOperation implements IAsyncCommand {
 
 	public function LoadNoteByNoteIDCmd(storage:Storage, vocabulary:Vocabulary, noteID:int) {
 		super();
@@ -37,7 +35,7 @@ public class LoadNoteByNoteIDCmd extends AsyncOperation implements IAsyncCommand
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_NOTE_SQL, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete));
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
 	private function executeComplete(result:SQLResult):void {
@@ -49,8 +47,7 @@ public class LoadNoteByNoteIDCmd extends AsyncOperation implements IAsyncCommand
 			}
 
 		if (!loadedNote) {
-			CLog.err(LogCategory.STORAGE, "Не удалось загрузить запись в LoadNoteByNoteIDCmd");
-			dispatchError();
+			dispatchError("Не удалось загрузить запись!");
 			return;
 		}
 
@@ -65,7 +62,7 @@ public class LoadNoteByNoteIDCmd extends AsyncOperation implements IAsyncCommand
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(loadedNote);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 }
 }

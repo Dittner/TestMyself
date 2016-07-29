@@ -1,5 +1,4 @@
-package de.dittner.testmyself.model.domain.note.verb {
-import de.dittner.testmyself.model.domain.note.Note;
+package de.dittner.testmyself.model.domain.note {
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
 public class DeVerb extends Note {
@@ -43,7 +42,8 @@ public class DeVerb extends Note {
 		res.options.present = present || null;
 		res.options.past = past || null;
 		res.options.perfect = perfect || null;
-		res.searchText = title + description + present + past + perfect;
+		res.searchText = title + "+" + description + "+" + present + "+" + past + "+" + perfect;
+		res.searchText = res.searchText.toLowerCase();
 		return res;
 	}
 

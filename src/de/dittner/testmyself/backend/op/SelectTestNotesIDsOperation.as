@@ -1,6 +1,5 @@
 package de.dittner.testmyself.backend.op {
 
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
@@ -11,7 +10,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class SelectTestNotesIDsOperation extends AsyncOperation implements IAsyncCommand {
+public class SelectTestNotesIDsOperation extends StorageOperation implements IAsyncCommand {
 
 	public function SelectTestNotesIDsOperation(storage:Storage, test:Test, notesIDs:Array) {
 		super();
@@ -31,7 +30,7 @@ public class SelectTestNotesIDsOperation extends AsyncOperation implements IAsyn
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete));
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
 	private function executeComplete(result:SQLResult):void {

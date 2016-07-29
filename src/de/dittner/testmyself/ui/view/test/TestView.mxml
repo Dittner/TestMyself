@@ -23,8 +23,13 @@
         [Bindable]
         public var vm:TestVM;
 
-        override protected function activate():void {
+        override protected function activating():void {
             vm = ViewModelFactory.instance.testVM;
+            vm.lockView();
+        }
+
+        override protected function activate():void {
+            vm.unlockView();
             vm.viewActivated(info);
             setCurrentState("testList");
         }

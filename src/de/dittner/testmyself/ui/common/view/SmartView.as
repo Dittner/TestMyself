@@ -16,7 +16,6 @@ public class SmartView extends ViewBase {
 		horizontalCenter = 0;
 		setStyle("backgroundAlpha", 0);
 		addEventListener(FlexEvent.PREINITIALIZE, preinitializeHandler);
-		addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -50,7 +49,8 @@ public class SmartView extends ViewBase {
 		preinit();
 	}
 
-	protected function creationCompleteHandler(event:FlexEvent):void {
+	override protected function creationCompleteHandler(event:FlexEvent):void {
+		super.creationCompleteHandler(event);
 		triggerActivation();
 	}
 

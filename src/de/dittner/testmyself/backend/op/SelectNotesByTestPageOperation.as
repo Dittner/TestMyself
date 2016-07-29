@@ -1,6 +1,5 @@
 package de.dittner.testmyself.backend.op {
 
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -8,7 +7,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
 
-public class SelectNotesByTestPageOperation extends AsyncOperation implements IAsyncCommand {
+public class SelectNotesByTestPageOperation extends StorageOperation implements IAsyncCommand {
 
 	public function SelectNotesByTestPageOperation(storage:Storage, page:TestPageInfo) {
 		super();
@@ -34,7 +33,7 @@ public class SelectNotesByTestPageOperation extends AsyncOperation implements IA
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(page);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 }
 }

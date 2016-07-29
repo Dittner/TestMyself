@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -7,7 +6,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.theme.Theme;
 
-public class InsertFilterOperation extends AsyncOperation implements IAsyncCommand {
+public class InsertFilterOperation extends StorageOperation implements IAsyncCommand {
 
 	public function InsertFilterOperation(storage:Storage, note:Note) {
 		this.storage = storage;
@@ -32,7 +31,7 @@ public class InsertFilterOperation extends AsyncOperation implements IAsyncComma
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(op.result);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 }
 }

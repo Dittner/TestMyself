@@ -1,5 +1,6 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.AsyncCommand;
+import de.dittner.async.IAsyncCommand;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.Device;
@@ -10,7 +11,7 @@ import flash.events.SQLErrorEvent;
 import flash.events.SQLEvent;
 import flash.filesystem.File;
 
-public class RunDataBaseCmd extends AsyncCommand {
+public class RunDataBaseCmd extends StorageOperation implements IAsyncCommand {
 
 	public function RunDataBaseCmd(createTableStatements:Array) {
 		super();
@@ -20,7 +21,7 @@ public class RunDataBaseCmd extends AsyncCommand {
 	private var createTableStatements:Array;
 	private var conn:SQLConnection = new SQLConnection();
 
-	override public function execute():void {
+	public function execute():void {
 		var dbRootFile:File = File.documentsDirectory.resolvePath(Device.dbRootPath);
 		if (!dbRootFile.exists) dbRootFile.createDirectory();
 		var dbFile:File = File.documentsDirectory.resolvePath(Device.dbPath);
@@ -56,9 +57,7 @@ public class RunDataBaseCmd extends AsyncCommand {
 	}
 
 	private function errorHandler(event:SQLErrorEvent):void {
-		var errDetails:String = error.toString();
-		CLog.err(LogCategory.STORAGE, "SQL DB " + Device.APP_NAME + " open is failed, details: " + errDetails);
-		dispatchError(errDetails);
+		dispatchError(error.toString());
 	}
 
 }

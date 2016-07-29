@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.view.noteList.components.form {
-import de.dittner.testmyself.model.domain.note.INote;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
@@ -26,8 +26,8 @@ public class ExamplesFormRenderer extends NoteBaseRenderer {
 	private var titleTf:TextField;
 	private var descriptionTf:TextField;
 
-	private function get note():INote {
-		return data as INote;
+	private function get note():Note {
+		return data as Note;
 	}
 
 	override protected function createChildren():void {

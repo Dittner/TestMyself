@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -13,10 +12,11 @@ import de.dittner.testmyself.backend.op.InsertNewThemeOperation;
 import de.dittner.testmyself.backend.op.InsertNoteOperation;
 import de.dittner.testmyself.backend.op.InsertTestTaskOperation;
 import de.dittner.testmyself.backend.op.MP3EncodingOperation;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.op.UpdateNoteOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 
-public class StoreNoteCmd extends AsyncOperation implements IAsyncCommand {
+public class StoreNoteCmd extends StorageOperation implements IAsyncCommand {
 
 	public function StoreNoteCmd(storage:Storage, note:Note) {
 		this.storage = storage;
@@ -50,7 +50,7 @@ public class StoreNoteCmd extends AsyncOperation implements IAsyncCommand {
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(note);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 }
 }

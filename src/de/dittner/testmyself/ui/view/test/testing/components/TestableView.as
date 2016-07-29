@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
-import de.dittner.testmyself.model.domain.note.INote;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
 import de.dittner.testmyself.ui.common.audio.utils.PlayerUtils;
 import de.dittner.testmyself.ui.view.test.common.TestingAction;
@@ -41,10 +41,10 @@ public class TestableView extends Group implements ITestableView {
 	//  activeNote
 	//--------------------------------------
 	protected var activeNoteChanged:Boolean = false;
-	private var _activeNote:INote;
+	private var _activeNote:Note;
 	[Bindable("activeNoteChanged")]
-	public function get activeNote():INote {return _activeNote;}
-	public function set activeNote(value:INote):void {
+	public function get activeNote():Note {return _activeNote;}
+	public function set activeNote(value:Note):void {
 		if (_activeNote != value) {
 			_activeNote = value;
 			activeNoteChanged = true;

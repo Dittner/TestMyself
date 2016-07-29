@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.common.renderer {
-import de.dittner.testmyself.model.domain.note.INote;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 
 import flash.display.DisplayObject;
@@ -24,7 +24,7 @@ public class NoteBaseRenderer extends ItemRendererBase {
 	}
 
 	protected function hasAudioComment():Boolean {
-		if (data is INote && (data as INote).audioComment.bytes) return true;
+		if (data is Note && (data as Note).audioComment.bytes) return true;
 		else if (data is TestTask && (data as TestTask).note.audioComment.bytes) return true;
 		else return false;
 	}

@@ -20,8 +20,13 @@
 
         private static const TAB_BAR_HEI:uint = 40;
 
-        override protected function activate():void {
+        override protected function activating():void {
             vm = ViewModelFactory.instance.settingsVM;
+            vm.lockView();
+        }
+
+        override protected function activate():void {
+            vm.unlockView();
             vm.viewActivated(info);
             currentState = "common";
             tabBar.selectedIndex = 0;

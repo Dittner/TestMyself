@@ -1,7 +1,7 @@
 package de.dittner.testmyself.ui.view.search.components {
-import de.dittner.testmyself.model.domain.note.INote;
-import de.dittner.testmyself.model.domain.note.verb.DeVerb;
-import de.dittner.testmyself.model.domain.note.word.DeWord;
+import de.dittner.testmyself.model.domain.note.DeVerb;
+import de.dittner.testmyself.model.domain.note.DeWord;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -61,8 +61,8 @@ public class FoundNoteRenderer extends NoteBaseRenderer implements IFlexibleRend
 		}
 	}
 
-	private function get note():INote {
-		return data as INote;
+	private function get note():Note {
+		return data as Note;
 	}
 
 	override protected function createChildren():void {

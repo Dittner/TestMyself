@@ -1,4 +1,4 @@
-package de.dittner.testmyself.model.domain.note.word {
+package de.dittner.testmyself.model.domain.note {
 public class DeWordArticle {
 	public static const UNDEFINED:String = "";
 	public static const DER:String = "der";

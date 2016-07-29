@@ -94,7 +94,7 @@ public class SQLLib {
 	private static const SelectNoteClass:Class;
 	public static const SELECT_NOTE_SQL:String = new SelectNoteClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNotesIDs.sql", mimeType="application/octet-stream")]
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNotesBySearch.sql", mimeType="application/octet-stream")]
 	private static const SearchNotesClass:Class;
 	public static const SEARCH_NOTES_SQL:String = new SearchNotesClass();
 

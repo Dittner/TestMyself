@@ -4,10 +4,15 @@ import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
+import flash.events.Event;
+import flash.events.EventDispatcher;
+
 use namespace domain_internal;
 
-public class Theme {
-	public function Theme() {}
+public class Theme extends EventDispatcher {
+	public function Theme() {
+		super();
+	}
 
 	//--------------------------------------
 	//  id
@@ -25,15 +30,27 @@ public class Theme {
 	//  name
 	//--------------------------------------
 	private var _name:String = "";
+	[Bindable("nameChanged")]
 	public function get name():String {return _name;}
-	public function set name(value:String):void {_name = value;}
+	public function set name(value:String):void {
+		if (_name != value) {
+			_name = value;
+			dispatchEvent(new Event("nameChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  vocabulary
 	//--------------------------------------
 	private var _vocabulary:Vocabulary;
+	[Bindable("vocabularyChanged")]
 	public function get vocabulary():Vocabulary {return _vocabulary;}
-	public function set vocabulary(value:Vocabulary):void {_vocabulary = value;}
+	public function set vocabulary(value:Vocabulary):void {
+		if (_vocabulary != value) {
+			_vocabulary = value;
+			dispatchEvent(new Event("vocabularyChanged"));
+		}
+	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -55,7 +72,6 @@ public class Theme {
 
 	public function serialize():Object {
 		var res:Object = {};
-		res.id = id;
 		res.vocabularyID = vocabulary.id;
 		res.name = name;
 		return res;

@@ -1,30 +1,29 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
 
-public class InsertExampleOperation extends AsyncOperation implements IAsyncCommand {
+import mx.collections.ArrayCollection;
+
+public class InsertExampleOperation extends StorageOperation implements IAsyncCommand {
 
 	public function InsertExampleOperation(storage:Storage, parentNote:Note) {
 		this.parentNote = parentNote;
 		this.storage = storage;
-		this.examples = parentNote.examples;
+		this.exampleColl = parentNote.exampleColl;
 	}
 
 	private var parentNote:Note;
-	private var examples:Array;
+	private var exampleColl:ArrayCollection;
 	private var storage:Storage;
 
 	public function execute():void {
-		if (examples && examples.length > 0) {
+		if (exampleColl && exampleColl.length > 0) {
 			var composite:CompositeCommand = new CompositeCommand();
 
-			for each(var example:Note in examples) {
+			for each(var example:Note in exampleColl) {
 				example.parentID = parentNote.id;
 				composite.addOperation(MP3EncodingOperation, example.audioComment);
 				composite.addOperation(InsertExampleOperationPhase, storage, example);
@@ -36,18 +35,13 @@ public class InsertExampleOperation extends AsyncOperation implements IAsyncComm
 	}
 
 	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) {
-			dispatchSuccess(op.result);
-		}
-		else {
-			CLog.err(LogCategory.STORAGE, op.error);
-			dispatchError(op.error);
-		}
+		if (op.isSuccess) dispatchSuccess(op.result);
+		else dispatchError();
 	}
 
 	override public function destroy():void {
 		super.destroy();
-		examples = null;
+		exampleColl = null;
 		storage = null;
 	}
 }

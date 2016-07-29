@@ -1,9 +1,9 @@
 package de.dittner.testmyself.model.domain.language {
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.domain_internal;
+import de.dittner.testmyself.model.domain.note.DeVerb;
+import de.dittner.testmyself.model.domain.note.DeWord;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.note.verb.DeVerb;
-import de.dittner.testmyself.model.domain.note.word.DeWord;
 import de.dittner.testmyself.model.domain.test.SelectArticleTest;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestID;

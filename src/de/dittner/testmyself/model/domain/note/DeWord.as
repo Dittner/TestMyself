@@ -1,6 +1,4 @@
-package de.dittner.testmyself.model.domain.note.word {
-import de.dittner.testmyself.model.domain.note.Note;
-
+package de.dittner.testmyself.model.domain.note {
 public class DeWord extends Note {
 	public function DeWord():void {}
 

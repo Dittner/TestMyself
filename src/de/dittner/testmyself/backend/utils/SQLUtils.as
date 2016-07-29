@@ -19,7 +19,7 @@ public class SQLUtils {
 		var res:String = "(";
 		for (var i:int = 0; i < vocabulariesID.length; i++) {
 			var id:int = vocabulariesID[i] as int;
-			res += "'" + id + "'";
+			res += id;
 			if (i < vocabulariesID.length - 1) res += ","
 		}
 		res += ")";

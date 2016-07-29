@@ -8,10 +8,14 @@ import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErro
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
-public class Note extends EventDispatcher implements INote {
+import mx.collections.ArrayCollection;
+
+public class Note extends EventDispatcher {
 	public function Note() {
 		super();
 	}
+
+	protected var options:Object = {};
 
 	//--------------------------------------
 	//  id
@@ -24,8 +28,14 @@ public class Note extends EventDispatcher implements INote {
 	//  vocabulary
 	//--------------------------------------
 	private var _vocabulary:Vocabulary;
+	[Bindable("vocabularyChanged")]
 	public function get vocabulary():Vocabulary {return _vocabulary;}
-	public function set vocabulary(value:Vocabulary):void {_vocabulary = value;}
+	public function set vocabulary(value:Vocabulary):void {
+		if (_vocabulary != value) {
+			_vocabulary = value;
+			dispatchEvent(new Event("vocabularyChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  parentID
@@ -106,22 +116,17 @@ public class Note extends EventDispatcher implements INote {
 	}
 
 	//--------------------------------------
-	//  examples
+	//  exampleColl
 	//--------------------------------------
-	private var _examples:Array;
-	[Bindable("examplesChanged")]
-	public function get examples():Array {return _examples;}
-	public function set examples(value:Array):void {
-		if (_examples != value) {
-			_examples = value;
-			dispatchEvent(new Event("examplesChanged"));
+	private var _exampleColl:ArrayCollection;
+	[Bindable("exampleCollChanged")]
+	public function get exampleColl():ArrayCollection {return _exampleColl;}
+	public function set exampleColl(value:ArrayCollection):void {
+		if (_exampleColl != value) {
+			_exampleColl = value;
+			dispatchEvent(new Event("exampleCollChanged"));
 		}
 	}
-
-	//--------------------------------------
-	//  options
-	//--------------------------------------
-	protected var options:Object = {};
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -130,10 +135,14 @@ public class Note extends EventDispatcher implements INote {
 	//----------------------------------------------------------------------------------------------
 
 	public function createExample():Note {
+		return Note.createExample(vocabulary, id);
+	}
+
+	public static function createExample(vocabulary:Vocabulary, parentID:int):Note {
 		var res:Note = new Note();
 		res.isExample = true;
 		res.vocabulary = vocabulary;
-		res.parentID = id;
+		res.parentID = parentID;
 		return res;
 	}
 
@@ -168,7 +177,8 @@ public class Note extends EventDispatcher implements INote {
 		res.description = description;
 		res.isExample = isExample;
 		res.options = options;
-		res.searchText = title + description;
+		res.searchText = title + "+" + description;
+		res.searchText = res.searchText.toLowerCase();
 		res.audioComment = audioComment.bytes ? audioComment : null;
 		return res;
 	}
@@ -195,7 +205,7 @@ public class Note extends EventDispatcher implements INote {
 			return NoteValidationErrorKey.EMPTY_NOTE_DESCRIPTION;
 		}
 		else if (!isExample) {
-			for each(var e:Note in examples)
+			for each(var e:Note in exampleColl)
 				if (!e.title) return NoteValidationErrorKey.EMPTY_EXAMPLE_TITLE;
 				else if (!e.description) return NoteValidationErrorKey.EMPTY_EXAMPLE_DESCRIPTION;
 		}
@@ -220,7 +230,7 @@ public class Note extends EventDispatcher implements INote {
 			var reloadedNote:Note = op.result;
 			deserialize(reloadedNote.originalData);
 			themes = reloadedNote.themes;
-			examples = reloadedNote.examples;
+			exampleColl = reloadedNote.exampleColl;
 		}
 	}
 

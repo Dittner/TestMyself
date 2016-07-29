@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.view.test.statistics.renderer {
-import de.dittner.testmyself.model.domain.note.INote;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -35,7 +35,7 @@ public class TestingNoteRenderer extends NoteBaseRenderer {
 		return data as TestTask;
 	}
 
-	private function get note():INote {
+	private function get note():Note {
 		return task ? task.note : null;
 	}
 

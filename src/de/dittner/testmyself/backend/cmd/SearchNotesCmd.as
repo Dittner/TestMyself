@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -8,11 +7,12 @@ import de.dittner.testmyself.backend.op.CountNotesBySearchOperation;
 import de.dittner.testmyself.backend.op.SelectExamplesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectNotesBySearchOperation;
 import de.dittner.testmyself.backend.op.SelectThemesByPageOperation;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.ui.common.page.SearchPageInfo;
 
 import mx.collections.ArrayCollection;
 
-public class SearchNotesCmd extends AsyncOperation implements IAsyncCommand {
+public class SearchNotesCmd extends StorageOperation implements IAsyncCommand {
 
 	public function SearchNotesCmd(storage:Storage, page:SearchPageInfo) {
 		super();
@@ -45,7 +45,7 @@ public class SearchNotesCmd extends AsyncOperation implements IAsyncCommand {
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(page);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 }
 }

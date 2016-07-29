@@ -1,12 +1,11 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.test.Test;
 
-public class ClearTestHistoryOperation extends AsyncOperation implements IAsyncCommand {
+public class ClearTestHistoryOperation extends StorageOperation implements IAsyncCommand {
 
 	public function ClearTestHistoryOperation(storage:Storage, test:Test, notesIDs:Array) {
 		super();
@@ -24,9 +23,8 @@ public class ClearTestHistoryOperation extends AsyncOperation implements IAsyncC
 		if (notesIDs.length > 0) {
 			composite = new CompositeCommand();
 
-			for each(var noteID:int in notesIDs) {
+			for each(var noteID:int in notesIDs)
 				composite.addOperation(ClearTestHistoryOperationPhase, test.id, noteID, storage, test);
-			}
 
 			composite.addCompleteCallback(completeHandler);
 			composite.execute();
@@ -36,7 +34,7 @@ public class ClearTestHistoryOperation extends AsyncOperation implements IAsyncC
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(op.result);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 
 	override public function destroy():void {

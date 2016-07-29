@@ -1,22 +1,18 @@
 package de.dittner.testmyself.backend.op {
 
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.page.SearchPageInfo;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
-import flash.utils.getQualifiedClassName;
 
-public class CountNotesBySearchOperation extends AsyncOperation implements IAsyncCommand {
+public class CountNotesBySearchOperation extends StorageOperation implements IAsyncCommand {
 
 	public function CountNotesBySearchOperation(storage:Storage, page:SearchPageInfo) {
 		this.storage = storage;
@@ -29,10 +25,8 @@ public class CountNotesBySearchOperation extends AsyncOperation implements IAsyn
 	public function execute():void {
 		var sql:String = SQLLib.SELECT_COUNT_NOTES_BY_SEARCH_SQL;
 		var sqlParams:Object = {};
-		sqlParams.startIndex = page.number * page.size;
-		sqlParams.amount = page.size;
 		sqlParams.loadExamples = page.loadExamples;
-		sqlParams.searchText = page.searchText;
+		sqlParams.searchText = "%" + page.searchText.toLowerCase() + "%";
 
 		var allVocabularyIDs:Array = [];
 		for each(var v:Vocabulary in page.lang.vocabularyHash.getList())
@@ -45,7 +39,7 @@ public class CountNotesBySearchOperation extends AsyncOperation implements IAsyn
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete));
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
 	private function executeComplete(result:SQLResult):void {
@@ -59,8 +53,7 @@ public class CountNotesBySearchOperation extends AsyncOperation implements IAsyn
 			dispatchSuccess();
 		}
 		else {
-			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": Не удалось получить число записей в таблице");
-			dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
+			dispatchError(ErrorCode.SQL_TRANSACTION_FAILED + ": Не удалось получить число записей в таблице");
 		}
 	}
 

@@ -1,8 +1,8 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
@@ -11,7 +11,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class LoadAllThemesCmd extends AsyncOperation implements IAsyncCommand {
+public class LoadAllThemesCmd extends StorageOperation implements IAsyncCommand {
 
 	public function LoadAllThemesCmd(storage:Storage, vocabulary:Vocabulary) {
 		super();
@@ -25,7 +25,7 @@ public class LoadAllThemesCmd extends AsyncOperation implements IAsyncCommand {
 	public function execute():void {
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_THEME_SQL, {vocabularyID: vocabulary.id});
 		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete));
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
 	private function executeComplete(result:SQLResult):void {

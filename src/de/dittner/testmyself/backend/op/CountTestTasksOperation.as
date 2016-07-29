@@ -1,20 +1,16 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
-import flash.utils.getQualifiedClassName;
 
-public class CountTestTasksOperation extends AsyncOperation implements IAsyncCommand {
+public class CountTestTasksOperation extends StorageOperation implements IAsyncCommand {
 
 	public function CountTestTasksOperation(storage:Storage, page:TestPageInfo) {
 		super();
@@ -41,7 +37,7 @@ public class CountTestTasksOperation extends AsyncOperation implements IAsyncCom
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete));
+		statement.execute(-1, new Responder(executeComplete, executeError));
 
 	}
 
@@ -55,8 +51,7 @@ public class CountTestTasksOperation extends AsyncOperation implements IAsyncCom
 			dispatchSuccess();
 		}
 		else {
-			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": Не удалось получить число тесовых задач в таблице");
-			dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
+			dispatchError(ErrorCode.SQL_TRANSACTION_FAILED + ": Не удалось получить число тесовых задач в таблице");
 		}
 	}
 

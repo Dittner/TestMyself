@@ -34,10 +34,7 @@ public class TextHistory extends EventDispatcher {
 	//--------------------------------------
 	private var _rollbackDepth:int = 0;
 	[Bindable("rollbackDepthChanged")]
-	public function get rollbackDepth():int {
-		return _rollbackDepth;
-	}
-
+	public function get rollbackDepth():int {return _rollbackDepth;}
 	protected function setRollbackDepth(value:int):void {
 		if (rollbackDepth != value) {
 			_rollbackDepth = value;

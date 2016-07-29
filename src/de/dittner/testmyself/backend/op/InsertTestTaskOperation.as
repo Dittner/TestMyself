@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -7,7 +6,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 
-public class InsertTestTaskOperation extends AsyncOperation implements IAsyncCommand {
+public class InsertTestTaskOperation extends StorageOperation implements IAsyncCommand {
 
 	public function InsertTestTaskOperation(storage:Storage, note:Note) {
 		this.storage = storage;
@@ -27,7 +26,7 @@ public class InsertTestTaskOperation extends AsyncOperation implements IAsyncCom
 				if (test.isValidForTest(note))
 					composite.addOperation(InsertTestTaskOperationPhase, storage, note, test);
 
-				for each(var example:Note in note.examples)
+				for each(var example:Note in note.exampleColl)
 					if (test.isValidForTest(example))
 						composite.addOperation(InsertTestTaskOperationPhase, storage, example, test);
 
@@ -41,7 +40,7 @@ public class InsertTestTaskOperation extends AsyncOperation implements IAsyncCom
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(op.result);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 
 	override public function destroy():void {

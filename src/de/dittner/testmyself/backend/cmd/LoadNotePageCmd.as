@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -8,9 +7,10 @@ import de.dittner.testmyself.backend.op.CountFilteredNoteByPageOperation;
 import de.dittner.testmyself.backend.op.SelectExamplesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectNotesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectThemesByPageOperation;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.ui.common.page.NotePageInfo;
 
-public class LoadNotePageCmd extends AsyncOperation implements IAsyncCommand {
+public class LoadNotePageCmd extends StorageOperation implements IAsyncCommand {
 
 	public function LoadNotePageCmd(storage:Storage, page:NotePageInfo) {
 		super();
@@ -36,7 +36,7 @@ public class LoadNotePageCmd extends AsyncOperation implements IAsyncCommand {
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(page);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 }
 }

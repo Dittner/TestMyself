@@ -8,8 +8,8 @@
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.note.INote;
-        import de.dittner.testmyself.model.domain.note.word.DeWord;
+        import de.dittner.testmyself.model.domain.note.DeWord;
+        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -18,8 +18,8 @@
         //--------------------------------------
         //  word
         //--------------------------------------
-        public function get note():INote {
-            return activeNote as INote;
+        public function get note():Note {
+            return activeNote as Note;
         }
 
         public var translateInDeutsch:Boolean = false;

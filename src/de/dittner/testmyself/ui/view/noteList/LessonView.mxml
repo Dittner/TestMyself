@@ -16,10 +16,8 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.note.INote;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
@@ -30,65 +28,37 @@
         [Bindable]
         public var vm:NoteListVM;
 
-        //--------------------------------------
-        //  editing
-        //--------------------------------------
-        private var _editing:Boolean = false;
-        [Bindable("editingChanged")]
-        public function get editing():Boolean {return _editing;}
-        public function set editing(value:Boolean):void {
-            if (_editing != value) {
-                _editing = value;
-                dispatchEvent(new Event("editingChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  selectedLessonName
-        //--------------------------------------
-        private var _selectedLessonName:String = "";
-        [Bindable("selectedLessonNameChanged")]
-        public function get selectedLessonName():String {return _selectedLessonName;}
-        public function set selectedLessonName(value:String):void {
-            if (_selectedLessonName != value) {
-                _selectedLessonName = value;
-                dispatchEvent(new Event("selectedLessonNameChanged"));
-            }
-        }
-
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
         //
         //----------------------------------------------------------------------------------------------
 
-        override protected function activate():void {
+        override protected function activating():void {
             vm = ViewModelFactory.instance.noteListVM;
+            vm.lockView();
+        }
+
+        override protected function activate():void {
+            vm.unlockView();
             vm.viewActivated(info);
             currentState = "lessonList";
         }
 
         override protected function deactivate():void {
-            editing = false;
-            selectedLessonName = "";
+            vm.viewDeactivated();
             mp3Player.visible = false;
             setCurrentState("inactive");
         }
 
         private function showLessonList():void {
+            vm.selectedNote = null;
+            vm.page.selectedTheme = null;
             setCurrentState("lessonList");
         }
 
         private function showLessonContent():void {
             setCurrentState("lessonContent");
-        }
-
-        override protected function updateDisplayList(w:Number, h:Number):void {
-            super.updateDisplayList(w, h);
-            if (form) {
-                form.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
-                form.x = w - form.width;
-            }
         }
 
         private function showAddLessonForm():void {
@@ -127,9 +97,11 @@
         }
 
         private function lessonSelectedHandler(event:Event):void {
-            vm.selectedNote = lessonList.selectedItem as INote;
+            vm.page.selectedTheme = lessonList.selectedItem as Theme;
             if (lessonList.selectedItem) {
-                vm.page.selectedTheme = lessonList.selectedItem as Theme;
+                vm.page.number = 0;
+                vm.page.countAllNotes = true;
+                vm.reloadPage();
                 showLessonContent();
             }
         }
@@ -223,7 +195,8 @@
                            image="@Embed(source='/assets/tools/goback.png')"
                            click="showLessonList()"/>
 
-        <s:Label text.lessonContent="{selectedLessonName}" text="{info.title}"
+        <s:Label text.lessonContent="{vm.page.selectedTheme.name}"
+                 text="{info.title}"
                  textAlign.lessonContent="center" textAlign="left"
                  fontFamily="{FontName.MYRIAD}"
                  fontSize="18"
@@ -257,6 +230,7 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <common:NoteList id="noteList"
+                         selectedNote="@{vm.selectedNote}"
                          dataProvider="{vm.page.noteColl}"
                          width="100%"
                          contentBackgroundAlpha="0"
@@ -275,7 +249,7 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <list2:SelectableDataGroup id="lessonList"
-                                   selectedItem="{vm.selectedNote}"
+                                   selectedItem="{vm.page.selectedTheme}"
                                    dataProvider="{vm.page.vocabulary.themeColl}"
                                    width="100%"
                                    visible="false" visible.lessonList="true"
@@ -319,8 +293,8 @@
 
     <s:Group width="100%" height="100%"
              excludeFrom="inactive"
-             visible="{editing}"
-             mouseEnabled="{editing}">
+             visible="{form.visible}"
+             mouseEnabled="{form.visible}">
         <s:Rect width="100%" height="100%">
             <s:fill>
                 <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
@@ -328,9 +302,13 @@
         </s:Rect>
 
         <form2:NoteForm id="form"
+                        width="100%"
+                        selectedFilter="{vm.page.selectedTheme}"
                         visible="false"
                         bottom="0"
-                        top="{HEADER_HEI}"/>
+                        top="{HEADER_HEI}"
+                        show="vm.lockViewList()"
+                        hide="vm.unlockViewList()"/>
     </s:Group>
 
     <form2:AddLessonForm id="addLessonForm"

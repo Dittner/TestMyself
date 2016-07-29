@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -7,7 +6,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.ui.common.page.IPageInfo;
 
-public class SelectExamplesByPageOperation extends AsyncOperation implements IAsyncCommand {
+public class SelectExamplesByPageOperation extends StorageOperation implements IAsyncCommand {
 
 	public function SelectExamplesByPageOperation(storage:Storage, page:IPageInfo) {
 		super();
@@ -28,12 +27,14 @@ public class SelectExamplesByPageOperation extends AsyncOperation implements IAs
 			composite.addCompleteCallback(completeHandler);
 			composite.execute();
 		}
-		else dispatchSuccess();
+		else {
+			dispatchSuccess();
+		}
 	}
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess(page);
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 }
 }

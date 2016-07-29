@@ -2,7 +2,7 @@ package de.dittner.testmyself.ui.view.noteList {
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.language.Language;
-import de.dittner.testmyself.model.domain.note.INote;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.page.NotePageInfo;
 import de.dittner.testmyself.ui.common.view.ViewID;
@@ -48,10 +48,10 @@ public class NoteListVM extends ViewModel {
 	//--------------------------------------
 	//  selectedNote
 	//--------------------------------------
-	private var _selectedNote:INote;
+	private var _selectedNote:Note;
 	[Bindable("selectedNoteChanged")]
-	public function get selectedNote():INote {return _selectedNote;}
-	public function set selectedNote(value:INote):void {
+	public function get selectedNote():Note {return _selectedNote;}
+	public function set selectedNote(value:Note):void {
 		if (_selectedNote != value) {
 			_selectedNote = value;
 			dispatchEvent(new Event("selectedNoteChanged"));
@@ -61,10 +61,10 @@ public class NoteListVM extends ViewModel {
 	//--------------------------------------
 	//  selectedExample
 	//--------------------------------------
-	private var _selectedExample:INote;
+	private var _selectedExample:Note;
 	[Bindable("selectedExampleChanged")]
-	public function get selectedExample():INote {return _selectedExample;}
-	public function set selectedExample(value:INote):void {
+	public function get selectedExample():Note {return _selectedExample;}
+	public function set selectedExample(value:Note):void {
 		if (_selectedExample != value) {
 			_selectedExample = value;
 			dispatchEvent(new Event("selectedExampleChanged"));

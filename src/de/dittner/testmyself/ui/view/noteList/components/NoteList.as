@@ -16,6 +16,9 @@ public class NoteList extends SelectableDataGroup {
 	//--------------------------------------
 	[Bindable("selectedItemChange")]
 	public function get selectedNote():Note {return selectedItem as Note;}
+	public function set selectedNote(value:Note):void {
+		selectedItem = value;
+	}
 
 	//--------------------------------------
 	//  pageLayout

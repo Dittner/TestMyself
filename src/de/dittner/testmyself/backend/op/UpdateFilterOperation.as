@@ -1,22 +1,17 @@
 package de.dittner.testmyself.backend.op {
 
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.theme.Theme;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
-import flash.errors.SQLError;
 import flash.net.Responder;
-import flash.utils.getQualifiedClassName;
 
-public class UpdateFilterOperation extends AsyncOperation implements IAsyncCommand {
+public class UpdateFilterOperation extends StorageOperation implements IAsyncCommand {
 
 	public function UpdateFilterOperation(storage:Storage, newTheme:Theme, oldTheme:Theme) {
 		super();
@@ -31,8 +26,7 @@ public class UpdateFilterOperation extends AsyncOperation implements IAsyncComma
 
 	public function execute():void {
 		if (newTheme.id == -1 || oldTheme.id == -1) {
-			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.NULLABLE_NOTE + ": Отсутствует ID темы");
-			dispatchError(ErrorCode.NULLABLE_NOTE);
+			dispatchError(ErrorCode.NULLABLE_NOTE + ": Отсутствует ID темы");
 		}
 		else {
 			var sqlParams:Object = {};
@@ -47,11 +41,6 @@ public class UpdateFilterOperation extends AsyncOperation implements IAsyncComma
 
 	private function executeComplete(result:SQLResult):void {
 		dispatchSuccess();
-	}
-
-	private function executeError(error:SQLError):void {
-		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
-		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 
 	override public function destroy():void {

@@ -16,7 +16,7 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.audioComment.AudioComment;
-        import de.dittner.testmyself.model.domain.note.INote;
+        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -25,8 +25,6 @@
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
-
-        import mx.collections.ArrayCollection;
 
         [Bindable]
         public var vm:NoteListVM;
@@ -37,8 +35,13 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        override protected function activate():void {
+        override protected function activating():void {
             vm = ViewModelFactory.instance.noteListVM;
+            vm.lockView();
+        }
+
+        override protected function activate():void {
+            vm.unlockView();
             vm.viewActivated(info);
 
             switch (vm.page.vocabulary.id) {
@@ -59,7 +62,7 @@
             setCurrentState("inactive");
         }
 
-        private function getAudioComment(selectedNote:INote, selectedExample:INote):AudioComment {
+        private function getAudioComment(selectedNote:Note, selectedExample:Note):AudioComment {
             if (selectedExample && selectedExample.hasAudioComment) return selectedExample.audioComment;
             else if (selectedNote && selectedNote.hasAudioComment) return selectedNote.audioComment;
             else return null;
@@ -122,6 +125,7 @@
         }
 
         private function filterChangedHandler(event:Event):void {
+            vm.page.number = 0;
             vm.page.countAllNotes = true;
             vm.reloadPage();
         }
@@ -182,15 +186,14 @@
                     horizontalScrollPolicy="off"
                     hasFocusableChildren="false">
             <common:NoteList id="noteList"
-                             selectedItem="{vm.selectedNote}"
+                             selectedNote="@{vm.selectedNote}"
                              dataProvider="{vm.page.noteColl}"
                              width="100%"
                              contentBackgroundAlpha="0"
                              deselectEnabled="true"
                              itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
                              itemRenderer.word="de.dittner.testmyself.ui.view.noteList.components.renderer.WordRenderer"
-                             itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer"
-                             selectedItemChange="vm.selectedNote = noteList.selectedItem as INote">
+                             itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer">
                 <common:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                 </common:layout>
@@ -199,7 +202,7 @@
 
         <common:ExampleList id="exampleList"
                             selectedNote="@{vm.selectedExample}"
-                            dataProvider="{new ArrayCollection(noteList.selectedNote.examples)}"
+                            dataProvider="{noteList.selectedNote.exampleColl}"
                             width="100%" height="100%"
                             excludeFrom="inactive"
                             showTitle="false"

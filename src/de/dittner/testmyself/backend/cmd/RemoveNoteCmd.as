@@ -1,5 +1,4 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
@@ -8,8 +7,9 @@ import de.dittner.testmyself.backend.op.DeleteExampleByParentIDOperation;
 import de.dittner.testmyself.backend.op.DeleteFilterByNoteIDOperation;
 import de.dittner.testmyself.backend.op.DeleteNoteOperation;
 import de.dittner.testmyself.backend.op.DeleteTestTaskByNoteIDOperation;
+import de.dittner.testmyself.backend.op.StorageOperation;
 
-public class RemoveNoteCmd extends AsyncOperation implements IAsyncCommand {
+public class RemoveNoteCmd extends StorageOperation implements IAsyncCommand {
 
 	public function RemoveNoteCmd(storage:Storage, noteID:int) {
 		super();
@@ -34,7 +34,7 @@ public class RemoveNoteCmd extends AsyncOperation implements IAsyncCommand {
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) dispatchSuccess();
-		else dispatchError(op.error);
+		else dispatchError();
 	}
 
 }

@@ -1,22 +1,18 @@
 package de.dittner.testmyself.backend.cmd {
 
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.test.TestTask;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
-import flash.errors.SQLError;
 import flash.net.Responder;
-import flash.utils.getQualifiedClassName;
 
-public class StoreTestTaskCmd extends AsyncOperation implements IAsyncCommand {
+public class StoreTestTaskCmd extends StorageOperation implements IAsyncCommand {
 
 	public function StoreTestTaskCmd(storage:Storage, task:TestTask) {
 		this.storage = storage;
@@ -36,18 +32,12 @@ public class StoreTestTaskCmd extends AsyncOperation implements IAsyncCommand {
 			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
 		else {
-			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.EMPTY_TEST_TASK + ": TestTask has no data about test or note");
-			dispatchError(ErrorCode.EMPTY_TEST_TASK);
+			dispatchError(ErrorCode.EMPTY_TEST_TASK + ": TestTask has no data about test or note");
 		}
 	}
 
 	private function executeComplete(result:SQLResult):void {
 		dispatchSuccess();
-	}
-
-	private function executeError(error:SQLError):void {
-		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
-		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
 	}
 
 }

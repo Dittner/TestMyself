@@ -1,22 +1,17 @@
 package de.dittner.testmyself.backend.op {
 
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.domain.note.Note;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
-import flash.errors.SQLError;
 import flash.net.Responder;
-import flash.utils.getQualifiedClassName;
 
-public class InsertExampleOperationPhase extends AsyncOperation implements IAsyncCommand {
+public class InsertExampleOperationPhase extends StorageOperation implements IAsyncCommand {
 	public function InsertExampleOperationPhase(storage:Storage, example:Note) {
 		this.example = example;
 		this.storage = storage;
@@ -27,8 +22,7 @@ public class InsertExampleOperationPhase extends AsyncOperation implements IAsyn
 
 	public function execute():void {
 		if (example.parentID == -1) {
-			CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + ": Нет ID записи, необходимого для сохранения примера");
-			dispatchError(ErrorCode.PARENT_EXAMPLE_HAS_NO_ID);
+			dispatchError(ErrorCode.PARENT_EXAMPLE_HAS_NO_ID + ": Нет ID записи, необходимого для сохранения примера");
 			return;
 		}
 
@@ -43,12 +37,9 @@ public class InsertExampleOperationPhase extends AsyncOperation implements IAsyn
 			example.id = result.lastInsertRowID;
 			dispatchSuccess();
 		}
-		else dispatchError(getQualifiedClassName(this) + " " + ErrorCode.THEME_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленного примера");
-	}
-
-	private function executeError(error:SQLError):void {
-		CLog.err(LogCategory.STORAGE, getQualifiedClassName(this) + " " + ErrorCode.SQL_TRANSACTION_FAILED + ": " + error.details);
-		dispatchError(ErrorCode.SQL_TRANSACTION_FAILED);
+		else {
+			dispatchError(ErrorCode.THEME_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленного примера");
+		}
 	}
 
 	override public function destroy():void {

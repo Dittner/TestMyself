@@ -1,8 +1,8 @@
 package de.dittner.testmyself.backend.utils {
 
-import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
+import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 
 import flash.data.SQLConnection;
@@ -10,7 +10,7 @@ import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class SelectAllExamplesOperationPhase extends AsyncOperation implements IAsyncCommand {
+public class SelectAllExamplesOperationPhase extends StorageOperation implements IAsyncCommand {
 
 	public function SelectAllExamplesOperationPhase(conn:SQLConnection, sqlFactory:SQLLib, examples:Array) {
 		super();
@@ -29,7 +29,7 @@ public class SelectAllExamplesOperationPhase extends AsyncOperation implements I
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
 		statement.sqlConnection = conn;
-		statement.execute(-1, new Responder(executeComplete));
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
 	private function executeComplete(result:SQLResult):void {

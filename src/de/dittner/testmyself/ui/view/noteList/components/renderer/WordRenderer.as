@@ -1,6 +1,6 @@
 package de.dittner.testmyself.ui.view.noteList.components.renderer {
-import de.dittner.testmyself.model.domain.note.word.DeWord;
-import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
+import de.dittner.testmyself.model.domain.note.DeWord;
+import de.dittner.testmyself.model.domain.note.DeWordArticle;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;

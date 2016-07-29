@@ -18,15 +18,15 @@
         import mx.core.IVisualElementContainer;
 
         //--------------------------------------
-        //  examples
+        //  exampleColl
         //--------------------------------------
-        private var _examples:ArrayCollection;
-        [Bindable("examplesChanged")]
-        public function get examples():ArrayCollection {return _examples;}
-        public function set examples(value:ArrayCollection):void {
-            if (_examples != value) {
-                _examples = value;
-                dispatchEvent(new Event("examplesChanged"));
+        private var _exampleColl:ArrayCollection;
+        [Bindable("exampleCollChanged")]
+        public function get exampleColl():ArrayCollection {return _exampleColl;}
+        public function set exampleColl(value:ArrayCollection):void {
+            if (_exampleColl != value) {
+                _exampleColl = value;
+                dispatchEvent(new Event("exampleCollChanged"));
             }
         }
 
@@ -57,7 +57,7 @@
         }
 
         public function clear():void {
-            examples = null;
+            exampleColl = null;
             back();
         }
 
@@ -106,12 +106,12 @@
         private function apply():void {
             if (currentState == "add") {
                 correctText();
-                if (!examples) examples = new ArrayCollection();
+                if (!exampleColl) exampleColl = new ArrayCollection();
                 var note:Note = parentNote.createExample();
                 note.title = titleArea.text;
                 note.description = descriptionArea.text;
                 note.audioComment = audioRecorder.comment;
-                examples.addItem(note);
+                exampleColl.addItem(note);
                 back();
             }
             else if (currentState == "edit") {
@@ -123,7 +123,7 @@
                 back();
             }
             else if (currentState == "remove") {
-                examples.removeItemAt(exampleList.selectedIndex);
+                exampleColl.removeItemAt(exampleList.selectedIndex);
                 back();
             }
         }
@@ -266,7 +266,7 @@
 
     <list:ListForm id="exampleList"
                    width="100%" height="100%"
-                   dataProvider="{examples}"
+                   dataProvider="{exampleColl}"
                    title="Beispiele"
                    itemRenderer="de.dittner.testmyself.ui.view.noteList.components.form.ExamplesFormRenderer">
         <list:layout>

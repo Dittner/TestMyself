@@ -1,6 +1,6 @@
 package de.dittner.testmyself.ui.view.test.statistics.renderer {
-import de.dittner.testmyself.model.domain.note.word.DeWord;
-import de.dittner.testmyself.model.domain.note.word.DeWordArticle;
+import de.dittner.testmyself.model.domain.note.DeWord;
+import de.dittner.testmyself.model.domain.note.DeWordArticle;
 import de.dittner.testmyself.model.domain.test.TestID;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.common.renderer.*;
