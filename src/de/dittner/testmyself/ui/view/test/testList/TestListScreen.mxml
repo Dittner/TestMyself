@@ -9,22 +9,24 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.test.Test;
         import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+        import de.dittner.testmyself.ui.view.test.TestVM;
 
         import mx.collections.ArrayCollection;
 
         import spark.events.IndexChangeEvent;
 
         //--------------------------------------
-        //  vocabularyColl
+        //  vm
         //--------------------------------------
-        private var _vocabularyColl:ArrayCollection;
-        [Bindable("vocabularyCollChanged")]
-        public function get vocabularyColl():ArrayCollection {return _vocabularyColl;}
-        public function set vocabularyColl(value:ArrayCollection):void {
-            if (_vocabularyColl != value) {
-                _vocabularyColl = value;
-                dispatchEvent(new Event("vocabularyCollChanged"));
+        private var _vm:TestVM;
+        [Bindable("vmChanged")]
+        public function get vm():TestVM {return _vm;}
+        public function set vm(value:TestVM):void {
+            if (_vm != value) {
+                _vm = value;
+                dispatchEvent(new Event("vmChanged"));
             }
         }
 
@@ -46,19 +48,25 @@
         }
 
         private function selectedTestHandler(event:IndexChangeEvent):void {
-            dispatchEvent(new Event("testSelected"));
+            if (testList.selectedItem is Test) {
+                vm.testPage.test = testList.selectedItem;
+                vm.statisticsPage.test = testList.selectedItem;
+                vm.selectedVocabulary = vocabularyList.selectedItem;
+                dispatchEvent(new Event("testSelected"));
+                testList.selectedItem = null;
+            }
         }
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="15" paddingTop="{padding}" horizontalAlign="center"/>
+        <s:VerticalLayout gap="15" paddingTop="{padding}" paddingBottom="{padding}" horizontalAlign="center"/>
     </s:layout>
 
     <list:ListForm id="vocabularyList"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"
                    width="{width - 2*padding}"
-                   dataProvider="{vocabularyColl}"
+                   dataProvider="{vm.vocabularyColl}"
                    title="Wählen Sie bitte die wünschen Notizart aus der Liste aus"
                    itemRenderer="de.dittner.testmyself.ui.view.test.testList.VocabularyRenderer">
         <list:layout>

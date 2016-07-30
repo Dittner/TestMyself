@@ -47,7 +47,7 @@ public class SelectNotesByPageOperation extends StorageOperation implements IAsy
 		var notes:Array = [];
 		if (result.data is Array)
 			for each(var item:Object in result.data) {
-				var note:Note = page.vocabulary.createNote();
+				var note:Note = page.vocabulary.createNote(item);
 				note.deserialize(item);
 				notes.push(note);
 			}

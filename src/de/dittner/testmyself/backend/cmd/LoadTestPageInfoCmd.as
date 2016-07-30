@@ -25,7 +25,7 @@ public class LoadTestPageInfoCmd extends StorageOperation implements IAsyncComma
 
 		composite.addOperation(SelectPageTestTasksOperation, storage, page);
 		composite.addOperation(SelectNotesByTestPageOperation, storage, page);
-		if (page.amountAllTasks == -1)
+		if (page.countAllNotes)
 			composite.addOperation(CountTestTasksOperation, storage, page);
 
 		composite.addCompleteCallback(completeHandler);

@@ -65,16 +65,23 @@
         private function editSelectedNote():void {
             form.visible = true;
             var op:IAsyncOperation = form.edit(list.selectedItem as Note);
-            op.addCompleteCallback(noteListChanged);
+            op.addCompleteCallback(noteEditComplete);
         }
 
         private function removeSelectedNote():void {
             form.visible = true;
             var op:IAsyncOperation = form.remove(list.selectedItem as Note);
-            op.addCompleteCallback(noteListChanged);
+            op.addCompleteCallback(noteRemovedComplete);
         }
 
-        private function noteListChanged(op:IAsyncOperation):void {
+        private function noteRemovedComplete(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                vm.page.allNotesAmount--;
+                search();
+            }
+        }
+
+        private function noteEditComplete(op:IAsyncOperation):void {
             if (op.isSuccess && op.result == FormOperationResult.OK) {
                 vm.page.countAllNotes = true;
                 search();

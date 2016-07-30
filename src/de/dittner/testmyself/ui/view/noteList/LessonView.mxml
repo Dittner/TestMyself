@@ -113,17 +113,17 @@
                 case(ToolAction.CREATE_NOTE) :
                     form.visible = true;
                     op = form.add(vm.page.vocabulary.createNote());
-                    op.addCompleteCallback(noteListChanged);
+                    op.addCompleteCallback(noteAddedComplete);
                     break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
                     op = form.edit(noteList.selectedNote);
-                    op.addCompleteCallback(noteListChanged);
+                    op.addCompleteCallback(noteEditComplete);
                     break;
                 case(ToolAction.REMOVE_NOTE) :
                     form.visible = true;
                     op = form.remove(noteList.selectedNote);
-                    op.addCompleteCallback(noteListChanged);
+                    op.addCompleteCallback(noteRemovedComplete);
                     break;
                 case(ToolAction.INVERT) :
                     pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
@@ -148,10 +148,23 @@
             }
         }
 
-        private function noteListChanged(op:IAsyncOperation):void {
+        private function noteAddedComplete(op:IAsyncOperation):void {
             if (op.isSuccess && op.result == FormOperationResult.OK) {
-                vm.page.countAllNotes = true;
+                vm.page.allNotesAmount++;
                 vm.reloadPage();
+            }
+        }
+
+        private function noteRemovedComplete(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                vm.page.allNotesAmount--;
+                vm.reloadPage();
+            }
+        }
+
+        private function noteEditComplete(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                vm.page.noteColl.refresh();
             }
         }
 

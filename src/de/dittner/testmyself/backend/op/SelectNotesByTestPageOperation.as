@@ -7,6 +7,8 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
 
+import mx.collections.ArrayCollection;
+
 public class SelectNotesByTestPageOperation extends StorageOperation implements IAsyncCommand {
 
 	public function SelectNotesByTestPageOperation(storage:Storage, page:TestPageInfo) {
@@ -28,11 +30,17 @@ public class SelectNotesByTestPageOperation extends StorageOperation implements 
 			composite.addCompleteCallback(completeHandler);
 			composite.execute();
 		}
-		else dispatchSuccess();
+		else {
+			page.taskColl = new ArrayCollection();
+			dispatchSuccess();
+		}
 	}
 
 	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) dispatchSuccess(page);
+		if (op.isSuccess) {
+			page.taskColl = new ArrayCollection(page.tasks);
+			dispatchSuccess(page);
+		}
 		else dispatchError();
 	}
 }

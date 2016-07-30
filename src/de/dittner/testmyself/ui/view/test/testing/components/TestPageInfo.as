@@ -6,41 +6,43 @@ import de.dittner.testmyself.model.domain.theme.Theme;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
+import mx.collections.ArrayCollection;
+
 public class TestPageInfo extends EventDispatcher {
 	public function TestPageInfo() {
 		super();
 	}
 
 	//--------------------------------------
-	//  pageNum
+	//  number
 	//--------------------------------------
-	private var _pageNum:uint = 0;
-	[Bindable("pageNumChanged")]
-	public function get pageNum():uint {return _pageNum;}
-	public function set pageNum(value:uint):void {
-		if (_pageNum != value) {
-			_pageNum = value;
-			dispatchEvent(new Event("pageNumChanged"));
+	private var _number:uint = 0;
+	[Bindable("numberChanged")]
+	public function get number():uint {return _number;}
+	public function set number(value:uint):void {
+		if (_number != value) {
+			_number = value;
+			dispatchEvent(new Event("numberChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  pageSize
+	//  size
 	//--------------------------------------
-	private var _pageSize:uint = 10;
-	[Bindable("pageSizeChanged")]
-	public function get pageSize():uint {return _pageSize;}
-	public function set pageSize(value:uint):void {
-		if (_pageSize != value) {
-			_pageSize = value;
-			dispatchEvent(new Event("pageSizeChanged"));
+	private var _size:uint = 10;
+	[Bindable("sizeChanged")]
+	public function get size():uint {return _size;}
+	public function set size(value:uint):void {
+		if (_size != value) {
+			_size = value;
+			dispatchEvent(new Event("sizeChanged"));
 		}
 	}
 
 	//--------------------------------------
 	//  amountAllTasks
 	//--------------------------------------
-	private var _amountAllTasks:int = -1;
+	private var _amountAllTasks:int = 0;
 	[Bindable("amountAllTasksChanged")]
 	public function get amountAllTasks():int {return _amountAllTasks;}
 	public function set amountAllTasks(value:int):void {
@@ -51,28 +53,42 @@ public class TestPageInfo extends EventDispatcher {
 	}
 
 	//--------------------------------------
-	//  onlyFailedNotes
+	//  countAllNotes
 	//--------------------------------------
-	private var _onlyFailedNotes:Boolean = false;
-	[Bindable("onlyFailedNotesChanged")]
-	public function get onlyFailedNotes():Boolean {return _onlyFailedNotes;}
-	public function set onlyFailedNotes(value:Boolean):void {
-		if (_onlyFailedNotes != value) {
-			_onlyFailedNotes = value;
-			dispatchEvent(new Event("onlyFailedNotesChanged"));
+	private var _countAllNotes:Boolean = true;
+	[Bindable("countAllNotesChanged")]
+	public function get countAllNotes():Boolean {return _countAllNotes;}
+	public function set countAllNotes(value:Boolean):void {
+		if (_countAllNotes != value) {
+			_countAllNotes = value;
+			dispatchEvent(new Event("countAllNotesChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  tasks
+	//  loadOnlyFailedTestTask
 	//--------------------------------------
-	private var _tasks:Array;
-	[Bindable("tasksChanged")]
-	public function get tasks():Array {return _tasks;}
-	public function set tasks(value:Array):void {
-		if (_tasks != value) {
-			_tasks = value;
-			dispatchEvent(new Event("tasksChanged"));
+	private var _loadOnlyFailedTestTask:Boolean = false;
+	[Bindable("loadOnlyFailedTestTaskChanged")]
+	public function get loadOnlyFailedTestTask():Boolean {return _loadOnlyFailedTestTask;}
+	public function set loadOnlyFailedTestTask(value:Boolean):void {
+		if (_loadOnlyFailedTestTask != value) {
+			_loadOnlyFailedTestTask = value;
+			dispatchEvent(new Event("loadOnlyFailedTestTaskChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  taskColl
+	//--------------------------------------
+	public var tasks:Array;
+	private var _taskColl:ArrayCollection;
+	[Bindable("taskCollChanged")]
+	public function get taskColl():ArrayCollection {return _taskColl;}
+	public function set taskColl(value:ArrayCollection):void {
+		if (_taskColl != value) {
+			_taskColl = value;
+			dispatchEvent(new Event("taskCollChanged"));
 		}
 	}
 

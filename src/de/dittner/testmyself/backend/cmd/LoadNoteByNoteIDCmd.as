@@ -41,7 +41,7 @@ public class LoadNoteByNoteIDCmd extends StorageOperation implements IAsyncComma
 	private function executeComplete(result:SQLResult):void {
 		if (result.data is Array)
 			for each(var item:Object in result.data) {
-				loadedNote = vocabulary.createNote();
+				loadedNote = vocabulary.createNote(item);
 				loadedNote.deserialize(item);
 				break;
 			}

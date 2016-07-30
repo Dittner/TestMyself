@@ -14,11 +14,10 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.test.Test;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
 
         [Bindable]
         public var vm:TestVM;
@@ -40,56 +39,59 @@
         }
 
         private function showTestList():void {
+            vm.selectedTestTask = null;
             setCurrentState("testList");
         }
 
         private function showTestPresets():void {
+            vm.selectedTestTask = null;
             setCurrentState("presets");
         }
 
         private function showStatistics():void {
-            vm.pageInfo.selectedTaskComplexity = testPresetsScreen.selectedComplexity;
-            vm.pageInfo.selectedTheme = testPresetsScreen.themesList.selectedItem;
+            vm.selectedTestTask = null;
             statisticsScreen.activate();
             setCurrentState("statistics");
         }
 
         private function startTesting():void {
-            vm.pageInfo.selectedTaskComplexity = testPresetsScreen.selectedComplexity;
-            vm.pageInfo.selectedTheme = testPresetsScreen.themesList.selectedItem;
+            vm.selectedTestTask = null;
             testingScreen.activate();
             setCurrentState("testing");
         }
 
-        override protected function updateDisplayList(w:Number, h:Number):void {
-            super.updateDisplayList(w, h);
-            if (form) {
-                form.width = Math.min(w, AppSizes.EDITOR_MAX_WIDTH);
-                form.x = w - form.width;
-            }
-        }
-
-        private function testSelected():void {
-            vm.pageInfo.test = testListScreen.testList.selectedItem;
-            vm.selectedVocabulary = testListScreen.vocabularyList.selectedItem;
-            if (testListScreen.testList.selectedItem is Test)
-                showStatistics();
-        }
-
         private function openFormToRemoveTaskNote():void {
             form.visible = true;
-            var op:IAsyncOperation = form.edit(vm.curTestTask.note);
-            op.addCompleteCallback(formOperationComplete);
+            var op:IAsyncOperation = form.remove(vm.selectedTestTask.note);
+            op.addCompleteCallback(noteRemoveOperationComplete);
         }
 
         private function openFormToEditTaskNote():void {
             form.visible = true;
-            var op:IAsyncOperation = form.edit(vm.curTestTask.note);
-            op.addCompleteCallback(formOperationComplete);
+            var op:IAsyncOperation = form.edit(vm.selectedTestTask.note);
+            op.addCompleteCallback(noteEditOperationComplete);
         }
 
-        private function formOperationComplete(op:IAsyncOperation):void {
-            vm.loadTestTaskPageInfo();
+        private function noteRemoveOperationComplete(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                if (currentState == "statistics") {
+                    vm.statisticsPage.amountAllTasks--;
+                    vm.loadStatisticsPage();
+                }
+                else if (currentState == "testing") {
+                    vm.testPage.amountAllTasks--;
+                    vm.loadTestTaskPage();
+                }
+            }
+        }
+
+        private function noteEditOperationComplete(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                if (currentState == "statistics")
+                    vm.loadStatisticsPage();
+                else if (currentState == "testing")
+                    vm.loadTestTaskPage();
+            }
         }
         ]]></fx:Script>
 
@@ -126,16 +128,16 @@
              color="#54545d"/>
 
     <button:ToolButton id="removeBtn"
-                       visible="false" visible.testing="true"
-                       enabled="{vm.curTestTask.note}"
+                       visible="false" visible.statistics="true" visible.testing="true"
+                       enabled="{vm.selectedTestTask}"
                        top="8" right="{editBtn.width}"
                        description="Die Notiz entfernen"
                        image="@Embed(source='/assets/tools/recycle_bin.png')"
                        click="openFormToRemoveTaskNote()"/>
 
     <button:ToolButton id="editBtn"
-                       visible="false" visible.testing="true"
-                       enabled="{vm.curTestTask.note}"
+                       visible="false" visible.statistics="true" visible.testing="true"
+                       enabled="{vm.selectedTestTask}"
                        top="8" right="0"
                        description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"
@@ -150,14 +152,14 @@
              excludeFrom="inactive">
 
         <testlist:TestListScreen id="testListScreen"
+                                 vm="{vm}"
                                  width="100%" height="100%"
-                                 vocabularyColl="{vm.vocabularyColl}"
                                  padding="{PADDING}"
                                  visible="false" visible.testList="true"
-                                 testSelected="testSelected()"/>
+                                 testSelected="showTestPresets()"/>
 
         <presets:TestPresetsScreen id="testPresetsScreen"
-                                   title="{vm.pageInfo.test.title}"
+                                   vm="{vm}"
                                    width="100%" height="100%"
                                    padding="{PADDING}"
                                    visible="false" visible.presets="true"
@@ -182,7 +184,8 @@
 
     <s:Group width="100%" height="100%"
              visible="{form.visible}"
-             mouseEnabled="{form.visible}">
+             mouseEnabled="{form.visible}"
+             excludeFrom="inactive">
         <s:Rect width="100%" height="100%">
             <s:fill>
                 <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
@@ -191,6 +194,7 @@
 
         <form:NoteForm id="form"
                        visible="false"
+                       width="100%"
                        bottom="0"
                        top="{HEADER_HEI}"
                        show="vm.lockViewList()"

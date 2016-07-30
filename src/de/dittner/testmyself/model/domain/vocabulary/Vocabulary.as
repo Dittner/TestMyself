@@ -138,8 +138,8 @@ public class Vocabulary extends EventDispatcher {
 		return storage.loadVocabularyInfo(this);
 	}
 
-	public function createNote():Note {
-		var note:Note = new noteClass();
+	public function createNote(noteData:Object = null):Note {
+		var note:Note = noteData && noteData.isExample ? Note.createExample(this, noteData.parentID) : new noteClass();
 		note.vocabulary = this;
 		return note;
 	}

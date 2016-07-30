@@ -24,10 +24,10 @@ public class SelectPageTestTasksOperation extends StorageOperation implements IA
 
 	public function execute():void {
 		var sqlParams:Object = {};
-		sqlParams.startIndex = page.pageNum * page.pageSize;
-		sqlParams.amount = page.pageSize;
+		sqlParams.startIndex = page.number * page.size;
+		sqlParams.amount = page.size;
 		sqlParams.selectedTestID = page.test.id;
-		sqlParams.onlyFailedNotes = page.onlyFailedNotes ? 1 : 0;
+		sqlParams.onlyFailedNotes = page.loadOnlyFailedTestTask ? 1 : 0;
 
 		var sql:String;
 		if (page.selectedTheme) {

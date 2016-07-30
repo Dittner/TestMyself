@@ -13,33 +13,22 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
-        import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+        import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.view.test.TestVM;
 
         //--------------------------------------
-        //  title
+        //  vm
         //--------------------------------------
-        private var _title:String = "";
-        [Bindable("titleChanged")]
-        public function get title():String {return _title;}
-        public function set title(value:String):void {
-            if (_title != value) {
-                _title = value;
-                dispatchEvent(new Event("titleChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  vocabulary
-        //--------------------------------------
-        private var _vocabulary:Vocabulary;
-        [Bindable("vocabularyChanged")]
-        public function get vocabulary():Vocabulary {return _vocabulary;}
-        public function set vocabulary(value:Vocabulary):void {
-            if (_vocabulary != value) {
-                _vocabulary = value;
-                dispatchEvent(new Event("vocabularyChanged"));
+        private var _vm:TestVM;
+        [Bindable("vmChanged")]
+        public function get vm():TestVM {return _vm;}
+        public function set vm(value:TestVM):void {
+            if (_vm != value) {
+                _vm = value;
+                dispatchEvent(new Event("vmChanged"));
             }
         }
 
@@ -56,12 +45,6 @@
             }
         }
 
-        public function get selectedComplexity():uint {
-            if (middleComplexityRadioBtn.selected) return TestTaskComplexity.MIDDLE;
-            else if (lowComplexityRadioBtn.selected) return TestTaskComplexity.LOW;
-            else return TestTaskComplexity.HIGH;
-        }
-
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -69,11 +52,21 @@
         //----------------------------------------------------------------------------------------------
 
         private function startTestingBtnClickHandler(event:MouseEvent):void {
+            vm.testPage.selectedTaskComplexity = getComplexity();
+            vm.testPage.selectedTheme = themesList.selectedItem as Theme;
             dispatchEvent(new Event("startTest"));
         }
 
         private function showStatisticsBtnClickHandler(event:MouseEvent):void {
+            vm.statisticsPage.selectedTaskComplexity = getComplexity();
+            vm.statisticsPage.selectedTheme = themesList.selectedItem as Theme;
             dispatchEvent(new Event("showStatistics"));
+        }
+
+        private function getComplexity():uint {
+            if (middleComplexityRadioBtn.selected) return TestTaskComplexity.MIDDLE;
+            else if (lowComplexityRadioBtn.selected) return TestTaskComplexity.LOW;
+            else return TestTaskComplexity.HIGH;
         }
 
         private function goBackBtnClickHandler(event:MouseEvent):void {
@@ -86,19 +79,36 @@
     </s:layout>
 
     <common:TestHeader width="100%" padding="{padding}"
-                       title="{title}"
+                       title="{vm.testPage.test.title}"
                        description="Voreinstellungen"/>
 
-    <list:ListForm id="themesList"
-                   width="{width -2*padding}" height="100%"
-                   dataProvider="{vocabulary.themeColl}"
-                   title="Wählen Sie die Themen aus, um die Aufgaben zu filtern"
-                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer"
-                   allowMultipleSelection="false">
-        <list:layout>
-            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-        </list:layout>
-    </list:ListForm>
+    <s:Group width="{width -2*padding}" height="100%">
+        <s:Rect width="100%" top="20" bottom="0">
+            <s:stroke>
+                <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
+            </s:stroke>
+            <s:fill>
+                <s:SolidColor color="{AppColors.INPUT_CONTENT}"/>
+            </s:fill>
+        </s:Rect>
+
+        <s:Label width="100%"
+                 fontSize="16"
+                 fontFamily="{FontName.MYRIAD}"
+                 color="{AppColors.TEXT_DARK}"
+                 text="Wählen Sie die Themen aus, um die Aufgaben zu filtern"/>
+
+        <list:SelectableDataGroup id="themesList"
+                                  deselectEnabled="true"
+                                  width="{width -2*padding}"
+                                  top="20" bottom="0"
+                                  dataProvider="{vm.selectedVocabulary.themeColl}"
+                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:SelectableDataGroup>
+    </s:Group>
 
     <s:HGroup width="{width -2*padding}" gap="0">
         <s:RadioButton id="highComplexityRadioBtn"

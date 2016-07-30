@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.view.test {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.AppModel;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
@@ -42,6 +43,32 @@ public class TestVM extends ViewModel {
 	}
 
 	//--------------------------------------
+	//  testPage
+	//--------------------------------------
+	private var _testPage:TestPageInfo;
+	[Bindable("testPageChanged")]
+	public function get testPage():TestPageInfo {return _testPage;}
+	public function set testPage(value:TestPageInfo):void {
+		if (_testPage != value) {
+			_testPage = value;
+			dispatchEvent(new Event("testPageChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  statisticsPage
+	//--------------------------------------
+	private var _statisticsPage:TestPageInfo;
+	[Bindable("statisticsPageChanged")]
+	public function get statisticsPage():TestPageInfo {return _statisticsPage;}
+	public function set statisticsPage(value:TestPageInfo):void {
+		if (_statisticsPage != value) {
+			_statisticsPage = value;
+			dispatchEvent(new Event("statisticsPageChanged"));
+		}
+	}
+
+	//--------------------------------------
 	//  selectedVocabulary
 	//--------------------------------------
 	private var _selectedVocabulary:Vocabulary;
@@ -55,23 +82,31 @@ public class TestVM extends ViewModel {
 	}
 
 	//--------------------------------------
-	//  curTestTask
+	//  selectedTestTask
 	//--------------------------------------
-	private var _curTestTask:TestTask;
-	[Bindable("curTestTaskChanged")]
-	public function get curTestTask():TestTask {return _curTestTask;}
-	public function set curTestTask(value:TestTask):void {
-		if (_curTestTask != value) {
-			_curTestTask = value;
-			dispatchEvent(new Event("curTestTaskChanged"));
+	private var _selectedTestTask:TestTask;
+	[Bindable("selectedTestTaskChanged")]
+	public function get selectedTestTask():TestTask {return _selectedTestTask;}
+	public function set selectedTestTask(value:TestTask):void {
+		if (_selectedTestTask != value) {
+			_selectedTestTask = value;
+			selectedNoteExample = null;
+			dispatchEvent(new Event("selectedTestTaskChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  pageInfo
+	//  selectedNoteExample
 	//--------------------------------------
-	private var _pageInfo:TestPageInfo = new TestPageInfo();
-	public function get pageInfo():TestPageInfo {return _pageInfo;}
+	private var _selectedNoteExample:Note;
+	[Bindable("selectedNoteExampleChanged")]
+	public function get selectedNoteExample():Note {return _selectedNoteExample;}
+	public function set selectedNoteExample(value:Note):void {
+		if (_selectedNoteExample != value) {
+			_selectedNoteExample = value;
+			dispatchEvent(new Event("selectedNoteExampleChanged"));
+		}
+	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -81,34 +116,37 @@ public class TestVM extends ViewModel {
 
 	override public function viewActivated(info:ViewInfo):void {
 		super.viewActivated(info);
+		selectedTestTask = null;
+		if (!statisticsPage) statisticsPage = new TestPageInfo();
+		statisticsPage.loadOnlyFailedTestTask = true;
+
+		if (!testPage) testPage = new TestPageInfo();
+		testPage.size = 1;
 		vocabularyColl = new ArrayCollection(appModel.selectedLanguage.vocabularyHash.getList());
 		selectedVocabulary = null;
-		pageInfo.test = null;
-		pageInfo.selectedTheme = null;
 	}
 
 	public function storeTestTask(isFailed:Boolean, complexity:uint):void {
-		curTestTask.isFailed = isFailed;
-		curTestTask.complexity = complexity;
-		curTestTask.lastTestedDate = (new Date).time;
-		curTestTask.store();
+		if (selectedTestTask) {
+			selectedTestTask.isFailed = isFailed;
+			selectedTestTask.complexity = complexity;
+			selectedTestTask.lastTestedDate = (new Date).time;
+			selectedTestTask.store();
+		}
 	}
 
-	public function loadTestTaskPageInfo():IAsyncOperation {
-		pageInfo.onlyFailedNotes = false;
-		pageInfo.pageSize = 1;
-		var op:IAsyncOperation = storage.loadTestPageInfo(pageInfo);
+	public function loadTestTaskPage():IAsyncOperation {
+		selectedTestTask = null;
+		var op:IAsyncOperation = storage.loadTestPageInfo(testPage);
 		op.addCompleteCallback(function (op:IAsyncOperation):void {
-			curTestTask = pageInfo.tasks && pageInfo.tasks.length > 0 ? pageInfo.tasks[0] : null;
+			selectedTestTask = testPage.taskColl && testPage.taskColl.length > 0 ? testPage.taskColl.getItemAt(0) as TestTask : null;
 		});
 		return op;
 	}
 
-	public function loadStatisticsPageInfo():IAsyncOperation {
-		pageInfo.pageSize = 10;
-		return storage.loadTestPageInfo(pageInfo);
+	public function loadStatisticsPage():IAsyncOperation {
+		selectedTestTask = null;
+		return storage.loadTestPageInfo(statisticsPage);
 	}
-
-	override protected function deactivate():void {}
 }
 }

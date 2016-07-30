@@ -12,30 +12,10 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.note.DeVerb;
-        import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.test.TestTask;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.view.test.TestVM;
-        import de.dittner.testmyself.ui.view.test.statistics.renderer.TestingNoteRenderer;
-        import de.dittner.testmyself.ui.view.test.statistics.renderer.TestingVerbRenderer;
-        import de.dittner.testmyself.ui.view.test.statistics.renderer.TestingWordRenderer;
-
-        import mx.collections.ArrayCollection;
-
-        //--------------------------------------
-        //  title
-        //--------------------------------------
-        private var _title:String = "";
-        [Bindable("titleChanged")]
-        public function get title():String {return _title;}
-        public function set title(value:String):void {
-            if (_title != value) {
-                _title = value;
-                dispatchEvent(new Event("titleChanged"));
-            }
-        }
 
         //--------------------------------------
         //  padding
@@ -71,17 +51,9 @@
         private var needTranslationInvert:Boolean = false;
 
         public function activate():void {
-            title = vm.pageInfo.test.title;
-            vm.pageInfo.amountAllTasks = -1;
-            vm.pageInfo.tasks = null;
-            vm.loadStatisticsPageInfo();
-        }
-
-        public function resultItemRendererFunction(item:*):IFactory {
-            var note:* = (item as TestTask).note;
-            if (note is DeWord) return new ClassFactory(TestingWordRenderer);
-            else if (note is DeVerb) return new ClassFactory(TestingVerbRenderer);
-            else return new ClassFactory(TestingNoteRenderer);
+            vm.statisticsPage.number = 0;
+            vm.statisticsPage.countAllNotes = true;
+            vm.loadStatisticsPage();
         }
 
         private function setTaskAsRightBtnEnabled(selectedTask:*, isFailedTaskShown:Boolean):Boolean {
@@ -97,19 +69,19 @@
             task.isFailed = false;
             task.store();
             if (showOnlyFailedNotesFilterBox.selected)
-                vm.loadStatisticsPageInfo();
+                vm.loadStatisticsPage();
         }
 
         private function pageNumChanged():void {
-            vm.loadStatisticsPageInfo();
+            vm.loadStatisticsPage();
         }
 
-        private function showOnlyFailedNotes(event:Event):void {
-            if (vm.pageInfo.onlyFailedNotes != showOnlyFailedNotesFilterBox.selected) {
-                vm.pageInfo.onlyFailedNotes = showOnlyFailedNotesFilterBox.selected;
-                vm.pageInfo.pageNum = 0;
-                vm.pageInfo.amountAllTasks = -1;
-                vm.loadStatisticsPageInfo();
+        private function showOnlyFailedTestTask():void {
+            if (vm.statisticsPage.loadOnlyFailedTestTask != showOnlyFailedNotesFilterBox.selected) {
+                vm.statisticsPage.loadOnlyFailedTestTask = showOnlyFailedNotesFilterBox.selected;
+                vm.statisticsPage.number = 0;
+                vm.statisticsPage.countAllNotes = true;
+                vm.loadStatisticsPage();
             }
         }
         ]]></fx:Script>
@@ -117,7 +89,7 @@
     <utils:BG width="100%" height="100%" color="#ffFFff"/>
 
     <common:TestHeader width="100%" padding="{padding}"
-                       title="{title}"/>
+                       title="{vm.statisticsPage.test.title}"/>
 
     <button:WhiteButton id="setTaskAsRightBtn"
                         horizontalCenter="-110" top="5"
@@ -128,10 +100,10 @@
 
     <s:CheckBox id="showOnlyFailedNotesFilterBox"
                 right="25" top="10"
-                selected="true"
+                selected="{vm.statisticsPage.loadOnlyFailedTestTask}"
                 skinClass="de.dittner.testmyself.ui.common.checkBox.DarkCheckBoxSkin"
                 label="nur Notiz mit Fehlern"
-                change="showOnlyFailedNotes(event)"/>
+                change="showOnlyFailedTestTask()"/>
 
     <s:HGroup left="-1" right="-1" top="39" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}" gap="-1">
         <s:Scroller width="100%" height="100%"
@@ -140,20 +112,24 @@
                     hasFocusableChildren="false">
 
             <list:SelectableDataGroup id="list"
-                                      dataProvider="{new ArrayCollection(vm.pageInfo.tasks)}"
+                                      selectedItem="{vm.selectedTestTask}"
+                                      dataProvider="{vm.statisticsPage.taskColl}"
                                       width="100%"
-                                      contentBackgroundAlpha="0"
                                       deselectEnabled="true"
-                                      itemRendererFunction="resultItemRendererFunction">
+                                      itemRenderer="de.dittner.testmyself.ui.view.test.statistics.StatisticsTaskRenderer"
+                                      selectedItemChange="vm.selectedTestTask = list.selectedItem as TestTask">
                 <list:layout>
-                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
                 </list:layout>
             </list:SelectableDataGroup>
         </s:Scroller>
 
         <common2:ExampleList id="exampleList"
-                             visible="{vm.pageInfo.test.loadExamplesWhenTesting}"
                              width="100%" height="100%"
+                             dataProvider="{vm.selectedTestTask.note.exampleColl}"
+                             selectedNote="@{vm.selectedNoteExample}"
+                             visible="{vm.statisticsPage.test.loadExamplesWhenTesting}"
+                             includeInLayout="{vm.statisticsPage.test.loadExamplesWhenTesting}"
                              showTitle="false"
                              hasFocusableChildren="false"/>
     </s:HGroup>
@@ -165,17 +141,18 @@
         <navigation:PaginationBar id="paginationBar"
                                   left="{padding}" right="{padding}"
                                   height="100%"
-                                  allNotesAmount="{vm.pageInfo.amountAllTasks}"
-                                  notesOnCurPage="{vm.pageInfo.tasks.length}"
-                                  pageSize="{vm.pageInfo.pageSize}"
-                                  pageNum="@{vm.pageInfo.pageNum}"
+                                  allNotesAmount="{vm.statisticsPage.amountAllTasks}"
+                                  notesOnCurPage="{vm.statisticsPage.taskColl.length}"
+                                  pageSize="{vm.statisticsPage.size}"
+                                  pageNum="@{vm.statisticsPage.number}"
                                   pageNumChanged="pageNumChanged()"/>
 
         <button:GrayButton id="goBackBtn"
                            width="250"
                            verticalCenter="0"
                            left="{padding}"
-                           label="Zurück"/>
+                           label="Zurück"
+                           click="goBack()"/>
 
     </s:Group>
 </s:Group>

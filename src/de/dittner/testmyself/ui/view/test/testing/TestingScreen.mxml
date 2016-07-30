@@ -15,18 +15,6 @@
         import de.dittner.testmyself.ui.view.test.testing.components.TestableView;
 
         //--------------------------------------
-        //  testTitle
-        //--------------------------------------
-        private var _testTitle:String = "";
-        [Bindable("testTitleChanged")]
-        public function get testTitle():String {return _testTitle;}
-        public function set testTitle(value:String):void {
-            if (_testTitle != value) {
-                _testTitle = value;
-                dispatchEvent(new Event("testTitleChanged"));
-            }
-        }
-        //--------------------------------------
         //  padding
         //--------------------------------------
         private var _padding:uint = 0;
@@ -71,15 +59,14 @@
         //----------------------------------------------------------------------------------------------
 
         public function activate():void {
-            findTestScreen(vm.pageInfo.test);
+            findTestScreen(vm.testPage.test);
             activeView.actionCallback = actionCallback;
             activeView.answerEnabled = true;
-            activeView.title = testTitle;
+            activeView.title = vm.testPage.test.title;
             activeView.padding = padding;
             activeView.start();
-            vm.pageInfo.pageNum = 0;
-            vm.pageInfo.amountAllTasks = -1;
-            vm.pageInfo.tasks = null;
+            vm.testPage.number = 0;
+            vm.testPage.countAllNotes = true;
             loadTestTaskPageInfo();
         }
 
@@ -128,6 +115,7 @@
         private function actionCallback(action:String):void {
             switch (action) {
                 case TestingAction.EXIT_TEST :
+                    goBack();
                     break;
                 case TestingAction.CORRECT_ANSWER :
                     vm.storeTestTask(false, activeView.complexity);
@@ -136,22 +124,22 @@
                     vm.storeTestTask(true, activeView.complexity);
                     break;
                 case TestingAction.NEXT_TASK :
-                    vm.pageInfo.pageNum++;
+                    vm.testPage.number++;
                     loadTestTaskPageInfo();
                     break;
             }
         }
 
         private function loadTestTaskPageInfo():void {
-            var op:IAsyncOperation = vm.loadTestTaskPageInfo();
+            var op:IAsyncOperation = vm.loadTestTaskPage();
             op.addCompleteCallback(testPageInfoLoaded);
         }
 
         private function testPageInfoLoaded(op:IAsyncOperation):void {
             if (op.isSuccess) {
                 var page:TestPageInfo = op.result;
-                activeView.activeNote = page.tasks.length > 0 ? page.tasks[0].note : null;
-                activeView.taskNumber = page.pageNum;
+                activeView.activeNote = vm.selectedTestTask ? vm.selectedTestTask.note : null;
+                activeView.taskNumber = page.number;
                 activeView.totalTask = page.amountAllTasks;
             }
             else {

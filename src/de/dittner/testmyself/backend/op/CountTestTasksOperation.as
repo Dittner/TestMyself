@@ -24,7 +24,7 @@ public class CountTestTasksOperation extends StorageOperation implements IAsyncC
 	public function execute():void {
 		var sqlParams:Object = {};
 		sqlParams.selectedTestID = page.test.id;
-		sqlParams.onlyFailedNotes = page.onlyFailedNotes ? 1 : 0;
+		sqlParams.onlyFailedNotes = page.loadOnlyFailedTestTask ? 1 : 0;
 
 		var sql:String;
 		if (page.selectedTheme) {
@@ -46,6 +46,7 @@ public class CountTestTasksOperation extends StorageOperation implements IAsyncC
 			var countData:Object = result.data[0];
 			for (var prop:String in countData) {
 				page.amountAllTasks = countData[prop] as int;
+				page.countAllNotes = false;
 				break;
 			}
 			dispatchSuccess();

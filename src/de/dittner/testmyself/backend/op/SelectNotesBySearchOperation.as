@@ -57,7 +57,7 @@ public class SelectNotesBySearchOperation extends StorageOperation implements IA
 					dispatchError("Lang has not vocabulary with id: " + item.vocabularyID);
 
 				vocabulary = page.lang.vocabularyHash.read(item.vocabularyID);
-				var note:Note = item.isExample ? Note.createExample(vocabulary, item.parentID) : vocabulary.createNote();
+				var note:Note = vocabulary.createNote(item);
 				note.vocabulary = vocabulary;
 				note.deserialize(item);
 				notes.push(note);

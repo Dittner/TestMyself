@@ -36,7 +36,7 @@ public class SelectNoteForTestTaskOperation extends StorageOperation implements 
 	private function executeComplete(result:SQLResult):void {
 		if (result.data is Array)
 			for each(var item:Object in result.data) {
-				loadedNote = task.test.vocabulary.createNote();
+				loadedNote = task.test.vocabulary.createNote(item);
 				loadedNote.deserialize(item);
 				break;
 			}
@@ -48,7 +48,7 @@ public class SelectNoteForTestTaskOperation extends StorageOperation implements 
 
 		var composite:CompositeCommand = new CompositeCommand();
 
-		composite.addOperation(SelectExamplesOperation, loadedNote);
+		composite.addOperation(SelectExamplesOperation, storage, loadedNote);
 		composite.addOperation(SelectNoteThemesOperation, storage, loadedNote);
 
 		composite.addCompleteCallback(completeHandler);

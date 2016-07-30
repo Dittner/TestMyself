@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.list {
 import flash.events.Event;
 import flash.events.MouseEvent;
 
+import mx.collections.IList;
 import mx.collections.ListCollectionView;
 import mx.core.IDataRenderer;
 import mx.core.IVisualElement;
@@ -60,6 +61,13 @@ public class SelectableDataGroup extends DataGroup {
 			if (renderer) renderer.selected = (renderer.data == value);
 		}
 		dispatchEvent(new Event("selectedItemChange"));
+	}
+
+	override public function set dataProvider(value:IList):void {
+		if (super.dataProvider != value) {
+			selectedItem = null;
+			super.dataProvider = value;
+		}
 	}
 
 	//--------------------------------------------------------------------------------
