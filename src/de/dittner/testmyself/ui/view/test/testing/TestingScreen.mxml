@@ -1,6 +1,10 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*">
+         xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
+         xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
     <fx:Metadata>
         [Event(name="goBack", type="flash.events.Event")]
     </fx:Metadata>
@@ -8,10 +12,11 @@
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.test.Test;
         import de.dittner.testmyself.model.domain.test.TestID;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.view.test.TestVM;
         import de.dittner.testmyself.ui.view.test.common.TestingAction;
-        import de.dittner.testmyself.ui.view.test.testing.components.ITestableView;
-        import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
         import de.dittner.testmyself.ui.view.test.testing.components.TestableView;
 
         //--------------------------------------
@@ -43,14 +48,20 @@
         //--------------------------------------
         //  testableView
         //--------------------------------------
-        private var _activeView:TestableView;
-        public function get activeView():TestableView {return _activeView;}
+        private var activeView:TestableView;
 
         //--------------------------------------
-        //  testTaskPageInfo
+        //  errorsNum
         //--------------------------------------
-        private var _testTaskPageInfo:ITestableView;
-        public function get testTaskPageInfo():ITestableView {return _activeView;}
+        private var _errorsNum:int = 0;
+        [Bindable("errorsNumChanged")]
+        public function get errorsNum():int {return _errorsNum;}
+        private function setErrorsNum(value:int):void {
+            if (_errorsNum != value) {
+                _errorsNum = value;
+                dispatchEvent(new Event("errorsNumChanged"));
+            }
+        }
 
         //----------------------------------------------------------------------------------------------
         //
@@ -59,95 +70,81 @@
         //----------------------------------------------------------------------------------------------
 
         public function activate():void {
-            findTestScreen(vm.testPage.test);
-            activeView.actionCallback = actionCallback;
-            activeView.answerEnabled = true;
-            activeView.title = vm.testPage.test.title;
-            activeView.padding = padding;
-            activeView.start();
-            vm.testPage.number = 0;
-            vm.testPage.countAllNotes = true;
-            loadTestTaskPageInfo();
+            setErrorsNum(0);
+            findTestView(vm.testPage.test);
+            loadTestTaskIDs();
         }
 
-        private function findTestScreen(test:Test):void {
+        private function findTestView(test:Test):void {
             switch (test.id) {
                 case TestID.SPEAK_WORD_TRANSLATION :
-                    _activeView = speakWordTranslationTest;
+                    activeView = speakWordTranslationTest;
                     setCurrentState("speakWordTranslation");
                     break;
                 case TestID.SELECT_ARTICLE :
-                    _activeView = selectArticleTest;
+                    activeView = selectArticleTest;
                     setCurrentState("selectArticle");
                     break;
                 case TestID.WRITE_WORD :
-                    _activeView = writeWordTest;
+                    activeView = writeWordTest;
                     setCurrentState("writeWordTranslation");
                     break;
                 case TestID.WRITE_LESSON :
                 case TestID.WRITE_VERB_EXAMPLE :
                 case TestID.WRITE_WORD_EXAMPLE :
-                    _activeView = writeNoteTest;
+                    activeView = writeNoteTest;
                     setCurrentState("writeNote");
                     break;
                 case TestID.SPEAK_LESSON_TRANSLATION :
                 case TestID.SPEAK_VERB_EXAMPLE_TRANSLATION :
                 case TestID.SPEAK_WORD_EXAMPLE_TRANSLATION :
-                    speakNoteTranslationTest.translateInDeutsch = false;
-                    _activeView = speakNoteTranslationTest;
+                    activeView = speakNoteTranslationTest;
                     setCurrentState("speakNoteTranslation");
                     break;
                 case TestID.SPEAK_WORD_IN_DEUTSCH :
                 case TestID.SPEAK_LESSON_IN_DEUTSCH :
                 case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH :
                 case TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH :
-                    speakNoteTranslationTest.translateInDeutsch = true;
-                    _activeView = speakNoteTranslationTest;
+                    activeView = speakNoteTranslationTest;
                     setCurrentState("speakNoteTranslation");
                     break;
                 case TestID.SPEAK_VERB_FORMS :
-                    _activeView = speakVerbFormsTest;
+                    activeView = speakVerbFormsTest;
                     setCurrentState("speakVerbForms");
                     break;
             }
         }
 
+        private function loadTestTaskIDs():void {
+            var op:IAsyncOperation = vm.loadTaskIDsForTest();
+            op.addCompleteCallback(taskIDsLoaded);
+        }
+
+        private function taskIDsLoaded(op:IAsyncOperation):void {
+            if (op.isSuccess) {
+                vm.loadNextTestTask();
+            }
+        }
+
         private function actionCallback(action:String):void {
             switch (action) {
-                case TestingAction.EXIT_TEST :
-                    goBack();
-                    break;
                 case TestingAction.CORRECT_ANSWER :
-                    vm.storeTestTask(false, activeView.complexity);
+                    vm.selectedTestTask.isFailed = false;
+                    vm.selectedTestTask.store();
                     break;
                 case TestingAction.INCORRECT_ANSWER :
-                    vm.storeTestTask(true, activeView.complexity);
+                    setErrorsNum(errorsNum + 1);
+                    vm.selectedTestTask.isFailed = true;
+                    vm.selectedTestTask.store();
                     break;
                 case TestingAction.NEXT_TASK :
-                    vm.testPage.number++;
-                    loadTestTaskPageInfo();
+                    vm.loadNextTestTask();
                     break;
-            }
-        }
-
-        private function loadTestTaskPageInfo():void {
-            var op:IAsyncOperation = vm.loadTestTaskPage();
-            op.addCompleteCallback(testPageInfoLoaded);
-        }
-
-        private function testPageInfoLoaded(op:IAsyncOperation):void {
-            if (op.isSuccess) {
-                var page:TestPageInfo = op.result;
-                activeView.activeNote = vm.selectedTestTask ? vm.selectedTestTask.note : null;
-                activeView.taskNumber = page.number;
-                activeView.totalTask = page.amountAllTasks;
-            }
-            else {
-                goBack();
             }
         }
 
         private function goBack():void {
+            vm.selectedTestTask = null;
             dispatchEvent(new Event("goBack"));
         }
         ]]></fx:Script>
@@ -161,27 +158,100 @@
         <s:State name="speakVerbForms"/>
     </s:states>
 
-    <test:SpeakWordTranslationTest id="speakWordTranslationTest"
-                                   width="100%" height="100%"
-                                   visible="false" visible.speakWordTranslation="true"/>
+    <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
 
-    <test:SelectArticleTest id="selectArticleTest"
+    <!--HEADER-->
+    <common:TestHeader id="header"
+                       width="100%" padding="{padding}"
+                       title="{vm.testPage.test.title}"/>
+
+    <s:Label text="{'Anzahl der Fehler: ' + errorsNum}"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="14"
+             opaqueBackground="0"
+             mouseChildren="false" mouseEnabled="false"
+             right="{padding + 8}" top="{header.height + 10}"
+             color="{AppColors.TEXT_WHITE}"/>
+
+    <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
+             fontFamily="{FontName.MYRIAD_COND}"
+             fontWeight="bold"
+             fontSize="20" textAlign="center"
+             mouseChildren="false" mouseEnabled="false"
+             width="100%" top="{header.height + 10}"
+             color="{AppColors.TEXT_LIGHT}"/>
+
+    <!--BODY-->
+
+    <s:Group width="100%" top="{header.height + 40}" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT + 20}">
+
+        <test:SpeakWordTranslationTest id="speakWordTranslationTest"
+                                       includeIn="speakWordTranslation"
+                                       width="100%" height="100%"
+                                       testTask="{vm.selectedTestTask}"
+                                       padding="{padding}"
+                                       actionCallback="actionCallback"/>
+
+        <test:SelectArticleTest id="selectArticleTest"
+                                includeIn="selectArticle"
+                                width="100%" height="100%"
+                                testTask="{vm.selectedTestTask}"
+                                padding="{padding}"
+                                actionCallback="actionCallback"/>
+
+        <test:WriteWordTest id="writeWordTest"
+                            includeIn="writeWordTranslation"
                             width="100%" height="100%"
-                            visible="false" visible.selectArticle="true"/>
+                            testTask="{vm.selectedTestTask}"
+                            padding="{padding}"
+                            actionCallback="actionCallback"/>
 
-    <test:WriteWordTest id="writeWordTest"
-                        width="100%" height="100%"
-                        visible="false" visible.writeWordTranslation="true"/>
+        <test:WriteNoteTest id="writeNoteTest"
+                            includeIn="writeNote"
+                            width="100%" height="100%"
+                            testTask="{vm.selectedTestTask}"
+                            padding="{padding}"
+                            actionCallback="actionCallback"/>
 
-    <test:WriteNoteTest id="writeNoteTest"
-                        width="100%" height="100%"
-                        visible="false" visible.writeNote="true"/>
+        <test:SpeakNoteTranslationTest id="speakNoteTranslationTest"
+                                       includeIn="speakNoteTranslation"
+                                       width="100%" height="100%"
+                                       translateFromNativeIntoForeign="{vm.testPage.test.translateFromNativeIntoForeign}"
+                                       testTask="{vm.selectedTestTask}"
+                                       padding="{padding}"
+                                       actionCallback="actionCallback"/>
 
-    <test:SpeakNoteTranslationTest id="speakNoteTranslationTest"
-                                   width="100%" height="100%"
-                                   visible="false" visible.speakNoteTranslation="true"/>
+        <test:SpeakVerbFormsTest id="speakVerbFormsTest"
+                                 includeIn="speakVerbForms"
+                                 width="100%" height="100%"
+                                 testTask="{vm.selectedTestTask}"
+                                 padding="{padding}"
+                                 actionCallback="actionCallback"/>
 
-    <test:SpeakVerbFormsTest id="speakVerbFormsTest"
-                             width="100%" height="100%"
-                             visible="false" visible.speakVerbForms="true"/>
+    </s:Group>
+
+    <!--FOOTER-->
+
+    <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+
+        <mp3:MP3Player id="mp3Player"
+                       width="400"
+                       left="{padding - 10}"
+                       verticalCenter="0"
+                       removeRecordEnabled="false"
+                       visible="{mp3Player.hasComment}"
+                       comment="{vm.selectedTestTask.note.audioComment}"
+                       skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
+
+        <test:RateBoard horizontalCenter="0" verticalCenter="0" complexity="@{vm.selectedTestTask.complexity}"/>
+
+        <button:GrayButton id="cancelBtn"
+                           width="250"
+                           verticalCenter="0"
+                           right="{padding}"
+                           label="Beenden"
+                           click="goBack()"/>
+    </s:Group>
 </s:Group>

@@ -5,3 +5,4 @@ SET
 	isFailed = :isFailed,
 	lastTestedDate = :lastTestedDate
 WHERE testID = :testID
+AND noteID = :noteID

@@ -153,10 +153,9 @@ public class Note extends EventDispatcher {
 	}
 
 	private function noteStored(op:IAsyncOperation):void {
-		if (!isExample && originalData.title && originalData.title != title) {
+		if (!isExample && originalData.title && originalData.title != title)
 			vocabulary.noteTitleHash.clear(originalData.title);
-			vocabulary.noteTitleHash.write(title, true);
-		}
+		vocabulary.noteTitleHash.write(title, true);
 	}
 
 	public function remove():IAsyncOperation {

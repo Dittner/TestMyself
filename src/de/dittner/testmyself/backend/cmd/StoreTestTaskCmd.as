@@ -24,7 +24,7 @@ public class StoreTestTaskCmd extends StorageOperation implements IAsyncCommand 
 
 	public function execute():void {
 		if (task && task.test.id != -1 && task.note.id != -1) {
-			var sql:String = SQLLib.UPDATE_TEST_TASK_SQL;
+			var sql:String = SQLLib.UPDATE_TEST_TASK_BY_NOTE_ID_SQL;
 			var sqlParams:Object = task.serialize();
 
 			var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);

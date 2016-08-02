@@ -8,18 +8,18 @@ import de.dittner.testmyself.backend.op.SelectExamplesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectNotesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectThemesByPageOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
-import de.dittner.testmyself.ui.common.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.NotePage;
 
 public class LoadNotePageCmd extends StorageOperation implements IAsyncCommand {
 
-	public function LoadNotePageCmd(storage:Storage, page:NotePageInfo) {
+	public function LoadNotePageCmd(storage:Storage, page:NotePage) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
 	private var storage:Storage;
-	private var page:NotePageInfo;
+	private var page:NotePage;
 
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();

@@ -56,10 +56,10 @@ public class Test {
 	public function get useExamples():Boolean {return _useExamples;}
 
 	//--------------------------------------
-	//  needTranslationInvert
+	//  translateFromNativeIntoForeign
 	//--------------------------------------
-	domain_internal var _needTranslationInvert:Boolean = false;
-	public function get needTranslationInvert():Boolean {return _needTranslationInvert;}
+	domain_internal var _translateFromNativeIntoForeign:Boolean = false;
+	public function get translateFromNativeIntoForeign():Boolean {return _translateFromNativeIntoForeign;}
 
 	//----------------------------------------------------------------------------------------------
 	//

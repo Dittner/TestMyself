@@ -52,14 +52,14 @@
         //----------------------------------------------------------------------------------------------
 
         private function startTestingBtnClickHandler(event:MouseEvent):void {
-            vm.testPage.selectedTaskComplexity = getComplexity();
-            vm.testPage.selectedTheme = themesList.selectedItem as Theme;
+            vm.testPage.taskComplexity = getComplexity();
+            vm.testPage.filter = themesList.selectedItem as Theme;
             dispatchEvent(new Event("startTest"));
         }
 
         private function showStatisticsBtnClickHandler(event:MouseEvent):void {
-            vm.statisticsPage.selectedTaskComplexity = getComplexity();
-            vm.statisticsPage.selectedTheme = themesList.selectedItem as Theme;
+            vm.testPage.taskComplexity = getComplexity();
+            vm.testPage.filter = themesList.selectedItem as Theme;
             dispatchEvent(new Event("showStatistics"));
         }
 

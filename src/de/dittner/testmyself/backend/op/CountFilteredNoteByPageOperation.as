@@ -5,7 +5,7 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.ui.common.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.NotePage;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -13,13 +13,13 @@ import flash.net.Responder;
 
 public class CountFilteredNoteByPageOperation extends StorageOperation implements IAsyncCommand {
 
-	public function CountFilteredNoteByPageOperation(storage:Storage, page:NotePageInfo) {
+	public function CountFilteredNoteByPageOperation(storage:Storage, page:NotePage) {
 		this.storage = storage;
 		this.page = page;
 	}
 
 	private var storage:Storage;
-	private var page:NotePageInfo;
+	private var page:NotePage;
 
 	public function execute():void {
 		var sqlParams:Object = {};

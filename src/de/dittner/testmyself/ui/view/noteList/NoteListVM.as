@@ -4,7 +4,7 @@ import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-import de.dittner.testmyself.ui.common.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.view.ViewID;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
@@ -35,10 +35,10 @@ public class NoteListVM extends ViewModel {
 	//--------------------------------------
 	//  page
 	//--------------------------------------
-	private var _page:NotePageInfo;
+	private var _page:NotePage;
 	[Bindable("pageChanged")]
-	public function get page():NotePageInfo {return _page;}
-	public function set page(value:NotePageInfo):void {
+	public function get page():NotePage {return _page;}
+	private function setPage(value:NotePage):void {
 		if (_page != value) {
 			_page = value;
 			dispatchEvent(new Event("pageChanged"));
@@ -96,8 +96,9 @@ public class NoteListVM extends ViewModel {
 				break;
 		}
 
-		page = new NotePageInfo();
-		page.vocabulary = appModel.selectedLanguage.vocabularyHash.read(vocabularyID);
+		var p:NotePage = new NotePage();
+		p.vocabulary = appModel.selectedLanguage.vocabularyHash.read(vocabularyID);
+		setPage(p);
 		reloadPage();
 	}
 

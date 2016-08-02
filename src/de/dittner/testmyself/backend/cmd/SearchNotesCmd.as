@@ -8,20 +8,20 @@ import de.dittner.testmyself.backend.op.SelectExamplesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectNotesBySearchOperation;
 import de.dittner.testmyself.backend.op.SelectThemesByPageOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
-import de.dittner.testmyself.ui.common.page.SearchPageInfo;
+import de.dittner.testmyself.ui.common.page.SearchPage;
 
 import mx.collections.ArrayCollection;
 
 public class SearchNotesCmd extends StorageOperation implements IAsyncCommand {
 
-	public function SearchNotesCmd(storage:Storage, page:SearchPageInfo) {
+	public function SearchNotesCmd(storage:Storage, page:SearchPage) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
 	private var storage:Storage;
-	private var page:SearchPageInfo;
+	private var page:SearchPage;
 
 	public function execute():void {
 		if (!page.loadExamples && page.vocabularyIDs.length == 0) {

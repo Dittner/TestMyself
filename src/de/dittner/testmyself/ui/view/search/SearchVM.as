@@ -4,7 +4,7 @@ import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-import de.dittner.testmyself.ui.common.page.SearchPageInfo;
+import de.dittner.testmyself.ui.common.page.SearchPage;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 
@@ -34,10 +34,10 @@ public class SearchVM extends ViewModel {
 	//--------------------------------------
 	//  page
 	//--------------------------------------
-	private var _page:SearchPageInfo;
+	private var _page:SearchPage;
 	[Bindable("pageChanged")]
-	public function get page():SearchPageInfo {return _page;}
-	public function set page(value:SearchPageInfo):void {
+	public function get page():SearchPage {return _page;}
+	private function setPage(value:SearchPage):void {
 		if (_page != value) {
 			_page = value;
 			dispatchEvent(new Event("pageChanged"));
@@ -79,7 +79,7 @@ public class SearchVM extends ViewModel {
 	override public function viewActivated(info:ViewInfo):void {
 		super.viewActivated(info);
 		selectedLang = appModel.selectedLanguage;
-		page = new SearchPageInfo();
+		setPage(new SearchPage());
 	}
 
 	public function loadPage(searchText:String, loadExamples:Boolean, loadWords:Boolean, loadVerbs:Boolean, loadLessons:Boolean):void {

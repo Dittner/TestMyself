@@ -1,4 +1,4 @@
-INSERT INTO test
+INSERT INTO testTask
 (
 	testID,
 	noteID,

@@ -1,5 +1,5 @@
 DELETE
-FROM test
+FROM testTask
 WHERE noteID
 IN
 (SELECT n.id FROM note n

@@ -10,6 +10,13 @@ public class TestTask extends EventDispatcher {
 	public function TestTask() {}
 
 	//--------------------------------------
+	//  id
+	//--------------------------------------
+	private var _id:int = -1;
+	public function get id():int {return _id;}
+	public function set id(value:int):void {_id = value;}
+
+	//--------------------------------------
 	//  test
 	//--------------------------------------
 	private var _test:Test;
@@ -78,14 +85,7 @@ public class TestTask extends EventDispatcher {
 	//  lastTestedDate
 	//--------------------------------------
 	private var _lastTestedDate:Number = 0;
-	[Bindable("lastTestedDateChanged")]
 	public function get lastTestedDate():Number {return _lastTestedDate;}
-	public function set lastTestedDate(value:Number):void {
-		if (_lastTestedDate != value) {
-			_lastTestedDate = value;
-			dispatchEvent(new Event("lastTestedDateChanged"));
-		}
-	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -104,7 +104,7 @@ public class TestTask extends EventDispatcher {
 		res.rate = test.calcTaskRate();
 		res.complexity = complexity;
 		res.isFailed = isFailed;
-		res.lastTestedDate = test.calcTaskRate();
+		res.lastTestedDate = (new Date()).time;
 		return res;
 	}
 
@@ -113,6 +113,7 @@ public class TestTask extends EventDispatcher {
 
 	public function deserialize(data:Object):void {
 		_originalData = data;
+		_id = data.id;
 		_rate = data.rate;
 		_complexity = data.complexity;
 		_isFailed = data.isFailed;

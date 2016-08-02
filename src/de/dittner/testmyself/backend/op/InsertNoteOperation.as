@@ -30,7 +30,7 @@ public class InsertNoteOperation extends StorageOperation implements IAsyncComma
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
-			note.id = result.lastInsertRowID;
+			if (note.isNew) note.id = result.lastInsertRowID;
 			dispatchSuccess();
 		}
 		else {

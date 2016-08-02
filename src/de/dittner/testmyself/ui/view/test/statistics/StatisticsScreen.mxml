@@ -51,8 +51,8 @@
         private var needTranslationInvert:Boolean = false;
 
         public function activate():void {
-            vm.statisticsPage.number = 0;
-            vm.statisticsPage.countAllNotes = true;
+            vm.testPage.number = 0;
+            vm.testPage.countAllNotes = true;
             vm.loadStatisticsPage();
         }
 
@@ -65,11 +65,12 @@
         }
 
         private function setTaskAsRightBtnClickHandler(event:MouseEvent):void {
-            var task:TestTask = list.selectedItem as TestTask;
-            task.isFailed = false;
-            task.store();
-            if (showOnlyFailedNotesFilterBox.selected)
-                vm.loadStatisticsPage();
+            if (vm.selectedTestTask) {
+                vm.selectedTestTask.isFailed = false;
+                vm.selectedTestTask.store();
+                if (showOnlyFailedNotesFilterBox.selected)
+                    vm.loadStatisticsPage();
+            }
         }
 
         private function pageNumChanged():void {
@@ -77,10 +78,10 @@
         }
 
         private function showOnlyFailedTestTask():void {
-            if (vm.statisticsPage.loadOnlyFailedTestTask != showOnlyFailedNotesFilterBox.selected) {
-                vm.statisticsPage.loadOnlyFailedTestTask = showOnlyFailedNotesFilterBox.selected;
-                vm.statisticsPage.number = 0;
-                vm.statisticsPage.countAllNotes = true;
+            if (vm.testPage.loadOnlyFailedTestTask != showOnlyFailedNotesFilterBox.selected) {
+                vm.testPage.loadOnlyFailedTestTask = showOnlyFailedNotesFilterBox.selected;
+                vm.testPage.number = 0;
+                vm.testPage.countAllNotes = true;
                 vm.loadStatisticsPage();
             }
         }
@@ -89,18 +90,18 @@
     <utils:BG width="100%" height="100%" color="#ffFFff"/>
 
     <common:TestHeader width="100%" padding="{padding}"
-                       title="{vm.statisticsPage.test.title}"/>
+                       title="{vm.testPage.test.title}"/>
 
     <button:WhiteButton id="setTaskAsRightBtn"
                         horizontalCenter="-110" top="5"
                         label="Als richtig zeichnen"
                         width="220"
                         enabled="{setTaskAsRightBtnEnabled(list.selectedItem, showOnlyFailedNotesFilterBox.selected)}"
-                        click="setTaskAsRightBtnClickHandler"/>
+                        click="setTaskAsRightBtnClickHandler(event)"/>
 
     <s:CheckBox id="showOnlyFailedNotesFilterBox"
                 right="25" top="10"
-                selected="{vm.statisticsPage.loadOnlyFailedTestTask}"
+                selected="{vm.testPage.loadOnlyFailedTestTask}"
                 skinClass="de.dittner.testmyself.ui.common.checkBox.DarkCheckBoxSkin"
                 label="nur Notiz mit Fehlern"
                 change="showOnlyFailedTestTask()"/>
@@ -113,7 +114,7 @@
 
             <list:SelectableDataGroup id="list"
                                       selectedItem="{vm.selectedTestTask}"
-                                      dataProvider="{vm.statisticsPage.taskColl}"
+                                      dataProvider="{vm.testPage.taskColl}"
                                       width="100%"
                                       deselectEnabled="true"
                                       itemRenderer="de.dittner.testmyself.ui.view.test.statistics.StatisticsTaskRenderer"
@@ -128,8 +129,8 @@
                              width="100%" height="100%"
                              dataProvider="{vm.selectedTestTask.note.exampleColl}"
                              selectedNote="@{vm.selectedNoteExample}"
-                             visible="{vm.statisticsPage.test.loadExamplesWhenTesting}"
-                             includeInLayout="{vm.statisticsPage.test.loadExamplesWhenTesting}"
+                             visible="{vm.testPage.test.loadExamplesWhenTesting}"
+                             includeInLayout="{vm.testPage.test.loadExamplesWhenTesting}"
                              showTitle="false"
                              hasFocusableChildren="false"/>
     </s:HGroup>
@@ -141,10 +142,10 @@
         <navigation:PaginationBar id="paginationBar"
                                   left="{padding}" right="{padding}"
                                   height="100%"
-                                  allNotesAmount="{vm.statisticsPage.amountAllTasks}"
-                                  notesOnCurPage="{vm.statisticsPage.taskColl.length}"
-                                  pageSize="{vm.statisticsPage.size}"
-                                  pageNum="@{vm.statisticsPage.number}"
+                                  allNotesAmount="{vm.testPage.amountAllTasks}"
+                                  notesOnCurPage="{vm.testPage.taskColl.length}"
+                                  pageSize="{vm.testPage.size}"
+                                  pageNum="@{vm.testPage.number}"
                                   pageNumChanged="pageNumChanged()"/>
 
         <button:GrayButton id="goBackBtn"

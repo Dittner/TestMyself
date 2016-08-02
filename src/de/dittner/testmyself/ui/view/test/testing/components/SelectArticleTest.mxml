@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
                    xmlns:s="library://ns.adobe.com/flex/spark"
-                   xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                   xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
                    xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
 
@@ -11,28 +9,15 @@
         import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
-        import de.dittner.testmyself.ui.view.test.common.TestingAction;
 
-        //--------------------------------------
-        //  isCorrectlyAnswered
-        //--------------------------------------
-        private var _isCorrectlyAnswered:Boolean = true;
-        [Bindable("isCorrectlyAnsweredChanged")]
-        public function get isCorrectlyAnswered():Boolean {return _isCorrectlyAnswered;}
-        public function set isCorrectlyAnswered(value:Boolean):void {
-            if (_isCorrectlyAnswered != value) {
-                _isCorrectlyAnswered = value;
-                dispatchEvent(new Event("isCorrectlyAnsweredChanged"));
-            }
-        }
+        private var isCorrectlyAnswered:Boolean = true;
 
         //--------------------------------------
         //  word
         //--------------------------------------
         public function get word():DeWord {
-            return activeNote as DeWord;
+            return note as DeWord;
         }
 
         //----------------------------------------------------------------------------------------------
@@ -41,23 +26,19 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        override protected function commitProperties():void {
-            super.commitProperties();
-            if (activeNoteChanged) {
-                activeNoteChanged = false;
-                clear();
+        override protected function updateForm():void {
+            clear();
 
-                if (word) {
-                    articleLbl.text = word.article;
-                    if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                    else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                    else articleLbl.setStyle("color", AppColors.TEXT_DARK);
+            if (word) {
+                articleLbl.text = word.article;
+                if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
+                else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
+                else articleLbl.setStyle("color", AppColors.TEXT_DARK);
 
-                    titleLbl.text = word.article ? " " + word.title : word.title;
+                titleLbl.text = word.article ? " " + word.title : word.title;
 
-                    optionsLbl.text = word.declension ? ", " + word.declension : "";
-                    translateBoard.text = word.description;
-                }
+                optionsLbl.text = word.declension ? ", " + word.declension : "";
+                translateBoard.text = word.description;
             }
         }
 
@@ -67,7 +48,6 @@
             optionsLbl.text = "";
             translateBoard.text = "";
             showDetails = false;
-            answerEnabled = true;
             isCorrectlyAnswered = true;
             invalidNotifier.hideImmediately();
         }
@@ -77,24 +57,21 @@
         }
 
         private function onDerAnswered():void {
-            if (word && actionCallback) {
-                answerEnabled = false;
+            if (word) {
                 isCorrectlyAnswered = word.article == DeWordArticle.DER || word.article == DeWordArticle.DER_DIE || word.article == DeWordArticle.DER_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
 
         private function onDieAnswered():void {
-            if (word && actionCallback) {
-                answerEnabled = false;
+            if (word) {
                 isCorrectlyAnswered = word.article == DeWordArticle.DIE || word.article == DeWordArticle.DER_DIE || word.article == DeWordArticle.DIE_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
 
         private function onDasAnswered():void {
-            if (word && actionCallback) {
-                answerEnabled = false;
+            if (word) {
                 isCorrectlyAnswered = word.article == DeWordArticle.DAS || word.article == DeWordArticle.DER_DAS || word.article == DeWordArticle.DIE_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
@@ -102,128 +79,84 @@
 
         private function notifyAnswered():void {
             if (isCorrectlyAnswered) {
-                actionCallback(TestingAction.CORRECT_ANSWER);
-                actionCallback(TestingAction.NEXT_TASK);
+                notifyTrueAnswer();
+                requestNextTask();
             }
             else {
                 invalidNotifier.show();
-                actionCallback(TestingAction.INCORRECT_ANSWER);
-                errorsNum++;
+                notifyFalseAnswer();
             }
         }
         ]]></fx:Script>
 
-    <common:TestHeader id="header"
-                       width="100%" padding="{padding}"
-                       title="{title}"
-                       description="{durationLbl}"/>
+    <test:layout>
+        <s:VerticalLayout gap="15" horizontalAlign="center"/>
+    </test:layout>
 
-    <s:Group width="100%" top="{header.height}" bottom="0">
+    <s:HGroup width="100%" horizontalAlign="center" gap="0">
+        <s:Label id="articleLbl"
+                 fontFamily="{FontName.MYRIAD_COND}"
+                 fontWeight="bold"
+                 fontSize="42"
+                 includeInLayout="{showDetails}"
+                 visible="{showDetails}"/>
+        <s:Label id="titleLbl"
+                 fontFamily="{FontName.MYRIAD_COND}"
+                 fontWeight="bold"
+                 color="{AppColors.TEXT_DARK}"
+                 fontSize="42"/>
+        <s:Label id="optionsLbl"
+                 fontFamily="{FontName.MYRIAD_COND}"
+                 fontWeight="bold"
+                 color="{AppColors.TEXT_DARK}"
+                 fontSize="42"
+                 visible="{showDetails}"
+                 includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
+    </s:HGroup>
 
-        <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
+    <test:TextBoard id="translateBoard"
+                    width="{width - 2*padding}" height="300"
+                    title="Übersetzung" showText="{showDetails}"/>
 
-        <s:Label text="{'Anzahl der Fehler: '+errorsNum}"
-                 fontFamily="{FontName.MYRIAD}"
-                 fontSize="14"
-                 opaqueBackground="0"
-                 mouseChildren="false" mouseEnabled="false"
-                 right="{padding + 8}" top="10"
-                 color="{AppColors.TEXT_WHITE}"/>
+    <s:HGroup width="100%"
+              horizontalAlign="center"
+              gap="15">
 
-        <s:VGroup width="100%" top="10" bottom="0"
-                  gap="20" horizontalAlign="center">
+        <button:BlackButton id="derBtn"
+                            width="150"
+                            enabled="{isProcessing}"
+                            label="DER"
+                            click="onDerAnswered()"/>
 
-            <s:Label text="{taskNumber + '/' + totalTask}"
-                     fontFamily="{FontName.MYRIAD_COND}"
-                     fontWeight="bold" paddingBottom="-20"
-                     fontSize="20" textAlign="center"
-                     mouseChildren="false" mouseEnabled="false"
-                     width="100%"
-                     color="{AppColors.TEXT_LIGHT}"/>
+        <button:RedButton id="dieBtn"
+                          width="150"
+                          enabled="{isProcessing}"
+                          label="DIE"
+                          click="onDieAnswered()"/>
 
-            <s:HGroup width="100%" horizontalAlign="center" gap="0">
-                <s:Label id="articleLbl"
-                         fontFamily="{FontName.MYRIAD_COND}"
-                         fontWeight="bold"
-                         fontSize="42"
-                         includeInLayout="{showDetails}"
-                         visible="{showDetails}"/>
-                <s:Label id="titleLbl"
-                         fontFamily="{FontName.MYRIAD_COND}"
-                         fontWeight="bold"
-                         color="{AppColors.TEXT_DARK}"
-                         fontSize="42"/>
-                <s:Label id="optionsLbl"
-                         fontFamily="{FontName.MYRIAD_COND}"
-                         fontWeight="bold"
-                         color="{AppColors.TEXT_DARK}"
-                         fontSize="42"
-                         visible="{showDetails}"
-                         includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
-            </s:HGroup>
+        <button:YellowButton id="dasBtn"
+                             width="150"
+                             enabled="{isProcessing}"
+                             label="DAS"
+                             click="onDasAnswered()"/>
 
-            <test:TextBoard id="translateBoard"
-                            width="{width - 2*padding}" height="300"
-                            title="Übersetzung" showText="{showDetails}"/>
+    </s:HGroup>
 
-            <s:HGroup width="100%"
-                      horizontalAlign="center"
-                      gap="15">
+    <s:HGroup width="480" gap="15">
+        <button:GrayButton id="showAnswerBtn"
+                           width="100%"
+                           label="Die Antwort zeigen"
+                           click="showDetails = true"/>
 
-                <button:BlackButton id="derBtn"
-                                    width="150"
-                                    enabled="{answerEnabled}"
-                                    label="DER"
-                                    click="onDerAnswered()"/>
+        <button:GrayButton id="nextBtn"
+                           width="100%"
+                           label="Weiter"
+                           click="requestNextTask()"/>
 
-                <button:RedButton id="dieBtn"
-                                  width="150"
-                                  enabled="{answerEnabled}"
-                                  label="DIE"
-                                  click="onDieAnswered()"/>
+    </s:HGroup>
 
-                <button:YellowButton id="dasBtn"
-                                     width="150"
-                                     enabled="{answerEnabled}"
-                                     label="DAS"
-                                     click="onDasAnswered()"/>
-
-            </s:HGroup>
-
-            <s:HGroup width="480" gap="15">
-                <button:GrayButton id="showAnswerBtn"
-                                   width="100%"
-                                   label="Die Antwort zeigen"
-                                   click="showDetails = true"/>
-
-                <button:GrayButton id="nextBtn"
-                                   width="100%"
-                                   label="Weiter"
-                                   click="goNext()"/>
-
-            </s:HGroup>
-
-            <form:InvalidNotifier id="invalidNotifier"
-                                  width="480" height="30"
-                                  text="Falsch"/>
-
-            <s:Spacer height="100%"/>
-
-            <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
-
-                <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
-
-                <test:RateBoard horizontalCenter="0" verticalCenter="0" complexity="@{complexity}"/>
-
-                <button:GrayButton id="cancelBtn"
-                                   width="250"
-                                   verticalCenter="0"
-                                   right="{padding}"
-                                   label="Das Testen beenden"
-                                   click="goBack()"/>
-            </s:Group>
-        </s:VGroup>
-
-    </s:Group>
+    <form:InvalidNotifier id="invalidNotifier"
+                          width="480" height="30"
+                          text="Falsch"/>
 
 </test:TestableView>

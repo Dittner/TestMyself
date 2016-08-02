@@ -98,7 +98,7 @@ public class StatisticsTaskRenderer extends NoteBaseRenderer {
 
 		descriptionTf.visible = selected;
 
-		if (task.test.needTranslationInvert) {
+		if (task.test.translateFromNativeIntoForeign) {
 			titleTf.htmlText = description;
 			descriptionTf.htmlText = title;
 			titleTf.setTextFormat(TITLE_FORMAT);
@@ -153,8 +153,8 @@ public class StatisticsTaskRenderer extends NoteBaseRenderer {
 	}
 
 	private function updateNoteData(note:Note):void {
-		titleTf.htmlText = task.test.needTranslationInvert ? note.description : note.title;
-		descriptionTf.htmlText = task.test.needTranslationInvert ? note.title : note.description;
+		titleTf.htmlText = task.test.translateFromNativeIntoForeign ? note.description : note.title;
+		descriptionTf.htmlText = task.test.translateFromNativeIntoForeign ? note.title : note.description;
 
 		titleTf.setTextFormat(TITLE_FORMAT);
 		descriptionTf.setTextFormat(DESCRIPTION_FORMAT);

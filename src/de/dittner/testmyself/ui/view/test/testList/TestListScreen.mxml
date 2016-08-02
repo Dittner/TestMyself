@@ -50,7 +50,7 @@
         private function selectedTestHandler(event:IndexChangeEvent):void {
             if (testList.selectedItem is Test) {
                 vm.testPage.test = testList.selectedItem;
-                vm.statisticsPage.test = testList.selectedItem;
+                vm.testPage.test = testList.selectedItem;
                 vm.selectedVocabulary = vocabularyList.selectedItem;
                 dispatchEvent(new Event("testSelected"));
                 testList.selectedItem = null;

@@ -6,7 +6,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.ui.common.page.SearchPageInfo;
+import de.dittner.testmyself.ui.common.page.SearchPage;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -14,13 +14,13 @@ import flash.net.Responder;
 
 public class CountNotesBySearchOperation extends StorageOperation implements IAsyncCommand {
 
-	public function CountNotesBySearchOperation(storage:Storage, page:SearchPageInfo) {
+	public function CountNotesBySearchOperation(storage:Storage, page:SearchPage) {
 		this.storage = storage;
 		this.page = page;
 	}
 
 	private var storage:Storage;
-	private var page:SearchPageInfo;
+	private var page:SearchPage;
 
 	public function execute():void {
 		var sql:String = SQLLib.SELECT_COUNT_NOTES_BY_SEARCH_SQL;

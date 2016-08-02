@@ -7,7 +7,7 @@ import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
-import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
+import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 
 import flash.events.Event;
 
@@ -43,32 +43,6 @@ public class TestVM extends ViewModel {
 	}
 
 	//--------------------------------------
-	//  testPage
-	//--------------------------------------
-	private var _testPage:TestPageInfo;
-	[Bindable("testPageChanged")]
-	public function get testPage():TestPageInfo {return _testPage;}
-	public function set testPage(value:TestPageInfo):void {
-		if (_testPage != value) {
-			_testPage = value;
-			dispatchEvent(new Event("testPageChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  statisticsPage
-	//--------------------------------------
-	private var _statisticsPage:TestPageInfo;
-	[Bindable("statisticsPageChanged")]
-	public function get statisticsPage():TestPageInfo {return _statisticsPage;}
-	public function set statisticsPage(value:TestPageInfo):void {
-		if (_statisticsPage != value) {
-			_statisticsPage = value;
-			dispatchEvent(new Event("statisticsPageChanged"));
-		}
-	}
-
-	//--------------------------------------
 	//  selectedVocabulary
 	//--------------------------------------
 	private var _selectedVocabulary:Vocabulary;
@@ -78,6 +52,19 @@ public class TestVM extends ViewModel {
 		if (_selectedVocabulary != value) {
 			_selectedVocabulary = value;
 			dispatchEvent(new Event("selectedVocabularyChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  testPage
+	//--------------------------------------
+	private var _testPage:TestPage;
+	[Bindable("testPageChanged")]
+	public function get testPage():TestPage {return _testPage;}
+	private function setTestPage(value:TestPage):void {
+		if (_testPage != value) {
+			_testPage = value;
+			dispatchEvent(new Event("testPageChanged"));
 		}
 	}
 
@@ -110,6 +97,38 @@ public class TestVM extends ViewModel {
 
 	//----------------------------------------------------------------------------------------------
 	//
+	//  Test Fields
+	//
+	//----------------------------------------------------------------------------------------------
+
+	//--------------------------------------
+	//  testTaskIDs
+	//--------------------------------------
+	private var _testTaskIDs:Array = [];
+	[Bindable("testTaskIDsChanged")]
+	public function get testTaskIDs():Array {return _testTaskIDs;}
+	public function set testTaskIDs(value:Array):void {
+		if (_testTaskIDs != value) {
+			_testTaskIDs = value;
+			dispatchEvent(new Event("testTaskIDsChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  curTaskNumber
+	//--------------------------------------
+	private var _curTaskNumber:int = 0;
+	[Bindable("curTaskNumberChanged")]
+	public function get curTaskNumber():int {return _curTaskNumber;}
+	public function set curTaskNumber(value:int):void {
+		if (_curTaskNumber != value) {
+			_curTaskNumber = value;
+			dispatchEvent(new Event("curTaskNumberChanged"));
+		}
+	}
+
+	//----------------------------------------------------------------------------------------------
+	//
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
@@ -117,36 +136,45 @@ public class TestVM extends ViewModel {
 	override public function viewActivated(info:ViewInfo):void {
 		super.viewActivated(info);
 		selectedTestTask = null;
-		if (!statisticsPage) statisticsPage = new TestPageInfo();
-		statisticsPage.loadOnlyFailedTestTask = true;
+		if (!testPage) setTestPage(new TestPage());
+		testPage.loadOnlyFailedTestTask = true;
 
-		if (!testPage) testPage = new TestPageInfo();
-		testPage.size = 1;
 		vocabularyColl = new ArrayCollection(appModel.selectedLanguage.vocabularyHash.getList());
 		selectedVocabulary = null;
 	}
 
-	public function storeTestTask(isFailed:Boolean, complexity:uint):void {
-		if (selectedTestTask) {
-			selectedTestTask.isFailed = isFailed;
-			selectedTestTask.complexity = complexity;
-			selectedTestTask.lastTestedDate = (new Date).time;
-			selectedTestTask.store();
-		}
+	public function loadStatisticsPage():IAsyncOperation {
+		selectedTestTask = null;
+		return storage.loadTestStatistics(testPage);
 	}
 
-	public function loadTestTaskPage():IAsyncOperation {
+	public function loadTaskIDsForTest():IAsyncOperation {
 		selectedTestTask = null;
-		var op:IAsyncOperation = storage.loadTestPageInfo(testPage);
-		op.addCompleteCallback(function (op:IAsyncOperation):void {
-			selectedTestTask = testPage.taskColl && testPage.taskColl.length > 0 ? testPage.taskColl.getItemAt(0) as TestTask : null;
-		});
+		var op:IAsyncOperation = storage.loadTaskIDs(testPage.test, testPage.filter, testPage.taskComplexity);
+		op.addCompleteCallback(taskIDsLoaded);
 		return op;
 	}
 
-	public function loadStatisticsPage():IAsyncOperation {
-		selectedTestTask = null;
-		return storage.loadTestPageInfo(statisticsPage);
+	private function taskIDsLoaded(op:IAsyncOperation):void {
+		if (op.isSuccess) {
+			curTaskNumber = 0;
+			testTaskIDs = op.result || [];
+		}
 	}
+
+	public function loadNextTestTask():void {
+		if (curTaskNumber >= testTaskIDs.length) {
+			selectedTestTask = null;
+		}
+		else {
+			var op:IAsyncOperation = storage.loadTestTask(testPage.test, testTaskIDs[curTaskNumber++]);
+			op.addCompleteCallback(testTaskLoaded);
+		}
+	}
+
+	private function testTaskLoaded(op:IAsyncOperation):void {
+		selectedTestTask = op.isSuccess ? op.result : null;
+	}
+
 }
 }

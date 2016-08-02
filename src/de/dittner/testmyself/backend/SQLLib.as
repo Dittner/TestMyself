@@ -62,6 +62,10 @@ public class SQLLib {
 	private static const UpdateFilterClass:Class;
 	public static const UPDATE_FILTER_SQL:String = new UpdateFilterClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTestTaskByNoteID.sql", mimeType="application/octet-stream")]
+	private static const UpdateTestTaskByNoteIDClass:Class;
+	public static const UPDATE_TEST_TASK_BY_NOTE_ID_SQL:String = new UpdateTestTaskByNoteIDClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTestTask.sql", mimeType="application/octet-stream")]
 	private static const UpdateTestTaskClass:Class;
 	public static const UPDATE_TEST_TASK_SQL:String = new UpdateTestTaskClass();
@@ -110,6 +114,18 @@ public class SQLLib {
 	private static const SelectPageTestTasksClass:Class;
 	public static const SELECT_PAGE_TEST_TASKS_SQL:String = new SelectPageTestTasksClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTestTaskIDs.sql", mimeType="application/octet-stream")]
+	private static const SelectTestTaskIDsClass:Class;
+	public static const SELECT_TEST_TASK_IDS_SQL:String = new SelectTestTaskIDsClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTestTaskByID.sql", mimeType="application/octet-stream")]
+	private static const SelectTestTaskByIdClass:Class;
+	public static const SELECT_TEST_TASK_BY_ID_SQL:String = new SelectTestTaskByIdClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredTestTaskIDs.sql", mimeType="application/octet-stream")]
+	private static const SelectFilteredTestTaskIDsClass:Class;
+	public static const SELECT_FILTERED_TEST_TASK_IDS_SQL:String = new SelectFilteredTestTaskIDsClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredPageTestTasks.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredPageTestTasksClass:Class;
 	public static const SELECT_FILTERED_PAGE_TEST_TASKS_SQL:String = new SelectFilteredPageTestTasksClass();
@@ -133,10 +149,6 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectExampleByParentID.sql", mimeType="application/octet-stream")]
 	private static const SelectExampleByParentIDClass:Class;
 	public static const SELECT_EXAMPLE_BY_PARENT_ID_SQL:String = new SelectExampleByParentIDClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTestNoteID.sql", mimeType="application/octet-stream")]
-	private static const SelectTestNoteIDClass:Class;
-	public static const SELECT_TEST_NOTE_ID_SQL:String = new SelectTestNoteIDClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectCountTestTaskClass:Class;

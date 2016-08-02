@@ -7,11 +7,14 @@
          xmlns:input="de.dittner.testmyself.ui.common.input.*">
 
     <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+
+        import mx.collections.ArrayCollection;
 
         //--------------------------------------
         //  vocabulary
@@ -39,11 +42,9 @@
             }
         }
 
-        //--------------------------------------
-        //  haveThemes
-        //--------------------------------------
-        [Bindable("themesChanged")]
-        public function get haveThemes():Boolean {return vocabulary.themeColl && vocabulary.themeColl.length > 0;}
+        private function haveThemes(themeColl:ArrayCollection):Boolean {
+            return themeColl && themeColl.length > 0;
+        }
 
         //--------------------------------------
         //  editLblText
@@ -87,7 +88,7 @@
         //--------------------------------------
         //  notificationText
         //--------------------------------------
-        private var _notificationText:String = "Sind Sie sicher, die Übung ohne die Aufgaben Sie entfernen möchten?";
+        private var _notificationText:String = "Sind Sie sicher, das Thema ohne die Aufgaben Sie entfernen möchten?";
         [Bindable("notificationTextChanged")]
         public function get notificationText():String {return _notificationText;}
         public function set notificationText(value:String):void {
@@ -146,13 +147,20 @@
             else if (themeNameInputForm.text) {
                 var duplicate:Theme = getThemeWithName(themeNameInputForm.text);
                 if (duplicate) {
-                    duplicate.mergeWith(selectedTheme);
+                    var mergeOp:IAsyncOperation = duplicate.mergeWith(selectedTheme);
+                    mergeOp.addCompleteCallback(changeComplete);
                 }
                 else {
                     selectedTheme.name = themeNameInputForm.text;
-                    selectedTheme.store();
+                    var storeOp:IAsyncOperation = selectedTheme.store();
+                    storeOp.addCompleteCallback(changeComplete);
                 }
             }
+        }
+
+        private function changeComplete(op:IAsyncOperation):void {
+            vocabulary.themeColl.refresh();
+            themesList.selectedItem = null;
         }
 
         private function getThemeWithName(themeName:String):Theme {
@@ -177,8 +185,8 @@
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
-                           visible="{haveThemes}"
-                           includeInLayout="{haveThemes}"
+                           visible="{haveThemes(vocabulary.themeColl)}"
+                           includeInLayout="{haveThemes(vocabulary.themeColl)}"
                            upColor="{AppColors.TEXT_DARK}"
                            downColor="{AppColors.TEXT_BLACK}"
                            click="setCurrentState('renameTheme')"/>
@@ -188,14 +196,14 @@
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
-                           visible="{haveThemes}"
-                           includeInLayout="{haveThemes}"
+                           visible="{haveThemes(vocabulary.themeColl)}"
+                           includeInLayout="{haveThemes(vocabulary.themeColl)}"
                            upColor="{AppColors.TEXT_DARK}"
                            downColor="{AppColors.TEXT_BLACK}"
                            click="setCurrentState('removeTheme')"/>
 
     <s:Group width="100%" height="100%"
-             visible.edit="{haveThemes}"
+             visible.edit="{haveThemes(vocabulary.themeColl)}"
              visible="false">
         <s:layout>
             <s:ConstraintLayout>

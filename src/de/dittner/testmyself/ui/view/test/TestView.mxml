@@ -75,12 +75,11 @@
         private function noteRemoveOperationComplete(op:IAsyncOperation):void {
             if (op.isSuccess && op.result == FormOperationResult.OK) {
                 if (currentState == "statistics") {
-                    vm.statisticsPage.amountAllTasks--;
+                    vm.testPage.amountAllTasks--;
                     vm.loadStatisticsPage();
                 }
                 else if (currentState == "testing") {
-                    vm.testPage.amountAllTasks--;
-                    vm.loadTestTaskPage();
+                    vm.loadNextTestTask();
                 }
             }
         }
@@ -90,7 +89,7 @@
                 if (currentState == "statistics")
                     vm.loadStatisticsPage();
                 else if (currentState == "testing")
-                    vm.loadTestTaskPage();
+                    vm.loadNextTestTask();
             }
         }
         ]]></fx:Script>

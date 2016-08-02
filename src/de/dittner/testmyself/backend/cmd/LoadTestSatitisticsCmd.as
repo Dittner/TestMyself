@@ -7,18 +7,18 @@ import de.dittner.testmyself.backend.op.CountTestTasksOperation;
 import de.dittner.testmyself.backend.op.SelectNotesByTestPageOperation;
 import de.dittner.testmyself.backend.op.SelectPageTestTasksOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
-import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
+import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 
-public class LoadTestPageInfoCmd extends StorageOperation implements IAsyncCommand {
+public class LoadTestSatitisticsCmd extends StorageOperation implements IAsyncCommand {
 
-	public function LoadTestPageInfoCmd(storage:Storage, page:TestPageInfo) {
+	public function LoadTestSatitisticsCmd(storage:Storage, page:TestPage) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
 	private var storage:Storage;
-	private var page:TestPageInfo;
+	private var page:TestPage;
 
 	public function execute():void {
 		var composite:CompositeCommand = new CompositeCommand();

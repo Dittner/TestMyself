@@ -4,7 +4,7 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.ui.common.page.NotePageInfo;
+import de.dittner.testmyself.ui.common.page.NotePage;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -14,14 +14,14 @@ import mx.collections.ArrayCollection;
 
 public class SelectNotesByPageOperation extends StorageOperation implements IAsyncCommand {
 
-	public function SelectNotesByPageOperation(storage:Storage, page:NotePageInfo) {
+	public function SelectNotesByPageOperation(storage:Storage, page:NotePage) {
 		super();
 		this.storage = storage;
 		this.page = page;
 	}
 
 	private var storage:Storage;
-	private var page:NotePageInfo;
+	private var page:NotePage;
 
 	public function execute():void {
 		var sqlParams:Object = {};

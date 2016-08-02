@@ -1,7 +1,7 @@
 package de.dittner.testmyself.ui.common.page {
 import mx.collections.ArrayCollection;
 
-public interface IPageInfo {
+public interface INotePage {
 	function get number():uint;
 	function get size():uint;
 	function get allNotesAmount():int

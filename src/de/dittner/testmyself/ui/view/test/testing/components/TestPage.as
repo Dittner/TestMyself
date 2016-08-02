@@ -8,8 +8,8 @@ import flash.events.EventDispatcher;
 
 import mx.collections.ArrayCollection;
 
-public class TestPageInfo extends EventDispatcher {
-	public function TestPageInfo() {
+public class TestPage extends EventDispatcher {
+	public function TestPage() {
 		super();
 	}
 
@@ -106,28 +106,28 @@ public class TestPageInfo extends EventDispatcher {
 	}
 
 	//--------------------------------------
-	//  selectedTaskComplexity
+	//  taskComplexity
 	//--------------------------------------
-	private var _selectedTaskComplexity:uint = TestTaskComplexity.HIGH;
-	[Bindable("selectedTaskComplexityChanged")]
-	public function get selectedTaskComplexity():uint {return _selectedTaskComplexity;}
-	public function set selectedTaskComplexity(value:uint):void {
-		if (_selectedTaskComplexity != value) {
-			_selectedTaskComplexity = value;
-			dispatchEvent(new Event("selectedTaskComplexityChanged"));
+	private var _taskComplexity:uint = TestTaskComplexity.HIGH;
+	[Bindable("taskComplexityChanged")]
+	public function get taskComplexity():uint {return _taskComplexity;}
+	public function set taskComplexity(value:uint):void {
+		if (_taskComplexity != value) {
+			_taskComplexity = value;
+			dispatchEvent(new Event("taskComplexityChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  selectedTheme
+	//  filter
 	//--------------------------------------
-	private var _selectedTheme:Theme;
-	[Bindable("selectedThemeChanged")]
-	public function get selectedTheme():Theme {return _selectedTheme;}
-	public function set selectedTheme(value:Theme):void {
-		if (_selectedTheme != value) {
-			_selectedTheme = value;
-			dispatchEvent(new Event("selectedThemeChanged"));
+	private var _filter:Theme;
+	[Bindable("filterChanged")]
+	public function get filter():Theme {return _filter;}
+	public function set filter(value:Theme):void {
+		if (_filter != value) {
+			_filter = value;
+			dispatchEvent(new Event("filterChanged"));
 		}
 	}
 

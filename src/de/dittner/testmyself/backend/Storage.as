@@ -5,7 +5,9 @@ import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
 import de.dittner.testmyself.backend.cmd.LoadAllThemesCmd;
 import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
-import de.dittner.testmyself.backend.cmd.LoadTestPageInfoCmd;
+import de.dittner.testmyself.backend.cmd.LoadTaskIDsCmd;
+import de.dittner.testmyself.backend.cmd.LoadTestSatitisticsCmd;
+import de.dittner.testmyself.backend.cmd.LoadTestTaskCmd;
 import de.dittner.testmyself.backend.cmd.LoadVocabularyInfoCmd;
 import de.dittner.testmyself.backend.cmd.MergeThemesCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNoteCmd;
@@ -23,9 +25,9 @@ import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.ui.common.page.NotePageInfo;
-import de.dittner.testmyself.ui.common.page.SearchPageInfo;
-import de.dittner.testmyself.ui.view.test.testing.components.TestPageInfo;
+import de.dittner.testmyself.ui.common.page.NotePage;
+import de.dittner.testmyself.ui.common.page.SearchPage;
+import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
@@ -96,7 +98,7 @@ public class Storage extends WalterProxy {
 		return op;
 	}
 
-	public function loadNotePage(page:NotePageInfo):IAsyncOperation {
+	public function loadNotePage(page:NotePage):IAsyncOperation {
 		var op:IAsyncCommand = new LoadNotePageCmd(this, page);
 		deferredCommandManager.add(op);
 		return op;
@@ -146,7 +148,7 @@ public class Storage extends WalterProxy {
 	//  search
 	//--------------------------------------
 
-	public function searchNotes(page:SearchPageInfo):IAsyncOperation {
+	public function searchNotes(page:SearchPage):IAsyncOperation {
 		var op:IAsyncCommand = new SearchNotesCmd(this, page);
 		deferredCommandManager.add(op);
 		return op;
@@ -162,8 +164,20 @@ public class Storage extends WalterProxy {
 		return op;
 	}
 
-	public function loadTestPageInfo(page:TestPageInfo):IAsyncOperation {
-		var op:IAsyncCommand = new LoadTestPageInfoCmd(this, page);
+	public function loadTestStatistics(page:TestPage):IAsyncOperation {
+		var op:IAsyncCommand = new LoadTestSatitisticsCmd(this, page);
+		deferredCommandManager.add(op);
+		return op;
+	}
+
+	public function loadTaskIDs(test:Test, filter:Theme, taskComplexity:uint):IAsyncOperation {
+		var op:IAsyncCommand = new LoadTaskIDsCmd(this, test, filter, taskComplexity);
+		deferredCommandManager.add(op);
+		return op;
+	}
+
+	public function loadTestTask(test:Test, taskID:int):IAsyncOperation {
+		var op:IAsyncCommand = new LoadTestTaskCmd(this, test, taskID);
 		deferredCommandManager.add(op);
 		return op;
 	}

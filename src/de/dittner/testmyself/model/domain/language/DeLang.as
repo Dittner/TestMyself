@@ -59,49 +59,49 @@ public class DeLang extends Language {
 		test._loadExamplesWhenTesting = true;
 		test._isWritten = false;
 		test._useExamples = false;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		wordVocabulary.addTest(test);
 
 		test = new Test(TestID.SPEAK_WORD_IN_DEUTSCH, wordVocabulary, "Ins Deutsche übersetzen");
 		test._loadExamplesWhenTesting = true;
 		test._isWritten = false;
 		test._useExamples = false;
-		test._needTranslationInvert = true;
+		test._translateFromNativeIntoForeign = true;
 		wordVocabulary.addTest(test);
 
 		test = new Test(TestID.WRITE_WORD, wordVocabulary, "Rechtschreibung");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = true;
 		test._useExamples = false;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		wordVocabulary.addTest(test);
 
 		test = new SelectArticleTest(wordVocabulary, "Artikel auswählen");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = false;
 		test._useExamples = false;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		wordVocabulary.addTest(test);
 
 		test = new Test(TestID.SPEAK_WORD_EXAMPLE_TRANSLATION, wordVocabulary, "Aus dem Deutschen die Beispiele übersetzen");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = false;
 		test._useExamples = true;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		wordVocabulary.addTest(test);
 
 		test = new Test(TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH, wordVocabulary, "Ins Deutsche die Beispiele übersetzen");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = false;
 		test._useExamples = true;
-		test._needTranslationInvert = true;
+		test._translateFromNativeIntoForeign = true;
 		wordVocabulary.addTest(test);
 
 		test = new Test(TestID.WRITE_WORD_EXAMPLE, wordVocabulary, "Rechtschreibung der Beispiele");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = true;
 		test._useExamples = true;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		wordVocabulary.addTest(test);
 	}
 
@@ -112,28 +112,28 @@ public class DeLang extends Language {
 		test._loadExamplesWhenTesting = true;
 		test._isWritten = false;
 		test._useExamples = false;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		verbVocabulary.addTest(test);
 
 		test = new Test(TestID.SPEAK_VERB_EXAMPLE_TRANSLATION, verbVocabulary, "Aus dem Deutschen die Beispiele übersetzen");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = false;
 		test._useExamples = true;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		verbVocabulary.addTest(test);
 
 		test = new Test(TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH, verbVocabulary, "Ins Deutsche die Beispiele übersetzen");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = false;
 		test._useExamples = true;
-		test._needTranslationInvert = true;
+		test._translateFromNativeIntoForeign = true;
 		verbVocabulary.addTest(test);
 
 		test = new Test(TestID.WRITE_VERB_EXAMPLE, verbVocabulary, "Rechtschreibung der Beispiele");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = true;
 		test._useExamples = true;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		verbVocabulary.addTest(test);
 	}
 
@@ -144,21 +144,21 @@ public class DeLang extends Language {
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = false;
 		test._useExamples = false;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		lessonVocabulary.addTest(test);
 
 		test = new Test(TestID.SPEAK_LESSON_IN_DEUTSCH, lessonVocabulary, "Ins Deutsche übersetzen");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = false;
 		test._useExamples = false;
-		test._needTranslationInvert = true;
+		test._translateFromNativeIntoForeign = true;
 		lessonVocabulary.addTest(test);
 
 		test = new Test(TestID.WRITE_LESSON, lessonVocabulary, "Rechtschreibung");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = true;
 		test._useExamples = false;
-		test._needTranslationInvert = false;
+		test._translateFromNativeIntoForeign = false;
 		lessonVocabulary.addTest(test);
 	}
 

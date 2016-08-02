@@ -205,7 +205,7 @@
                        left="{PADDING - 10}"
                        verticalCenter="0"
                        removeRecordEnabled="false"
-                       visible="false"
+                       visible="{mp3Player.hasComment}"
                        skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
 
         <navigation:PaginationBar id="paginationBar"

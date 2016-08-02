@@ -1,142 +1,99 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
-import de.dittner.testmyself.ui.common.audio.utils.PlayerUtils;
+import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.view.test.common.TestingAction;
 
 import flash.events.Event;
-import flash.events.TimerEvent;
-import flash.utils.Timer;
 
 import spark.components.Group;
 
-public class TestableView extends Group implements ITestableView {
+public class TestableView extends Group {
 	public function TestableView() {
 		super();
-		timer = new Timer(1000);
-		timer.addEventListener(TimerEvent.TIMER, timerHandler);
 	}
 
-	protected var timer:Timer;
-	private var duration:Number = 0;//sec
-	protected function timerHandler(event:TimerEvent):void {
-		if (answerEnabled) {
-			duration++;
-			durationLbl = PlayerUtils.convertToHHMMSS(duration);
-		}
-	}
-
-	[Bindable]
-	public var durationLbl:String = "";
-	[Bindable]
-	public var title:String = "";
 	[Bindable]
 	public var showDetails:Boolean = false;
 	[Bindable]
 	public var padding:uint = 0;
 	[Bindable]
-	public var errorsNum:uint = 0;
+	public var actionCallback:Function;
 
 	//--------------------------------------
-	//  activeNote
+	//  testTask
 	//--------------------------------------
-	protected var activeNoteChanged:Boolean = false;
-	private var _activeNote:Note;
-	[Bindable("activeNoteChanged")]
-	public function get activeNote():Note {return _activeNote;}
-	public function set activeNote(value:Note):void {
-		if (_activeNote != value) {
-			_activeNote = value;
-			activeNoteChanged = true;
+	protected var testTaskChanged:Boolean = false;
+	private var _testTask:TestTask;
+	[Bindable("testTaskChanged")]
+	public function get testTask():TestTask {return _testTask;}
+	public function set testTask(value:TestTask):void {
+		if (_testTask != value) {
+			_testTask = value;
+			testTaskChanged = true;
 			invalidateProperties();
-			dispatchEvent(new Event("activeNoteChanged"));
+			dispatchEvent(new Event("testTaskChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  totalTask
+	//  note
 	//--------------------------------------
-	private var _totalTask:int = 0;
-	[Bindable("totalTaskChanged")]
-	public function get totalTask():int {return _totalTask;}
-	public function set totalTask(value:int):void {
-		if (_totalTask != value) {
-			_totalTask = value;
-			dispatchEvent(new Event("totalTaskChanged"));
+	[Bindable("testTaskChanged")]
+	public function get note():Note {return testTask ? testTask.note : null;}
+
+	//--------------------------------------
+	//  isProcessing
+	//--------------------------------------
+	private var _isProcessing:Boolean = false;
+	[Bindable("isProcessingChanged")]
+	public function get isProcessing():Boolean {return _isProcessing;}
+	private function setIsProcessing(value:Boolean):void {
+		if (_isProcessing != value) {
+			_isProcessing = value;
+			dispatchEvent(new Event("isProcessingChanged"));
 		}
 	}
 
-	//--------------------------------------
-	//  taskNumber
-	//--------------------------------------
-	private var _taskNumber:int = 0;
-	[Bindable("taskNumberChanged")]
-	public function get taskNumber():int {return _taskNumber;}
-	public function set taskNumber(value:int):void {
-		if (_taskNumber != value) {
-			_taskNumber = value;
-			dispatchEvent(new Event("taskNumberChanged"));
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Methods
+	//
+	//----------------------------------------------------------------------------------------------
+
+	override protected function commitProperties():void {
+		super.commitProperties();
+		if (testTaskChanged) {
+			testTaskChanged = false;
+			if (note) {
+				updateForm();
+				setIsProcessing(true);
+			}
+			else {
+				clear();
+				setIsProcessing(false);
+			}
 		}
 	}
 
-	//--------------------------------------
-	//  actionCallback
-	//--------------------------------------
-	private var _actionCallback:Function;
-	[Bindable("actionCallbackChanged")]
-	public function get actionCallback():Function {return _actionCallback;}
-	public function set actionCallback(value:Function):void {
-		if (_actionCallback != value) {
-			_actionCallback = value;
-			dispatchEvent(new Event("actionCallbackChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  answerEnabled
-	//--------------------------------------
-	private var _answerEnabled:Boolean = false;
-	[Bindable("answerEnabledChanged")]
-	public function get answerEnabled():Boolean {return _answerEnabled;}
-	public function set answerEnabled(value:Boolean):void {
-		if (_answerEnabled != value) {
-			_answerEnabled = value;
-			dispatchEvent(new Event("answerEnabledChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  complexity
-	//--------------------------------------
-	private var _complexity:uint = TestTaskComplexity.HIGH;
-	[Bindable("complexityChanged")]
-	public function get complexity():uint {return _complexity;}
-	public function set complexity(value:uint):void {
-		if (_complexity != value) {
-			_complexity = value;
-			dispatchEvent(new Event("complexityChanged"));
-		}
-	}
-
-	public function start():void {
-		duration = 0;
-		errorsNum = 0;
-		timer.start();
-	}
-
-	public function stop():void {
-		timer.stop();
-		clear();
-	}
+	protected function updateForm():void {}
 
 	protected function clear():void {}
 
-	protected function goBack():void {
-		if (actionCallback) actionCallback(TestingAction.EXIT_TEST);
+	protected function requestNextTask():void {
+		if (isProcessing) actionCallback(TestingAction.NEXT_TASK);
 	}
 
-	protected function goNext():void {
-		if (actionCallback) actionCallback(TestingAction.NEXT_TASK);
+	protected function notifyTrueAnswer():void {
+		if (isProcessing) actionCallback(TestingAction.CORRECT_ANSWER);
+	}
+
+	protected function notifyFalseAnswer():void {
+		if (isProcessing) actionCallback(TestingAction.INCORRECT_ANSWER);
+	}
+
+	public function stop():void {
+		setIsProcessing(false);
+		clear();
 	}
 
 }

@@ -1,2 +1,2 @@
-DELETE FROM test
+DELETE FROM testTask
 WHERE noteID = :deletingNoteID

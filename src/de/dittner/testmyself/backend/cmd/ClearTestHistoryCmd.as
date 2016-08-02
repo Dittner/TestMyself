@@ -1,12 +1,16 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
-import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.backend.op.ClearTestHistoryOperation;
-import de.dittner.testmyself.backend.op.SelectTestNotesIDsOperation;
+import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.op.StorageOperation;
+import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.test.Test;
+import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
+
+import flash.data.SQLResult;
+import flash.data.SQLStatement;
+import flash.net.Responder;
 
 public class ClearTestHistoryCmd extends StorageOperation implements IAsyncCommand {
 
@@ -19,19 +23,31 @@ public class ClearTestHistoryCmd extends StorageOperation implements IAsyncComma
 	private var test:Test;
 
 	public function execute():void {
-		var composite:CompositeCommand = new CompositeCommand();
+		if (!test || !test.id == -1) {
+			dispatchError(ErrorCode.NOTE_OF_TEST_TASK_HAS_NO_ID + ": Нет ID теста, необходимого для удаления результатов теста");
+			return;
+		}
 
-		var notesIDs:Array = [];
-		composite.addOperation(SelectTestNotesIDsOperation, storage, test, notesIDs);
-		composite.addOperation(ClearTestHistoryOperation, storage, test, notesIDs);
+		var sqlParams:Object = {};
+		sqlParams.testID = test.id;
+		sqlParams.rate = test.calcTaskRate();
+		sqlParams.complexity = TestTaskComplexity.HIGH;
+		sqlParams.isFailed = 0;
+		sqlParams.lastTestedDate = 0;
 
-		composite.addCompleteCallback(completeHandler);
-		composite.execute();
+		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.UPDATE_TEST_TASK_SQL, sqlParams);
+		statement.sqlConnection = storage.sqlConnection;
+		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) dispatchSuccess(op.result);
-		else dispatchError();
+	private function executeComplete(result:SQLResult):void {
+		dispatchSuccess();
+	}
+
+	override public function destroy():void {
+		super.destroy();
+		storage = null;
+		test = null;
 	}
 }
 }

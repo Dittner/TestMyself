@@ -24,7 +24,7 @@ public class StoreThemeCmd extends StorageOperation implements IAsyncCommand {
 	private var theme:Theme;
 
 	public function execute():void {
-		if (!theme || theme.id != -1) {
+		if (!theme) {
 			dispatchError(ErrorCode.NULLABLE_THEME + ": Отсутствует добавляемая тема");
 			return
 		}
@@ -47,7 +47,7 @@ public class StoreThemeCmd extends StorageOperation implements IAsyncCommand {
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
-			theme.id = result.lastInsertRowID;
+			if (theme.isNew) theme.id = result.lastInsertRowID;
 			theme.vocabulary.addTheme(theme);
 			dispatchSuccess();
 		}
