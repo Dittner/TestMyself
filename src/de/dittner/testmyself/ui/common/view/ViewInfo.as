@@ -2,11 +2,12 @@ package de.dittner.testmyself.ui.common.view {
 import flash.display.BitmapData;
 
 public class ViewInfo {
-	public function ViewInfo(id:String, title:String, description:String, icon:BitmapData) {
+	public function ViewInfo(id:String, title:String, description:String, icon:BitmapData, disabledIcon:BitmapData) {
 		_id = id;
 		_title = title;
 		_description = description;
 		_icon = icon;
+		_disabledIcon = disabledIcon;
 	}
 
 	private var _id:String;
@@ -20,6 +21,9 @@ public class ViewInfo {
 
 	private var _icon:BitmapData;
 	public function get icon():BitmapData {return _icon;}
+
+	private var _disabledIcon:BitmapData;
+	public function get disabledIcon():BitmapData {return _disabledIcon;}
 
 }
 }

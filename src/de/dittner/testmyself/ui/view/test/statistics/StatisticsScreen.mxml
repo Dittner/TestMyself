@@ -148,11 +148,12 @@
                                   pageNum="@{vm.testPage.number}"
                                   pageNumChanged="pageNumChanged()"/>
 
-        <button:GrayButton id="goBackBtn"
+        <button:ToolButton id="goBackBtn"
+                           label="Zurück"
                            width="250"
                            verticalCenter="0"
                            left="{padding}"
-                           label="Zurück"
+                           image="@Embed(source='/assets/tools/goback.png')"
                            click="goBack()"/>
 
     </s:Group>

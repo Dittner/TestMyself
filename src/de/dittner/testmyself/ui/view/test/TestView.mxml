@@ -126,6 +126,16 @@
              paddingLeft="{PADDING}" paddingRight="{PADDING}"
              color="#54545d"/>
 
+    <s:Label text="{vm.selectedVocabulary.title}"
+             excludeFrom="testList"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="18"
+             horizontalCenter="0" textAlign="center"
+             width="50%" height="{HEADER_HEI}"
+             verticalAlign="middle"
+             paddingLeft="{PADDING}" paddingRight="{PADDING}"
+             color="#54545d"/>
+
     <button:ToolButton id="removeBtn"
                        visible="false" visible.statistics="true" visible.testing="true"
                        enabled="{vm.selectedTestTask}"

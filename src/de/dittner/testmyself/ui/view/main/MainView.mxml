@@ -154,8 +154,9 @@
     </s:Rect>
 
     <list:SelectableDataGroup id="viewList"
-                              mouseEnabled="false" mouseChildren="false"
-                              mouseEnabled.normal="true" mouseChildren.normal="true"
+                              disabledAlpha="1"
+                              enabled="false"
+                              enabled.normal="true"
                               width="66" height="100%"
                               minWidth="0"
                               dataProvider="{vm.viewFactory.viewInfoColl}"
@@ -187,7 +188,7 @@
         <s:Rect width="100%" height="100%"
                 visible="{busyIndicatorLayer.alpha != 0}">
             <s:fill>
-                <s:SolidColor color="0xff1d5d" alpha="0.1"/>
+                <s:SolidColor color="#ff1d5d" alpha="0.1"/>
             </s:fill>
         </s:Rect>
         <s:BitmapImage verticalCenter="0" horizontalCenter="33"

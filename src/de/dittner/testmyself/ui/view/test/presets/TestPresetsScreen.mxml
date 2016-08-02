@@ -139,11 +139,12 @@
 
         <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
 
-        <button:GrayButton id="goBackBtn"
+        <button:ToolButton id="goBackBtn"
+                           label="Zurück"
                            width="250"
                            verticalCenter="0"
                            left="{padding}"
-                           label="Zurück"
+                           image="@Embed(source='/assets/tools/goback.png')"
                            click="goBackBtnClickHandler(event)"/>
 
         <button:BlackButton id="showStatisticsBtn"
