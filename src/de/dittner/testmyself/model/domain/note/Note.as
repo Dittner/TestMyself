@@ -118,7 +118,7 @@ public class Note extends EventDispatcher {
 	//--------------------------------------
 	//  exampleColl
 	//--------------------------------------
-	private var _exampleColl:ArrayCollection;
+	private var _exampleColl:ArrayCollection = new ArrayCollection();
 	[Bindable("exampleCollChanged")]
 	public function get exampleColl():ArrayCollection {return _exampleColl;}
 	public function set exampleColl(value:ArrayCollection):void {

@@ -94,6 +94,10 @@
             info.backUpServerInfo.remoteDirPath = remoteDirInput.text;
             return info;
         }
+
+        private function parseDBFromSO():void {
+            vm.parseDBFromSO();
+        }
         ]]></fx:Script>
 
     <s:layout>
@@ -116,6 +120,9 @@
                      color="{AppColors.TEXT_DARK}"/>
         </s:HGroup>
     </s:HGroup>
+
+    <!--<button:BlackButton label="DB Parsing from SO"
+                        click="parseDBFromSO()"/>-->
 
     <s:Spacer height="15%"/>
 

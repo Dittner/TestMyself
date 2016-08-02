@@ -15,7 +15,7 @@ public class VewListItemRenderer extends ItemRendererBase {
 	private static const ICON_ALPHA_OUT:Number = 0.5;
 	private static const ICON_ALPHA_SELECTED:Number = 1;
 
-	private static const DISABLED_ICON_ALPHA:Number = 0.75;
+	private static const DISABLED_ICON_ALPHA:Number = 0.65;
 
 	private static const VGAP:Number = 20;
 
@@ -121,21 +121,18 @@ public class VewListItemRenderer extends ItemRendererBase {
 	private var isParentEnabledStateChanged:Boolean = false;
 	private var isAnimating:Boolean = false;
 	private function startAlphaAnimation():void {
-		isAnimating = true;
-		var alphaFrom:Number = parentGroup.enabled ? DISABLED_ICON_ALPHA : 0;
 		var alphaTo:Number = parentGroup.enabled ? 0 : DISABLED_ICON_ALPHA;
-		disabledIcon.alpha = alphaFrom;
-		TweenLite.to(disabledIcon, 1, {alpha: alphaTo, onComplete: animationComplete});
+		if (disabledIcon.alpha != alphaTo) {
+			isAnimating = true;
+			TweenLite.to(disabledIcon, 1, {alpha: alphaTo, onComplete: animationComplete});
+		}
 	}
 
 	private function animationComplete():void {
 		isAnimating = false;
 		if (isParentEnabledStateChanged) {
 			isParentEnabledStateChanged = false;
-			if (disabledIcon.alpha == 0 && !parentGroup.enabled)
-				startAlphaAnimation();
-			else if (disabledIcon.alpha == DISABLED_ICON_ALPHA && parentGroup.enabled)
-				startAlphaAnimation();
+			startAlphaAnimation();
 		}
 	}
 
