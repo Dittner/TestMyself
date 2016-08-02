@@ -65,6 +65,10 @@
         </s:HGroup>
     </s:HGroup>
 
+    <button:BlackButton id="convertDBBtn"
+                        width="100%"
+                        label="Database to SO"/>
+
     <s:Spacer height="15%"/>
 
     <s:Label text="Die Dataibank kopieren/aktualisieren"

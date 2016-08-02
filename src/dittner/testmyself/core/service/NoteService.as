@@ -5,6 +5,7 @@ import de.dittner.async.IAsyncOperation;
 import dittner.satelliteFlight.message.IRequestMessage;
 import dittner.satelliteFlight.proxy.SFProxy;
 import dittner.testmyself.core.command.backend.ClearTestHistorySQLOperation;
+import dittner.testmyself.core.command.backend.ConvertDataBaseToSOSQLOperation;
 import dittner.testmyself.core.command.backend.CountTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.CreateDataBaseSQLOperation;
 import dittner.testmyself.core.command.backend.DeleteNoteExampleSQLOperation;
@@ -26,6 +27,7 @@ import dittner.testmyself.core.command.backend.SelectPageNotesSQLOperation;
 import dittner.testmyself.core.command.backend.SelectPageTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectTestTasksSQLOperation;
 import dittner.testmyself.core.command.backend.SelectThemeSQLOperation;
+import dittner.testmyself.core.command.backend.SharedObjectStorage;
 import dittner.testmyself.core.command.backend.UpdateNoteExampleSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateNoteSQLOperation;
 import dittner.testmyself.core.command.backend.UpdateTestTaskSQLOperation;
@@ -187,6 +189,12 @@ public class NoteService extends SFProxy {
 		var searchSpec:SearchSpec = requestMsg.data as SearchSpec;
 		var op:IAsyncCommand = new SearchNotesSQLOperation(this, searchSpec);
 		requestHandler(requestMsg, op);
+		deferredCommandManager.add(op);
+	}
+
+	public function convertDB(requestMsg:IRequestMessage):void {
+		var dbSOStorage:SharedObjectStorage = requestMsg.data as SharedObjectStorage;
+		var op:IAsyncCommand = new ConvertDataBaseToSOSQLOperation(this, dbSOStorage);
 		deferredCommandManager.add(op);
 	}
 

@@ -7,6 +7,7 @@ import de.dittner.ftpClient.FtpClient;
 import dittner.satelliteFlight.mediator.SFMediator;
 import dittner.satelliteFlight.message.RequestMessage;
 import dittner.testmyself.TestMyselfApp;
+import dittner.testmyself.core.command.backend.SharedObjectStorage;
 import dittner.testmyself.core.message.NoteMsg;
 import dittner.testmyself.deutsch.message.ScreenMsg;
 import dittner.testmyself.deutsch.message.SettingsMsg;
@@ -29,10 +30,15 @@ public class SettingsScreenMediator extends SFMediator {
 	public var view:SettingsScreen;
 
 	private static var ftp:FtpClient;
+	private static var dbSOStorage:SharedObjectStorage;
 
 	override protected function activate():void {
 		sendRequest(ScreenMsg.LOCK, new RequestMessage());
 		doLaterInMSec(preActivation, 500);
+		if (!dbSOStorage) {
+			dbSOStorage = new SharedObjectStorage();
+			dbSOStorage.init("dataBase");
+		}
 	}
 
 	private function preActivation():void {
@@ -50,6 +56,13 @@ public class SettingsScreenMediator extends SFMediator {
 		registerMediator(view.testSettings, new TestSettingsMediator());
 		view.commonSettings.uploadBtn.addEventListener(MouseEvent.CLICK, uploadBtnClicked);
 		view.commonSettings.downloadBtn.addEventListener(MouseEvent.CLICK, downloadBtnClicked);
+		view.commonSettings.convertDBBtn.addEventListener(MouseEvent.CLICK, convertDB);
+	}
+
+	private function convertDB(event:MouseEvent):void {
+		sendRequestTo(ModuleName.WORD, NoteMsg.CONVERT_DB_TO_SO, new RequestMessage(null, dbSOStorage));
+		sendRequestTo(ModuleName.VERB, NoteMsg.CONVERT_DB_TO_SO, new RequestMessage(null, dbSOStorage));
+		sendRequestTo(ModuleName.LESSON, NoteMsg.CONVERT_DB_TO_SO, new RequestMessage(null, dbSOStorage));
 	}
 
 	private function infoLoaded(op:IAsyncOperation):void {
@@ -205,6 +218,7 @@ public class SettingsScreenMediator extends SFMediator {
 		sendRequestTo(ModuleName.VERB, NoteMsg.CLEAR_NOTES_INFO, new RequestMessage());
 		view.commonSettings.uploadBtn.removeEventListener(MouseEvent.CLICK, uploadBtnClicked);
 		view.commonSettings.downloadBtn.removeEventListener(MouseEvent.CLICK, downloadBtnClicked);
+		view.commonSettings.convertDBBtn.removeEventListener(MouseEvent.CLICK, convertDB);
 	}
 
 }

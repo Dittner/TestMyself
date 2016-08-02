@@ -6,6 +6,7 @@ import dittner.testmyself.core.command.AddNoteCmd;
 import dittner.testmyself.core.command.AddThemeCmd;
 import dittner.testmyself.core.command.ClearNotesInfoCmd;
 import dittner.testmyself.core.command.ClearTestHistoryCmd;
+import dittner.testmyself.core.command.ConvertDataBaseToSOCmd;
 import dittner.testmyself.core.command.GetNoteCmd;
 import dittner.testmyself.core.command.GetNoteExampleCmd;
 import dittner.testmyself.core.command.GetNoteExamplesCmd;
@@ -99,6 +100,7 @@ public class ConfigureMainModuleCmd implements IConfigureCommand {
 		mainModule.registerCmd(NoteMsg.GET_NOTES_INFO, GetNotesInfoCmd);
 		mainModule.registerCmd(NoteMsg.GET_NOTE_HASH, GetNoteHashCmd);
 		mainModule.registerCmd(NoteMsg.SEARCH_NOTES, SearchNotesCmd);
+		mainModule.registerCmd(NoteMsg.CONVERT_DB_TO_SO, ConvertDataBaseToSOCmd);
 
 		mainModule.registerCmd(TestMsg.GET_TEST_TASKS, GetTestTasksCmd);
 		mainModule.registerCmd(TestMsg.GET_TEST_PAGE_INFO, GetTestPageInfoCmd);
