@@ -117,13 +117,33 @@ public class SettingsVM extends ViewModel {
 		allTestColl = new ArrayCollection(allTests);
 	}
 
+	public function storeSettings(s:SettingsInfo):void {
+		_settings = s;
+		LocalStorage.write(SETTINGS_KEY, s);
+	}
+
+	//--------------------------------------
+	//  DB Upload
+	//--------------------------------------
+
 	public function uploadDB(info:SettingsInfo):ProgressCommand {
+		lockView();
 		var dbFile:File = File.documentsDirectory.resolvePath(Device.dbPath);
 		var uploadCmd:CompositeCommand = ftp.upload([dbFile], info.backUpServerInfo);
+		uploadCmd.addCompleteCallback(uploadDBComplete);
 		return uploadCmd;
 	}
 
+	private function uploadDBComplete(op:IAsyncOperation):void {
+		unlockView();
+	}
+
+	//--------------------------------------
+	//  DB Download
+	//--------------------------------------
+
 	public function downloadDB(info:SettingsInfo):ProgressCommand {
+		lockView();
 		var tempFolder:File = File.documentsDirectory.resolvePath(Device.dbTempPath);
 		if (tempFolder.exists) tempFolder.deleteDirectory(true);
 		tempFolder.createDirectory();
@@ -137,9 +157,7 @@ public class SettingsVM extends ViewModel {
 	}
 
 	private function downloadDBComplete(op:IAsyncOperation):void {
-		if (op.isSuccess) {
-			reloadDataBase();
-		}
+		if (op.isSuccess) reloadDataBase();
 	}
 
 	private function createFile(file:File):void {
@@ -158,15 +176,22 @@ public class SettingsVM extends ViewModel {
 		var tempDBFile:File = File.documentsDirectory.resolvePath(Device.TEMP_APP_NAME);
 		tempDBFile.moveTo(File.documentsDirectory.resolvePath(Device.APP_NAME));
 
-		storage.reloadDataBase();
+		var op:IAsyncOperation = storage.reloadDataBase();
+		op.addCompleteCallback(dbReloaded);
 	}
 
-	public function storeSettings(s:SettingsInfo):void {
-		_settings = s;
-		LocalStorage.write(SETTINGS_KEY, s);
+	private function dbReloaded(op:IAsyncOperation):void {
+		var initOp:IAsyncOperation = appModel.selectedLanguage.init();
+		initOp.addCompleteCallback(initCompleteHandler);
 	}
 
-	override protected function deactivate():void {}
+	private function initCompleteHandler(op:IAsyncOperation):void {
+		unlockView();
+	}
+
+	//--------------------------------------
+	//  DB in SO Parsing
+	//--------------------------------------
 
 	private static var soStorage:SharedObjectStorage;
 	public function parseDBFromSO():void {

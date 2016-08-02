@@ -17,7 +17,7 @@
 
         <source-path append="true">
             <path-element>/resources/icons</path-element>
-            <path-element>/resources/dataBase</path-element>
+            <!--<path-element>/resources/dataBase</path-element>-->
         </source-path>
 
         <library-path>
