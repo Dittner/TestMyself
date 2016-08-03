@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
 import de.dittner.testmyself.model.domain.theme.Theme;
 
 import flash.events.Event;
@@ -102,19 +101,6 @@ public class TestPage extends EventDispatcher {
 		if (_test != value) {
 			_test = value;
 			dispatchEvent(new Event("testChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  taskComplexity
-	//--------------------------------------
-	private var _taskComplexity:uint = TestTaskComplexity.HIGH;
-	[Bindable("taskComplexityChanged")]
-	public function get taskComplexity():uint {return _taskComplexity;}
-	public function set taskComplexity(value:uint):void {
-		if (_taskComplexity != value) {
-			_taskComplexity = value;
-			dispatchEvent(new Event("taskComplexityChanged"));
 		}
 	}
 

@@ -4,6 +4,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
+import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
@@ -65,6 +66,19 @@ public class TestVM extends ViewModel {
 		if (_testPage != value) {
 			_testPage = value;
 			dispatchEvent(new Event("testPageChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  taskComplexity
+	//--------------------------------------
+	private var _taskComplexity:uint = TestTaskComplexity.HIGH;
+	[Bindable("taskComplexityChanged")]
+	public function get taskComplexity():uint {return _taskComplexity;}
+	public function set taskComplexity(value:uint):void {
+		if (_taskComplexity != value) {
+			_taskComplexity = value;
+			dispatchEvent(new Event("taskComplexityChanged"));
 		}
 	}
 
@@ -150,7 +164,7 @@ public class TestVM extends ViewModel {
 
 	public function loadTaskIDsForTest():IAsyncOperation {
 		selectedTestTask = null;
-		var op:IAsyncOperation = storage.loadTaskIDs(testPage.test, testPage.filter, testPage.taskComplexity);
+		var op:IAsyncOperation = storage.loadTaskIDs(testPage.test, testPage.filter, taskComplexity);
 		op.addCompleteCallback(taskIDsLoaded);
 		return op;
 	}

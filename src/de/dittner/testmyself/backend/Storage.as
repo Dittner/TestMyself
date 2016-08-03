@@ -6,7 +6,7 @@ import de.dittner.testmyself.backend.cmd.LoadAllThemesCmd;
 import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
 import de.dittner.testmyself.backend.cmd.LoadTaskIDsCmd;
-import de.dittner.testmyself.backend.cmd.LoadTestSatitisticsCmd;
+import de.dittner.testmyself.backend.cmd.LoadTestStatisticsCmd;
 import de.dittner.testmyself.backend.cmd.LoadTestTaskCmd;
 import de.dittner.testmyself.backend.cmd.LoadVocabularyInfoCmd;
 import de.dittner.testmyself.backend.cmd.MergeThemesCmd;
@@ -165,7 +165,7 @@ public class Storage extends WalterProxy {
 	}
 
 	public function loadTestStatistics(page:TestPage):IAsyncOperation {
-		var op:IAsyncCommand = new LoadTestSatitisticsCmd(this, page);
+		var op:IAsyncCommand = new LoadTestStatisticsCmd(this, page);
 		deferredCommandManager.add(op);
 		return op;
 	}

@@ -9,9 +9,9 @@ import de.dittner.testmyself.backend.op.SelectPageTestTasksOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 
-public class LoadTestSatitisticsCmd extends StorageOperation implements IAsyncCommand {
+public class LoadTestStatisticsCmd extends StorageOperation implements IAsyncCommand {
 
-	public function LoadTestSatitisticsCmd(storage:Storage, page:TestPage) {
+	public function LoadTestStatisticsCmd(storage:Storage, page:TestPage) {
 		super();
 		this.storage = storage;
 		this.page = page;

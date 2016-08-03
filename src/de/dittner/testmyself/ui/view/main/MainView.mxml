@@ -173,7 +173,7 @@
     <main:CommentsBoard id="commentsBoard"
                         mouseEnabled="false" mouseChildren="false"
                         mouseEnabled.normal="true" mouseChildren.normal="true"
-                        text="{vm.commentsBoardText}"
+                        text="@{vm.commentsBoardText}"
                         width="400" height="100%" right="0"/>
 
     <s:Group id="popupLayer"

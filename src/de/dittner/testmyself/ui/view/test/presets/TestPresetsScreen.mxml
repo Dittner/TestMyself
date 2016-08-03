@@ -52,13 +52,13 @@
         //----------------------------------------------------------------------------------------------
 
         private function startTestingBtnClickHandler(event:MouseEvent):void {
-            vm.testPage.taskComplexity = getComplexity();
+            vm.taskComplexity = getComplexity();
             vm.testPage.filter = themesList.selectedItem as Theme;
             dispatchEvent(new Event("startTest"));
         }
 
         private function showStatisticsBtnClickHandler(event:MouseEvent):void {
-            vm.testPage.taskComplexity = getComplexity();
+            vm.taskComplexity = getComplexity();
             vm.testPage.filter = themesList.selectedItem as Theme;
             dispatchEvent(new Event("showStatistics"));
         }
@@ -109,6 +109,12 @@
             </list:layout>
         </list:SelectableDataGroup>
     </s:Group>
+
+    <s:Label width="100%"
+             fontSize="16"
+             fontFamily="{FontName.MYRIAD}"
+             color="{AppColors.TEXT_DARK}"
+             text="Für Test können Sie die Testaufgaben filtern"/>
 
     <s:HGroup width="{width -2*padding}" gap="0">
         <s:RadioButton id="highComplexityRadioBtn"
