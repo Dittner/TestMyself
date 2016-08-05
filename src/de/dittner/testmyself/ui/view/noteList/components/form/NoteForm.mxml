@@ -246,7 +246,6 @@
 
         private function apply():void {
             if (isAddMode || isEditMode) {
-                correct();
                 fillNote();
                 var errKey:String = validateDuplicateNote() || note.validate();
                 if (errKey) {
@@ -265,6 +264,18 @@
             }
         }
 
+        private function correct():void {
+            if (currentState == "word" || currentState == "verb") {
+                wordOptionsInput.text = NoteFormUtils.removeSpaces(wordOptionsInput.text);
+                wordInput.text = NoteFormUtils.removeSpaces(wordInput.text);
+                descriptionArea.text = NoteFormUtils.formatText(descriptionArea.text);
+            }
+            else {
+                titleArea.text = NoteFormUtils.capitalizeText(titleArea.text);
+                descriptionArea.text = NoteFormUtils.capitalizeText(descriptionArea.text);
+            }
+        }
+
         private function validateInputText():void {
             var errMsg:String = validateDuplicateNote();
             wordInput.isValidInput = !errMsg;
@@ -277,18 +288,6 @@
             if (!note.isExample && noteTitle && note.originalData.title != noteTitle && note.vocabulary.noteTitleHash.has(noteTitle))
                 return NoteValidationErrorKey.NOTE_DUPLICATE;
             else return "";
-        }
-
-        private function correct():void {
-            if (currentState == "word" || currentState == "verb") {
-                wordOptionsInput.text = NoteFormUtils.removeSpaces(wordOptionsInput.text);
-                wordInput.text = NoteFormUtils.removeSpaces(wordInput.text);
-                descriptionArea.text = NoteFormUtils.formatText(descriptionArea.text);
-            }
-            else {
-                titleArea.text = NoteFormUtils.capitalizeText(titleArea.text);
-                descriptionArea.text = NoteFormUtils.capitalizeText(descriptionArea.text);
-            }
         }
 
         private function fillNote():void {

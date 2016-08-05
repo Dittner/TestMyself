@@ -169,7 +169,7 @@ public class CLog {
 		fileStream.writeUTFBytes(note.toString());
 		logBank.unshift(note);
 		if (traceEnabled) trace(note.toString());
-		if (changeCallback) changeCallback();
+		if (changeCallback != null) changeCallback();
 	}
 
 }

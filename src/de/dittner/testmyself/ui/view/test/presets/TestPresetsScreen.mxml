@@ -110,7 +110,7 @@
         </list:SelectableDataGroup>
     </s:Group>
 
-    <s:Label width="100%"
+    <s:Label width="{width -2*padding}"
              fontSize="16"
              fontFamily="{FontName.MYRIAD}"
              color="{AppColors.TEXT_DARK}"

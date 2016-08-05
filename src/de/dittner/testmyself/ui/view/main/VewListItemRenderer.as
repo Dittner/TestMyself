@@ -15,7 +15,7 @@ public class VewListItemRenderer extends ItemRendererBase {
 	private static const ICON_ALPHA_OUT:Number = 0.5;
 	private static const ICON_ALPHA_SELECTED:Number = 1;
 
-	private static const DISABLED_ICON_ALPHA:Number = 0.65;
+	private static const DISABLED_ICON_ALPHA:Number = 0.5;
 
 	private static const VGAP:Number = 20;
 
