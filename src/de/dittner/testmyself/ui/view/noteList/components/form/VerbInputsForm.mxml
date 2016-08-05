@@ -19,6 +19,7 @@
             present = "";
             past = "";
             perfect = "";
+            if (infinitiveInput) infinitiveInput.isValidInput = true;
         }
 
         //--------------------------------------

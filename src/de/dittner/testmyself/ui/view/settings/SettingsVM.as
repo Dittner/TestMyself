@@ -158,6 +158,7 @@ public class SettingsVM extends ViewModel {
 
 	private function downloadDBComplete(op:IAsyncOperation):void {
 		if (op.isSuccess) reloadDataBase();
+		else unlockView();
 	}
 
 	private function createFile(file:File):void {

@@ -210,6 +210,8 @@
             invalidNotifier.alpha = 0;
             themeList.dataProvider = null;
             verbInputsForm.clear();
+            wordInput.isValidInput = true;
+            titleArea.isValidInput = true;
         }
 
         private function focusTextInput():void {
