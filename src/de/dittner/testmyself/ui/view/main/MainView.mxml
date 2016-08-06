@@ -156,7 +156,7 @@
     <list:SelectableDataGroup id="viewList"
                               disabledAlpha="1"
                               enabled="false"
-                              enabled.normal="true"
+                              enabled.normal="{!vm.viewListLocked}"
                               width="66" height="100%"
                               minWidth="0"
                               dataProvider="{vm.viewFactory.viewInfoColl}"

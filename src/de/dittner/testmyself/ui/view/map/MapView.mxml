@@ -60,6 +60,7 @@
     </s:Group>
 
     <components2:LanguageInfoBoard id="infoBoard"
+                                   mouseEnabled="false" mouseChildren="false"
                                    wordVocabularyInfo="{vm.wordVocabularyInfo}"
                                    verbVocabularyInfo="{vm.verbVocabularyInfo}"
                                    lessonVocabularyInfo="{vm.lessonVocabularyInfo}"

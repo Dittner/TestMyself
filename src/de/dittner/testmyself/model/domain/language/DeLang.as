@@ -53,7 +53,7 @@ public class DeLang extends Language {
 	}
 
 	private function initWordVocabulary():void {
-		_wordVocabulary = new Vocabulary(VocabularyID.DE_WORD, id, DeWord, storage, "Wörter");
+		_wordVocabulary = new Vocabulary(VocabularyID.DE_WORD, this, DeWord, storage, "Wörter");
 		var test:Test;
 		test = new Test(TestID.SPEAK_WORD_TRANSLATION, wordVocabulary, "Aus dem Deutschen übersetzen");
 		test._loadExamplesWhenTesting = true;
@@ -106,7 +106,7 @@ public class DeLang extends Language {
 	}
 
 	private function initVerbVocabulary():void {
-		_verbVocabulary = new Vocabulary(VocabularyID.DE_VERB, id, DeVerb, storage, "Starke Verben");
+		_verbVocabulary = new Vocabulary(VocabularyID.DE_VERB, this, DeVerb, storage, "Starke Verben");
 		var test:Test;
 		test = new Test(TestID.SPEAK_VERB_FORMS, verbVocabulary, "Deklination der starken Verben");
 		test._loadExamplesWhenTesting = true;
@@ -138,7 +138,7 @@ public class DeLang extends Language {
 	}
 
 	private function initLessonVocabulary():void {
-		_lessonVocabulary = new Vocabulary(VocabularyID.DE_LESSON, id, Note, storage, "Übungen");
+		_lessonVocabulary = new Vocabulary(VocabularyID.DE_LESSON, this, Note, storage, "Übungen");
 		var test:Test;
 		test = new Test(TestID.SPEAK_LESSON_TRANSLATION, lessonVocabulary, "Aus dem Deutschen übersetzen");
 		test._loadExamplesWhenTesting = false;

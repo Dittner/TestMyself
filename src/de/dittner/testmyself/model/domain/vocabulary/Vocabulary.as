@@ -1,6 +1,7 @@
 package de.dittner.testmyself.model.domain.vocabulary {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
+import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.theme.Theme;
@@ -12,10 +13,10 @@ import flash.events.EventDispatcher;
 import mx.collections.ArrayCollection;
 
 public class Vocabulary extends EventDispatcher {
-	public function Vocabulary(id:int, langID:uint, noteClass:Class, storage:Storage, title:String) {
+	public function Vocabulary(id:int, lang:Language, noteClass:Class, storage:Storage, title:String) {
 		super();
 		_id = id;
-		_langID = langID;
+		_lang = lang;
 		_noteClass = noteClass;
 		_storage = storage;
 		_title = title;
@@ -34,10 +35,10 @@ public class Vocabulary extends EventDispatcher {
 	public function get id():int {return _id;}
 
 	//--------------------------------------
-	//  langID
+	//  lang
 	//--------------------------------------
-	private var _langID:uint = 0;
-	public function get langID():uint {return _langID;}
+	private var _lang:Language;
+	public function get lang():Language {return _lang;}
 
 	//--------------------------------------
 	//  noteClass
@@ -83,22 +84,6 @@ public class Vocabulary extends EventDispatcher {
 			_themeColl = value;
 			dispatchEvent(new Event("themeCollChanged"));
 		}
-	}
-
-	public function addTheme(t:Theme):void {
-		if (t.id == -1) return;
-		var hasTheme:Boolean = false;
-		for each(var theme:Theme in themeColl)
-			if (theme.id == t.id) {
-				hasTheme = true;
-				break;
-			}
-
-		if (!hasTheme) themeColl.addItem(t);
-	}
-
-	public function removeTheme(t:Theme):void {
-		themeColl.removeItem(t);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -148,6 +133,22 @@ public class Vocabulary extends EventDispatcher {
 		var theme:Theme = new Theme();
 		theme.vocabulary = this;
 		return theme;
+	}
+
+	public function addTheme(t:Theme):void {
+		if (t.id == -1) return;
+		var hasTheme:Boolean = false;
+		for each(var theme:Theme in themeColl)
+			if (theme.id == t.id) {
+				hasTheme = true;
+				break;
+			}
+
+		if (!hasTheme) themeColl.addItem(t);
+	}
+
+	public function removeTheme(t:Theme):void {
+		themeColl.removeItem(t);
 	}
 
 }

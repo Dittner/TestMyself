@@ -164,7 +164,8 @@
 
         private function noteEditComplete(op:IAsyncOperation):void {
             if (op.isSuccess && op.result == FormOperationResult.OK) {
-                vm.page.noteColl.refresh();
+                vm.page.allNotesAmount--;
+                vm.reloadPage();
             }
         }
 

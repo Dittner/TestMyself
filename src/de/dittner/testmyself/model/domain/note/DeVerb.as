@@ -1,4 +1,6 @@
 package de.dittner.testmyself.model.domain.note {
+import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
 public class DeVerb extends Note {
@@ -59,6 +61,16 @@ public class DeVerb extends Note {
 			return NoteValidationErrorKey.EMPTY_VERB_FIELDS;
 		else
 			return super.validate();
+	}
+
+	override public function hasDuplicate():Boolean {
+		if (super.hasDuplicate()) {
+			return true;
+		}
+		else {
+			var wordVocabulary:Vocabulary = vocabulary.lang.vocabularyHash.read(VocabularyID.DE_WORD);
+			return wordVocabulary.noteTitleHash.has(title);
+		}
 	}
 
 }

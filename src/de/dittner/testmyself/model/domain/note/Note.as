@@ -204,12 +204,19 @@ public class Note extends EventDispatcher {
 		else if (!description) {
 			return NoteValidationErrorKey.EMPTY_NOTE_DESCRIPTION;
 		}
+		else if (hasDuplicate()) {
+			return NoteValidationErrorKey.NOTE_DUPLICATE;
+		}
 		else if (!isExample) {
 			for each(var e:Note in exampleColl)
 				if (!e.title) return NoteValidationErrorKey.EMPTY_EXAMPLE_TITLE;
 				else if (!e.description) return NoteValidationErrorKey.EMPTY_EXAMPLE_DESCRIPTION;
 		}
 		return "";
+	}
+
+	public function hasDuplicate():Boolean {
+		return !isExample && title && originalData.title != title && vocabulary.noteTitleHash.has(title);
 	}
 
 	public function revertChanges():IAsyncOperation {
