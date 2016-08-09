@@ -33,6 +33,10 @@ public class DeWord extends Note {
 		var res:Object = super.serialize();
 		res.options.article = article || null;
 		res.options.declension = declension || null;
+		if (declension)
+			res.searchText = "+" + title + "+" + declension + "+" + description + "+";
+		if (article)
+			res.searchText = "+" + article + res.searchText;
 		return res;
 	}
 

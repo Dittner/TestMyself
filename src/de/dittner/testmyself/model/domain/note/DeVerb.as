@@ -44,7 +44,7 @@ public class DeVerb extends Note {
 		res.options.present = present || null;
 		res.options.past = past || null;
 		res.options.perfect = perfect || null;
-		res.searchText = title + "+" + description + "+" + present + "+" + past + "+" + perfect;
+		res.searchText = "+" + title + "+" + present + "+" + past + "+" + perfect + "+" + description + "+";
 		res.searchText = res.searchText.toLowerCase();
 		return res;
 	}

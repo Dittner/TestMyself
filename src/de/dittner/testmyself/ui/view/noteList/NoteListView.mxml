@@ -209,7 +209,7 @@
                              itemRenderer.word="de.dittner.testmyself.ui.view.noteList.components.renderer.WordRenderer"
                              itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer">
                 <common:layout>
-                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
                 </common:layout>
             </common:NoteList>
         </s:Scroller>

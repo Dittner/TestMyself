@@ -59,6 +59,9 @@ public class Storage extends WalterProxy {
 			sqlConnection.close();
 		}
 
+		/*var changeNoteCmd:ChangeNotesCmd = new ChangeNotesCmd(this);
+		 deferredCommandManager.add(changeNoteCmd);*/
+
 		var cmd:IAsyncCommand = new RunDataBaseCmd(SQLLib.getTables());
 		cmd.addCompleteCallback(dataBaseReadyHandler);
 		cmd.execute();
