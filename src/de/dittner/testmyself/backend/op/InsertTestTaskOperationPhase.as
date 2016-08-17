@@ -5,7 +5,6 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
 
@@ -14,25 +13,25 @@ import flash.data.SQLStatement;
 import flash.net.Responder;
 
 public class InsertTestTaskOperationPhase extends StorageOperation implements IAsyncCommand {
-	public function InsertTestTaskOperationPhase(storage:Storage, note:Note, test:Test) {
-		this.note = note;
+	public function InsertTestTaskOperationPhase(storage:Storage, noteID:int, test:Test) {
+		this.noteID = noteID;
 		this.storage = storage;
 		this.test = test;
 	}
 
-	private var note:Note;
+	private var noteID:int;
 	private var storage:Storage;
 	private var test:Test;
 
 	public function execute():void {
-		if (!note || note.id == -1) {
+		if (noteID == -1) {
 			dispatchError(ErrorCode.NOTE_OF_TEST_TASK_HAS_NO_ID + ": Нет ID записи, необходимого для сохранения тестовой задачи");
 			return;
 		}
 
 		var sqlParams:Object = {};
 		sqlParams.testID = test.id;
-		sqlParams.noteID = note.id;
+		sqlParams.noteID = noteID;
 		sqlParams.isFailed = 0;
 		sqlParams.lastTestedDate = 0;
 		sqlParams.rate = test.calcTaskRate();
@@ -49,7 +48,6 @@ public class InsertTestTaskOperationPhase extends StorageOperation implements IA
 
 	override public function destroy():void {
 		super.destroy();
-		note = null;
 		test = null;
 		storage = null;
 	}

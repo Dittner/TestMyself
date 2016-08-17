@@ -10,7 +10,7 @@ import flash.geom.Matrix;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer {
+public class VerbRenderer extends NoteBaseRenderer implements IFlexibleRenderer {
 	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
 
@@ -113,6 +113,8 @@ public class VerbRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			invalidateDisplayList();
 			return;
 		}
+
+		updateSoundIconPos(w, h);
 
 		if (selected) {
 			matr.createGradientBox(w, h, Math.PI / 2);

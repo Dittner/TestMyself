@@ -102,6 +102,19 @@
             }
         }
 
+        //--------------------------------------
+        //  hasNetworkConnection
+        //--------------------------------------
+        private var _hasNetworkConnection:Boolean = false;
+        [Bindable("hasNetworkConnectionChanged")]
+        public function get hasNetworkConnection():Boolean {return _hasNetworkConnection;}
+        public function set hasNetworkConnection(value:Boolean):void {
+            if (_hasNetworkConnection != value) {
+                _hasNetworkConnection = value;
+                dispatchEvent(new Event("hasNetworkConnectionChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -144,7 +157,7 @@
             }
 
             descriptionArea.text = note.description;
-            audioRecorder.comment = note.audioComment;
+            audioRecorder.setComment(note.audioComment);
             examplesForm.exampleColl = note.exampleColl;
             themeList.dataProvider = note.vocabulary.themeColl;
             showSelectedThemes(note.themes);
@@ -285,7 +298,7 @@
                 word.title = wordInput.text;
                 word.description = descriptionArea.text;
                 word.declension = wordOptionsInput.text;
-                word.audioComment = audioRecorder.comment;
+                word.audioComment = audioRecorder.getComment();
                 word.exampleColl = examplesForm.exampleColl;
                 word.themes = getSelectedThemes();
             }
@@ -293,7 +306,7 @@
                 var verb:DeVerb = note as DeVerb;
                 verb.title = verbInputsForm.infinitiveInput.text;
                 verb.description = descriptionArea.text;
-                verb.audioComment = audioRecorder.comment;
+                verb.audioComment = audioRecorder.getComment();
                 verb.present = verbInputsForm.presentInput.text;
                 verb.past = verbInputsForm.pastInput.text;
                 verb.perfect = verbInputsForm.perfectInput.text;
@@ -303,7 +316,7 @@
             else {
                 note.title = titleArea.text;
                 note.description = descriptionArea.text;
-                note.audioComment = audioRecorder.comment;
+                note.audioComment = audioRecorder.getComment();
                 if (!note.isExample)
                     note.themes = getSelectedThemes();
             }
@@ -374,6 +387,11 @@
             wordInput.isValidInput = !hasDuplicateErr;
             titleArea.isValidInput = !hasDuplicateErr;
             verbInputsForm.infinitiveInput.isValidInput = !hasDuplicateErr;
+        }
+
+        private function getNoteTitle(connection:Boolean, wordTitle:String, verbTitle:String):String {
+            var title:String = note is DeWord ? wordTitle : note is DeVerb ? verbTitle : "";
+            return connection && title ? title : "";
         }
         ]]></fx:Script>
 
@@ -478,6 +496,7 @@
 
             <s:Group width="100%" height="72">
                 <audio:AudioRecorder id="audioRecorder"
+                                     noteTitleToLoadMp3="{getNoteTitle(hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
                                      height="72" left="118" left.lesson="0" left.normal="0" right="0"/>
             </s:Group>
         </s:VGroup>

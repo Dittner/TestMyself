@@ -232,6 +232,7 @@
         <form:NoteForm id="form"
                        width="100%"
                        visible="false"
+                       hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                        bottom="0"
                        top="{HEADER_HEI}"
                        show="vm.lockViewList()"

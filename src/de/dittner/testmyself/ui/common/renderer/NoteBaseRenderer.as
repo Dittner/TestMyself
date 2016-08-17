@@ -30,7 +30,7 @@ public class NoteBaseRenderer extends ItemRendererBase {
 	}
 
 	protected function updateSoundIconPos(w:Number, h:Number):void {
-		soundIcon.x = w - soundIcon.width - 10;
+		soundIcon.x = w - soundIcon.width - 5;
 		soundIcon.y = h - soundIcon.height >> 1;
 		soundIcon.visible = hasAudioComment();
 	}

@@ -24,11 +24,11 @@ public class InsertTestTaskOperation extends StorageOperation implements IAsyncC
 
 			for each(var test:Test in availableTests) {
 				if (test.isValidForTest(note))
-					composite.addOperation(InsertTestTaskOperationPhase, storage, note, test);
+					composite.addOperation(InsertTestTaskOperationPhase, storage, note.id, test);
 
 				for each(var example:Note in note.exampleColl)
 					if (test.isValidForTest(example))
-						composite.addOperation(InsertTestTaskOperationPhase, storage, example, test);
+						composite.addOperation(InsertTestTaskOperationPhase, storage, example.id, test);
 
 			}
 

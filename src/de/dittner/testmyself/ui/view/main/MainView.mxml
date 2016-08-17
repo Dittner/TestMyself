@@ -170,6 +170,10 @@
         </list:layout>
     </list:SelectableDataGroup>
 
+    <s:BitmapImage top="24" left="41"
+                   source="@Embed('/assets/screen/network_icon.png')"
+                   visible="{vm.appModel.hasNetworkConnection}"/>
+
     <main:CommentsBoard id="commentsBoard"
                         mouseEnabled="false" mouseChildren="false"
                         mouseEnabled.normal="true" mouseChildren.normal="true"

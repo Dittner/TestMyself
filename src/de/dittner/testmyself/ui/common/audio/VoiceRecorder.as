@@ -60,9 +60,7 @@ public class VoiceRecorder extends EventDispatcher {
 	//--------------------------------------
 	protected var _recording:Boolean = false;
 	[Bindable("recordingChanged")]
-	public function get recording():Boolean {
-		return _recording;
-	}
+	public function get recording():Boolean {return _recording;}
 	protected function setRecording(value:Boolean):void {
 		if (_recording != value) {
 			_recording = value;
@@ -75,9 +73,7 @@ public class VoiceRecorder extends EventDispatcher {
 	//--------------------------------------
 	protected var _recordedBytes:ByteArray;
 	[Bindable("recordedBytesChanged")]
-	public function get recordedBytes():ByteArray {
-		return _recordedBytes;
-	}
+	public function get recordedBytes():ByteArray {return _recordedBytes;}
 	public function set recordedBytes(value:ByteArray):void {
 		if (_recordedBytes != value) {
 			_recordedBytes = value;
@@ -99,19 +95,14 @@ public class VoiceRecorder extends EventDispatcher {
 	//--------------------------------------
 	protected var _recordedFramesLength:Number;
 	[Bindable("recordedBytesLengthChanged")]
-	public function get recordedFramesLength():Number {
-		return _recordedFramesLength;
-	}
+	public function get recordedFramesLength():Number {return _recordedFramesLength;}
 
 	//--------------------------------------
 	//  playbackFramesPosition
 	//--------------------------------------
 	protected var _playbackFramesPosition:Number;
 	[Bindable("playbackPositionChanged")]
-	public function get playbackFramesPosition():Number {
-		return _playbackFramesPosition;
-	}
-
+	public function get playbackFramesPosition():Number {return _playbackFramesPosition;}
 	public function set playbackFramesPosition(value:Number):void {
 		if (_playbackFramesPosition != value) {
 			_playbackFramesPosition = value;

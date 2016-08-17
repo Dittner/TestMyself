@@ -9,6 +9,7 @@ public class TestID {
 	public static const SPEAK_VERB_EXAMPLE_IN_DEUTSCH:uint = 12;
 	public static const SPEAK_VERB_EXAMPLE_TRANSLATION:uint = 13;
 	public static const WRITE_VERB_EXAMPLE:uint = 14;
+	public static const WRITE_VERB:uint = 15;
 
 	public static const SPEAK_LESSON_IN_DEUTSCH:uint = 21;
 	public static const SPEAK_LESSON_TRANSLATION:uint = 22;

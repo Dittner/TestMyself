@@ -86,6 +86,7 @@
                     setCurrentState("selectArticle");
                     break;
                 case TestID.WRITE_WORD :
+                case TestID.WRITE_VERB :
                     activeView = writeWordTest;
                     setCurrentState("writeWordTranslation");
                     break;

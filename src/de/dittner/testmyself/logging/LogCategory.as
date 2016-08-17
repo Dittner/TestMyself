@@ -9,6 +9,7 @@ public class LogCategory {
 	public static const SYSTEM:String = "System";
 	public static const MEMORY:String = "Memory";
 	public static const UNCHAUGHT:String = "Unchaught";
+	public static const CONNECTION:String = "CONNECTION";
 
 }
 }

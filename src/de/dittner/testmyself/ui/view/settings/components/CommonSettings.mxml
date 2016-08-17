@@ -22,8 +22,8 @@
         [Bindable]
         public var isUploading:Boolean = false;
 
-        private function hasServerInfo(hostText:String, portText:String, pwdText:String, userName:String):Boolean {
-            return hostText && portText && pwdText && userName;
+        private function loadEnabled(connection:Boolean, hostText:String, portText:String, pwdText:String, userName:String):Boolean {
+            return connection && hostText && portText && pwdText && userName;
         }
 
         //--------------------------------------
@@ -160,7 +160,7 @@
         <button:BlackButton id="uploadBtn"
                             width="100%"
                             label="Auf den Server exportieren"
-                            enabled="{hasServerInfo(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                            enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
                             click="uploadDB()"/>
 
         <s:BitmapImage source="@Embed(source='/assets/uploadDownloadIcon.png')"/>
@@ -168,7 +168,7 @@
         <button:GrayButton id="downloadBtn"
                            width="100%"
                            label="Vom Server aktualisieren"
-                           enabled="{hasServerInfo(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                           enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
                            click="downloadDB()"/>
     </s:HGroup>
 

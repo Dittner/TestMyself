@@ -129,6 +129,13 @@ public class DeLang extends Language {
 		test._translateFromNativeIntoForeign = true;
 		verbVocabulary.addTest(test);
 
+		test = new Test(TestID.WRITE_VERB, verbVocabulary, "Rechtschreibung");
+		test._loadExamplesWhenTesting = false;
+		test._isWritten = true;
+		test._useExamples = false;
+		test._translateFromNativeIntoForeign = false;
+		wordVocabulary.addTest(test);
+
 		test = new Test(TestID.WRITE_VERB_EXAMPLE, verbVocabulary, "Rechtschreibung der Beispiele");
 		test._loadExamplesWhenTesting = false;
 		test._isWritten = true;

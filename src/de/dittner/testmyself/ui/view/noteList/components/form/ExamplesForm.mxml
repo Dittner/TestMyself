@@ -72,7 +72,7 @@
                 setCurrentState("edit");
                 titleArea.text = selectedNote.title;
                 descriptionArea.text = selectedNote.description;
-                audioRecorder.comment = selectedNote.audioComment;
+                audioRecorder.setComment(selectedNote.audioComment);
                 showForm();
             }
         }
@@ -110,7 +110,7 @@
                 var note:Note = parentNote.createExample();
                 note.title = titleArea.text;
                 note.description = descriptionArea.text;
-                note.audioComment = audioRecorder.comment;
+                note.audioComment = audioRecorder.getComment();
                 exampleColl.addItem(note);
                 back();
             }
@@ -119,7 +119,7 @@
                 var selectedNote:Note = exampleList.selectedItem as Note;
                 selectedNote.title = titleArea.text;
                 selectedNote.description = descriptionArea.text;
-                selectedNote.audioComment = audioRecorder.comment;
+                selectedNote.audioComment = audioRecorder.getComment();
                 back();
             }
             else if (currentState == "remove") {
@@ -200,7 +200,7 @@
                              includeIn="remove"
                              textAlign="center"
                              color="{AppColors.TEXT_DARK}" fontSize="16"
-                             text="Sind Sie sicher, das Sie entfernen möchten?"/>
+                             text="Sind Sie sicher, dass Sie dieses Beispiel entfernen möchten?"/>
 
                     <s:Label id="removeNoteTitleLbl"
                              width="100%" height="100%"

@@ -54,6 +54,10 @@ public class SQLLib {
 	private static const UpdateNoteClass:Class;
 	public static const UPDATE_NOTE_SQL:String = new UpdateNoteClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateAudioComment.sql", mimeType="application/octet-stream")]
+	private static const UpdateAudioCommentClass:Class;
+	public static const UPDATE_AUDIO_COMMENT_SQL:String = new UpdateAudioCommentClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTheme.sql", mimeType="application/octet-stream")]
 	private static const UpdateThemeClass:Class;
 	public static const UPDATE_THEME_SQL:String = new UpdateThemeClass();

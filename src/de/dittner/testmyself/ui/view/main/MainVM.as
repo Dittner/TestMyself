@@ -1,6 +1,7 @@
 package de.dittner.testmyself.ui.view.main {
 
 import de.dittner.testmyself.backend.LocalStorage;
+import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.ui.common.view.IViewFactory;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
@@ -22,6 +23,10 @@ public class MainVM extends WalterProxy {
 	[Bindable]
 	[Inject]
 	public var viewNavigator:ViewNavigator;
+
+	[Bindable]
+	[Inject]
+	public var appModel:AppModel;
 
 	//--------------------------------------
 	//  selectedViewInfo

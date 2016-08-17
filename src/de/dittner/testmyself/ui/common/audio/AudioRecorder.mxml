@@ -2,19 +2,22 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:audio="de.dittner.testmyself.ui.common.audio.*"
-         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
+         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*">
 
     <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.FileChooser;
 
         //--------------------------------------
         //  comment
         //--------------------------------------
         private var _comment:AudioComment;
-        public function get comment():AudioComment {
+        public function getComment():AudioComment {
             if (_comment && _comment.bytes) return _comment;
             var ac:AudioComment = new AudioComment();
 
@@ -24,16 +27,16 @@
             return ac;
         }
 
-        public function set comment(value:AudioComment):void {
+        public function setComment(value:AudioComment):void {
             if (_comment != value) {
                 _comment = value;
-                if (comment && comment.bytes) {
+                if (_comment && _comment.bytes) {
                     if (value.isMp3) {
-                        mp3Player.comment = comment;
+                        mp3Player.comment = _comment;
                         showMP3Player();
                     }
                     else {
-                        rawDataPlayer.comment = comment;
+                        rawDataPlayer.comment = _comment;
                         showRawDataRecorder();
                     }
                 }
@@ -67,6 +70,37 @@
             }
         }
 
+        //--------------------------------------
+        //  noteTitleToLoadMp3
+        //--------------------------------------
+        private var _noteTitleToLoadMp3:String = "";
+        [Bindable("noteTitleToLoadMp3Changed")]
+        public function get noteTitleToLoadMp3():String {return _noteTitleToLoadMp3;}
+        public function set noteTitleToLoadMp3(value:String):void {
+            if (_noteTitleToLoadMp3 != value) {
+                _noteTitleToLoadMp3 = value;
+                dispatchEvent(new Event("noteTitleToLoadMp3Changed"));
+            }
+        }
+
+        //--------------------------------------
+        //  isMp3Loading
+        //--------------------------------------
+        private var _isMp3Loading:Boolean = false;
+        [Bindable("isMp3LoadingChanged")]
+        public function get isMp3Loading():Boolean {return _isMp3Loading;}
+        public function set isMp3Loading(value:Boolean):void {
+            if (_isMp3Loading != value) {
+                _isMp3Loading = value;
+                dispatchEvent(new Event("isMp3LoadingChanged"));
+            }
+        }
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
         private function showRawDataRecorder():void {
             mp3Player.visible = false;
             rawDataPlayer.visible = true;
@@ -93,6 +127,55 @@
             rawDataPlayer.comment = null;
             mp3Player.comment = null;
             _comment = null;
+        }
+
+        //--------------------------------------
+        //  load mp3 from website
+        //--------------------------------------
+
+        private function loadRemoteMp3BtnVisible(mp3FromSiteUrl:String, isRecording:Boolean, isRawDataPlayerVisible:Boolean, recordedBytes:ByteArray):Boolean {
+            return mp3FromSiteUrl && !isRecording && isRawDataPlayerVisible && !(recordedBytes && recordedBytes.length > 0);
+        }
+
+        private function loadLocalMp3BtnVisible(isRecording:Boolean, isRawDataPlayerVisible:Boolean, recordedBytes:ByteArray):Boolean {
+            return !isRecording && isRawDataPlayerVisible && !(recordedBytes && recordedBytes.length > 0);
+        }
+
+        private function loadRemoteMp3():void {
+            if (isMp3Loading) return;
+
+            if (noteTitleToLoadMp3) {
+                isMp3Loading = true;
+                var cmd:LoadRemoteMp3Cmd = new LoadRemoteMp3Cmd(noteTitleToLoadMp3);
+                cmd.addCompleteCallback(remoteMp3Loaded);
+                cmd.execute();
+            }
+        }
+
+        private function remoteMp3Loaded(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result)
+                setComment(op.result);
+            isMp3Loading = false;
+        }
+
+        private static const BROWSE_FILE_FILTERS:Array = [new FileFilter("MP3-file", "*.mp3")];
+        private function loadLocalMp3():void {
+            var op:IAsyncOperation = FileChooser.browse(BROWSE_FILE_FILTERS);
+            op.addCompleteCallback(mp3Browsed);
+        }
+
+        private function mp3Browsed(op:IAsyncOperation):void {
+            if (op.isSuccess) {
+                var mp3:ByteArray = op.result as ByteArray;
+                var ac:AudioComment;
+                if (mp3 && mp3.length > 0) {
+                    ac = new AudioComment();
+                    ac.bytes = mp3;
+                    ac.bytes.position = 0;
+                    ac.isMp3 = true;
+                    setComment(ac);
+                }
+            }
         }
         ]]></fx:Script>
     <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
@@ -125,4 +208,21 @@
                    visible="false"
                    skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"
                    removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
+
+    <button:BitmapButton id="loadRemoteMp3Btn"
+                         verticalCenter="11"
+                         right="170"
+                         enabled="{!isMp3Loading}"
+                         visible="{loadRemoteMp3BtnVisible(noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
+                         upImage="@Embed(source='/assets/voiceRecording/load_mp3_from_duden_btn_up.png')"
+                         downImage="@Embed(source='/assets/voiceRecording/load_mp3_from_duden_btn_down.png')"
+                         click="loadRemoteMp3()"/>
+
+    <button:BlackButton id="loadLocalMp3Btn"
+                        verticalCenter="11"
+                        right="10"
+                        label="MP3-File auswählen"
+                        enabled="{!isMp3Loading}"
+                        visible="{loadLocalMp3BtnVisible(rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
+                        click="loadLocalMp3()"/>
 </s:Group>

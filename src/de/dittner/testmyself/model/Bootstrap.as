@@ -71,6 +71,7 @@ public class Bootstrap extends Walter {
 		var viewFactory:ViewFactory = getProxy("viewFactory") as ViewFactory;
 		viewNavigator.navigate(viewFactory.firstViewInfo);
 		mainView.activate();
+		(getProxy("appModel") as AppModel).init();
 	}
 
 }

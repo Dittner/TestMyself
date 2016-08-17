@@ -130,7 +130,9 @@
 
         private function noteEditComplete(op:IAsyncOperation):void {
             if (op.isSuccess && op.result == FormOperationResult.OK) {
-                vm.page.noteColl.refresh();
+                var selectedItem:* = noteList.selectedItem;
+                noteList.selectedItem = null;
+                noteList.selectedItem = selectedItem;
             }
         }
 
@@ -265,6 +267,7 @@
         <form:NoteForm id="form"
                        width="100%"
                        visible="false"
+                       hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                        bottom="0"
                        top="{HEADER_HEI}"
                        show="vm.lockViewList()"

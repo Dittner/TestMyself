@@ -203,6 +203,7 @@
 
         <form:NoteForm id="form"
                        visible="false"
+                       hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                        width="100%"
                        bottom="0"
                        top="{HEADER_HEI}"
