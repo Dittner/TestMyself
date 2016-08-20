@@ -34,7 +34,7 @@ public class InsertExampleOperationPhase extends StorageOperation implements IAs
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
-			if (example.isNew) example.id = result.lastInsertRowID;
+			example.id = result.lastInsertRowID;
 			dispatchSuccess();
 		}
 		else {

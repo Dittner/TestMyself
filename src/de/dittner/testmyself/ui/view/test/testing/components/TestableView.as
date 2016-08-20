@@ -62,7 +62,7 @@ public class TestableView extends Group {
 
 	override protected function commitProperties():void {
 		super.commitProperties();
-		if (testTaskChanged) {
+		if (testTaskChanged && visible) {
 			testTaskChanged = false;
 			if (note) {
 				updateForm();

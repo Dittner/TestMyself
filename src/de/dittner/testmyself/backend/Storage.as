@@ -20,8 +20,6 @@ import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
 import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
 import de.dittner.testmyself.backend.cmd.StoreThemeCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
-import de.dittner.testmyself.backend.op.UpdateAudioCommentCmd;
-import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
@@ -77,12 +75,6 @@ public class Storage extends WalterProxy {
 
 	public function loadVocabularyInfo(v:Vocabulary):IAsyncOperation {
 		var op:IAsyncCommand = new LoadVocabularyInfoCmd(this, v);
-		deferredCommandManager.add(op);
-		return op;
-	}
-
-	public function updateAudioComment(noteTile:String, noteID:int, comment:AudioComment, v:Vocabulary):IAsyncOperation {
-		var op:IAsyncCommand = new UpdateAudioCommentCmd(this, noteTile, noteID, comment, v);
 		deferredCommandManager.add(op);
 		return op;
 	}

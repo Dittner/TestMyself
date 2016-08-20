@@ -4,7 +4,8 @@
          xmlns:common="de.dittner.testmyself.ui.view.test.common.*"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
+         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+         currentState="normal">
     <fx:Metadata>
         [Event(name="goBack", type="flash.events.Event")]
     </fx:Metadata>
@@ -17,7 +18,6 @@
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.view.test.TestVM;
         import de.dittner.testmyself.ui.view.test.common.TestingAction;
-        import de.dittner.testmyself.ui.view.test.testing.components.TestableView;
 
         //--------------------------------------
         //  padding
@@ -44,11 +44,6 @@
                 dispatchEvent(new Event("vmChanged"));
             }
         }
-
-        //--------------------------------------
-        //  testableView
-        //--------------------------------------
-        private var activeView:TestableView;
 
         //--------------------------------------
         //  errorsNum
@@ -78,41 +73,34 @@
         private function findTestView(test:Test):void {
             switch (test.id) {
                 case TestID.SPEAK_WORD_TRANSLATION :
-                    activeView = speakWordTranslationTest;
                     setCurrentState("speakWordTranslation");
                     break;
                 case TestID.SELECT_ARTICLE :
-                    activeView = selectArticleTest;
                     setCurrentState("selectArticle");
                     break;
                 case TestID.WRITE_WORD :
                 case TestID.WRITE_VERB :
-                    activeView = writeWordTest;
-                    setCurrentState("writeWordTranslation");
-                    break;
                 case TestID.WRITE_LESSON :
                 case TestID.WRITE_VERB_EXAMPLE :
                 case TestID.WRITE_WORD_EXAMPLE :
-                    activeView = writeNoteTest;
                     setCurrentState("writeNote");
                     break;
                 case TestID.SPEAK_LESSON_TRANSLATION :
                 case TestID.SPEAK_VERB_EXAMPLE_TRANSLATION :
                 case TestID.SPEAK_WORD_EXAMPLE_TRANSLATION :
-                    activeView = speakNoteTranslationTest;
                     setCurrentState("speakNoteTranslation");
                     break;
                 case TestID.SPEAK_WORD_IN_DEUTSCH :
                 case TestID.SPEAK_LESSON_IN_DEUTSCH :
                 case TestID.SPEAK_VERB_EXAMPLE_IN_DEUTSCH :
                 case TestID.SPEAK_WORD_EXAMPLE_IN_DEUTSCH :
-                    activeView = speakNoteTranslationTest;
                     setCurrentState("speakNoteTranslation");
                     break;
                 case TestID.SPEAK_VERB_FORMS :
-                    activeView = speakVerbFormsTest;
                     setCurrentState("speakVerbForms");
                     break;
+                default:
+                    setCurrentState("normal");
             }
         }
 
@@ -146,13 +134,14 @@
 
         private function goBack():void {
             vm.selectedTestTask = null;
+            setCurrentState("normal");
             dispatchEvent(new Event("goBack"));
         }
         ]]></fx:Script>
 
     <s:states>
+        <s:State name="normal"/>
         <s:State name="speakWordTranslation"/>
-        <s:State name="writeWordTranslation"/>
         <s:State name="selectArticle"/>
         <s:State name="writeNote"/>
         <s:State name="speakNoteTranslation"/>
@@ -200,16 +189,10 @@
                                 padding="{padding}"
                                 actionCallback="actionCallback"/>
 
-        <test:WriteWordTest id="writeWordTest"
-                            includeIn="writeWordTranslation"
-                            width="100%" height="100%"
-                            testTask="{vm.selectedTestTask}"
-                            padding="{padding}"
-                            actionCallback="actionCallback"/>
-
         <test:WriteNoteTest id="writeNoteTest"
                             includeIn="writeNote"
                             width="100%" height="100%"
+                            mp3Player="{mp3Player}"
                             testTask="{vm.selectedTestTask}"
                             padding="{padding}"
                             actionCallback="actionCallback"/>

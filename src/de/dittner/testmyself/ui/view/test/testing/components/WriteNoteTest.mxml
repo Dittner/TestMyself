@@ -8,6 +8,25 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.note.DeVerb;
+        import de.dittner.testmyself.model.domain.note.DeWord;
+        import de.dittner.testmyself.model.domain.note.DeWordArticle;
+        import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+
+        //--------------------------------------
+        //  mp3Player
+        //--------------------------------------
+        private var _mp3Player:MP3Player;
+        [Bindable("mp3PlayerChanged")]
+        public function get mp3Player():MP3Player {return _mp3Player;}
+        public function set mp3Player(value:MP3Player):void {
+            if (_mp3Player != value) {
+                _mp3Player = value;
+                dispatchEvent(new Event("mp3PlayerChanged"));
+            }
+        }
 
         //--------------------------------------
         //  isCorrectlyAnswered
@@ -22,6 +41,33 @@
             }
         }
 
+        //--------------------------------------
+        //  isBigText
+        //--------------------------------------
+        private var _isBigText:Boolean = false;
+        [Bindable("isBigTextChanged")]
+        public function get isBigText():Boolean {return _isBigText;}
+        public function set isBigText(value:Boolean):void {
+            if (_isBigText != value) {
+                _isBigText = value;
+                dispatchEvent(new Event("isBigTextChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  word
+        //--------------------------------------
+        public function get word():DeWord {
+            return note as DeWord;
+        }
+
+        //--------------------------------------
+        //  verb
+        //--------------------------------------
+        public function get verb():DeVerb {
+            return note as DeVerb;
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -29,21 +75,49 @@
         //----------------------------------------------------------------------------------------------
 
         override protected function updateForm():void {
-            if (note) {
-                if (Device.isDesktop) stage.focus = input;
+            clear();
+            if (word) {
+                articleLbl.text = word.article;
+                if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
+                else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
+                else articleLbl.setStyle("color", AppColors.TEXT_DARK);
 
+                titleLbl.text = word.article ? " " + word.title : word.title;
+
+                optionsLbl.text = word.declension ? ", " + word.declension : "";
+                translateBoard.text = word.description;
+
+                isBigText = false;
+            }
+            else if (verb) {
+                titleLbl.text = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+                translateBoard.text = note.description;
+                isBigText = false;
+            }
+            else if (note) {
                 titleBoard.text = note.title;
                 translateBoard.text = note.description;
+                isBigText = true;
             }
+
+            if (Device.isDesktop) stage.focus = isBigText ? textArea.area : textInput;
+            if (mp3Player && mp3Player.comment) mp3Player.play();
         }
 
         override protected function clear():void {
             isCorrectlyAnswered = true;
             showDetails = false;
-            titleBoard.text = "";
+            articleLbl.text = "";
+            titleLbl.text = "";
+            optionsLbl.text = "";
             translateBoard.text = "";
-            input.text = "";
+            textInput.text = "";
+            textArea.text = "";
             invalidNotifier.hideImmediately();
+        }
+
+        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
+            return showDetails && options;
         }
 
         private function onCorrectAnswered():void {
@@ -53,9 +127,7 @@
 
         private function onAnswered():void {
             if (!isCorrectlyAnswered) return;
-            var initialText:String = note.title;
-            var inputText:String = input.text;
-            isCorrectlyAnswered = initialText == inputText;
+            isCorrectlyAnswered = note.title.toLowerCase() == (isBigText ? textArea.text.toLowerCase() : textInput.text.toLowerCase());
             notifyAnswered();
         }
 
@@ -76,21 +148,58 @@
     </test:layout>
 
     <test:TextBoard id="titleBoard"
+                    visible="{isBigText}" includeInLayout="{isBigText}"
                     width="{width - 2*padding}" height="100%"
                     questionsIconEnabled="true"
                     title="Deutschtext" showText="{showDetails}"/>
 
+    <s:HGroup visible="{!isBigText}" includeInLayout="{!isBigText}"
+              width="100%"
+              horizontalAlign="center" gap="0" height="50" verticalAlign="bottom">
+        <s:Label id="articleLbl"
+                 fontFamily="{FontName.MYRIAD_COND}"
+                 fontWeight="bold"
+                 visible="{showDetails}"
+                 includeInLayout="{showDetails}"
+                 fontSize="42"/>
+        <s:Label id="titleLbl"
+                 fontFamily="{FontName.MYRIAD_COND}"
+                 fontWeight="bold"
+                 color="{AppColors.TEXT_DARK}"
+                 visible="{showDetails}"
+                 includeInLayout="{showDetails}"
+                 fontSize="42"/>
+        <s:Label id="optionsLbl"
+                 fontFamily="{FontName.MYRIAD_COND}"
+                 fontWeight="bold"
+                 color="{AppColors.TEXT_DARK}"
+                 fontSize="42"
+                 visible="{showDetails}"
+                 includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
+        <s:BitmapImage visible="{!showDetails}"
+                       includeInLayout="{!showDetails}"
+                       source="@Embed('/assets/test/questions.png')"/>
+    </s:HGroup>
+
     <test:TextBoard id="translateBoard"
-                    width="{width - 2*padding}" height="100%"
+                    width="{width - 2*padding}" height="300"
                     title="Übersetzung" showText="{showDetails}"/>
 
-    <input:TextAreaForm id="input"
+    <input:TextInputForm id="textInput"
+                         visible="{!isBigText}" includeInLayout="{!isBigText}"
+                         width="480"
+                         maxChars="{Device.MAX_WORD_LENGTH}"
+                         enter="onAnswered()"
+                         title="Schreiben Sie bitte das Vertonente"/>
+
+    <input:TextAreaForm id="textArea"
+                        visible="{isBigText}" includeInLayout="{isBigText}"
                         width="{width - 2*padding}" height="100%"
                         maxChars="{Device.MAX_WORD_LENGTH}"
                         title="Schreiben Sie bitte die vertonende Notiz"/>
 
     <button:BlackButton id="validateBtn"
-                        width="250"
+                        width="225"
                         enabled="{isProcessing}"
                         label="Antworten"
                         click="onAnswered()"/>
@@ -112,6 +221,6 @@
 
     <form:InvalidNotifier id="invalidNotifier"
                           width="480" height="30"
-                          text="Falsch"/>
+                          text="Falsch!"/>
 
 </test:TestableView>

@@ -90,33 +90,33 @@
     <s:HGroup width="100%"
               gap="10" verticalAlign="bottom">
 
-        <input:TextInputForm id="searchInput"
-                             top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
-                             width="100%"
-                             left="15"
-                             maxChars="{Device.MAX_THEME_NAME_LENGTH}"
-                             title="Für die Suche ein Wort oder einen Satz eingeben"
-                             enter="startSearch()"/>
+        <s:HGroup width="{width/2 - 20}" gap="10" verticalAlign="bottom">
+            <input:TextInputForm id="searchInput"
+                                 top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
+                                 width="100%"
+                                 left="15"
+                                 maxChars="{Device.MAX_THEME_NAME_LENGTH}"
+                                 title="Für die Suche ein Wort oder einen Satz eingeben"
+                                 enter="startSearch()"/>
+
+            <button:BitmapButton id="undoBtn"
+                                 enabled="{history.canUndo}"
+                                 upImage="@Embed(source='/assets/button/history_undo_btn_up.png')"
+                                 downImage="@Embed(source='/assets/button/history_undo_btn_down.png')"
+                                 click="undoSearch()"/>
+
+            <button:BitmapButton id="redoBtn"
+                                 enabled="{history.canRedo}"
+                                 upImage="@Embed(source='/assets/button/history_redo_btn_up.png')"
+                                 downImage="@Embed(source='/assets/button/history_redo_btn_down.png')"
+                                 click="redoSearch()"/>
+        </s:HGroup>
 
         <button:BlackButton id="applyBtn"
-                            width="215"
+                            width="100%"
                             enabled="{searchInput.text.length > 1}"
                             label="Suchen"
                             click="startSearch()"/>
-
-        <button:GrayButton id="undoBtn"
-                           enabled="{history.canUndo}"
-                           width="100"
-                           label="Zurück"
-                           click="undoSearch()"/>
-
-        <button:GrayButton id="redoBtn"
-                           enabled="{history.canRedo}"
-                           width="100"
-                           label="Vorwärts"
-                           click="redoSearch()"/>
-
-        <s:Spacer width="23%"/>
 
         <button:BitmapButton id="openFilterBtn"
                              visible="false" includeInLayout="false"

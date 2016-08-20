@@ -5,6 +5,7 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
+import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
@@ -42,7 +43,7 @@ public class SelectNoteForTestTaskOperation extends StorageOperation implements 
 			}
 
 		if (!loadedNote) {
-			dispatchError("Не удалось загрузить запись для тестовой задачи");
+			deleteTestTask(task.id);
 			return;
 		}
 
@@ -53,6 +54,21 @@ public class SelectNoteForTestTaskOperation extends StorageOperation implements 
 
 		composite.addCompleteCallback(completeHandler);
 		composite.execute();
+	}
+
+	private function deleteTestTask(taskID:int):void {
+		if (taskID != -1) {
+			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.DELETE_TEST_TASK_BY_ID_SQL, {id: taskID});
+			statement.sqlConnection = storage.sqlConnection;
+			statement.execute(-1, new Responder(deleteTestTaskComplete, executeError));
+		}
+		else {
+			dispatchError(ErrorCode.NULLABLE_NOTE + ": Отсутствует ID тестовой задачи");
+		}
+	}
+
+	private function deleteTestTaskComplete(result:SQLResult):void {
+		dispatchError("Не удалось загрузить запись для тестовой задачи, данная задача удалена, попробуйте пеезагрузить тест");
 	}
 
 	private function completeHandler(op:IAsyncOperation):void {
