@@ -25,21 +25,26 @@ public class SelectNotesBySearchOperation extends StorageOperation implements IA
 	private var page:SearchPage;
 
 	public function execute():void {
-		var sql:String = SQLLib.SEARCH_NOTES_SQL;
+		var isFilteredSearch:Boolean = !page.loadExamples || page.vocabularyIDs.length < page.lang.vocabularyHash.amount;
+		var sql:String;
 		var sqlParams:Object = {};
-		sqlParams.startIndex = page.number * page.size;
-		sqlParams.amount = page.size;
-		sqlParams.loadExamples = page.loadExamples ? 1 : 0;
-		sqlParams.searchText = "%" + page.searchText.toLowerCase() + "%";
 
-		var allVocabularyIDs:Array = [];
-		for each(var v:Vocabulary in page.lang.vocabularyHash.getList())
-			allVocabularyIDs.push(v.id);
+		if (isFilteredSearch) {
+			sql = SQLLib.SEARCH_FILTERED_NOTES_SQL;
+			sqlParams.startIndex = page.number * page.size;
+			sqlParams.amount = page.size;
+			sqlParams.loadExamples = page.loadExamples ? 1 : 0;
+			sqlParams.searchText = "%" + page.searchText.toLowerCase() + "%";
 
-		var allVocabulariesStr:String = SQLUtils.vocabularyIDsToSqlStr(allVocabularyIDs);
-		var selectedVocabulariesStr:String = SQLUtils.vocabularyIDsToSqlStr(page.vocabularyIDs);
-		sql = sql.replace("#allVocabularyList", allVocabulariesStr);
-		sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
+			var selectedVocabulariesStr:String = SQLUtils.vocabularyIDsToSqlStr(page.vocabularyIDs);
+			sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
+		}
+		else {
+			sql = SQLLib.SEARCH_NOTES_SQL;
+			sqlParams.startIndex = page.number * page.size;
+			sqlParams.amount = page.size;
+			sqlParams.searchText = "%" + page.searchText.toLowerCase() + "%";
+		}
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;

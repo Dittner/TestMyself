@@ -102,6 +102,10 @@ public class SQLLib {
 	private static const SearchNotesClass:Class;
 	public static const SEARCH_NOTES_SQL:String = new SearchNotesClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNotesByFilteredSearch.sql", mimeType="application/octet-stream")]
+	private static const SearchFilteredNotesClass:Class;
+	public static const SEARCH_FILTERED_NOTES_SQL:String = new SearchFilteredNotesClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNotesIDsByTheme.sql", mimeType="application/octet-stream")]
 	private static const SelectNotesIDsByThemeClass:Class;
 	public static const SELECT_NOTES_IDS_BY_THEME_SQL:String = new SelectNotesIDsByThemeClass();

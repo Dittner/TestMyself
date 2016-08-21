@@ -177,7 +177,7 @@ public class Note extends EventDispatcher {
 		res.description = description;
 		res.isExample = isExample;
 		res.options = options;
-		res.searchText = title + "+" + description;
+		res.searchText = "+" + title + "+" + description + "+";
 		res.searchText = res.searchText.toLowerCase();
 		res.audioComment = audioComment.bytes ? audioComment : null;
 		return res;

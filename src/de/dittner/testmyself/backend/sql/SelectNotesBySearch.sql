@@ -1,6 +1,5 @@
 SELECT *
 FROM note
-WHERE (isExample = 1 AND :loadExamples = 1 AND searchText LIKE :searchText AND vocabularyID in #allVocabularyList)
-OR (isExample = 0 AND searchText LIKE :searchText AND vocabularyID in #selectedVocabularyList)
+WHERE searchText LIKE :searchText
 ORDER BY isExample, vocabularyID, id DESC
 LIMIT :startIndex, :amount
