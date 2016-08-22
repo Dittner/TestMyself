@@ -169,7 +169,7 @@
         }
 
         private function mp3Browsed(op:IAsyncOperation):void {
-            if (op.isSuccess) {
+            if (op.isSuccess && op.result) {
                 var mp3:ByteArray = op.result as ByteArray;
                 var ac:AudioComment;
                 if (mp3 && mp3.length > 0) {

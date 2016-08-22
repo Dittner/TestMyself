@@ -61,6 +61,7 @@ public class ChangeNotesCmd extends StorageOperation implements IAsyncCommand {
 			res = "+" + noteItem.title + "+" + noteItem.options.present + "+" + noteItem.options.past + "+" + noteItem.options.perfect + "+" + noteItem.description + "+";
 		}
 
+		res = res.toLowerCase();
 		return res;
 	}
 }

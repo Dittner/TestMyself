@@ -79,6 +79,7 @@
                 vm.page.allNotesAmount--;
                 search();
             }
+            searchBoard.updateSearchInput();
         }
 
         private function noteEditComplete(op:IAsyncOperation):void {
@@ -86,6 +87,7 @@
                 vm.page.countAllNotes = true;
                 search();
             }
+            searchBoard.updateSearchInput();
         }
 
         private function startSearchActivatedHandler(event:Event):void {

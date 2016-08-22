@@ -28,6 +28,7 @@ public class FileChooser {
 		}
 		else file = File.documentsDirectory;
 		try {
+			file.addEventListener(Event.CANCEL, canceledSelected);
 			file.addEventListener(Event.SELECT, fileSelected);
 			file.browseForOpen("Select file", filters);
 		}
@@ -39,12 +40,22 @@ public class FileChooser {
 
 	private static function fileSelected(event:Event):void {
 		file = event.target as File;
+		file.removeEventListener(Event.CANCEL, canceledSelected);
+		file.removeEventListener(Event.SELECT, fileSelected);
 		LocalStorage.write(LAST_OPENED_FILE_PATH, file.nativePath);
 		var stream:FileStream = new FileStream();
 		stream.open(file, FileMode.READ);
 		var bytes:ByteArray = new ByteArray();
 		stream.readBytes(bytes, 0, stream.bytesAvailable);
 		curOp.dispatchSuccess(bytes);
+	}
+
+	private static function canceledSelected(event:Event):void {
+		file = event.target as File;
+		file.removeEventListener(Event.CANCEL, canceledSelected);
+		file.removeEventListener(Event.SELECT, fileSelected);
+		LocalStorage.write(LAST_OPENED_FILE_PATH, file.nativePath);
+		curOp.dispatchSuccess();
 	}
 
 }

@@ -37,6 +37,7 @@ public class DeWord extends Note {
 			res.searchText = "+" + title + "+" + declension + "+" + description + "+";
 		if (article)
 			res.searchText = "+" + article + res.searchText;
+		res.searchText = res.searchText.toLowerCase();
 		return res;
 	}
 
