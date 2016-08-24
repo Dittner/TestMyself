@@ -25,7 +25,7 @@ def buildNumber = "2.5"
 
 srcDirs = ['src/', 'resources/']
 resourceDirs = ['resources/']
-mainClass = 'TestMyselfApp'
+mainClass = 'TestMyselfMobileApp'
 type = 'mobile'
 output = 'TestMyself'
 
@@ -130,4 +130,42 @@ task compileIOS(dependsOn: 'updateProperties') {
 }
 
 
-defaultTasks 'clean', 'copyresources', 'compileFlex', 'compileIOS'
+configurations {
+    ftpAntTask
+}
+
+dependencies {
+    ftpAntTask("org.apache.ant:ant-commons-net:1.8.4") {
+        module("commons-net:commons-net:1.4.1") {
+            dependencies "oro:oro:2.0.8:jar"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+import java.text.SimpleDateFormat;
+
+task deployBuild << {
+    def created = new SimpleDateFormat("dd MMM yyyy HH:mm")
+    created.setTimeZone(TimeZone.getTimeZone("GMT+3"));
+
+    def f = new File("$projectDir/build/build.html")
+    def contents = f.getText('UTF-8')
+    contents = contents.replaceAll('#date', created.format(new Date()))
+    contents = contents.replaceAll('#buildNumber', buildNumber)
+    f.write(contents)
+    ant {
+        taskdef(name: 'ftp',
+                classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
+                classpath: configurations.ftpAntTask.asPath)
+        ftp(server: "dittner.bget.ru", userid: "dittner", password: "PASS", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {
+            fileset(file: "build/${output}.ipa")
+            fileset(file: "build/build.html")
+        }
+    }
+}
+
+
+defaultTasks 'clean', 'copyresources', 'compileFlex', 'compileIOS', 'deployBuild'
