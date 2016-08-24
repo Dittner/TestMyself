@@ -157,15 +157,25 @@
             }
 
             descriptionArea.text = note.description;
-            audioRecorder.setComment(note.audioComment);
             examplesForm.exampleColl = note.exampleColl;
             themeList.dataProvider = note.vocabulary.themeColl;
             showSelectedThemes(note.themes);
+
+            if (note.hasAudio) {
+                if (note.audioComment.isEmpty)
+                    note.loadAudioComment().addCompleteCallback(updateAudioComment);
+                else
+                    updateAudioComment();
+            }
 
             invalidateDisplayList();
             invalidateOf(focusTextInput);
             dispatchEvent(new Event("taskChanged"));
             return curOperation;
+        }
+
+        private function updateAudioComment(op:IAsyncOperation = null):void {
+            audioRecorder.setComment(note.audioComment);
         }
 
         private function showSelectedThemes(noteThemes:Array):void {

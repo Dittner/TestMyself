@@ -80,12 +80,25 @@ public class Note extends EventDispatcher {
 	//--------------------------------------
 	private var _audioComment:AudioComment = new AudioComment();
 	[Bindable("audioCommentChanged")]
-	public function get hasAudioComment():Boolean {return _audioComment && _audioComment.bytes;}
 	public function get audioComment():AudioComment {return _audioComment;}
 	public function set audioComment(value:AudioComment):void {
 		if (_audioComment != value) {
 			_audioComment = value || new AudioComment();
+			setHasAudio(!_audioComment.isEmpty);
 			dispatchEvent(new Event("audioCommentChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  hasAudio
+	//--------------------------------------
+	private var _hasAudio:Boolean = false;
+	[Bindable("hasAudioChanged")]
+	public function get hasAudio():Boolean {return _hasAudio;}
+	private function setHasAudio(value:Boolean):void {
+		if (_hasAudio != value) {
+			_hasAudio = value;
+			dispatchEvent(new Event("hasAudioChanged"));
 		}
 	}
 
@@ -179,7 +192,7 @@ public class Note extends EventDispatcher {
 		res.options = options;
 		res.searchText = "+" + title + "+" + description + "+";
 		res.searchText = res.searchText.toLowerCase();
-		res.audioComment = audioComment.bytes ? audioComment : null;
+		res.hasAudio = hasAudio;
 		return res;
 	}
 
@@ -193,8 +206,12 @@ public class Note extends EventDispatcher {
 		_title = data.title;
 		_description = data.description;
 		_isExample = data.isExample;
-		_audioComment = data.audioComment || new AudioComment();
+		_hasAudio = data.hasAudio;
 		options = data.options;
+	}
+
+	public function loadAudioComment():IAsyncOperation {
+		return vocabulary.storage.loadAudioComment(this);
 	}
 
 	public function validate():String {

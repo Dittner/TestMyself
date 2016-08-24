@@ -1,0 +1,133 @@
+group 'ru.idecide.fk'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.2.0'
+    }
+}
+
+apply plugin: 'gradlefx'
+apply plugin: 'ide'
+apply plugin: 'ideafx'
+
+def domain = "ru.idecide.air.sapientia"
+def nameString = "TestMyself"
+def flexSdkVersion = "4.14.1"
+def airSdkVersion = "18.0"
+
+
+def buildNumber = "2.5"
+
+srcDirs = ['src/', 'resources/']
+resourceDirs = ['resources/']
+mainClass = 'TestMyselfApp'
+type = 'mobile'
+output = 'TestMyself'
+
+def iosPathIPA = "$projectDir/build/${output}.ipa"
+def pathAppDescriptor = "$projectDir/build/TestMyselfMobile-descriptor.xml"
+
+
+
+def os
+def extflex
+def extair
+if (System.properties['os.name'].toLowerCase().contains('windows')) {
+    os = "win"
+    extflex = "zip"
+    extair = "zip"
+    println "is  Windows"
+} else {
+    os = "mac"
+    extflex = "tar.gz"
+    extair = "tbz2"
+    println "it's not Windows"
+}
+
+//flexHome = "/Users/soul/sdk/air18-flex14.1"
+frameworkLinkage = 'merged'
+repositories {
+    ivy {
+        name 'Apache'
+        artifactPattern 'http://archive.apache.org/dist/flex/[revision]/binaries/[module]-[revision]-bin.[ext]'
+    }
+    ivy {
+        name 'Adobe Air SDK' //для windows заменить mac на win
+        artifactPattern "http://download.macromedia.com/air/$os/download/[revision]/[module].[ext]"
+    }
+}
+sdkAutoInstall {
+    showPrompts = true
+}
+
+
+dependencies {
+    merged fileTree(dir: 'libs/')
+    flexSDK group: 'org.apache', name: 'apache-flex-sdk', version: "$flexSdkVersion", ext: "$extflex"
+    airSDK group: 'com.adobe', name: 'AdobeAIRSDK', version: "$airSdkVersion", ext: "$extair"
+}
+
+gradle.taskGraph.whenReady { copyresources ->
+
+    additionalCompilerOptions = [
+            "-define=CONFIG::debug,false",
+            "-keep-as3-metadata+=Inject",
+            "-keep-as3-metadata+=PostConstruct",
+    ]
+    println "::additionalCompilerOptions: flexHome is $flexHome"
+}
+
+task updateProperties(dependsOn: 'compileFlex') {
+    if (project.hasProperty("ver")) {
+        println ":ver ${ver}"
+        buildNumber = ver
+    }
+    doLast {
+//        def gitMessage = new ByteArrayOutputStream()
+//        exec {
+//            commandLine "git", "log", "-1", "--pretty=%B"
+//            workingDir project.projectDir
+//            standardOutput = gitMessage;
+//        }
+        def f
+        def contents
+        f = new File("$pathAppDescriptor");
+        contents = f.getText('UTF-8');
+        contents = contents.replaceAll('versionString', buildNumber)
+        contents = contents.replaceAll('airSdkVersion', airSdkVersion)
+        contents = contents.replaceAll('swfFile', output + ".swf")
+        contents = contents.replaceAll('domainId', domain)
+        contents = contents.replaceAll('nameString', nameString)
+        contents = contents.replaceAll('fileString', output)
+        f.write(contents);
+    }
+}
+
+task compileIOS(dependsOn: 'updateProperties') {
+    doLast {
+        exec {
+            commandLine "java", "-jar",
+                    "$flexHome/lib/adt.jar",
+                    "-package", "-target", "ipa-ad-hoc",
+                    "-storetype", "PKCS12",
+                    "-keystore", "$projectDir/keys/ios-123.p12",
+                    "-storepass", "123",
+                    "-provisioning-profile", "$projectDir/keys/sapientia.mobileprovision",
+                    "$iosPathIPA",
+                    "$pathAppDescriptor",
+                    "-C", "$projectDir/build", "${output}.swf", "icons", "fonts",
+                    "-extdir", "$projectDir/libs"
+            def stdOut = new ByteArrayOutputStream()
+            standardOutput = stdOut
+            println stdOut.toString()
+        }
+    }
+}
+
+
+defaultTasks 'clean', 'copyresources', 'compileFlex', 'compileIOS'

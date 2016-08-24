@@ -25,8 +25,11 @@ public class InsertExampleOperation extends StorageOperation implements IAsyncCo
 
 			for each(var example:Note in exampleColl) {
 				example.parentID = parentNote.id;
-				composite.addOperation(MP3EncodingOperation, example.audioComment);
+				if (example.hasAudio)
+					composite.addOperation(MP3EncodingOperation, example.audioComment);
 				composite.addOperation(InsertExampleOperationPhase, storage, example);
+				if (example.hasAudio)
+					composite.addOperation(InsertAudioCommentOperation, storage, example, parentNote, example.audioComment);
 			}
 			composite.addCompleteCallback(completeHandler);
 			composite.execute();

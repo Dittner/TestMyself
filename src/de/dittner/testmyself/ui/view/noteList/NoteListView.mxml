@@ -15,8 +15,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
-        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -60,12 +58,6 @@
             vm.viewDeactivated();
             mp3Player.visible = false;
             setCurrentState("inactive");
-        }
-
-        private function getAudioComment(selectedNote:Note, selectedExample:Note):AudioComment {
-            if (selectedExample && selectedExample.hasAudioComment) return selectedExample.audioComment;
-            else if (selectedNote && selectedNote.hasAudioComment) return selectedNote.audioComment;
-            else return null;
         }
 
         private var pageLayoutInfo:PageLayout = new PageLayout();
@@ -235,7 +227,7 @@
         </s:Rect>
 
         <mp3:MP3Player id="mp3Player"
-                       comment="{getAudioComment(vm.selectedNote, vm.selectedExample)}"
+                       comment="{vm.audioComment}"
                        width="400"
                        left="{PADDING - 10}"
                        verticalCenter="0"

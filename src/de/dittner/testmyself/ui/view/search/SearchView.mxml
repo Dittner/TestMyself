@@ -16,7 +16,6 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -56,21 +55,15 @@
             NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
 
-        private function getAudioComment(selectedNote:Note, selectedExample:Note):AudioComment {
-            if (selectedExample && selectedExample.hasAudioComment) return selectedExample.audioComment;
-            else if (selectedNote && selectedNote.hasAudioComment) return selectedNote.audioComment;
-            else return null;
-        }
-
         private function editSelectedNote():void {
             form.visible = true;
-            var op:IAsyncOperation = form.edit(list.selectedItem as Note);
+            var op:IAsyncOperation = form.edit(noteList.selectedItem as Note);
             op.addCompleteCallback(noteEditComplete);
         }
 
         private function removeSelectedNote():void {
             form.visible = true;
-            var op:IAsyncOperation = form.remove(list.selectedItem as Note);
+            var op:IAsyncOperation = form.remove(noteList.selectedItem as Note);
             op.addCompleteCallback(noteRemovedComplete);
         }
 
@@ -140,7 +133,7 @@
              color="#54545d"/>
 
     <button:ToolButton id="removeBtn"
-                       enabled="{list.selectedItem}"
+                       enabled="{noteList.selectedItem}"
                        top="8" right="{editBtn.width}"
                        description="Die Notiz entfernen"
                        image="@Embed(source='/assets/tools/recycle_bin.png')"
@@ -148,7 +141,7 @@
 
     <button:ToolButton id="editBtn"
                        top="8" right="0"
-                       enabled="{list.selectedItem}"
+                       enabled="{noteList.selectedItem}"
                        description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"
                        click="editSelectedNote()"/>
@@ -164,7 +157,7 @@
                     minViewportInset="1"
                     horizontalScrollPolicy="off"
                     hasFocusableChildren="false">
-            <common:NoteList id="list"
+            <common:NoteList id="noteList"
                              selectedNote="@{vm.selectedNote}"
                              dataProvider="{vm.page.noteColl}"
                              width="100%"
@@ -180,7 +173,7 @@
         <common:ExampleList id="exampleList"
                             width="100%" height="100%"
                             selectedNote="@{vm.selectedExample}"
-                            dataProvider="{list.selectedItem.exampleColl}"
+                            dataProvider="{noteList.selectedItem.exampleColl}"
                             excludeFrom="inactive"
                             showTitle="false"
                             hasFocusableChildren="false"/>
@@ -202,7 +195,7 @@
         </s:Rect>
 
         <mp3:MP3Player id="mp3Player"
-                       comment="{getAudioComment(vm.selectedNote, vm.selectedExample)}"
+                       comment="{vm.audioComment}"
                        width="400"
                        left="{PADDING - 10}"
                        verticalCenter="0"

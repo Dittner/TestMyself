@@ -7,7 +7,7 @@ INSERT INTO note
 	parentID,
 	searchText,
 	options,
-	audioComment
+	hasAudio
 )
 VALUES
 (
@@ -18,5 +18,5 @@ VALUES
 	:parentID,
 	:searchText,
 	:options,
-	:audioComment
+	:hasAudio
 )

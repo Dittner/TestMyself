@@ -1,2 +1,2 @@
-SELECT COUNT(audioComment) FROM note
-WHERE vocabularyID = :vocabularyID
+SELECT COUNT(id) FROM note
+WHERE vocabularyID = :vocabularyID AND hasAudio = 1

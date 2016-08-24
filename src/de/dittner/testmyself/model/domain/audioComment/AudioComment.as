@@ -9,5 +9,6 @@ public class AudioComment {
 
 	public var bytes:ByteArray;
 	public var isMp3:Boolean = false;
+	public function get isEmpty():Boolean {return !bytes || bytes.length == 0;}
 }
 }

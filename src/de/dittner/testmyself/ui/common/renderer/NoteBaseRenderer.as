@@ -24,8 +24,8 @@ public class NoteBaseRenderer extends ItemRendererBase {
 	}
 
 	protected function hasAudioComment():Boolean {
-		if (data is Note && (data as Note).audioComment.bytes) return true;
-		else if (data is TestTask && (data as TestTask).note.audioComment.bytes) return true;
+		if (data is Note && (data as Note).hasAudio) return true;
+		else if (data is TestTask && (data as TestTask).note.hasAudio) return true;
 		else return false;
 	}
 

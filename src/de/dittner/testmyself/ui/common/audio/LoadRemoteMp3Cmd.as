@@ -33,6 +33,7 @@ public class LoadRemoteMp3Cmd extends AsyncCommand {
 		res = res.replace(/(Ö)/g, "Oe");
 
 		res = res.replace(/(ß)/g, "sz");
+		res = res.replace(/(-)/g, "_");
 
 		return res;
 	}

@@ -7,7 +7,7 @@ public class SQLLib {
 	//--------------------------------------
 
 	public static function getTables():Array {
-		return [CREATE_NOTE_TBL_SQL, CREATE_THEME_TBL_SQL, CREATE_FILTER_TBL_SQL, CREATE_TEST_TBL_SQL];
+		return [CREATE_NOTE_TBL_SQL, CREATE_THEME_TBL_SQL, CREATE_FILTER_TBL_SQL, CREATE_TEST_TBL_SQL, CREATE_AUDIO_TBL_SQL];
 	}
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/CreateNoteTbl.sql", mimeType="application/octet-stream")]
@@ -26,6 +26,10 @@ public class SQLLib {
 	private static const CreateTestTblClass:Class;
 	public static const CREATE_TEST_TBL_SQL:String = new CreateTestTblClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/CreateAudioTbl.sql", mimeType="application/octet-stream")]
+	private static const CreateAudioTblClass:Class;
+	public static const CREATE_AUDIO_TBL_SQL:String = new CreateAudioTblClass();
+
 	//--------------------------------------
 	//  insert
 	//--------------------------------------
@@ -33,6 +37,10 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/InsertNote.sql", mimeType="application/octet-stream")]
 	private static const InsertNoteClass:Class;
 	public static const INSERT_NOTE_SQL:String = new InsertNoteClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/InsertAudio.sql", mimeType="application/octet-stream")]
+	private static const InsertAudioClass:Class;
+	public static const INSERT_AUDIO_SQL:String = new InsertAudioClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/InsertTheme.sql", mimeType="application/octet-stream")]
 	private static const InsertThemeClass:Class;
@@ -158,6 +166,10 @@ public class SQLLib {
 	private static const SelectCountTestTaskClass:Class;
 	public static const SELECT_COUNT_TEST_TASK_SQL:String = new SelectCountTestTaskClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectAudioComment.sql", mimeType="application/octet-stream")]
+	private static const SelectAudioCommentClass:Class;
+	public static const SELECT_AUDIO_COMMENT_SQL:String = new SelectAudioCommentClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountFilteredTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectCountFilteredTestTaskClass:Class;
 	public static const SELECT_COUNT_FILTERED_TEST_TASK_SQL:String = new SelectCountFilteredTestTaskClass();
@@ -185,6 +197,14 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteExampleByParentID.sql", mimeType="application/octet-stream")]
 	private static const DeleteExampleByParentIDClass:Class;
 	public static const DELETE_EXAMPLE_BY_PARENT_ID_SQL:String = new DeleteExampleByParentIDClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteAudioCommentByParentNoteID.sql", mimeType="application/octet-stream")]
+	private static const DeleteAudioCommentByParentNoteIDClass:Class;
+	public static const DELETE_AUDIO_COMMENT_BY_PARENT_NOTE_ID_SQL:String = new DeleteAudioCommentByParentNoteIDClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteAudioCommentByNoteID.sql", mimeType="application/octet-stream")]
+	private static const DeleteAudioCommentByNoteIDClass:Class;
+	public static const DELETE_AUDIO_COMMENT_BY_NOTE_ID_SQL:String = new DeleteAudioCommentByNoteIDClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteTestTaskByNoteID.sql", mimeType="application/octet-stream")]
 	private static const DeleteTestTaskByNoteIDClass:Class;

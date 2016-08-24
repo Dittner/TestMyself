@@ -101,7 +101,11 @@
             }
 
             if (Device.isDesktop) stage.focus = isBigText ? textArea.area : textInput;
-            if (mp3Player && mp3Player.comment) mp3Player.play();
+            if (mp3Player && mp3Player.comment && !mp3Player.comment.isEmpty) mp3Player.play();
+        }
+
+        override protected function audioCommentChanged():void {
+            if (mp3Player && mp3Player.comment && !mp3Player.comment.isEmpty) mp3Player.play();
         }
 
         override protected function clear():void {

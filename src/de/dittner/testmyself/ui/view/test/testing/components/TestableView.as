@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
+import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.view.test.common.TestingAction;
@@ -65,6 +66,12 @@ public class TestableView extends Group {
 		if (testTaskChanged && visible) {
 			testTaskChanged = false;
 			if (note) {
+				if (note.hasAudio && note.audioComment.isEmpty) {
+					var op:IAsyncOperation = note.loadAudioComment();
+					op.addCompleteCallback(function (op:IAsyncOperation):void {
+						audioCommentChanged();
+					});
+				}
 				updateForm();
 				setIsProcessing(true);
 			}
@@ -78,6 +85,8 @@ public class TestableView extends Group {
 	protected function updateForm():void {}
 
 	protected function clear():void {}
+
+	protected function audioCommentChanged():void {}
 
 	protected function requestNextTask():void {
 		if (isProcessing) actionCallback(TestingAction.NEXT_TASK);

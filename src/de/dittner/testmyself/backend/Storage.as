@@ -3,6 +3,7 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
 import de.dittner.testmyself.backend.cmd.LoadAllThemesCmd;
+import de.dittner.testmyself.backend.cmd.LoadAudioCommentCmd;
 import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
 import de.dittner.testmyself.backend.cmd.LoadTaskIDsCmd;
@@ -59,7 +60,7 @@ public class Storage extends WalterProxy {
 			sqlConnection.close();
 		}
 
-		/*var changeNoteCmd:ChangeNotesCmd = new ChangeNotesCmd(this);
+		/*var changeNoteCmd:TransferNoteAudioToOtherTblCmd = new TransferNoteAudioToOtherTblCmd(this);
 		 deferredCommandManager.add(changeNoteCmd);*/
 
 		var cmd:IAsyncCommand = new RunDataBaseCmd(SQLLib.getTables());
@@ -115,6 +116,12 @@ public class Storage extends WalterProxy {
 
 	public function loadNote(v:Vocabulary, noteID:int):IAsyncOperation {
 		var op:IAsyncCommand = new LoadNoteByNoteIDCmd(this, v, noteID);
+		deferredCommandManager.add(op);
+		return op;
+	}
+
+	public function loadAudioComment(note:Note):IAsyncOperation {
+		var op:IAsyncCommand = new LoadAudioCommentCmd(this, note);
 		deferredCommandManager.add(op);
 		return op;
 	}

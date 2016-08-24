@@ -69,9 +69,9 @@ public class Test {
 
 	public function isValidForTest(note:Note):Boolean {
 		if (useExamples && note.isExample)
-			return isWritten ? note.hasAudioComment : true;
+			return isWritten ? note.hasAudio : true;
 		else if (!useExamples && !note.isExample)
-			return isWritten ? note.hasAudioComment : true;
+			return isWritten ? note.hasAudio : true;
 		else return false;
 	}
 
