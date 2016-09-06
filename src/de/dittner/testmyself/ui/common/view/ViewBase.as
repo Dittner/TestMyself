@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.async.utils.doLaterInFrames;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.ui.common.menu.MenuBoard;
 import de.dittner.testmyself.ui.common.utils.AppSizes;
 
 import flash.events.Event;
@@ -43,15 +44,28 @@ public class ViewBase extends SkinnableContainer {
 	public const PADDING:uint = 20;
 
 	//--------------------------------------
-	//  info
+	//  viewID
 	//--------------------------------------
-	private var _info:ViewInfo;
-	[Bindable("infoChanged")]
-	public function get info():ViewInfo {return _info;}
-	public function set info(value:ViewInfo):void {
-		if (_info != value) {
-			_info = value;
-			dispatchEvent(new Event("infoChanged"));
+	private var _viewID:String = "";
+	[Bindable("viewIDChanged")]
+	public function get viewID():String {return _viewID;}
+	public function set viewID(value:String):void {
+		if (_viewID != value) {
+			_viewID = value;
+			dispatchEvent(new Event("viewIDChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  menu
+	//--------------------------------------
+	private var _menu:MenuBoard;
+	[Bindable("menuChanged")]
+	public function get menu():MenuBoard {return _menu;}
+	public function set menu(value:MenuBoard):void {
+		if (_menu != value) {
+			_menu = value;
+			dispatchEvent(new Event("menuChanged"));
 		}
 	}
 

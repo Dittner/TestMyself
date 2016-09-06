@@ -1,7 +1,6 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
-import de.dittner.testmyself.model.Device;
 
 import flash.display.Graphics;
 import flash.utils.getTimer;
@@ -11,7 +10,7 @@ import mx.events.FlexEvent;
 public class SmartView extends ViewBase {
 	public function SmartView() {
 		super();
-		percentWidth = Device.isDesktop ? 97 : 100;
+		percentWidth = 100;
 		percentHeight = 100;
 		horizontalCenter = 0;
 		setStyle("backgroundAlpha", 0);

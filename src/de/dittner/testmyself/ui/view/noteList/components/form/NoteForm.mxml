@@ -20,9 +20,11 @@
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+        import de.dittner.testmyself.ui.common.menu.MenuBoard;
+        import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
+        import de.dittner.testmyself.ui.common.menu.MenuID;
         import de.dittner.testmyself.ui.common.renderer.AddedThemeItemRenderer;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
         import de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer;
 
@@ -115,6 +117,27 @@
             }
         }
 
+        //--------------------------------------
+        //  menu
+        //--------------------------------------
+        private var _menu:MenuBoard;
+        [Bindable("menuChanged")]
+        public function get menu():MenuBoard {return _menu;}
+        public function set menu(value:MenuBoard):void {
+            if (_menu != value) {
+                _menu = value;
+                dispatchEvent(new Event("menuChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  selectedMenu
+        //--------------------------------------
+        private function menuClicked(e:MenuBoardEvent):void {
+            if (e.menuID == MenuID.APPLY) apply();
+            else if (e.menuID == MenuID.CANCEL) cancel();
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -130,6 +153,8 @@
             showSelectedThemes(note.themes);
             dispatchEvent(new Event("taskChanged"));
             invalidateOf(focusTextInput);
+            menu.showFormMenu();
+            menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
             return curOperation;
         }
 
@@ -171,6 +196,8 @@
             invalidateDisplayList();
             invalidateOf(focusTextInput);
             dispatchEvent(new Event("taskChanged"));
+            menu.showFormMenu();
+            menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
             return curOperation;
         }
 
@@ -205,6 +232,8 @@
             updateState();
             setMode("remove");
             removeNoteTitleLbl.text = '«' + note.title + '»';
+            menu.showFormMenu();
+            menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
             return curOperation;
         }
 
@@ -265,11 +294,14 @@
             if (isOpen) {
                 clear();
                 setMode("");
-                visible = false;
+                menu.showViewMenu();
+                menu.removeEventListener(MenuBoardEvent.CLICKED, menuClicked);
             }
         }
 
         private function apply():void {
+            if (audioRecorder.isRecording) audioRecorder.clear();
+
             if (isAddMode || isEditMode) {
                 fillNote();
                 var errKey:String = note.validate();
@@ -345,10 +377,6 @@
             else return new ClassFactory(ThemeItemRenderer);
         }
 
-        private function applyBtnEnabled(mode:String, audioRecording:Boolean):Boolean {
-            return isRemoveMode || !audioRecording;
-        }
-
         private function wordValidationHandler(event:TextOperationEvent):void {
             if (event.operation is TextInputOperation) {
                 var inputOperation:TextInputOperation = event.operation as TextInputOperation;
@@ -356,10 +384,6 @@
                 var match:Object = regexp.exec(inputOperation.text);
                 if (match == null) event.preventDefault();
             }
-        }
-
-        private function modeToApplyBtnTitle(mode:String):String {
-            return isAddMode ? "Hinzufügen" : isEditMode ? "Speichern" : "Entfernen";
         }
 
         private function addThemeBtnClickHandler(event:MouseEvent):void {
@@ -418,15 +442,6 @@
                     title="{title}"
                     mode="{mode}"/>
 
-    <s:Rect left="{EditorBg.BORDER_THICKNESS}"
-            right="{EditorBg.BORDER_THICKNESS}"
-            bottom="{EditorBg.BORDER_THICKNESS}"
-            height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
-        <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
-        </s:fill>
-    </s:Rect>
-
     <button:WhiteButton id="formatBtn"
                         width="250" right="15" top="5"
                         label="Formatieren"
@@ -435,7 +450,7 @@
 
     <!--ADD EDIT MODE-->
 
-    <s:HGroup width="100%" top="50" bottom="55" gap="{HGAP}" paddingLeft="15" paddingRight="15"
+    <s:HGroup width="100%" top="50" bottom="20" gap="{HGAP}" paddingLeft="15" paddingRight="15"
               visible="{!isRemoveMode}" includeInLayout="{!isRemoveMode}">
         <s:VGroup width="100%" height="100%" gap="{VGAP}">
             <s:HGroup width="100%" height="100%" gap="{HGAP}">
@@ -546,21 +561,8 @@
 
     </s:HGroup>
 
-    <s:HGroup left="10" right="15" height="42" verticalAlign="middle" bottom="5" gap="{HGAP}">
-        <form2:InvalidNotifier id="invalidNotifier"
-                               height="30" width="100%"/>
-
-        <button:GrayButton id="cancelBtn"
-                           width="250"
-                           label="Abbrechen"
-                           click="cancel()"/>
-
-        <button:BlackButton id="applyBtn"
-                            width="250"
-                            label="{modeToApplyBtnTitle(mode)}"
-                            enabled="{applyBtnEnabled(mode, audioRecorder.isRecording)}"
-                            click="apply()"/>
-    </s:HGroup>
+    <form2:InvalidNotifier id="invalidNotifier"
+                           verticalCenter="0" horizontalCenter="0"/>
 
     <!--REMOVE MODE-->
 

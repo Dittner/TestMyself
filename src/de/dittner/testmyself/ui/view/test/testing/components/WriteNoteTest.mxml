@@ -212,7 +212,7 @@
               visible="{!isCorrectlyAnswered}">
         <button:GrayButton id="showAnswerBtn"
                            width="100%"
-                           label="Die richtige Antwort zeigen"
+                           label="Die Antwort zeigen"
                            click="showDetails = true"/>
 
         <button:BlackButton id="nextBtn"

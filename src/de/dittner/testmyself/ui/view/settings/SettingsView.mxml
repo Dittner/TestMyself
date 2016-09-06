@@ -27,7 +27,7 @@
 
         override protected function activate():void {
             vm.unlockView();
-            vm.viewActivated(info);
+            vm.viewActivated(viewID);
             currentState = "common";
             tabBar.selectedIndex = 0;
             parseSettings(vm.settings);
@@ -72,7 +72,7 @@
     <!--content bg-->
     <s:Rect width="100%" height="100%">
         <s:fill>
-            <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
+            <s:BitmapFill source="@Embed(source='/assets/menu/screen_bg_pattern.png')"
                           fillMode="repeat"/>
         </s:fill>
     </s:Rect>
@@ -86,7 +86,7 @@
 
     <utils:BG width="100%" top="{HEADER_HEI + PADDING + TAB_BAR_HEI}" bottom="0" color="#ffFFff"/>
 
-    <s:Label text="{info.title}"
+    <s:Label text="{vm.viewTitle}"
              fontFamily="{FontName.MYRIAD}"
              fontSize="18"
              width="100%" height="{HEADER_HEI}"

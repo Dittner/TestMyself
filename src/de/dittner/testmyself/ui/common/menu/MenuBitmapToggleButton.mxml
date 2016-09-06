@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<s:ToggleButton xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                interactionMode="mouse"
+                mouseEnabled="{!selected}">
+
+    <fx:Metadata>
+        [Style(name="image", type="Object")]
+        [Style(name="disabledImage", type="Object")]
+    </fx:Metadata>
+
+    <fx:Script><![CDATA[
+        //--------------------------------------
+        //  menuID
+        //--------------------------------------
+        private var _menuID:String = "";
+        [Bindable("menuIDChanged")]
+        public function get menuID():String {return _menuID;}
+        public function set menuID(value:String):void {
+            if (_menuID != value) {
+                _menuID = value;
+                dispatchEvent(new Event("menuIDChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+    <fx:Declarations>
+
+        <fx:Component className="BitmapToggleButtonSkin">
+
+            <s:SparkSkin alpha="1" addedToStage="addedToStage(event)">
+
+                <fx:Metadata>
+                    [HostComponent("spark.components.ToggleButton")]
+                </fx:Metadata>
+
+                <fx:Script><![CDATA[
+                    import com.greensock.TweenLite;
+
+                    import mx.core.UIComponent;
+
+                    private static const ICON_ALPHA_OUT:Number = 0.5;
+                    private static const ICON_ALPHA_SELECTED:Number = 1;
+
+                    private static const DISABLED_ICON_ALPHA:Number = 0.5;
+
+                    private function get selected():Boolean {
+                        return currentState == "upAndSelected" || currentState == "downAndSelected" || currentState == "overAndSelected";
+                    }
+
+                    private function addedToStage(event:Event):void {
+                        removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
+                        addEventListener(Event.REMOVED_FROM_STAGE, removeFromStage);
+                        if (parent)
+                            parent.addEventListener("enabledChanged", enabledChanged);
+                    }
+
+                    private function enabledChanged(e:Event):void {
+                        if (disabledIcon) {
+                            if (isAnimating) isParentEnabledStateChanged = true;
+                            else startAlphaAnimation();
+                        }
+                    }
+
+                    private var isParentEnabledStateChanged:Boolean = false;
+                    private var isAnimating:Boolean = false;
+                    private function startAlphaAnimation():void {
+                        var alphaTo:Number = parent is UIComponent && (parent as UIComponent).enabled ? 0 : DISABLED_ICON_ALPHA;
+                        if (disabledIcon.alpha != alphaTo) {
+                            isAnimating = true;
+                            TweenLite.to(disabledIcon, 1, {alpha: alphaTo, onComplete: animationComplete});
+                        }
+                    }
+
+                    private function animationComplete():void {
+                        isAnimating = false;
+                        if (isParentEnabledStateChanged) {
+                            isParentEnabledStateChanged = false;
+                            startAlphaAnimation();
+                        }
+                    }
+
+                    private function removeFromStage(event:Event):void {
+                        removeEventListener(Event.REMOVED_FROM_STAGE, removeFromStage);
+                        if (parent) parent.removeEventListener("enabledChanged", enabledChanged);
+                        addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+                    }
+                    ]]></fx:Script>
+
+                <s:states>
+                    <s:State name="disabled"/>
+                    <s:State name="down"/>
+                    <s:State name="over"/>
+                    <s:State name="up"/>
+                    <s:State name="disabledAndSelected"/>
+                    <s:State name="downAndSelected" stateGroups="selected"/>
+                    <s:State name="overAndSelected" stateGroups="selected"/>
+                    <s:State name="upAndSelected" stateGroups="selected"/>
+                </s:states>
+
+                <s:BitmapImage id="icon"
+                               alpha.up=".5"
+                               alpha.disabled=".5"
+                               alpha.over="1"
+                               alpha="1"
+                               source="{getStyle('image')}"/>
+
+                <s:BitmapImage id="disabledIcon"
+                               alpha="0"
+                               source="{getStyle('disabledImage')}"/>
+
+            </s:SparkSkin>
+
+        </fx:Component>
+
+    </fx:Declarations>
+
+    <s:skinClass>{BitmapToggleButtonSkin}</s:skinClass>
+</s:ToggleButton>

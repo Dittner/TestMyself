@@ -12,7 +12,7 @@ public class ViewModelFactory extends WalterProxy {
 
 	public function ViewModelFactory() {
 		super();
-		if (instance) throw  new Error("ViewFactory must be Singleton!");
+		if (instance) throw new Error("ViewFactory must be Singleton!");
 		instance = this;
 	}
 

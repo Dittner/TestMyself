@@ -1,5 +1,5 @@
-package de.dittner.testmyself.ui.common.view {
-public class ViewID {
+package de.dittner.testmyself.ui.common.menu {
+public class MenuID {
 	public static const MAP:String = "MAP";
 	public static const WORD:String = "WORD";
 	public static const VERB:String = "VERB";
@@ -7,5 +7,10 @@ public class ViewID {
 	public static const TEST:String = "TEST";
 	public static const SEARCH:String = "SEARCH";
 	public static const SETTINGS:String = "SETTINGS";
+
+	public static const APPLY:String = "APPLY";
+	public static const CANCEL:String = "CANCEL";
+	public static const CLOSE:String = "CLOSE";
+
 }
 }

@@ -1,13 +1,11 @@
 package de.dittner.testmyself.ui.view.search {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.page.SearchPage;
-import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 
 import flash.events.Event;
@@ -20,9 +18,6 @@ public class SearchVM extends ViewModel {
 
 	[Inject]
 	public var storage:Storage;
-
-	[Inject]
-	public var appModel:AppModel;
 
 	[Bindable]
 	public var selectedLang:Language;
@@ -95,8 +90,9 @@ public class SearchVM extends ViewModel {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	override public function viewActivated(info:ViewInfo):void {
-		super.viewActivated(info);
+	override public function viewActivated(viewID:String):void {
+		super.viewActivated(viewID);
+		viewTitle = "SUCHE";
 		selectedLang = appModel.selectedLanguage;
 		setPage(new SearchPage());
 	}

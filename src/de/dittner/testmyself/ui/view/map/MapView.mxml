@@ -20,7 +20,7 @@
 
         override protected function activate():void {
             vm.unlockView();
-            vm.viewActivated(info);
+            vm.viewActivated(viewID);
         }
 
         private var downPoint:Point;

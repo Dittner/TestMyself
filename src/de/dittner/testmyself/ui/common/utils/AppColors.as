@@ -5,7 +5,7 @@ public class AppColors {
 	public static const EDITOR_CONTENT_BG:uint = 0xf0F0f5;
 
 	public static const BG_DARK:uint = 0x3d3f4b;
-	public static const VIEW_LIST_BG:uint = 0;
+	public static const MENU_LIST_BG:uint = 0;
 
 	public static const EDITOR_BORDER:uint = 0;
 	public static const EDITOR_SHADOW:uint = 0x54545d;

@@ -1,18 +1,15 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:list="de.dittner.testmyself.ui.common.list.*"
          xmlns:main="de.dittner.testmyself.ui.view.main.*"
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
          creationComplete="creationCompleteHandler(event)">
     <fx:Script><![CDATA[
         import de.dittner.testmyself.logging.CLog;
         import de.dittner.testmyself.logging.LogPanel;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
-        import de.dittner.testmyself.ui.common.renderer.SeparatorItemRenderer;
-        import de.dittner.testmyself.ui.common.renderer.SeparatorVo;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.view.ViewBase;
-        import de.dittner.testmyself.ui.common.view.ViewInfo;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.TapEventKit;
         import de.dittner.testmyself.utils.Values;
@@ -22,6 +19,8 @@
 
         [Bindable]
         public var vm:MainVM;
+
+        private static const MENU_WID:uint = 65;
 
         //--------------------------------------
         //  isActive
@@ -65,7 +64,10 @@
 
         public function activate():void {
             _isActive = true;
-            if (!vm) vm = ViewModelFactory.instance.mainVM;
+            if (!vm) {
+                vm = ViewModelFactory.instance.mainVM;
+                vm.viewActivated(menuBoard);
+            }
         }
 
         override protected function commitProperties():void {
@@ -79,21 +81,10 @@
             }
         }
 
-        private function selectedViewInfoHandler():void {
-            if (viewList.selectedItem is ViewInfo)
-                vm.viewNavigator.navigate(viewList.selectedItem as ViewInfo);
-        }
-
-        private function screenRendererFunc(item:Object):IFactory {
-            if (item is ViewInfo) return new ClassFactory(VewListItemRenderer);
-            else if (item is SeparatorVo) return new ClassFactory(SeparatorItemRenderer);
-            else throw new Error("Unknown screen item type:" + item.toString() + "!");
-        }
-
         private function creationCompleteHandler(event:FlexEvent):void {
             SimplePopup.container.percentHeight = 100;
             SimplePopup.container.percentWidth = 100;
-            logoLayer.addElement(SimplePopup.container);
+            logsLayer.addElement(SimplePopup.container);
             TapEventKit.registerLongTapListener(parent, showHideConsole, new Rectangle(0, 0, 3000, INTERACTION_AREA_HEI));
         }
 
@@ -108,10 +99,10 @@
             }
 
             if (logPanel.parent) {
-                logoLayer.removeElement(logPanel);
+                logsLayer.removeElement(logPanel);
             }
             else {
-                logoLayer.addElement(logPanel);
+                logsLayer.addElement(logPanel);
                 logPanel.y = INTERACTION_AREA_HEI;
             }
         }
@@ -137,48 +128,28 @@
         </s:Transition>
     </s:transitions>
 
-    <s:BitmapImage width="100%" height="100%"
-                   source="@Embed('/assets/app_bg.png')"
-                   fillMode="scale" scaleMode="zoom" smooth="true"/>
+    <utils:BG width="100%" height="100%" color="#3d3f4b"/>
 
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"
              mouseEnabled.normal="true" mouseChildren.normal="true"
-             left="66" right="0"
+             left="0" right="{MENU_WID}"
              height="100%"/>
 
-    <s:Rect width="66" height="100%">
-        <s:fill>
-            <s:SolidColor color="{AppColors.VIEW_LIST_BG}"/>
-        </s:fill>
-    </s:Rect>
-
-    <list:SelectableDataGroup id="viewList"
-                              disabledAlpha="1"
-                              enabled="false"
-                              enabled.normal="{!vm.viewListLocked}"
-                              width="66" height="100%"
-                              minWidth="0"
-                              dataProvider="{vm.viewFactory.viewInfoColl}"
-                              selectedItem="{vm.viewNavigator.selectedView.info}"
-                              contentBackgroundAlpha="0"
-                              autoLayout="true"
-                              itemRendererFunction="screenRendererFunc"
-                              selectedItemChange="selectedViewInfoHandler()">
-        <list:layout>
-            <s:VerticalLayout gap="0" useVirtualLayout="false" variableRowHeight="true"/>
-        </list:layout>
-    </list:SelectableDataGroup>
-
-    <s:BitmapImage top="24" left="41"
-                   source="@Embed('/assets/screen/network_icon.png')"
-                   visible="{vm.appModel.hasNetworkConnection}"/>
+    <menu:MenuBoard id="menuBoard"
+                    width="{MENU_WID}" height="100%"
+                    selectedViewMenuID="@{vm.viewNavigator.selectedViewID}"
+                    hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
+                    disabledAlpha="1"
+                    enabled="false"
+                    enabled.normal="{!vm.menuLocked}"
+                    right="0"/>
 
     <main:CommentsBoard id="commentsBoard"
                         mouseEnabled="false" mouseChildren="false"
                         mouseEnabled.normal="true" mouseChildren.normal="true"
                         text="@{vm.commentsBoardText}"
-                        width="400" height="100%" right="0"/>
+                        left="0" right="{MENU_WID}" height="30%" top="0"/>
 
     <s:Group id="popupLayer"
              mouseEnabled="false" mouseChildren="false"
@@ -199,6 +170,6 @@
                        source="@Embed(source='/assets/clock_icon.png')"/>
     </s:Group>
 
-    <s:Group id="logoLayer" width="100%" height="100%"/>
+    <s:Group id="logsLayer" width="100%" height="100%"/>
 
 </s:Group>

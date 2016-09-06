@@ -29,7 +29,7 @@
 
         override protected function activate():void {
             vm.unlockView();
-            vm.viewActivated(info);
+            vm.viewActivated(viewID);
             setCurrentState("testList");
         }
 
@@ -82,6 +82,7 @@
                     vm.loadNextTestTask();
                 }
             }
+            form.visible = false;
         }
 
         private function noteEditOperationComplete(op:IAsyncOperation):void {
@@ -91,6 +92,7 @@
                 else if (currentState == "testing")
                     vm.loadNextTestTask();
             }
+            form.visible = false;
         }
         ]]></fx:Script>
 
@@ -106,7 +108,7 @@
     <!--content bg-->
     <s:Rect width="100%" height="100%">
         <s:fill>
-            <s:BitmapFill source="@Embed(source='/assets/screen/screen_bg_pattern.png')"
+            <s:BitmapFill source="@Embed(source='/assets/menu/screen_bg_pattern.png')"
                           fillMode="repeat"/>
         </s:fill>
     </s:Rect>
@@ -118,7 +120,7 @@
         </s:fill>
     </s:Rect>
 
-    <s:Label text="{info.title}"
+    <s:Label text="{vm.viewTitle}"
              fontFamily="{FontName.MYRIAD}"
              fontSize="18"
              width="100%" height="{HEADER_HEI}"
@@ -202,13 +204,12 @@
         </s:Rect>
 
         <form:NoteForm id="form"
+                       menu="{menu}"
                        visible="false"
                        hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                        width="100%"
                        bottom="0"
-                       top="{HEADER_HEI}"
-                       show="vm.lockViewList()"
-                       hide="vm.unlockViewList()"/>
+                       top="{HEADER_HEI}"/>
     </s:Group>
 
 </view:SmartView>

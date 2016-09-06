@@ -1,12 +1,10 @@
 package de.dittner.testmyself.ui.view.test {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 
@@ -19,8 +17,6 @@ public class TestVM extends ViewModel {
 		super();
 	}
 
-	[Inject]
-	public var appModel:AppModel;
 	[Inject]
 	public var storage:Storage;
 
@@ -147,8 +143,9 @@ public class TestVM extends ViewModel {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	override public function viewActivated(info:ViewInfo):void {
-		super.viewActivated(info);
+	override public function viewActivated(viewID:String):void {
+		super.viewActivated(viewID);
+		viewTitle = "TESTEN";
 		selectedTestTask = null;
 		if (!testPage) setTestPage(new TestPage());
 		testPage.loadOnlyFailedTestTask = true;

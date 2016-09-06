@@ -6,12 +6,10 @@ import de.dittner.ftpClient.FtpClient;
 import de.dittner.testmyself.backend.LocalStorage;
 import de.dittner.testmyself.backend.SharedObjectStorage;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 
@@ -30,8 +28,6 @@ public class SettingsVM extends ViewModel {
 		super();
 	}
 
-	[Inject]
-	public var appModel:AppModel;
 	[Inject]
 	public var storage:Storage;
 
@@ -101,8 +97,9 @@ public class SettingsVM extends ViewModel {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	override public function viewActivated(info:ViewInfo):void {
-		super.viewActivated(info);
+	override public function viewActivated(viewID:String):void {
+		super.viewActivated(viewID);
+		viewTitle = "EINSTELLUNGEN";
 		if (!ftp) ftp = new FtpClient(Device.stage);
 		_settings = LocalStorage.read(SETTINGS_KEY) || new SettingsInfo();
 		setWordVocabulary(appModel.selectedLanguage.vocabularyHash.read(VocabularyID.DE_WORD));

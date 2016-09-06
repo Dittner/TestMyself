@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.view {
+import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.walter.WalterProxy;
 
@@ -11,6 +12,9 @@ public class ViewModel extends WalterProxy {
 
 	[Inject]
 	public var mainVM:MainVM;
+
+	[Inject]
+	public var appModel:AppModel;
 
 	//--------------------------------------
 	//  isActive
@@ -25,20 +29,27 @@ public class ViewModel extends WalterProxy {
 		}
 	}
 
-	public function viewActivated(info:ViewInfo):void {
+	//--------------------------------------
+	//  viewTitle
+	//--------------------------------------
+	private var _viewTitle:String = "";
+	[Bindable("viewTitleChanged")]
+	public function get viewTitle():String {return _viewTitle;}
+	public function set viewTitle(value:String):void {
+		if (_viewTitle != value) {
+			_viewTitle = value;
+			dispatchEvent(new Event("viewTitleChanged"));
+		}
+	}
+
+	override protected function activate():void {}
+
+	public function viewActivated(viewID:String):void {
 		isActive = true;
 	}
 
 	public function viewDeactivated():void {
 		isActive = false;
-	}
-
-	public function lockViewList():void {
-		if (mainVM) mainVM.viewListLocked = true;
-	}
-
-	public function unlockViewList():void {
-		if (mainVM) mainVM.viewListLocked = false;
 	}
 
 	public function lockView():void {

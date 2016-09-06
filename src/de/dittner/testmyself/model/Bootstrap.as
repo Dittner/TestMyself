@@ -4,7 +4,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.DeferredCommandManager;
 import de.dittner.testmyself.model.domain.language.DeLang;
-import de.dittner.testmyself.ui.common.view.ViewFactory;
+import de.dittner.testmyself.ui.common.menu.MenuID;
 import de.dittner.testmyself.ui.common.view.ViewModelFactory;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
 import de.dittner.testmyself.ui.view.main.MainVM;
@@ -51,7 +51,6 @@ public class Bootstrap extends Walter {
 
 		registerProxy("deferredCommandManager", new DeferredCommandManager());
 		registerProxy("viewNavigator", new ViewNavigator());
-		registerProxy("viewFactory", new ViewFactory());
 		registerProxy("vmFactory", new ViewModelFactory());
 
 		registerProxy("mainVM", new MainVM());
@@ -68,9 +67,8 @@ public class Bootstrap extends Walter {
 
 	private function initCompleteHandler(op:IAsyncOperation):void {
 		var viewNavigator:ViewNavigator = getProxy("viewNavigator") as ViewNavigator;
-		var viewFactory:ViewFactory = getProxy("viewFactory") as ViewFactory;
-		viewNavigator.navigate(viewFactory.firstViewInfo);
 		mainView.activate();
+		viewNavigator.selectedViewID = MenuID.MAP;
 		(getProxy("appModel") as AppModel).init();
 	}
 

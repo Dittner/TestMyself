@@ -21,7 +21,7 @@ def flexSdkVersion = "4.14.1"
 def airSdkVersion = "18.0"
 
 
-def buildNumber = "2.5"
+def buildNumber = "2.6"
 
 srcDirs = ['src/', 'resources/']
 resourceDirs = ['resources/']

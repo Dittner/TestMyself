@@ -2,8 +2,7 @@ package de.dittner.testmyself.ui.view.main {
 
 import de.dittner.testmyself.backend.LocalStorage;
 import de.dittner.testmyself.model.AppModel;
-import de.dittner.testmyself.ui.common.view.IViewFactory;
-import de.dittner.testmyself.ui.common.view.ViewInfo;
+import de.dittner.testmyself.ui.common.menu.MenuBoard;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
 import de.dittner.walter.WalterProxy;
 
@@ -16,11 +15,6 @@ public class MainVM extends WalterProxy {
 
 	private static const COMMENTS_BOARD_TEXT_KEY:String = "COMMENTS_BOARD_TEXT_KEY";
 
-	[Bindable]
-	[Inject]
-	public var viewFactory:IViewFactory;
-
-	[Bindable]
 	[Inject]
 	public var viewNavigator:ViewNavigator;
 
@@ -28,18 +22,7 @@ public class MainVM extends WalterProxy {
 	[Inject]
 	public var appModel:AppModel;
 
-	//--------------------------------------
-	//  selectedViewInfo
-	//--------------------------------------
-	private var _selectedViewInfo:ViewInfo;
-	[Bindable("selectedViewInfoChanged")]
-	public function get selectedViewInfo():ViewInfo {return _selectedViewInfo;}
-	private function setSelectedViewInfo(value:ViewInfo):void {
-		if (_selectedViewInfo != value) {
-			_selectedViewInfo = value;
-			dispatchEvent(new Event("selectedViewInfoChanged"));
-		}
-	}
+	public var menu:MenuBoard;
 
 	//--------------------------------------
 	//  viewLocked
@@ -57,12 +40,12 @@ public class MainVM extends WalterProxy {
 	//--------------------------------------
 	//  viewListLocked
 	//--------------------------------------
-	private var _viewListLocked:Boolean = false;
+	private var _menuLocked:Boolean = false;
 	[Bindable("viewListLockedChanged")]
-	public function get viewListLocked():Boolean {return _viewListLocked;}
-	public function set viewListLocked(value:Boolean):void {
-		if (_viewListLocked != value) {
-			_viewListLocked = value;
+	public function get menuLocked():Boolean {return _menuLocked;}
+	public function set menuLocked(value:Boolean):void {
+		if (_menuLocked != value) {
+			_menuLocked = value;
 			dispatchEvent(new Event("viewListLockedChanged"));
 		}
 	}
@@ -81,7 +64,8 @@ public class MainVM extends WalterProxy {
 		}
 	}
 
-	override protected function activate():void {
+	public function viewActivated(menu:MenuBoard):void {
+		this.menu = menu;
 		commentsBoardText = LocalStorage.read(COMMENTS_BOARD_TEXT_KEY) || _commentsBoardText;
 	}
 

@@ -1,10 +1,8 @@
 package de.dittner.testmyself.ui.view.map {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
-import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.utils.HashList;
 
@@ -14,9 +12,6 @@ public class MapVM extends ViewModel {
 	public function MapVM() {
 		super();
 	}
-
-	[Inject]
-	public var appModel:AppModel;
 
 	//--------------------------------------
 	//  wordVocabularyInfo
@@ -59,8 +54,8 @@ public class MapVM extends ViewModel {
 
 	override protected function activate():void {}
 
-	override public function viewActivated(info:ViewInfo):void {
-		super.viewActivated(info);
+	override public function viewActivated(viewID:String):void {
+		super.viewActivated(viewID);
 		var op:IAsyncOperation;
 		var vocabularyList:HashList = appModel.selectedLanguage.vocabularyHash;
 		if (vocabularyList.has(VocabularyID.DE_WORD)) {

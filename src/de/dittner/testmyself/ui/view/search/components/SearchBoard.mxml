@@ -12,7 +12,7 @@
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
 
-        [Embed(source='/assets/screen/screen_bg_pattern.png')]
+        [Embed(source='/assets/menu/screen_bg_pattern.png')]
         private static const BgClass:Class;
         private static var bgBitmapData:BitmapData;
 
