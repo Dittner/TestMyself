@@ -6,7 +6,7 @@ import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
+import de.dittner.testmyself.model.domain.test.TestTaskPriority;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -31,7 +31,7 @@ public class ClearTestHistoryCmd extends StorageOperation implements IAsyncComma
 		var sqlParams:Object = {};
 		sqlParams.testID = test.id;
 		sqlParams.rate = test.calcTaskRate();
-		sqlParams.complexity = TestTaskComplexity.HIGH;
+		sqlParams.complexity = TestTaskPriority.HIGH;
 		sqlParams.isFailed = 0;
 		sqlParams.lastTestedDate = 0;
 

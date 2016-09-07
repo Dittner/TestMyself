@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         currentState="highPriority"
+         mouseEnabledWhereTransparent="true"
+         addedToStage="addedToStage(event)"
+         click="clickHandler(event)"
+         disabledAlpha="1">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.test.TestTaskPriority;
+        import de.dittner.testmyself.ui.common.utils.DisabledIconFade;
+
+        //--------------------------------------
+        //  complexity
+        //--------------------------------------
+        private var _taskPriority:uint = TestTaskPriority.HIGH;
+        [Bindable("taskPriorityChanged")]
+        public function get taskPriority():uint {return _taskPriority;}
+        public function set taskPriority(value:uint):void {
+            if (_taskPriority != value) {
+                _taskPriority = value;
+
+                if (taskPriority == TestTaskPriority.MIDDLE) setCurrentState("middlePriority");
+                else if (taskPriority == TestTaskPriority.LOW) setCurrentState("lowPriority");
+                else setCurrentState("highPriority");
+                dispatchEvent(new Event("taskPriorityChanged"));
+            }
+        }
+
+        private var fade:DisabledIconFade;
+
+        private function addedToStage(event:Event):void {
+            if (!fade) fade = new DisabledIconFade();
+            fade.activate(this, disabledIcon);
+            removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
+            addEventListener(Event.REMOVED_FROM_STAGE, removeFromStage);
+        }
+
+        private function removeFromStage(event:Event):void {
+            removeEventListener(Event.REMOVED_FROM_STAGE, removeFromStage);
+            addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+            if (fade) fade.dispose();
+        }
+
+        private function clickHandler(event:MouseEvent):void {
+            if (event.localY <= height / 3) taskPriority = TestTaskPriority.LOW;
+            else if (event.localY <= 2 * height / 3) taskPriority = TestTaskPriority.MIDDLE;
+            else taskPriority = TestTaskPriority.HIGH;
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="highPriority"/>
+        <s:State name="middlePriority"/>
+        <s:State name="lowPriority"/>
+    </s:states>
+
+    <s:BitmapImage id="icon"
+                   source.highPriority="@Embed('/assets/menu/priority_high.png')"
+                   source.middlePriority="@Embed('/assets/menu/priority_middle.png')"
+                   source.lowPriority="@Embed('/assets/menu/priority_low.png')"/>
+
+    <s:BitmapImage id="disabledIcon"
+                   alpha="0"
+                   source.highPriority="@Embed('/assets/menu/priority_high_red.png')"
+                   source.middlePriority="@Embed('/assets/menu/priority_middle_red.png')"
+                   source.lowPriority="@Embed('/assets/menu/priority_low_red.png')"/>
+</s:Group>

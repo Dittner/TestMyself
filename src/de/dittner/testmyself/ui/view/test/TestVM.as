@@ -3,7 +3,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
-import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
+import de.dittner.testmyself.model.domain.test.TestTaskPriority;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
@@ -68,7 +68,7 @@ public class TestVM extends ViewModel {
 	//--------------------------------------
 	//  taskComplexity
 	//--------------------------------------
-	private var _taskComplexity:uint = TestTaskComplexity.HIGH;
+	private var _taskComplexity:uint = TestTaskPriority.HIGH;
 	[Bindable("taskComplexityChanged")]
 	public function get taskComplexity():uint {return _taskComplexity;}
 	public function set taskComplexity(value:uint):void {

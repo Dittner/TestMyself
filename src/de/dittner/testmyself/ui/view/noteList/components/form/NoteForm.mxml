@@ -20,7 +20,7 @@
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-        import de.dittner.testmyself.ui.common.menu.MenuBoard;
+        import de.dittner.testmyself.ui.common.menu.IMenuBoard;
         import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
         import de.dittner.testmyself.ui.common.menu.MenuID;
         import de.dittner.testmyself.ui.common.renderer.AddedThemeItemRenderer;
@@ -120,10 +120,10 @@
         //--------------------------------------
         //  menu
         //--------------------------------------
-        private var _menu:MenuBoard;
+        private var _menu:IMenuBoard;
         [Bindable("menuChanged")]
-        public function get menu():MenuBoard {return _menu;}
-        public function set menu(value:MenuBoard):void {
+        public function get menu():IMenuBoard {return _menu;}
+        public function set menu(value:IMenuBoard):void {
             if (_menu != value) {
                 _menu = value;
                 dispatchEvent(new Event("menuChanged"));
@@ -294,7 +294,7 @@
             if (isOpen) {
                 clear();
                 setMode("");
-                menu.showViewMenu();
+                menu.hideFormMenu();
                 menu.removeEventListener(MenuBoardEvent.CLICKED, menuClicked);
             }
         }

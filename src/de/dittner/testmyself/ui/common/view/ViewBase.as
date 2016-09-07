@@ -2,7 +2,7 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.async.utils.doLaterInFrames;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
-import de.dittner.testmyself.ui.common.menu.MenuBoard;
+import de.dittner.testmyself.ui.common.menu.IMenuBoard;
 import de.dittner.testmyself.ui.common.utils.AppSizes;
 
 import flash.events.Event;
@@ -59,10 +59,10 @@ public class ViewBase extends SkinnableContainer {
 	//--------------------------------------
 	//  menu
 	//--------------------------------------
-	private var _menu:MenuBoard;
+	private var _menu:IMenuBoard;
 	[Bindable("menuChanged")]
-	public function get menu():MenuBoard {return _menu;}
-	public function set menu(value:MenuBoard):void {
+	public function get menu():IMenuBoard {return _menu;}
+	public function set menu(value:IMenuBoard):void {
 		if (_menu != value) {
 			_menu = value;
 			dispatchEvent(new Event("menuChanged"));

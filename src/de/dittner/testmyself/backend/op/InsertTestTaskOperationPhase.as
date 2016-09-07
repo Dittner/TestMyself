@@ -6,7 +6,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
+import de.dittner.testmyself.model.domain.test.TestTaskPriority;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -35,7 +35,7 @@ public class InsertTestTaskOperationPhase extends StorageOperation implements IA
 		sqlParams.isFailed = 0;
 		sqlParams.lastTestedDate = 0;
 		sqlParams.rate = test.calcTaskRate();
-		sqlParams.complexity = TestTaskComplexity.HIGH;
+		sqlParams.complexity = TestTaskPriority.HIGH;
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.INSERT_TEST_TASK_SQL, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;

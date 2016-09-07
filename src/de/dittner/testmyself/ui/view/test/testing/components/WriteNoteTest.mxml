@@ -204,7 +204,7 @@
 
     <button:BlackButton id="validateBtn"
                         width="225"
-                        enabled="{isProcessing}"
+                        enabled="{isActivating}"
                         label="Antworten"
                         click="onAnswered()"/>
 
@@ -216,7 +216,7 @@
                            click="showDetails = true"/>
 
         <button:BlackButton id="nextBtn"
-                            enabled="{isProcessing}"
+                            enabled="{isActivating}"
                             width="100%"
                             label="Weiter"
                             click="requestNextTask()"/>

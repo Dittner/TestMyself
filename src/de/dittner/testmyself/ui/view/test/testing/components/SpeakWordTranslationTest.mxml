@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
                    xmlns:s="library://ns.adobe.com/flex/spark"
-                   xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
                    xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*">
 
@@ -51,16 +50,6 @@
         private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
             return showDetails && options;
         }
-
-        private function onTrueAnswered():void {
-            notifyTrueAnswer();
-            requestNextTask();
-        }
-
-        private function onFalseAnswered():void {
-            notifyFalseAnswer();
-            requestNextTask();
-        }
         ]]></fx:Script>
 
     <test:layout>
@@ -97,28 +86,5 @@
                          width="{width - 2*padding}" height="66%"
                          shownList="{showDetails}"
                          hasFocusableChildren="false"/>
-
-    <s:HGroup width="100%"
-              horizontalAlign="center"
-              gap="15">
-
-        <button:BlackButton id="correctAnswerBtn"
-                            width="250"
-                            enabled="{isProcessing}"
-                            label="Richtig"
-                            click="onTrueAnswered()"/>
-
-        <button:RedButton id="incorrectAnswerBtn"
-                          width="250"
-                          enabled="{isProcessing}"
-                          label="Falsch"
-                          click="onFalseAnswered()"/>
-
-        <button:YellowButton id="showAnswerBtn"
-                             width="250"
-                             label="Die Antwort zeigen"
-                             click="showDetails = true"/>
-
-    </s:HGroup>
 
 </test:TestableView>

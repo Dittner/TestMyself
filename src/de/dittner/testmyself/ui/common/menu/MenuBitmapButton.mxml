@@ -34,57 +34,23 @@
                 </fx:Metadata>
 
                 <fx:Script><![CDATA[
-                    import com.greensock.TweenLite;
+                    import de.dittner.testmyself.ui.common.utils.DisabledIconFade;
 
                     import mx.core.UIComponent;
 
-                    private static const ICON_ALPHA_OUT:Number = 0.5;
-                    private static const ICON_ALPHA_SELECTED:Number = 1;
-
-                    private static const DISABLED_ICON_ALPHA:Number = 0.5;
-
-                    private function get selected():Boolean {
-                        return currentState == "upAndSelected" || currentState == "downAndSelected" || currentState == "overAndSelected";
-                    }
+                    private var fade:DisabledIconFade;
 
                     private function addedToStage(event:Event):void {
+                        if (!fade) fade = new DisabledIconFade();
+                        fade.activate(parent as UIComponent, disabledIcon);
                         removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
                         addEventListener(Event.REMOVED_FROM_STAGE, removeFromStage);
-                        if (parent is UIComponent) {
-                            disabledIcon.alpha = (parent as UIComponent).enabled ? 0 : 0.5;
-                            parent.addEventListener("enabledChanged", enabledChanged);
-                        }
-                    }
-
-                    private function enabledChanged(e:Event):void {
-                        if (disabledIcon) {
-                            if (isAnimating) isParentEnabledStateChanged = true;
-                            else startAlphaAnimation();
-                        }
-                    }
-
-                    private var isParentEnabledStateChanged:Boolean = false;
-                    private var isAnimating:Boolean = false;
-                    private function startAlphaAnimation():void {
-                        var alphaTo:Number = parent is UIComponent && (parent as UIComponent).enabled ? 0 : DISABLED_ICON_ALPHA;
-                        if (disabledIcon.alpha != alphaTo) {
-                            isAnimating = true;
-                            TweenLite.to(disabledIcon, 1, {alpha: alphaTo, onComplete: animationComplete});
-                        }
-                    }
-
-                    private function animationComplete():void {
-                        isAnimating = false;
-                        if (isParentEnabledStateChanged) {
-                            isParentEnabledStateChanged = false;
-                            startAlphaAnimation();
-                        }
                     }
 
                     private function removeFromStage(event:Event):void {
                         removeEventListener(Event.REMOVED_FROM_STAGE, removeFromStage);
-                        if (parent) parent.removeEventListener("enabledChanged", enabledChanged);
                         addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+                        if (fade) fade.dispose();
                     }
                     ]]></fx:Script>
 

@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.view.main {
 
 import de.dittner.testmyself.backend.LocalStorage;
 import de.dittner.testmyself.model.AppModel;
+import de.dittner.testmyself.ui.common.menu.IMenuBoard;
 import de.dittner.testmyself.ui.common.menu.MenuBoard;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
 import de.dittner.walter.WalterProxy;
@@ -22,7 +23,7 @@ public class MainVM extends WalterProxy {
 	[Inject]
 	public var appModel:AppModel;
 
-	public var menu:MenuBoard;
+	public var menu:IMenuBoard;
 
 	//--------------------------------------
 	//  viewLocked

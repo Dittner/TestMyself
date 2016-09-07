@@ -12,7 +12,7 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.test.TestTaskComplexity;
+        import de.dittner.testmyself.model.domain.test.TestTaskPriority;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -64,9 +64,9 @@
         }
 
         private function getComplexity():uint {
-            if (middleComplexityRadioBtn.selected) return TestTaskComplexity.MIDDLE;
-            else if (lowComplexityRadioBtn.selected) return TestTaskComplexity.LOW;
-            else return TestTaskComplexity.HIGH;
+            if (middleComplexityRadioBtn.selected) return TestTaskPriority.MIDDLE;
+            else if (lowComplexityRadioBtn.selected) return TestTaskPriority.LOW;
+            else return TestTaskPriority.HIGH;
         }
 
         private function goBackBtnClickHandler(event:MouseEvent):void {

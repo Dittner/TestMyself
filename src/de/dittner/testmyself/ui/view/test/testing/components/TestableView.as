@@ -2,6 +2,9 @@ package de.dittner.testmyself.ui.view.test.testing.components {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
+import de.dittner.testmyself.ui.common.menu.IMenuBoard;
+import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
+import de.dittner.testmyself.ui.common.menu.MenuID;
 import de.dittner.testmyself.ui.view.test.common.TestingAction;
 
 import flash.events.Event;
@@ -17,8 +20,9 @@ public class TestableView extends Group {
 	public var showDetails:Boolean = false;
 	[Bindable]
 	public var padding:uint = 0;
-	[Bindable]
-	public var actionCallback:Function;
+
+	protected var actionCallback:Function;
+	protected var menu:IMenuBoard;
 
 	//--------------------------------------
 	//  testTask
@@ -43,15 +47,15 @@ public class TestableView extends Group {
 	public function get note():Note {return testTask ? testTask.note : null;}
 
 	//--------------------------------------
-	//  isProcessing
+	//  isActivating
 	//--------------------------------------
-	private var _isProcessing:Boolean = false;
-	[Bindable("isProcessingChanged")]
-	public function get isProcessing():Boolean {return _isProcessing;}
-	private function setIsProcessing(value:Boolean):void {
-		if (_isProcessing != value) {
-			_isProcessing = value;
-			dispatchEvent(new Event("isProcessingChanged"));
+	private var _isActivating:Boolean = false;
+	[Bindable("isActivatingChanged")]
+	public function get isActivating():Boolean {return _isActivating;}
+	private function setIsActivating(value:Boolean):void {
+		if (_isActivating != value) {
+			_isActivating = value;
+			dispatchEvent(new Event("isActivatingChanged"));
 		}
 	}
 
@@ -61,9 +65,56 @@ public class TestableView extends Group {
 	//
 	//----------------------------------------------------------------------------------------------
 
+	public function activate(actionCallback:Function, menu:IMenuBoard):void {
+		if (!isActivating) {
+			setIsActivating(true);
+			this.actionCallback = actionCallback;
+			this.menu = menu;
+			menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
+			menu.addEventListener("taskPriorityChanged", taskPriorityChanged);
+			menu.showTestMenu();
+		}
+	}
+
+	public function deactivate():void {
+		if (isActivating) {
+			setIsActivating(false);
+			actionCallback = null;
+			menu.removeEventListener(MenuBoardEvent.CLICKED, menuClicked);
+			menu.removeEventListener("taskPriorityChanged", taskPriorityChanged);
+			menu.hideTestMenu();
+			menu = null;
+			clear();
+		}
+	}
+
+	private function taskPriorityChanged(e:Event):void {
+		if (testTask) testTask.complexity = menu.taskPriority;
+	}
+
+	private function menuClicked(e:MenuBoardEvent):void {
+		if (e.menuID == MenuID.TRUE) onTrueAnswered();
+		else if (e.menuID == MenuID.FALSE) onFalseAnswered();
+		else if (e.menuID == MenuID.ANSWER) showAnswer();
+	}
+
+	protected function onTrueAnswered():void {
+		notifyTrueAnswer();
+		requestNextTask();
+	}
+
+	protected function onFalseAnswered():void {
+		notifyFalseAnswer();
+		requestNextTask();
+	}
+
+	protected function showAnswer():void {
+		showDetails = true
+	}
+
 	override protected function commitProperties():void {
 		super.commitProperties();
-		if (testTaskChanged && visible) {
+		if (testTaskChanged && isActivating) {
 			testTaskChanged = false;
 			if (note) {
 				if (note.hasAudio && note.audioComment.isEmpty) {
@@ -72,12 +123,11 @@ public class TestableView extends Group {
 						audioCommentChanged();
 					});
 				}
+				menu.taskPriority = testTask.complexity;
 				updateForm();
-				setIsProcessing(true);
 			}
 			else {
 				clear();
-				setIsProcessing(false);
 			}
 		}
 	}
@@ -89,20 +139,15 @@ public class TestableView extends Group {
 	protected function audioCommentChanged():void {}
 
 	protected function requestNextTask():void {
-		if (isProcessing) actionCallback(TestingAction.NEXT_TASK);
+		if (isActivating && actionCallback != null) actionCallback(TestingAction.NEXT_TASK);
 	}
 
 	protected function notifyTrueAnswer():void {
-		if (isProcessing) actionCallback(TestingAction.CORRECT_ANSWER);
+		if (isActivating && actionCallback != null) actionCallback(TestingAction.CORRECT_ANSWER);
 	}
 
 	protected function notifyFalseAnswer():void {
-		if (isProcessing) actionCallback(TestingAction.INCORRECT_ANSWER);
-	}
-
-	public function stop():void {
-		setIsProcessing(false);
-		clear();
+		if (isActivating && actionCallback != null) actionCallback(TestingAction.INCORRECT_ANSWER);
 	}
 
 }

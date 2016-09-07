@@ -58,7 +58,7 @@ public class TestTask extends EventDispatcher {
 	//--------------------------------------
 	//  complexity
 	//--------------------------------------
-	private var _complexity:uint = TestTaskComplexity.HIGH;
+	private var _complexity:uint = TestTaskPriority.HIGH;
 	[Bindable("complexityChanged")]
 	public function get complexity():uint {return _complexity;}
 	public function set complexity(value:uint):void {

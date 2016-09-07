@@ -56,7 +56,7 @@
 
         private function startTesting():void {
             vm.selectedTestTask = null;
-            testingScreen.activate();
+            testingScreen.activate(menu);
             setCurrentState("testing");
         }
 
@@ -120,20 +120,10 @@
         </s:fill>
     </s:Rect>
 
-    <s:Label text="{vm.viewTitle}"
+    <s:Label text="{vm.viewTitle + ' ' + vm.selectedVocabulary.title.toUpperCase()}"
              fontFamily="{FontName.MYRIAD}"
              fontSize="18"
              width="100%" height="{HEADER_HEI}"
-             verticalAlign="middle"
-             paddingLeft="{PADDING}" paddingRight="{PADDING}"
-             color="#54545d"/>
-
-    <s:Label text="{vm.selectedVocabulary.title}"
-             excludeFrom="testList"
-             fontFamily="{FontName.MYRIAD}"
-             fontSize="18"
-             horizontalCenter="0" textAlign="center"
-             width="50%" height="{HEADER_HEI}"
              verticalAlign="middle"
              paddingLeft="{PADDING}" paddingRight="{PADDING}"
              color="#54545d"/>

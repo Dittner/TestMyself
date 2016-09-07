@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
                    xmlns:s="library://ns.adobe.com/flex/spark"
-                   xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*">
 
     <fx:Script><![CDATA[
@@ -52,16 +51,6 @@
         private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
             return showDetails && options;
         }
-
-        private function onCorrectAnswered():void {
-            notifyTrueAnswer();
-            requestNextTask();
-        }
-
-        private function onIncorrectAnswered():void {
-            notifyFalseAnswer();
-            requestNextTask();
-        }
         ]]></fx:Script>
 
     <test:layout>
@@ -76,27 +65,5 @@
                     questionsIconEnabled="true"
                     width="{width - 2*padding}" height="100%"
                     title="Übersetzung" showText="{showDetails}"/>
-
-    <s:HGroup width="100%"
-              horizontalAlign="center"
-              gap="15">
-        <button:BlackButton id="correctAnswerBtn"
-                            width="250"
-                            enabled="{isProcessing}"
-                            label="Richtig"
-                            click="onCorrectAnswered()"/>
-
-        <button:RedButton id="incorrectAnswerBtn"
-                          width="250"
-                          enabled="{isProcessing}"
-                          label="Falsch"
-                          click="onIncorrectAnswered()"/>
-
-        <button:YellowButton id="showAnswerBtn"
-                             width="250"
-                             label="Die Antwort zeigen"
-                             click="showDetails = true"/>
-
-    </s:HGroup>
 
 </test:TestableView>

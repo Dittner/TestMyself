@@ -124,19 +124,19 @@
 
         <button:BlackButton id="derBtn"
                             width="150"
-                            enabled="{isProcessing}"
+                            enabled="{isActivating}"
                             label="DER"
                             click="onDerAnswered()"/>
 
         <button:RedButton id="dieBtn"
                           width="150"
-                          enabled="{isProcessing}"
+                          enabled="{isActivating}"
                           label="DIE"
                           click="onDieAnswered()"/>
 
         <button:YellowButton id="dasBtn"
                              width="150"
-                             enabled="{isProcessing}"
+                             enabled="{isActivating}"
                              label="DAS"
                              click="onDasAnswered()"/>
 

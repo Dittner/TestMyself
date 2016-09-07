@@ -10,7 +10,10 @@ public class MenuID {
 
 	public static const APPLY:String = "APPLY";
 	public static const CANCEL:String = "CANCEL";
-	public static const CLOSE:String = "CLOSE";
+
+	public static const TRUE:String = "TRUE";
+	public static const FALSE:String = "FALSE";
+	public static const ANSWER:String = "ANSWER";
 
 }
 }
