@@ -160,7 +160,7 @@ task deployBuild << {
         taskdef(name: 'ftp',
                 classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
                 classpath: configurations.ftpAntTask.asPath)
-        ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {
+        ftp(server: "dittner.bget.ru", userid: "dittner", password: "pass", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {
             fileset(file: "build/${output}.ipa")
             fileset(file: "build/build.html")
         }
