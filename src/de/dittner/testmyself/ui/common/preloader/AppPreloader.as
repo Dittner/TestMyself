@@ -4,11 +4,13 @@ import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogCategory;
 import de.dittner.testmyself.model.Device;
 
+import flash.desktop.NativeApplication;
 import flash.display.Bitmap;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
 import flash.events.TimerEvent;
+import flash.system.Capabilities;
 import flash.utils.Timer;
 import flash.utils.getTimer;
 
@@ -27,6 +29,7 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 
 	public function AppPreloader(color:uint = 0xFFffFF):void {
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+		NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
 	}
 
 	private function addedToStage(event:Event):void {
@@ -37,6 +40,11 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 		CLog.run();
 		CLog.info(LogCategory.SYSTEM, "Device mode: " + (Device.stage.wmodeGPU ? "gpu" : "cpu"));
 		CLog.logMemoryAndFPS(true);
+	}
+
+	private function nativeApplication_activateHandler(event:Event):void {
+		NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
+		NativeApplication.nativeApplication.activeWindow.x = Capabilities.screenResolutionX - NativeApplication.nativeApplication.activeWindow.width;
 	}
 
 	private var minDisplayTimer:Timer;
@@ -149,7 +157,7 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 	private function updateClockPos():void {
 		if (clockBitmap && !clockBitmap.visible) {
 			clockBitmap.visible = true;
-			clockBitmap.x = Math.floor(stage.stageWidth - clockBitmap.width >> 1) + 33;
+			clockBitmap.x = Math.floor(stage.stageWidth - clockBitmap.width >> 1) - 33;
 			clockBitmap.y = Math.floor(stage.stageHeight - clockBitmap.height >> 1);
 		}
 	}

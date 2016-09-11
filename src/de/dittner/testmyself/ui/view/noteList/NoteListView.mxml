@@ -41,6 +41,7 @@
         override protected function activate():void {
             vm.unlockView();
             vm.viewActivated(viewID);
+            vm.reloadPage();
 
             switch (vm.page.vocabulary.id) {
                 case VocabularyID.DE_WORD :
@@ -84,14 +85,6 @@
                     break;
                 case(ToolAction.INVERT) :
                     pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
-                    noteList.pageLayout = pageLayoutInfo;
-                    break;
-                case(ToolAction.VER_LAYOUT) :
-                    pageLayoutInfo.isHorizontal = false;
-                    noteList.pageLayout = pageLayoutInfo;
-                    break;
-                case(ToolAction.HOR_LAYOUT) :
-                    pageLayoutInfo.isHorizontal = true;
                     noteList.pageLayout = pageLayoutInfo;
                     break;
                 case(ToolAction.HIDE_DETAILS) :
@@ -184,7 +177,6 @@
                             createNoteBtnEnabled="true"
                             editNoteBtnEnabled="{noteList.selectedNote}"
                             removeNoteBtnEnabled="{noteList.selectedNote}"
-                            verLayoutToolEnabled.verb="false"
                             hideDetailsToolEnabled.verb="false"
                             transInvertToolEnabled.verb="false"
                             selected="toolActionSelectedHandler(event)"/>

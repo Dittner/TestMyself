@@ -21,7 +21,7 @@ def flexSdkVersion = "4.14.1"
 def airSdkVersion = "18.0"
 
 
-def buildNumber = "2.6"
+def buildNumber = "2.8"
 
 srcDirs = ['src/', 'resources/']
 resourceDirs = ['resources/']
@@ -160,7 +160,7 @@ task deployBuild << {
         taskdef(name: 'ftp',
                 classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
                 classpath: configurations.ftpAntTask.asPath)
-        ftp(server: "dittner.bget.ru", userid: "dittner", password: "PASS", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {
+        ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {
             fileset(file: "build/${output}.ipa")
             fileset(file: "build/build.html")
         }

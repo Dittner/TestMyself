@@ -50,19 +50,6 @@
         }
 
         //--------------------------------------
-        //  verLayoutToolEnabled
-        //--------------------------------------
-        private var _verLayoutToolEnabled:Boolean = true;
-        [Bindable("verLayoutToolEnabledChanged")]
-        public function get verLayoutToolEnabled():Boolean {return _verLayoutToolEnabled;}
-        public function set verLayoutToolEnabled(value:Boolean):void {
-            if (_verLayoutToolEnabled != value) {
-                _verLayoutToolEnabled = value;
-                dispatchEvent(new Event("verLayoutToolEnabledChanged"));
-            }
-        }
-
-        //--------------------------------------
         //  hideDetailsToolEnabled
         //--------------------------------------
         private var _hideDetailsToolEnabled:Boolean = true;
@@ -141,22 +128,9 @@
         </s:Rect>
     </s:Group>
 
-    <s:Spacer width="20"
-              visible="{verLayoutToolEnabled || hideDetailsToolEnabled}"
-              includeInLayout="{verLayoutToolEnabled || hideDetailsToolEnabled}"/>
-
-    <button:ToolToggleButton id="verLayoutBtn"
-                             selected="true"
-                             description="Das Layout ändern"
-                             selectedImage="@Embed(source='/assets/tools/layout_vertical.png')"
-                             image="@Embed(source='/assets/tools/layout_horizontal.png')"
-                             visible="{verLayoutToolEnabled}"
-                             includeInLayout="{verLayoutToolEnabled}"
-                             click="notifyToolAction(verLayoutBtn.selected ? ToolAction.VER_LAYOUT : ToolAction.HOR_LAYOUT)"/>
-
     <s:Spacer width="25"
-              visible="{verLayoutToolEnabled &amp;&amp; hideDetailsToolEnabled}"
-              includeInLayout="{verLayoutToolEnabled &amp;&amp; hideDetailsToolEnabled}"/>
+              visible="{hideDetailsToolEnabled}"
+              includeInLayout="{hideDetailsToolEnabled}"/>
 
     <button:ToolToggleButton id="hideDetailsBtn"
                              selected="true"
@@ -167,14 +141,12 @@
                              includeInLayout="{hideDetailsToolEnabled}"
                              click="notifyToolAction(hideDetailsBtn.selected ? ToolAction.HIDE_DETAILS : ToolAction.SHOW_DETAILS)"/>
 
-    <s:Spacer width="10" visible="{verLayoutToolEnabled || hideDetailsToolEnabled}"
-              includeInLayout="{verLayoutToolEnabled || hideDetailsToolEnabled}"/>
+    <s:Spacer width="10" visible="{hideDetailsToolEnabled}"
+              includeInLayout="{hideDetailsToolEnabled}"/>
 
     <button:ToolButton id="transInvertBtn"
                        description="Den Deutschtext / die Übersetzung invertieren"
                        image="@Embed(source='/assets/tools/trans_inversion.png')"
-                       visible="{verLayoutToolEnabled}"
-                       includeInLayout="{verLayoutToolEnabled}"
                        click="notifyToolAction(ToolAction.INVERT)"/>
 
     <button:ToolButton id="filterBtn"

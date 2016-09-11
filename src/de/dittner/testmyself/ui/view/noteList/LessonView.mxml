@@ -129,14 +129,6 @@
                     pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
                     noteList.pageLayout = pageLayoutInfo;
                     break;
-                case(ToolAction.VER_LAYOUT) :
-                    pageLayoutInfo.isHorizontal = false;
-                    noteList.pageLayout = pageLayoutInfo;
-                    break;
-                case(ToolAction.HOR_LAYOUT) :
-                    pageLayoutInfo.isHorizontal = true;
-                    noteList.pageLayout = pageLayoutInfo;
-                    break;
                 case(ToolAction.HIDE_DETAILS) :
                     pageLayoutInfo.showDetails = false;
                     noteList.pageLayout = pageLayoutInfo;
@@ -153,6 +145,7 @@
                 vm.page.allNotesAmount++;
                 vm.reloadPage();
             }
+            form.visible = false;
         }
 
         private function noteRemovedComplete(op:IAsyncOperation):void {
@@ -160,6 +153,7 @@
                 vm.page.allNotesAmount--;
                 vm.reloadPage();
             }
+            form.visible = false;
         }
 
         private function noteEditComplete(op:IAsyncOperation):void {
@@ -167,6 +161,7 @@
                 vm.page.allNotesAmount--;
                 vm.reloadPage();
             }
+            form.visible = false;
         }
 
         private function pageNumChangedHandler(event:Event):void {
@@ -211,7 +206,6 @@
 
         <s:Label text.lessonContent="{vm.page.selectedTheme.name}"
                  text="{vm.viewTitle}"
-                 textAlign.lessonContent="center" textAlign="left"
                  fontFamily="{FontName.MYRIAD}"
                  fontSize="18"
                  paddingTop="2"

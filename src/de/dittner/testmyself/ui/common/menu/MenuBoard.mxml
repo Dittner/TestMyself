@@ -122,11 +122,6 @@
         </s:fill>
     </s:Rect>
 
-    <s:BitmapImage includeIn="view"
-                   top="24" right="8"
-                   source="@Embed('/assets/menu/network_icon.png')"
-                   visible="{hasNetworkConnection}"/>
-
     <!--View Menu-->
 
     <s:VGroup width="100%" height="100%"
@@ -135,11 +130,23 @@
               includeIn="view"
               horizontalAlign="center">
         <menu:MenuBitmapToggleButton id="mapViewBtn"
+                                     visible="{!hasNetworkConnection}"
+                                     includeInLayout="{!hasNetworkConnection}"
                                      enabled="{enabled}"
                                      menuID="{MenuID.MAP}"
                                      selected="{selectedViewMenuID == MenuID.MAP}"
                                      image="@Embed(source='/assets/menu/map.png')"
                                      disabledImage="@Embed(source='/assets/menu/map_red.png')"
+                                     change="viewMenuBtnSelectedHandler(event)"/>
+
+        <menu:MenuBitmapToggleButton id="mapViewWithNetworkBtn"
+                                     visible="{hasNetworkConnection}"
+                                     includeInLayout="{hasNetworkConnection}"
+                                     enabled="{enabled}"
+                                     menuID="{MenuID.MAP}"
+                                     selected="{selectedViewMenuID == MenuID.MAP}"
+                                     image="@Embed(source='/assets/menu/map_with_network.png')"
+                                     disabledImage="@Embed(source='/assets/menu/map_with_network_red.png')"
                                      change="viewMenuBtnSelectedHandler(event)"/>
 
         <s:Spacer height="100%"/>

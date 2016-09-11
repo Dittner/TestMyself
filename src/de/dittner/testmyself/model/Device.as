@@ -18,6 +18,18 @@ public class Device {
 		return _stage;
 	}
 
+	public static function get verticalPadding():Number {
+		return isIOS ? isQuadHD ? 40 : 20 : 0;
+	}
+
+	public static function get isIOS():Boolean {
+		return Capabilities.os.toLowerCase().indexOf("iphone") >= 0;
+	}
+
+	public static function get isQuadHD():Boolean {
+		return stage.stageWidth >= 1242;
+	}
+
 	public static function init(stage:Stage):void {
 		_stage = stage;
 		_factor = 1;

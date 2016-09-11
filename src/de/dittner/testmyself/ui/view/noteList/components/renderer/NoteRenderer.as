@@ -85,14 +85,8 @@ public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 		measuredWidth = parent.width;
 
 		if (descriptionTf.visible) {
-			if (pageLayout.isHorizontal) {
-				titleTf.width = descriptionTf.width = (measuredWidth - 2 * PAD - GAP) / 2;
-				measuredHeight = Math.max(titleTf.textHeight, descriptionTf.textHeight) + 2 * PAD;
-			}
-			else {
-				titleTf.width = descriptionTf.width = measuredWidth - 2 * PAD;
-				measuredHeight = titleTf.textHeight + descriptionTf.textHeight + 2 * PAD + GAP;
-			}
+			titleTf.width = descriptionTf.width = measuredWidth - 2 * PAD;
+			measuredHeight = titleTf.textHeight + descriptionTf.textHeight + 2 * PAD + GAP;
 		}
 		else {
 			titleTf.width = measuredWidth - 2 * PAD;
@@ -118,11 +112,6 @@ public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 			g.lineStyle(1, SEP_COLOR, 0.5);
 			g.moveTo(PAD, h - 1);
 			g.lineTo(w - 2 * PAD, h - 1);
-
-			if (pageLayout.isHorizontal && descriptionTf.visible) {
-				g.moveTo(w / 2, 0);
-				g.lineTo(w / 2, h - 1);
-			}
 		}
 
 		titleTf.textColor = selected ? 0xffFFff : 0;
@@ -130,8 +119,8 @@ public class NoteRenderer extends NoteBaseRenderer implements IFlexibleRenderer 
 
 		if (descriptionTf.visible) {
 			descriptionTf.textColor = selected ? AppColors.DESCRIPTION_SELECTED_TEXT_COLOR : 0;
-			descriptionTf.x = (pageLayout.isHorizontal ? (w + GAP) / 2 : PAD) - TEXT_DEFAULT_OFFSET;
-			descriptionTf.y = (pageLayout.isHorizontal ? PAD : PAD + titleTf.textHeight + GAP) - TEXT_DEFAULT_OFFSET;
+			descriptionTf.x = PAD - TEXT_DEFAULT_OFFSET;
+			descriptionTf.y = PAD + titleTf.textHeight + GAP - TEXT_DEFAULT_OFFSET;
 		}
 	}
 

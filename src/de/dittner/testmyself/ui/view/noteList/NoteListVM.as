@@ -117,7 +117,6 @@ public class NoteListVM extends ViewModel {
 		var p:NotePage = new NotePage();
 		p.vocabulary = appModel.selectedLanguage.vocabularyHash.read(vocabularyID);
 		setPage(p);
-		reloadPage();
 	}
 
 	public function reloadPage():void {
