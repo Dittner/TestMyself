@@ -1,7 +1,7 @@
 package de.dittner.testmyself.ui.common.audio {
 import de.dittner.async.AsyncCommand;
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 
 import flash.events.Event;
@@ -44,7 +44,7 @@ public class LoadRemoteMp3Cmd extends AsyncCommand {
 
 	private function notifyError(errorText:String):void {
 		dispatchError(errorText);
-		CLog.info(LogCategory.LOAD, errorText);
+		CLog.info(LogTag.LOAD, errorText);
 	}
 
 	override public function execute():void {
@@ -116,7 +116,7 @@ public class LoadRemoteMp3Cmd extends AsyncCommand {
 			mp3 = mp3Loader.data as ByteArray;
 		}
 		catch (e:Error) {
-			CLog.info(LogCategory.LOAD, "Load remote mp3 with error: " + e.toString());
+			CLog.info(LogTag.LOAD, "Load remote mp3 with error: " + e.toString());
 		}
 
 		var ac:AudioComment;

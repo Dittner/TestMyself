@@ -5,19 +5,15 @@
                 xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-                xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
-                xmlns:toobar="de.dittner.testmyself.ui.view.noteList.components.toolbar.*"
                 xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
                 xmlns:theme="de.dittner.testmyself.ui.view.noteList.components.theme.*"
-                horizontalCenter="0"
                 currentState="inactive">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
@@ -36,6 +32,8 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.noteListVM;
             vm.lockView();
+            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.disabledAll();
         }
 
         override protected function activate():void {
@@ -43,19 +41,27 @@
             vm.viewActivated(viewID);
             vm.reloadPage();
 
+            toolbar.addNoteBtn.enabled = true;
+            toolbar.hideDetailsBtn.enabled = true;
+            toolbar.transInvertBtn.enabled = true;
+            toolbar.filterBtn.enabled = true;
             switch (vm.page.vocabulary.id) {
                 case VocabularyID.DE_WORD :
                     setCurrentState("word");
                     break;
                 case VocabularyID.DE_VERB :
+                    toolbar.hideDetailsBtn.enabled = false;
+                    toolbar.transInvertBtn.enabled = false;
                     setCurrentState("verb");
                     break;
                 default :
                     throw Error("Unknown vocabulary: " + vm.page.vocabulary.id);
             }
+            toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
         }
 
         override protected function deactivate():void {
+            toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.viewDeactivated();
             mp3Player.visible = false;
             setCurrentState("inactive");
@@ -133,6 +139,11 @@
             vm.page.countAllNotes = true;
             vm.reloadPage();
         }
+
+        private function noteList_selectedItemChangeHandler(event:Event):void {
+            toolbar.editNoteBtn.enabled = noteList.selectedNote;
+            toolbar.removeNoteBtn.enabled = noteList.selectedNote;
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -152,37 +163,7 @@
 
     <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
 
-    <!--header bg-->
-    <s:Rect width="100%" height="{HEADER_HEI}">
-        <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
-        </s:fill>
-    </s:Rect>
-
-    <s:HGroup width="100%" height="{HEADER_HEI}"
-              verticalAlign="middle"
-              paddingLeft="{PADDING}">
-
-        <s:Label text="{vm.viewTitle}"
-                 fontFamily="{FontName.MYRIAD}"
-                 fontSize="18"
-                 paddingTop="2"
-                 width="100%"
-                 color="#54545d"/>
-
-        <toobar:NoteToolbar id="toolbar"
-                            excludeFrom="inactive"
-                            width="100%"
-                            height="{HEADER_HEI}"
-                            createNoteBtnEnabled="true"
-                            editNoteBtnEnabled="{noteList.selectedNote}"
-                            removeNoteBtnEnabled="{noteList.selectedNote}"
-                            hideDetailsToolEnabled.verb="false"
-                            transInvertToolEnabled.verb="false"
-                            selected="toolActionSelectedHandler(event)"/>
-    </s:HGroup>
-
-    <s:HGroup left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}" gap="-1">
+    <s:HGroup left="-1" right="-1" top="0" bottom="{FOOTER_HEI}" gap="-1">
         <s:Scroller width="100%" height="100%"
                     excludeFrom="inactive"
                     minViewportInset="1"
@@ -196,7 +177,8 @@
                              deselectEnabled="true"
                              itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
                              itemRenderer.word="de.dittner.testmyself.ui.view.noteList.components.renderer.WordRenderer"
-                             itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer">
+                             itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer"
+                             selectedItemChange="noteList_selectedItemChangeHandler(event)">
                 <common:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="false"/>
                 </common:layout>
@@ -239,25 +221,24 @@
                                   height="100%"
                                   pageNumChanged="pageNumChanged(event)"/>
 
+        <s:Label id="titleLbl"
+                 text="{vm.viewTitle}"
+                 right="10" textAlign="right"
+                 fontSize="14" verticalCenter="0"
+                 maxDisplayedLines="1"
+                 color="{AppColors.TEXT_DARK}"/>
+
     </s:Group>
 
     <s:Group width="100%" height="100%"
              excludeFrom="inactive"
-             visible="{form.visible || filter.visible}"
-             mouseEnabled="{form.visible || filter.visible}">
+             visible="{filter.visible}"
+             mouseEnabled="{filter.visible}">
         <s:Rect width="100%" height="100%">
             <s:fill>
                 <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
             </s:fill>
         </s:Rect>
-
-        <form:NoteForm id="form"
-                       width="100%"
-                       visible="false"
-                       menu="{menu}"
-                       hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
-                       bottom="0"
-                       top="{HEADER_HEI}"/>
 
         <theme:ThemeFilter id="filter"
                            selectedTheme="@{vm.page.selectedTheme}"
@@ -265,14 +246,8 @@
                            width="350"
                            visible="false"
                            right="0"
-                           bottom="0"
-                           top="{HEADER_HEI}"
+                           height="100%"
                            selectedThemeChanged="filterChangedHandler(event)"/>
     </s:Group>
-
-    <s:BitmapImage width="100%"
-                   top="{HEADER_HEI}"
-                   smooth="true"
-                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
 </view:SmartView>

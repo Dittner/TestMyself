@@ -10,150 +10,100 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
 
-        //--------------------------------------
-        //  createNoteBtnEnabled
-        //--------------------------------------
-        private var _createNoteBtnEnabled:Boolean = true;
-        [Bindable("createNoteBtnEnabledChanged")]
-        public function get createNoteBtnEnabled():Boolean {return _createNoteBtnEnabled;}
-        public function set createNoteBtnEnabled(value:Boolean):void {
-            if (_createNoteBtnEnabled != value) {
-                _createNoteBtnEnabled = value;
-                dispatchEvent(new Event("createNoteBtnEnabledChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  editNoteBtnEnabled
-        //--------------------------------------
-        private var _editNoteBtnEnabled:Boolean = true;
-        [Bindable("editNoteBtnEnabledChanged")]
-        public function get editNoteBtnEnabled():Boolean {return _editNoteBtnEnabled;}
-        public function set editNoteBtnEnabled(value:Boolean):void {
-            if (_editNoteBtnEnabled != value) {
-                _editNoteBtnEnabled = value;
-                dispatchEvent(new Event("editNoteBtnEnabledChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  removeNoteBtnEnabled
-        //--------------------------------------
-        private var _removeNoteBtnEnabled:Boolean = true;
-        [Bindable("removeNoteBtnEnabledChanged")]
-        public function get removeNoteBtnEnabled():Boolean {return _removeNoteBtnEnabled;}
-        public function set removeNoteBtnEnabled(value:Boolean):void {
-            if (_removeNoteBtnEnabled != value) {
-                _removeNoteBtnEnabled = value;
-                dispatchEvent(new Event("removeNoteBtnEnabledChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  hideDetailsToolEnabled
-        //--------------------------------------
-        private var _hideDetailsToolEnabled:Boolean = true;
-        [Bindable("hideDetailsToolEnabledChanged")]
-        public function get hideDetailsToolEnabled():Boolean {return _hideDetailsToolEnabled;}
-        public function set hideDetailsToolEnabled(value:Boolean):void {
-            if (_hideDetailsToolEnabled != value) {
-                _hideDetailsToolEnabled = value;
-                dispatchEvent(new Event("hideDetailsToolEnabledChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  transInvertToolEnabled
-        //--------------------------------------
-        private var _transInvertToolEnabled:Boolean = true;
-        [Bindable("transInvertToolEnabledChanged")]
-        public function get transInvertToolEnabled():Boolean {return _transInvertToolEnabled;}
-        public function set transInvertToolEnabled(value:Boolean):void {
-            if (_transInvertToolEnabled != value) {
-                _transInvertToolEnabled = value;
-                dispatchEvent(new Event("transInvertToolEnabledChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  filterToolEnabled
-        //--------------------------------------
-        private var _filterToolEnabled:Boolean = true;
-        [Bindable("filterToolEnabledChanged")]
-        public function get filterToolEnabled():Boolean {return _filterToolEnabled;}
-        public function set filterToolEnabled(value:Boolean):void {
-            if (_filterToolEnabled != value) {
-                _filterToolEnabled = value;
-                dispatchEvent(new Event("filterToolEnabledChanged"));
-            }
+        public function disabledAll():void {
+            goBackBtn.enabled = false;
+            addNoteBtn.enabled = false;
+            editNoteBtn.enabled = false;
+            removeNoteBtn.enabled = false;
+            hideDetailsBtn.enabled = false;
+            transInvertBtn.enabled = false;
+            filterBtn.enabled = false;
+            setTaskAsRightBtn.enabled = false;
+            showFailedTasksBtn.enabled = false;
         }
 
         private function notifyToolAction(action:String):void {
             dispatchEvent(new ToolbarEvent(ToolbarEvent.SELECTED, action));
         }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+            var g:Graphics = graphics;
+            g.clear();
+            g.beginFill(AppColors.SCREEN_HEADER_BG);
+            g.drawRect(0, 0, w, h);
+            g.endFill();
+        }
         ]]></fx:Script>
 
     <s:layout>
-        <s:HorizontalLayout gap="0" verticalAlign="middle" horizontalAlign="right"/>
+        <s:VerticalLayout gap="20" verticalAlign="top" horizontalAlign="center"/>
     </s:layout>
 
-    <button:ToolButton id="ceateNoteBtn"
-                       enabled="{createNoteBtnEnabled}"
+    <button:ToolButton id="goBackBtn"
+                       visible="{goBackBtn.enabled}"
+                       includeInLayout="{goBackBtn.enabled}"
+                       description="Zurück"
+                       image="@Embed(source='/assets/tools/goback.png')"
+                       click="notifyToolAction(ToolAction.GO_BACK)"/>
+
+    <s:Spacer height="30"
+              visible="{goBackBtn.enabled}"
+              includeInLayout="{goBackBtn.enabled}"/>
+
+    <button:ToolButton id="addNoteBtn"
                        description="Neue Notiz hinzufügen"
                        image="@Embed(source='/assets/tools/add.png')"
                        click="notifyToolAction(ToolAction.CREATE_NOTE)"/>
 
     <button:ToolButton id="editNoteBtn"
-                       enabled="{editNoteBtnEnabled}"
                        description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"
                        click="notifyToolAction(ToolAction.EDIT_NOTE)"/>
 
     <button:ToolButton id="removeNoteBtn"
-                       enabled="{removeNoteBtnEnabled}"
                        description="Die Notiz entfernen"
                        image="@Embed(source='/assets/tools/recycle_bin.png')"
                        click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
-    <s:Group height="100%">
-        <s:Rect width="1" height="100%">
-            <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_BORDER}" alpha=".5"/>
-            </s:fill>
-        </s:Rect>
-        <s:Rect left="1" width="1" height="100%">
-            <s:fill>
-                <s:SolidColor color="#ffFFff" alpha=".5"/>
-            </s:fill>
-        </s:Rect>
-    </s:Group>
-
-    <s:Spacer width="25"
-              visible="{hideDetailsToolEnabled}"
-              includeInLayout="{hideDetailsToolEnabled}"/>
+    <s:Spacer height="30"/>
 
     <button:ToolToggleButton id="hideDetailsBtn"
+                             visible="{hideDetailsBtn.enabled}"
+                             includeInLayout="{hideDetailsBtn.enabled}"
                              selected="true"
                              description="Die Details zeigen / verbergen"
                              selectedImage="@Embed(source='/assets/tools/collapse.png')"
                              image="@Embed(source='/assets/tools/expand.png')"
-                             visible="{hideDetailsToolEnabled}"
-                             includeInLayout="{hideDetailsToolEnabled}"
                              click="notifyToolAction(hideDetailsBtn.selected ? ToolAction.HIDE_DETAILS : ToolAction.SHOW_DETAILS)"/>
 
-    <s:Spacer width="10" visible="{hideDetailsToolEnabled}"
-              includeInLayout="{hideDetailsToolEnabled}"/>
-
     <button:ToolButton id="transInvertBtn"
+                       visible="{transInvertBtn.enabled}"
+                       includeInLayout="{transInvertBtn.enabled}"
                        description="Den Deutschtext / die Übersetzung invertieren"
                        image="@Embed(source='/assets/tools/trans_inversion.png')"
                        click="notifyToolAction(ToolAction.INVERT)"/>
 
     <button:ToolButton id="filterBtn"
+                       visible="{filterBtn.enabled}"
+                       includeInLayout="{filterBtn.enabled}"
                        description="Filtern"
-                       visible="{filterToolEnabled}"
-                       includeInLayout="{filterToolEnabled}"
                        image="@Embed(source='/assets/tools/filter.png')"
                        click="notifyToolAction(ToolAction.FILTER)"/>
 
+    <button:ToolToggleButton id="showFailedTasksBtn"
+                             visible="{showFailedTasksBtn.enabled}"
+                             includeInLayout="{showFailedTasksBtn.enabled}"
+                             selected="true"
+                             description="Nur Notiz mit Fehlern"
+                             selectedImage="@Embed(source='/assets/tools/failed_task_filter_selected.png')"
+                             image="@Embed(source='/assets/tools/failed_task_filter.png')"
+                             click="notifyToolAction(showFailedTasksBtn.selected ? ToolAction.SHOW_FAILED_TASK : ToolAction.SHOW_ALL_TASK)"/>
+
+    <button:ToolButton id="setTaskAsRightBtn"
+                       visible="{showFailedTasksBtn.enabled}"
+                       includeInLayout="{showFailedTasksBtn.enabled}"
+                       description="Als richtig zeichnen"
+                       image="@Embed(source='/assets/tools/set_task_as_right.png')"
+                       click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
 </s:Group>

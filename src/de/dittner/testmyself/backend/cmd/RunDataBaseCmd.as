@@ -2,7 +2,7 @@ package de.dittner.testmyself.backend.cmd {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.Device;
 
 import flash.data.SQLConnection;
@@ -52,7 +52,7 @@ public class RunDataBaseCmd extends StorageOperation implements IAsyncCommand {
 	}
 
 	private function createResult(event:SQLEvent):void {
-		CLog.info(LogCategory.STORAGE, "SQL DB " + Device.APP_NAME + " has been created and launched");
+		CLog.info(LogTag.STORAGE, "SQL DB " + Device.APP_NAME + " has been created and launched");
 		dispatchSuccess(conn);
 	}
 

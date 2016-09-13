@@ -22,7 +22,7 @@
             if (_logNoteColl != value) {
                 if (logNoteColl) logNoteColl.filterFunction = null;
                 _logNoteColl = value;
-                if (logNoteColl) logNoteColl.filterFunction = categoryFilterFunc;
+                if (logNoteColl) logNoteColl.filterFunction = tagFilterFunc;
 
                 dispatchEvent(new Event("logNoteCollChanged"));
             }
@@ -83,12 +83,12 @@
             y = event.stageY - downYPos;
         }
 
-        private function categoryFilterChangeHandler(event:TextOperationEvent):void {
+        private function tagFilterChangeHandler(event:TextOperationEvent):void {
             refresh();
         }
 
-        private function categoryFilterFunc(note:LogNote):Boolean {
-            return categoryFilInput.text.length < 2 || note.category.toLowerCase().indexOf(categoryFilInput.text.toLowerCase()) != -1;
+        private function tagFilterFunc(note:LogNote):Boolean {
+            return tagFilInput.text.length < 2 || note.tag.toLowerCase().indexOf(tagFilInput.text.toLowerCase()) != -1;
         }
 
         private function pauseRunBtnTitle(isPaused:Boolean):String {
@@ -112,12 +112,12 @@
 
         <s:HGroup gap="{Values.PT10}" width="100%" height="{HEADER_HEI}" verticalAlign="middle"
                   paddingLeft="{Values.PT15}" paddingTop="{Values.PT5}">
-            <s:TextInput id="categoryFilInput"
+            <s:TextInput id="tagFilInput"
                          borderVisible="false" scaleX=".75" scaleY=".75"
                          prompt="Фильтровать логи"
                          fontSize="{Values.PT20}"
                          paddingTop="0" paddingBottom="0"
-                         change="categoryFilterChangeHandler(event)"/>
+                         change="tagFilterChangeHandler(event)"/>
 
             <s:Spacer width="100%"/>
 

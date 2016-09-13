@@ -1,6 +1,6 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 
 import flash.display.Graphics;
 import flash.utils.getTimer;
@@ -64,7 +64,7 @@ public class SmartView extends ViewBase {
 
 	protected function logCreationTime(time:int):void {
 		var msg:String = fullName + " creation time:" + time + "ms";
-		CLog.info(LogCategory.UI, "View: " + msg);
+		CLog.info(LogTag.UI, "View: " + msg);
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {

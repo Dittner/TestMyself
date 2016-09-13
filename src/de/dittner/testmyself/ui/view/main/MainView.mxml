@@ -4,12 +4,16 @@
          xmlns:main="de.dittner.testmyself.ui.view.main.*"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
-         creationComplete="creationCompleteHandler(event)">
+         xmlns:toobar="de.dittner.testmyself.ui.view.noteList.components.toolbar.*"
+         xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
+         creationComplete="creationCompleteHandler(event)"
+         currentState="normal">
     <fx:Script><![CDATA[
         import de.dittner.testmyself.logging.CLog;
         import de.dittner.testmyself.logging.LogPanel;
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewBase;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.TapEventKit;
@@ -20,8 +24,6 @@
 
         [Bindable]
         public var vm:MainVM;
-
-        private static const MENU_WID:uint = 65;
 
         //--------------------------------------
         //  isActive
@@ -34,12 +36,14 @@
         //--------------------------------------
         private var _selectedView:ViewBase;
         private var selectedViewChanged:Boolean;
+        [Bindable("selectedViewChanged")]
         public function get selectedView():ViewBase {return _selectedView;}
         public function set selectedView(value:ViewBase):void {
             if (_selectedView != value) {
                 _selectedView = value;
                 selectedViewChanged = true;
                 invalidateProperties();
+                dispatchEvent(new Event("selectedViewChanged"));
             }
         }
 
@@ -67,7 +71,7 @@
             _isActive = true;
             if (!vm) {
                 vm = ViewModelFactory.instance.mainVM;
-                vm.viewActivated(menuBoard);
+                vm.viewActivated(this);
             }
         }
 
@@ -116,7 +120,6 @@
     <fx:Binding source="vm.viewLocked" destination="viewLocked"/>
 
     <s:states>
-        <s:State name="disabled"/>
         <s:State name="normal"/>
         <s:State name="lock"/>
     </s:states>
@@ -134,23 +137,36 @@
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"
              mouseEnabled.normal="true" mouseChildren.normal="true"
-             left="0" right="{MENU_WID}"
+             left="{AppSizes.MENU_WID}" right="{toolbar.visible ? AppSizes.MENU_WID : 0}"
              height="100%"/>
 
-    <menu:MenuBoard id="menuBoard"
-                    width="{MENU_WID}" height="100%"
+    <menu:MenuBoard id="menu"
+                    left="0"
+                    width="{AppSizes.MENU_WID}" height="100%"
                     selectedViewMenuID="@{vm.viewNavigator.selectedViewID}"
                     hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                     disabledAlpha="1"
                     enabled="false"
-                    enabled.normal="{!vm.menuLocked}"
-                    right="0"/>
+                    enabled.normal="{!vm.menuLocked}"/>
+
+    <toobar:NoteToolbar id="toolbar"
+                        visible="false"
+                        includeInLayout="false"
+                        right="0"
+                        width="{AppSizes.MENU_WID}"
+                        height="100%"/>
+
+    <form:NoteForm id="form"
+                   left="{AppSizes.MENU_WID}" right="0" height="100%"
+                   visible="false"
+                   menu="{menu}"
+                   hasNetworkConnection="{vm.appModel.hasNetworkConnection}"/>
 
     <main:CommentsBoard id="commentsBoard"
                         mouseEnabled="false" mouseChildren="false"
                         mouseEnabled.normal="true" mouseChildren.normal="true"
                         text="@{vm.commentsBoardText}"
-                        left="0" right="{MENU_WID}" height="{Values.PT400}" top="0"/>
+                        right="0" left="0" height="{Values.PT300}" top="0"/>
 
     <s:Group id="popupLayer"
              mouseEnabled="false" mouseChildren="false"
@@ -160,14 +176,14 @@
     <s:Group id="busyIndicatorLayer"
              width="100%" height="100%"
              mouseEnabled="false" mouseChildren="false"
-             alpha.normal="0" alpha.disabled="0" alpha.lock="1">
+             alpha.normal="0" alpha.lock="1">
         <s:Rect width="100%" height="100%"
                 visible="{busyIndicatorLayer.alpha != 0}">
             <s:fill>
                 <s:SolidColor color="#ff1d5d" alpha="0.1"/>
             </s:fill>
         </s:Rect>
-        <s:BitmapImage verticalCenter="0" horizontalCenter="-33"
+        <s:BitmapImage verticalCenter="0" horizontalCenter="0"
                        source="@Embed(source='/assets/clock_icon.png')"/>
     </s:Group>
 

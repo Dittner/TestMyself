@@ -1,6 +1,6 @@
 package {
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 
 import flash.events.UncaughtErrorEvent;
 
@@ -15,10 +15,10 @@ public class TestMyselfApp extends Application {
 	private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {
 		var error:* = event.error;
 		if (error is Error) {
-			CLog.err(LogCategory.UNCHAUGHT, (error as Error).getStackTrace().toString());
+			CLog.err(LogTag.UNCHAUGHT, (error as Error).getStackTrace().toString());
 		}
 		else {
-			CLog.err(LogCategory.UNCHAUGHT, error ? error.toString() : "unknown error");
+			CLog.err(LogTag.UNCHAUGHT, error ? error.toString() : "unknown error");
 		}
 	}
 }

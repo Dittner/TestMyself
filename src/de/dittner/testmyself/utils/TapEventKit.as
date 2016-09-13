@@ -1,6 +1,6 @@
 package de.dittner.testmyself.utils {
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 
 import flash.display.DisplayObject;
 import flash.geom.Rectangle;
@@ -10,7 +10,7 @@ public class TapEventKit {
 
 	private static const doubleTapTargetHash:Object = {};
 	public static function registerDoubleTapListener(target:DisplayObject, handler:Function):void {
-		if (!target) CLog.err(LogCategory.UI, "Registering DoubleTap  require target!");
+		if (!target) CLog.err(LogTag.UI, "Registering DoubleTap  require target!");
 		if (!doubleTapTargetHash[target]) {
 			doubleTapTargetHash[target] = new DoubleTap(target, handler);
 		}
@@ -26,7 +26,7 @@ public class TapEventKit {
 
 	private static const longTapTargetHash:Object = {};
 	public static function registerLongTapListener(target:DisplayObject, handler:Function, mouseArea:Rectangle = null):void {
-		if (!target) CLog.err(LogCategory.UI, "Registering LongTap  require target!");
+		if (!target) CLog.err(LogTag.UI, "Registering LongTap  require target!");
 		if (!longTapTargetHash[target]) {
 			longTapTargetHash[target] = new LongTap(target, handler, mouseArea);
 		}

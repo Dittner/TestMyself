@@ -1,6 +1,6 @@
 package de.dittner.testmyself.backend {
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 
 import flash.events.AsyncErrorEvent;
 import flash.events.Event;
@@ -31,7 +31,7 @@ public class SharedObjectStorage {
 			sharedObject.addEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);
 		}
 		catch (error:Error) {
-			CLog.err(LogCategory.STORAGE, "Error creating shared object:" + error.message);
+			CLog.err(LogTag.STORAGE, "Error creating shared object:" + error.message);
 		}
 
 		flushTimer = new Timer(flushDelay);
@@ -47,7 +47,7 @@ public class SharedObjectStorage {
 				sharedObject = null;
 			}
 			catch (error:Error) {
-				CLog.err(LogCategory.STORAGE, "Error closing shared object:" + error.message);
+				CLog.err(LogTag.STORAGE, "Error closing shared object:" + error.message);
 			}
 		}
 	}
@@ -66,7 +66,7 @@ public class SharedObjectStorage {
 				flushNow();
 			}
 			catch (error:Error) {
-				CLog.err(LogCategory.STORAGE, "Error closing shared object:" + error.message);
+				CLog.err(LogTag.STORAGE, "Error closing shared object:" + error.message);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ public class SharedObjectStorage {
 	}
 
 	protected function asyncErrorHandler(event:AsyncErrorEvent):void {
-		CLog.err(LogCategory.STORAGE, "Async error:" + event.error.message);
+		CLog.err(LogTag.STORAGE, "Async error:" + event.error.message);
 	}
 
 	public function flushNow(event:Event = null):void {
@@ -106,7 +106,7 @@ public class SharedObjectStorage {
 					sharedObject.flush();
 				}
 				catch (err:Error) {
-					CLog.err(LogCategory.STORAGE, "Error flushing shared object:" + err.message);
+					CLog.err(LogTag.STORAGE, "Error flushing shared object:" + err.message);
 				}
 			}
 		}

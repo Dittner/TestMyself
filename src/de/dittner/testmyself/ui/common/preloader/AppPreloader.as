@@ -1,7 +1,7 @@
 package de.dittner.testmyself.ui.common.preloader {
 import de.dittner.async.AsyncCallbacksLib;
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.Device;
 
 import flash.desktop.NativeApplication;
@@ -38,7 +38,7 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 		AsyncCallbacksLib.fps = 30;
 		AsyncCallbacksLib.stage = stage;
 		CLog.run();
-		CLog.info(LogCategory.SYSTEM, "Device mode: " + (Device.stage.wmodeGPU ? "gpu" : "cpu"));
+		CLog.info(LogTag.SYSTEM, "Device mode: " + (Device.stage.wmodeGPU ? "gpu" : "cpu"));
 		CLog.logMemoryAndFPS(true);
 	}
 
@@ -157,7 +157,7 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 	private function updateClockPos():void {
 		if (clockBitmap && !clockBitmap.visible) {
 			clockBitmap.visible = true;
-			clockBitmap.x = Math.floor(stage.stageWidth - clockBitmap.width >> 1) - 33;
+			clockBitmap.x = Math.floor(stage.stageWidth - clockBitmap.width >> 1);
 			clockBitmap.y = Math.floor(stage.stageHeight - clockBitmap.height >> 1);
 		}
 	}

@@ -1,6 +1,6 @@
 package de.dittner.testmyself.logging {
-public class LogCategory {
-	public function LogCategory() {}
+public class LogTag {
+	public function LogTag() {}
 
 	public static const STORAGE:String = "Storage";
 	public static const LOAD:String = "Load";
@@ -9,7 +9,7 @@ public class LogCategory {
 	public static const SYSTEM:String = "System";
 	public static const MEMORY:String = "Memory";
 	public static const UNCHAUGHT:String = "Unchaught";
-	public static const CONNECTION:String = "CONNECTION";
+	public static const CONNECTION:String = "Connection";
 
 }
 }

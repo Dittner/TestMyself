@@ -30,7 +30,7 @@ public class EditorBg extends UIComponent {
 
 	private var toolIcon:Bitmap;
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_LIGHT, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_LIGHT);
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
 	public static const PAD:uint = 20;
 	public static const VOFFSET:uint = 0;

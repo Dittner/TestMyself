@@ -100,7 +100,7 @@ public class CLog {
 		logTxt += logDate.date + " " + DateTimeUtils.monthNumToRuName(logDate.month) + " " + logDate.fullYear + "\n";
 		logTxt += "appID: " + appCopyright + "\n";
 		logTxt += "version: " + appVersion + "\n";
-		info(LogCategory.SYSTEM, logTxt);
+		info(LogTag.SYSTEM, logTxt);
 	}
 
 	private static var framesInSession:Number = 0;
@@ -116,9 +116,9 @@ public class CLog {
 		var fps:int = framesInSession * 1000 / SESSION_DELAY;
 		if (force || 10 + mem < lastMem || mem - 10 > lastMem || 3 + fps < lastFps || fps - 3 > lastFps) {
 			if (mem < MAX_MEMORY && fps > 10)
-				info(LogCategory.MEMORY, mem + "Mb, fps:" + fps);
+				info(LogTag.MEMORY, mem + "Mb, fps:" + fps);
 			else
-				warn(LogCategory.MEMORY, mem + "Mb, fps:" + fps);
+				warn(LogTag.MEMORY, mem + "Mb, fps:" + fps);
 
 			lastMem = mem;
 			lastFps = fps;
@@ -131,31 +131,31 @@ public class CLog {
 		totalFrames++;
 	}
 
-	public static function info(category:String, text:String):void {
+	public static function info(tag:String, text:String):void {
 		var note:LogNote = createLogNote();
 		note.logType = LogNoteType.INFO;
 		note.time = DateTimeUtils.getTime();
-		note.category = category;
+		note.tag = tag;
 		note.text = text;
 		note.symbol = "i";
 		addNote(note);
 	}
 
-	public static function warn(category:String, text:String):void {
+	public static function warn(tag:String, text:String):void {
 		var note:LogNote = createLogNote();
 		note.logType = LogNoteType.WARN;
 		note.time = DateTimeUtils.getTime();
-		note.category = category;
+		note.tag = tag;
 		note.text = text;
 		note.symbol = "w";
 		addNote(note);
 	}
 
-	public static function err(category:String, text:String):void {
+	public static function err(tag:String, text:String):void {
 		var note:LogNote = createLogNote();
 		note.logType = LogNoteType.ERROR;
 		note.time = DateTimeUtils.getTime();
-		note.category = category;
+		note.tag = tag;
 		note.text = text;
 		note.symbol = "e";
 		addNote(note);

@@ -6,9 +6,7 @@
                 xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                 xmlns:list2="de.dittner.testmyself.ui.common.list.*"
-                xmlns:button="de.dittner.testmyself.ui.common.button.*"
                 xmlns:form2="de.dittner.testmyself.ui.view.noteList.components.form.*"
-                xmlns:toobar="de.dittner.testmyself.ui.view.noteList.components.toolbar.*"
                 xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
                 currentState="inactive"
                 horizontalCenter="0"
@@ -18,7 +16,7 @@
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
@@ -37,27 +35,40 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.noteListVM;
             vm.lockView();
+
+            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.disabledAll()
         }
 
         override protected function activate():void {
             vm.unlockView();
             vm.viewActivated(viewID);
-            currentState = "lessonList";
+            showLessonList();
+            toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
         }
 
         override protected function deactivate():void {
+            toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.viewDeactivated();
             mp3Player.visible = false;
             setCurrentState("inactive");
         }
 
         private function showLessonList():void {
+            toolbar.disabledAll();
+            toolbar.addNoteBtn.enabled = true;
             vm.selectedNote = null;
             vm.page.selectedTheme = null;
             setCurrentState("lessonList");
         }
 
         private function showLessonContent():void {
+            toolbar.addNoteBtn.enabled = true;
+            toolbar.editNoteBtn.enabled = noteList.selectedNote;
+            toolbar.removeNoteBtn.enabled = noteList.selectedNote;
+            toolbar.goBackBtn.enabled = true;
+            toolbar.transInvertBtn.enabled = true;
+            toolbar.hideDetailsBtn.enabled = true;
             setCurrentState("lessonContent");
         }
 
@@ -110,10 +121,18 @@
         private function toolActionSelectedHandler(event:ToolbarEvent):void {
             var op:IAsyncOperation;
             switch (event.toolAction) {
+                case(ToolAction.GO_BACK) :
+                    showLessonList();
+                    break;
                 case(ToolAction.CREATE_NOTE) :
-                    form.visible = true;
-                    op = form.add(vm.page.vocabulary.createNote());
-                    op.addCompleteCallback(noteAddedComplete);
+                    if (currentState == "lessonList") {
+                        showAddLessonForm()
+                    }
+                    else if (currentState == "lessonContent") {
+                        form.visible = true;
+                        op = form.add(vm.page.vocabulary.createNote());
+                        op.addCompleteCallback(noteAddedComplete);
+                    }
                     break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
@@ -167,6 +186,10 @@
         private function pageNumChangedHandler(event:Event):void {
             vm.reloadPage();
         }
+        private function noteList_selectedItemChangeHandler(event:Event):void {
+            toolbar.editNoteBtn.enabled = noteList.selectedNote;
+            toolbar.removeNoteBtn.enabled = noteList.selectedNote;
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -186,52 +209,7 @@
 
     <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
 
-    <!--header bg-->
-    <s:Rect width="100%" height="{HEADER_HEI}">
-        <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
-        </s:fill>
-    </s:Rect>
-
-    <s:HGroup width="100%" height="{HEADER_HEI}"
-              verticalAlign="middle"
-              paddingLeft="{PADDING}">
-
-        <button:ToolButton id="goBackBtn"
-                           description="Zurück zur Übungenliste"
-                           visible="false" visible.lessonContent="true"
-                           includeInLayout="false" includeInLayout.lessonContent="true"
-                           image="@Embed(source='/assets/tools/goback.png')"
-                           click="showLessonList()"/>
-
-        <s:Label text.lessonContent="{vm.page.selectedTheme.name}"
-                 text="{vm.viewTitle}"
-                 fontFamily="{FontName.MYRIAD}"
-                 fontSize="18"
-                 paddingTop="2"
-                 width="100%"
-                 color="#54545d"/>
-
-        <button:ToolButton id="addLessonBtn"
-                           description="Neue Übung hinzufügen"
-                           visible="false" visible.lessonList="true"
-                           includeInLayout="false" includeInLayout.lessonList="true"
-                           image="@Embed(source='/assets/tools/add.png')"
-                           click="showAddLessonForm()"/>
-
-        <toobar:NoteToolbar id="toolbar"
-                            excludeFrom="inactive"
-                            height="{HEADER_HEI}"
-                            visible="false" visible.lessonContent="true"
-                            includeInLayout="false" includeInLayout.lessonContent="true"
-                            createNoteBtnEnabled="true"
-                            editNoteBtnEnabled="{noteList.selectedItem}"
-                            removeNoteBtnEnabled="{noteList.selectedItem}"
-                            filterToolEnabled="false"
-                            selected="toolActionSelectedHandler(event)"/>
-    </s:HGroup>
-
-    <s:Scroller left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}"
+    <s:Scroller left="-1" right="-1" top="0" bottom="{FOOTER_HEI}"
                 excludeFrom="inactive"
                 visible="false" visible.lessonContent="true"
                 minViewportInset="1"
@@ -243,6 +221,7 @@
                          width="100%"
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
+                         selectedItemChange="noteList_selectedItemChangeHandler(event)"
                          itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer">
             <common:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
@@ -250,7 +229,7 @@
         </common:NoteList>
     </s:Scroller>
 
-    <s:Scroller left="-1" right="-1" top="{HEADER_HEI - 1}" bottom="{FOOTER_HEI}"
+    <s:Scroller left="-1" right="-1" top="0" bottom="{FOOTER_HEI}"
                 excludeFrom="inactive"
                 visible="false" visible.lessonList="true"
                 minViewportInset="1"
@@ -271,6 +250,7 @@
 
     <!--footer-->
     <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
+             visible.lessonList="false" visible.lessonContent="true"
              excludeFrom="inactive">
         <s:Rect width="100%" bottom="0" height="100%">
             <s:fill>
@@ -288,8 +268,7 @@
                        skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
 
         <navigation:PaginationBar id="paginationBar"
-                                  visible="false" visible.lessonContent="true"
-                                  left="{PADDING}" right="{PADDING}"
+                                  left="{PADDING + AppSizes.MENU_WID}" right="{PADDING}"
                                   height="100%"
                                   allNotesAmount="{vm.page.allNotesAmount}"
                                   notesOnCurPage="{vm.page.noteColl.length}"
@@ -297,34 +276,15 @@
                                   pageNum="@{vm.page.number}"
                                   pageNumChanged="pageNumChangedHandler(event)"/>
 
-    </s:Group>
-
-    <s:Group width="100%" height="100%"
-             excludeFrom="inactive"
-             visible="{form.visible}"
-             mouseEnabled="{form.visible}">
-        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
-            </s:fill>
-        </s:Rect>
-
-        <form2:NoteForm id="form"
-                        width="100%"
-                        menu="{menu}"
-                        selectedFilter="{vm.page.selectedTheme}"
-                        visible="false"
-                        bottom="0"
-                        top="{HEADER_HEI}"/>
+        <s:Label id="titleLbl"
+                 text="{vm.page.selectedTheme.name || vm.viewTitle}"
+                 right="10" textAlign="right"
+                 fontSize="14" verticalCenter="0"
+                 maxDisplayedLines="1"
+                 color="{AppColors.TEXT_DARK}"/>
     </s:Group>
 
     <form2:AddLessonForm id="addLessonForm"
                          visible="false"
                          height="100%" width="100%"/>
-
-    <s:BitmapImage width="100%"
-                   top="{HEADER_HEI}"
-                   smooth="true"
-                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
-
 </view:SmartView>

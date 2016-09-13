@@ -90,7 +90,7 @@
     <s:HGroup width="100%"
               gap="10" verticalAlign="bottom">
 
-        <s:HGroup width="{width/2 - 20}" gap="10" verticalAlign="bottom">
+        <s:HGroup width="{width/2 - 20 + AppSizes.MENU_WID/2}" gap="10" verticalAlign="bottom">
             <input:TextInputForm id="searchInput"
                                  top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
                                  width="100%"

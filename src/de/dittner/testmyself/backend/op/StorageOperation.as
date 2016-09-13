@@ -2,7 +2,7 @@ package de.dittner.testmyself.backend.op {
 import de.dittner.async.AsyncOperation;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 
 import flash.errors.SQLError;
 import flash.utils.getQualifiedClassName;
@@ -15,7 +15,7 @@ public class StorageOperation extends AsyncOperation {
 	override public function dispatchError(error:* = null):void {
 		if (error) {
 			var errStr:String = getQualifiedClassName(this) + ": " + error;
-			CLog.err(LogCategory.STORAGE, errStr);
+			CLog.err(LogTag.STORAGE, errStr);
 		}
 		super.dispatchError(error);
 	}

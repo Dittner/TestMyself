@@ -64,9 +64,6 @@
 
         override protected function commitProperties():void {
             super.commitProperties();
-            if (notesOnCurPage == 0) titleLbl.text = "Keine Notiz";
-            else if (notesOnCurPage == 1) titleLbl.text = "Eine Notiz";
-            else titleLbl.text = "Notiz " + notesOnCurPage + " von " + allNotesAmount;
 
             prevPageBtn.enabled = pageNum > 0;
             nextPageBtn.enabled = pageNum + 1 < totalPages;
@@ -137,8 +134,4 @@
                              click="nextPageBtnClickHandler(event)"/>
     </s:HGroup>
 
-    <s:Label id="titleLbl"
-             width="250" right="0" textAlign="right"
-             fontSize="14" verticalCenter="0"
-             color="{AppColors.TEXT_DARK}"/>
 </s:Group>

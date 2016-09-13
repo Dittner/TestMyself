@@ -5,8 +5,6 @@
                 xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-                xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
                 xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
                 xmlns:components="de.dittner.testmyself.ui.view.search.components.*"
                 currentState="inactive"
@@ -16,11 +14,12 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
+        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
+        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
 
         [Bindable]
         public var vm:SearchVM;
@@ -34,9 +33,13 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.searchVM;
             vm.lockView();
+
+            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.disabledAll();
         }
 
         override protected function activate():void {
+            toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.unlockView();
             setCurrentState("active");
             vm.viewActivated(viewID);
@@ -49,22 +52,27 @@
         }
 
         override protected function deactivate():void {
+            toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.viewDeactivated();
             mp3Player.visible = false;
             setCurrentState("inactive");
             NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
 
-        private function editSelectedNote():void {
-            form.visible = true;
-            var op:IAsyncOperation = form.edit(noteList.selectedItem as Note);
-            op.addCompleteCallback(noteEditComplete);
-        }
-
-        private function removeSelectedNote():void {
-            form.visible = true;
-            var op:IAsyncOperation = form.remove(noteList.selectedItem as Note);
-            op.addCompleteCallback(noteRemovedComplete);
+        private function toolActionSelectedHandler(event:ToolbarEvent):void {
+            var op:IAsyncOperation;
+            switch (event.toolAction) {
+                case(ToolAction.EDIT_NOTE) :
+                    form.visible = true;
+                    op = form.edit(noteList.selectedNote);
+                    op.addCompleteCallback(noteEditComplete);
+                    break;
+                case(ToolAction.REMOVE_NOTE) :
+                    form.visible = true;
+                    op = form.remove(noteList.selectedNote);
+                    op.addCompleteCallback(noteRemovedComplete);
+                    break;
+            }
         }
 
         private function noteRemovedComplete(op:IAsyncOperation):void {
@@ -101,6 +109,11 @@
                 vm.loadPage(searchText, searchBoard.examplesBox.selected, searchBoard.wordBox.selected, searchBoard.verbBox.selected, searchBoard.lessonBox.selected);
             }
         }
+
+        private function noteList_selectedItemChangeHandler(event:Event):void {
+            toolbar.editNoteBtn.enabled = noteList.selectedNote;
+            toolbar.removeNoteBtn.enabled = noteList.selectedNote;
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -119,41 +132,12 @@
 
     <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
 
-    <!--header bg-->
-    <s:Rect width="100%" height="{HEADER_HEI}">
-        <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
-        </s:fill>
-    </s:Rect>
-
-    <s:Label text="{vm.viewTitle}"
-             fontFamily="{FontName.MYRIAD}"
-             fontSize="18"
-             width="100%" height="{HEADER_HEI}"
-             verticalAlign="middle"
-             paddingLeft="{PADDING}" paddingRight="{PADDING}"
-             color="#54545d"/>
-
-    <button:ToolButton id="removeBtn"
-                       enabled="{noteList.selectedItem}"
-                       top="8" right="{editBtn.width}"
-                       description="Die Notiz entfernen"
-                       image="@Embed(source='/assets/tools/recycle_bin.png')"
-                       click="removeSelectedNote()"/>
-
-    <button:ToolButton id="editBtn"
-                       top="8" right="0"
-                       enabled="{noteList.selectedItem}"
-                       description="Die Notiz bearbeiten"
-                       image="@Embed(source='/assets/tools/edit.png')"
-                       click="editSelectedNote()"/>
-
     <components:SearchBoard id="searchBoard"
                             width="100%"
-                            top="{HEADER_HEI}"
+                            top="0"
                             startSearch="startSearchActivatedHandler(event)"/>
 
-    <s:HGroup left="-1" right="-1" top="{HEADER_HEI - 1 + searchBoard.height}" bottom="{FOOTER_HEI}" gap="-1">
+    <s:HGroup left="-1" right="-1" top="{searchBoard.height}" bottom="{FOOTER_HEI}" gap="-1">
         <s:Scroller width="100%" height="100%"
                     excludeFrom="inactive"
                     minViewportInset="1"
@@ -165,7 +149,8 @@
                              width="100%"
                              contentBackgroundAlpha="0"
                              deselectEnabled="true"
-                             itemRenderer="de.dittner.testmyself.ui.view.search.components.FoundNoteRenderer">
+                             itemRenderer="de.dittner.testmyself.ui.view.search.components.FoundNoteRenderer"
+                             selectedItemChange="noteList_selectedItemChangeHandler(event)">
                 <common:layout>
                     <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                 </common:layout>
@@ -182,7 +167,7 @@
     </s:HGroup>
 
     <s:BitmapImage width="100%"
-                   top="{HEADER_HEI + searchBoard.height}"
+                   top="{searchBoard.height}"
                    smooth="true"
                    alpha=".75"
                    source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
@@ -206,38 +191,19 @@
                        skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
 
         <navigation:PaginationBar id="paginationBar"
-                                  left="{PADDING}" right="{PADDING}"
+                                  left="{PADDING + AppSizes.MENU_WID}" right="{PADDING}"
                                   height="100%"
                                   allNotesAmount="{vm.page.allNotesAmount}"
                                   notesOnCurPage="{vm.page.noteColl.length}"
                                   pageSize="{vm.page.size}"
                                   pageNum="@{vm.page.number}"
                                   pageNumChanged="pageNumChanged()"/>
-
+        <s:Label id="titleLbl"
+                 text="{vm.viewTitle}"
+                 right="10" textAlign="right"
+                 fontSize="14" verticalCenter="0"
+                 maxDisplayedLines="1"
+                 color="{AppColors.TEXT_DARK}"/>
     </s:Group>
-
-    <s:Group width="100%" height="100%"
-             excludeFrom="inactive"
-             visible="{form.visible}"
-             mouseEnabled="{form.visible}">
-        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
-            </s:fill>
-        </s:Rect>
-
-        <form:NoteForm id="form"
-                       width="100%"
-                       visible="false"
-                       menu="{menu}"
-                       hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
-                       bottom="0"
-                       top="{HEADER_HEI}"/>
-    </s:Group>
-
-    <s:BitmapImage width="100%"
-                   top="{HEADER_HEI}"
-                   smooth="true"
-                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
 </view:SmartView>

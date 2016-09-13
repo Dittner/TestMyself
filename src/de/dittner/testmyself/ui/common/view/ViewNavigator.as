@@ -99,7 +99,7 @@ public class ViewNavigator extends WalterProxy {
 				throw new Error("Unknown screen ID:" + viewID);
 		}
 
-		view.menu = mainVM.menu;
+		view.mainView = mainVM.mainView;
 		view.viewID = viewID;
 		return view;
 	}

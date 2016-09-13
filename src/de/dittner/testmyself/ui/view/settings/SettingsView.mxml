@@ -10,8 +10,6 @@
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 
@@ -23,6 +21,7 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.settingsVM;
             vm.lockView();
+            toolbar.visible = toolbar.includeInLayout = false;
         }
 
         override protected function activate():void {
@@ -77,27 +76,12 @@
         </s:fill>
     </s:Rect>
 
-    <!--header bg-->
-    <s:Rect width="100%" height="{HEADER_HEI}">
-        <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
-        </s:fill>
-    </s:Rect>
-
-    <utils:BG width="100%" top="{HEADER_HEI + PADDING + TAB_BAR_HEI}" bottom="0" color="#ffFFff"/>
-
-    <s:Label text="{vm.viewTitle}"
-             fontFamily="{FontName.MYRIAD}"
-             fontSize="18"
-             width="100%" height="{HEADER_HEI}"
-             verticalAlign="middle"
-             paddingLeft="{PADDING}" paddingRight="{PADDING}"
-             color="#54545d"/>
+    <utils:BG width="100%" top="{PADDING + TAB_BAR_HEI}" bottom="0" color="#ffFFff"/>
 
     <list:SelectableDataGroup id="tabBar"
                               excludeFrom="inactive"
                               left="{PADDING}" right="{PADDING}" height="{TAB_BAR_HEI}"
-                              top="{HEADER_HEI+PADDING}"
+                              top="{PADDING}"
                               selectedItemChange="tabBar_selectedItemChangeHandler(event)"
                               itemRenderer="de.dittner.testmyself.ui.view.settings.components.SettingsItemRenderer">
         <list:dataProvider>
@@ -114,7 +98,7 @@
         </list:layout>
     </list:SelectableDataGroup>
 
-    <s:Group left="{PADDING}" top="{HEADER_HEI + 2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}"
+    <s:Group left="{PADDING}" top="{2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}"
              excludeFrom="inactive">
 
         <components:CommonSettings id="commonSettings"

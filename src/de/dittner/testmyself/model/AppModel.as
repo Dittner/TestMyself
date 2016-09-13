@@ -3,7 +3,7 @@ import air.net.URLMonitor;
 
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.logging.CLog;
-import de.dittner.testmyself.logging.LogCategory;
+import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.walter.WalterProxy;
 
@@ -24,7 +24,7 @@ public class AppModel extends WalterProxy {
 	}
 
 	private function connectionStatusChanged(event:StatusEvent):void {
-		CLog.info(LogCategory.CONNECTION, "Network status: " + event.code);
+		CLog.info(LogTag.CONNECTION, "Network status: " + event.code);
 		setHasNetworkConnection(networkStatusMonitor.available);
 	}
 
@@ -61,7 +61,7 @@ public class AppModel extends WalterProxy {
 	}
 
 	public function init():void {
-		CLog.info(LogCategory.SYSTEM, "AppModel initialized");
+		CLog.info(LogTag.SYSTEM, "AppModel initialized");
 	}
 
 }

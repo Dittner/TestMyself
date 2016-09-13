@@ -4,16 +4,16 @@ public class LogNote {
 
 	public var logType:uint = LogNoteType.INFO;
 	public var time:String = "";
-	public var category:String = "";
+	public var tag:String = "";
 	public var text:String = "";
 	public var symbol:String = "";
 
 	public function toString():String {
-		return symbol + "# " + time + " [" + category + "] " + text + "\n";
+		return symbol + "# " + time + " [" + tag + "] " + text + "\n";
 	}
 
 	public function toHtmlString():String {
-		return '<font color = "#9fa4cc">' + time + " [" + category + "] " + "</font>" + '<font color = "# ' + getColor(logType).toString(16) + '">' + text + "</font>";
+		return '<font color = "#9fa4cc">' + time + " [" + tag + "] " + "</font>" + '<font color = "# ' + getColor(logType).toString(16) + '">' + text + "</font>";
 	}
 
 	private function getColor(logNoteType:uint):uint {

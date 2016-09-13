@@ -6,18 +6,16 @@
                 xmlns:presets="de.dittner.testmyself.ui.view.test.presets.*"
                 xmlns:results="de.dittner.testmyself.ui.view.test.statistics.*"
                 xmlns:testing="de.dittner.testmyself.ui.view.test.testing.*"
-                xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
-                horizontalCenter="0"
                 currentState="inactive"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
+        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
+        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
 
         [Bindable]
         public var vm:TestVM;
@@ -25,15 +23,19 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.testVM;
             vm.lockView();
+            toolbar.visible = toolbar.includeInLayout = false;
+            toolbar.disabledAll();
         }
 
         override protected function activate():void {
             vm.unlockView();
             vm.viewActivated(viewID);
-            setCurrentState("testList");
+            showTestList();
+            toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
         }
 
         override protected function deactivate():void {
+            toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             setCurrentState("inactive");
             vm.viewDeactivated();
         }
@@ -41,35 +43,76 @@
         private function showTestList():void {
             vm.selectedTestTask = null;
             setCurrentState("testList");
+            toolbar.visible = toolbar.includeInLayout = false;
         }
 
         private function showTestPresets():void {
             vm.selectedTestTask = null;
             setCurrentState("presets");
+            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.disabledAll();
+            toolbar.goBackBtn.enabled = true;
         }
 
         private function showStatistics():void {
             vm.selectedTestTask = null;
             statisticsScreen.activate();
             setCurrentState("statistics");
+            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.disabledAll();
+            toolbar.goBackBtn.enabled = true;
+            toolbar.showFailedTasksBtn.enabled = true;
+            toolbar.showFailedTasksBtn.selected = vm.testPage.loadOnlyFailedTestTask;
         }
 
         private function startTesting():void {
             vm.selectedTestTask = null;
             testingScreen.activate(menu);
             setCurrentState("testing");
+            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.disabledAll();
+            toolbar.goBackBtn.enabled = true;
         }
 
-        private function openFormToRemoveTaskNote():void {
-            form.visible = true;
-            var op:IAsyncOperation = form.remove(vm.selectedTestTask.note);
-            op.addCompleteCallback(noteRemoveOperationComplete);
-        }
-
-        private function openFormToEditTaskNote():void {
-            form.visible = true;
-            var op:IAsyncOperation = form.edit(vm.selectedTestTask.note);
-            op.addCompleteCallback(noteEditOperationComplete);
+        private function toolActionSelectedHandler(event:ToolbarEvent):void {
+            var op:IAsyncOperation;
+            switch (event.toolAction) {
+                case(ToolAction.GO_BACK) :
+                    if (currentState == "presets") {
+                        showTestList();
+                    }
+                    else if (currentState == "statistics") {
+                        showTestPresets();
+                    }
+                    else if (currentState == "testing") {
+                        testingScreen.deactivate();
+                        showTestPresets();
+                    }
+                    break;
+                case(ToolAction.EDIT_NOTE) :
+                    form.visible = true;
+                    op = form.edit(vm.selectedTestTask.note);
+                    op.addCompleteCallback(noteEditOperationComplete);
+                    break;
+                case(ToolAction.REMOVE_NOTE) :
+                    form.visible = true;
+                    op = form.remove(vm.selectedTestTask.note);
+                    op.addCompleteCallback(noteRemoveOperationComplete);
+                    break;
+                case(ToolAction.SHOW_FAILED_TASK) :
+                    updateTestTaskList(true);
+                    break;
+                case(ToolAction.SHOW_ALL_TASK) :
+                    updateTestTaskList(false);
+                    break;
+                case(ToolAction.SET_TASK_AS_RIGHT) :
+                    if (vm.selectedTestTask && vm.selectedTestTask.isFailed) {
+                        vm.selectedTestTask.isFailed = false;
+                        vm.selectedTestTask.store();
+                        vm.loadStatisticsPage();
+                    }
+                    break;
+            }
         }
 
         private function noteRemoveOperationComplete(op:IAsyncOperation):void {
@@ -94,7 +137,36 @@
             }
             form.visible = false;
         }
+
+        private function updateTestTaskList(showOnlyFailed:Boolean):void {
+            if (vm.testPage.loadOnlyFailedTestTask != showOnlyFailed) {
+                vm.testPage.loadOnlyFailedTestTask = showOnlyFailed;
+                vm.testPage.number = 0;
+                vm.testPage.countAllNotes = true;
+                vm.loadStatisticsPage();
+                toolbar.setTaskAsRightBtn.enabled = showOnlyFailed;
+            }
+        }
+
+        //--------------------------------------
+        //  selectedNote
+        //--------------------------------------
+        private var _selectedNote:Note;
+        [Bindable("selectedNoteChanged")]
+        public function get selectedNote():Note {return _selectedNote;}
+        public function set selectedNote(value:Note):void {
+            if (_selectedNote != value) {
+                _selectedNote = value;
+
+                toolbar.editNoteBtn.enabled = selectedNote;
+                toolbar.removeNoteBtn.enabled = selectedNote;
+                toolbar.setTaskAsRightBtn.enabled = currentState == "statistics" && vm.selectedTestTask && vm.selectedTestTask.isFailed;
+
+                dispatchEvent(new Event("selectedNoteChanged"));
+            }
+        }
         ]]></fx:Script>
+    <fx:Binding source="vm.selectedTestTask.note" destination="selectedNote"/>
 
     <core:states>
         <s:State name="inactive"/>
@@ -113,43 +185,7 @@
         </s:fill>
     </s:Rect>
 
-    <!--header bg-->
-    <s:Rect width="100%" height="{HEADER_HEI}">
-        <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
-        </s:fill>
-    </s:Rect>
-
-    <s:Label text="{vm.viewTitle + ' ' + vm.selectedVocabulary.title.toUpperCase()}"
-             fontFamily="{FontName.MYRIAD}"
-             fontSize="18"
-             width="100%" height="{HEADER_HEI}"
-             verticalAlign="middle"
-             paddingLeft="{PADDING}" paddingRight="{PADDING}"
-             color="#54545d"/>
-
-    <button:ToolButton id="removeBtn"
-                       visible="false" visible.statistics="true" visible.testing="true"
-                       enabled="{vm.selectedTestTask}"
-                       top="8" right="{editBtn.width}"
-                       description="Die Notiz entfernen"
-                       image="@Embed(source='/assets/tools/recycle_bin.png')"
-                       click="openFormToRemoveTaskNote()"/>
-
-    <button:ToolButton id="editBtn"
-                       visible="false" visible.statistics="true" visible.testing="true"
-                       enabled="{vm.selectedTestTask}"
-                       top="8" right="0"
-                       description="Die Notiz bearbeiten"
-                       image="@Embed(source='/assets/tools/edit.png')"
-                       click="openFormToEditTaskNote()"/>
-
-    <s:BitmapImage width="100%"
-                   top="{HEADER_HEI}"
-                   smooth="true"
-                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
-
-    <s:Group width="100%" top="{HEADER_HEI}" bottom="0"
+    <s:Group width="100%" top="0" bottom="0"
              excludeFrom="inactive">
 
         <testlist:TestListScreen id="testListScreen"
@@ -164,7 +200,6 @@
                                    width="100%" height="100%"
                                    padding="{PADDING}"
                                    visible="false" visible.presets="true"
-                                   goBack="showTestList()"
                                    showStatistics="showStatistics()"
                                    startTest="startTesting()"/>
 
@@ -172,34 +207,13 @@
                                vm="{vm}"
                                width="100%" height="100%"
                                padding="{PADDING}"
-                               visible="false" visible.testing="true"
-                               goBack="showTestPresets()"/>
+                               visible="false" visible.testing="true"/>
 
         <results:StatisticsScreen id="statisticsScreen"
                                   vm="{vm}"
                                   width="100%" height="100%"
                                   padding="{PADDING}"
-                                  visible="false" visible.statistics="true"
-                                  goBack="showTestPresets()"/>
-    </s:Group>
-
-    <s:Group width="100%" height="100%"
-             visible="{form.visible}"
-             mouseEnabled="{form.visible}"
-             excludeFrom="inactive">
-        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
-            </s:fill>
-        </s:Rect>
-
-        <form:NoteForm id="form"
-                       menu="{menu}"
-                       visible="false"
-                       hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
-                       width="100%"
-                       bottom="0"
-                       top="{HEADER_HEI}"/>
+                                  visible="false" visible.statistics="true"/>
     </s:Group>
 
 </view:SmartView>
