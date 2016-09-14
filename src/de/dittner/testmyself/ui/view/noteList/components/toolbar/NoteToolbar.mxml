@@ -30,7 +30,7 @@
             super.updateDisplayList(w, h);
             var g:Graphics = graphics;
             g.clear();
-            g.beginFill(AppColors.SCREEN_HEADER_BG);
+            g.beginFill(AppColors.SCREEN_FOOTER_BG);
             g.drawRect(0, 0, w, h);
             g.endFill();
         }

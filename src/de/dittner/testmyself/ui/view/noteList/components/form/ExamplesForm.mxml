@@ -167,7 +167,7 @@
                         bottom="{EditorBg.BORDER_THICKNESS}"
                         height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
                     <s:fill>
-                        <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+                        <s:SolidColor color="{AppColors.SCREEN_FOOTER_BG}"/>
                     </s:fill>
                 </s:Rect>
 

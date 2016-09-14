@@ -93,7 +93,7 @@
 
     <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 
-        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_HEADER_BG}"/>
+        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_FOOTER_BG}"/>
 
         <navigation:PaginationBar id="paginationBar"
                                   left="{padding + AppSizes.MENU_WID}" right="{padding}"
@@ -107,7 +107,7 @@
         <s:Label id="titleLbl"
                  text="{'Statistik für das Test: ' + vm.testPage.test.title}"
                  right="10" textAlign="right"
-                 fontSize="14" verticalCenter="0"
+                 fontSize="14" verticalCenter="1"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_DARK}"/>
 

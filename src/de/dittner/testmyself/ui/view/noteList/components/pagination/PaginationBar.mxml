@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:pagination="de.dittner.testmyself.ui.view.noteList.components.pagination.*">
 
     <fx:Metadata>
@@ -94,12 +93,10 @@
 
     <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="5">
 
-        <button:BitmapButton id="prevPageBtn"
-                             description="Vorherige Seite"
-                             enabled="false"
-                             upImage="@Embed(source='/assets/button/page_prev_up.png')"
-                             downImage="@Embed(source='/assets/button/page_prev_down.png')"
-                             click="prevPageBtnClickHandler(event)"/>
+        <pagination:PaginationButton id="prevPageBtn"
+                                     enabled="false"
+                                     image="@Embed(source='/assets/button/page_prev_icon.png')"
+                                     click="prevPageBtnClickHandler(event)"/>
 
         <s:Spacer width="15"/>
 
@@ -107,31 +104,26 @@
                                      label="1"
                                      enabled="false"
                                      color="#ffFFff"
-                                     upImage="@Embed(source='/assets/button/page_dark_up.png')"
-                                     downImage="@Embed(source='/assets/button/page_dark_down.png')"
+                                     image="@Embed(source='/assets/button/page_dark_icon.png')"
                                      click="firstPageBtnClickHandler(event)"/>
 
         <pagination:PaginationButton id="curPageBtn"
                                      label="1"
                                      color="{AppColors.TEXT_DARK}"
-                                     upImage="@Embed(source='/assets/button/page_light_up.png')"
-                                     downImage="@Embed(source='/assets/button/page_light_up.png')"/>
+                                     image="@Embed(source='/assets/button/page_light_icon.png')"/>
 
         <pagination:PaginationButton id="lastPageBtn"
                                      enabled="false"
                                      color="#ffFFff"
-                                     upImage="@Embed(source='/assets/button/page_dark_up.png')"
-                                     downImage="@Embed(source='/assets/button/page_dark_down.png')"
+                                     image="@Embed(source='/assets/button/page_dark_icon.png')"
                                      click="lastPageBtnClickHandler(event)"/>
 
         <s:Spacer width="15"/>
 
-        <button:BitmapButton id="nextPageBtn"
-                             enabled="false"
-                             description="Nächste Seite"
-                             upImage="@Embed(source='/assets/button/page_next_up.png')"
-                             downImage="@Embed(source='/assets/button/page_next_down.png')"
-                             click="nextPageBtnClickHandler(event)"/>
+        <pagination:PaginationButton id="nextPageBtn"
+                                     enabled="false"
+                                     image="@Embed(source='/assets/button/page_next_icon.png')"
+                                     click="nextPageBtnClickHandler(event)"/>
     </s:HGroup>
 
 </s:Group>

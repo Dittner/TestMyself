@@ -2,8 +2,7 @@
 <s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark">
 
     <fx:Metadata>
-        [Style(name="upImage", type="Object")]
-        [Style(name="downImage", type="Object")]
+        [Style(name="image", type="Object")]
     </fx:Metadata>
 
     <fx:Declarations>
@@ -24,8 +23,11 @@
                 </s:states>
 
                 <s:BitmapImage verticalCenter="0" horizontalCenter="0"
-                               source="{getStyle('upImage')}"
-                               source.down="{getStyle('downImage')}"/>
+                               alpha.up=".75"
+                               alpha.disabled=".5"
+                               alpha.over="1"
+                               alpha.down="1"
+                               source="{getStyle('image')}"/>
 
                 <s:Label id="labelDisplay"
                          textAlign="center"
@@ -34,7 +36,7 @@
                          fontSize="15"
                          maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"
                          horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
-                         left="5" right="5" top="2" bottom="2"/>
+                         left="5" right="5" top="2" bottom="1"/>
                 <s:Rect width="100%" height="100%">
                     <s:fill>
                         <s:SolidColor alpha="0"/>

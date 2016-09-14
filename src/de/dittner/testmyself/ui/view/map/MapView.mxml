@@ -16,6 +16,7 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.mapVM;
             vm.lockView();
+            toolbar.visible = toolbar.includeInLayout = false;
         }
 
         override protected function activate():void {

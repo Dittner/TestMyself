@@ -10,7 +10,6 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
 import flash.events.TimerEvent;
-import flash.system.Capabilities;
 import flash.utils.Timer;
 import flash.utils.getTimer;
 
@@ -44,7 +43,7 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 
 	private function nativeApplication_activateHandler(event:Event):void {
 		NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
-		NativeApplication.nativeApplication.activeWindow.x = Capabilities.screenResolutionX - NativeApplication.nativeApplication.activeWindow.width;
+		NativeApplication.nativeApplication.activeWindow.x = 0;
 	}
 
 	private var minDisplayTimer:Timer;

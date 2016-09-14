@@ -254,7 +254,7 @@
              excludeFrom="inactive">
         <s:Rect width="100%" bottom="0" height="100%">
             <s:fill>
-                <s:SolidColor color="{AppColors.SCREEN_HEADER_BG}"/>
+                <s:SolidColor color="{AppColors.SCREEN_FOOTER_BG}"/>
             </s:fill>
         </s:Rect>
 
@@ -279,7 +279,7 @@
         <s:Label id="titleLbl"
                  text="{vm.page.selectedTheme.name || vm.viewTitle}"
                  right="10" textAlign="right"
-                 fontSize="14" verticalCenter="0"
+                 fontSize="14" verticalCenter="1"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_DARK}"/>
     </s:Group>

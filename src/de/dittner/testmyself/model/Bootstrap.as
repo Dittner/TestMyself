@@ -50,7 +50,7 @@ public class Bootstrap extends Walter {
 		registerProxy("appModel", appModel);
 
 		registerProxy("deferredCommandManager", new DeferredCommandManager());
-		var viewNavigator:ViewNavigator = new ViewNavigator();
+		var viewNavigator:ViewNavigator = new ViewNavigator(mainView);
 		registerProxy("viewNavigator", viewNavigator);
 		registerProxy("vmFactory", new ViewModelFactory());
 
@@ -63,7 +63,6 @@ public class Bootstrap extends Walter {
 
 		viewNavigator.selectedViewID = MenuID.MAP;
 		mainView.activate();
-
 		initOp = appModel.selectedLanguage.init();
 		initOp.addCompleteCallback(initCompleteHandler);
 		return initOp;

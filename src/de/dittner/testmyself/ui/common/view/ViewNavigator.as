@@ -1,6 +1,6 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.ui.common.menu.MenuID;
-import de.dittner.testmyself.ui.view.main.MainVM;
+import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.map.MapView;
 import de.dittner.testmyself.ui.view.noteList.LessonView;
 import de.dittner.testmyself.ui.view.noteList.NoteListView;
@@ -16,12 +16,12 @@ use namespace walter_namespace;
 
 public class ViewNavigator extends WalterProxy {
 	public static const SELECTED_VIEW_CHANGED_MSG:String = "selectedViewChangedMsg";
-	public function ViewNavigator() {
+	public function ViewNavigator(mainView:MainView) {
 		super();
+		this.mainView = mainView;
 	}
 
-	[Inject]
-	public var mainVM:MainVM;
+	private var mainView:MainView;
 
 	//--------------------------------------
 	//  selectedView
@@ -99,7 +99,7 @@ public class ViewNavigator extends WalterProxy {
 				throw new Error("Unknown screen ID:" + viewID);
 		}
 
-		view.mainView = mainVM.mainView;
+		view.mainView = mainView;
 		view.viewID = viewID;
 		return view;
 	}
