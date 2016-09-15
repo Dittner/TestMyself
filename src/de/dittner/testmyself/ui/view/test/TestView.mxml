@@ -144,7 +144,7 @@
                 vm.testPage.number = 0;
                 vm.testPage.countAllNotes = true;
                 vm.loadStatisticsPage();
-                toolbar.setTaskAsRightBtn.enabled = showOnlyFailed;
+                toolbar.setTaskAsRightBtn.enabled = vm.selectedTestTask && vm.selectedTestTask.isFailed;
             }
         }
 

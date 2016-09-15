@@ -16,7 +16,6 @@
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.theme.Theme;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
@@ -268,7 +267,7 @@
                        skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
 
         <navigation:PaginationBar id="paginationBar"
-                                  left="{PADDING + AppSizes.MENU_WID}" right="{PADDING}"
+                                  left="{PADDING}" right="{PADDING}"
                                   height="100%"
                                   allNotesAmount="{vm.page.allNotesAmount}"
                                   notesOnCurPage="{vm.page.noteColl.length}"

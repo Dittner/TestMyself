@@ -96,7 +96,7 @@
         <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_FOOTER_BG}"/>
 
         <navigation:PaginationBar id="paginationBar"
-                                  left="{padding + AppSizes.MENU_WID}" right="{padding}"
+                                  left="{padding}" right="{padding}"
                                   height="100%"
                                   allNotesAmount="{vm.testPage.amountAllTasks}"
                                   notesOnCurPage="{vm.testPage.taskColl.length}"

@@ -49,7 +49,7 @@
                 </s:states>
 
                 <s:BitmapImage source="{getStyle('image')}"
-                               alpha.up="0.75" alpha.disabled=".25" alpha="1"/>
+                               alpha.up="0.7" alpha.disabled=".35" alpha="1"/>
 
                 <s:Rect width="100%" height="100%">
                     <s:fill>

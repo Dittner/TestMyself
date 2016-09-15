@@ -9,7 +9,7 @@ public class AppColors {
 
 	public static const EDITOR_BORDER:uint = 0;
 	public static const EDITOR_SHADOW:uint = 0x54545d;
-	public static const SCREEN_FOOTER_BG:uint = 0xa3a3ae;
+	public static const SCREEN_FOOTER_BG:uint = 0xceced6;
 
 	public static const TEXT_BLACK:uint = 0x000000;
 	public static const TEXT_DARK:uint = 0x01020f;
