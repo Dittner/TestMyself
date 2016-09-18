@@ -24,7 +24,7 @@ public class DeleteAudioCommentByNoteIDOperation extends StorageOperation implem
 	public function execute():void {
 		if (noteID != -1) {
 			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.DELETE_AUDIO_COMMENT_BY_NOTE_ID_SQL, {noteID: noteID});
-			statement.sqlConnection = storage.sqlConnection;
+			statement.sqlConnection = storage.audioSqlConnection;
 			statement.execute(-1, new Responder(deleteCompleteHandler, executeError));
 		}
 		else {

@@ -15,13 +15,15 @@ apply plugin: 'gradlefx'
 apply plugin: 'ide'
 apply plugin: 'ideafx'
 
+def buildNumber = "2.11"
+
 def domain = "ru.idecide.air.sapientia"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.14.1"
 def airSdkVersion = "18.0"
 
 
-def buildNumber = "2.9"
+
 
 srcDirs = ['src/', 'resources/']
 resourceDirs = ['resources/']

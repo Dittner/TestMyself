@@ -77,7 +77,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG left="0" right="1" top="1" bottom="0" color="{bgColor}"/>
+    <utils:BG left="0" right="0" top="0" bottom="0" color="{bgColor}"/>
 
     <s:Label text="Beispiele"
              fontFamily="{FontName.MYRIAD_COND}"
@@ -88,8 +88,7 @@
              visible="{showTitle}"
              color="{AppColors.TEXT_LIGHT}"/>
 
-    <s:Scroller left="-1" right="0" top="{showTitle ? 25 : 0}" bottom="0"
-                minViewportInset="1"
+    <s:Scroller left="0" right="0" top="{showTitle ? 25 : 0}" bottom="0"
                 hasFocusableChildren="false">
         <list:SelectableDataGroup id="dataGroup"
                                   selectedItem="{selectedNote}"

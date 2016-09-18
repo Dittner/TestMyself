@@ -6,8 +6,12 @@ public class SQLLib {
 	//  create
 	//--------------------------------------
 
-	public static function getTables():Array {
+	public static function getNoteDBTables():Array {
 		return [CREATE_NOTE_TBL_SQL, CREATE_THEME_TBL_SQL, CREATE_FILTER_TBL_SQL, CREATE_TEST_TBL_SQL, CREATE_AUDIO_TBL_SQL];
+	}
+
+	public static function getAudioDBTables():Array {
+		return [CREATE_AUDIO_TBL_SQL];
 	}
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/CreateNoteTbl.sql", mimeType="application/octet-stream")]

@@ -163,36 +163,43 @@
 
     <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
 
-    <s:HGroup left="-1" right="-1" top="0" bottom="{FOOTER_HEI}" gap="-1">
-        <s:Scroller width="100%" height="100%"
-                    excludeFrom="inactive"
-                    minViewportInset="1"
-                    horizontalScrollPolicy="off"
-                    hasFocusableChildren="false">
-            <common:NoteList id="noteList"
-                             selectedNote="@{vm.selectedNote}"
-                             dataProvider="{vm.page.noteColl}"
-                             width="100%"
-                             contentBackgroundAlpha="0"
-                             deselectEnabled="true"
-                             itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
-                             itemRenderer.word="de.dittner.testmyself.ui.view.noteList.components.renderer.WordRenderer"
-                             itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer"
-                             selectedItemChange="noteList_selectedItemChangeHandler(event)">
-                <common:layout>
-                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-                </common:layout>
-            </common:NoteList>
-        </s:Scroller>
+    <s:Scroller width="50%" top="0" bottom="{FOOTER_HEI}"
+                excludeFrom="inactive"
+                horizontalScrollPolicy="off"
+                hasFocusableChildren="false">
+        <common:NoteList id="noteList"
+                         selectedNote="@{vm.selectedNote}"
+                         dataProvider="{vm.page.noteColl}"
+                         width="100%"
+                         contentBackgroundAlpha="0"
+                         deselectEnabled="true"
+                         itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
+                         itemRenderer.word="de.dittner.testmyself.ui.view.noteList.components.renderer.WordRenderer"
+                         itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer"
+                         selectedItemChange="noteList_selectedItemChangeHandler(event)">
+            <common:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </common:layout>
+        </common:NoteList>
+    </s:Scroller>
 
-        <common:ExampleList id="exampleList"
-                            selectedNote="@{vm.selectedExample}"
-                            dataProvider="{noteList.selectedNote.exampleColl}"
-                            width="100%" height="100%"
-                            excludeFrom="inactive"
-                            showTitle="false"
-                            hasFocusableChildren="false"/>
-    </s:HGroup>
+    <common:ExampleList id="exampleList"
+                        selectedNote="@{vm.selectedExample}"
+                        dataProvider="{noteList.selectedNote.exampleColl}"
+                        width="50%" top="-1" bottom="{FOOTER_HEI + themesLbl.height}"
+                        right="0"
+                        excludeFrom="inactive"
+                        showTitle="false"
+                        hasFocusableChildren="false"/>
+
+    <s:Label id="themesLbl"
+             text="{vm.selectedNoteThemes}"
+             backgroundAlpha="1" backgroundColor="{AppColors.EDITOR_CONTENT_BG}"
+             height="20" bottom="{FOOTER_HEI}" width="50%" paddingLeft="10" paddingRight="10"
+             right="00" textAlign="right"
+             fontSize="12" verticalAlign="middle"
+             maxDisplayedLines="1"
+             color="{AppColors.TEXT_DARK}"/>
 
     <!--footer-->
     <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
@@ -205,7 +212,7 @@
 
         <mp3:MP3Player id="mp3Player"
                        comment="{vm.audioComment}"
-                       width="400"
+                       width="350"
                        left="{PADDING - 10}"
                        verticalCenter="0"
                        removeRecordEnabled="false"

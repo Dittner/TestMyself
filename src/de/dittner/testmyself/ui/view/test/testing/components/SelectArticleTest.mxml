@@ -8,6 +8,7 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -49,7 +50,10 @@
             translateBoard.text = "";
             showDetails = false;
             isCorrectlyAnswered = true;
-            invalidNotifier.hideImmediately();
+        }
+
+        override protected function showTestMenu():void {
+            menu.showTestMenu(false, false, true);
         }
 
         private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
@@ -57,21 +61,21 @@
         }
 
         private function onDerAnswered():void {
-            if (word) {
+            if (isCorrectlyAnswered && word) {
                 isCorrectlyAnswered = word.article == DeWordArticle.DER || word.article == DeWordArticle.DER_DIE || word.article == DeWordArticle.DER_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
 
         private function onDieAnswered():void {
-            if (word) {
+            if (isCorrectlyAnswered && word) {
                 isCorrectlyAnswered = word.article == DeWordArticle.DIE || word.article == DeWordArticle.DER_DIE || word.article == DeWordArticle.DIE_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
         }
 
         private function onDasAnswered():void {
-            if (word) {
+            if (isCorrectlyAnswered && word) {
                 isCorrectlyAnswered = word.article == DeWordArticle.DAS || word.article == DeWordArticle.DER_DAS || word.article == DeWordArticle.DIE_DAS || word.article == DeWordArticle.DER_DIE_DAS;
                 notifyAnswered();
             }
@@ -83,14 +87,28 @@
                 requestNextTask();
             }
             else {
-                invalidNotifier.show();
+                showInvalidMsg();
                 notifyFalseAnswer();
+                showDetails = true
+            }
+        }
+
+        private function showInvalidMsg():void {
+            if (invalidNotifier && !SimplePopup.isShownInPopup(invalidNotifier)) {
+                SimplePopup.show(invalidNotifier, false);
+                invalidNotifier.show();
             }
         }
         ]]></fx:Script>
+    <fx:Declarations>
+        <form:InvalidNotifier id="invalidNotifier"
+                              width="200" height="31"
+                              text="Falsch!"
+                              bottom="50" horizontalCenter="0"/>
+    </fx:Declarations>
 
     <test:layout>
-        <s:VerticalLayout gap="15" horizontalAlign="center"/>
+        <s:VerticalLayout gap="15" horizontalAlign="right" paddingLeft="{padding}" paddingRight="{padding}"/>
     </test:layout>
 
     <s:HGroup width="100%" horizontalAlign="center" gap="0">
@@ -115,48 +133,25 @@
     </s:HGroup>
 
     <test:TextBoard id="translateBoard"
-                    width="{width - 2*padding}" height="300"
+                    width="100%" height="100%"
                     title="Übersetzung" showText="{showDetails}"/>
 
-    <s:HGroup width="100%"
-              horizontalAlign="center"
-              gap="15">
+    <button:BlackButton id="derBtn"
+                        width="150" height="50"
+                        enabled="{isActivating}"
+                        label="DER"
+                        click="onDerAnswered()"/>
 
-        <button:BlackButton id="derBtn"
-                            width="150"
-                            enabled="{isActivating}"
-                            label="DER"
-                            click="onDerAnswered()"/>
+    <button:RedButton id="dieBtn"
+                      width="150" height="50"
+                      enabled="{isActivating}"
+                      label="DIE"
+                      click="onDieAnswered()"/>
 
-        <button:RedButton id="dieBtn"
-                          width="150"
-                          enabled="{isActivating}"
-                          label="DIE"
-                          click="onDieAnswered()"/>
-
-        <button:YellowButton id="dasBtn"
-                             width="150"
-                             enabled="{isActivating}"
-                             label="DAS"
-                             click="onDasAnswered()"/>
-
-    </s:HGroup>
-
-    <s:HGroup width="480" gap="15">
-        <button:GrayButton id="showAnswerBtn"
-                           width="100%"
-                           label="Die Antwort zeigen"
-                           click="showDetails = true"/>
-
-        <button:GrayButton id="nextBtn"
-                           width="100%"
-                           label="Weiter"
-                           click="requestNextTask()"/>
-
-    </s:HGroup>
-
-    <form:InvalidNotifier id="invalidNotifier"
-                          width="480" height="30"
-                          text="Falsch"/>
+    <button:YellowButton id="dasBtn"
+                         width="150" height="50"
+                         enabled="{isActivating}"
+                         label="DAS"
+                         click="onDasAnswered()"/>
 
 </test:TestableView>

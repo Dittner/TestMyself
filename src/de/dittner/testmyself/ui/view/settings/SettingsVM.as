@@ -125,8 +125,9 @@ public class SettingsVM extends ViewModel {
 
 	public function uploadDB(info:SettingsInfo):ProgressCommand {
 		lockView();
-		var dbFile:File = File.documentsDirectory.resolvePath(Device.dbPath);
-		var uploadCmd:CompositeCommand = ftp.upload([dbFile], info.backUpServerInfo);
+		var noteDBFile:File = File.documentsDirectory.resolvePath(Device.noteDBPath);
+		var audioDBFile:File = File.documentsDirectory.resolvePath(Device.audioDBPath);
+		var uploadCmd:CompositeCommand = ftp.upload([noteDBFile, audioDBFile], info.backUpServerInfo);
 		uploadCmd.addCompleteCallback(uploadDBComplete);
 		return uploadCmd;
 	}
@@ -145,10 +146,13 @@ public class SettingsVM extends ViewModel {
 		if (tempFolder.exists) tempFolder.deleteDirectory(true);
 		tempFolder.createDirectory();
 
-		var dbFile:File = tempFolder.resolvePath(Device.DB_NAME);
-		createFile(dbFile);
+		var noteDBFile:File = tempFolder.resolvePath(Device.NOTE_DB_NAME);
+		createFile(noteDBFile);
 
-		var downloadCmd:CompositeCommand = ftp.download([dbFile], info.backUpServerInfo);
+		var audioDBFile:File = tempFolder.resolvePath(Device.AUDIO_DB_NAME);
+		createFile(audioDBFile);
+
+		var downloadCmd:CompositeCommand = ftp.download([noteDBFile, audioDBFile], info.backUpServerInfo);
 		downloadCmd.addCompleteCallback(downloadDBComplete);
 		return downloadCmd;
 	}

@@ -28,7 +28,7 @@ public class LoadAudioCommentCmd extends StorageOperation implements IAsyncComma
 		}
 		else {
 			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_AUDIO_COMMENT_SQL, {noteID: note.id});
-			statement.sqlConnection = storage.sqlConnection;
+			statement.sqlConnection = storage.audioSqlConnection;
 			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
 	}

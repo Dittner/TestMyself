@@ -21,6 +21,7 @@ import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
 import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
 import de.dittner.testmyself.backend.cmd.StoreThemeCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
@@ -44,6 +45,9 @@ public class Storage extends WalterProxy {
 	private var _sqlConnection:SQLConnection;
 	public function get sqlConnection():SQLConnection {return _sqlConnection;}
 
+	private var _audioSqlConnection:SQLConnection;
+	public function get audioSqlConnection():SQLConnection {return _audioSqlConnection;}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -60,17 +64,30 @@ public class Storage extends WalterProxy {
 			sqlConnection.close();
 		}
 
+		if (audioSqlConnection) {
+			audioSqlConnection.close();
+		}
+
+		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.noteDBPath, SQLLib.getNoteDBTables());
+		cmd.addCompleteCallback(dataBaseReadyHandler);
+		cmd.execute();
+
 		/*var changeNoteCmd:TransferNoteAudioToOtherTblCmd = new TransferNoteAudioToOtherTblCmd(this);
 		 deferredCommandManager.add(changeNoteCmd);*/
 
-		var cmd:IAsyncCommand = new RunDataBaseCmd(SQLLib.getTables());
-		cmd.addCompleteCallback(dataBaseReadyHandler);
-		cmd.execute();
 		return cmd;
 	}
 
 	private function dataBaseReadyHandler(opEvent:*):void {
 		_sqlConnection = opEvent.result as SQLConnection;
+
+		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.audioDBPath, SQLLib.getAudioDBTables());
+		cmd.addCompleteCallback(audioDataBaseReadyHandler);
+		cmd.execute();
+	}
+
+	private function audioDataBaseReadyHandler(opEvent:*):void {
+		_audioSqlConnection = opEvent.result as SQLConnection;
 		deferredCommandManager.start();
 	}
 

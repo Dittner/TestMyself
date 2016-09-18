@@ -4,6 +4,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.test.TestTaskPriority;
+import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
@@ -79,6 +80,13 @@ public class TestVM extends ViewModel {
 	}
 
 	//--------------------------------------
+	//  selectedNoteThemes
+	//--------------------------------------
+	private var _selectedNoteThemes:String = "";
+	[Bindable("selectedTestTaskChanged")]
+	public function get selectedNoteThemes():String {return _selectedNoteThemes;}
+
+	//--------------------------------------
 	//  selectedTestTask
 	//--------------------------------------
 	private var _selectedTestTask:TestTask;
@@ -87,6 +95,15 @@ public class TestVM extends ViewModel {
 	public function set selectedTestTask(value:TestTask):void {
 		if (_selectedTestTask != value) {
 			_selectedTestTask = value;
+
+			_selectedNoteThemes = "";
+			if (selectedTestTask && selectedTestTask.note) {
+				for each(var theme:Theme in selectedTestTask.note.themes) {
+					if (_selectedNoteThemes) _selectedNoteThemes += ", ";
+					_selectedNoteThemes += theme.name;
+				}
+			}
+
 			selectedNoteExample = null;
 			dispatchEvent(new Event("selectedTestTaskChanged"));
 		}

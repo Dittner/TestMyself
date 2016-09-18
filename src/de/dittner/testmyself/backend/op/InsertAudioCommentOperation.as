@@ -32,7 +32,7 @@ public class InsertAudioCommentOperation extends StorageOperation implements IAs
 		sqlParams.parentNoteID = parentNote ? parentNote.id : null;
 		sqlParams.audioComment = audioComment;
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.INSERT_AUDIO_SQL, sqlParams);
-		statement.sqlConnection = storage.sqlConnection;
+		statement.sqlConnection = storage.audioSqlConnection;
 		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 

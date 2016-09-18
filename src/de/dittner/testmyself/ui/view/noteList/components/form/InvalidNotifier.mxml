@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         alpha="0">
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.async.utils.clearDelay;
-        import de.dittner.async.utils.doLaterInMSec;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -14,64 +12,33 @@
         [Bindable]
         public var text:String = "";
 
-        private var daLaterOperationIndex:int = -1;
         public function show():void {
-            if (fadeEffect.isPlaying) fadeEffect.stop();
-            alpha = 1;
-            clearDelay(daLaterOperationIndex);
-            daLaterOperationIndex = doLaterInMSec(hide, 5000)
-        }
-
-        public function hide():void {
-            if (!fadeEffect.isPlaying) fadeEffect.play();
-        }
-
-        public function hideImmediately():void {
-            if (fadeEffect.isPlaying) fadeEffect.stop();
-            alpha = 0;
-            clearDelay(daLaterOperationIndex);
-        }
-
-        override protected function updateDisplayList(w:Number, h:Number):void {
-            super.updateDisplayList(w, h);
-            var g:Graphics = graphics;
-            g.clear();
-
-            if (w > 0 && h > 0) {
-                var step:uint = 10;
-                g.lineStyle(1, AppColors.TEXT_RED);
-                for (var xi:uint = 2; xi < w - step / 2; xi += step) {
-                    g.moveTo(xi, 0);
-                    g.lineTo(xi + step / 2, 0);
-                    g.moveTo(xi, h - 1);
-                    g.lineTo(xi + step / 2, h - 1);
-                }
-
-                for (var yi:uint = 0; yi < h - step / 2; yi += step) {
-                    g.moveTo(0, yi);
-                    g.lineTo(0, yi + step / 2);
-                    g.moveTo(w, yi);
-                    g.lineTo(w, yi + step / 2);
-                }
+            if (!fadeEffect.isPlaying) {
+                alpha = 0;
+                fadeEffect.play();
             }
         }
         ]]></fx:Script>
 
     <fx:Declarations>
         <s:Fade id="fadeEffect"
-                alphaFrom="1"
-                alphaTo="0"
-                duration="5000"
+                alphaFrom="0"
+                alphaTo="1"
+                duration="1000"
                 target="{this}"/>
     </fx:Declarations>
+
+    <utils:BG width="100%" height="100%"
+              alpha=".75"
+              color="{AppColors.PINK}"/>
 
     <s:Label id="textDisplay"
              left="{PAD}" right="{PAD}" top="{PAD}" bottom="{PAD}"
              textAlign="center" verticalAlign="middle"
              text="{text}"
+             fontWeight="bold"
              fontFamily="{FontName.MYRIAD}"
-             fontSize="14"
-             maxDisplayedLines="2"
-             color="{AppColors.TEXT_RED}"/>
+             fontSize="20"
+             color="#ffFFff"/>
 
 </s:Group>

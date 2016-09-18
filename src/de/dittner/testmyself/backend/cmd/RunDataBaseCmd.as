@@ -13,18 +13,20 @@ import flash.filesystem.File;
 
 public class RunDataBaseCmd extends StorageOperation implements IAsyncCommand {
 
-	public function RunDataBaseCmd(createTableStatements:Array) {
+	public function RunDataBaseCmd(dbPath:String, createTableStatements:Array) {
 		super();
+		this.dbPath = dbPath;
 		this.createTableStatements = createTableStatements;
 	}
 
+	private var dbPath:String;
 	private var createTableStatements:Array;
 	private var conn:SQLConnection = new SQLConnection();
 
 	public function execute():void {
 		var dbRootFile:File = File.documentsDirectory.resolvePath(Device.dbRootPath);
 		if (!dbRootFile.exists) dbRootFile.createDirectory();
-		var dbFile:File = File.documentsDirectory.resolvePath(Device.dbPath);
+		var dbFile:File = File.documentsDirectory.resolvePath(dbPath);
 
 		conn.addEventListener(SQLEvent.OPEN, openHandler);
 		conn.addEventListener(SQLErrorEvent.ERROR, errorHandler);

@@ -4,6 +4,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.menu.MenuID;
 import de.dittner.testmyself.ui.common.page.NotePage;
@@ -43,6 +44,13 @@ public class NoteListVM extends ViewModel {
 	}
 
 	//--------------------------------------
+	//  selectedNoteThemes
+	//--------------------------------------
+	private var _selectedNoteThemes:String = "";
+	[Bindable("selectedNoteChanged")]
+	public function get selectedNoteThemes():String {return _selectedNoteThemes;}
+
+	//--------------------------------------
 	//  selectedNote
 	//--------------------------------------
 	private var _selectedNote:Note;
@@ -53,6 +61,15 @@ public class NoteListVM extends ViewModel {
 			_selectedNote = value;
 			if (_selectedNote && _selectedNote.hasAudio && _selectedNote.audioComment.isEmpty)
 				_selectedNote.loadAudioComment().addCompleteCallback(updateAudioComment);
+
+			_selectedNoteThemes = "";
+			if (selectedNote) {
+				for each(var theme:Theme in selectedNote.themes) {
+					if (_selectedNoteThemes) _selectedNoteThemes += ", ";
+					_selectedNoteThemes += theme.name;
+				}
+			}
+
 			updateAudioComment();
 			dispatchEvent(new Event("selectedNoteChanged"));
 		}

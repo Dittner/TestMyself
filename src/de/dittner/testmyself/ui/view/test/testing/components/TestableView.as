@@ -72,8 +72,12 @@ public class TestableView extends Group {
 			this.menu = menu;
 			menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
 			menu.addEventListener("taskPriorityChanged", taskPriorityChanged);
-			menu.showTestMenu();
+			showTestMenu();
 		}
+	}
+
+	protected function showTestMenu():void {
+		menu.showTestMenu();
 	}
 
 	public function deactivate():void {
@@ -96,6 +100,7 @@ public class TestableView extends Group {
 		if (e.menuID == MenuID.TRUE) onTrueAnswered();
 		else if (e.menuID == MenuID.FALSE) onFalseAnswered();
 		else if (e.menuID == MenuID.ANSWER) showAnswer();
+		else if (e.menuID == MenuID.NEXT) requestNextTask();
 	}
 
 	protected function onTrueAnswered():void {

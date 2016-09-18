@@ -23,6 +23,7 @@
         import de.dittner.testmyself.ui.common.menu.IMenuBoard;
         import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
         import de.dittner.testmyself.ui.common.menu.MenuID;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.renderer.AddedThemeItemRenderer;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
@@ -259,7 +260,6 @@
             titleArea.text = "";
             audioRecorder.clear();
             examplesForm.clear();
-            invalidNotifier.alpha = 0;
             themeList.dataProvider = null;
             verbInputsForm.clear();
             wordInput.isValidInput = true;
@@ -273,13 +273,6 @@
 
         private function get isOpen():Boolean {
             return isAddMode || isEditMode || isRemoveMode;
-        }
-
-        private function notifyInvalidData(msg:String):void {
-            if (invalidNotifier) {
-                invalidNotifier.text = msg;
-                invalidNotifier.show();
-            }
         }
 
         private function cancel():void {
@@ -306,7 +299,7 @@
                 fillNote();
                 var errKey:String = note.validate();
                 if (errKey) {
-                    notifyInvalidData(NoteValidationErrorKey.keyToString(errKey, note.vocabulary.lang.id));
+                    showInvalidMsg(NoteValidationErrorKey.keyToString(errKey, note.vocabulary.lang.id));
                 }
                 else {
                     storeChanges();
@@ -393,7 +386,7 @@
             theme.name = addThemeInput.text;
             var errKey:String = theme.validate();
             if (errKey) {
-                notifyInvalidData(NoteValidationErrorKey.keyToString(errKey, note.vocabulary.lang.id));
+                showInvalidMsg(NoteValidationErrorKey.keyToString(errKey, note.vocabulary.lang.id));
             }
             else {
                 var selectedItems:Vector.<Object> = themeList.selectedItems || new Vector.<Object>();
@@ -427,6 +420,14 @@
             var title:String = note is DeWord ? wordTitle : note is DeVerb ? verbTitle : "";
             return connection && title ? title : "";
         }
+
+        private function showInvalidMsg(msg:String):void {
+            if (invalidNotifier && !SimplePopup.isShownInPopup(invalidNotifier)) {
+                invalidNotifier.text = msg;
+                SimplePopup.show(invalidNotifier, false);
+                invalidNotifier.show();
+            }
+        }
         ]]></fx:Script>
 
     <s:states>
@@ -436,6 +437,12 @@
         <s:State name="verb"/>
         <s:State name="lesson"/>
     </s:states>
+
+    <fx:Declarations>
+        <form2:InvalidNotifier id="invalidNotifier"
+                               width="500" height="150"
+                               verticalCenter="0" horizontalCenter="0"/>
+    </fx:Declarations>
 
     <form2:EditorBg width="100%"
                     height="100%"
@@ -523,7 +530,7 @@
                 <audio:AudioRecorder id="audioRecorder"
                                      noteTitleToLoadMp3="{getNoteTitle(hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
                                      height="72" left="118" left.lesson="0" left.normal="0" right="0"
-                                     loadRemoteMp3WithError="notifyInvalidData('Не удалось загрузить mp3-файл из-за ошибки!')"/>
+                                     loadRemoteMp3WithError="showInvalidMsg('Не удалось загрузить mp3-файл из-за ошибки!')"/>
             </s:Group>
         </s:VGroup>
 
@@ -560,9 +567,6 @@
         </s:VGroup>
 
     </s:HGroup>
-
-    <form2:InvalidNotifier id="invalidNotifier"
-                           verticalCenter="0" horizontalCenter="0"/>
 
     <!--REMOVE MODE-->
 

@@ -30,6 +30,7 @@ public class AppColors {
 	public static const INVALID_INPUT_BORDER:uint = 0xe33333;
 	public static const INPUT_CONTENT:uint = 0xffFFff;
 
+	public static const PINK:uint = 0xff175e;
 	public static const YELLOW:uint = 0xFFCC00;
 	public static const WHITE:uint = 0xffFFff;
 

@@ -12,6 +12,7 @@
         import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -84,7 +85,7 @@
 
                 titleLbl.text = word.article ? " " + word.title : word.title;
 
-                optionsLbl.text = word.declension ? ", " + word.declension : "";
+                titleLbl.text += word.declension ? ", " + word.declension : "";
                 translateBoard.text = word.description;
 
                 isBigText = false;
@@ -113,15 +114,13 @@
             showDetails = false;
             articleLbl.text = "";
             titleLbl.text = "";
-            optionsLbl.text = "";
             translateBoard.text = "";
             textInput.text = "";
             textArea.text = "";
-            invalidNotifier.hideImmediately();
         }
 
-        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
-            return showDetails && options;
+        override protected function showTestMenu():void {
+            menu.showTestMenu(false, false, true);
         }
 
         private function onCorrectAnswered():void {
@@ -141,11 +140,24 @@
                 requestNextTask();
             }
             else {
-                invalidNotifier.show();
+                showInvalidMsg();
                 notifyFalseAnswer();
             }
         }
+
+        private function showInvalidMsg():void {
+            if (invalidNotifier && !SimplePopup.isShownInPopup(invalidNotifier)) {
+                SimplePopup.show(invalidNotifier, false);
+                invalidNotifier.show();
+            }
+        }
         ]]></fx:Script>
+    <fx:Declarations>
+        <form:InvalidNotifier id="invalidNotifier"
+                              width="200" height="31"
+                              text="Falsch!"
+                              bottom="50" horizontalCenter="0"/>
+    </fx:Declarations>
 
     <test:layout>
         <s:VerticalLayout gap="15" horizontalAlign="center"/>
@@ -159,7 +171,7 @@
 
     <s:HGroup visible="{!isBigText}" includeInLayout="{!isBigText}"
               width="100%"
-              horizontalAlign="center" gap="0" height="50" verticalAlign="bottom">
+              horizontalAlign="center" gap="0" height="60" verticalAlign="bottom">
         <s:Label id="articleLbl"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
@@ -167,64 +179,44 @@
                  includeInLayout="{showDetails}"
                  fontSize="42"/>
         <s:Label id="titleLbl"
+                 maxWidth="{0.75 * width}"
+                 maxDisplayedLines="2"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_DARK}"
                  visible="{showDetails}"
                  includeInLayout="{showDetails}"
                  fontSize="42"/>
-        <s:Label id="optionsLbl"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 color="{AppColors.TEXT_DARK}"
-                 fontSize="42"
-                 visible="{showDetails}"
-                 includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
+
         <s:BitmapImage visible="{!showDetails}"
                        includeInLayout="{!showDetails}"
                        source="@Embed('/assets/test/questions.png')"/>
     </s:HGroup>
 
+    <s:HGroup width="100%" gap="15" paddingLeft="{padding}" paddingRight="{padding}" verticalAlign="bottom">
+
+        <input:TextInputForm id="textInput"
+                             visible="{!isBigText}" includeInLayout="{!isBigText}"
+                             width="100%"
+                             maxChars="{Device.MAX_WORD_LENGTH}"
+                             enter="onAnswered()"
+                             title="Schreiben Sie bitte das Vertonente"/>
+
+        <input:TextAreaForm id="textArea"
+                            visible="{isBigText}" includeInLayout="{isBigText}"
+                            width="100%" height="{height/2}"
+                            maxChars="{Device.MAX_WORD_LENGTH}"
+                            title="Schreiben Sie bitte die vertonende Notiz"/>
+
+        <button:BlackButton id="validateBtn"
+                            width="200"
+                            enabled="{isActivating  &amp;&amp; isCorrectlyAnswered}"
+                            label="Prüfen"
+                            click="onAnswered()"/>
+    </s:HGroup>
+
     <test:TextBoard id="translateBoard"
                     width="{width - 2*padding}" height="300"
                     title="Übersetzung" showText="{showDetails}"/>
-
-    <input:TextInputForm id="textInput"
-                         visible="{!isBigText}" includeInLayout="{!isBigText}"
-                         width="480"
-                         maxChars="{Device.MAX_WORD_LENGTH}"
-                         enter="onAnswered()"
-                         title="Schreiben Sie bitte das Vertonente"/>
-
-    <input:TextAreaForm id="textArea"
-                        visible="{isBigText}" includeInLayout="{isBigText}"
-                        width="{width - 2*padding}" height="100%"
-                        maxChars="{Device.MAX_WORD_LENGTH}"
-                        title="Schreiben Sie bitte die vertonende Notiz"/>
-
-    <button:BlackButton id="validateBtn"
-                        width="225"
-                        enabled="{isActivating}"
-                        label="Antworten"
-                        click="onAnswered()"/>
-
-    <s:HGroup width="480" gap="15"
-              visible="{!isCorrectlyAnswered}">
-        <button:GrayButton id="showAnswerBtn"
-                           width="100%"
-                           label="Die Antwort zeigen"
-                           click="showDetails = true"/>
-
-        <button:BlackButton id="nextBtn"
-                            enabled="{isActivating}"
-                            width="100%"
-                            label="Weiter"
-                            click="requestNextTask()"/>
-
-    </s:HGroup>
-
-    <form:InvalidNotifier id="invalidNotifier"
-                          width="480" height="30"
-                          text="Falsch!"/>
 
 </test:TestableView>
