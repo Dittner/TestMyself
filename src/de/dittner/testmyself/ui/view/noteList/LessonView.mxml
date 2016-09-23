@@ -129,6 +129,7 @@
                     }
                     else if (currentState == "lessonContent") {
                         form.visible = true;
+                        form.selectedFilter = vm.page.selectedTheme;
                         op = form.add(vm.page.vocabulary.createNote());
                         op.addCompleteCallback(noteAddedComplete);
                     }
@@ -162,6 +163,7 @@
             if (op.isSuccess && op.result == FormOperationResult.OK) {
                 vm.page.allNotesAmount++;
                 vm.reloadPage();
+                form.selectedFilter = null;
             }
             form.visible = false;
         }
