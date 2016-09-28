@@ -28,7 +28,7 @@
             if (verb) {
                 titleLbl.text = verb.title;
                 translateBoard.text = verb.description;
-                verbsFormsLbl.text = verb.present + "  " + verb.past + "  " + verb.perfect;
+                verbsFormsLbl.text = verb.present + ", " + verb.past + ", " + verb.perfect;
             }
         }
 

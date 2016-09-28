@@ -1,10 +1,12 @@
 package de.dittner.testmyself.ui.common.utils {
 public class AppColors {
 
-	public static const BG:uint = 0xe0e0e6;
+	public static const REN_SELECTED_BG:uint = 0xffFFff;
+	public static const REN_SEP_COLOR:uint = 0xa5a5ad;
 	public static const EDITOR_CONTENT_BG:uint = 0xf0F0f5;
+	public static const EXAMPLES_BG:uint = 0xffFFff;
 
-	public static const BG_DARK:uint = 0x3d3f4b;
+	public static const BG:uint = 0xf0F0f5;
 	public static const MENU_LIST_BG:uint = 0;
 
 	public static const EDITOR_BORDER:uint = 0;

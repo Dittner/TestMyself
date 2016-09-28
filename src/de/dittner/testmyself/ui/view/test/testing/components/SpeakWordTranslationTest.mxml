@@ -82,7 +82,6 @@
 
     <common2:ExampleList id="exampleList"
                          dataProvider="{note.exampleColl}"
-                         bgColor="{AppColors.EDITOR_CONTENT_BG}"
                          width="{width - 2*padding}" height="66%"
                          shownList="{showDetails}"
                          hasFocusableChildren="false"/>

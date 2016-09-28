@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:list="de.dittner.testmyself.ui.view.noteList.components.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.Note;
@@ -38,19 +38,6 @@
         }
 
         //--------------------------------------
-        //  bgColor
-        //--------------------------------------
-        private var _bgColor:uint = AppColors.EDITOR_CONTENT_BG;
-        [Bindable("bgColorChanged")]
-        public function get bgColor():uint {return _bgColor;}
-        public function set bgColor(value:uint):void {
-            if (_bgColor != value) {
-                _bgColor = value;
-                dispatchEvent(new Event("bgColorChanged"));
-            }
-        }
-
-        //--------------------------------------
         //  shownList
         //--------------------------------------
         private var _shownList:Boolean = true;
@@ -77,7 +64,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG left="0" right="0" top="0" bottom="0" color="{bgColor}"/>
+    <utils:BG left="0" right="0" top="0" bottom="0" color="{AppColors.EXAMPLES_BG}"/>
 
     <s:Label text="Beispiele"
              fontFamily="{FontName.MYRIAD_COND}"
@@ -90,17 +77,17 @@
 
     <s:Scroller left="0" right="0" top="{showTitle ? 25 : 0}" bottom="0"
                 hasFocusableChildren="false">
-        <list:SelectableDataGroup id="dataGroup"
-                                  selectedItem="{selectedNote}"
-                                  dataProvider="{dataProvider}"
-                                  visible="{shownList}"
-                                  width="100%"
-                                  deselectEnabled="true"
-                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer"
-                                  selectedItemChange="selectedNote = dataGroup.selectedItem as Note">
+        <list:NoteList id="list"
+                       selectedItem="{selectedNote}"
+                       dataProvider="{dataProvider}"
+                       visible="{shownList}"
+                       width="100%"
+                       deselectEnabled="true"
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer"
+                       selectedItemChange="selectedNote = list.selectedItem as Note">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="true"/>
             </list:layout>
-        </list:SelectableDataGroup>
+        </list:NoteList>
     </s:Scroller>
 </s:Group>

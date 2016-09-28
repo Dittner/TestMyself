@@ -153,15 +153,7 @@
         <s:State name="verb"/>
     </core:states>
 
-    <!--content bg-->
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:BitmapFill source="@Embed(source='/assets/menu/screen_bg_pattern.png')"
-                          fillMode="repeat"/>
-        </s:fill>
-    </s:Rect>
-
-    <utils:BG excludeFrom="inactive" width="100%" height="100%" color="#ffFFff"/>
+    <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
 
     <s:Scroller width="50%" top="0" bottom="{FOOTER_HEI}"
                 excludeFrom="inactive"
@@ -174,8 +166,6 @@
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
                          itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
-                         itemRenderer.word="de.dittner.testmyself.ui.view.noteList.components.renderer.WordRenderer"
-                         itemRenderer.verb="de.dittner.testmyself.ui.view.noteList.components.renderer.VerbRenderer"
                          selectedItemChange="noteList_selectedItemChangeHandler(event)">
             <common:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
@@ -193,8 +183,9 @@
                         hasFocusableChildren="false"/>
 
     <s:Label id="themesLbl"
+             excludeFrom="inactive"
              text="{vm.selectedNoteThemes}"
-             backgroundAlpha="1" backgroundColor="{AppColors.EDITOR_CONTENT_BG}"
+             backgroundAlpha="1" backgroundColor="{AppColors.EXAMPLES_BG}"
              height="20" bottom="{FOOTER_HEI}" width="50%" paddingLeft="10" paddingRight="10"
              right="00" textAlign="right"
              fontSize="12" verticalAlign="middle"

@@ -3,7 +3,6 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         xmlns:list="de.dittner.testmyself.ui.common.list.*"
          xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*">
 
     <fx:Script><![CDATA[
@@ -49,6 +48,7 @@
             vm.testPage.number = 0;
             vm.testPage.countAllNotes = true;
             vm.loadStatisticsPage();
+            list.pageLayout.inverted = vm.testPage.test.translateFromNativeIntoForeign;
         }
 
         private function setTaskAsRightBtnEnabled(selectedTask:*, isFailedTaskShown:Boolean):Boolean {
@@ -60,23 +60,22 @@
         }
         ]]></fx:Script>
 
-    <utils:BG width="100%" height="100%" color="#ffFFff"/>
+    <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
 
     <s:Scroller left="0" percentWidth="{exampleList.visible ? 50 : 100}" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
-
-        <list:SelectableDataGroup id="list"
-                                  selectedItem="{vm.selectedTestTask}"
-                                  dataProvider="{vm.testPage.taskColl}"
-                                  width="100%"
-                                  deselectEnabled="true"
-                                  itemRenderer="de.dittner.testmyself.ui.view.test.statistics.StatisticsTaskRenderer"
-                                  selectedItemChange="vm.selectedTestTask = list.selectedItem as TestTask">
-            <list:layout>
+        <common2:NoteList id="list"
+                          selectedItem="{vm.selectedTestTask}"
+                          dataProvider="{vm.testPage.taskColl}"
+                          width="100%"
+                          deselectEnabled="true"
+                          itemRenderer="de.dittner.testmyself.ui.view.test.statistics.StatisticsTaskRenderer"
+                          selectedItemChange="vm.selectedTestTask = list.selectedItem as TestTask">
+            <common2:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </list:layout>
-        </list:SelectableDataGroup>
+            </common2:layout>
+        </common2:NoteList>
     </s:Scroller>
 
     <common2:ExampleList id="exampleList"
@@ -91,7 +90,8 @@
 
     <s:Label id="themesLbl"
              text="{vm.selectedNoteThemes}"
-             backgroundAlpha="{exampleList.visible ? 1 : 0}" backgroundColor="{AppColors.EDITOR_CONTENT_BG}"
+             backgroundAlpha="{exampleList.visible ? 1 : 0}"
+             backgroundColor="{AppColors.EXAMPLES_BG}"
              height="20" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
              width="50%" paddingLeft="10" paddingRight="10"
              right="0" textAlign="right"
