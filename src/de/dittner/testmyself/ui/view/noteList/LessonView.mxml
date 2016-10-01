@@ -14,7 +14,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.theme.Theme;
+        import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
@@ -57,7 +57,7 @@
             toolbar.disabledAll();
             toolbar.addNoteBtn.enabled = true;
             vm.selectedNote = null;
-            vm.page.selectedTheme = null;
+            vm.page.selectedTag = null;
             setCurrentState("lessonList");
         }
 
@@ -93,21 +93,21 @@
         }
 
         private function applyAddLessonClicked(event:MouseEvent):void {
-            var theme:Theme = vm.page.vocabulary.createTheme();
-            theme.name = addLessonForm.addLessonInput.text;
-            var errKey:String = theme.validate();
+            var tag:Tag = vm.page.vocabulary.createTag();
+            tag.name = addLessonForm.addLessonInput.text;
+            var errKey:String = tag.validate();
 
             if (errKey) {
                 addLessonForm.addLessonInput.isValidInput = false;
             }
             else {
-                theme.store();
+                tag.store();
                 hideAddLessonForm();
             }
         }
 
         private function lessonSelectedHandler(event:Event):void {
-            vm.page.selectedTheme = lessonList.selectedItem as Theme;
+            vm.page.selectedTag = lessonList.selectedItem as Tag;
             if (lessonList.selectedItem) {
                 vm.page.number = 0;
                 vm.page.countAllNotes = true;
@@ -129,7 +129,7 @@
                     }
                     else if (currentState == "lessonContent") {
                         form.visible = true;
-                        form.selectedFilter = vm.page.selectedTheme;
+                        form.selectedFilter = vm.page.selectedTag;
                         op = form.add(vm.page.vocabulary.createNote());
                         op.addCompleteCallback(noteAddedComplete);
                     }
@@ -227,11 +227,11 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <list2:SelectableDataGroup id="lessonList"
-                                   selectedItem="{vm.page.selectedTheme}"
-                                   dataProvider="{vm.page.vocabulary.themeColl}"
+                                   selectedItem="{vm.page.selectedTag}"
+                                   dataProvider="{vm.page.vocabulary.tagColl}"
                                    width="100%"
                                    visible="false" visible.lessonList="true"
-                                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.LessonThemeRenderer"
+                                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.LessonTagRenderer"
                                    selectedItemChange="lessonSelectedHandler(event)">
             <list2:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="true"/>
@@ -268,7 +268,7 @@
                                   pageNumChanged="pageNumChangedHandler(event)"/>
 
         <s:Label id="titleLbl"
-                 text="{vm.page.selectedTheme.name || vm.viewTitle}"
+                 text="{vm.page.selectedTag.name || vm.viewTitle}"
                  right="10" textAlign="right"
                  fontSize="14" verticalCenter="1"
                  maxDisplayedLines="1"

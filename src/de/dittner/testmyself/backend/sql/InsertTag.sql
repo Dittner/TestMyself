@@ -1,4 +1,4 @@
-INSERT INTO theme
+INSERT INTO tag
 (
 	vocabularyID,
 	name

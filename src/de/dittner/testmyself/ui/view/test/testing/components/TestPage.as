@@ -1,6 +1,6 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.model.domain.theme.Theme;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -105,15 +105,15 @@ public class TestPage extends EventDispatcher {
 	}
 
 	//--------------------------------------
-	//  filter
+	//  selectedTag
 	//--------------------------------------
-	private var _filter:Theme;
-	[Bindable("filterChanged")]
-	public function get filter():Theme {return _filter;}
-	public function set filter(value:Theme):void {
-		if (_filter != value) {
-			_filter = value;
-			dispatchEvent(new Event("filterChanged"));
+	private var _selectedTag:Tag;
+	[Bindable("selectedTagChanged")]
+	public function get selectedTag():Tag {return _selectedTag;}
+	public function set selectedTag(value:Tag):void {
+		if (_selectedTag != value) {
+			_selectedTag = value;
+			dispatchEvent(new Event("selectedTagChanged"));
 		}
 	}
 

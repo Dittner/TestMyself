@@ -4,7 +4,6 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.page.SearchPage;
 import de.dittner.testmyself.ui.common.view.ViewModel;
@@ -43,11 +42,11 @@ public class SearchVM extends ViewModel {
 	}
 
 	//--------------------------------------
-	//  selectedNoteThemes
+	//  selectedNoteTags
 	//--------------------------------------
-	private var _selectedNoteThemes:String = "";
+	private var _selectedNoteTags:String = "";
 	[Bindable("selectedNoteChanged")]
-	public function get selectedNoteThemes():String {return _selectedNoteThemes;}
+	public function get selectedNoteTags():String {return _selectedNoteTags;}
 
 	//--------------------------------------
 	//  selectedNote
@@ -61,13 +60,7 @@ public class SearchVM extends ViewModel {
 			if (_selectedNote && _selectedNote.hasAudio && _selectedNote.audioComment.isEmpty)
 				_selectedNote.loadAudioComment().addCompleteCallback(updateAudioComment);
 
-			_selectedNoteThemes = "";
-			if (selectedNote) {
-				for each(var theme:Theme in selectedNote.themes) {
-					if (_selectedNoteThemes) _selectedNoteThemes += ", ";
-					_selectedNoteThemes += theme.name;
-				}
-			}
+			_selectedNoteTags = selectedNote ? selectedNote.tagsToStr() : "";
 
 			updateAudioComment();
 			dispatchEvent(new Event("selectedNoteChanged"));

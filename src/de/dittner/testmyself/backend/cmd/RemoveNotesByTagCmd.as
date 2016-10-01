@@ -7,26 +7,26 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.tag.Tag;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class RemoveNotesByThemeCmd extends StorageOperation implements IAsyncCommand {
+public class RemoveNotesByTagCmd extends StorageOperation implements IAsyncCommand {
 
-	public function RemoveNotesByThemeCmd(storage:Storage, theme:Theme) {
+	public function RemoveNotesByTagCmd(storage:Storage, tag:Tag) {
 		super();
 		this.storage = storage;
-		this.theme = theme;
+		this.tag = tag;
 	}
 
 	private var storage:Storage;
-	private var theme:Theme;
+	private var tag:Tag;
 
 	public function execute():void {
-		if (theme.id != -1) {
-			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_NOTES_IDS_BY_THEME_SQL, {themeID: theme.id});
+		if (tag.id != -1) {
+			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_NOTES_IDS_BY_TAG_SQL, {tagID: Tag.DELIMITER + tag.id + Tag.DELIMITER});
 			statement.sqlConnection = storage.sqlConnection;
 			statement.execute(-1, new Responder(selectIDsCompleteHandler, executeError));
 		}
@@ -39,7 +39,7 @@ public class RemoveNotesByThemeCmd extends StorageOperation implements IAsyncCom
 		var composite:CompositeCommand = new CompositeCommand();
 
 		for each(var item:Object in result.data) {
-			theme.vocabulary.noteTitleHash.clear(item.title);
+			tag.vocabulary.noteTitleHash.clear(item.title);
 			composite.addOperation(RemoveNoteCmd, storage, item.id);
 		}
 

@@ -79,7 +79,7 @@
     </s:Scroller>
 
     <common2:ExampleList id="exampleList"
-                         width="50%" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT + themesLbl.height}"
+                         width="50%" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT + tagsLbl.height}"
                          right="0"
                          dataProvider="{vm.selectedTestTask.note.exampleColl}"
                          selectedNote="@{vm.selectedNoteExample}"
@@ -88,8 +88,8 @@
                          showTitle="false"
                          hasFocusableChildren="false"/>
 
-    <s:Label id="themesLbl"
-             text="{vm.selectedNoteThemes}"
+    <s:Label id="tagsLbl"
+             text="{vm.selectedNoteTags}"
              backgroundAlpha="{exampleList.visible ? 1 : 0}"
              backgroundColor="{AppColors.EXAMPLES_BG}"
              height="20" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"

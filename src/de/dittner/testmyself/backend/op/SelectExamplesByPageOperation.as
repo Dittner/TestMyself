@@ -1,10 +1,10 @@
 package de.dittner.testmyself.backend.op {
-import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
-import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.ui.common.page.INotePage;
+
+import mx.collections.ArrayCollection;
 
 public class SelectExamplesByPageOperation extends StorageOperation implements IAsyncCommand {
 
@@ -19,22 +19,21 @@ public class SelectExamplesByPageOperation extends StorageOperation implements I
 
 	public function execute():void {
 		if (page.noteColl.length > 0) {
-			var composite:CompositeCommand = new CompositeCommand();
-
-			for each(var note:Note in page.noteColl)
-				composite.addOperation(SelectExamplesOperation, storage, note);
-
-			composite.addCompleteCallback(completeHandler);
-			composite.execute();
+			for each(var note:Note in page.noteColl) {
+				if (storage.exampleHash[note.id]) {
+					var examples:Array = [];
+					var example:Note;
+					for each(var exampleData:Object in storage.exampleHash[note.id]) {
+						example = note.createExample();
+						example.deserialize(exampleData);
+						examples.push(example);
+					}
+					note.exampleColl = new ArrayCollection(examples);
+				}
+			}
 		}
-		else {
-			dispatchSuccess();
-		}
+		dispatchSuccess();
 	}
 
-	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) dispatchSuccess(page);
-		else dispatchError();
-	}
 }
 }

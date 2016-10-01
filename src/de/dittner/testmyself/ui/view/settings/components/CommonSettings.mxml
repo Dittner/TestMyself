@@ -94,10 +94,6 @@
             info.backUpServerInfo.remoteDirPath = remoteDirInput.text;
             return info;
         }
-
-        private function parseDBFromSO():void {
-            vm.parseDBFromSO();
-        }
         ]]></fx:Script>
 
     <s:layout>

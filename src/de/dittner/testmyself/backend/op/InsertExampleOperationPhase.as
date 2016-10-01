@@ -30,6 +30,10 @@ public class InsertExampleOperationPhase extends StorageOperation implements IAs
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.INSERT_NOTE_SQL, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
 		statement.execute(-1, new Responder(executeComplete, executeError));
+		if (storage.exampleHash[example.parentID])
+			storage.exampleHash[example.parentID].push(sqlParams);
+		else
+			storage.exampleHash[example.parentID] = [sqlParams];
 	}
 
 	private function executeComplete(result:SQLResult):void {
@@ -38,7 +42,7 @@ public class InsertExampleOperationPhase extends StorageOperation implements IAs
 			dispatchSuccess();
 		}
 		else {
-			dispatchError(ErrorCode.THEME_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленного примера");
+			dispatchError(ErrorCode.TAG_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленного примера");
 		}
 	}
 

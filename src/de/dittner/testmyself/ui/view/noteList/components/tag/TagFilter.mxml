@@ -5,11 +5,11 @@
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
     <fx:Metadata>
-        [Event(name="selectedThemeChanged", type="flash.events.Event")]
+        [Event(name="selectedTagChanged", type="flash.events.Event")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.theme.Theme;
+        import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.view.noteList.components.form.EditorBg;
@@ -19,41 +19,41 @@
         private static const FOOTER_HEI:uint = AppSizes.EDITOR_FOOTER_HEIGHT;
 
         //--------------------------------------
-        //  themes
+        //  tags
         //--------------------------------------
-        private var _themes:ArrayCollection;
-        [Bindable("themesChanged")]
-        public function get themes():ArrayCollection {return _themes;}
-        public function set themes(value:ArrayCollection):void {
-            if (_themes != value) {
-                _themes = value;
-                dispatchEvent(new Event("themesChanged"));
+        private var _tags:ArrayCollection;
+        [Bindable("tagsChanged")]
+        public function get tags():ArrayCollection {return _tags;}
+        public function set tags(value:ArrayCollection):void {
+            if (_tags != value) {
+                _tags = value;
+                dispatchEvent(new Event("tagsChanged"));
             }
         }
 
         //--------------------------------------
-        //  selectedTheme
+        //  selectedTag
         //--------------------------------------
-        private var _selectedTheme:Theme;
-        [Bindable("selectedThemeChanged")]
-        public function get selectedTheme():Theme {return _selectedTheme;}
-        public function set selectedTheme(value:Theme):void {
-            if (_selectedTheme != value) {
-                _selectedTheme = value;
-                dispatchEvent(new Event("selectedThemeChanged"));
+        private var _selectedTag:Tag;
+        [Bindable("selectedTagChanged")]
+        public function get selectedTag():Tag {return _selectedTag;}
+        public function set selectedTag(value:Tag):void {
+            if (_selectedTag != value) {
+                _selectedTag = value;
+                dispatchEvent(new Event("selectedTagChanged"));
             }
         }
 
         public function close():void {
-            themes = null;
+            tags = null;
         }
 
         //--------------------------------------
-        //  hasThemes
+        //  hasTags
         //--------------------------------------
 
-        [Bindable("themesChanged")]
-        public function get hasThemes():Boolean {return themes && themes.length > 0;}
+        [Bindable("tagsChanged")]
+        public function get hasTags():Boolean {return tags && tags.length > 0;}
         ]]></fx:Script>
 
     <form:EditorBg width="100%"
@@ -74,12 +74,12 @@
                 right="{EditorBg.BORDER_THICKNESS}"
                 top="{EditorBg.HEADER_HEIGHT}"
                 bottom="{FOOTER_HEI}">
-        <list:SelectableDataGroup id="themesList"
-                                  selectedItem="{selectedTheme}"
+        <list:SelectableDataGroup id="tagList"
+                                  selectedItem="{selectedTag}"
                                   width="100%" height="100%"
-                                  dataProvider="{themes}"
+                                  dataProvider="{tags}"
                                   deselectEnabled="true"
-                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer">
+                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </list:layout>
@@ -93,11 +93,11 @@
         <button:BlackButton id="applyBtn"
                             width="100%"
                             label="Schließen"
-                            click="visible = false; selectedTheme = themesList.selectedItem as Theme"/>
+                            click="visible = false; selectedTag = tagList.selectedItem as Tag"/>
     </s:HGroup>
 
-    <s:Label text="Kein Thema"
-             visible="{!hasThemes}"
+    <s:Label text="Kein Tag"
+             visible="{!hasTags}"
              fontSize="14"
              color="{AppColors.TEXT}"
              verticalCenter="0" horizontalCenter="0"/>

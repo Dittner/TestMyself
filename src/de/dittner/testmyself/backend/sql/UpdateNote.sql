@@ -7,5 +7,6 @@ SET
 	parentID = :parentID,
 	searchText = :searchText,
 	options = :options,
+	tags = :tags,
 	hasAudio = :hasAudio
 WHERE id = :updatingNoteID

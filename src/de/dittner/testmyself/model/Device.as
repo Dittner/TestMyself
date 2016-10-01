@@ -11,7 +11,7 @@ public class Device {
 	public static const AUDIO_DB_NAME:String = "audio.db";
 
 	public static const MAX_TEXT_LENGTH:uint = 5000;
-	public static const MAX_THEME_NAME_LENGTH:uint = 100;
+	public static const MAX_TAG_NAME_LENGTH:uint = 100;
 	public static const MAX_WORD_LENGTH:uint = 100;
 
 	private static var _stage:Stage;

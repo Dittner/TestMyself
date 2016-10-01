@@ -5,6 +5,7 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.ui.common.page.NotePage;
 
 import flash.data.SQLResult;
@@ -25,9 +26,9 @@ public class CountFilteredNoteByPageOperation extends StorageOperation implement
 		var sqlParams:Object = {};
 		sqlParams.vocabularyID = page.vocabulary.id;
 
-		if (page.selectedTheme) {
+		if (page.selectedTag) {
 			var sql:String = SQLLib.SELECT_COUNT_FILTERED_NOTE_SQL;
-			sqlParams.selectedThemeID = page.selectedTheme.id
+			sqlParams.selectedTagID = "%" + Tag.DELIMITER + page.selectedTag.id + Tag.DELIMITER + "%";
 		}
 		else {
 			sql = SQLLib.SELECT_COUNT_NOTE_SQL;

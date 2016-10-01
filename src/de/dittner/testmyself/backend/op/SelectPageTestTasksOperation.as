@@ -4,6 +4,7 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.utils.SQLUtils;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 
@@ -30,8 +31,8 @@ public class SelectPageTestTasksOperation extends StorageOperation implements IA
 		sqlParams.onlyFailedNotes = page.loadOnlyFailedTestTask ? 1 : 0;
 
 		var sql:String;
-		if (page.filter) {
-			sqlParams.selectedThemeID = page.filter.id;
+		if (page.selectedTag) {
+			sqlParams.selectedTagID = "%" + Tag.DELIMITER + page.selectedTag.id + Tag.DELIMITER + "%";
 			sql = SQLLib.SELECT_FILTERED_PAGE_TEST_TASKS_SQL;
 		}
 		else {

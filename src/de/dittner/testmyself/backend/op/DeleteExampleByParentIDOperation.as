@@ -33,6 +33,7 @@ public class DeleteExampleByParentIDOperation extends StorageOperation implement
 	}
 
 	private function deleteCompleteHandler(result:SQLResult):void {
+		delete storage.exampleHash[parentID];
 		dispatchSuccess();
 	}
 

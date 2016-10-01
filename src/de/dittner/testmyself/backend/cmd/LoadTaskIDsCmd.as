@@ -4,8 +4,8 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.model.domain.theme.Theme;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -13,17 +13,17 @@ import flash.net.Responder;
 
 public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
 
-	public function LoadTaskIDsCmd(storage:Storage, test:Test, filter:Theme, taskComplexity:uint) {
+	public function LoadTaskIDsCmd(storage:Storage, test:Test, selectedTag:Tag, taskComplexity:uint) {
 		super();
 		this.storage = storage;
 		this.test = test;
-		this.filter = filter;
+		this.selectedTag = selectedTag;
 		this.taskComplexity = taskComplexity;
 	}
 
 	private var storage:Storage;
 	private var test:Test;
-	private var filter:Theme;
+	private var selectedTag:Tag;
 	private var taskComplexity:uint;
 
 	public function execute():void {
@@ -32,8 +32,8 @@ public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
 		sqlParams.complexity = taskComplexity;
 
 		var sql:String;
-		if (filter) {
-			sqlParams.selectedThemeID = filter.id;
+		if (selectedTag) {
+			sqlParams.selectedTagID = "%" + Tag.DELIMITER + selectedTag.id + Tag.DELIMITER + "%";
 			sql = SQLLib.SELECT_FILTERED_TEST_TASK_IDS_SQL;
 		}
 		else {
@@ -56,7 +56,7 @@ public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
 		super.destroy();
 		storage = null;
 		test = null;
-		filter = null;
+		selectedTag = null;
 	}
 }
 }

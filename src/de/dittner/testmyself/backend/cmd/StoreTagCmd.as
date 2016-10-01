@@ -6,38 +6,38 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.tag.Tag;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class StoreThemeCmd extends StorageOperation implements IAsyncCommand {
+public class StoreTagCmd extends StorageOperation implements IAsyncCommand {
 
-	public function StoreThemeCmd(storage:Storage, theme:Theme) {
+	public function StoreTagCmd(storage:Storage, tag:Tag) {
 		super();
 		this.storage = storage;
-		this.theme = theme;
+		this.tag = tag;
 	}
 
 	private var storage:Storage;
-	private var theme:Theme;
+	private var tag:Tag;
 
 	public function execute():void {
-		if (!theme) {
-			dispatchError(ErrorCode.NULLABLE_THEME + ": Отсутствует добавляемая тема");
+		if (!tag) {
+			dispatchError(ErrorCode.NULLABLE_TAG + ": Отсутствует добавляемая тема");
 			return
 		}
 
-		var sqlParams:Object = theme.serialize();
+		var sqlParams:Object = tag.serialize();
 		var statement:SQLStatement;
 
-		if (theme.isNew) {
-			statement = SQLUtils.createSQLStatement(SQLLib.INSERT_THEME_SQL, sqlParams);
+		if (tag.isNew) {
+			statement = SQLUtils.createSQLStatement(SQLLib.INSERT_TAG_SQL, sqlParams);
 		}
 		else {
-			sqlParams.themeID = theme.id;
-			statement = SQLUtils.createSQLStatement(SQLLib.UPDATE_THEME_SQL, sqlParams);
+			sqlParams.tagID = tag.id;
+			statement = SQLUtils.createSQLStatement(SQLLib.UPDATE_TAG_SQL, sqlParams);
 		}
 
 		statement.sqlConnection = storage.sqlConnection;
@@ -47,12 +47,12 @@ public class StoreThemeCmd extends StorageOperation implements IAsyncCommand {
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
-			if (theme.isNew) theme.id = result.lastInsertRowID;
-			theme.vocabulary.addTheme(theme);
+			if (tag.isNew) tag.id = result.lastInsertRowID;
+			tag.vocabulary.addTag(tag);
 			dispatchSuccess();
 		}
 		else {
-			dispatchError(ErrorCode.THEME_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленной темы");
+			dispatchError(ErrorCode.TAG_ADDED_WITHOUT_ID + ": База данных не вернула ID добавленной темы");
 		}
 	}
 }

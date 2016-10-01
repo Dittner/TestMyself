@@ -10,8 +10,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ArticleItemRenderer extends ItemRendererBase {
-	private static const THEME_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_GRAY);
-	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_WHITE);
+	private static const TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_GRAY);
+	private static const SELECTED_TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;
 	private static const REN_HEI:uint = 35;
@@ -25,7 +25,7 @@ public class ArticleItemRenderer extends ItemRendererBase {
 
 	override protected function createChildren():void {
 		super.createChildren();
-		articleTF = createTextField(THEME_FORMAT);
+		articleTF = createTextField(TAG_FORMAT);
 		addChild(articleTF);
 	}
 
@@ -49,7 +49,7 @@ public class ArticleItemRenderer extends ItemRendererBase {
 		g.clear();
 
 		if (selected) {
-			articleTF.setTextFormat(SELECTED_THEME_FORMAT);
+			articleTF.setTextFormat(SELECTED_TAG_FORMAT);
 
 			matr.createGradientBox(w, h, Math.PI / 2);
 			g.beginGradientFill(GradientType.LINEAR, AppColors.LIST_ITEM_SELECTION, [1, 1], [0, 255], matr);
@@ -57,7 +57,7 @@ public class ArticleItemRenderer extends ItemRendererBase {
 			g.endFill();
 		}
 		else if (hovered) {
-			articleTF.setTextFormat(THEME_FORMAT);
+			articleTF.setTextFormat(TAG_FORMAT);
 
 			g.beginFill(HOVER_COLOR, 1);
 			g.drawRect(0, 0, w, h);
@@ -68,7 +68,7 @@ public class ArticleItemRenderer extends ItemRendererBase {
 			g.lineTo(w, h - 1);
 		}
 		else {
-			articleTF.setTextFormat(THEME_FORMAT);
+			articleTF.setTextFormat(TAG_FORMAT);
 
 			g.beginFill(0xffFFff, 0.00001);
 			g.drawRect(0, 0, w, h);

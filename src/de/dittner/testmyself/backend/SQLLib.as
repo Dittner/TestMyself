@@ -7,7 +7,7 @@ public class SQLLib {
 	//--------------------------------------
 
 	public static function getNoteDBTables():Array {
-		return [CREATE_NOTE_TBL_SQL, CREATE_THEME_TBL_SQL, CREATE_FILTER_TBL_SQL, CREATE_TEST_TBL_SQL, CREATE_AUDIO_TBL_SQL];
+		return [CREATE_NOTE_TBL_SQL, CREATE_TAG_TBL_SQL, CREATE_TEST_TBL_SQL, CREATE_AUDIO_TBL_SQL];
 	}
 
 	public static function getAudioDBTables():Array {
@@ -18,13 +18,9 @@ public class SQLLib {
 	private static const CreateNoteTblClass:Class;
 	public static const CREATE_NOTE_TBL_SQL:String = new CreateNoteTblClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/CreateThemeTbl.sql", mimeType="application/octet-stream")]
-	private static const CreateThemeTblClass:Class;
-	public static const CREATE_THEME_TBL_SQL:String = new CreateThemeTblClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/CreateFilterTbl.sql", mimeType="application/octet-stream")]
-	private static const CreateFilterTblClass:Class;
-	public static const CREATE_FILTER_TBL_SQL:String = new CreateFilterTblClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/CreateTagTbl.sql", mimeType="application/octet-stream")]
+	private static const CreateTagTblClass:Class;
+	public static const CREATE_TAG_TBL_SQL:String = new CreateTagTblClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/CreateTestTbl.sql", mimeType="application/octet-stream")]
 	private static const CreateTestTblClass:Class;
@@ -46,13 +42,9 @@ public class SQLLib {
 	private static const InsertAudioClass:Class;
 	public static const INSERT_AUDIO_SQL:String = new InsertAudioClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/InsertTheme.sql", mimeType="application/octet-stream")]
-	private static const InsertThemeClass:Class;
-	public static const INSERT_THEME_SQL:String = new InsertThemeClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/InsertFilter.sql", mimeType="application/octet-stream")]
-	private static const InsertFilterClass:Class;
-	public static const INSERT_FILTER_SQL:String = new InsertFilterClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/InsertTag.sql", mimeType="application/octet-stream")]
+	private static const InsertTagClass:Class;
+	public static const INSERT_TAG_SQL:String = new InsertTagClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/InsertTestTask.sql", mimeType="application/octet-stream")]
 	private static const InsertTestTaskClass:Class;
@@ -66,13 +58,9 @@ public class SQLLib {
 	private static const UpdateNoteClass:Class;
 	public static const UPDATE_NOTE_SQL:String = new UpdateNoteClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTheme.sql", mimeType="application/octet-stream")]
-	private static const UpdateThemeClass:Class;
-	public static const UPDATE_THEME_SQL:String = new UpdateThemeClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateFilter.sql", mimeType="application/octet-stream")]
-	private static const UpdateFilterClass:Class;
-	public static const UPDATE_FILTER_SQL:String = new UpdateFilterClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTag.sql", mimeType="application/octet-stream")]
+	private static const UpdateTagClass:Class;
+	public static const UPDATE_TAG_SQL:String = new UpdateTagClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTestTaskByNoteID.sql", mimeType="application/octet-stream")]
 	private static const UpdateTestTaskByNoteIDClass:Class;
@@ -118,9 +106,9 @@ public class SQLLib {
 	private static const SearchFilteredNotesClass:Class;
 	public static const SEARCH_FILTERED_NOTES_SQL:String = new SearchFilteredNotesClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNotesIDsByTheme.sql", mimeType="application/octet-stream")]
-	private static const SelectNotesIDsByThemeClass:Class;
-	public static const SELECT_NOTES_IDS_BY_THEME_SQL:String = new SelectNotesIDsByThemeClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNotesIDsByTag.sql", mimeType="application/octet-stream")]
+	private static const SelectNotesIDsByTagClass:Class;
+	public static const SELECT_NOTES_IDS_BY_TAG_SQL:String = new SelectNotesIDsByTagClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectPageNotes.sql", mimeType="application/octet-stream")]
 	private static const SelectPageNotesClass:Class;
@@ -150,21 +138,17 @@ public class SQLLib {
 	private static const SelectAllNotesTitlesClass:Class;
 	public static const SELECT_ALL_NOTES_TITLES_SQL:String = new SelectAllNotesTitlesClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectAllExamples.sql", mimeType="application/octet-stream")]
+	private static const SelectAllExamplesClass:Class;
+	public static const SELECT_ALL_EXAMPLES_SQL:String = new SelectAllExamplesClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredPageNotes.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredPageNotesClass:Class;
 	public static const SELECT_FILTERED_PAGE_NOTES_SQL:String = new SelectFilteredPageNotesClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTheme.sql", mimeType="application/octet-stream")]
-	private static const SelectThemeClass:Class;
-	public static const SELECT_THEME_SQL:String = new SelectThemeClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectNoteThemes.sql", mimeType="application/octet-stream")]
-	private static const SelectNoteThemesClass:Class;
-	public static const SELECT_NOTE_THEMES_SQL:String = new SelectNoteThemesClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/SelectExampleByParentID.sql", mimeType="application/octet-stream")]
-	private static const SelectExampleByParentIDClass:Class;
-	public static const SELECT_EXAMPLE_BY_PARENT_ID_SQL:String = new SelectExampleByParentIDClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTag.sql", mimeType="application/octet-stream")]
+	private static const SelectTagClass:Class;
+	public static const SELECT_TAG_SQL:String = new SelectTagClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectCountTestTaskClass:Class;
@@ -186,17 +170,9 @@ public class SQLLib {
 	private static const DeleteNoteClass:Class;
 	public static const DELETE_NOTE_SQL:String = new DeleteNoteClass();
 
-	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteTheme.sql", mimeType="application/octet-stream")]
-	private static const DeleteThemeClass:Class;
-	public static const DELETE_THEME_SQL:String = new DeleteThemeClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteFilterByID.sql", mimeType="application/octet-stream")]
-	private static const DeleteFilterByIDClass:Class;
-	public static const DELETE_FILTER_BY_ID_SQL:String = new DeleteFilterByIDClass();
-
-	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteFilterByNoteID.sql", mimeType="application/octet-stream")]
-	private static const DeleteFilterByNoteIDClass:Class;
-	public static const DELETE_FILTER_BY_NOTE_ID_SQL:String = new DeleteFilterByNoteIDClass();
+	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteTag.sql", mimeType="application/octet-stream")]
+	private static const DeleteTagClass:Class;
+	public static const DELETE_TAG_SQL:String = new DeleteTagClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/DeleteExampleByParentID.sql", mimeType="application/octet-stream")]
 	private static const DeleteExampleByParentIDClass:Class;

@@ -197,8 +197,8 @@
 
     </s:Group>
 
-    <s:Label id="themesLbl"
-             text="{vm.selectedNoteThemes}"
+    <s:Label id="tagsLbl"
+             text="{vm.selectedNoteTags}"
              height="20" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
              width="50%" paddingLeft="10" paddingRight="10"
              right="10" textAlign="right"

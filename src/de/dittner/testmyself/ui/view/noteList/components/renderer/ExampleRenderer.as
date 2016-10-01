@@ -6,7 +6,7 @@ import flash.text.TextFormat;
 
 public class ExampleRenderer extends NoteRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 22, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_DARK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT_DARK);
 
 	public function ExampleRenderer() {
 		super();

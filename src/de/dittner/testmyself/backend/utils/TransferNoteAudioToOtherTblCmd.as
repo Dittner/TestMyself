@@ -1,9 +1,8 @@
 package de.dittner.testmyself.backend.utils {
 import de.dittner.async.IAsyncCommand;
-import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.*;
-import de.dittner.testmyself.model.domain.audioComment.AudioComment;
+import de.dittner.testmyself.model.domain.tag.Tag;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -18,50 +17,76 @@ public class TransferNoteAudioToOtherTblCmd extends StorageOperation implements 
 	}
 
 	private var storage:Storage;
-	private var audioItems:Array;
 
 	public function execute():void {
-		selectAllAudios();
+		selectAllNotes();
 	}
 
-	private function selectAllAudios():void {
-		var sql:String = "SELECT * FROM audio";
+	private function renameTable():void {
+		var sql:String = "ALTER TABLE theme RENAME TO tag";
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql);
+		statement.sqlConnection = storage.sqlConnection;
+		statement.execute(-1, new Responder(tableRenamedComplete, executeError));
+	}
+
+	private function tableRenamedComplete(result:SQLResult):void {
+		dispatchSuccess();
+	}
+
+	private function addColumn():void {
+		var sql:String = "ALTER TABLE note ADD COLUMN tags String";
+
+		var statement:SQLStatement = SQLUtils.createSQLStatement(sql);
+		statement.sqlConnection = storage.sqlConnection;
+		statement.execute(-1, new Responder(addColumnComplete, executeError));
+	}
+
+	private function addColumnComplete(result:SQLResult):void {
+		selectAllNotes();
+	}
+
+	private function selectAllNotes():void {
+		var sql:String = "SELECT id,tags FROM note";
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql);
 		statement.sqlConnection = storage.sqlConnection;
 		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
+	private var noteIDsToUpdate:Array = [];
 	private function executeComplete(result:SQLResult):void {
-		audioItems = result.data as Array || [];
-		storeNextAudio();
+		for each(var obj:Object in result.data) {
+			if (obj.tags)
+				noteIDsToUpdate.push(obj);
+		}
+		storeNextNote();
 	}
 
-	private var curAudioItem:Object;
-	private function storeNextAudio(result:SQLResult = null):void {
-		if (audioItems.length > 0) {
-			curAudioItem = audioItems.pop();
-			storeAudio(curAudioItem.noteID, curAudioItem.parentNoteID, curAudioItem.audioComment);
+	private var curNote:Object;
+	private function storeNextNote(result:SQLResult = null):void {
+		if (noteIDsToUpdate.length > 0) {
+			curNote = noteIDsToUpdate.pop();
+			storeNote(curNote.id, curNote.tags);
 		}
 		else {
-			dropAudioTable();
+			dispatchSuccess()
 		}
 	}
 
-	private function storeAudio(noteID:int, parentNoteID:int, audioComment:AudioComment):void {
-		var sql:String = SQLLib.INSERT_AUDIO_SQL;
+	private function storeNote(noteID:int, tags:String):void {
+		var sql:String = "UPDATE note SET tags = :tags WHERE id = :noteID";
 		var sqlParams:Object = {};
 		sqlParams.noteID = noteID;
-		sqlParams.parentNoteID = parentNoteID;
-		sqlParams.audioComment = audioComment;
+		sqlParams.tags = Tag.DELIMITER + tags;
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
-		statement.sqlConnection = storage.audioSqlConnection;
-		statement.execute(-1, new Responder(storeNextAudio, executeError));
+		statement.sqlConnection = storage.sqlConnection;
+		statement.execute(-1, new Responder(storeNextNote, executeError));
 	}
 
-	private function dropAudioTable():void {
-		var sql:String = "DROP TABLE audio";
+	private function dropFilterTable():void {
+		var sql:String = "DROP TABLE filter";
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql);
 		statement.sqlConnection = storage.sqlConnection;

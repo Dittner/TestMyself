@@ -1,8 +1,6 @@
 package de.dittner.testmyself.backend.op {
 
-import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
-import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
@@ -13,6 +11,8 @@ import de.dittner.testmyself.model.domain.test.TestTask;
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
+
+import mx.collections.ArrayCollection;
 
 public class SelectNoteForTestTaskOperation extends StorageOperation implements IAsyncCommand {
 
@@ -47,13 +47,19 @@ public class SelectNoteForTestTaskOperation extends StorageOperation implements 
 			return;
 		}
 
-		var composite:CompositeCommand = new CompositeCommand();
+		if (storage.exampleHash[loadedNote.id]) {
+			var examples:Array = [];
+			var example:Note;
+			for each(var exampleData:Object in storage.exampleHash[loadedNote.id]) {
+				example = loadedNote.createExample();
+				example.deserialize(exampleData);
+				examples.push(example);
+			}
+			loadedNote.exampleColl = new ArrayCollection(examples);
+		}
 
-		composite.addOperation(SelectExamplesOperation, storage, loadedNote);
-		composite.addOperation(SelectNoteThemesOperation, storage, loadedNote);
-
-		composite.addCompleteCallback(completeHandler);
-		composite.execute();
+		task.note = loadedNote;
+		dispatchSuccess(task);
 	}
 
 	private function deleteTestTask(taskID:int):void {
@@ -71,14 +77,5 @@ public class SelectNoteForTestTaskOperation extends StorageOperation implements 
 		dispatchError("Не удалось загрузить запись для тестовой задачи, данная задача удалена, попробуйте пеезагрузить тест");
 	}
 
-	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) {
-			task.note = loadedNote;
-			dispatchSuccess(task);
-		}
-		else {
-			dispatchError();
-		}
-	}
 }
 }

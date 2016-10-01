@@ -9,7 +9,7 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.theme.Theme;
+        import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -30,26 +30,26 @@
         }
 
         //--------------------------------------
-        //  removeNotesByThemeRemoving
+        //  removeNotesByTagRemoving
         //--------------------------------------
-        private var _removeNotesByThemeRemoving:Boolean = false;
-        [Bindable("removeNotesByThemeRemovingChanged")]
-        public function get removeNotesByThemeRemoving():Boolean {return _removeNotesByThemeRemoving;}
-        public function set removeNotesByThemeRemoving(value:Boolean):void {
-            if (_removeNotesByThemeRemoving != value) {
-                _removeNotesByThemeRemoving = value;
-                dispatchEvent(new Event("removeNotesByThemeRemovingChanged"));
+        private var _removeNotesByTagRemoving:Boolean = false;
+        [Bindable("removeNotesByTagRemovingChanged")]
+        public function get removeNotesByTagRemoving():Boolean {return _removeNotesByTagRemoving;}
+        public function set removeNotesByTagRemoving(value:Boolean):void {
+            if (_removeNotesByTagRemoving != value) {
+                _removeNotesByTagRemoving = value;
+                dispatchEvent(new Event("removeNotesByTagRemovingChanged"));
             }
         }
 
-        private function haveThemes(themeColl:ArrayCollection):Boolean {
-            return themeColl && themeColl.length > 0;
+        private function haveTags(tagColl:ArrayCollection):Boolean {
+            return tagColl && tagColl.length > 0;
         }
 
         //--------------------------------------
         //  editLblText
         //--------------------------------------
-        private var _editLblText:String = "Den Themanamen ändern";
+        private var _editLblText:String = "Den Tagsnamen ändern";
         [Bindable("editLblTextChanged")]
         public function get editLblText():String {return _editLblText;}
         public function set editLblText(value:String):void {
@@ -62,7 +62,7 @@
         //--------------------------------------
         //  removeLblText
         //--------------------------------------
-        private var _removeLblText:String = "Den Themanamen entfernen";
+        private var _removeLblText:String = "Den Tagsnamen entfernen";
         [Bindable("removeLblTextChanged")]
         public function get removeLblText():String {return _removeLblText;}
         public function set removeLblText(value:String):void {
@@ -73,22 +73,22 @@
         }
 
         //--------------------------------------
-        //  themesListTitle
+        //  tagsListTitle
         //--------------------------------------
-        private var _themesListTitle:String = "Themenliste";
-        [Bindable("themesListTitleChanged")]
-        public function get themesListTitle():String {return _themesListTitle;}
-        public function set themesListTitle(value:String):void {
-            if (_themesListTitle != value) {
-                _themesListTitle = value;
-                dispatchEvent(new Event("themesListTitleChanged"));
+        private var _tagsListTitle:String = "Tagsliste";
+        [Bindable("tagsListTitleChanged")]
+        public function get tagsListTitle():String {return _tagsListTitle;}
+        public function set tagsListTitle(value:String):void {
+            if (_tagsListTitle != value) {
+                _tagsListTitle = value;
+                dispatchEvent(new Event("tagsListTitleChanged"));
             }
         }
 
         //--------------------------------------
         //  notificationText
         //--------------------------------------
-        private var _notificationText:String = "Sind Sie sicher, das Thema ohne die Aufgaben Sie entfernen möchten?";
+        private var _notificationText:String = "Sind Sie sicher, das Tag ohne die Aufgaben Sie entfernen möchten?";
         [Bindable("notificationTextChanged")]
         public function get notificationText():String {return _notificationText;}
         public function set notificationText(value:String):void {
@@ -99,15 +99,15 @@
         }
 
         //--------------------------------------
-        //  themeNameInputTitle
+        //  tagNameInputTitle
         //--------------------------------------
-        private var _themeNameInputTitle:String = "Geben Sie bitte den neuen Namen des Themas ein";
-        [Bindable("themeNameInputTitleChanged")]
-        public function get themeNameInputTitle():String {return _themeNameInputTitle;}
-        public function set themeNameInputTitle(value:String):void {
-            if (_themeNameInputTitle != value) {
-                _themeNameInputTitle = value;
-                dispatchEvent(new Event("themeNameInputTitleChanged"));
+        private var _tagNameInputTitle:String = "Geben Sie bitte den neuen Namen des Tags ein";
+        [Bindable("tagNameInputTitleChanged")]
+        public function get tagNameInputTitle():String {return _tagNameInputTitle;}
+        public function set tagNameInputTitle(value:String):void {
+            if (_tagNameInputTitle != value) {
+                _tagNameInputTitle = value;
+                dispatchEvent(new Event("tagNameInputTitleChanged"));
             }
         }
 
@@ -118,62 +118,62 @@
         //----------------------------------------------------------------------------------------------
 
         private function cancelBtn_clickHandler(event:MouseEvent):void {
-            if (themesList) themesList.selectedItem = null;
+            if (tagsList) tagsList.selectedItem = null;
             setCurrentState("normal");
         }
 
-        public function get isThemeRemoving():Boolean {
-            return currentState == "removeTheme";
+        public function get isTagRemoving():Boolean {
+            return currentState == "removeTag";
         }
 
         public function clear():void {
             setCurrentState('normal');
-            themeNameInputForm.text = "";
+            tagNameInputForm.text = "";
         }
 
-        private function applyBtnEnabled(selectedTheme:Theme, updatedThemeName:String):Boolean {
-            return selectedTheme && updatedThemeName && selectedTheme.name != updatedThemeName;
+        private function applyBtnEnabled(selectedTag:Tag, updatedTagName:String):Boolean {
+            return selectedTag && updatedTagName && selectedTag.name != updatedTagName;
         }
 
         private function applyBtnClickHandler(event:MouseEvent):void {
-            var selectedTheme:Theme = themesList.selectedItem;
-            if (!selectedTheme || !vocabulary) return;
+            var selectedTag:Tag = tagsList.selectedItem;
+            if (!selectedTag || !vocabulary) return;
 
-            if (isThemeRemoving) {
-                if (removeNotesByThemeRemoving)
-                    vocabulary.storage.removeNotesByTheme(selectedTheme);
-                selectedTheme.remove();
+            if (isTagRemoving) {
+                if (removeNotesByTagRemoving)
+                    vocabulary.storage.removeNotesByTag(selectedTag);
+                selectedTag.remove();
             }
-            else if (themeNameInputForm.text) {
-                var duplicate:Theme = getThemeWithName(themeNameInputForm.text);
+            else if (tagNameInputForm.text) {
+                var duplicate:Tag = getTagWithName(tagNameInputForm.text);
                 if (duplicate) {
-                    var mergeOp:IAsyncOperation = duplicate.mergeWith(selectedTheme);
+                    var mergeOp:IAsyncOperation = duplicate.mergeWith(selectedTag);
                     mergeOp.addCompleteCallback(changeComplete);
                 }
                 else {
-                    selectedTheme.name = themeNameInputForm.text;
-                    var storeOp:IAsyncOperation = selectedTheme.store();
+                    selectedTag.name = tagNameInputForm.text;
+                    var storeOp:IAsyncOperation = selectedTag.store();
                     storeOp.addCompleteCallback(changeComplete);
                 }
             }
         }
 
         private function changeComplete(op:IAsyncOperation):void {
-            vocabulary.themeColl.refresh();
-            themesList.selectedItem = null;
+            vocabulary.tagColl.refresh();
+            tagsList.selectedItem = null;
         }
 
-        private function getThemeWithName(themeName:String):Theme {
-            for each(var theme:Theme in vocabulary.themeColl)
-                if (theme.name == themeName) return theme;
+        private function getTagWithName(tagName:String):Tag {
+            for each(var tag:Tag in vocabulary.tagColl)
+                if (tag.name == tagName) return tag;
             return null;
         }
         ]]></fx:Script>
 
     <s:states>
         <s:State name="normal"/>
-        <s:State name="renameTheme" stateGroups="edit"/>
-        <s:State name="removeTheme" stateGroups="edit"/>
+        <s:State name="renameTag" stateGroups="edit"/>
+        <s:State name="removeTag" stateGroups="edit"/>
     </s:states>
 
     <s:layout>
@@ -185,25 +185,25 @@
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
-                           visible="{haveThemes(vocabulary.themeColl)}"
-                           includeInLayout="{haveThemes(vocabulary.themeColl)}"
+                           visible="{haveTags(vocabulary.tagColl)}"
+                           includeInLayout="{haveTags(vocabulary.tagColl)}"
                            upColor="{AppColors.TEXT_DARK}"
                            downColor="{AppColors.TEXT_BLACK}"
-                           click="setCurrentState('renameTheme')"/>
+                           click="setCurrentState('renameTag')"/>
 
     <button:DottedLabelBtn id="removeLbl"
                            text="{removeLblText}"
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
-                           visible="{haveThemes(vocabulary.themeColl)}"
-                           includeInLayout="{haveThemes(vocabulary.themeColl)}"
+                           visible="{haveTags(vocabulary.tagColl)}"
+                           includeInLayout="{haveTags(vocabulary.tagColl)}"
                            upColor="{AppColors.TEXT_DARK}"
                            downColor="{AppColors.TEXT_BLACK}"
-                           click="setCurrentState('removeTheme')"/>
+                           click="setCurrentState('removeTag')"/>
 
     <s:Group width="100%" height="100%"
-             visible.edit="{haveThemes(vocabulary.themeColl)}"
+             visible.edit="{haveTags(vocabulary.tagColl)}"
              visible="false">
         <s:layout>
             <s:ConstraintLayout>
@@ -221,14 +221,14 @@
 
         <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
 
-        <list:ListForm id="themesList"
+        <list:ListForm id="tagsList"
                        top="10"
                        bottom="10"
                        left="col1:10"
                        right="col1:10"
-                       dataProvider="{vocabulary.themeColl}"
-                       title="{themesListTitle}"
-                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer">
+                       dataProvider="{vocabulary.tagColl}"
+                       title="{tagsListTitle}"
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </list:layout>
@@ -239,17 +239,17 @@
                  fontFamily="{FontName.MYRIAD}"
                  color="{AppColors.TEXT_DARK}"
                  fontSize="16"
-                 visible="false" visible.removeTheme="true"
-                 includeInLayout="false" includeInLayout.removeTheme="true"
+                 visible="false" visible.removeTag="true"
+                 includeInLayout="false" includeInLayout.removeTag="true"
                  text="{notificationText}"/>
 
-        <input:TextInputForm id="themeNameInputForm"
+        <input:TextInputForm id="tagNameInputForm"
                              top="row1:10" left="col2:10" right="10"
-                             text="{themesList.selectedItem.name}"
-                             title="{themeNameInputTitle}"
-                             maxChars="{Device.MAX_THEME_NAME_LENGTH}"
-                             visible="false" visible.renameTheme="true"
-                             includeInLayout="false" includeInLayout.renameTheme="true"/>
+                             text="{tagsList.selectedItem.name}"
+                             title="{tagNameInputTitle}"
+                             maxChars="{Device.MAX_TAG_NAME_LENGTH}"
+                             visible="false" visible.renameTag="true"
+                             includeInLayout="false" includeInLayout.renameTag="true"/>
 
         <button:GrayButton id="cancelBtn"
                            top="row2:10"
@@ -259,10 +259,10 @@
                            click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="applyBtn"
-                            enabled.renameTheme="{applyBtnEnabled(themesList.selectedItem, themeNameInputForm.text)}"
-                            enabled.removeTheme="{themesList.selectedItem != null}"
-                            label.renameTheme="Umbenennen"
-                            label.removeTheme="Entfernen"
+                            enabled.renameTag="{applyBtnEnabled(tagsList.selectedItem, tagNameInputForm.text)}"
+                            enabled.removeTag="{tagsList.selectedItem != null}"
+                            label.renameTag="Umbenennen"
+                            label.removeTag="Entfernen"
                             top="row2:10"
                             left="col3:10"
                             right="10"

@@ -2,7 +2,7 @@ package de.dittner.testmyself.backend {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
-import de.dittner.testmyself.backend.cmd.LoadAllThemesCmd;
+import de.dittner.testmyself.backend.cmd.LoadAllTagsCmd;
 import de.dittner.testmyself.backend.cmd.LoadAudioCommentCmd;
 import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
@@ -10,22 +10,23 @@ import de.dittner.testmyself.backend.cmd.LoadTaskIDsCmd;
 import de.dittner.testmyself.backend.cmd.LoadTestStatisticsCmd;
 import de.dittner.testmyself.backend.cmd.LoadTestTaskCmd;
 import de.dittner.testmyself.backend.cmd.LoadVocabularyInfoCmd;
-import de.dittner.testmyself.backend.cmd.MergeThemesCmd;
+import de.dittner.testmyself.backend.cmd.MergeTagsCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNoteCmd;
-import de.dittner.testmyself.backend.cmd.RemoveNotesByThemeCmd;
-import de.dittner.testmyself.backend.cmd.RemoveThemeCmd;
+import de.dittner.testmyself.backend.cmd.RemoveNotesByTagCmd;
+import de.dittner.testmyself.backend.cmd.RemoveTagCmd;
 import de.dittner.testmyself.backend.cmd.RunDataBaseCmd;
 import de.dittner.testmyself.backend.cmd.SearchNotesCmd;
 import de.dittner.testmyself.backend.cmd.SelectAllNotesTitlesCmd;
 import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
+import de.dittner.testmyself.backend.cmd.StoreTagCmd;
 import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
-import de.dittner.testmyself.backend.cmd.StoreThemeCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
+import de.dittner.testmyself.backend.op.LoadAllExamplesOperation;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
-import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.page.SearchPage;
@@ -41,6 +42,8 @@ public class Storage extends WalterProxy {
 
 	[Inject]
 	public var deferredCommandManager:IDeferredCommandManager;
+
+	public var exampleHash:Object = {};
 
 	private var _sqlConnection:SQLConnection;
 	public function get sqlConnection():SQLConnection {return _sqlConnection;}
@@ -89,6 +92,8 @@ public class Storage extends WalterProxy {
 	private function audioDataBaseReadyHandler(opEvent:*):void {
 		_audioSqlConnection = opEvent.result as SQLConnection;
 		deferredCommandManager.start();
+		var cmd:LoadAllExamplesOperation = new LoadAllExamplesOperation(this);
+		deferredCommandManager.add(cmd);
 	}
 
 	public function loadVocabularyInfo(v:Vocabulary):IAsyncOperation {
@@ -113,8 +118,8 @@ public class Storage extends WalterProxy {
 		return op;
 	}
 
-	public function removeNotesByTheme(theme:Theme):IAsyncOperation {
-		var op:IAsyncCommand = new RemoveNotesByThemeCmd(this, theme);
+	public function removeNotesByTag(tag:Tag):IAsyncOperation {
+		var op:IAsyncCommand = new RemoveNotesByTagCmd(this, tag);
 		deferredCommandManager.add(op);
 		return op;
 	}
@@ -144,29 +149,29 @@ public class Storage extends WalterProxy {
 	}
 
 	//--------------------------------------
-	//  Themes
+	//  Tags
 	//--------------------------------------
 
-	public function storeTheme(theme:Theme):IAsyncOperation {
-		var op:IAsyncCommand = new StoreThemeCmd(this, theme);
+	public function storeTag(tag:Tag):IAsyncOperation {
+		var op:IAsyncCommand = new StoreTagCmd(this, tag);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
-	public function loadAllThemes(vocabulary:Vocabulary):IAsyncOperation {
-		var op:IAsyncCommand = new LoadAllThemesCmd(this, vocabulary);
+	public function loadAllTags(vocabulary:Vocabulary):IAsyncOperation {
+		var op:IAsyncCommand = new LoadAllTagsCmd(this, vocabulary);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
-	public function removeTheme(theme:Theme):IAsyncOperation {
-		var op:IAsyncCommand = new RemoveThemeCmd(this, theme);
+	public function removeTag(tag:Tag):IAsyncOperation {
+		var op:IAsyncCommand = new RemoveTagCmd(this, tag);
 		deferredCommandManager.add(op);
 		return op;
 	}
 
-	public function mergeThemes(destTheme:Theme, srcTheme:Theme):IAsyncOperation {
-		var op:IAsyncCommand = new MergeThemesCmd(this, destTheme, srcTheme);
+	public function mergeTags(srcTag:Tag, destTag:Tag):IAsyncOperation {
+		var op:IAsyncCommand = new MergeTagsCmd(this, srcTag, destTag);
 		deferredCommandManager.add(op);
 		return op;
 	}
@@ -197,7 +202,7 @@ public class Storage extends WalterProxy {
 		return op;
 	}
 
-	public function loadTaskIDs(test:Test, filter:Theme, taskComplexity:uint):IAsyncOperation {
+	public function loadTaskIDs(test:Test, filter:Tag, taskComplexity:uint):IAsyncOperation {
 		var op:IAsyncCommand = new LoadTaskIDsCmd(this, test, filter, taskComplexity);
 		deferredCommandManager.add(op);
 		return op;

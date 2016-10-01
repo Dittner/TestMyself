@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.common.page {
-import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 
 import flash.events.Event;
@@ -89,15 +89,15 @@ public class NotePage extends EventDispatcher implements INotePage {
 	}
 
 	//--------------------------------------
-	//  selectedTheme
+	//  selectedTag
 	//--------------------------------------
-	private var _selectedTheme:Theme;
-	[Bindable("selectedThemeChanged")]
-	public function get selectedTheme():Theme {return _selectedTheme;}
-	public function set selectedTheme(value:Theme):void {
-		if (_selectedTheme != value) {
-			_selectedTheme = value;
-			dispatchEvent(new Event("selectedThemeChanged"));
+	private var _selectedTag:Tag;
+	[Bindable("selectedTagChanged")]
+	public function get selectedTag():Tag {return _selectedTag;}
+	public function set selectedTag(value:Tag):void {
+		if (_selectedTag != value) {
+			_selectedTag = value;
+			dispatchEvent(new Event("selectedTagChanged"));
 		}
 	}
 

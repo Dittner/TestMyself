@@ -36,7 +36,7 @@ public class SelectNotesBySearchOperation extends StorageOperation implements IA
 			sqlParams.loadExamples = page.loadExamples ? 1 : 0;
 			sqlParams.searchText = "%" + page.searchText.toLowerCase() + "%";
 
-			var selectedVocabulariesStr:String = SQLUtils.vocabularyIDsToSqlStr(page.vocabularyIDs);
+			var selectedVocabulariesStr:String = SQLUtils.idsToSqlStr(page.vocabularyIDs);
 			sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
 		}
 		else {

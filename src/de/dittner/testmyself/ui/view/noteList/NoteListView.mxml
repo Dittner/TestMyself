@@ -7,7 +7,7 @@
                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
                 xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
-                xmlns:theme="de.dittner.testmyself.ui.view.noteList.components.theme.*"
+                xmlns:tag="de.dittner.testmyself.ui.view.noteList.components.tag.*"
                 currentState="inactive">
 
     <fx:Script><![CDATA[
@@ -106,7 +106,7 @@
 
         private function noteAddedComplete(op:IAsyncOperation):void {
             if (op.isSuccess && op.result == FormOperationResult.OK) {
-                if (vm.page.selectedTheme) vm.page.countAllNotes = true;
+                if (vm.page.selectedTag) vm.page.countAllNotes = true;
                 else vm.page.allNotesAmount++;
                 vm.reloadPage();
             }
@@ -176,15 +176,15 @@
     <common:ExampleList id="exampleList"
                         selectedNote="@{vm.selectedExample}"
                         dataProvider="{noteList.selectedNote.exampleColl}"
-                        width="50%" top="-1" bottom="{FOOTER_HEI + themesLbl.height}"
+                        width="50%" top="-1" bottom="{FOOTER_HEI + tagsLbl.height}"
                         right="0"
                         excludeFrom="inactive"
                         showTitle="false"
                         hasFocusableChildren="false"/>
 
-    <s:Label id="themesLbl"
+    <s:Label id="tagsLbl"
              excludeFrom="inactive"
-             text="{vm.selectedNoteThemes}"
+             text="{vm.selectedNoteTags}"
              backgroundAlpha="1" backgroundColor="{AppColors.EXAMPLES_BG}"
              height="20" bottom="{FOOTER_HEI}" width="50%" paddingLeft="10" paddingRight="10"
              right="00" textAlign="right"
@@ -238,14 +238,14 @@
             </s:fill>
         </s:Rect>
 
-        <theme:ThemeFilter id="filter"
-                           selectedTheme="@{vm.page.selectedTheme}"
-                           themes="{vm.page.vocabulary.themeColl}"
-                           width="350"
-                           visible="false"
-                           right="0"
-                           height="100%"
-                           selectedThemeChanged="filterChangedHandler(event)"/>
+        <tag:TagFilter id="filter"
+                       selectedTag="@{vm.page.selectedTag}"
+                       tags="{vm.page.vocabulary.tagColl}"
+                       width="350"
+                       visible="false"
+                       right="0"
+                       height="100%"
+                       selectedTagChanged="filterChangedHandler(event)"/>
     </s:Group>
 
 </view:SmartView>

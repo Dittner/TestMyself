@@ -1,5 +1,4 @@
-SELECT COUNT(n.id) FROM note n, filter f
+SELECT COUNT(id) FROM note
 WHERE vocabularyID = :vocabularyID
-AND n.isExample = 0
-AND n.id = f.noteID
-AND f.themeID = :selectedThemeID
+AND isExample = 0
+AND tags LIKE :selectedTagID

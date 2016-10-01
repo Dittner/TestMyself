@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS note
 	options Object,
 	hasAudio int NOT NULL,
 	isExample int NOT NULL,
-	searchText String NOT NULL
-
+	searchText String NOT NULL,
+	tags String
 )

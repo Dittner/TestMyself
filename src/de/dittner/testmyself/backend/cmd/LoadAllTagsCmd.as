@@ -4,16 +4,16 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class LoadAllThemesCmd extends StorageOperation implements IAsyncCommand {
+public class LoadAllTagsCmd extends StorageOperation implements IAsyncCommand {
 
-	public function LoadAllThemesCmd(storage:Storage, vocabulary:Vocabulary) {
+	public function LoadAllTagsCmd(storage:Storage, vocabulary:Vocabulary) {
 		super();
 		this.storage = storage;
 		this.vocabulary = vocabulary;
@@ -23,21 +23,21 @@ public class LoadAllThemesCmd extends StorageOperation implements IAsyncCommand 
 	private var vocabulary:Vocabulary;
 
 	public function execute():void {
-		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_THEME_SQL, {vocabularyID: vocabulary.id});
+		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_TAG_SQL, {vocabularyID: vocabulary.id});
 		statement.sqlConnection = storage.sqlConnection;
 		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
 	private function executeComplete(result:SQLResult):void {
-		var themes:Array = [];
+		var tags:Array = [];
 		if (result.data is Array)
 			for each(var item:Object in result.data) {
-				var t:Theme = vocabulary.createTheme();
+				var t:Tag = vocabulary.createTag();
 				t.deserialize(item);
-				themes.push(t);
+				tags.push(t);
 			}
 
-		dispatchSuccess(themes);
+		dispatchSuccess(tags);
 	}
 }
 }

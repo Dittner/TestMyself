@@ -6,7 +6,6 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.DeleteAudioCommentByNoteIDOperation;
 import de.dittner.testmyself.backend.op.DeleteAudioCommentByParentNoteIDOperation;
 import de.dittner.testmyself.backend.op.DeleteExampleByParentIDOperation;
-import de.dittner.testmyself.backend.op.DeleteFilterByNoteIDOperation;
 import de.dittner.testmyself.backend.op.DeleteNoteOperation;
 import de.dittner.testmyself.backend.op.DeleteTestTaskByNoteIDOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
@@ -26,7 +25,6 @@ public class RemoveNoteCmd extends StorageOperation implements IAsyncCommand {
 		var composite:CompositeCommand = new CompositeCommand();
 
 		composite.addOperation(DeleteNoteOperation, storage, noteID);
-		composite.addOperation(DeleteFilterByNoteIDOperation, storage, noteID);
 		composite.addOperation(DeleteTestTaskByNoteIDOperation, storage, noteID);
 		composite.addOperation(DeleteExampleByParentIDOperation, storage, noteID);
 		composite.addOperation(DeleteAudioCommentByNoteIDOperation, storage, noteID);

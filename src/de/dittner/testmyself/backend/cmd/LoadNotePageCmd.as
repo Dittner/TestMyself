@@ -6,7 +6,6 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.CountFilteredNoteByPageOperation;
 import de.dittner.testmyself.backend.op.SelectExamplesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectNotesByPageOperation;
-import de.dittner.testmyself.backend.op.SelectThemesByPageOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.ui.common.page.NotePage;
 
@@ -26,7 +25,6 @@ public class LoadNotePageCmd extends StorageOperation implements IAsyncCommand {
 
 		composite.addOperation(SelectNotesByPageOperation, storage, page);
 		composite.addOperation(SelectExamplesByPageOperation, storage, page);
-		composite.addOperation(SelectThemesByPageOperation, storage, page);
 		if (page.countAllNotes)
 			composite.addOperation(CountFilteredNoteByPageOperation, storage, page);
 

@@ -2,7 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:input="de.dittner.testmyself.ui.common.input.*" xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
@@ -53,7 +54,7 @@
                              top="{AppSizes.SCREEN_HEADER_HEIGHT + 15}"
                              width="50%"
                              horizontalCenter="0"
-                             maxChars="{Device.MAX_THEME_NAME_LENGTH}"
+                             maxChars="{Device.MAX_TAG_NAME_LENGTH}"
                              title="Neuer Name der Übung"/>
 
         <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"

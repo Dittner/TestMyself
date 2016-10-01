@@ -18,16 +18,16 @@
         import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.model.domain.note.Note;
-        import de.dittner.testmyself.model.domain.theme.Theme;
+        import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.menu.IMenuBoard;
         import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
         import de.dittner.testmyself.ui.common.menu.MenuID;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
-        import de.dittner.testmyself.ui.common.renderer.AddedThemeItemRenderer;
+        import de.dittner.testmyself.ui.common.renderer.AddedTagItemRenderer;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
-        import de.dittner.testmyself.ui.view.noteList.components.theme.ThemeItemRenderer;
+        import de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer;
 
         import mx.collections.ArrayCollection;
 
@@ -95,10 +95,10 @@
         //--------------------------------------
         //  selectedFilter
         //--------------------------------------
-        private var _selectedFilter:Theme;
+        private var _selectedFilter:Tag;
         [Bindable("selectedFilterChanged")]
-        public function get selectedFilter():Theme {return _selectedFilter;}
-        public function set selectedFilter(value:Theme):void {
+        public function get selectedFilter():Tag {return _selectedFilter;}
+        public function set selectedFilter(value:Tag):void {
             if (_selectedFilter != value) {
                 _selectedFilter = value;
                 dispatchEvent(new Event("selectedFilterChanged"));
@@ -150,8 +150,8 @@
             setNote(n);
             updateState();
             setMode("add");
-            themeList.dataProvider = note.vocabulary.themeColl;
-            showSelectedThemes(note.themes);
+            tagList.dataProvider = note.vocabulary.tagColl;
+            showSelectedTags(note.tagIDs);
             dispatchEvent(new Event("taskChanged"));
             invalidateOf(focusTextInput);
             menu.showFormMenu();
@@ -184,8 +184,8 @@
 
             descriptionArea.text = note.description;
             examplesForm.exampleColl = note.exampleColl;
-            themeList.dataProvider = note.vocabulary.themeColl;
-            showSelectedThemes(note.themes);
+            tagList.dataProvider = note.vocabulary.tagColl;
+            showSelectedTags(note.tagIDs);
 
             if (note.hasAudio) {
                 if (note.audioComment.isEmpty)
@@ -206,24 +206,24 @@
             audioRecorder.setComment(note.audioComment);
         }
 
-        private function showSelectedThemes(noteThemes:Array):void {
-            if ((noteThemes.length == 0 && !selectedFilter) || !themeList.dataProvider || themeList.dataProvider.length == 0) return;
+        private function showSelectedTags(noteTagIDs:Array):void {
+            if ((noteTagIDs.length == 0 && !selectedFilter) || !tagList.dataProvider || tagList.dataProvider.length == 0) return;
 
-            var isSelectedThemeHash:Object = {};
+            var isSelectedTagHash:Object = {};
             var selectedItems:Vector.<Object> = new Vector.<Object>();
-            for each(var noteTheme:Theme in noteThemes)
-                isSelectedThemeHash[noteTheme.id] = true;
+            for each(var noteTagID:int in noteTagIDs)
+                isSelectedTagHash[noteTagID] = true;
             if (selectedFilter)
-                isSelectedThemeHash[selectedFilter.id] = true;
-            for each(var theme:Theme in themeList.dataProvider)
-                if (isSelectedThemeHash[theme.id]) selectedItems.push(theme);
-            themeList.selectedItems = selectedItems;
+                isSelectedTagHash[selectedFilter.id] = true;
+            for each(var tag:Tag in tagList.dataProvider)
+                if (isSelectedTagHash[tag.id]) selectedItems.push(tag);
+            tagList.selectedItems = selectedItems;
         }
 
-        private function getSelectedThemes():Array {
+        private function getSelectedTagIDs():Array {
             var res:Array = [];
-            for each(var theme:Theme in themeList.selectedItems)
-                res.push(theme);
+            for each(var tag:Tag in tagList.selectedItems)
+                res.push(tag.id);
             return res;
         }
 
@@ -256,11 +256,11 @@
             wordInput.text = "";
             wordOptionsInput.text = "";
             descriptionArea.text = "";
-            addThemeInput.text = "";
+            addTagInput.text = "";
             titleArea.text = "";
             audioRecorder.clear();
             examplesForm.clear();
-            themeList.dataProvider = null;
+            tagList.dataProvider = null;
             verbInputsForm.clear();
             wordInput.isValidInput = true;
             titleArea.isValidInput = true;
@@ -335,7 +335,7 @@
                 word.declension = wordOptionsInput.text;
                 word.audioComment = audioRecorder.getComment();
                 word.exampleColl = examplesForm.exampleColl;
-                word.themes = getSelectedThemes();
+                word.tagIDs = getSelectedTagIDs();
             }
             else if (note is DeVerb) {
                 var verb:DeVerb = note as DeVerb;
@@ -346,14 +346,14 @@
                 verb.past = verbInputsForm.pastInput.text;
                 verb.perfect = verbInputsForm.perfectInput.text;
                 verb.exampleColl = examplesForm.exampleColl;
-                verb.themes = getSelectedThemes();
+                verb.tagIDs = getSelectedTagIDs();
             }
             else {
                 note.title = titleArea.text;
                 note.description = descriptionArea.text;
                 note.audioComment = audioRecorder.getComment();
                 if (!note.isExample)
-                    note.themes = getSelectedThemes();
+                    note.tagIDs = getSelectedTagIDs();
             }
         }
 
@@ -364,10 +364,10 @@
                 note.remove();
         }
 
-        private function themesRendererFunc(item:Object):IFactory {
-            var theme:Theme = item as Theme;
-            if (theme.id == -1) return new ClassFactory(AddedThemeItemRenderer);
-            else return new ClassFactory(ThemeItemRenderer);
+        private function tagsRendererFunc(item:Object):IFactory {
+            var tag:Tag = item as Tag;
+            if (tag.id == -1) return new ClassFactory(AddedTagItemRenderer);
+            else return new ClassFactory(TagRenderer);
         }
 
         private function wordValidationHandler(event:TextOperationEvent):void {
@@ -379,23 +379,30 @@
             }
         }
 
-        private function addThemeBtnClickHandler(event:MouseEvent):void {
-            if (!addThemeInput.text) return;
+        private function addTagBtnClickHandler(event:MouseEvent):void {
+            if (!addTagInput.text) return;
 
-            var theme:Theme = note.vocabulary.createTheme();
-            theme.name = addThemeInput.text;
-            var errKey:String = theme.validate();
+            var tag:Tag = note.vocabulary.createTag();
+            tag.name = addTagInput.text;
+            var errKey:String = tag.validate();
             if (errKey) {
                 showInvalidMsg(NoteValidationErrorKey.keyToString(errKey, note.vocabulary.lang.id));
             }
             else {
-                var selectedItems:Vector.<Object> = themeList.selectedItems || new Vector.<Object>();
-                selectedItems.push(theme);
-                if (!themeList.dataProvider) themeList.dataProvider = new ArrayCollection();
-                themeList.dataProvider.addItemAt(theme, 0);
-                themeList.selectedItems = selectedItems;
-                addThemeInput.text = "";
+                var op:IAsyncOperation = tag.store();
+                op.addCompleteCallback(newTagStored);
+
+                var selectedItems:Vector.<Object> = tagList.selectedItems || new Vector.<Object>();
+                selectedItems.push(tag);
+                if (!tagList.dataProvider) tagList.dataProvider = new ArrayCollection();
+                tagList.dataProvider.addItemAt(tag, 0);
+                tagList.selectedItems = selectedItems;
+                addTagInput.text = "";
             }
+        }
+
+        private function newTagStored(op:IAsyncOperation):void {
+            (tagList.dataProvider as ArrayCollection).refresh();
         }
 
         private function getRemoveNotification(note:Note):String {
@@ -539,11 +546,11 @@
                   visible.lesson="{!isAddMode}" includeInLayout.lesson="{!isAddMode}"
                   visible.word="true" includeInLayout.word="true"
                   visible.verb="true" includeInLayout.verb="true">
-            <list:ListForm id="themeList"
+            <list:ListForm id="tagList"
                            depth="10"
                            width="100%" height="100%"
-                           title="Themenliste"
-                           itemRendererFunction="themesRendererFunc"
+                           title="Tagsliste"
+                           itemRendererFunction="tagsRendererFunc"
                            allowMultipleSelection.lesson="false"
                            allowMultipleSelection="true">
                 <list:layout>
@@ -553,16 +560,16 @@
 
             <s:HGroup width="100%" height="72" gap="0" verticalAlign="bottom"
                       visible.lesson="false" includeInLayout.lesson="false">
-                <input:TextInputForm id="addThemeInput"
+                <input:TextInputForm id="addTagInput"
                                      width="100%"
-                                     maxChars="{Device.MAX_THEME_NAME_LENGTH}"
-                                     title="Neuer Themaname"/>
+                                     maxChars="{Device.MAX_TAG_NAME_LENGTH}"
+                                     title="Neuer Tagsname"/>
 
-                <button:BitmapButton id="addThemeBtn"
-                                     description="Neues Thema hinzufügen"
+                <button:BitmapButton id="addTagBtn"
+                                     description="Neues Tag hinzufügen"
                                      upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
                                      downImage="@Embed(source='/assets/button/add_element_btn_down.png')"
-                                     click="addThemeBtnClickHandler(event)"/>
+                                     click="addTagBtnClickHandler(event)"/>
             </s:HGroup>
         </s:VGroup>
 

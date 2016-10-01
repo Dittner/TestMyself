@@ -5,36 +5,36 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.tag.Tag;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
 
-public class DeleteThemeOperation extends StorageOperation implements IAsyncCommand {
+public class DeleteTagOperation extends StorageOperation implements IAsyncCommand {
 
-	public function DeleteThemeOperation(storage:Storage, theme:Theme) {
+	public function DeleteTagOperation(storage:Storage, tag:Tag) {
 		super();
 		this.storage = storage;
-		this.theme = theme;
+		this.tag = tag;
 	}
 
 	private var storage:Storage;
-	private var theme:Theme;
+	private var tag:Tag;
 
 	public function execute():void {
-		if (theme.id == -1) {
-			dispatchError(ErrorCode.NULLABLE_NOTE + ": Отсутствует ID темы");
+		if (tag.id == -1) {
+			dispatchError(ErrorCode.NULLABLE_NOTE + ": No removing tag's ID");
 		}
 		else {
-			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.DELETE_THEME_SQL, {deletingThemeID: theme.id});
+			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.DELETE_TAG_SQL, {deletingTagID: tag.id});
 			statement.sqlConnection = storage.sqlConnection;
 			statement.execute(-1, new Responder(deleteCompleteHandler, executeError));
 		}
 	}
 
 	private function deleteCompleteHandler(result:SQLResult):void {
-		theme.vocabulary.removeTheme(theme);
+		tag.vocabulary.removeTag(tag);
 		dispatchSuccess();
 	}
 

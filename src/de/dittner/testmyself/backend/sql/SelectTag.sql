@@ -1,4 +1,4 @@
 SELECT *
-FROM theme
+FROM tag
 WHERE vocabularyID = :vocabularyID
 ORDER BY name

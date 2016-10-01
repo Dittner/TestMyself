@@ -4,8 +4,8 @@ import de.dittner.testmyself.model.domain.language.LanguageID;
 public class NoteValidationErrorKey {
 	public function NoteValidationErrorKey() {}
 
-	public static const EMPTY_THEME_NAME:String = "EMPTY_THEME_NAME";
-	public static const THEME_NAME_DUPLICATE:String = "THEME_NAME_DUPLICATE";
+	public static const EMPTY_TAG_NAME:String = "EMPTY_TAG_NAME";
+	public static const TAG_NAME_DUPLICATE:String = "TAG_NAME_DUPLICATE";
 
 	public static const EMPTY_NOTE_TITLE:String = "EMPTY_NOTE_TITLE";
 	public static const EMPTY_NOTE_DESCRIPTION:String = "EMPTY_NOTE_DESCRIPTION";
@@ -19,10 +19,10 @@ public class NoteValidationErrorKey {
 	public static function keyToString(key:String, langID:uint):String {
 		if (langID == LanguageID.DE) {
 			switch (key) {
-				case EMPTY_THEME_NAME :
-					return "Der Name des Themas is nicht ergänzt!";
-				case THEME_NAME_DUPLICATE :
-					return "Das Thema hat das Duplikat!";
+				case EMPTY_TAG_NAME :
+					return "Der Name des Tags is nicht ergänzt!";
+				case TAG_NAME_DUPLICATE :
+					return "Das Tag hat das Duplikat!";
 				case EMPTY_NOTE_TITLE :
 					return "Der Titel der Note is nicht ergänzt!";
 				case EMPTY_NOTE_DESCRIPTION :

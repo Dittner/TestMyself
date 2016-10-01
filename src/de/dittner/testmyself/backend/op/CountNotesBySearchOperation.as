@@ -32,8 +32,8 @@ public class CountNotesBySearchOperation extends StorageOperation implements IAs
 		for each(var v:Vocabulary in page.lang.vocabularyHash.getList())
 			allVocabularyIDs.push(v.id);
 
-		var allVocabulariesStr:String = SQLUtils.vocabularyIDsToSqlStr(allVocabularyIDs);
-		var selectedVocabulariesStr:String = SQLUtils.vocabularyIDsToSqlStr(page.vocabularyIDs);
+		var allVocabulariesStr:String = SQLUtils.idsToSqlStr(allVocabularyIDs);
+		var selectedVocabulariesStr:String = SQLUtils.idsToSqlStr(page.vocabularyIDs);
 		sql = sql.replace("#allVocabularyList", allVocabulariesStr);
 		sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
 

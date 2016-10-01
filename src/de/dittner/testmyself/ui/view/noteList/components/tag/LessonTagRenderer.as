@@ -1,21 +1,21 @@
-package de.dittner.testmyself.ui.view.noteList.components.theme {
-import de.dittner.testmyself.model.domain.theme.Theme;
+package de.dittner.testmyself.ui.view.noteList.components.tag {
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 
 import flash.text.TextFormat;
 
-public class LessonThemeRenderer extends StringItemRenderer {
+public class LessonTagRenderer extends StringItemRenderer {
 	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT_BLACK, null, true);
 	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT_WHITE, null, true);
 
-	public function LessonThemeRenderer() {
+	public function LessonTagRenderer() {
 		super();
 	}
 
 	override protected function get text():String {
-		return data is Theme ? (data as Theme).name : "";
+		return data is Tag ? (data as Tag).name : "";
 	}
 
 	override protected function get format():TextFormat {return TEST_FORMAT;}

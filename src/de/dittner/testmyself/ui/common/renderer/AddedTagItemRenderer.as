@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.common.renderer {
-import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -13,8 +13,8 @@ import flash.text.TextFormat;
 
 import spark.components.DataGroup;
 
-public class AddedThemeItemRenderer extends ItemRendererBase {
-	private static const SELECTED_THEME_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
+public class AddedTagItemRenderer extends ItemRendererBase {
+	private static const SELECTED_TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const RIGHT_PADDING:uint = 5;
 
@@ -22,37 +22,37 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 	private static const DeleteBtnIconClass:Class;
 	private static var crossIcon:BitmapData = (new DeleteBtnIconClass()).bitmapData;
 
-	public function AddedThemeItemRenderer() {
+	public function AddedTagItemRenderer() {
 		super();
 		percentWidth = 100;
 		addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
 		mouseChildren = false;
 	}
 
-	private var themeName:TextField;
+	private var tagName:TextField;
 
-	private function get theme():Theme {
-		return data as Theme;
+	private function get tag():Tag {
+		return data as Tag;
 	}
 
 	override protected function createChildren():void {
 		super.createChildren();
-		themeName = createTextField(SELECTED_THEME_FORMAT);
-		addChild(themeName);
+		tagName = createTextField(SELECTED_TAG_FORMAT);
+		addChild(tagName);
 	}
 
 	override protected function commitProperties():void {
 		super.commitProperties();
 		if (dataChanged) {
 			dataChanged = false;
-			themeName.text = theme ? theme.name : "";
+			tagName.text = tag ? tag.name : "";
 		}
 	}
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : 50;
 		minHeight = 10;
-		measuredHeight = themeName.textHeight + 5 + 2 * PADDING;
+		measuredHeight = tagName.textHeight + 5 + 2 * PADDING;
 	}
 
 	private var gradMatrix:Matrix = new Matrix();
@@ -73,14 +73,14 @@ public class AddedThemeItemRenderer extends ItemRendererBase {
 		g.drawRect(w - crossIcon.width - RIGHT_PADDING, h - crossIcon.height >> 1, crossIcon.width, crossIcon.height);
 		g.endFill();
 
-		themeName.x = themeName.y = PADDING;
-		themeName.width = w - 2 * PADDING;
-		themeName.height = h - 2 * PADDING;
+		tagName.x = tagName.y = PADDING;
+		tagName.width = w - 2 * PADDING;
+		tagName.height = h - 2 * PADDING;
 	}
 
 	private function downHandler(event:MouseEvent):void {
 		if (event.localX >= measuredWidth - crossIcon.width - RIGHT_PADDING) {
-			if (theme && parent is DataGroup) (parent as DataGroup).dataProvider.removeItemAt(itemIndex);
+			if (tag && parent is DataGroup) (parent as DataGroup).dataProvider.removeItemAt(itemIndex);
 		}
 		else event.stopImmediatePropagation();
 	}

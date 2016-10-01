@@ -1,4 +1,4 @@
-package de.dittner.testmyself.model.domain.theme {
+package de.dittner.testmyself.model.domain.tag {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
@@ -9,10 +9,12 @@ import flash.events.EventDispatcher;
 
 use namespace domain_internal;
 
-public class Theme extends EventDispatcher {
-	public function Theme() {
+public class Tag extends EventDispatcher {
+	public function Tag() {
 		super();
 	}
+
+	public static const DELIMITER:String = ",";
 
 	//--------------------------------------
 	//  id
@@ -59,15 +61,15 @@ public class Theme extends EventDispatcher {
 	//----------------------------------------------------------------------------------------------
 
 	public function store():IAsyncOperation {
-		return vocabulary.storage.storeTheme(this);
+		return vocabulary.storage.storeTag(this);
 	}
 
 	public function remove():IAsyncOperation {
-		return vocabulary.storage.removeTheme(this);
+		return vocabulary.storage.removeTag(this);
 	}
 
-	public function mergeWith(theme:Theme):IAsyncOperation {
-		return vocabulary.storage.mergeThemes(this, theme);
+	public function mergeWith(tag:Tag):IAsyncOperation {
+		return vocabulary.storage.mergeTags(tag, this);
 	}
 
 	public function serialize():Object {
@@ -83,10 +85,10 @@ public class Theme extends EventDispatcher {
 	}
 
 	public function validate():String {
-		if (!name) return NoteValidationErrorKey.EMPTY_THEME_NAME;
+		if (!name) return NoteValidationErrorKey.EMPTY_TAG_NAME;
 		else if (isNew) {
-			for each(var t:Theme in vocabulary.themeColl)
-				if (t.name == name) return NoteValidationErrorKey.THEME_NAME_DUPLICATE;
+			for each(var t:Tag in vocabulary.tagColl)
+				if (t.name == name) return NoteValidationErrorKey.TAG_NAME_DUPLICATE;
 		}
 		return "";
 	}

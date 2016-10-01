@@ -1,26 +1,28 @@
 package de.dittner.testmyself.backend.utils {
-import de.dittner.testmyself.model.domain.theme.Theme;
+import de.dittner.testmyself.model.domain.tag.Tag;
 
 import flash.data.SQLStatement;
 
 public class SQLUtils {
-	public static function themesToSqlStr(themes:Array):String {
+	public static function tagsToSqlStr(tags:Array):String {
 		var res:String = "(";
-		for (var i:int = 0; i < themes.length; i++) {
-			var theme:Theme = themes[i] as Theme;
-			res += "'" + theme.name + "'";
-			if (i < themes.length - 1) res += ","
+		for (var i:int = 0; i < tags.length; i++) {
+			var tag:Tag = tags[i] as Tag;
+			res += "'" + tag.name + "'";
+			if (i < tags.length - 1) res += ","
 		}
 		res += ")";
 		return res;
 	}
 
-	public static function vocabularyIDsToSqlStr(vocabulariesID:Array):String {
+	public static function idsToSqlStr(ids:Array):String {
+		if (!ids || ids.length == 0) return "";
+
 		var res:String = "(";
-		for (var i:int = 0; i < vocabulariesID.length; i++) {
-			var id:int = vocabulariesID[i] as int;
+		for (var i:int = 0; i < ids.length; i++) {
+			var id:int = ids[i] as int;
 			res += id;
-			if (i < vocabulariesID.length - 1) res += ","
+			if (i < ids.length - 1) res += ","
 		}
 		res += ")";
 		return res;

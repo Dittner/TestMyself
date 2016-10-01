@@ -4,6 +4,7 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 
 import flash.data.SQLResult;
@@ -27,8 +28,9 @@ public class CountTestTasksOperation extends StorageOperation implements IAsyncC
 		sqlParams.onlyFailedNotes = page.loadOnlyFailedTestTask ? 1 : 0;
 
 		var sql:String;
-		if (page.filter) {
-			sqlParams.selectedThemeID = page.filter.id;
+		if (page.selectedTag) {
+			sqlParams.selectedTagID = "%" + Tag.DELIMITER + page.selectedTag.id + Tag.DELIMITER + "%";
+
 			sql = SQLLib.SELECT_COUNT_FILTERED_TEST_TASK_SQL;
 		}
 		else {

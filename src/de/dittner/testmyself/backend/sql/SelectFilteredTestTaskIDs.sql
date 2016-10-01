@@ -1,7 +1,7 @@
 SELECT t.id
-FROM filter f, testTask t
+FROM note n, testTask t
 WHERE t.testID = :selectedTestID
 AND t.complexity = :complexity
-AND t.noteID = f.noteID
-AND f.themeID = :selectedThemeID
+AND t.noteID = n.id
+AND n.tags LIKE :selectedTagID
 ORDER BY rate

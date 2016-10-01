@@ -1,8 +1,7 @@
-SELECT n.*
-FROM note n, filter f
+SELECT *
+FROM note
 WHERE vocabularyID = :vocabularyID
-AND n.isExample = 0
-AND n.id = f.noteID
-AND f.themeID = :selectedThemeID
-ORDER BY n.id DESC
+AND isExample = 0
+AND tags LIKE :selectedTagID
+ORDER BY id DESC
 LIMIT :startIndex, :amount

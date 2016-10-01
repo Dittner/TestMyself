@@ -1,11 +1,7 @@
 package de.dittner.testmyself.backend.cmd {
-import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncCommand;
-import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.backend.op.SelectExamplesOperation;
-import de.dittner.testmyself.backend.op.SelectNoteThemesOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.note.Note;
@@ -14,6 +10,8 @@ import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
 import flash.net.Responder;
+
+import mx.collections.ArrayCollection;
 
 public class LoadNoteByNoteIDCmd extends StorageOperation implements IAsyncCommand {
 
@@ -51,18 +49,17 @@ public class LoadNoteByNoteIDCmd extends StorageOperation implements IAsyncComma
 			return;
 		}
 
-		var composite:CompositeCommand = new CompositeCommand();
-
-		composite.addOperation(SelectExamplesOperation, storage, loadedNote);
-		composite.addOperation(SelectNoteThemesOperation, storage, loadedNote);
-
-		composite.addCompleteCallback(completeHandler);
-		composite.execute();
-	}
-
-	private function completeHandler(op:IAsyncOperation):void {
-		if (op.isSuccess) dispatchSuccess(loadedNote);
-		else dispatchError();
+		if (storage.exampleHash[loadedNote.id]) {
+			var examples:Array = [];
+			var example:Note;
+			for each(var exampleData:Object in storage.exampleHash[loadedNote.id]) {
+				example = loadedNote.createExample();
+				example.deserialize(exampleData);
+				examples.push(example);
+			}
+			loadedNote.exampleColl = new ArrayCollection(examples);
+		}
+		dispatchSuccess(loadedNote);
 	}
 }
 }

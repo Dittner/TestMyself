@@ -6,7 +6,6 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.CountNotesBySearchOperation;
 import de.dittner.testmyself.backend.op.SelectExamplesByPageOperation;
 import de.dittner.testmyself.backend.op.SelectNotesBySearchOperation;
-import de.dittner.testmyself.backend.op.SelectThemesByPageOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.ui.common.page.SearchPage;
 
@@ -35,7 +34,6 @@ public class SearchNotesCmd extends StorageOperation implements IAsyncCommand {
 
 		composite.addOperation(SelectNotesBySearchOperation, storage, page);
 		composite.addOperation(SelectExamplesByPageOperation, storage, page);
-		composite.addOperation(SelectThemesByPageOperation, storage, page);
 		if (page.countAllNotes)
 			composite.addOperation(CountNotesBySearchOperation, storage, page);
 

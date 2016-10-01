@@ -1,4 +1,4 @@
-UPDATE theme
+UPDATE tag
 SET name = :name,
     vocabularyID = :vocabularyID
-WHERE id = :themeID
+WHERE id = :tagID

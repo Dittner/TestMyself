@@ -146,7 +146,7 @@
     </s:Scroller>
 
     <common:ExampleList id="exampleList"
-                        width="50%" top="{searchBoard.height}" bottom="{FOOTER_HEI+themesLbl.height}"
+                        width="50%" top="{searchBoard.height}" bottom="{FOOTER_HEI+tagsLbl.height}"
                         right="0"
                         selectedNote="@{vm.selectedExample}"
                         dataProvider="{noteList.selectedItem.exampleColl}"
@@ -154,9 +154,9 @@
                         showTitle="false"
                         hasFocusableChildren="false"/>
 
-    <s:Label id="themesLbl"
+    <s:Label id="tagsLbl"
              excludeFrom="inactive"
-             text="{vm.selectedNoteThemes}"
+             text="{vm.selectedNoteTags}"
              backgroundAlpha="1" backgroundColor="{AppColors.EXAMPLES_BG}"
              height="20" bottom="{FOOTER_HEI}" width="50%" paddingLeft="10" paddingRight="10"
              right="00" textAlign="right"

@@ -3,8 +3,8 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.test.Test;
-import de.dittner.testmyself.model.domain.theme.Theme;
 import de.dittner.testmyself.utils.HashList;
 
 import flash.events.Event;
@@ -74,17 +74,27 @@ public class Vocabulary extends EventDispatcher {
 	public function get noteTitleHash():HashList {return _noteTitleHash;}
 
 	//--------------------------------------
-	//  themes
+	//  tags
 	//--------------------------------------
-	private var _themeColl:ArrayCollection = new ArrayCollection();
-	[Bindable("themeCollChanged")]
-	public function get themeColl():ArrayCollection {return _themeColl;}
-	private function setThemeColl(value:ArrayCollection):void {
-		if (_themeColl != value) {
-			_themeColl = value;
-			dispatchEvent(new Event("themeCollChanged"));
+	private var _tagColl:ArrayCollection = new ArrayCollection();
+	[Bindable("tagCollChanged")]
+	public function get tagColl():ArrayCollection {return _tagColl;}
+	private function setTagColl(value:ArrayCollection):void {
+		if (_tagColl != value) {
+			_tagColl = value;
+			_tagHash = {};
+			for each(var tag:Tag in value)
+				_tagHash[tag.id] = tag;
+			dispatchEvent(new Event("tagCollChanged"));
 		}
 	}
+
+	//--------------------------------------
+	//  tagHash
+	//--------------------------------------
+	private var _tagHash:Object = {};
+	[Bindable("tagCollChanged")]
+	public function get tagHash():Object {return _tagHash;}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -94,7 +104,7 @@ public class Vocabulary extends EventDispatcher {
 
 	public function init():IAsyncOperation {
 		reloadNotesTitles();
-		return reloadThemes();
+		return reloadTags();
 	}
 
 	private function reloadNotesTitles():IAsyncOperation {
@@ -109,14 +119,14 @@ public class Vocabulary extends EventDispatcher {
 			noteTitleHash.write(data.title, true);
 	}
 
-	private function reloadThemes():IAsyncOperation {
-		var op:IAsyncOperation = storage.loadAllThemes(this);
-		op.addCompleteCallback(allThemesLoaded);
+	private function reloadTags():IAsyncOperation {
+		var op:IAsyncOperation = storage.loadAllTags(this);
+		op.addCompleteCallback(allTagsLoaded);
 		return op;
 	}
 
-	private function allThemesLoaded(op:IAsyncOperation):void {
-		setThemeColl(new ArrayCollection(op.result));
+	private function allTagsLoaded(op:IAsyncOperation):void {
+		setTagColl(new ArrayCollection(op.result));
 	}
 
 	public function loadInfo():IAsyncOperation {
@@ -129,26 +139,24 @@ public class Vocabulary extends EventDispatcher {
 		return note;
 	}
 
-	public function createTheme():Theme {
-		var theme:Theme = new Theme();
-		theme.vocabulary = this;
-		return theme;
+	public function createTag():Tag {
+		var tag:Tag = new Tag();
+		tag.vocabulary = this;
+		return tag;
 	}
 
-	public function addTheme(t:Theme):void {
-		if (t.id == -1) return;
-		var hasTheme:Boolean = false;
-		for each(var theme:Theme in themeColl)
-			if (theme.id == t.id) {
-				hasTheme = true;
-				break;
-			}
-
-		if (!hasTheme) themeColl.addItem(t);
+	public function addTag(t:Tag):void {
+		if (!tagHash[t.id]) {
+			tagHash[t.id] = t;
+			tagColl.addItem(t);
+		}
 	}
 
-	public function removeTheme(t:Theme):void {
-		themeColl.removeItem(t);
+	public function removeTag(t:Tag):void {
+		if (tagHash[t.id]) {
+			delete tagHash[t.id];
+			tagColl.removeItem(t);
+		}
 	}
 
 }

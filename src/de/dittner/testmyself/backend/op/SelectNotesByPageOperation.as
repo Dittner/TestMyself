@@ -4,6 +4,7 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.ui.common.page.NotePage;
 
 import flash.data.SQLResult;
@@ -30,8 +31,8 @@ public class SelectNotesByPageOperation extends StorageOperation implements IAsy
 		sqlParams.vocabularyID = page.vocabulary.id;
 
 		var sql:String;
-		if (page.selectedTheme) {
-			sqlParams.selectedThemeID = page.selectedTheme.id;
+		if (page.selectedTag) {
+			sqlParams.selectedTagID = "%" + Tag.DELIMITER + page.selectedTag.id + Tag.DELIMITER + "%";
 			sql = SQLLib.SELECT_FILTERED_PAGE_NOTES_SQL;
 		}
 		else {

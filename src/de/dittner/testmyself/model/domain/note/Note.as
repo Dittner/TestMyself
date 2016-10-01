@@ -2,6 +2,7 @@ package de.dittner.testmyself.model.domain.note {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
+import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
@@ -103,16 +104,36 @@ public class Note extends EventDispatcher {
 	}
 
 	//--------------------------------------
-	//  themes
+	//  tagIDs
 	//--------------------------------------
-	private var _themes:Array = [];
-	[Bindable("themeIDsChanged")]
-	public function get themes():Array {return _themes;}
-	public function set themes(value:Array):void {
-		if (_themes != value) {
-			_themes = value || [];
-			dispatchEvent(new Event("themesChanged"));
+	private var _tagIDs:Array = [];
+	[Bindable("tagIDsChanged")]
+	public function get tagIDs():Array {return _tagIDs;}
+	public function set tagIDs(value:Array):void {
+		if (_tagIDs != value) {
+			_tagIDs = value;
+			dispatchEvent(new Event("tagIDsChanged"));
 		}
+	}
+
+	public function getTags():Array {
+		var res:Array = [];
+		if (tagIDs.length > 0) {
+			for each(var tagID:int in tagIDs)
+				if (vocabulary.tagHash[tagID])
+					res.push(vocabulary.tagHash[tagID])
+		}
+		return res;
+	}
+
+	public function tagsToStr():String {
+		var res:String = "";
+		var tags:Array = getTags();
+		for each(var tag:Tag in tags) {
+			if (res) res += ", ";
+			res += tag.name;
+		}
+		return res;
 	}
 
 	//--------------------------------------
@@ -193,6 +214,18 @@ public class Note extends EventDispatcher {
 		res.searchText = "+" + title + "+" + description + "+";
 		res.searchText = res.searchText.toLowerCase();
 		res.hasAudio = hasAudio;
+		res.tags = tagIdsToString(tagIDs);
+		return res;
+	}
+
+	public static function tagIdsToString(ids:Array):String {
+		if (!ids || ids.length == 0) return "";
+
+		var res:String = "";
+		for (var i:int = 0; i < ids.length; i++) {
+			var id:int = ids[i] as int;
+			if (id) res += Tag.DELIMITER + id + Tag.DELIMITER;
+		}
 		return res;
 	}
 
@@ -208,6 +241,7 @@ public class Note extends EventDispatcher {
 		_isExample = data.isExample;
 		_hasAudio = data.hasAudio;
 		options = data.options;
+		if (data.tags) _tagIDs = data.tags.split(Tag.DELIMITER);
 	}
 
 	public function loadAudioComment():IAsyncOperation {
@@ -253,7 +287,6 @@ public class Note extends EventDispatcher {
 		if (op.isSuccess) {
 			var reloadedNote:Note = op.result;
 			deserialize(reloadedNote.originalData);
-			themes = reloadedNote.themes;
 			exampleColl = reloadedNote.exampleColl;
 		}
 	}
