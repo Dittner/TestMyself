@@ -6,7 +6,7 @@ import flash.text.TextFormat;
 
 public class TextFieldFactory {
 
-	public static var useEmbedFonts:Boolean = false;
+	public static var useEmbedFonts:Boolean = true;
 
 	public static function create(textFormat:TextFormat, multiline:Boolean = false):TextField {
 		var textField:TextField = new TextField();
@@ -21,7 +21,7 @@ public class TextFieldFactory {
 		textField.antiAliasType = AntiAliasType.ADVANCED;
 		textField.gridFitType = GridFitType.PIXEL;
 		textField.sharpness = 0;
-		textField.thickness = 20;
+		textField.thickness = 50;
 		textField.defaultTextFormat = textFormat;
 		return textField;
 	}

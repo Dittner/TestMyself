@@ -582,7 +582,7 @@
              width="100%"
              textAlign="center"
              verticalCenter="-100"
-             color="{AppColors.TEXT_DARK}"
+             color="{AppColors.TEXT_BLACK}"
              fontSize="24"
              text="{getRemoveNotification(note)}"/>
 
@@ -590,7 +590,7 @@
              visible="{isRemoveMode}"
              width="100%"
              verticalCenter="0"
-             color="{AppColors.TEXT_DARK}"
+             color="{AppColors.TEXT_BLACK}"
              fontSize="18"
              fontWeight="bold"
              textAlign="center" verticalAlign="middle"/>

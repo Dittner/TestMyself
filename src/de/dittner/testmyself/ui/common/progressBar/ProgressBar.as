@@ -12,8 +12,8 @@ import flashx.textLayout.formats.TextAlign;
 import mx.core.UIComponent;
 
 public class ProgressBar extends UIComponent {
-	private static const TITTLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
-	private static const PROGRESS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
+	private static const TITTLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
+	private static const PROGRESS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
 	private static const VGAP:uint = 10;
 	private static const BAR_HEI:uint = 10;
 
@@ -76,11 +76,11 @@ public class ProgressBar extends UIComponent {
 		titleTF.text = title;
 		titleTF.width = w;
 
-		g.lineStyle(1, AppColors.TEXT_DARK);
+		g.lineStyle(1, AppColors.TEXT_BLACK);
 		g.drawRoundRect(0, titleTF.textHeight + VGAP, w, BAR_HEI, BAR_HEI, BAR_HEI);
 
 		if (w * progress > BAR_HEI) {
-			g.beginFill(AppColors.TEXT_DARK);
+			g.beginFill(AppColors.TEXT_BLACK);
 			g.drawRoundRect(0, titleTF.textHeight + VGAP, w * progress, BAR_HEI, BAR_HEI, BAR_HEI);
 			g.endFill();
 		}

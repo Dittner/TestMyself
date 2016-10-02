@@ -97,7 +97,7 @@
              right="0" textAlign="right"
              fontSize="12" verticalAlign="middle"
              maxDisplayedLines="1"
-             color="{AppColors.TEXT_DARK}"/>
+             color="{AppColors.TEXT_BLACK}"/>
 
     <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
 
@@ -119,7 +119,7 @@
                  fontSize="14" verticalCenter="1"
                  maxDisplayedLines="1"
                  mouseEnabled="false"
-                 color="{AppColors.TEXT_DARK}"/>
+                 color="{AppColors.TEXT_BLACK}"/>
 
     </s:Group>
 </s:Group>

@@ -99,7 +99,7 @@
     <s:Label text="Kein Tag"
              visible="{!hasTags}"
              fontSize="14"
-             color="{AppColors.TEXT}"
+             color="{AppColors.TEXT_LIGHT}"
              verticalCenter="0" horizontalCenter="0"/>
 
 </s:Group>

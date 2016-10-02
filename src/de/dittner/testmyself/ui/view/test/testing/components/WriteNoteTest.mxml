@@ -81,7 +81,7 @@
                 articleLbl.text = word.article;
                 if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
                 else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                else articleLbl.setStyle("color", AppColors.TEXT_DARK);
+                else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
 
                 titleLbl.text = word.article ? " " + word.title : word.title;
 
@@ -183,7 +183,7 @@
                  maxDisplayedLines="2"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
-                 color="{AppColors.TEXT_DARK}"
+                 color="{AppColors.TEXT_BLACK}"
                  visible="{showDetails}"
                  includeInLayout="{showDetails}"
                  fontSize="42"/>

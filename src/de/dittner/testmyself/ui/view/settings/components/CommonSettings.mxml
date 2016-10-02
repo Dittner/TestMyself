@@ -106,14 +106,14 @@
                                    fontFamily="{FontName.MYRIAD}"
                                    fontStyle="italic"
                                    fontSize="20"
-                                   color="{AppColors.TEXT_DARK}"
+                                   color="{AppColors.TEXT_BLACK}"
                                    minimum="1" maximum="30" value="1"/>
 
             <s:Label text="Höchsgröße der Audioaufnahme in Minuten"
                      fontFamily="{FontName.MYRIAD}"
                      fontStyle="italic"
                      fontSize="18"
-                     color="{AppColors.TEXT_DARK}"/>
+                     color="{AppColors.TEXT_BLACK}"/>
         </s:HGroup>
     </s:HGroup>
 
@@ -127,7 +127,7 @@
              fontFamily="{FontName.MYRIAD}"
              fontStyle="italic"
              fontSize="18"
-             color="{AppColors.TEXT_DARK}"/>
+             color="{AppColors.TEXT_BLACK}"/>
 
     <s:HGroup gap="15">
         <input:TextInputForm id="hostInput"
@@ -189,7 +189,7 @@
     <s:Label fontFamily="{FontName.MYRIAD}"
              fontWeight="bold"
              visible="{isDataBaseTransferOperationSuccess}"
-             color="{AppColors.TEXT_DARK}"
+             color="{AppColors.TEXT_BLACK}"
              width="815"
              fontSize="16"
              textAlign="center"

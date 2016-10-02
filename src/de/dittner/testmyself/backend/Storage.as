@@ -63,6 +63,8 @@ public class Storage extends WalterProxy {
 	}
 
 	public function reloadDataBase():IAsyncOperation {
+		exampleHash = {};
+
 		if (sqlConnection) {
 			sqlConnection.close();
 		}

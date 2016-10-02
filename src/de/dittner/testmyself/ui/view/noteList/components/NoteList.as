@@ -38,5 +38,10 @@ public class NoteList extends SelectableDataGroup {
 			if (renderer) renderer.invalidateLayout();
 		}
 	}
+
+	override protected function notifySelectedItemChanged():void {
+		super.notifySelectedItemChanged();
+		if (selectedNote) invalidateOf(ensureSelectedItemIsVisible);
+	}
 }
 }

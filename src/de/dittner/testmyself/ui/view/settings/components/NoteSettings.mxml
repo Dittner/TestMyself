@@ -187,7 +187,7 @@
                            fontSize="20"
                            visible="{haveTags(vocabulary.tagColl)}"
                            includeInLayout="{haveTags(vocabulary.tagColl)}"
-                           upColor="{AppColors.TEXT_DARK}"
+                           upColor="{AppColors.TEXT_BLACK}"
                            downColor="{AppColors.TEXT_BLACK}"
                            click="setCurrentState('renameTag')"/>
 
@@ -198,7 +198,7 @@
                            fontSize="20"
                            visible="{haveTags(vocabulary.tagColl)}"
                            includeInLayout="{haveTags(vocabulary.tagColl)}"
-                           upColor="{AppColors.TEXT_DARK}"
+                           upColor="{AppColors.TEXT_BLACK}"
                            downColor="{AppColors.TEXT_BLACK}"
                            click="setCurrentState('removeTag')"/>
 
@@ -237,7 +237,7 @@
         <s:Label id="notifyLbl"
                  left="col2:10" top="row1:10" right="10"
                  fontFamily="{FontName.MYRIAD}"
-                 color="{AppColors.TEXT_DARK}"
+                 color="{AppColors.TEXT_BLACK}"
                  fontSize="16"
                  visible="false" visible.removeTag="true"
                  includeInLayout="false" includeInLayout.removeTag="true"

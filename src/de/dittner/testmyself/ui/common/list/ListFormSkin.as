@@ -11,7 +11,7 @@ import spark.skins.mobile.ListSkin;
 
 public class ListFormSkin extends ListSkin {
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 15, AppColors.TEXT_CONTROL_TITLE);
 	private static const TITLE_HEIGHT:uint = 20;
 
 	public function ListFormSkin() {
@@ -30,7 +30,6 @@ public class ListFormSkin extends ListSkin {
 	override protected function createChildren():void {
 		super.createChildren();
 		titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
-		titleDisplay.thickness = 100;
 		addChild(titleDisplay);
 	}
 
@@ -56,7 +55,7 @@ public class ListFormSkin extends ListSkin {
 		titleDisplay.visible = hostInput.showTitle;
 		titleDisplay.text = hostInput.title;
 		titleDisplay.x = -2;
-		titleDisplay.y = -2;
+		titleDisplay.y = 0;
 		titleDisplay.width = w;
 		titleDisplay.height = TITLE_HEIGHT;
 

@@ -10,7 +10,7 @@ import flash.text.TextFormat;
 import spark.skins.mobile.TextInputSkin;
 
 public class MobileTextInputFormSkin extends TextInputSkin {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 15, AppColors.TEXT_CONTROL_TITLE);
 	private static const TITLE_HEIGHT:uint = 20;
 
 	public function MobileTextInputFormSkin() {
@@ -24,7 +24,6 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 		super.createChildren();
 
 		titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
-		titleDisplay.thickness = 100;
 		addChild(titleDisplay);
 	}
 
@@ -40,7 +39,7 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 
 		if (hostInput.showTitle) {
 			setElementSize(textDisplay, w - 10, textHeight);
-			setElementPosition(textDisplay, 5, TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2));
+			setElementPosition(textDisplay, 7, TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2));
 		}
 		else {
 			setElementSize(textDisplay, w - 10, h - textDisplay.y - 2);
@@ -58,7 +57,7 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 		titleDisplay.visible = hostInput.showTitle;
 		titleDisplay.text = hostInput.title;
 		titleDisplay.x = -2;
-		titleDisplay.y = -2;
+		titleDisplay.y = 0;
 		titleDisplay.width = w;
 		titleDisplay.height = TITLE_HEIGHT;
 	}

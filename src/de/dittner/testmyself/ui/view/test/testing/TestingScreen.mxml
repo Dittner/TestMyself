@@ -204,7 +204,7 @@
              right="10" textAlign="right"
              fontSize="12" verticalAlign="middle"
              maxDisplayedLines="1"
-             color="{AppColors.TEXT_DARK}"/>
+             color="{AppColors.TEXT_BLACK}"/>
 
     <!--FOOTER-->
 
@@ -226,7 +226,7 @@
                  right="{padding}" textAlign="right"
                  fontSize="14" verticalCenter="0"
                  maxDisplayedLines="1"
-                 color="{AppColors.TEXT_DARK}"/>
+                 color="{AppColors.TEXT_BLACK}"/>
 
     </s:Group>
 </s:Group>

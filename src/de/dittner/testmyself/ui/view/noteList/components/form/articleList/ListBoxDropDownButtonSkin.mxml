@@ -30,7 +30,7 @@
     <s:Label id="labelDisplay"
              fontFamily="{FontName.MYRIAD}"
              fontSize="18"
-             color="{AppColors.TEXT_DARK}"
+             color="{AppColors.TEXT_BLACK}"
              maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"
              verticalCenter="0" verticalAlign="middle"
              textAlign="center"

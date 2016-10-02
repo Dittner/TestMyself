@@ -10,10 +10,8 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Bootstrap;
-        import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 
         private function creationCompleteHandler(event:Event):void {
-            TextFieldFactory.useEmbedFonts = true;
             var boot:Bootstrap = new Bootstrap(mainView);
             boot.start();
         }

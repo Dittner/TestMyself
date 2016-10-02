@@ -52,7 +52,7 @@
     <s:Label text="{secToStr(hostComponent.playbackTime)}"
              top="10" left="50"
              fontSize="14"
-             color="{AppColors.TEXT_DARK}"/>
+             color="{AppColors.TEXT_BLACK}"/>
 
     <components2:RewindingSlider id="rewindingSlider"
                                  mouseEnabled.normal="false"
@@ -73,7 +73,7 @@
              text.normal="00:00"
              top="10" right="50"
              fontSize="14"
-             color="{AppColors.TEXT_DARK}"/>
+             color="{AppColors.TEXT_BLACK}"/>
 
     <button:BitmapButton id="removeRecordBtn"
                          upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"

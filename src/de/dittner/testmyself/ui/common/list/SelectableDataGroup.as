@@ -1,10 +1,11 @@
 package de.dittner.testmyself.ui.common.list {
+import com.greensock.TweenLite;
+
 import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.collections.IList;
 import mx.collections.ListCollectionView;
-import mx.core.IDataRenderer;
 import mx.core.IVisualElement;
 
 import spark.components.DataGroup;
@@ -50,7 +51,7 @@ public class SelectableDataGroup extends DataGroup {
 	public function get selectedItem():Object {return _selectedItem;}
 	public function set selectedItem(value:Object):void {
 		if (value == _selectedItem) {
-			if (allowSelectLastItem) dispatchEvent(new Event("selectedItemChange"));
+			if (allowSelectLastItem) notifySelectedItemChanged();
 			return;
 		}
 
@@ -60,7 +61,7 @@ public class SelectableDataGroup extends DataGroup {
 			var renderer:IItemRenderer = getElementAt(i) as IItemRenderer;
 			if (renderer) renderer.selected = (renderer.data == value);
 		}
-		dispatchEvent(new Event("selectedItemChange"));
+		notifySelectedItemChanged();
 	}
 
 	override public function set dataProvider(value:IList):void {
@@ -68,6 +69,10 @@ public class SelectableDataGroup extends DataGroup {
 			selectedItem = null;
 			super.dataProvider = value;
 		}
+	}
+
+	protected function notifySelectedItemChanged():void {
+		dispatchEvent(new Event("selectedItemChange"));
 	}
 
 	//--------------------------------------------------------------------------------
@@ -159,6 +164,23 @@ public class SelectableDataGroup extends DataGroup {
 		}
 	}
 
+	public function ensureSelectedItemIsVisible():void {
+		if (height < measuredHeight && selectedRenderer) {
+
+			var vspTo:Number = verticalScrollPosition;
+
+			if (vspTo + height < selectedRenderer.y + selectedRenderer.height)
+				vspTo = selectedRenderer.y + selectedRenderer.height - height + 70;
+			if (vspTo > selectedRenderer.y)
+				vspTo = selectedRenderer.y;
+			if (vspTo > measuredHeight - height)
+				vspTo = measuredHeight - height;
+
+			if (vspTo != verticalScrollPosition)
+				TweenLite.to(this, 0.5, {verticalScrollPosition: vspTo});
+		}
+	}
+
 	//--------------------------------------------------------------------------
 	//
 	//  Handlers
@@ -170,6 +192,8 @@ public class SelectableDataGroup extends DataGroup {
 		event.renderer.addEventListener(MouseEvent.CLICK, renderer_clickHandler);
 	}
 
+	protected var selectedRenderer:IItemRenderer;
+
 	protected function rendererRemoveHandler(event:RendererExistenceEvent):void {
 		var ind:int = renderers.indexOf(event.renderer);
 		if (ind != -1) renderers.splice(ind, 1);
@@ -178,10 +202,16 @@ public class SelectableDataGroup extends DataGroup {
 	}
 
 	protected function renderer_clickHandler(event:MouseEvent):void {
-		var dataRenderer:IDataRenderer = event.currentTarget as IDataRenderer;
+		var dataRenderer:IItemRenderer = event.currentTarget as IItemRenderer;
 		var selectedData:Object = dataRenderer ? dataRenderer.data : null;
-		if (deselectEnabled && selectedData && selectedData == selectedItem) selectedItem = null;
-		else selectedItem = selectedData;
+		if (deselectEnabled && selectedData && selectedData == selectedItem) {
+			selectedRenderer = null;
+			selectedItem = null;
+		}
+		else {
+			selectedRenderer = dataRenderer;
+			selectedItem = selectedData;
+		}
 	}
 }
 }

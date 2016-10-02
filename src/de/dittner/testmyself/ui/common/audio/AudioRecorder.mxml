@@ -3,7 +3,8 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:audio="de.dittner.testmyself.ui.common.audio.*"
          xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
-         xmlns:button="de.dittner.testmyself.ui.common.button.*">
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:input="de.dittner.testmyself.ui.common.input.*">
     <fx:Metadata>
         [Event(name="loadRemoteMp3WithError", type="flash.events.Event")]
     </fx:Metadata>
@@ -12,7 +13,6 @@
         import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.utils.FileChooser;
 
         //--------------------------------------
@@ -184,11 +184,10 @@
         ]]></fx:Script>
     <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
 
-    <s:Label text="Audioaufnahme"
-             paddingTop="4"
-             fontFamily="{FontName.MYRIAD}"
-             fontSize="16"
-             color="{AppColors.TEXT_DARK}"/>
+    <input:MXLabel height="20"
+                   mouseEnabled="false"
+                   text="Audioaufnahme"
+                   color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
     <s:Rect width="100%" top="20" bottom="0">
         <s:fill>

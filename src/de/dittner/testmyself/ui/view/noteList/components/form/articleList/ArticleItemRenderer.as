@@ -10,7 +10,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ArticleItemRenderer extends ItemRendererBase {
-	private static const TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_GRAY);
+	private static const TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_DARK_GRAY);
 	private static const SELECTED_TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_WHITE);
 	private static const PADDING:uint = 3;
 	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;

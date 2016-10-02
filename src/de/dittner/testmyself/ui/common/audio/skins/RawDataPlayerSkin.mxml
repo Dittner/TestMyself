@@ -45,7 +45,7 @@
                          left="10"
                          description="Neue Audioaufnahme machen"/>
 
-    <s:Label text="Player hat keine Audioaufnahme"
+    <s:Label text="Keine Audioaufnahme"
              top="0" bottom="10"
              left="50" right="10"
              verticalAlign="middle"
@@ -54,7 +54,7 @@
              visible.recorded="false"
              visible.playing="false"
              fontSize="14"
-             color="{AppColors.TEXT}"/>
+             color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
     <s:Group width="100%"
              visible.normal="false"
@@ -121,7 +121,7 @@
         <s:Label text="{hostComponent.recorder.playbackTime}"
                  top="10" left="50"
                  fontSize="14"
-                 color="{AppColors.TEXT_DARK}"/>
+                 color="{AppColors.TEXT_BLACK}"/>
 
     </s:Group>
     <s:Label visible="true" visible.normal="false"
@@ -130,6 +130,6 @@
              left.recording="50"
              right.recording="auto"
              fontSize="14"
-             color="{AppColors.TEXT_DARK}"/>
+             color="{AppColors.TEXT_BLACK}"/>
 
 </s:SparkSkin>

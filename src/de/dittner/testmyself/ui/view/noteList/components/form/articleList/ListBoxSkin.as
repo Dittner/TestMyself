@@ -10,7 +10,7 @@ import spark.components.Button;
 import spark.skins.mobile.ListSkin;
 
 public class ListBoxSkin extends ListSkin {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_DARK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 15, AppColors.TEXT_CONTROL_TITLE);
 	private static const TITLE_HEIGHT:uint = 20;
 	private static const DROP_DOWN_BUTTON_HEIGHT:uint = 30;
 	public function ListBoxSkin() {
@@ -24,7 +24,6 @@ public class ListBoxSkin extends ListSkin {
 		super.createChildren();
 		addChild(dropDownBtn = new Button);
 		addChild(titleDisplay = TextFieldFactory.create(TITLE_FORMAT));
-		titleDisplay.thickness = 100;
 		titleDisplay.text = "Artikel";
 	}
 
@@ -36,7 +35,7 @@ public class ListBoxSkin extends ListSkin {
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
 		titleDisplay.x = -2;
-		titleDisplay.y = -2;
+		titleDisplay.y = 0;
 
 		dropDownBtn.styleName = "dropDownBtnStyle";
 		dropDownBtn.height = DROP_DOWN_BUTTON_HEIGHT;

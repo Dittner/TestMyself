@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark"
              alpha.disabledStates=".5">
 
     <fx:Metadata>
@@ -56,7 +57,7 @@
              fontFamily="{FontName.MYRIAD}"
              fontStyle="italic"
              fontSize="20"
-             color="{AppColors.TEXT_DARK}"
+             color="{AppColors.TEXT_BLACK}"
              maxDisplayedLines="1"/>
 
 </s:SparkSkin>

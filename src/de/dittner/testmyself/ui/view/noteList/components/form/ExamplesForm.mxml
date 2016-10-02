@@ -199,13 +199,13 @@
                              width="100%"
                              includeIn="remove"
                              textAlign="center"
-                             color="{AppColors.TEXT_DARK}" fontSize="16"
+                             color="{AppColors.TEXT_BLACK}" fontSize="16"
                              text="Sind Sie sicher, dass Sie dieses Beispiel entfernen möchten?"/>
 
                     <s:Label id="removeNoteTitleLbl"
                              width="100%" height="100%"
                              includeIn="remove"
-                             color="{AppColors.TEXT_DARK}"
+                             color="{AppColors.TEXT_BLACK}"
                              fontSize="20"
                              fontWeight="bold"
                              textAlign="center" verticalAlign="middle"

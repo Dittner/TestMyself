@@ -2,6 +2,7 @@
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
              xmlns:s="library://ns.adobe.com/flex/spark"
              xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+             xmlns:input="de.dittner.testmyself.ui.common.input.*"
              alpha.disabledStates="0.5" blendMode="normal">
 
     <fx:Metadata>
@@ -16,7 +17,6 @@
     <fx:Script fb:purpose="styling">
         <![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
 
         import mx.core.FlexVersion;
 
@@ -50,7 +50,8 @@
             g.drawRect(0, bgVerOffset, w - 1, h - bgVerOffset - 1);
             g.endFill();
 
-            textDisplay.y = h - textDisplay.height - 6;
+            titleLbl.visible = hostComponent.showTitle;
+            textDisplay.y = bgVerOffset + 6;
         }
         ]]>
     </fx:Script>
@@ -70,11 +71,10 @@
         <s:State name="disabledWithPrompt" stateGroups="disabledStates"/>
     </s:states>
 
-    <s:Label id="titleLbl"
-             mouseEnabled="false" focusEnabled="false"
-             text="{hostComponent.title}"
-             top="5"
-             width="100%" fontFamily="{FontName.MYRIAD}" fontSize="16" color="{AppColors.TEXT_DARK}"/>
+    <input:MXLabel id="titleLbl"
+                   mouseEnabled="false"
+                   text="{hostComponent.title}"
+                   color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
     <s:RichEditableText id="textDisplay"
                         left="5" right="5"/>

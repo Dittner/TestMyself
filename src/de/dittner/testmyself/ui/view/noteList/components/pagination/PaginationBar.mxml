@@ -109,7 +109,7 @@
 
         <pagination:PaginationButton id="curPageBtn"
                                      label="1"
-                                     color="{AppColors.TEXT_DARK}"
+                                     color="{AppColors.TEXT_BLACK}"
                                      image="@Embed(source='/assets/button/page_light_icon.png')"/>
 
         <pagination:PaginationButton id="lastPageBtn"
