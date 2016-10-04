@@ -1,8 +1,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -178,7 +177,6 @@
         <test:WriteNoteTest id="writeNoteTest"
                             width="100%" height="100%"
                             visible="false" includeInLayout="false"
-                            mp3Player="{mp3Player}"
                             testTask="{vm.selectedTestTask}"
                             padding="{padding}"/>
 
@@ -197,36 +195,23 @@
 
     </s:Group>
 
-    <s:Label id="tagsLbl"
-             text="{vm.selectedNoteTags}"
-             height="20" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-             width="50%" paddingLeft="10" paddingRight="10"
-             right="10" textAlign="right"
-             fontSize="12" verticalAlign="middle"
-             maxDisplayedLines="1"
-             color="{AppColors.TEXT_BLACK}"/>
-
-    <!--FOOTER-->
-
-    <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
-
-        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_FOOTER_BG}"/>
-
-        <mp3:MP3Player id="mp3Player"
-                       width="350"
-                       left="{padding - 10}"
-                       verticalCenter="0"
-                       removeRecordEnabled="false"
-                       visible="{mp3Player.hasComment}"
-                       comment="{vm.selectedTestTask.note.audioComment}"
-                       skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
+    <!--footer-->
+    <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}" bottom="0"
+              opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
 
         <s:Label id="titleLbl"
                  text="{vm.selectedVocabulary.title.toUpperCase() + '. ' + vm.testPage.test.title}"
-                 right="{padding}" textAlign="right"
-                 fontSize="14" verticalCenter="0"
+                 width="50%" height="100%" verticalAlign="middle"
+                 fontSize="14"
+                 paddingLeft="10" paddingTop="1"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_BLACK}"/>
 
-    </s:Group>
+        <s:Label id="tagsLbl"
+                 text="{vm.selectedNoteTags}"
+                 height="100%" width="50%" textAlign="right" paddingRight="10"
+                 fontSize="14" verticalAlign="middle" paddingTop="1"
+                 maxDisplayedLines="1"
+                 color="{AppColors.TEXT_BLACK}"/>
+    </s:HGroup>
 </s:Group>

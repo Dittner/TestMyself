@@ -205,12 +205,11 @@
                          removeCommentClick="mp3Player_removeCommentClickHandler(event)"
                          skinClass="de.dittner.testmyself.ui.common.audio.skins.RawDataPlayerSkin"/>
 
-    <mp3:MP3Player id="mp3Player"
-                   top="30" bottom="0"
-                   width="100%"
-                   visible="false"
-                   skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"
-                   removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
+    <mp3:MP3PlayerComponent id="mp3Player"
+                            top="30" bottom="0"
+                            width="100%"
+                            visible="false"
+                            removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
 
     <button:GrayButton id="loadRemoteMp3Btn"
                        verticalCenter="11"

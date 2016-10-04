@@ -3,18 +3,12 @@ import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
 
 import flash.events.Event;
+import flash.events.EventDispatcher;
 import flash.media.Sound;
-
-import spark.components.supportClasses.SkinnableComponent;
 
 [Event(name="removeCommentClick", type="de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent")]
 
-public class MP3Player extends SkinnableComponent implements IPlayerContext {
-	private static const NORMAL:String = "normal";
-	private static const PLAYING:String = "playing";
-	private static const PAUSED:String = "paused";
-	private static const STOPPED:String = "stopped";
-
+public class MP3Player extends EventDispatcher implements IPlayerContext {
 	public function MP3Player() {
 		super();
 
@@ -47,7 +41,6 @@ public class MP3Player extends SkinnableComponent implements IPlayerContext {
 				playbackTime = 0;
 				updateSound();
 			}
-			invalidateSkinState();
 			dispatchEvent(new Event("commentChanged"));
 		}
 	}
@@ -61,7 +54,6 @@ public class MP3Player extends SkinnableComponent implements IPlayerContext {
 	public function set curState(value:IPlayerState):void {
 		if (_curState != value) {
 			_curState = value;
-			invalidateSkinState();
 			dispatchEvent(new Event("curStateChanged"));
 		}
 	}
@@ -155,11 +147,5 @@ public class MP3Player extends SkinnableComponent implements IPlayerContext {
 		comment = null;
 	}
 
-	override protected function getCurrentSkinState():String {
-		if (!comment) return NORMAL;
-		else if (curState == getPlayingState()) return PLAYING;
-		else if (curState == getPausedState()) return PAUSED;
-		return STOPPED;
-	}
 }
 }

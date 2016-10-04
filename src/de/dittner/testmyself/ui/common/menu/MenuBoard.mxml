@@ -55,6 +55,19 @@
             }
         }
 
+        //--------------------------------------
+        //  playCommentBtnVisible
+        //--------------------------------------
+        private var _playCommentBtnVisible:Boolean = false;
+        [Bindable("playCommentBtnVisibleChanged")]
+        public function get playCommentBtnVisible():Boolean {return _playCommentBtnVisible;}
+        public function set playCommentBtnVisible(value:Boolean):void {
+            if (_playCommentBtnVisible != value) {
+                _playCommentBtnVisible = value;
+                dispatchEvent(new Event("playCommentBtnVisibleChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -87,7 +100,7 @@
         public function get falseBtnEnabled():Boolean {return _falseBtnEnabled;}
 
         //--------------------------------------
-        //  falseBtnEnabled
+        //  nextTaskBtnEnabled
         //--------------------------------------
         private var _nextTaskBtnEnabled:Boolean = true;
         [Bindable("testBtnEnabledChanged")]
@@ -295,6 +308,14 @@
                                enabled="{enabled}"
                                image="@Embed(source='/assets/menu/question.png')"
                                disabledImage="@Embed(source='/assets/menu/question_red.png')"
+                               click="menuBtnClickHandler(event)"/>
+
+        <menu:MenuBitmapButton id="playCommentBtn"
+                               menuID="{MenuID.AUDIO}"
+                               visible="{playCommentBtnVisible}" includeInLayout="{playCommentBtnVisible}"
+                               enabled="{enabled}"
+                               image="@Embed(source='/assets/menu/audio.png')"
+                               disabledImage="@Embed(source='/assets/menu/audio_red.png')"
                                click="menuBtnClickHandler(event)"/>
 
         <s:Spacer height="100%"/>

@@ -10,5 +10,8 @@ public interface IMenuBoard extends IEventDispatcher {
 
 	function get taskPriority():uint;
 	function set taskPriority(value:uint):void;
+
+	function get playCommentBtnVisible():Boolean;
+	function set playCommentBtnVisible(value:Boolean):void;
 }
 }

@@ -1,5 +1,4 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
-import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.common.menu.IMenuBoard;
@@ -101,6 +100,7 @@ public class TestableView extends Group {
 		else if (e.menuID == MenuID.FALSE) onFalseAnswered();
 		else if (e.menuID == MenuID.ANSWER) showAnswer();
 		else if (e.menuID == MenuID.NEXT) requestNextTask();
+		else if (e.menuID == MenuID.AUDIO) playAudioComment();
 	}
 
 	protected function onTrueAnswered():void {
@@ -122,13 +122,8 @@ public class TestableView extends Group {
 		if (testTaskChanged && isActivating) {
 			testTaskChanged = false;
 			if (note) {
-				if (note.hasAudio && note.audioComment.isEmpty) {
-					var op:IAsyncOperation = note.loadAudioComment();
-					op.addCompleteCallback(function (op:IAsyncOperation):void {
-						audioCommentChanged();
-					});
-				}
 				menu.taskPriority = testTask.complexity;
+				menu.playCommentBtnVisible = note.hasAudio;
 				updateForm();
 			}
 			else {
@@ -141,7 +136,9 @@ public class TestableView extends Group {
 
 	protected function clear():void {}
 
-	protected function audioCommentChanged():void {}
+	protected function playAudioComment():void {
+		if (note && note.hasAudio) note.loadAndPlayAudioComment();
+	}
 
 	protected function requestNextTask():void {
 		if (isActivating && actionCallback != null) actionCallback(TestingAction.NEXT_TASK);

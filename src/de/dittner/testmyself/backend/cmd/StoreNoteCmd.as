@@ -56,6 +56,7 @@ public class StoreNoteCmd extends StorageOperation implements IAsyncCommand {
 			for (var i:int = 0; i < examples.length; i++)
 				if (examples[i].id == note.id) {
 					examples[i] = note.serialize();
+					examples[i].id = note.id;
 				}
 		}
 	}

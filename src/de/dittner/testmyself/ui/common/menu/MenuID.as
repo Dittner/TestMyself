@@ -14,6 +14,7 @@ public class MenuID {
 	public static const TRUE:String = "TRUE";
 	public static const FALSE:String = "FALSE";
 	public static const ANSWER:String = "ANSWER";
+	public static const AUDIO:String = "AUDIO";
 	public static const NEXT:String = "NEXT";
 
 }

@@ -4,14 +4,16 @@ import de.dittner.testmyself.model.domain.note.DeWord;
 import de.dittner.testmyself.model.domain.note.DeWordArticle;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
+import de.dittner.testmyself.ui.common.audio.mp3.CommentPlayButton;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.view.noteList.components.NoteList;
 import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
 
-import flash.display.DisplayObject;
 import flash.display.Graphics;
+import flash.events.Event;
+import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -24,9 +26,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 	private static const DEF_PAGE_LAYOUT:PageLayout = new PageLayout();
 
-	[Embed(source='/assets/sound_icon.png')]
-	private static const SoundIconClass:Class;
-	protected var soundIcon:DisplayObject;
+	protected var commentPlayBtn:CommentPlayButton;
 
 	public function NoteRenderer() {
 		super();
@@ -98,10 +98,12 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			titleTf = createMultilineTextField(TITLE_FORMAT);
 			addChild(titleTf);
 		}
-		if (!soundIcon) {
-			soundIcon = new SoundIconClass();
-			soundIcon.visible = false;
-			addChild(soundIcon);
+		if (!commentPlayBtn) {
+			commentPlayBtn = new CommentPlayButton();
+
+			commentPlayBtn.visible = false;
+			commentPlayBtn.addEventListener(MouseEvent.CLICK, playComment);
+			addChild(commentPlayBtn);
 		}
 	}
 
@@ -199,7 +201,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		measuredWidth = parent.width;
 
 		if (titleTf.visible && descriptionTf.visible) {
-			titleTf.width = descriptionTf.width = measuredWidth - 2 * pad;
+			titleTf.width = descriptionTf.width = measuredWidth - 2 * pad - commentPlayBtn.width;
 			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * pad + gap);
 		}
 		else if (descriptionTf.visible) {
@@ -207,7 +209,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			measuredHeight = Math.ceil(descriptionTf.textHeight + 2 * pad);
 		}
 		else {
-			titleTf.width = measuredWidth - 2 * pad;
+			titleTf.width = measuredWidth - 2 * pad - commentPlayBtn.width;
 			measuredHeight = Math.ceil(titleTf.textHeight + 2 * pad);
 		}
 	}
@@ -217,9 +219,10 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		var g:Graphics = graphics;
 		g.clear();
 
-		soundIcon.x = w - soundIcon.width - 5;
-		soundIcon.y = h - soundIcon.height >> 1;
-		soundIcon.visible = hasAudioComment();
+		commentPlayBtn.x = w - commentPlayBtn.width - 5;
+		commentPlayBtn.y = h - commentPlayBtn.height >> 1;
+		commentPlayBtn.visible = hasAudioComment();
+		commentPlayBtn.enabled = selected;
 
 		if (selected) {
 			g.beginFill(AppColors.REN_SELECTED_BG);
@@ -246,6 +249,13 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		else if (titleTf.visible) {
 			titleTf.y = pad - TEXT_DEFAULT_OFFSET;
 		}
+	}
+
+	private function playComment(e:Event):void {
+		if (!selected) return;
+		e.stopImmediatePropagation();
+		if (note && note.hasAudio)
+			note.loadAndPlayAudioComment();
 	}
 
 }

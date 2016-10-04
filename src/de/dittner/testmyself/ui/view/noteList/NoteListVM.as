@@ -1,7 +1,5 @@
 package de.dittner.testmyself.ui.view.noteList {
-import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
@@ -58,12 +56,7 @@ public class NoteListVM extends ViewModel {
 	public function set selectedNote(value:Note):void {
 		if (_selectedNote != value) {
 			_selectedNote = value;
-			if (_selectedNote && _selectedNote.hasAudio && _selectedNote.audioComment.isEmpty)
-				_selectedNote.loadAudioComment().addCompleteCallback(updateAudioComment);
-
 			_selectedNoteTags = selectedNote ? selectedNote.tagsToStr() : "";
-
-			updateAudioComment();
 			dispatchEvent(new Event("selectedNoteChanged"));
 		}
 	}
@@ -77,23 +70,8 @@ public class NoteListVM extends ViewModel {
 	public function set selectedExample(value:Note):void {
 		if (_selectedExample != value) {
 			_selectedExample = value;
-			if (_selectedExample && _selectedExample.hasAudio && _selectedExample.audioComment.isEmpty)
-				_selectedExample.loadAudioComment().addCompleteCallback(updateAudioComment);
-			updateAudioComment();
 			dispatchEvent(new Event("selectedExampleChanged"));
 		}
-	}
-
-	//--------------------------------------
-	//  audioComment
-	//--------------------------------------
-	private var _audioComment:AudioComment;
-	[Bindable("audioCommentChanged")]
-	public function get audioComment():AudioComment {return _audioComment;}
-	private function updateAudioComment(op:IAsyncOperation = null):void {
-		if (selectedExample && !selectedExample.audioComment.isEmpty) _audioComment = selectedExample.audioComment;
-		else _audioComment = selectedNote ? selectedNote.audioComment : null;
-		dispatchEvent(new Event("audioCommentChanged"))
 	}
 
 	//----------------------------------------------------------------------------------------------

@@ -2,7 +2,6 @@
 <view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
                 xmlns:core="de.dittner.testmyself.ui.common.view.*"
-                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                 xmlns:list2="de.dittner.testmyself.ui.common.list.*"
@@ -49,7 +48,6 @@
         override protected function deactivate():void {
             toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.viewDeactivated();
-            mp3Player.visible = false;
             setCurrentState("inactive");
         }
 
@@ -184,9 +182,10 @@
             form.visible = false;
         }
 
-        private function pageNumChangedHandler(event:Event):void {
+        private function pageNumChanged(event:Event):void {
             vm.reloadPage();
         }
+
         private function noteList_selectedItemChangeHandler(event:Event):void {
             toolbar.editNoteBtn.enabled = noteList.selectedNote;
             toolbar.removeNoteBtn.enabled = noteList.selectedNote;
@@ -240,40 +239,34 @@
     </s:Scroller>
 
     <!--footer-->
-    <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
-             visible.lessonList="false" visible.lessonContent="true"
-             excludeFrom="inactive">
-        <s:Rect width="100%" bottom="0" height="100%">
-            <s:fill>
-                <s:SolidColor color="{AppColors.SCREEN_FOOTER_BG}"/>
-            </s:fill>
-        </s:Rect>
+    <s:HGroup width="100%" height="{FOOTER_HEI}" bottom="0"
+              visible.lessonList="false" visible.lessonContent="true"
+              opaqueBackground="{AppColors.SCREEN_FOOTER_BG}"
+              excludeFrom="inactive">
 
-        <mp3:MP3Player id="mp3Player"
-                       comment="{vm.selectedNote.audioComment}"
-                       width="350"
-                       left="{PADDING - 10}"
-                       verticalCenter="0"
-                       removeRecordEnabled="false"
-                       visible="{mp3Player.hasComment}"
-                       skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
+        <s:Label id="titleLbl"
+                 text="{vm.page.selectedTag.name || vm.viewTitle}"
+                 width="50%" height="100%" verticalAlign="middle"
+                 fontSize="14"
+                 paddingLeft="10" paddingTop="1"
+                 maxDisplayedLines="1"
+                 color="{AppColors.TEXT_BLACK}"/>
 
         <navigation:PaginationBar id="paginationBar"
-                                  left="{PADDING}" right="{PADDING}"
-                                  height="100%"
                                   allNotesAmount="{vm.page.allNotesAmount}"
                                   notesOnCurPage="{vm.page.noteColl.length}"
                                   pageSize="{vm.page.size}"
                                   pageNum="@{vm.page.number}"
-                                  pageNumChanged="pageNumChangedHandler(event)"/>
+                                  height="100%"
+                                  pageNumChanged="pageNumChanged(event)"/>
 
-        <s:Label id="titleLbl"
-                 text="{vm.page.selectedTag.name || vm.viewTitle}"
-                 right="10" textAlign="right"
-                 fontSize="14" verticalCenter="1"
+        <s:Label id="tagsLbl"
+                 text="{vm.selectedNoteTags}"
+                 height="100%" width="50%" textAlign="right" paddingRight="10"
+                 fontSize="14" verticalAlign="middle" paddingTop="1"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_BLACK}"/>
-    </s:Group>
+    </s:HGroup>
 
     <form2:AddLessonForm id="addLessonForm"
                          visible="false"

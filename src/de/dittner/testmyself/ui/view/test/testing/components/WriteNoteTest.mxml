@@ -11,23 +11,9 @@
         import de.dittner.testmyself.model.domain.note.DeVerb;
         import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
-        import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
-
-        //--------------------------------------
-        //  mp3Player
-        //--------------------------------------
-        private var _mp3Player:MP3Player;
-        [Bindable("mp3PlayerChanged")]
-        public function get mp3Player():MP3Player {return _mp3Player;}
-        public function set mp3Player(value:MP3Player):void {
-            if (_mp3Player != value) {
-                _mp3Player = value;
-                dispatchEvent(new Event("mp3PlayerChanged"));
-            }
-        }
 
         //--------------------------------------
         //  isCorrectlyAnswered
@@ -102,11 +88,7 @@
             }
 
             if (Device.isDesktop) stage.focus = isBigText ? textArea.area : textInput;
-            if (mp3Player && mp3Player.comment && !mp3Player.comment.isEmpty) mp3Player.play();
-        }
-
-        override protected function audioCommentChanged():void {
-            if (mp3Player && mp3Player.comment && !mp3Player.comment.isEmpty) mp3Player.play();
+            playAudioComment();
         }
 
         override protected function clear():void {

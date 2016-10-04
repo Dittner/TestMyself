@@ -30,15 +30,17 @@ public class InsertExampleOperationPhase extends StorageOperation implements IAs
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.INSERT_NOTE_SQL, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
 		statement.execute(-1, new Responder(executeComplete, executeError));
-		if (storage.exampleHash[example.parentID])
-			storage.exampleHash[example.parentID].push(sqlParams);
-		else
-			storage.exampleHash[example.parentID] = [sqlParams];
 	}
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.rowsAffected > 0) {
 			example.id = result.lastInsertRowID;
+			var exampleData:Object = example.serialize();
+			exampleData.id = example.id;
+			if (storage.exampleHash[example.parentID])
+				storage.exampleHash[example.parentID].push(exampleData);
+			else
+				storage.exampleHash[example.parentID] = [exampleData];
 			dispatchSuccess();
 		}
 		else {

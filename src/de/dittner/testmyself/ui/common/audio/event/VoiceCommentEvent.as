@@ -9,5 +9,9 @@ public class VoiceCommentEvent extends Event {
 	public function VoiceCommentEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) {
 		super(type, bubbles, cancelable);
 	}
+
+	override public function clone():Event {
+		return new VoiceCommentEvent(type);
+	}
 }
 }

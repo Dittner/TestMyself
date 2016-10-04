@@ -31,11 +31,8 @@
                 if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
                 else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
                 else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
-
-                titleLbl.text = word.article ? " " + word.title : word.title;
-
-                optionsLbl.text = word.declension ? ", " + word.declension : "";
                 translateBoard.text = word.description;
+                updateTitle();
             }
         }
 
@@ -43,12 +40,16 @@
             showDetails = false;
             articleLbl.text = "";
             titleLbl.text = "";
-            optionsLbl.text = "";
             translateBoard.text = "";
         }
 
-        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
-            return showDetails && options;
+        private function updateTitle():void {
+            titleLbl.text = word ? showDetails && word.declension ? word.title + ", " + word.declension : word.title : "";
+        }
+
+        override protected function showAnswer():void {
+            showDetails = true;
+            updateTitle();
         }
         ]]></fx:Script>
 
@@ -56,23 +57,19 @@
         <s:VerticalLayout gap="15" horizontalAlign="center"/>
     </test:layout>
 
-    <s:HGroup width="100%" horizontalAlign="center" gap="0">
+    <s:HGroup width="100%" horizontalAlign="center" gap="10">
         <s:Label id="articleLbl"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  fontSize="42"/>
         <s:Label id="titleLbl"
+                 maxWidth="{width - 100}"
+                 maxDisplayedLines="2"
+                 textAlign="center"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_BLACK}"
                  fontSize="42"/>
-        <s:Label id="optionsLbl"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 color="{AppColors.TEXT_BLACK}"
-                 fontSize="42"
-                 visible="{showDetails}"
-                 includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
     </s:HGroup>
 
     <test:TextBoard id="translateBoard"

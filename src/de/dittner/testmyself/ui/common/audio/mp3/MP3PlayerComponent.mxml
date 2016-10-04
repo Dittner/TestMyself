@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:components2="de.dittner.testmyself.ui.common.audio.components.*"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         addedToStage="addedToStageHandler(event)"
+         removedFromStage="removedFromStageHandler(event)">
+    <fx:Metadata>
+        [Event(name="removeCommentClick", type="de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent")]
+    </fx:Metadata>
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
+        import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
+        import de.dittner.testmyself.ui.common.audio.utils.PlayerUtils;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+
+        private var mp3Player:MP3Player = new MP3Player();
+
+        [Bindable("commentChanged")]
+        public function get hasComment():Boolean {return comment && comment.bytes;}
+
+        //--------------------------------------
+        //  comment
+        //--------------------------------------
+        [Bindable("commentChanged")]
+        public function get comment():AudioComment {return mp3Player.comment;}
+        public function set comment(value:AudioComment):void {
+            if (mp3Player.comment != value) {
+                mp3Player.comment = value;
+                updateState();
+                dispatchEvent(new Event("commentChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  removeEnabled
+        //--------------------------------------
+        [Bindable("removeEnabledChanged")]
+        public function get removeRecordEnabled():Boolean {return mp3Player.removeRecordEnabled;}
+        public function set removeRecordEnabled(value:Boolean):void {
+            if (mp3Player.removeRecordEnabled != value) {
+                mp3Player.removeRecordEnabled = value;
+                dispatchEvent(new Event("removeEnabledChanged"));
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+        public function play():void {
+            mp3Player.play();
+        }
+
+        public function pause():void {
+            mp3Player.pause();
+        }
+
+        public function stop():void {
+            mp3Player.stop();
+        }
+
+        public function remove():void {
+            mp3Player.remove();
+        }
+
+        public function clear():void {
+            mp3Player.clear();
+        }
+
+        private function updateState(e:Event = null):void {
+            if (!comment) currentState = "normal";
+            else if (mp3Player.curState == mp3Player.getPlayingState()) currentState = "playing";
+            else if (mp3Player.curState == mp3Player.getPausedState()) currentState = "paused";
+            else currentState = "stopped";
+        }
+
+        override protected function updateDisplayList(w:Number, h:Number):void {
+            super.updateDisplayList(w, h);
+        }
+
+        public function secToStr(sec:int):String {
+            return PlayerUtils.convertToHHMMSS(sec);
+        }
+
+        private function removeRecord():void {
+            mp3Player.remove();
+        }
+
+        private function addedToStageHandler(event:Event):void {
+            mp3Player.addEventListener(VoiceCommentEvent.REMOVE_COMMENT_CLICK, commentRemoved);
+            mp3Player.addEventListener("curStateChanged", updateState);
+        }
+        private function removedFromStageHandler(event:Event):void {
+            mp3Player.removeEventListener(VoiceCommentEvent.REMOVE_COMMENT_CLICK, commentRemoved);
+            mp3Player.removeEventListener("curStateChanged", updateState);
+        }
+
+        private function commentRemoved(e:VoiceCommentEvent):void {
+            dispatchEvent(e.clone());
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="stopped"/>
+        <s:State name="paused"/>
+        <s:State name="playing"/>
+    </s:states>
+
+    <button:BitmapButton id="playBtn"
+                         upImage="@Embed(source='/assets/voiceRecording/play_btn_up.png')"
+                         downImage="@Embed(source='/assets/voiceRecording/play_btn_down.png')"
+                         visible="true" visible.playing="false"
+                         enabled="true" enabled.normal="false"
+                         top="0"
+                         left="10"
+                         click="mp3Player.play()"/>
+
+    <button:BitmapButton id="pauseBtn"
+                         upImage="@Embed(source='/assets/voiceRecording/pause_btn_up.png')"
+                         downImage="@Embed(source='/assets/voiceRecording/pause_btn_down.png')"
+                         visible="false" visible.playing="true"
+                         top="0"
+                         left="10"
+                         click="mp3Player.pause()"/>
+
+    <s:Label text="{secToStr(mp3Player.playbackTime)}"
+             top="10" left="50"
+             fontSize="14"
+             color="{AppColors.TEXT_BLACK}"/>
+
+    <components2:RewindingSlider id="rewindingSlider"
+                                 mouseEnabled.normal="false"
+                                 minimum="0"
+                                 maximum="{mp3Player.soundDuration}"
+                                 showDataTip="false"
+                                 stepSize="0.0"
+                                 value="@{mp3Player.playbackTime}"
+                                 snapInterval="1"
+                                 liveDragging="true"
+                                 top="3"
+                                 left="100"
+                                 right="100"
+                                 height="30"
+                                 skinClass="de.dittner.testmyself.ui.common.audio.skins.slider.RewindingSliderSkin"/>
+
+    <s:Label text="{secToStr(mp3Player.soundDuration)}"
+             text.normal="00:00"
+             top="10" right="50"
+             fontSize="14"
+             color="{AppColors.TEXT_BLACK}"/>
+
+    <button:BitmapButton id="removeRecordBtn"
+                         upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
+                         downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
+                         top="0"
+                         right="10"
+                         click="removeRecord()"
+                         enabled="{mp3Player.removeRecordEnabled}"
+                         visible="{mp3Player.removeRecordEnabled}"
+                         description="Die Audioaufnahme entfernen"/>
+
+</s:Group>

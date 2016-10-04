@@ -248,6 +248,16 @@ public class Note extends EventDispatcher {
 		return vocabulary.storage.loadAudioComment(this);
 	}
 
+	public function loadAndPlayAudioComment():void {
+		if (!hasAudio) return;
+		if (!audioComment.isEmpty) audioComment.play();
+		else loadAudioComment().addCompleteCallback(audioCommentLoaded);
+	}
+
+	private function audioCommentLoaded(op:IAsyncOperation):void {
+		audioComment.play();
+	}
+
 	public function validate():String {
 		if (!title) {
 			return NoteValidationErrorKey.EMPTY_NOTE_TITLE;

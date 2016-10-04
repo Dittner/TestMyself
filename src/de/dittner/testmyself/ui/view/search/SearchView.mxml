@@ -2,14 +2,14 @@
 <view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
                 xmlns:core="de.dittner.testmyself.ui.common.view.*"
-                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
                 xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                 xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
                 xmlns:components="de.dittner.testmyself.ui.view.search.components.*"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 currentState="inactive"
-                horizontalCenter="0"
-                xmlns:view="de.dittner.testmyself.ui.common.view.*">
+                horizontalCenter="0">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -53,7 +53,6 @@
         override protected function deactivate():void {
             toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.viewDeactivated();
-            mp3Player.visible = false;
             setCurrentState("inactive");
             NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
@@ -146,23 +145,13 @@
     </s:Scroller>
 
     <common:ExampleList id="exampleList"
-                        width="50%" top="{searchBoard.height}" bottom="{FOOTER_HEI+tagsLbl.height}"
+                        width="50%" top="{searchBoard.height}" bottom="{FOOTER_HEI}"
                         right="0"
                         selectedNote="@{vm.selectedExample}"
                         dataProvider="{noteList.selectedItem.exampleColl}"
                         excludeFrom="inactive"
                         showTitle="false"
                         hasFocusableChildren="false"/>
-
-    <s:Label id="tagsLbl"
-             excludeFrom="inactive"
-             text="{vm.selectedNoteTags}"
-             backgroundAlpha="1" backgroundColor="{AppColors.EXAMPLES_BG}"
-             height="20" bottom="{FOOTER_HEI}" width="50%" paddingLeft="10" paddingRight="10"
-             right="00" textAlign="right"
-             fontSize="12" verticalAlign="middle"
-             maxDisplayedLines="1"
-             color="{AppColors.TEXT_BLACK}"/>
 
     <s:BitmapImage width="100%"
                    top="{searchBoard.height}"
@@ -171,37 +160,27 @@
                    source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
     <!--footer-->
-    <s:Group width="100%" height="{FOOTER_HEI}" bottom="0"
-             excludeFrom="inactive">
-        <s:Rect width="100%" bottom="0" height="100%">
-            <s:fill>
-                <s:SolidColor color="{AppColors.SCREEN_FOOTER_BG}"/>
-            </s:fill>
-        </s:Rect>
-
-        <mp3:MP3Player id="mp3Player"
-                       comment="{vm.audioComment}"
-                       width="350"
-                       left="{PADDING - 10}"
-                       verticalCenter="0"
-                       removeRecordEnabled="false"
-                       visible="{mp3Player.hasComment}"
-                       skinClass="de.dittner.testmyself.ui.common.audio.skins.MP3PlayerSkin"/>
-
+    <s:HGroup excludeFrom="inactive" width="100%" height="{FOOTER_HEI}" bottom="0" opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
+        <mp3:MP3PlayerComponent visible="false" includeInLayout="false"/>
+        <s:Label id="titleLbl"
+                 text="{vm.viewTitle}"
+                 width="50%" height="100%" verticalAlign="middle"
+                 fontSize="14"
+                 paddingLeft="10" paddingTop="1"
+                 maxDisplayedLines="1"
+                 color="{AppColors.TEXT_BLACK}"/>
         <navigation:PaginationBar id="paginationBar"
-                                  left="{PADDING}" right="{PADDING}"
-                                  height="100%"
                                   allNotesAmount="{vm.page.allNotesAmount}"
                                   notesOnCurPage="{vm.page.noteColl.length}"
                                   pageSize="{vm.page.size}"
                                   pageNum="@{vm.page.number}"
+                                  height="100%"
                                   pageNumChanged="pageNumChanged()"/>
-        <s:Label id="titleLbl"
-                 text="{vm.viewTitle}"
-                 right="10" textAlign="right"
-                 fontSize="14" verticalCenter="1"
+        <s:Label id="tagsLbl"
+                 text="{vm.selectedNoteTags}"
+                 height="100%" width="50%" textAlign="right" paddingRight="10"
+                 fontSize="14" verticalAlign="middle" paddingTop="1"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_BLACK}"/>
-    </s:Group>
-
+    </s:HGroup>
 </view:SmartView>
