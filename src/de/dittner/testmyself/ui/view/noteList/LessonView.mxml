@@ -245,7 +245,7 @@
               excludeFrom="inactive">
 
         <s:Label id="titleLbl"
-                 text="{vm.page.selectedTag.name || vm.viewTitle}"
+                 text="{vm.viewTitle}"
                  width="50%" height="100%" verticalAlign="middle"
                  fontSize="14"
                  paddingLeft="10" paddingTop="1"
@@ -261,7 +261,7 @@
                                   pageNumChanged="pageNumChanged(event)"/>
 
         <s:Label id="tagsLbl"
-                 text="{vm.selectedNoteTags}"
+                 text="{vm.page.selectedTag.name}"
                  height="100%" width="50%" textAlign="right" paddingRight="10"
                  fontSize="14" verticalAlign="middle" paddingTop="1"
                  maxDisplayedLines="1"

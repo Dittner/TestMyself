@@ -224,11 +224,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		commentPlayBtn.visible = hasAudioComment();
 		commentPlayBtn.enabled = selected;
 
-		if (selected) {
-			g.beginFill(AppColors.REN_SELECTED_BG);
-			g.drawRect(0, 0, w, h);
-			g.endFill();
-		}
+		g.beginFill(AppColors.REN_SELECTED_BG, selected ? 1 : 0);
+		g.drawRect(0, 0, w, h);
+		g.endFill();
 
 		if (!selected || showSeparatorWhenSelected) {
 			g.beginFill(AppColors.REN_SEP_COLOR);

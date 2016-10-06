@@ -312,7 +312,7 @@
 
         <menu:MenuBitmapButton id="playCommentBtn"
                                menuID="{MenuID.AUDIO}"
-                               visible="{playCommentBtnVisible}" includeInLayout="{playCommentBtnVisible}"
+                               visible="{playCommentBtnVisible}"
                                enabled="{enabled}"
                                image="@Embed(source='/assets/menu/audio.png')"
                                disabledImage="@Embed(source='/assets/menu/audio_red.png')"
