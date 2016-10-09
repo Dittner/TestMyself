@@ -13,6 +13,7 @@
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
@@ -153,7 +154,7 @@
 
     <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
 
-    <s:Scroller width="50%" top="0" bottom="{FOOTER_HEI}"
+    <s:Scroller width="50%" top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                 excludeFrom="inactive"
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
@@ -174,14 +175,14 @@
     <common:ExampleList id="exampleList"
                         selectedNote="@{vm.selectedExample}"
                         dataProvider="{noteList.selectedNote.exampleColl}"
-                        width="50%" top="-1" bottom="{FOOTER_HEI}"
+                        width="50%" top="-1" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                         right="0"
                         excludeFrom="inactive"
                         showTitle="false"
                         hasFocusableChildren="false"/>
 
     <!--footer-->
-    <s:HGroup width="100%" height="{FOOTER_HEI}" bottom="0"
+    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
               opaqueBackground="{AppColors.SCREEN_FOOTER_BG}"
               excludeFrom="inactive">
 

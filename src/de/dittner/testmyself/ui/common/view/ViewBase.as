@@ -3,7 +3,6 @@ import de.dittner.async.utils.doLaterInFrames;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.ui.common.menu.IMenuBoard;
-import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
 import de.dittner.testmyself.ui.view.noteList.components.toolbar.NoteToolbar;
@@ -42,7 +41,6 @@ public class ViewBase extends SkinnableContainer {
 	protected var isActivateWaiting:Boolean = false;
 
 	public var data:Object;
-	public const FOOTER_HEI:int = AppSizes.SCREEN_FOOTER_HEIGHT;
 	public const PADDING:uint = 20;
 
 	//--------------------------------------

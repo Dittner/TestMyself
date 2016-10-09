@@ -14,7 +14,9 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
@@ -112,6 +114,10 @@
             toolbar.editNoteBtn.enabled = noteList.selectedNote;
             toolbar.removeNoteBtn.enabled = noteList.selectedNote;
         }
+
+        private function examplesListEnabled(selectedNote:Note):Boolean {
+            return selectedNote && selectedNote.exampleColl.length > 0
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -126,7 +132,7 @@
                             width="100%"
                             startSearch="startSearchActivatedHandler(event)"/>
 
-    <s:Scroller left="0" width="50%" top="{searchBoard.height}" bottom="{FOOTER_HEI}"
+    <s:Scroller left="0" percentWidth="{exampleList.visible ? 50 : 100}" top="{searchBoard.height}" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                 excludeFrom="inactive"
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
@@ -145,8 +151,9 @@
     </s:Scroller>
 
     <common:ExampleList id="exampleList"
-                        width="50%" top="{searchBoard.height}" bottom="{FOOTER_HEI}"
+                        width="50%" top="{searchBoard.height}" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                         right="0"
+                        visible="{examplesListEnabled(vm.selectedNote)}"
                         selectedNote="@{vm.selectedExample}"
                         dataProvider="{noteList.selectedItem.exampleColl}"
                         excludeFrom="inactive"
@@ -160,7 +167,7 @@
                    source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
     <!--footer-->
-    <s:HGroup excludeFrom="inactive" width="100%" height="{FOOTER_HEI}" bottom="0" opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
+    <s:HGroup excludeFrom="inactive" width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
         <mp3:MP3PlayerComponent visible="false" includeInLayout="false"/>
         <s:Label id="titleLbl"
                  text="{vm.viewTitle}"

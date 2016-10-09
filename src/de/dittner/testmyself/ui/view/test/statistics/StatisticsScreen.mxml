@@ -37,6 +37,19 @@
             }
         }
 
+        //--------------------------------------
+        //  examplesListEnabled
+        //--------------------------------------
+        private var _examplesListEnabled:Boolean = false;
+        [Bindable("examplesListEnabledChanged")]
+        public function get examplesListEnabled():Boolean {return _examplesListEnabled;}
+        public function set examplesListEnabled(value:Boolean):void {
+            if (_examplesListEnabled != value) {
+                _examplesListEnabled = value;
+                dispatchEvent(new Event("examplesListEnabledChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -58,6 +71,11 @@
         private function pageNumChanged():void {
             vm.loadStatisticsPage();
         }
+
+        private function selectedItemChange(event:Event):void {
+            vm.selectedTestTask = list.selectedItem as TestTask
+            examplesListEnabled = vm.selectedTestTask && vm.selectedTestTask.note.exampleColl.length > 0
+        }
         ]]></fx:Script>
 
     <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
@@ -71,7 +89,7 @@
                           width="100%"
                           deselectEnabled="true"
                           itemRenderer="de.dittner.testmyself.ui.view.test.statistics.StatisticsTaskRenderer"
-                          selectedItemChange="vm.selectedTestTask = list.selectedItem as TestTask">
+                          selectedItemChange="selectedItemChange(event)">
             <common2:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </common2:layout>
@@ -79,32 +97,25 @@
     </s:Scroller>
 
     <common2:ExampleList id="exampleList"
-                         width="50%" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT + tagsLbl.height}"
+                         width="50%" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                          right="0"
                          dataProvider="{vm.selectedTestTask.note.exampleColl}"
                          selectedNote="@{vm.selectedNoteExample}"
-                         visible="{vm.testPage.test.loadExamplesWhenTesting}"
-                         includeInLayout="{vm.testPage.test.loadExamplesWhenTesting}"
+                         visible="{examplesListEnabled}"
                          showTitle="false"
                          hasFocusableChildren="false"/>
 
-    <s:Label id="tagsLbl"
-             text="{vm.selectedNoteTags}"
-             backgroundAlpha="{exampleList.visible ? 1 : 0}"
-             backgroundColor="{AppColors.EXAMPLES_BG}"
-             height="20" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-             width="50%" paddingLeft="10" paddingRight="10"
-             right="0" textAlign="right"
-             fontSize="12" verticalAlign="middle"
-             maxDisplayedLines="1"
-             color="{AppColors.TEXT_BLACK}"/>
-
-    <s:Group width="100%" bottom="0" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
-
-        <utils:BG width="100%" height="100%" color="{AppColors.SCREEN_FOOTER_BG}"/>
+    <!--footer-->
+    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
+        <s:Label id="titleLbl"
+                 text="{'Statistik für das Test: ' + vm.testPage.test.title}"
+                 width="50%" height="100%" verticalAlign="middle"
+                 fontSize="14"
+                 paddingLeft="10" paddingTop="1"
+                 maxDisplayedLines="1"
+                 color="{AppColors.TEXT_BLACK}"/>
 
         <navigation:PaginationBar id="paginationBar"
-                                  horizontalCenter="0"
                                   height="100%"
                                   allNotesAmount="{vm.testPage.amountAllTasks}"
                                   notesOnCurPage="{vm.testPage.taskColl.length}"
@@ -112,14 +123,12 @@
                                   pageNum="@{vm.testPage.number}"
                                   pageNumChanged="pageNumChanged()"/>
 
-        <s:Label id="titleLbl"
-                 width="50%"
-                 text="{'Statistik für das Test: ' + vm.testPage.test.title}"
-                 right="10" textAlign="right"
-                 fontSize="14" verticalCenter="1"
+        <s:Label id="tagsLbl"
+                 text="{vm.selectedNoteTags}"
+                 height="100%" width="50%" textAlign="right" paddingRight="10"
+                 fontSize="14" verticalAlign="middle" paddingTop="1"
                  maxDisplayedLines="1"
-                 mouseEnabled="false"
                  color="{AppColors.TEXT_BLACK}"/>
+    </s:HGroup>
 
-    </s:Group>
 </s:Group>

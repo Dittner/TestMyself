@@ -15,6 +15,7 @@
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
@@ -201,7 +202,7 @@
 
     <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
 
-    <s:Scroller left="0" right="0" top="0" bottom="{FOOTER_HEI}"
+    <s:Scroller left="0" right="0" top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                 excludeFrom="inactive"
                 visible="false" visible.lessonContent="true"
                 horizontalScrollPolicy="off"
@@ -220,7 +221,7 @@
         </common:NoteList>
     </s:Scroller>
 
-    <s:Scroller left="0" right="0" top="0" bottom="{FOOTER_HEI}"
+    <s:Scroller left="0" right="0" top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                 excludeFrom="inactive"
                 visible="false" visible.lessonList="true"
                 horizontalScrollPolicy="off"
@@ -239,7 +240,7 @@
     </s:Scroller>
 
     <!--footer-->
-    <s:HGroup width="100%" height="{FOOTER_HEI}" bottom="0"
+    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
               visible.lessonList="false" visible.lessonContent="true"
               opaqueBackground="{AppColors.SCREEN_FOOTER_BG}"
               excludeFrom="inactive">
