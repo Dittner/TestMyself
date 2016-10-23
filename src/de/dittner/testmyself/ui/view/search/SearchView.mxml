@@ -14,7 +14,6 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -192,8 +191,7 @@
               verticalAlign="middle"
               width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0">
         <mp3:MP3PlayerComponent id="mp3"
-                                player="{AudioComment.PLAYER}"
-                                visible="{mp3.isPlaying}"
+                                visible="{mp3.isPlaying || mp3.isPaused}"
                                 width="50%"/>
 
         <navigation:PaginationBar id="paginationBar"

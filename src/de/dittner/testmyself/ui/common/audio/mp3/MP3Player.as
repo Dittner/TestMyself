@@ -58,19 +58,6 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 		}
 	}
 
-	//--------------------------------------
-	//  removeEnabled
-	//--------------------------------------
-	private var _removeRecordEnabled:Boolean = true;
-	[Bindable("removeEnabledChanged")]
-	public function get removeRecordEnabled():Boolean {return _removeRecordEnabled;}
-	public function set removeRecordEnabled(value:Boolean):void {
-		if (_removeRecordEnabled != value) {
-			_removeRecordEnabled = value;
-			dispatchEvent(new Event("removeEnabledChanged"));
-		}
-	}
-
 	public function getPlayingState():IPlayerState {return playingState;}
 	public function getPausedState():IPlayerState {return pausedState;}
 	public function getStoppedState():IPlayerState {return stoppedState;}

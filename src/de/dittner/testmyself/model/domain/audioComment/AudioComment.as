@@ -7,7 +7,6 @@ import flash.utils.ByteArray;
 public class AudioComment {
 	public function AudioComment() {
 		super();
-		PLAYER.removeRecordEnabled = false;
 	}
 
 	public static const PLAYER:MP3Player = new MP3Player();

@@ -14,7 +14,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -249,8 +248,7 @@
               visible.lessonList="false" visible.lessonContent="true"
               excludeFrom="inactive">
         <mp3:MP3PlayerComponent id="mp3"
-                                player="{AudioComment.PLAYER}"
-                                visible="{mp3.isPlaying}"
+                                visible="{mp3.isPlaying || mp3.isPaused}"
                                 width="50%"/>
 
         <navigation:PaginationBar id="paginationBar"

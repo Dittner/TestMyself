@@ -209,6 +209,7 @@
                             top="30" bottom="0"
                             width="100%"
                             visible="false"
+                            removeRecordEnabled="true"
                             removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
 
     <button:GrayButton id="loadRemoteMp3Btn"

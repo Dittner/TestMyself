@@ -18,7 +18,7 @@
         //--------------------------------------
         //  player
         //--------------------------------------
-        private var _player:MP3Player = new MP3Player();
+        private var _player:MP3Player = AudioComment.PLAYER;
         [Bindable("playerChanged")]
         public function get player():MP3Player {return _player;}
         public function set player(value:MP3Player):void {
@@ -53,11 +53,12 @@
         //--------------------------------------
         //  removeEnabled
         //--------------------------------------
+        private var _removeRecordEnabled:Boolean = false;
         [Bindable("removeEnabledChanged")]
-        public function get removeRecordEnabled():Boolean {return player.removeRecordEnabled;}
+        public function get removeRecordEnabled():Boolean {return _removeRecordEnabled;}
         public function set removeRecordEnabled(value:Boolean):void {
-            if (player.removeRecordEnabled != value) {
-                player.removeRecordEnabled = value;
+            if (_removeRecordEnabled != value) {
+                _removeRecordEnabled = value;
                 dispatchEvent(new Event("removeEnabledChanged"));
             }
         }
@@ -72,7 +73,7 @@
         //  isPlaying
         //--------------------------------------
         [Bindable("stateChanged")]
-        public function get isStopped():Boolean {return currentState == "stopped";}
+        public function get isPaused():Boolean {return currentState == "paused";}
 
         //----------------------------------------------------------------------------------------------
         //
@@ -184,12 +185,10 @@
     <button:BitmapButton id="removeRecordBtn"
                          upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
                          downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
-                         top="0"
-                         right="10"
                          click="removeRecord()"
-                         enabled="{player.removeRecordEnabled}"
-                         visible="{player.removeRecordEnabled}"
-                         includeInLayout="{player.removeRecordEnabled}"
+                         enabled="{removeRecordEnabled}"
+                         visible="{removeRecordEnabled}"
+                         includeInLayout="{removeRecordEnabled}"
                          description="Die Audioaufnahme entfernen"/>
 
 </s:Group>
