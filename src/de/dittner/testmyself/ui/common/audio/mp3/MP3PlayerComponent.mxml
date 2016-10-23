@@ -101,10 +101,14 @@
         }
 
         private function updateState(e:Event = null):void {
-            if (!comment) currentState = "normal";
-            else if (player.curState == player.getPlayingState()) currentState = "playing";
-            else if (player.curState == player.getPausedState()) currentState = "paused";
-            else currentState = "stopped";
+            if (!comment)
+                currentState = "normal";
+            else if (player.curState == player.getPlayingState())
+                currentState = "playing";
+            else if (player.curState == player.getPausedState())
+                currentState = "paused";
+            else
+                currentState = "stopped";
             dispatchEvent(new Event("stateChanged"));
         }
 
@@ -162,11 +166,11 @@
 
     <s:Label text="{secToStr(player.playbackTime)}"
              fontSize="14"
+             paddingTop="1"
              color="{AppColors.TEXT_BLACK}"/>
 
     <components2:RewindingSlider id="rewindingSlider"
                                  width="100%"
-                                 height="30"
                                  mouseEnabled.normal="false"
                                  minimum="0"
                                  maximum="{player.soundDuration}"
@@ -180,6 +184,7 @@
     <s:Label text="{secToStr(player.soundDuration)}"
              text.normal="00:00"
              fontSize="14"
+             paddingTop="1"
              color="{AppColors.TEXT_BLACK}"/>
 
     <button:BitmapButton id="removeRecordBtn"

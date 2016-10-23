@@ -23,6 +23,15 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 	private var pausedState:IPlayerState;
 	private var stoppedState:IPlayerState;
 
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Properties
+	//
+	//----------------------------------------------------------------------------------------------
+
+	//--------------------------------------
+	//  hasComment
+	//--------------------------------------
 	[Bindable("commentChanged")]
 	public function get hasComment():Boolean {return comment && comment.bytes;}
 
@@ -34,7 +43,7 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 	public function get comment():AudioComment {return _comment;}
 	public function set comment(value:AudioComment):void {
 		if (_comment != value) {
-			curState.stop();
+			stop();
 			_comment = value;
 			if (comment && comment.bytes) {
 				comment.bytes.position = 0;
@@ -121,6 +130,7 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 
 	public function stop():void {
 		curState.stop();
+		curState = stoppedState;
 	}
 
 	public function remove():void {

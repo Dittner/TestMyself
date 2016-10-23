@@ -199,14 +199,14 @@
     </s:Rect>
 
     <audio:RawDataPlayer id="rawDataPlayer"
-                         top="30" bottom="0"
+                         top="32" bottom="0"
                          width="100%"
                          maxRecordSize="{maxRecordSize}"
                          removeCommentClick="mp3Player_removeCommentClickHandler(event)"
                          skinClass="de.dittner.testmyself.ui.common.audio.skins.RawDataPlayerSkin"/>
 
     <mp3:MP3PlayerComponent id="mp3Player"
-                            top="30" bottom="0"
+                            top="22" bottom="0"
                             width="100%"
                             visible="false"
                             removeRecordEnabled="true"

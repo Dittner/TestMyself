@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.common.view {
-import de.dittner.async.utils.doLaterInFrames;
+import de.dittner.async.utils.invalidateOf;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
@@ -122,7 +122,7 @@ public class ViewBase extends SkinnableContainer {
 				activating();
 				isActivateWaiting = true;
 				if (initialized)
-					doLaterInFrames(startActivation, 20);
+					invalidateOf(startActivation);
 				break;
 			case NavigationPhase.VIEW_REMOVE:
 				_isActive = false;
