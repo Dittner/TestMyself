@@ -7,9 +7,10 @@ import flash.utils.ByteArray;
 public class AudioComment {
 	public function AudioComment() {
 		super();
+		PLAYER.removeRecordEnabled = false;
 	}
 
-	private static const PLAYER:MP3Player = new MP3Player();
+	public static const PLAYER:MP3Player = new MP3Player();
 
 	public var bytes:ByteArray;
 	public var isMp3:Boolean = false;

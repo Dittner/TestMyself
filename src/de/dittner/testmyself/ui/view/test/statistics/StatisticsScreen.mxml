@@ -3,9 +3,11 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*">
+         xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*"
+         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
 
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.model.domain.test.TestTask;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -106,14 +108,14 @@
                          hasFocusableChildren="false"/>
 
     <!--footer-->
-    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
-        <s:Label id="titleLbl"
-                 text="{'Statistik für das Test: ' + vm.testPage.test.title}"
-                 width="50%" height="100%" verticalAlign="middle"
-                 fontSize="14"
-                 paddingLeft="10" paddingTop="1"
-                 maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
+    <utils:BG width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" color="{AppColors.SCREEN_FOOTER_BG}"/>
+
+    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
+              verticalAlign="middle">
+        <mp3:MP3PlayerComponent id="mp3"
+                                player="{AudioComment.PLAYER}"
+                                visible="{mp3.isPlaying}"
+                                width="50%"/>
 
         <navigation:PaginationBar id="paginationBar"
                                   height="100%"

@@ -7,6 +7,7 @@ import flash.events.MouseEvent;
 import mx.collections.IList;
 import mx.collections.ListCollectionView;
 import mx.core.IVisualElement;
+import mx.core.UIComponent;
 
 import spark.components.DataGroup;
 import spark.components.IItemRenderer;
@@ -68,6 +69,8 @@ public class SelectableDataGroup extends DataGroup {
 		if (super.dataProvider != value) {
 			selectedItem = null;
 			super.dataProvider = value;
+			if (selectFirstItemByDefault && dataProvider && dataProvider.length > 0)
+				selectedItem = dataProvider.getItemAt(0);
 		}
 	}
 
@@ -109,6 +112,19 @@ public class SelectableDataGroup extends DataGroup {
 		if (_deselectEnabled != value) {
 			_deselectEnabled = value;
 			dispatchEvent(new Event("deselectEnabledChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  selectFirstItemByDefault
+	//--------------------------------------
+	private var _selectFirstItemByDefault:Boolean = false;
+	[Bindable("selectFirstItemByDefaultChanged")]
+	public function get selectFirstItemByDefault():Boolean {return _selectFirstItemByDefault;}
+	public function set selectFirstItemByDefault(value:Boolean):void {
+		if (_selectFirstItemByDefault != value) {
+			_selectFirstItemByDefault = value;
+			dispatchEvent(new Event("selectFirstItemByDefaultChanged"));
 		}
 	}
 
@@ -169,8 +185,8 @@ public class SelectableDataGroup extends DataGroup {
 
 			var vspTo:Number = verticalScrollPosition;
 
-			if (vspTo + height < selectedRenderer.y + selectedRenderer.height)
-				vspTo = selectedRenderer.y + selectedRenderer.height - height + 70;
+			if (vspTo + height < selectedRenderer.y + getRendererActualHeight(selectedRenderer))
+				vspTo = selectedRenderer.y + getRendererActualHeight(selectedRenderer) - height + 70;
 			if (vspTo > selectedRenderer.y)
 				vspTo = selectedRenderer.y;
 			if (vspTo > measuredHeight - height)
@@ -179,6 +195,10 @@ public class SelectableDataGroup extends DataGroup {
 			if (vspTo != verticalScrollPosition)
 				TweenLite.to(this, 0.5, {verticalScrollPosition: vspTo});
 		}
+	}
+
+	private function getRendererActualHeight(ren:IItemRenderer):Number {
+		return ren is UIComponent ? (ren as UIComponent).measuredHeight : ren.height;
 	}
 
 	//--------------------------------------------------------------------------

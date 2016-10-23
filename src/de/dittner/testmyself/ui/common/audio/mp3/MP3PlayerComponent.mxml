@@ -15,19 +15,36 @@
         import de.dittner.testmyself.ui.common.audio.utils.PlayerUtils;
         import de.dittner.testmyself.ui.common.utils.AppColors;
 
-        private var mp3Player:MP3Player = new MP3Player();
+        //--------------------------------------
+        //  player
+        //--------------------------------------
+        private var _player:MP3Player = new MP3Player();
+        [Bindable("playerChanged")]
+        public function get player():MP3Player {return _player;}
+        public function set player(value:MP3Player):void {
+            if (_player != value) {
+                _player = value;
+                dispatchEvent(new Event("playerChanged"));
+            }
+        }
 
         [Bindable("commentChanged")]
         public function get hasComment():Boolean {return comment && comment.bytes;}
 
         //--------------------------------------
+        //  soundDuration in sec
+        //--------------------------------------
+        [Bindable("commentChanged")]
+        public function get soundDuration():int {return player.soundDuration;}
+
+        //--------------------------------------
         //  comment
         //--------------------------------------
         [Bindable("commentChanged")]
-        public function get comment():AudioComment {return mp3Player.comment;}
+        public function get comment():AudioComment {return player.comment;}
         public function set comment(value:AudioComment):void {
-            if (mp3Player.comment != value) {
-                mp3Player.comment = value;
+            if (player.comment != value) {
+                player.comment = value;
                 updateState();
                 dispatchEvent(new Event("commentChanged"));
             }
@@ -37,13 +54,25 @@
         //  removeEnabled
         //--------------------------------------
         [Bindable("removeEnabledChanged")]
-        public function get removeRecordEnabled():Boolean {return mp3Player.removeRecordEnabled;}
+        public function get removeRecordEnabled():Boolean {return player.removeRecordEnabled;}
         public function set removeRecordEnabled(value:Boolean):void {
-            if (mp3Player.removeRecordEnabled != value) {
-                mp3Player.removeRecordEnabled = value;
+            if (player.removeRecordEnabled != value) {
+                player.removeRecordEnabled = value;
                 dispatchEvent(new Event("removeEnabledChanged"));
             }
         }
+
+        //--------------------------------------
+        //  isPlaying
+        //--------------------------------------
+        [Bindable("stateChanged")]
+        public function get isPlaying():Boolean {return currentState == "playing";}
+
+        //--------------------------------------
+        //  isPlaying
+        //--------------------------------------
+        [Bindable("stateChanged")]
+        public function get isStopped():Boolean {return currentState == "stopped";}
 
         //----------------------------------------------------------------------------------------------
         //
@@ -51,30 +80,31 @@
         //
         //----------------------------------------------------------------------------------------------
         public function play():void {
-            mp3Player.play();
+            player.play();
         }
 
         public function pause():void {
-            mp3Player.pause();
+            player.pause();
         }
 
         public function stop():void {
-            mp3Player.stop();
+            player.stop();
         }
 
         public function remove():void {
-            mp3Player.remove();
+            player.remove();
         }
 
         public function clear():void {
-            mp3Player.clear();
+            player.clear();
         }
 
         private function updateState(e:Event = null):void {
             if (!comment) currentState = "normal";
-            else if (mp3Player.curState == mp3Player.getPlayingState()) currentState = "playing";
-            else if (mp3Player.curState == mp3Player.getPausedState()) currentState = "paused";
+            else if (player.curState == player.getPlayingState()) currentState = "playing";
+            else if (player.curState == player.getPausedState()) currentState = "paused";
             else currentState = "stopped";
+            dispatchEvent(new Event("stateChanged"));
         }
 
         override protected function updateDisplayList(w:Number, h:Number):void {
@@ -86,16 +116,16 @@
         }
 
         private function removeRecord():void {
-            mp3Player.remove();
+            player.remove();
         }
 
         private function addedToStageHandler(event:Event):void {
-            mp3Player.addEventListener(VoiceCommentEvent.REMOVE_COMMENT_CLICK, commentRemoved);
-            mp3Player.addEventListener("curStateChanged", updateState);
+            player.addEventListener(VoiceCommentEvent.REMOVE_COMMENT_CLICK, commentRemoved);
+            player.addEventListener("curStateChanged", updateState);
         }
         private function removedFromStageHandler(event:Event):void {
-            mp3Player.removeEventListener(VoiceCommentEvent.REMOVE_COMMENT_CLICK, commentRemoved);
-            mp3Player.removeEventListener("curStateChanged", updateState);
+            player.removeEventListener(VoiceCommentEvent.REMOVE_COMMENT_CLICK, commentRemoved);
+            player.removeEventListener("curStateChanged", updateState);
         }
 
         private function commentRemoved(e:VoiceCommentEvent):void {
@@ -110,46 +140,44 @@
         <s:State name="playing"/>
     </s:states>
 
+    <s:layout>
+        <s:HorizontalLayout gap="5" verticalAlign="middle" paddingLeft="10" paddingRight="10"/>
+    </s:layout>
+
     <button:BitmapButton id="playBtn"
                          upImage="@Embed(source='/assets/voiceRecording/play_btn_up.png')"
                          downImage="@Embed(source='/assets/voiceRecording/play_btn_down.png')"
                          visible="true" visible.playing="false"
+                         includeInLayout="true" includeInLayout.playing="false"
                          enabled="true" enabled.normal="false"
-                         top="0"
-                         left="10"
-                         click="mp3Player.play()"/>
+                         click="player.play()"/>
 
     <button:BitmapButton id="pauseBtn"
                          upImage="@Embed(source='/assets/voiceRecording/pause_btn_up.png')"
                          downImage="@Embed(source='/assets/voiceRecording/pause_btn_down.png')"
                          visible="false" visible.playing="true"
-                         top="0"
-                         left="10"
-                         click="mp3Player.pause()"/>
+                         includeInLayout="false" includeInLayout.playing="true"
+                         click="player.pause()"/>
 
-    <s:Label text="{secToStr(mp3Player.playbackTime)}"
-             top="10" left="50"
+    <s:Label text="{secToStr(player.playbackTime)}"
              fontSize="14"
              color="{AppColors.TEXT_BLACK}"/>
 
     <components2:RewindingSlider id="rewindingSlider"
+                                 width="100%"
+                                 height="30"
                                  mouseEnabled.normal="false"
                                  minimum="0"
-                                 maximum="{mp3Player.soundDuration}"
+                                 maximum="{player.soundDuration}"
                                  showDataTip="false"
                                  stepSize="0.0"
-                                 value="@{mp3Player.playbackTime}"
+                                 value="@{player.playbackTime}"
                                  snapInterval="1"
                                  liveDragging="true"
-                                 top="3"
-                                 left="100"
-                                 right="100"
-                                 height="30"
                                  skinClass="de.dittner.testmyself.ui.common.audio.skins.slider.RewindingSliderSkin"/>
 
-    <s:Label text="{secToStr(mp3Player.soundDuration)}"
+    <s:Label text="{secToStr(player.soundDuration)}"
              text.normal="00:00"
-             top="10" right="50"
              fontSize="14"
              color="{AppColors.TEXT_BLACK}"/>
 
@@ -159,8 +187,9 @@
                          top="0"
                          right="10"
                          click="removeRecord()"
-                         enabled="{mp3Player.removeRecordEnabled}"
-                         visible="{mp3Player.removeRecordEnabled}"
+                         enabled="{player.removeRecordEnabled}"
+                         visible="{player.removeRecordEnabled}"
+                         includeInLayout="{player.removeRecordEnabled}"
                          description="Die Audioaufnahme entfernen"/>
 
 </s:Group>

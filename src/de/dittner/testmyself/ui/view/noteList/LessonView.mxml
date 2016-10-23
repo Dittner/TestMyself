@@ -7,12 +7,14 @@
                 xmlns:list2="de.dittner.testmyself.ui.common.list.*"
                 xmlns:form2="de.dittner.testmyself.ui.view.noteList.components.form.*"
                 xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
+                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 currentState="inactive"
                 horizontalCenter="0"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -240,18 +242,16 @@
     </s:Scroller>
 
     <!--footer-->
-    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
-              visible.lessonList="false" visible.lessonContent="true"
-              opaqueBackground="{AppColors.SCREEN_FOOTER_BG}"
-              excludeFrom="inactive">
+    <utils:BG width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" color="{AppColors.SCREEN_FOOTER_BG}"/>
 
-        <s:Label id="titleLbl"
-                 text="{vm.viewTitle}"
-                 width="50%" height="100%" verticalAlign="middle"
-                 fontSize="14"
-                 paddingLeft="10" paddingTop="1"
-                 maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
+    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
+              verticalAlign="middle"
+              visible.lessonList="false" visible.lessonContent="true"
+              excludeFrom="inactive">
+        <mp3:MP3PlayerComponent id="mp3"
+                                player="{AudioComment.PLAYER}"
+                                visible="{mp3.isPlaying}"
+                                width="50%"/>
 
         <navigation:PaginationBar id="paginationBar"
                                   allNotesAmount="{vm.page.allNotesAmount}"

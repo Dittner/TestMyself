@@ -14,10 +14,12 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
@@ -40,6 +42,8 @@
         }
 
         override protected function activate():void {
+            toolbar.hideDetailsBtn.enabled = true;
+            toolbar.transInvertBtn.enabled = true;
             toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.unlockView();
             setCurrentState("active");
@@ -59,6 +63,7 @@
             NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
 
+        private var pageLayoutInfo:PageLayout = new PageLayout();
         private function toolActionSelectedHandler(event:ToolbarEvent):void {
             var op:IAsyncOperation;
             switch (event.toolAction) {
@@ -71,6 +76,18 @@
                     form.visible = true;
                     op = form.remove(noteList.selectedNote);
                     op.addCompleteCallback(noteRemovedComplete);
+                    break;
+                case(ToolAction.INVERT) :
+                    pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.HIDE_DETAILS) :
+                    pageLayoutInfo.showDetails = false;
+                    noteList.pageLayout = pageLayoutInfo;
+                    break;
+                case(ToolAction.SHOW_DETAILS) :
+                    pageLayoutInfo.showDetails = true;
+                    noteList.pageLayout = pageLayoutInfo;
                     break;
             }
         }
@@ -132,7 +149,8 @@
                             width="100%"
                             startSearch="startSearchActivatedHandler(event)"/>
 
-    <s:Scroller left="0" percentWidth="{exampleList.visible ? 50 : 100}" top="{searchBoard.height}" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
+    <s:Scroller left="0" percentWidth="{exampleList.visible ? 50 : 100}"
+                top="{searchBoard.height}" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                 excludeFrom="inactive"
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
@@ -142,10 +160,11 @@
                          width="100%"
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
+                         selectFirstItemByDefault="true"
                          itemRenderer="de.dittner.testmyself.ui.view.search.components.FoundNoteRenderer"
                          selectedItemChange="noteList_selectedItemChangeHandler(event)">
             <common:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </common:layout>
         </common:NoteList>
     </s:Scroller>
@@ -167,15 +186,16 @@
                    source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
 
     <!--footer-->
-    <s:HGroup excludeFrom="inactive" width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
-        <mp3:MP3PlayerComponent visible="false" includeInLayout="false"/>
-        <s:Label id="titleLbl"
-                 text="{vm.viewTitle}"
-                 width="50%" height="100%" verticalAlign="middle"
-                 fontSize="14"
-                 paddingLeft="10" paddingTop="1"
-                 maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
+    <utils:BG width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" color="{AppColors.SCREEN_FOOTER_BG}"/>
+
+    <s:HGroup excludeFrom="inactive"
+              verticalAlign="middle"
+              width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0">
+        <mp3:MP3PlayerComponent id="mp3"
+                                player="{AudioComment.PLAYER}"
+                                visible="{mp3.isPlaying}"
+                                width="50%"/>
+
         <navigation:PaginationBar id="paginationBar"
                                   allNotesAmount="{vm.page.allNotesAmount}"
                                   notesOnCurPage="{vm.page.noteColl.length}"

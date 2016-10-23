@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.async.utils.doLaterInFrames;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
+import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.ui.common.menu.IMenuBoard;
 import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
@@ -128,6 +129,7 @@ public class ViewBase extends SkinnableContainer {
 				isActivateWaiting = false;
 				CLog.info(LogTag.UI, "View: " + fullName + " is deactivated");
 				dispatchEvent(new Event("isActiveChange"));
+				AudioComment.PLAYER.stop();
 				deactivate();
 				break;
 		}
