@@ -12,9 +12,12 @@
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
 
+        import mx.collections.ArrayCollection;
+
         [Embed(source='/assets/menu/screen_bg_pattern.png')]
         private static const BgClass:Class;
         private static var bgBitmapData:BitmapData;
+        private static const SEARCH_TEMPLATES:Array = ["halten+", "weisen+", "lassen+", "gehen+", "tragen+", "nehmen+", "gehen+", "finden+", "treten+", "stellen+", "ziehen+", "wenden+", "kommen+", "sehen+", "geben+", "stehen+", "legen+", "steigen+", "bringen+", "treffen+", "werfen+", "fallen+", "sprechen+", "werfen+", "fangen+", "heben+", "brechen+"];
 
         override protected function measure():void {
             super.measure();
@@ -90,14 +93,12 @@
     <s:HGroup width="100%"
               gap="10" verticalAlign="bottom">
 
-        <s:HGroup width="{width/2 - 20 + AppSizes.MENU_WID/2}" gap="10" verticalAlign="bottom">
-            <input:TextInputForm id="searchInput"
-                                 top="{AppSizes.EDITOR_FOOTER_HEIGHT + 15}"
-                                 width="100%"
-                                 left="15"
-                                 maxChars="{Device.MAX_TAG_NAME_LENGTH}"
-                                 title="Für die Suche ein Wort oder einen Satz eingeben"
-                                 enter="startSearch()"/>
+        <s:HGroup width="{width/2 - 20 + AppSizes.MENU_WID/2}" gap="20" verticalAlign="bottom">
+            <input:DropdownInputForm id="searchInput"
+                                     width="100%"
+                                     title="Für die Suche ein Wort oder einen Satz eingeben"
+                                     inputTemplateColl="{new ArrayCollection(SEARCH_TEMPLATES)}"
+                                     enterPressed="startSearch()"/>
 
             <button:BitmapButton id="undoBtn"
                                  enabled="{history.canUndo}"

@@ -25,6 +25,7 @@ public class SelectableDataGroup extends DataGroup {
 	}
 
 	protected var renderers:Array = [];
+	protected var selectedRenderer:IItemRenderer;
 
 	//--------------------------------------------------------------------------
 	//
@@ -58,9 +59,18 @@ public class SelectableDataGroup extends DataGroup {
 
 		_selectedItem = value;
 		var n:int = numElements;
+		selectedRenderer = null;
 		for (var i:int = 0; i < n; i++) {
 			var renderer:IItemRenderer = getElementAt(i) as IItemRenderer;
-			if (renderer) renderer.selected = (renderer.data == value);
+			if (renderer) {
+				if (renderer.data == value) {
+					renderer.selected = true;
+					selectedRenderer = renderer;
+				}
+				else {
+					renderer.selected = false;
+				}
+			}
 		}
 		notifySelectedItemChanged();
 	}
@@ -157,15 +167,6 @@ public class SelectableDataGroup extends DataGroup {
 			IItemRenderer(renderer).selected = (data == _selectedItem);
 	}
 
-	public function getSelectedRenderer():IItemRenderer {
-		if (selectedItem) {
-			for each(var renderer:IItemRenderer in renderers) {
-				if (renderer.data == selectedItem) return renderer;
-			}
-		}
-		return null;
-	}
-
 	protected function addClickListeners():void {
 		for (var i:int = 0; i < numElements; i++) {
 			var renderer:IItemRenderer = getElementAt(i) as IItemRenderer;
@@ -212,8 +213,6 @@ public class SelectableDataGroup extends DataGroup {
 		event.renderer.addEventListener(MouseEvent.CLICK, renderer_clickHandler);
 	}
 
-	protected var selectedRenderer:IItemRenderer;
-
 	protected function rendererRemoveHandler(event:RendererExistenceEvent):void {
 		var ind:int = renderers.indexOf(event.renderer);
 		if (ind != -1) renderers.splice(ind, 1);
@@ -224,14 +223,10 @@ public class SelectableDataGroup extends DataGroup {
 	protected function renderer_clickHandler(event:MouseEvent):void {
 		var dataRenderer:IItemRenderer = event.currentTarget as IItemRenderer;
 		var selectedData:Object = dataRenderer ? dataRenderer.data : null;
-		if (deselectEnabled && selectedData && selectedData == selectedItem) {
-			selectedRenderer = null;
+		if (deselectEnabled && selectedData && selectedData == selectedItem)
 			selectedItem = null;
-		}
-		else {
-			selectedRenderer = dataRenderer;
+		else
 			selectedItem = selectedData;
-		}
 	}
 }
 }

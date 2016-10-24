@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:common="de.dittner.testmyself.ui.common.list.*"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:input="de.dittner.testmyself.ui.common.input.*">
+    <fx:Metadata>
+        [Event(name="enterPressed", type="flash.events.Event")]
+    </fx:Metadata>
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.ZeroPos;
+
+        import mx.collections.ArrayCollection;
+        import mx.events.FlexEvent;
+
+        //--------------------------------------
+        //  title
+        //--------------------------------------
+        private var _title:String = "";
+        [Bindable("titleChanged")]
+        public function get title():String {return _title;}
+        public function set title(value:String):void {
+            if (_title != value) {
+                _title = value;
+                dispatchEvent(new Event("titleChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  inputTemplateColl
+        //--------------------------------------
+        private var _inputTemplateColl:ArrayCollection;
+        [Bindable("inputTemplateCollChanged")]
+        public function get inputTemplateColl():ArrayCollection {return _inputTemplateColl;}
+        public function set inputTemplateColl(value:ArrayCollection):void {
+            if (_inputTemplateColl != value) {
+                _inputTemplateColl = value;
+                dispatchEvent(new Event("inputTemplateCollChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  text
+        //--------------------------------------
+        private var _text:String = "";
+        [Bindable("textChanged")]
+        public function get text():String {return _text;}
+        public function set text(value:String):void {
+            if (_text != value) {
+                _text = value;
+                dispatchEvent(new Event("textChanged"));
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        public function selectAll():void {
+            input.selectAll();
+        }
+
+        private function dropdownBtnChangeHandler(event:Event):void {
+            if (!SimplePopup.isShownInPopup(templateListCont) && dropdownBtn.selected) {
+                templateListCont.width = input.width + dropdownBtn.width;
+                SimplePopup.show(templateListCont, false, templatelistCloseHandler);
+                var btnPos:Point = input.localToGlobal(ZeroPos.POINT);
+                templateListCont.x = btnPos.x;
+                templateListCont.y = btnPos.y + input.height;
+            }
+        }
+
+        private function templatelistCloseHandler():void {
+            dropdownBtn.selected = false;
+        }
+
+        private function templateList_selectedItemChangeHandler(event:Event):void {
+            if (templateList.selectedItem) {
+                input.text = templateList.selectedItem as String;
+                SimplePopup.close();
+                templateList.selectedItem = null;
+            }
+        }
+
+        private function input_enterHandler(event:FlexEvent):void {
+            dispatchEvent(new Event("enterPressed"));
+        }
+        ]]></fx:Script>
+
+    <fx:Declarations>
+        <s:Group id="templateListCont"
+                 width="100%" maxHeight="520">
+            <s:Rect width="100%" height="100%">
+                <s:fill>
+                    <s:SolidColor color="{AppColors.SCREEN_FOOTER_BG}"/>
+                </s:fill>
+                <s:stroke>
+                    <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
+                </s:stroke>
+            </s:Rect>
+
+            <s:Scroller width="100%" height="100%">
+                <common:SelectableDataGroup id="templateList"
+                                            dataProvider="{inputTemplateColl}"
+                                            allowSelectLastItem="true"
+                                            itemRenderer="de.dittner.testmyself.ui.common.input.DropdownListItemRenderer"
+                                            selectedItemChange="templateList_selectedItemChangeHandler(event)"
+                                            width="100%">
+                    <common:layout>
+                        <s:VerticalLayout gap="0"/>
+                    </common:layout>
+                </common:SelectableDataGroup>
+            </s:Scroller>
+        </s:Group>
+    </fx:Declarations>
+
+    <s:layout>
+        <s:HorizontalLayout gap="0" verticalAlign="bottom"/>
+    </s:layout>
+
+    <input:TextInputForm id="input"
+                         text="@{text}"
+                         width="100%"
+                         maxChars="{Device.MAX_TAG_NAME_LENGTH}"
+                         title="{title}"
+                         enter="input_enterHandler(event)"/>
+
+    <button:BitmapToggleButton id="dropdownBtn"
+                               upImage="@Embed(source='/assets/button/dropdown_btn_up.png')"
+                               downImage="@Embed(source='/assets/button/dropdown_btn_down.png')"
+                               change="dropdownBtnChangeHandler(event)"/>
+
+</s:Group>

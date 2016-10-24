@@ -14,7 +14,7 @@ public class PlayingState implements IPlayerState {
 	private var context:IPlayerContext;
 	private var isPlaying:Boolean = false;
 	private var soundChannel:SoundChannel;
-	private var playingTimer:Timer = new Timer(500);
+	private var playingTimer:Timer = new Timer(50);
 
 	public function play():void {
 		if (isPlaying) {
@@ -60,7 +60,7 @@ public class PlayingState implements IPlayerState {
 	}
 
 	private function playingProgress(event:TimerEvent):void {
-		context.updatePlayback(Math.ceil(soundChannel.position / 1000));
+		context.updatePlayback(Math.ceil(soundChannel.position / 100) / 10);
 	}
 
 	private function playingComplete(event:Event):void {

@@ -87,10 +87,10 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 	//--------------------------------------
 	//  playbackTime
 	//--------------------------------------
-	private var _playbackTime:int = 0;
+	private var _playbackTime:Number = 0;
 	[Bindable("playbackTimeChanged")]
-	public function get playbackTime():int {return _playbackTime;}
-	public function set playbackTime(value:int):void {
+	public function get playbackTime():Number {return _playbackTime;}
+	public function set playbackTime(value:Number):void {
 		if (_playbackTime != value) {
 			_playbackTime = value;
 			curState.updatePlayingPosition();
@@ -98,7 +98,7 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 		}
 	}
 
-	public function updatePlayback(sec:int):void {
+	public function updatePlayback(sec:Number):void {
 		_playbackTime = sec;
 		dispatchEvent(new Event("playbackTimeChanged"));
 	}

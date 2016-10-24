@@ -11,8 +11,8 @@ public interface IPlayerContext {
 	function getPausedState():IPlayerState;
 	function getStoppedState():IPlayerState;
 
-	function updatePlayback(sec:int):void;
-	function get playbackTime():int;
+	function updatePlayback(sec:Number):void;
+	function get playbackTime():Number;
 
 }
 }

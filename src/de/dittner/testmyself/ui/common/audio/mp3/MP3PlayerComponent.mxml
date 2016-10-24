@@ -175,9 +175,9 @@
                                  minimum="0"
                                  maximum="{player.soundDuration}"
                                  showDataTip="false"
-                                 stepSize="0.0"
+                                 stepSize="0.1"
                                  value="@{player.playbackTime}"
-                                 snapInterval="1"
+                                 snapInterval="0.1"
                                  liveDragging="true"
                                  skinClass="de.dittner.testmyself.ui.common.audio.skins.slider.RewindingSliderSkin"/>
 
