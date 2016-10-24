@@ -69,14 +69,14 @@
         private function dropdownBtnChangeHandler(event:Event):void {
             if (!SimplePopup.isShownInPopup(templateListCont) && dropdownBtn.selected) {
                 templateListCont.width = input.width + dropdownBtn.width;
-                SimplePopup.show(templateListCont, false, templatelistCloseHandler);
+                SimplePopup.show(templateListCont, false, templateListCloseHandler);
                 var btnPos:Point = input.localToGlobal(ZeroPos.POINT);
                 templateListCont.x = btnPos.x;
-                templateListCont.y = btnPos.y + input.height;
+                templateListCont.y = btnPos.y + input.height - Device.verticalPadding;
             }
         }
 
-        private function templatelistCloseHandler():void {
+        private function templateListCloseHandler():void {
             dropdownBtn.selected = false;
         }
 

@@ -4,7 +4,6 @@ import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.Device;
 
-import flash.desktop.NativeApplication;
 import flash.display.Bitmap;
 import flash.display.Sprite;
 import flash.events.Event;
@@ -28,22 +27,17 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 
 	public function AppPreloader(color:uint = 0xFFffFF):void {
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
-		NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
 	}
 
 	private function addedToStage(event:Event):void {
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		Device.init(stage);
+		stage.nativeWindow.x = 0;
 		AsyncCallbacksLib.fps = 30;
 		AsyncCallbacksLib.stage = stage;
 		CLog.run();
 		CLog.info(LogTag.SYSTEM, "Device mode: " + (Device.stage.wmodeGPU ? "gpu" : "cpu"));
 		CLog.logMemoryAndFPS(true);
-	}
-
-	private function nativeApplication_activateHandler(event:Event):void {
-		NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
-		NativeApplication.nativeApplication.activeWindow.x = 0;
 	}
 
 	private var minDisplayTimer:Timer;
