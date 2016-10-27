@@ -34,7 +34,7 @@
         import spark.components.supportClasses.TextInputOperation;
         import spark.events.TextOperationEvent;
 
-        private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "=, -en", "=, -n", "-s, =", "-s, sg", "=, sg"];
+        private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "-s, -e", "=, -en", "=, -n", "-s, =", "-s, sg", "=, sg", "-s, -s", "sub"];
         protected const HGAP:uint = 10;
         protected const VGAP:uint = 5;
         private var curOperation:IAsyncOperation;
@@ -458,7 +458,7 @@
                     mode="{mode}"/>
 
     <button:WhiteButton id="formatBtn"
-                        width="250" right="15" top="5"
+                        width="330" right="15" top="5"
                         label="Formatieren"
                         visible="{!isRemoveMode}"
                         click="correct()"/>
@@ -539,7 +539,7 @@
             </s:Group>
         </s:VGroup>
 
-        <s:VGroup width="250" height="100%" gap="{VGAP}"
+        <s:VGroup width="330" height="100%" gap="{VGAP}"
                   visible.normal="false" includeInLayout.normal="false"
                   visible.lesson="{!isAddMode}" includeInLayout.lesson="{!isAddMode}"
                   visible.word="true" includeInLayout.word="true"

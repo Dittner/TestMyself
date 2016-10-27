@@ -23,6 +23,8 @@
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
 
+        import mx.collections.ArrayCollection;
+
         [Bindable]
         public var vm:SearchVM;
 
@@ -48,11 +50,12 @@
             setCurrentState("active");
             vm.viewActivated(viewID);
             searchBoard.updateSearchInput();
+            if (stage && Device.isDesktop) stage.focus = searchBoard.searchInput.input;
             NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
 
         private function nativeApplication_activateHandler(event:Event):void {
-            if (stage && Device.isDesktop) stage.focus = searchBoard.searchInput;
+            if (stage && Device.isDesktop) stage.focus = searchBoard.searchInput.input;
         }
 
         override protected function deactivate():void {
@@ -131,8 +134,8 @@
             toolbar.removeNoteBtn.enabled = noteList.selectedNote;
         }
 
-        private function examplesListEnabled(selectedNote:Note):Boolean {
-            return selectedNote && selectedNote.exampleColl.length > 0
+        private function examplesListEnabled(selectedNote:Note, noteExampleColl:ArrayCollection):Boolean {
+            return selectedNote && noteExampleColl && noteExampleColl.length > 0
         }
         ]]></fx:Script>
 
@@ -171,7 +174,7 @@
     <common:ExampleList id="exampleList"
                         width="50%" top="{searchBoard.height}" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                         right="0"
-                        visible="{examplesListEnabled(vm.selectedNote)}"
+                        visible="{examplesListEnabled(vm.selectedNote, vm.selectedNote.exampleColl)}"
                         selectedNote="@{vm.selectedExample}"
                         dataProvider="{noteList.selectedItem.exampleColl}"
                         excludeFrom="inactive"

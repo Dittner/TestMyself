@@ -32,7 +32,7 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 	private function addedToStage(event:Event):void {
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		Device.init(stage);
-		stage.nativeWindow.x = 0;
+		if (stage.nativeWindow) stage.nativeWindow.x = 0;
 		AsyncCallbacksLib.fps = 30;
 		AsyncCallbacksLib.stage = stage;
 		CLog.run();
