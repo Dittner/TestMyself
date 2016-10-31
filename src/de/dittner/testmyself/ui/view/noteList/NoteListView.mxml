@@ -34,7 +34,7 @@
             vm = ViewModelFactory.instance.noteListVM;
             vm.lockView();
             toolbar.visible = toolbar.includeInLayout = true;
-            toolbar.disabledAll();
+            toolbar.revert();
         }
 
         override protected function activate():void {
@@ -46,6 +46,7 @@
             toolbar.hideDetailsBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
             toolbar.filterBtn.enabled = true;
+
             switch (vm.page.vocabulary.id) {
                 case VocabularyID.DE_WORD :
                     setCurrentState("word");
@@ -59,6 +60,7 @@
                     throw Error("Unknown vocabulary: " + vm.page.vocabulary.id);
             }
             toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
+            noteList.pageLayout = pageLayoutInfo;
         }
 
         override protected function deactivate():void {
@@ -91,15 +93,15 @@
                     break;
                 case(ToolAction.INVERT) :
                     pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
                 case(ToolAction.HIDE_DETAILS) :
                     pageLayoutInfo.showDetails = false;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
                 case(ToolAction.SHOW_DETAILS) :
                     pageLayoutInfo.showDetails = true;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
             }
         }

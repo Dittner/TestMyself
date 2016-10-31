@@ -322,8 +322,8 @@
                 descriptionArea.text = NoteFormUtils.formatText(descriptionArea.text);
             }
             else {
-                titleArea.text = NoteFormUtils.capitalizeText(titleArea.text);
-                descriptionArea.text = NoteFormUtils.capitalizeText(descriptionArea.text);
+                titleArea.text = NoteFormUtils.capitalizeAndFormatText(titleArea.text);
+                descriptionArea.text = NoteFormUtils.capitalizeAndFormatText(descriptionArea.text);
             }
         }
 

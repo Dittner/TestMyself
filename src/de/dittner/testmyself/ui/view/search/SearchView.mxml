@@ -39,15 +39,16 @@
             vm.lockView();
 
             toolbar.visible = toolbar.includeInLayout = true;
-            toolbar.disabledAll();
+            toolbar.revert();
         }
 
         override protected function activate():void {
+            setCurrentState("active");
             toolbar.hideDetailsBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
+            noteList.pageLayout = pageLayoutInfo;
             toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.unlockView();
-            setCurrentState("active");
             vm.viewActivated(viewID);
             searchBoard.updateSearchInput();
             if (stage && Device.isDesktop) stage.focus = searchBoard.searchInput.input;
@@ -81,15 +82,15 @@
                     break;
                 case(ToolAction.INVERT) :
                     pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
                 case(ToolAction.HIDE_DETAILS) :
                     pageLayoutInfo.showDetails = false;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
                 case(ToolAction.SHOW_DETAILS) :
                     pageLayoutInfo.showDetails = true;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
             }
         }
@@ -162,7 +163,7 @@
                          width="100%"
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
-                         selectFirstItemByDefault="true"
+                         selectFirstItemByDefault="{vm.page.number == 0}"
                          itemRenderer="de.dittner.testmyself.ui.view.search.components.FoundNoteRenderer"
                          selectedItemChange="noteList_selectedItemChangeHandler(event)">
             <common:layout>

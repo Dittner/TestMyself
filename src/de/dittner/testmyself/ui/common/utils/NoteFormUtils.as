@@ -3,7 +3,7 @@ public class NoteFormUtils {
 	public static const LETTERS:RegExp = /[a-zA-ZÄäÖöÜüß-]+/;
 	public static const LETTERS_AND_SYMBOLS:RegExp = /[a-zA-ZÄäÖöÜüß *\/-]+/;
 
-	public static function capitalizeText(text:String):String {
+	public static function capitalizeAndFormatText(text:String):String {
 		return addDot(capitalize(changeSymbols(removeSpaces(text))));
 	}
 
@@ -31,19 +31,21 @@ public class NoteFormUtils {
 		return str;
 	}
 
-	public static function changeSymbols(str:String):String {
-		if (str) {
-			str = str.replace(/(\[)/gi, "(");
-			str = str.replace(/(\])/gi, ")");
-			str = str.replace(/( - )/gi, " – ");
+	public static function changeSymbols(txt:String):String {
+		if (txt) {
+			txt = txt.replace(/(\[)/gi, "(");
+			txt = txt.replace(/(\])/gi, ")");
+			txt = txt.replace(/(„)/gi, '"');
+			txt = txt.replace(/(“)/gi, '"');
+			txt = txt.replace(/( - )/gi, " – ");
 		}
-		return str;
+		return txt;
 	}
 
 	public static function addDot(str:String):String {
 		if (str) {
 			var endChar:String = str.charAt(str.length - 1);
-			if (endChar != "." && endChar != "!" && endChar != "?")
+			if (endChar != "." && endChar != "!" && endChar != "?" && endChar != '"')
 				str += ".";
 		}
 		return str;
@@ -68,6 +70,8 @@ public class NoteFormUtils {
 			txt = txt.replace(/(9\))/gi, "9]");
 			txt = txt.replace(/(\))/gi, "");
 			txt = txt.replace(/(\])/gi, ")");
+			txt = txt.replace(/(„)/gi, '"');
+			txt = txt.replace(/(“)/gi, '"');
 
 			txt = txt.replace(/(\r)/gi, "\n");
 			txt = txt.replace(/(\t)/gi, "\n");

@@ -10,7 +10,7 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
 
-        public function disabledAll():void {
+        public function revert():void {
             goBackBtn.enabled = false;
             addNoteBtn.enabled = false;
             editNoteBtn.enabled = false;
@@ -20,6 +20,8 @@
             filterBtn.enabled = false;
             setTaskAsRightBtn.enabled = false;
             showFailedTasksBtn.enabled = false;
+            hideDetailsBtn.selected = true;
+            showFailedTasksBtn.selected = true;
         }
 
         private function notifyToolAction(action:String):void {

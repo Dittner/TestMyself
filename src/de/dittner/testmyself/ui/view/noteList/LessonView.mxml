@@ -37,7 +37,7 @@
             vm.lockView();
 
             toolbar.visible = toolbar.includeInLayout = true;
-            toolbar.disabledAll()
+            toolbar.revert()
         }
 
         override protected function activate():void {
@@ -45,6 +45,7 @@
             vm.viewActivated(viewID);
             showLessonList();
             toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
+            noteList.pageLayout = pageLayoutInfo;
         }
 
         override protected function deactivate():void {
@@ -54,7 +55,7 @@
         }
 
         private function showLessonList():void {
-            toolbar.disabledAll();
+            toolbar.revert();
             toolbar.addNoteBtn.enabled = true;
             vm.selectedNote = null;
             vm.page.selectedTag = null;
@@ -146,15 +147,15 @@
                     break;
                 case(ToolAction.INVERT) :
                     pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
                 case(ToolAction.HIDE_DETAILS) :
                     pageLayoutInfo.showDetails = false;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
                 case(ToolAction.SHOW_DETAILS) :
                     pageLayoutInfo.showDetails = true;
-                    noteList.pageLayout = pageLayoutInfo;
+                    noteList.invalidatePageLayout();
                     break;
             }
         }

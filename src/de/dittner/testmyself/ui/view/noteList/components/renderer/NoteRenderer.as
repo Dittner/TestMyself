@@ -220,7 +220,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		g.clear();
 
 		commentPlayBtn.x = w - commentPlayBtn.width - 5;
-		commentPlayBtn.y = h - commentPlayBtn.height >> 1;
+		commentPlayBtn.y = 72 - commentPlayBtn.height >> 1;
 		commentPlayBtn.visible = hasAudioComment();
 		commentPlayBtn.enabled = selected;
 

@@ -5,8 +5,8 @@
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>2.21</versionNumber>
-    <versionLabel>2.21</versionLabel>
+    <versionNumber>2.22</versionNumber>
+    <versionLabel>2.22</versionLabel>
 
     <initialWindow>
         <content>TestMyself.swf</content>

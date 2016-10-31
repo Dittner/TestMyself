@@ -24,7 +24,7 @@
             vm = ViewModelFactory.instance.testVM;
             vm.lockView();
             toolbar.visible = toolbar.includeInLayout = false;
-            toolbar.disabledAll();
+            toolbar.revert();
         }
 
         override protected function activate():void {
@@ -50,7 +50,7 @@
             vm.selectedTestTask = null;
             setCurrentState("presets");
             toolbar.visible = toolbar.includeInLayout = true;
-            toolbar.disabledAll();
+            toolbar.revert();
             toolbar.goBackBtn.enabled = true;
         }
 
@@ -59,7 +59,7 @@
             statisticsScreen.activate();
             setCurrentState("statistics");
             toolbar.visible = toolbar.includeInLayout = true;
-            toolbar.disabledAll();
+            toolbar.revert();
             toolbar.goBackBtn.enabled = true;
             toolbar.showFailedTasksBtn.enabled = true;
             toolbar.showFailedTasksBtn.selected = vm.testPage.loadOnlyFailedTestTask;
@@ -70,7 +70,7 @@
             testingScreen.activate(menu);
             setCurrentState("testing");
             toolbar.visible = toolbar.includeInLayout = true;
-            toolbar.disabledAll();
+            toolbar.revert();
             toolbar.goBackBtn.enabled = true;
         }
 

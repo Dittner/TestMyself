@@ -27,9 +27,15 @@ public class NoteList extends SelectableDataGroup {
 	[Bindable("pageLayoutChanged")]
 	public function get pageLayout():PageLayout {return _pageLayout;}
 	public function set pageLayout(value:PageLayout):void {
-		_pageLayout = value;
+		if (_pageLayout != value) {
+			_pageLayout = value;
+			invalidatePageLayout();
+			dispatchEvent(new Event("pageLayoutChanged"));
+		}
+	}
+
+	public function invalidatePageLayout():void {
 		invalidateOf(validateLayout);
-		dispatchEvent(new Event("pageLayoutChanged"));
 	}
 
 	private function validateLayout():void {
