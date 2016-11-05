@@ -3,7 +3,6 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:audio="de.dittner.testmyself.ui.common.audio.*"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
          xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
 
@@ -72,7 +71,6 @@
                 setCurrentState("edit");
                 titleArea.text = selectedNote.title;
                 descriptionArea.text = selectedNote.description;
-                audioRecorder.setComment(selectedNote.audioComment);
                 showForm();
             }
         }
@@ -90,13 +88,12 @@
             if (mainForm == editFormCont.parent) mainForm.removeElement(editFormCont);
         }
 
-        private function applyBtnEnabled(isRecording:Boolean, title:String, description:String):Boolean {
-            return !isRecording && title && description;
+        private function applyBtnEnabled(title:String, description:String):Boolean {
+            return title && description;
         }
 
         private function back():void {
             hideForm();
-            audioRecorder.clear();
             titleArea.text = "";
             descriptionArea.text = "";
             exampleList.selectedItem = null;
@@ -110,7 +107,6 @@
                 var note:Note = parentNote.createExample();
                 note.title = titleArea.text;
                 note.description = descriptionArea.text;
-                note.audioComment = audioRecorder.getComment();
                 exampleColl.addItem(note);
                 back();
             }
@@ -119,7 +115,6 @@
                 var selectedNote:Note = exampleList.selectedItem as Note;
                 selectedNote.title = titleArea.text;
                 selectedNote.description = descriptionArea.text;
-                selectedNote.audioComment = audioRecorder.getComment();
                 back();
             }
             else if (currentState == "remove") {
@@ -190,11 +185,6 @@
                                         maxChars="{Device.MAX_TEXT_LENGTH}"
                                         title="Übersetzung"/>
 
-                    <audio:AudioRecorder id="audioRecorder" width="100%" height="72"
-                                         visible.add="true" includeInLayout.add="true"
-                                         visible.edit="true" includeInLayout.edit="true"
-                                         visible="false" includeInLayout="false"/>
-
                     <s:Label id="removeTitleLbl"
                              width="100%"
                              includeIn="remove"
@@ -227,7 +217,7 @@
                                             label.edit="Speichern"
                                             label.remove="Entfernen"
                                             enabled.remove="true"
-                                            enabled="{applyBtnEnabled(audioRecorder.isRecording, titleArea.text, descriptionArea.text)}"
+                                            enabled="{applyBtnEnabled(titleArea.text, descriptionArea.text)}"
                                             click="apply()"/>
                     </s:HGroup>
                 </s:VGroup>
