@@ -112,6 +112,10 @@
                         vm.loadStatisticsPage();
                     }
                     break;
+                case(ToolAction.PLAY_AUDIO) :
+                    if (vm.selectedTestTask && vm.selectedTestTask.note.hasAudio)
+                        vm.selectedTestTask.note.loadAndPlayAudioComment();
+                    break;
             }
         }
 
@@ -161,6 +165,7 @@
                 toolbar.editNoteBtn.enabled = selectedNote;
                 toolbar.removeNoteBtn.enabled = selectedNote;
                 toolbar.setTaskAsRightBtn.enabled = currentState == "statistics" && vm.selectedTestTask && vm.selectedTestTask.isFailed;
+                toolbar.playCommentBtn.enabled = vm.selectedTestTask && vm.selectedTestTask.note.hasAudio;
 
                 dispatchEvent(new Event("selectedNoteChanged"));
             }

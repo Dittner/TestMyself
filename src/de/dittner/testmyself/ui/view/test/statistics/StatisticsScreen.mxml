@@ -74,8 +74,8 @@
         }
 
         private function selectedItemChange(event:Event):void {
-            vm.selectedTestTask = list.selectedItem as TestTask
-            examplesListEnabled = vm.selectedTestTask && vm.selectedTestTask.note.exampleColl.length > 0
+            vm.selectedTestTask = list.selectedItem as TestTask;
+            examplesListEnabled = vm.selectedTestTask && vm.selectedTestTask.note.exampleColl.length > 0;
         }
         ]]></fx:Script>
 

@@ -46,7 +46,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 	protected function get gap():uint {return 10;}
 
-	protected function get pad():uint {return 20;}
+	protected function get pad():uint {return 19;}
 
 	protected function get testTask():TestTask {
 		return data as TestTask;

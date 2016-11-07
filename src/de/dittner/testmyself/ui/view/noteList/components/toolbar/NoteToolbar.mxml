@@ -18,6 +18,7 @@
             hideDetailsBtn.enabled = false;
             transInvertBtn.enabled = false;
             filterBtn.enabled = false;
+            playCommentBtn.enabled = false;
             setTaskAsRightBtn.enabled = false;
             showFailedTasksBtn.enabled = false;
             hideDetailsBtn.selected = true;
@@ -108,4 +109,11 @@
                        description="Als richtig zeichnen"
                        image="@Embed(source='/assets/tools/set_task_as_right.png')"
                        click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
+
+    <s:Spacer height="25"/>
+
+    <button:ToolButton id="playCommentBtn"
+                       description="Abspielen"
+                       image="@Embed(source='/assets/sound_btn_down.png')"
+                       click="notifyToolAction(ToolAction.PLAY_AUDIO)"/>
 </s:Group>

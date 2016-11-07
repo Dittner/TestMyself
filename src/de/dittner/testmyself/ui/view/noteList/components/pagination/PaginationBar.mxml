@@ -91,7 +91,7 @@
         }
         ]]></fx:Script>
 
-    <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="5">
+    <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="0">
 
         <pagination:PaginationButton id="prevPageBtn"
                                      enabled="false"

@@ -37,7 +37,9 @@ public class NoteFormUtils {
 			txt = txt.replace(/(\])/gi, ")");
 			txt = txt.replace(/(„)/gi, '"');
 			txt = txt.replace(/(“)/gi, '"');
-			txt = txt.replace(/( - )/gi, " – ");
+			txt = txt.replace(/(«)/gi, '"');
+			txt = txt.replace(/(»)/gi, '"');
+			txt = txt.replace(/(- )/gi, "– ");
 		}
 		return txt;
 	}
@@ -72,6 +74,8 @@ public class NoteFormUtils {
 			txt = txt.replace(/(\])/gi, ")");
 			txt = txt.replace(/(„)/gi, '"');
 			txt = txt.replace(/(“)/gi, '"');
+			txt = txt.replace(/(«)/gi, '"');
+			txt = txt.replace(/(»)/gi, '"');
 
 			txt = txt.replace(/(\r)/gi, "\n");
 			txt = txt.replace(/(\t)/gi, "\n");
@@ -102,6 +106,7 @@ public class NoteFormUtils {
 			txt = txt.replace(/(чём-либо)/gi, "ч-л.");
 			txt = txt.replace(/(ком-л\.)/gi, "к-л.");
 			txt = txt.replace(/(ком-либо)/gi, "к-л.");
+			txt = txt.replace(/(разг\.)/gi, "umg.");
 
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");

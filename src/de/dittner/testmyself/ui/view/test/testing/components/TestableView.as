@@ -100,7 +100,6 @@ public class TestableView extends Group {
 		else if (e.menuID == MenuID.FALSE) onFalseAnswered();
 		else if (e.menuID == MenuID.ANSWER) showAnswer();
 		else if (e.menuID == MenuID.NEXT) requestNextTask();
-		else if (e.menuID == MenuID.AUDIO) playAudioComment();
 	}
 
 	protected function onTrueAnswered():void {
@@ -123,7 +122,6 @@ public class TestableView extends Group {
 			testTaskChanged = false;
 			if (note) {
 				menu.taskPriority = testTask.complexity;
-				menu.playCommentBtnVisible = note.hasAudio;
 				updateForm();
 			}
 			else {

@@ -157,6 +157,10 @@
                     pageLayoutInfo.showDetails = true;
                     noteList.invalidatePageLayout();
                     break;
+                case(ToolAction.PLAY_AUDIO) :
+                    if (vm.selectedNote && vm.selectedNote.hasAudio)
+                        vm.selectedNote.loadAndPlayAudioComment();
+                    break;
             }
         }
 
@@ -192,6 +196,7 @@
         private function noteList_selectedItemChangeHandler(event:Event):void {
             toolbar.editNoteBtn.enabled = noteList.selectedNote;
             toolbar.removeNoteBtn.enabled = noteList.selectedNote;
+            toolbar.playCommentBtn.enabled = noteList.selectedNote && noteList.selectedNote.hasAudio;
         }
         ]]></fx:Script>
 
