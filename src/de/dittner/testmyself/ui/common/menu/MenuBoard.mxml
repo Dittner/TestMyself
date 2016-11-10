@@ -227,7 +227,6 @@
                                      image="@Embed(source='/assets/menu/settings.png')"
                                      disabledImage="@Embed(source='/assets/menu/settings_red.png')"
                                      change="viewMenuBtnSelectedHandler(event)"/>
-
     </s:VGroup>
 
     <!--Form Menu-->

@@ -15,7 +15,7 @@ public class ProgressBar extends UIComponent {
 	private static const TITTLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
 	private static const PROGRESS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
 	private static const VGAP:uint = 10;
-	private static const BAR_HEI:uint = 10;
+	private static const BAR_HEI:uint = 5;
 
 	public function ProgressBar() {
 		super();

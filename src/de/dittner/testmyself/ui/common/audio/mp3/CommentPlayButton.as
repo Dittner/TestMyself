@@ -6,15 +6,12 @@ public class CommentPlayButton extends SpriteButton {
 		super();
 		upStateClass = SoundUpIconClass;
 		downStateClass = SoundDownIconClass;
-		disabledStateClass = SoundDisabledIconClass;
+		disabledStateClass = SoundUpIconClass;
 	}
 
 	[Embed(source='/assets/sound_btn_up.png')]
 	private static const SoundUpIconClass:Class;
 	[Embed(source='/assets/sound_btn_down.png')]
 	private static const SoundDownIconClass:Class;
-	[Embed(source='/assets/sound_btn_disabled.png')]
-	private static const SoundDisabledIconClass:Class;
-
 }
 }

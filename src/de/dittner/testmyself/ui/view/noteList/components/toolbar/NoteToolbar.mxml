@@ -114,6 +114,6 @@
 
     <button:ToolButton id="playCommentBtn"
                        description="Abspielen"
-                       image="@Embed(source='/assets/sound_btn_down.png')"
+                       image="@Embed(source='/assets/tools/audio.png')"
                        click="notifyToolAction(ToolAction.PLAY_AUDIO)"/>
 </s:Group>

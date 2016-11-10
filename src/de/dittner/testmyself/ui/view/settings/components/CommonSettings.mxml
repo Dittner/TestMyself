@@ -142,6 +142,7 @@
                              width="400" title="Port"/>
 
         <input:TextInputForm id="pwdInput"
+                             displayAsPassword="true"
                              width="400" title="Passwort"/>
     </s:HGroup>
 

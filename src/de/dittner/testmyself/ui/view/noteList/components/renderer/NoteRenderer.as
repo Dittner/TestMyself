@@ -201,15 +201,15 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		measuredWidth = parent.width;
 
 		if (titleTf.visible && descriptionTf.visible) {
-			titleTf.width = descriptionTf.width = measuredWidth - 2 * pad - commentPlayBtn.width;
+			titleTf.width = descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
 			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * pad + gap);
 		}
 		else if (descriptionTf.visible) {
-			descriptionTf.width = measuredWidth - 2 * pad;
+			descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
 			measuredHeight = Math.ceil(descriptionTf.textHeight + 2 * pad);
 		}
 		else {
-			titleTf.width = measuredWidth - 2 * pad - commentPlayBtn.width;
+			titleTf.width = measuredWidth - pad - commentPlayBtn.width;
 			measuredHeight = Math.ceil(titleTf.textHeight + 2 * pad);
 		}
 	}
@@ -219,7 +219,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		var g:Graphics = graphics;
 		g.clear();
 
-		commentPlayBtn.x = w - commentPlayBtn.width - 5;
+		commentPlayBtn.x = w - commentPlayBtn.width;
 		commentPlayBtn.y = 72 - commentPlayBtn.height >> 1;
 		commentPlayBtn.visible = hasAudioComment();
 		commentPlayBtn.enabled = selected;
