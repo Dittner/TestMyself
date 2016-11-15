@@ -92,7 +92,7 @@
               gap="15" verticalAlign="middle">
         <button:BlackButton id="applyBtn"
                             width="100%"
-                            label="Schließen"
+                            label="Bestätigen"
                             click="visible = false; selectedTag = tagList.selectedItem as Tag"/>
     </s:HGroup>
 
