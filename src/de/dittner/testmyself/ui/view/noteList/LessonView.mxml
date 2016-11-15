@@ -108,6 +108,7 @@
         }
 
         private function lessonSelectedHandler(event:Event):void {
+            if (!isActive) return;
             vm.page.selectedTag = lessonList.selectedItem as Tag;
             if (lessonList.selectedItem) {
                 vm.page.number = 0;
@@ -194,6 +195,7 @@
         }
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
+            if (!isActive) return;
             toolbar.editNoteBtn.enabled = noteList.selectedNote;
             toolbar.removeNoteBtn.enabled = noteList.selectedNote;
             toolbar.playCommentBtn.enabled = noteList.selectedNote && noteList.selectedNote.hasAudio;
