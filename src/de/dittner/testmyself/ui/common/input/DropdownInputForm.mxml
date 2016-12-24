@@ -85,6 +85,7 @@
                 input.text = templateList.selectedItem as String;
                 SimplePopup.close();
                 templateList.selectedItem = null;
+                dispatchEvent(new Event("enterPressed"));
             }
         }
 

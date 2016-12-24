@@ -39,7 +39,8 @@ public class NoteFormUtils {
 			txt = txt.replace(/(“)/gi, '"');
 			txt = txt.replace(/(«)/gi, '"');
 			txt = txt.replace(/(»)/gi, '"');
-			txt = txt.replace(/(- )/gi, "– ");
+			txt = txt.replace(/(–)/gi, "-");
+			txt = txt.replace(/( - )/gi, " – ");
 		}
 		return txt;
 	}
@@ -106,7 +107,9 @@ public class NoteFormUtils {
 			txt = txt.replace(/(чём-либо)/gi, "ч-л.");
 			txt = txt.replace(/(ком-л\.)/gi, "к-л.");
 			txt = txt.replace(/(ком-либо)/gi, "к-л.");
+			txt = txt.replace(/(разг )/gi, "umg. ");
 			txt = txt.replace(/(разг\.)/gi, "umg.");
+			txt = txt.replace(/(перен )/gi, "перен. ");
 
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");
@@ -119,12 +122,29 @@ public class NoteFormUtils {
 			txt = txt.replace(/(,;|;;|\n)/gi, ";");
 			txt = txt.replace(/(;)/gi, ";\n");
 			txt = txt.replace(/(, ;)/gi, ";");
-			res = removeSpaces(txt);
-
+			txt = removeSpaces(txt);
+			res = setNumberingToText(txt);
 		}
 		return res;
 	}
 
+	public static function setNumberingToText(txt:String):String {
+		var res:String = "";
+		var rows:Array = txt.split("\n");
+		if (rows && rows.length > 1) {
+			for (var i:int = 0; i < rows.length; i++) {
+				var row:String = rows[i];
+				var number:String = (i + 1) + ")";
+				if (row.indexOf(number) == 0) res += row;
+				else res += number + " " + row;
+				if (i < rows.length) res += "\n";
+			}
+		}
+		else {
+			res = txt;
+		}
+		return res;
+	}
 
 }
 }

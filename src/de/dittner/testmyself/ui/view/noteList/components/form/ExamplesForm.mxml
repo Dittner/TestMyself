@@ -166,7 +166,7 @@
                     </s:fill>
                 </s:Rect>
 
-                <s:VGroup left="20" right="20" bottom="5" top="{EditorBg.HEADER_HEIGHT + 10}">
+                <s:VGroup left="20" right="20" bottom="0" top="{EditorBg.HEADER_HEIGHT + 10}">
                     <input:TextAreaForm id="titleArea"
                                         width="100%"
                                         height="50%"

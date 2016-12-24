@@ -32,7 +32,7 @@ public class EditorBg extends UIComponent {
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
 	public static const PAD:uint = 20;
 	public static const VOFFSET:uint = 0;
-	public static const BORDER_THICKNESS:uint = 5;
+	public static const BORDER_THICKNESS:uint = 0;
 
 	//--------------------------------------
 	//  title

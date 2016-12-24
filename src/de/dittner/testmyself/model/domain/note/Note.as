@@ -4,6 +4,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
 import flash.events.Event;
@@ -277,7 +278,7 @@ public class Note extends EventDispatcher {
 	}
 
 	public function hasDuplicate():Boolean {
-		return !isExample && title && originalData.title != title && vocabulary.noteTitleHash.has(title);
+		return !isExample && title && originalData.title != title && vocabulary.noteTitleHash.has(title) && vocabulary.id != VocabularyID.DE_LESSON;
 	}
 
 	public function revertChanges():IAsyncOperation {

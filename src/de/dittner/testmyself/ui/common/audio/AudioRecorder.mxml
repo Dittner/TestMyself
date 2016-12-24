@@ -60,15 +60,15 @@
         }
 
         //--------------------------------------
-        //  maxRecordSize
+        //  maxRecordSizeInMin
         //--------------------------------------
-        private var _maxRecordSize:Number = 1;
-        [Bindable("maxRecordSizeChanged")]
-        public function get maxRecordSize():Number {return _maxRecordSize;}
-        public function set maxRecordSize(value:Number):void {
-            if (_maxRecordSize != value) {
-                _maxRecordSize = value;
-                dispatchEvent(new Event("maxRecordSizeChanged"));
+        private var _maxRecordSizeInMin:Number = 30;
+        [Bindable("maxRecordSizeInMinChanged")]
+        public function get maxRecordSizeInMin():Number {return _maxRecordSizeInMin;}
+        public function set maxRecordSizeInMin(value:Number):void {
+            if (_maxRecordSizeInMin != value) {
+                _maxRecordSizeInMin = value;
+                dispatchEvent(new Event("maxRecordSizeInMinChanged"));
             }
         }
 
@@ -201,7 +201,7 @@
     <audio:RawDataPlayer id="rawDataPlayer"
                          top="32" bottom="0"
                          width="100%"
-                         maxRecordSize="{maxRecordSize}"
+                         maxRecordSizeInMin="{maxRecordSizeInMin}"
                          removeCommentClick="mp3Player_removeCommentClickHandler(event)"
                          skinClass="de.dittner.testmyself.ui.common.audio.skins.RawDataPlayerSkin"/>
 

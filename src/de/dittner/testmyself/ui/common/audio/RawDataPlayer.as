@@ -56,7 +56,7 @@ public class RawDataPlayer extends SkinnableComponent {
 	//----------------------------------------------------------------------------------------------
 
 	public function RawDataPlayer() {
-		recordingTimer = new Timer(maxRecordSize * 60 * 1000, 1);
+		recordingTimer = new Timer(maxRecordSizeInMin * 60 * 1000, 1);
 		recordingTimer.addEventListener(TimerEvent.TIMER_COMPLETE, recordingTimeComplete);
 	}
 
@@ -72,7 +72,7 @@ public class RawDataPlayer extends SkinnableComponent {
 	public var recording:Boolean = false;
 
 	private var animation:MovieClip;
-	public var maxRecordSize:Number = 0.2;//min
+	public var maxRecordSizeInMin:Number = 0.2;
 	private var recordingTimer:Timer;
 
 	//--------------------------------------------------------------------------
@@ -152,7 +152,7 @@ public class RawDataPlayer extends SkinnableComponent {
 		internalState = RECORDING;
 		recordingTimer.stop();
 		recordingTimer.reset();
-		recordingTimer.delay = maxRecordSize * 60 * 1000;
+		recordingTimer.delay = maxRecordSizeInMin * 60 * 1000;
 		recordingTimer.start();
 	}
 

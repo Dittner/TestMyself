@@ -11,7 +11,7 @@ import flash.text.TextFormat;
 public class StringItemRenderer extends ItemRendererBase {
 	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
 	private static const SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_WHITE);
-	private static const VPAD:uint = 5;
+	private static const VPAD:uint = 8;
 	private static const HPAD:uint = 5;
 
 	public function StringItemRenderer() {

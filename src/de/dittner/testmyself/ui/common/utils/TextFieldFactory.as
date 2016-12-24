@@ -10,8 +10,8 @@ public class TextFieldFactory {
 
 	public static function create(textFormat:TextFormat, multiline:Boolean = false):TextField {
 		var textField:TextField = new TextField();
-		textField.width = 3000;
-		textField.height = 3000;
+		textField.width = 100000;
+		textField.height = 100000;
 		textField.selectable = false;
 		textField.multiline = multiline;
 		textField.wordWrap = multiline;

@@ -17,7 +17,7 @@
         [Embed(source='/assets/menu/screen_bg_pattern.png')]
         private static const BgClass:Class;
         private static var bgBitmapData:BitmapData;
-        private static const SEARCH_TEMPLATES:Array = ["halten+", "weisen+", "lassen+", "gehen+", "setzen+", "tragen+", "nehmen+", "gehen+", "finden+", "treten+", "stellen+", "ziehen+", "wenden+", "kommen+", "sehen+", "geben+", "stehen+", "legen+", "steigen+", "bringen+", "treffen+", "werfen+", "fallen+", "sprechen+", "werfen+", "fangen+", "heben+", "brechen+"];
+        private static const SEARCH_TEMPLATES:Array = ["halten+", "weisen+", "lassen+", "gehen+", "setzen+", "tragen+", "nehmen+", "gehen+", "finden+", "treten+", "stellen+", "ziehen+", "wenden+", "kommen+", "sehen+", "geben+", "stehen+", "legen+", "steigen+", "bringen+", "treffen+", "werfen+", "fallen+", "sprechen+", "werfen+", "fangen+", "heben+", "brechen+", "fassen+", "richten+", "stoßen+"];
 
         override protected function measure():void {
             super.measure();
