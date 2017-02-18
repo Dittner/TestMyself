@@ -34,7 +34,7 @@
         import spark.components.supportClasses.TextInputOperation;
         import spark.events.TextOperationEvent;
 
-        private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "-(e)s, -er", "-(e)s, sg", "-en, -en", "-n, -n", "-s, -e", "-s, -s", "-ses, -se", "-s, =", "-s, sg", "-ses, -se", "=, -en", "=, -n", "=, se", "=, sg", "sub", "pl"];
+        private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "-(e)s, -er", "-(e)s, sg", "-en, -en", "-n, -n", "-s, -e", "-s, -s", "-ses, -se", "-s, =", "-s, sg", "=, -en", "=, -n", "=, -se", "=, sg", "sub", "pl"];
         protected const HGAP:uint = 10;
         protected const VGAP:uint = 5;
         private var curOperation:IAsyncOperation;

@@ -110,6 +110,33 @@ public class NoteFormUtils {
 			txt = txt.replace(/(разг )/gi, "umg. ");
 			txt = txt.replace(/(разг\.)/gi, "umg.");
 			txt = txt.replace(/(перен )/gi, "перен. ");
+			txt = txt.replace(/(уст )/gi, "уст. ");
+			txt = txt.replace(/(физ )/gi, "физ. ");
+			txt = txt.replace(/(астр )/gi, "астр. ");
+			txt = txt.replace(/(хим )/gi, "хим. ");
+			txt = txt.replace(/(диал )/gi, "диал. ");
+			txt = txt.replace(/(ист )/gi, "ист. ");
+			txt = txt.replace(/(ав )/gi, "ав. ");
+			txt = txt.replace(/(эл )/gi, "эл. ");
+			txt = txt.replace(/(биол )/gi, "биол. ");
+			txt = txt.replace(/(зоол )/gi, "зоол. ");
+			txt = txt.replace(/(анат )/gi, "анат. ");
+			txt = txt.replace(/(мед )/gi, "мед. ");
+			txt = txt.replace(/(инф )/gi, "инф. ");
+			txt = txt.replace(/(фам )/gi, "фам. ");
+			txt = txt.replace(/(геол )/gi, "фам. ");
+			txt = txt.replace(/(тех )/gi, "тех. ");
+			txt = txt.replace(/(рел )/gi, "рел. ");
+			txt = txt.replace(/(мат )/gi, "мат. ");
+			txt = txt.replace(/(стр )/gi, "стр. ");
+			txt = txt.replace(/(эк )/gi, "эк. ");
+			txt = txt.replace(/(юр )/gi, "юр. ");
+			txt = txt.replace(/(кул )/gi, "кул. ");
+			txt = txt.replace(/(стр )/gi, "стр. ");
+			txt = txt.replace(/(театр )/gi, "театр. ");
+			txt = txt.replace(/(груб )/gi, "груб. ");
+			txt = txt.replace(/(высок )/gi, "высок. ");
+			txt = txt.replace(/(презр )/gi, "презр. ");
 
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");
@@ -135,9 +162,12 @@ public class NoteFormUtils {
 			for (var i:int = 0; i < rows.length; i++) {
 				var row:String = rows[i];
 				var number:String = (i + 1) + ")";
-				if (row.indexOf(number) == 0) res += row;
-				else res += number + " " + row;
-				if (i < rows.length) res += "\n";
+				if (row.indexOf(number) == 0)
+					res += row;
+				else
+					res += number + " " + row;
+				if (i < rows.length - 1)
+					res += "\n";
 			}
 		}
 		else {
