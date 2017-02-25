@@ -1,6 +1,8 @@
 package de.dittner.testmyself.ui.view.noteList.components.form {
 import de.dittner.testmyself.model.domain.language.LanguageID;
 
+import mx.resources.ResourceManager;
+
 public class NoteValidationErrorKey {
 	public function NoteValidationErrorKey() {}
 
@@ -20,21 +22,21 @@ public class NoteValidationErrorKey {
 		if (langID == LanguageID.DE) {
 			switch (key) {
 				case EMPTY_TAG_NAME :
-					return "Der Name des Tags is nicht ergänzt!";
+					return ResourceManager.getInstance().getString('app', 'NameOfTagIsEmpty');
 				case TAG_NAME_DUPLICATE :
-					return "Das Tag hat das Duplikat!";
+					return ResourceManager.getInstance().getString('app', 'TagHasDuplicate');
 				case EMPTY_NOTE_TITLE :
-					return "Der Titel der Note is nicht ergänzt!";
+					return ResourceManager.getInstance().getString('app', 'TitleOfNoteIsEmpty');
 				case EMPTY_NOTE_DESCRIPTION :
-					return "Die Übersetzung der Note is nicht ergänzt!";
+					return ResourceManager.getInstance().getString('app', 'TranslationOfNoteIsEmpty');
 				case NOTE_DUPLICATE :
-					return "Die Note hat das Duplikat!";
+					return ResourceManager.getInstance().getString('app', 'NoteHasDuplicate');
 				case EMPTY_EXAMPLE_TITLE :
-					return "Der Titel eines Beispiels is nicht ergänzt!";
+					return ResourceManager.getInstance().getString('app', 'TitleOfExampleIsEmpty');
 				case EMPTY_EXAMPLE_DESCRIPTION :
-					return "Die Übersetzung eines Beispiels is nicht ergänzt!";
+					return ResourceManager.getInstance().getString('app', 'TranslationOfExampleIsEmpty');
 				case EMPTY_VERB_FIELDS :
-					return "Die Fielde 'Präsens', 'Präteritum' und 'Partizip II' müssen ergänzt sein!";
+					return ResourceManager.getInstance().getString('app', 'FormsOfVerbIsEmpty');
 				default :
 					return "Unknown Key : " + key;
 			}

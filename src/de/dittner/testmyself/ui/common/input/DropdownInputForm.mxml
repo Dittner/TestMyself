@@ -44,6 +44,19 @@
         }
 
         //--------------------------------------
+        //  isTemplatesEnabled
+        //--------------------------------------
+        private var _isTemplatesEnabled:Boolean = true;
+        [Bindable("isTemplatesEnabledChanged")]
+        public function get isTemplatesEnabled():Boolean {return _isTemplatesEnabled;}
+        public function set isTemplatesEnabled(value:Boolean):void {
+            if (_isTemplatesEnabled != value) {
+                _isTemplatesEnabled = value;
+                dispatchEvent(new Event("isTemplatesEnabledChanged"));
+            }
+        }
+
+        //--------------------------------------
         //  text
         //--------------------------------------
         private var _text:String = "";
@@ -133,6 +146,7 @@
                          enter="input_enterHandler(event)"/>
 
     <button:BitmapToggleButton id="dropdownBtn"
+                               enabled="{isTemplatesEnabled}"
                                upImage="@Embed(source='/assets/button/dropdown_btn_up.png')"
                                downImage="@Embed(source='/assets/button/dropdown_btn_down.png')"
                                change="dropdownBtnChangeHandler(event)"/>

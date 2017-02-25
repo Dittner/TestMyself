@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.view {
+import de.dittner.testmyself.ui.view.langList.LangListVM;
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.testmyself.ui.view.map.MapVM;
 import de.dittner.testmyself.ui.view.noteList.NoteListVM;
@@ -18,6 +19,8 @@ public class ViewModelFactory extends WalterProxy {
 
 	[Inject]
 	public var mainVM:MainVM;
+	[Inject]
+	public var langListVM:LangListVM;
 	[Inject]
 	public var mapVM:MapVM;
 	[Inject]

@@ -1,8 +1,8 @@
 package de.dittner.testmyself.ui.view.noteList.components.renderer {
-import de.dittner.testmyself.model.domain.note.DeVerb;
-import de.dittner.testmyself.model.domain.note.DeWord;
 import de.dittner.testmyself.model.domain.note.DeWordArticle;
+import de.dittner.testmyself.model.domain.note.IrregularVerb;
 import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.model.domain.note.Word;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.common.audio.mp3.CommentPlayButton;
 import de.dittner.testmyself.ui.common.renderer.*;
@@ -56,12 +56,12 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		return testTask ? testTask.note : data as Note;
 	}
 
-	protected function get word():DeWord {
-		return testTask && testTask.note is DeWord ? testTask.note as DeWord : data as DeWord;
+	protected function get word():Word {
+		return testTask && testTask.note is Word ? testTask.note as Word : data as Word;
 	}
 
-	protected function get verb():DeVerb {
-		return testTask && testTask.note is DeVerb ? testTask.note as DeVerb : data as DeVerb;
+	protected function get verb():IrregularVerb {
+		return testTask && testTask.note is IrregularVerb ? testTask.note as IrregularVerb : data as IrregularVerb;
 	}
 
 	private function get pageLayout():PageLayout {

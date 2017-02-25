@@ -1,9 +1,12 @@
 package de.dittner.testmyself.model {
 import air.net.URLMonitor;
 
+import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
+import de.dittner.testmyself.model.domain.language.DeLang;
+import de.dittner.testmyself.model.domain.language.EnLang;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.walter.WalterProxy;
 
@@ -23,15 +26,28 @@ public class AppModel extends WalterProxy {
 		networkStatusMonitor.start();
 	}
 
-	private function connectionStatusChanged(event:StatusEvent):void {
-		CLog.info(LogTag.CONNECTION, "Network status: " + event.code);
-		setHasNetworkConnection(networkStatusMonitor.available);
-	}
-
-	private var networkStatusMonitor:URLMonitor;
-
 	[Inject]
 	public var storage:Storage;
+
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Properties
+	//
+	//----------------------------------------------------------------------------------------------
+
+	//--------------------------------------
+	//  deLang
+	//--------------------------------------
+	private var _deLang:Language;
+	[Bindable("deLangChanged")]
+	public function get deLang():Language {return _deLang;}
+
+	//--------------------------------------
+	//  enLang
+	//--------------------------------------
+	private var _enLang:Language;
+	[Bindable("enLangChanged")]
+	public function get enLang():Language {return _enLang;}
 
 	//--------------------------------------
 	//  selectedLanguage
@@ -60,8 +76,27 @@ public class AppModel extends WalterProxy {
 		}
 	}
 
-	public function init():void {
-		CLog.info(LogTag.SYSTEM, "AppModel initialized");
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Methods
+	//
+	//----------------------------------------------------------------------------------------------
+
+	public function init():IAsyncOperation {
+		CLog.info(LogTag.SYSTEM, "AppModel initialization is started");
+
+		_deLang = new DeLang(storage);
+		_enLang = new EnLang(storage);
+
+		deLang.init();
+		var op:IAsyncOperation = enLang.init();
+		return op;
+	}
+
+	private var networkStatusMonitor:URLMonitor;
+	private function connectionStatusChanged(event:StatusEvent):void {
+		CLog.info(LogTag.CONNECTION, "Network status: " + event.code);
+		setHasNetworkConnection(networkStatusMonitor.available);
 	}
 
 }

@@ -206,6 +206,7 @@ public class Note extends EventDispatcher {
 
 	public function serialize():Object {
 		var res:Object = {};
+		res.langID = vocabulary.lang.id;
 		res.vocabularyID = vocabulary.id;
 		res.parentID = parentID;
 		res.title = title;
@@ -278,7 +279,7 @@ public class Note extends EventDispatcher {
 	}
 
 	public function hasDuplicate():Boolean {
-		return !isExample && title && originalData.title != title && vocabulary.noteTitleHash.has(title) && vocabulary.id != VocabularyID.DE_LESSON;
+		return !isExample && title && originalData.title != title && vocabulary.noteTitleHash.has(title) && vocabulary.id != VocabularyID.DE_LESSON && vocabulary.id != VocabularyID.EN_LESSON;
 	}
 
 	public function revertChanges():IAsyncOperation {

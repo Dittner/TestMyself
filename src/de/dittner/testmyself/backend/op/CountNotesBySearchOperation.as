@@ -34,12 +34,18 @@ public class CountNotesBySearchOperation extends StorageOperation implements IAs
 
 		var allVocabulariesStr:String = SQLUtils.idsToSqlStr(allVocabularyIDs);
 		var selectedVocabulariesStr:String = SQLUtils.idsToSqlStr(page.vocabularyIDs);
-		sql = sql.replace("#allVocabularyList", allVocabulariesStr);
-		sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
-
-		var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
-		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete, executeError));
+		if (allVocabulariesStr && selectedVocabulariesStr) {
+			sql = sql.replace("#allVocabularyList", allVocabulariesStr);
+			sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
+			var statement:SQLStatement = SQLUtils.createSQLStatement(sql, sqlParams);
+			statement.sqlConnection = storage.sqlConnection;
+			statement.execute(-1, new Responder(executeComplete, executeError));
+		}
+		else {
+			page.allNotesAmount = 0;
+			page.countAllNotes = false;
+			dispatchSuccess();
+		}
 	}
 
 	private function executeComplete(result:SQLResult):void {

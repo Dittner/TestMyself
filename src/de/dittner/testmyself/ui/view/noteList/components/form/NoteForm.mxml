@@ -14,10 +14,10 @@
         import de.dittner.async.IAsyncOperation;
         import de.dittner.async.utils.invalidateOf;
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.note.DeVerb;
-        import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
+        import de.dittner.testmyself.model.domain.note.IrregularVerb;
         import de.dittner.testmyself.model.domain.note.Note;
+        import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.menu.IMenuBoard;
@@ -88,9 +88,14 @@
         //--------------------------------------
         [Bindable("modeChanged")]
         public function get title():String {
-            if (isAddMode) return "Hinzufügen";
-            else if (isEditMode) return "Bearbeiten";
-            else return "Entfernen";
+            if (isAddMode) return resourceManager.getString("app", "Add");
+            else if (isEditMode) return resourceManager.getString("app", "Edit");
+            else return resourceManager.getString("app", "Delete");
+        }
+
+        override protected function resourcesChanged():void {
+            super.resourcesChanged();
+            dispatchEvent(new Event("modeChanged"));
         }
 
         //--------------------------------------
@@ -140,6 +145,58 @@
             else if (e.menuID == MenuID.CANCEL) cancel();
         }
 
+        //--------------------------------------
+        //  isArticleEnabled
+        //--------------------------------------
+        private var _isArticleEnabled:Boolean = true;
+        [Bindable("isArticleEnabledChanged")]
+        public function get isArticleEnabled():Boolean {return _isArticleEnabled;}
+        public function set isArticleEnabled(value:Boolean):void {
+            if (_isArticleEnabled != value) {
+                _isArticleEnabled = value;
+                dispatchEvent(new Event("isArticleEnabledChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  isPresentVerbFormEnabled
+        //--------------------------------------
+        private var _isPresentVerbFormEnabled:Boolean = true;
+        [Bindable("isPresentVerbFormEnabledChanged")]
+        public function get isPresentVerbFormEnabled():Boolean {return _isPresentVerbFormEnabled;}
+        public function set isPresentVerbFormEnabled(value:Boolean):void {
+            if (_isPresentVerbFormEnabled != value) {
+                _isPresentVerbFormEnabled = value;
+                dispatchEvent(new Event("isPresentVerbFormEnabledChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  isOptionalTemplatesEnabled
+        //--------------------------------------
+        private var _isOptionalTemplatesEnabled:Boolean = true;
+        [Bindable("isOptionalTemplatesEnabledChanged")]
+        public function get isOptionalTemplatesEnabled():Boolean {return _isOptionalTemplatesEnabled;}
+        public function set isOptionalTemplatesEnabled(value:Boolean):void {
+            if (_isOptionalTemplatesEnabled != value) {
+                _isOptionalTemplatesEnabled = value;
+                dispatchEvent(new Event("isOptionalTemplatesEnabledChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  isLoadMp3FileFromDudenEnabled
+        //--------------------------------------
+        private var _isLoadMp3FileFromDudenEnabled:Boolean = true;
+        [Bindable("isLoadMp3FileFromDudenEnabledChanged")]
+        public function get isLoadMp3FileFromDudenEnabled():Boolean {return _isLoadMp3FileFromDudenEnabled;}
+        public function set isLoadMp3FileFromDudenEnabled(value:Boolean):void {
+            if (_isLoadMp3FileFromDudenEnabled != value) {
+                _isLoadMp3FileFromDudenEnabled = value;
+                dispatchEvent(new Event("isLoadMp3FileFromDudenEnabledChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -166,14 +223,14 @@
             updateState();
             setMode("edit");
 
-            if (note is DeWord) {
-                var word:DeWord = note as DeWord;
+            if (note is Word) {
+                var word:Word = note as Word;
                 articleBox.selectedItem = word.article;
                 wordInput.text = word.title;
                 wordOptionsInput.text = word.declension;
             }
-            else if (note is DeVerb) {
-                var verb:DeVerb = note as DeVerb;
+            else if (note is IrregularVerb) {
+                var verb:IrregularVerb = note as IrregularVerb;
                 verbInputsForm.infinitive = verb.title;
                 verbInputsForm.present = verb.present;
                 verbInputsForm.past = verb.past;
@@ -242,11 +299,11 @@
         private function updateState():void {
             if (note.isExample)
                 currentState = "normal";
-            else if (note.vocabulary.id == VocabularyID.DE_WORD)
+            else if (note.vocabulary.id == VocabularyID.DE_WORD || note.vocabulary.id == VocabularyID.EN_WORD)
                 currentState = "word";
-            else if (note.vocabulary.id == VocabularyID.DE_VERB)
+            else if (note.vocabulary.id == VocabularyID.DE_VERB || note.vocabulary.id == VocabularyID.EN_VERB)
                 currentState = "verb";
-            else if (note.vocabulary.id == VocabularyID.DE_LESSON)
+            else if (note.vocabulary.id == VocabularyID.DE_LESSON || note.vocabulary.id == VocabularyID.EN_LESSON)
                 currentState = "lesson";
             else
                 currentState = "normal";
@@ -288,7 +345,7 @@
             if (isOpen) {
                 clear();
                 setMode("");
-                menu.hideFormMenu();
+                menu.showPrevMenu();
                 menu.removeEventListener(MenuBoardEvent.CLICKED, menuClicked);
             }
         }
@@ -328,8 +385,8 @@
         }
 
         private function fillNote():void {
-            if (note is DeWord) {
-                var word:DeWord = note as DeWord;
+            if (note is Word) {
+                var word:Word = note as Word;
                 word.article = articleBox.selectedItem;
                 word.title = wordInput.text;
                 word.description = descriptionArea.text;
@@ -338,8 +395,8 @@
                 word.exampleColl = examplesForm.exampleColl;
                 word.tagIDs = getSelectedTagIDs();
             }
-            else if (note is DeVerb) {
-                var verb:DeVerb = note as DeVerb;
+            else if (note is IrregularVerb) {
+                var verb:IrregularVerb = note as IrregularVerb;
                 verb.title = verbInputsForm.infinitiveInput.text;
                 verb.description = descriptionArea.text;
                 verb.audioComment = audioRecorder.getComment();
@@ -407,13 +464,11 @@
         }
 
         private function getRemoveNotification(note:Note):String {
-            var noteType:String;
-            if (!note) noteType = "diese Note";
-            else if (note is DeWord) noteType = "dieses Wort";
-            else if (note is DeVerb) noteType = "dieses Verb";
-            else if (note.isExample) noteType = "dieses Beispiel";
-            else noteType = "diese Note";
-            return "Sind Sie sicher, dass Sie " + noteType + " entfernen möchten?";
+            if (!note) return resourceManager.getString("app", "AreYouSureWantToDeleteThisNote?");
+            else if (note is Word) return resourceManager.getString("app", "AreYouSureWantToDeleteThisWord?");
+            else if (note is IrregularVerb) return resourceManager.getString("app", "AreYouSureWantToDeleteThisVerb?");
+            else if (note.isExample) return resourceManager.getString("app", "AreYouSureWantToDeleteThisExample?");
+            else return resourceManager.getString("app", "AreYouSureWantToDeleteThisNote?");
         }
 
         private function validateInputText(text:String):void {
@@ -425,7 +480,7 @@
         }
 
         private function getNoteTitle(connection:Boolean, wordTitle:String, verbTitle:String):String {
-            var title:String = note is DeWord ? wordTitle : note is DeVerb ? verbTitle : "";
+            var title:String = note is Word ? wordTitle : note is IrregularVerb ? verbTitle : "";
             return connection && title ? title : "";
         }
 
@@ -459,7 +514,7 @@
 
     <button:WhiteButton id="formatBtn"
                         width="330" right="15" top="5"
-                        label="Formatieren"
+                        label="{resourceManager.getString('app', 'Formatting')}"
                         visible="{!isRemoveMode}"
                         click="correct()"/>
 
@@ -473,7 +528,7 @@
                                  verticalScrollPolicy="off"
                                  requireSelection="true"
                                  visible="false" includeInLayout="false"
-                                 visible.word="true" includeInLayout.word="true"
+                                 visible.word="{isArticleEnabled}" includeInLayout.word="{true}"
                                  visible.verb="false" includeInLayout.verb="false"
                                  width="110"
                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.form.articleList.ArticleItemRenderer"
@@ -489,7 +544,7 @@
                                         visible.word="false" includeInLayout.word="false"
                                         visible.verb="false" includeInLayout.verb="false"
                                         width="100%" height="100%"
-                                        title="Deutschsatz"
+                                        title="{resourceManager.getString('app', 'TextInput')}"
                                         maxChars="{Device.MAX_TEXT_LENGTH}"
                                         change="validateInputText(titleArea.text)"/>
 
@@ -500,7 +555,7 @@
                                          maxChars="{Device.MAX_WORD_LENGTH}"
                                          changing="wordValidationHandler(event)"
                                          change="validateInputText(wordInput.text)"
-                                         title="Deutschtwort"/>
+                                         title="{resourceManager.getString('app', 'WordInput')}"/>
 
                     <s:HGroup width="100%" height="100%" gap="{HGAP}">
                         <form2:VerbInputsForm id="verbInputsForm"
@@ -508,12 +563,13 @@
                                               visible="false" includeInLayout="false"
                                               visible.word="false" includeInLayout.word="false"
                                               visible.verb="true" includeInLayout.verb="true"
+                                              isPresentFormEnabled="{isPresentVerbFormEnabled}"
                                               change="validateInputText(verbInputsForm.infinitiveInput.text)"/>
 
                         <input:TextAreaForm id="descriptionArea"
                                             width="100%" height="100%"
                                             maxChars="{Device.MAX_TEXT_LENGTH}"
-                                            title="Übersetzung"
+                                            title="{resourceManager.getString('app', 'Translation')}"
                                             fontSize.word="18"
                                             fontSize.verb="18"
                                             fontSize="22"/>
@@ -533,9 +589,10 @@
 
             <s:Group width="100%" height="72">
                 <audio:AudioRecorder id="audioRecorder"
+                                     isLoadMp3FileFromDudenEnabled="{isLoadMp3FileFromDudenEnabled}"
                                      noteTitleToLoadMp3="{getNoteTitle(hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
                                      height="72" left="118" left.lesson="0" left.normal="0" right="0"
-                                     loadRemoteMp3WithError="showInvalidMsg('Не удалось загрузить mp3-файл из-за ошибки!')"/>
+                                     loadRemoteMp3WithError="showInvalidMsg(resourceManager.getString('app', 'FailedToLoadMp3File'))"/>
             </s:Group>
         </s:VGroup>
 
@@ -545,16 +602,17 @@
                   visible.word="true" includeInLayout.word="true"
                   visible.verb="true" includeInLayout.verb="true">
             <input:DropdownInputForm id="wordOptionsInput"
+                                     isTemplatesEnabled="{isOptionalTemplatesEnabled}"
                                      visible="false" includeInLayout="false"
                                      visible.word="true" includeInLayout.word="true"
                                      width="100%"
                                      inputTemplateColl="{new ArrayCollection(OPTIONS_TEMPLATES)}"
-                                     title="Zusätzliche Daten"/>
+                                     title="{resourceManager.getString('app', 'Options')}"/>
 
             <list:ListForm id="tagList"
                            depth="10"
                            width="100%" height="100%"
-                           title="Tagsliste"
+                           title="{resourceManager.getString('app', 'Tags')}"
                            itemRendererFunction="tagsRendererFunc"
                            allowMultipleSelection.lesson="false"
                            allowMultipleSelection="true">
@@ -568,10 +626,9 @@
                 <input:TextInputForm id="addTagInput"
                                      width="100%"
                                      maxChars="{Device.MAX_TAG_NAME_LENGTH}"
-                                     title="Neuer Tagsname"/>
+                                     title="{resourceManager.getString('app', 'NewTagsName')}"/>
 
                 <button:BitmapButton id="addTagBtn"
-                                     description="Neues Tag hinzufügen"
                                      upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
                                      downImage="@Embed(source='/assets/button/add_element_btn_down.png')"
                                      click="addTagBtnClickHandler(event)"/>

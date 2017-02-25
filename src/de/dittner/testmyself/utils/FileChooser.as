@@ -2,6 +2,7 @@ package de.dittner.testmyself.utils {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.LocalStorage;
+import de.dittner.testmyself.backend.LocalStorageKey;
 
 import flash.events.Event;
 import flash.filesystem.File;
@@ -10,7 +11,6 @@ import flash.filesystem.FileStream;
 import flash.utils.ByteArray;
 
 public class FileChooser {
-	public static const LAST_OPENED_FILE_PATH:String = "LAST_OPENED_FILE_PATH";
 
 	public function FileChooser() {}
 
@@ -22,8 +22,8 @@ public class FileChooser {
 
 		curOp = new AsyncOperation();
 		var file:File;
-		if (LocalStorage.has(LAST_OPENED_FILE_PATH)) {
-			file = new File(LocalStorage.read(LAST_OPENED_FILE_PATH));
+		if (LocalStorage.has(LocalStorageKey.LAST_OPENED_FILE_PATH)) {
+			file = new File(LocalStorage.read(LocalStorageKey.LAST_OPENED_FILE_PATH));
 			if (!file.exists) file = File.documentsDirectory
 		}
 		else file = File.documentsDirectory;
@@ -42,7 +42,7 @@ public class FileChooser {
 		file = event.target as File;
 		file.removeEventListener(Event.CANCEL, canceledSelected);
 		file.removeEventListener(Event.SELECT, fileSelected);
-		LocalStorage.write(LAST_OPENED_FILE_PATH, file.nativePath);
+		LocalStorage.write(LocalStorageKey.LAST_OPENED_FILE_PATH, file.nativePath);
 		var stream:FileStream = new FileStream();
 		stream.open(file, FileMode.READ);
 		var bytes:ByteArray = new ByteArray();
@@ -54,7 +54,7 @@ public class FileChooser {
 		file = event.target as File;
 		file.removeEventListener(Event.CANCEL, canceledSelected);
 		file.removeEventListener(Event.SELECT, fileSelected);
-		LocalStorage.write(LAST_OPENED_FILE_PATH, file.nativePath);
+		LocalStorage.write(LocalStorageKey.LAST_OPENED_FILE_PATH, file.nativePath);
 		curOp.dispatchSuccess();
 	}
 

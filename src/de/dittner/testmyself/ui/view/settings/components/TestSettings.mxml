@@ -55,7 +55,7 @@
         <s:VerticalLayout gap="10"/>
     </s:layout>
 
-    <button:DottedLabelBtn text="Die Testendaten entfernen"
+    <button:DottedLabelBtn text="{resourceManager.getString('app', 'DeleteTestData')}"
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="20"
@@ -88,7 +88,7 @@
                        left="col1:10"
                        right="col1:10"
                        dataProvider="{testColl}"
-                       title="Testenliste"
+                       title="{resourceManager.getString('app', 'Tests')}"
                        itemRenderer="de.dittner.testmyself.ui.view.settings.components.SettingsTestRenderer">
             <list:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
@@ -100,18 +100,18 @@
                  color="{AppColors.TEXT_BLACK}"
                  fontSize="16"
                  includeIn="removeHistory"
-                 text="Sind Sie sicher, die Testendaten Sie entfernen möchten?"/>
+                 text="{resourceManager.getString('app', 'AreYouSureWantToDeleteTestData?')}"/>
 
         <button:GrayButton id="cancelBtn"
                            top="row2:10"
                            left="col2:10"
                            right="col2:10"
-                           label="Abbrechen"
+                           label="{resourceManager.getString('app', 'Cancel')}"
                            click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="removeBtn"
                             enabled="{testList.selectedItem != null}"
-                            label="Entfernen"
+                            label="{resourceManager.getString('app', 'Delete')}"
                             top="row2:10"
                             left="col3:10"
                             right="10"

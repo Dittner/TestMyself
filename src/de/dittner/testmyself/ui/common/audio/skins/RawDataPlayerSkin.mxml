@@ -42,10 +42,9 @@
                          visible.recorded="false"
                          visible.playing="false"
                          top="0"
-                         left="10"
-                         description="Neue Audioaufnahme machen"/>
+                         left="10"/>
 
-    <s:Label text="Keine Audioaufnahme"
+    <s:Label text="{resourceManager.getString('app', 'NoAudioRecord')}"
              top="0" bottom="10"
              left="50" right="10"
              verticalAlign="middle"
@@ -115,8 +114,7 @@
                              upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
                              downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
                              top="0"
-                             right="10"
-                             description="Die Audioaufnahme entfernen"/>
+                             right="10"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
                  top="10" left="50"

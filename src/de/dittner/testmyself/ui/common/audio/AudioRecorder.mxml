@@ -97,6 +97,20 @@
                 dispatchEvent(new Event("isMp3LoadingChanged"));
             }
         }
+
+        //--------------------------------------
+        //  isLoadMp3FileFromDudenEnabled
+        //--------------------------------------
+        private var _isLoadMp3FileFromDudenEnabled:Boolean = true;
+        [Bindable("isLoadMp3FileFromDudenEnabledChanged")]
+        public function get isLoadMp3FileFromDudenEnabled():Boolean {return _isLoadMp3FileFromDudenEnabled;}
+        public function set isLoadMp3FileFromDudenEnabled(value:Boolean):void {
+            if (_isLoadMp3FileFromDudenEnabled != value) {
+                _isLoadMp3FileFromDudenEnabled = value;
+                dispatchEvent(new Event("isLoadMp3FileFromDudenEnabledChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -135,8 +149,8 @@
         //  load mp3 from website
         //--------------------------------------
 
-        private function loadRemoteMp3BtnVisible(mp3FromSiteUrl:String, isRecording:Boolean, isRawDataPlayerVisible:Boolean, recordedBytes:ByteArray):Boolean {
-            return mp3FromSiteUrl && !isRecording && isRawDataPlayerVisible && !(recordedBytes && recordedBytes.length > 0);
+        private function loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled:Boolean, mp3FromSiteUrl:String, isRecording:Boolean, isRawDataPlayerVisible:Boolean, recordedBytes:ByteArray):Boolean {
+            return isLoadMp3FileFromDudenEnabled && mp3FromSiteUrl && !isRecording && isRawDataPlayerVisible && !(recordedBytes && recordedBytes.length > 0);
         }
 
         private function loadLocalMp3BtnVisible(isRecording:Boolean, isRawDataPlayerVisible:Boolean, mp3PlayerComment:AudioComment, recordedBytes:ByteArray):Boolean {
@@ -186,7 +200,7 @@
 
     <input:MXLabel height="20"
                    mouseEnabled="false"
-                   text="Audioaufnahme"
+                   text="{resourceManager.getString('app', 'AudioRecord')}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
     <s:Rect width="100%" top="20" bottom="0">
@@ -217,13 +231,13 @@
                        right="170"
                        label="Duden"
                        enabled="{!isMp3Loading}"
-                       visible="{loadRemoteMp3BtnVisible(noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
+                       visible="{loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled, noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
                        click="loadRemoteMp3()"/>
 
     <button:GrayButton id="loadLocalMp3Btn"
                        verticalCenter="11"
                        right="10"
-                       label="MP3-File auswählen"
+                       label="{resourceManager.getString('app', 'ChooseMp3File')}"
                        enabled="{!isMp3Loading}"
                        visible="{loadLocalMp3BtnVisible(rawDataPlayer.recording, rawDataPlayer.visible, mp3Player.comment, rawDataPlayer.recorder.recordedBytes)}"
                        click="loadLocalMp3()"/>

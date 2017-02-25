@@ -3,6 +3,7 @@ SET
 	title = :title,
 	description = :description,
 	isExample = :isExample,
+	langID = :langID,
 	vocabularyID = :vocabularyID,
 	parentID = :parentID,
 	searchText = :searchText,

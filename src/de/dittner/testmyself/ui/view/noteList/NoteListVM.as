@@ -1,6 +1,7 @@
 package de.dittner.testmyself.ui.view.noteList {
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.language.Language;
+import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.menu.MenuID;
@@ -8,6 +9,8 @@ import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 
 import flash.events.Event;
+
+import mx.resources.ResourceManager;
 
 public class NoteListVM extends ViewModel {
 
@@ -86,16 +89,16 @@ public class NoteListVM extends ViewModel {
 		var vocabularyID:uint;
 		switch (viewID) {
 			case MenuID.WORD :
-				vocabularyID = VocabularyID.DE_WORD;
-				viewTitle = "WÖRTERBUCH";
+				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_WORD : VocabularyID.EN_WORD;
+				viewTitle = ResourceManager.getInstance().getString('app', 'DICTIONARY');
 				break;
 			case MenuID.VERB :
-				vocabularyID = VocabularyID.DE_VERB;
-				viewTitle = "STARKE VERBEN";
+				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_VERB : VocabularyID.EN_VERB;
+				viewTitle = ResourceManager.getInstance().getString('app', 'IRREGULAR_VERBS');
 				break;
 			case MenuID.LESSON :
-				vocabularyID = VocabularyID.DE_LESSON;
-				viewTitle = "ÜBUNGEN";
+				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_LESSON : VocabularyID.EN_LESSON;
+				viewTitle = ResourceManager.getInstance().getString('app', 'LESSONS');
 				break;
 			default :
 				throw new Error("Unsupported VM for view with ID = " + viewID);

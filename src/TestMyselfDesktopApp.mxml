@@ -7,6 +7,9 @@
                      backgroundColor="#3d3f4b"
                      creationComplete="creationCompleteHandler(event)"
                      xmlns:local="*">
+    <fx:Metadata>
+        [ResourceBundle("app")]
+    </fx:Metadata>
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Bootstrap;

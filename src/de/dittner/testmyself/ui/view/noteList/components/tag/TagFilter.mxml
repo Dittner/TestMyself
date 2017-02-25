@@ -58,7 +58,7 @@
 
     <form:EditorBg width="100%"
                    height="100%"
-                   title="Filtern"
+                   title="{resourceManager.getString('app', 'Filter')}"
                    mode="filter"/>
 
     <s:Rect left="{EditorBg.BORDER_THICKNESS}"

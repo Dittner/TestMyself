@@ -66,7 +66,7 @@
 
     <utils:BG left="0" right="0" top="0" bottom="0" color="{AppColors.EXAMPLES_BG}"/>
 
-    <s:Label text="Beispiele"
+    <s:Label text="{resourceManager.getString('app', 'Examples')}"
              fontFamily="{FontName.MYRIAD_COND}"
              fontSize="20"
              fontWeight="bold"

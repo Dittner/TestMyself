@@ -49,7 +49,7 @@
         //--------------------------------------
         //  editLblText
         //--------------------------------------
-        private var _editLblText:String = "Den Tagsnamen ändern";
+        private var _editLblText:String = "";
         [Bindable("editLblTextChanged")]
         public function get editLblText():String {return _editLblText;}
         public function set editLblText(value:String):void {
@@ -62,7 +62,7 @@
         //--------------------------------------
         //  removeLblText
         //--------------------------------------
-        private var _removeLblText:String = "Den Tagsnamen entfernen";
+        private var _removeLblText:String = "";
         [Bindable("removeLblTextChanged")]
         public function get removeLblText():String {return _removeLblText;}
         public function set removeLblText(value:String):void {
@@ -75,7 +75,7 @@
         //--------------------------------------
         //  tagsListTitle
         //--------------------------------------
-        private var _tagsListTitle:String = "Tagsliste";
+        private var _tagsListTitle:String = "";
         [Bindable("tagsListTitleChanged")]
         public function get tagsListTitle():String {return _tagsListTitle;}
         public function set tagsListTitle(value:String):void {
@@ -88,7 +88,7 @@
         //--------------------------------------
         //  notificationText
         //--------------------------------------
-        private var _notificationText:String = "Sind Sie sicher, das Tag ohne die Aufgaben Sie entfernen möchten?";
+        private var _notificationText:String = "";
         [Bindable("notificationTextChanged")]
         public function get notificationText():String {return _notificationText;}
         public function set notificationText(value:String):void {
@@ -101,7 +101,7 @@
         //--------------------------------------
         //  tagNameInputTitle
         //--------------------------------------
-        private var _tagNameInputTitle:String = "Geben Sie bitte den neuen Namen des Tags ein";
+        private var _tagNameInputTitle:String = "";
         [Bindable("tagNameInputTitleChanged")]
         public function get tagNameInputTitle():String {return _tagNameInputTitle;}
         public function set tagNameInputTitle(value:String):void {
@@ -202,6 +202,17 @@
                            downColor="{AppColors.TEXT_BLACK}"
                            click="setCurrentState('removeTag')"/>
 
+    <s:Label fontFamily="{FontName.MYRIAD}"
+             fontSize="25"
+             fontWeight="bold"
+             color="{AppColors.TEXT_GRAY}"
+             width="100%" height="100%"
+             textAlign="center" verticalAlign="bottom"
+             mouseChildren="false" mouseEnabled="false"
+             visible="{!haveTags(vocabulary.tagColl)}"
+             includeInLayout="{!haveTags(vocabulary.tagColl)}"
+             text="{resourceManager.getString('app', 'NO_DATA')}"/>
+
     <s:Group width="100%" height="100%"
              visible.edit="{haveTags(vocabulary.tagColl)}"
              visible="false">
@@ -255,14 +266,14 @@
                            top="row2:10"
                            left="col2:10"
                            right="col2:10"
-                           label="Abbrechen"
+                           label="{resourceManager.getString('app', 'Cancel')}"
                            click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="applyBtn"
                             enabled.renameTag="{applyBtnEnabled(tagsList.selectedItem, tagNameInputForm.text)}"
                             enabled.removeTag="{tagsList.selectedItem != null}"
-                            label.renameTag="Umbenennen"
-                            label.removeTag="Entfernen"
+                            label.renameTag="{resourceManager.getString('app', 'Rename')}"
+                            label.removeTag="{resourceManager.getString('app', 'Delete')}"
                             top="row2:10"
                             left="col3:10"
                             right="10"

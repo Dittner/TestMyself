@@ -193,7 +193,6 @@
                          click="removeRecord()"
                          enabled="{removeRecordEnabled}"
                          visible="{removeRecordEnabled}"
-                         includeInLayout="{removeRecordEnabled}"
-                         description="Die Audioaufnahme entfernen"/>
+                         includeInLayout="{removeRecordEnabled}"/>
 
 </s:Group>

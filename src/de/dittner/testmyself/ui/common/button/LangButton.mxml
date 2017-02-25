@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          height="60"
+          color="#ffFFff">
+
+    <fx:Metadata>
+        [Style(name="flagIcon", type="Object")]
+    </fx:Metadata>
+
+    <fx:Declarations>
+
+        <fx:Component className="LangButtonSkin">
+
+            <s:SparkSkin alpha="1" alpha.disabled="0.5">
+
+                <fx:Metadata>
+                    [HostComponent("spark.components.Button")]
+                </fx:Metadata>
+
+                <s:states>
+                    <s:State name="disabled"/>
+                    <s:State name="down"/>
+                    <s:State name="over"/>
+                    <s:State name="up"/>
+                </s:states>
+
+
+                <s:Rect width="100%" height="100%" radiusX="3" radiusY="3">
+                    <s:fill>
+                        <s:SolidColor color.down="{AppColors.TEXT_RED}" color="0" alpha.down="1" alpha.over=".85" alpha=".7"/>
+                    </s:fill>
+                </s:Rect>
+
+                <s:BitmapImage left="10" verticalCenter="0"
+                               source="{getStyle('flagIcon')}"/>
+
+                <s:Label id="labelDisplay"
+                         fontSize="30"
+                         textAlign="center"
+                         maxDisplayedLines="1" mouseChildren="false" mouseEnabled="false"
+                         horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
+                         left="50" right="50" top="2" bottom="2"/>
+
+
+                <fx:Script><![CDATA[
+                    import de.dittner.testmyself.ui.common.utils.AppColors;
+                    ]]></fx:Script>
+            </s:SparkSkin>
+
+        </fx:Component>
+
+    </fx:Declarations>
+
+    <s:skinClass>{LangButtonSkin}</s:skinClass>
+
+</s:Button>

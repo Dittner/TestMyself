@@ -10,7 +10,7 @@ public class SettingsInfo {
 		backUpServerInfo.remoteDirPath = "dittner.bget.ru/public_html/testmyself";
 	}
 
-	public var maxAudioRecordDuration:Number = 30;//min
+	public var maxAudioRecordDurationInMin:Number = 30;
 	public var backUpServerInfo:ServerInfo;
 }
 }

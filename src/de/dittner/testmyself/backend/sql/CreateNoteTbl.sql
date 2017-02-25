@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS note
 (
 	id int PRIMARY KEY AUTOINCREMENT,
+	langID int NOT NULL,
 	vocabularyID int NOT NULL,
 	parentID int NOT NULL,
 	title String NOT NULL,

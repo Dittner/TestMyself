@@ -95,7 +95,7 @@
                  fontSize="16"
                  fontFamily="{FontName.MYRIAD}"
                  color="{AppColors.TEXT_BLACK}"
-                 text="Wählen Sie das Tag aus, um die Aufgaben zu filtern"/>
+                 text="{resourceManager.getString('app', 'ChooseTagToFilterTasks')}"/>
 
         <s:Scroller width="{width -2*padding}"
                     top="20" bottom="0"
@@ -118,7 +118,7 @@
              fontSize="16"
              fontFamily="{FontName.MYRIAD}"
              color="{AppColors.TEXT_BLACK}"
-             text="Für Test können Sie die Testaufgaben filtern"/>
+             text="{resourceManager.getString('app', 'FilterOfTestTasks')}"/>
 
     <s:HGroup width="{width -2*padding}" gap="0">
         <s:RadioButton id="highComplexityRadioBtn"
@@ -126,7 +126,7 @@
                        width="300"
                        value="high"
                        selected="true"
-                       label="Unsortierte Aufgaben"/>
+                       label="{resourceManager.getString('app', 'UnsortedTasks')}"/>
 
         <s:Spacer width="100%"/>
 
@@ -134,7 +134,7 @@
                        groupName="radioBar"
                        width="300"
                        value="middle"
-                       label="Schwierige Aufgaben"/>
+                       label="{resourceManager.getString('app', 'DifficultTasks')}"/>
 
         <s:Spacer width="100%"/>
 
@@ -142,7 +142,7 @@
                        groupName="radioBar"
                        width="300"
                        value="low"
-                       label="Leichte Aufgaben"/>
+                       label="{resourceManager.getString('app', 'EasyTasks')}"/>
     </s:HGroup>
 
     <s:Group width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
@@ -151,14 +151,14 @@
                             width="250"
                             verticalCenter="0"
                             left="{padding}"
-                            label="Die Statistik"
+                            label="{resourceManager.getString('app', 'Statistics')}"
                             click="showStatisticsBtnClickHandler(event)"/>
 
         <button:BlackButton id="startTestingBtn"
                             width="250"
                             verticalCenter="0"
                             right="{padding}"
-                            label="Das Testen beginnen"
+                            label="{resourceManager.getString('app', 'StartTest')}"
                             click="startTestingBtnClickHandler(event)"/>
     </s:Group>
 </s:Group>

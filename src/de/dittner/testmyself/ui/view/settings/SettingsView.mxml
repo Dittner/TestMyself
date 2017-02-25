@@ -33,7 +33,7 @@
         }
 
         private function parseSettings(settings:SettingsInfo):void {
-            commonSettings.maxAudioRecordDurationSpinner.value = settings.maxAudioRecordDuration;
+            commonSettings.maxAudioRecordDurationSpinner.value = settings.maxAudioRecordDurationInMin;
             commonSettings.hostInput.text = settings.backUpServerInfo.host;
             commonSettings.portInput.text = settings.backUpServerInfo.port.toString();
             commonSettings.userNameInput.text = settings.backUpServerInfo.user;
@@ -86,11 +86,11 @@
                               itemRenderer="de.dittner.testmyself.ui.view.settings.components.SettingsItemRenderer">
         <list:dataProvider>
             <s:ArrayCollection>
-                <fx:Object label="Allgemein" state="common"/>
-                <fx:Object label="Wörter" state="word"/>
-                <fx:Object label="Starke Verben" state="verb"/>
-                <fx:Object label="Übungen" state="lesson"/>
-                <fx:Object label="Testen" state="test"/>
+                <fx:Object label="{resourceManager.getString('app', 'Common')}" state="common"/>
+                <fx:Object label="{resourceManager.getString('app', 'Words')}" state="word"/>
+                <fx:Object label="{resourceManager.getString('app', 'IrregularVerbs')}" state="verb"/>
+                <fx:Object label="{resourceManager.getString('app', 'Lessons')}" state="lesson"/>
+                <fx:Object label="{resourceManager.getString('app', 'Tests')}" state="test"/>
             </s:ArrayCollection>
         </list:dataProvider>
         <list:layout>
@@ -109,22 +109,32 @@
         <components:NoteSettings id="wordSettings"
                                  width="100%" height="100%"
                                  visible.word="true" visible="false"
+                                 editLblText="{resourceManager.getString('app', 'EditNameOfTag')}"
+                                 removeLblText="{resourceManager.getString('app', 'DeleteTag')}"
+                                 tagsListTitle="{resourceManager.getString('app', 'Tags')}"
+                                 notificationText="{resourceManager.getString('app', 'AreYouSureWantToDeleteThisTagWithoutTasks?')}"
+                                 tagNameInputTitle="{resourceManager.getString('app', 'EnterNewNameOfTheTag')}"
                                  vocabulary="{vm.wordVocabulary}"/>
 
         <components:NoteSettings id="verbSettings"
                                  width="100%" height="100%"
                                  visible.verb="true" visible="false"
+                                 editLblText="{resourceManager.getString('app', 'EditNameOfTag')}"
+                                 removeLblText="{resourceManager.getString('app', 'DeleteTag')}"
+                                 tagsListTitle="{resourceManager.getString('app', 'Tags')}"
+                                 notificationText="{resourceManager.getString('app', 'AreYouSureWantToDeleteThisTagWithoutTasks?')}"
+                                 tagNameInputTitle="{resourceManager.getString('app', 'EnterNewNameOfTheTag')}"
                                  vocabulary="{vm.verbVocabulary}"/>
 
         <components:NoteSettings id="lessonSettings"
                                  removeNotesByTagRemoving="true"
                                  width="100%" height="100%"
                                  visible.lesson="true" visible="false"
-                                 editLblText="Übungname ändern"
-                                 removeLblText="Übung mit den Aufgaben entfernen"
-                                 tagsListTitle="Übungenliste"
-                                 notificationText="Sind Sie sicher, die Übung mit den Aufgaben Sie entfernen möchten?"
-                                 tagNameInputTitle="Geben Sie bitte den neuen Namen der Übung ein"
+                                 editLblText="{resourceManager.getString('app', 'EditLessonName')}"
+                                 removeLblText="{resourceManager.getString('app', 'DeleteLessonWithTasks')}"
+                                 tagsListTitle="{resourceManager.getString('app', 'Lessons')}"
+                                 notificationText="{resourceManager.getString('app', 'AreYouSureWantToDeleteThisLessonWithTasks?')}"
+                                 tagNameInputTitle="{resourceManager.getString('app', 'EnterNewNameOfTheLesson')}"
                                  vocabulary="{vm.lessonVocabulary}"/>
 
         <components:TestSettings id="testSettings"

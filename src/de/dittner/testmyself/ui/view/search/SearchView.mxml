@@ -14,6 +14,7 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -135,9 +136,9 @@
         }
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
-            toolbar.editNoteBtn.enabled = noteList.selectedNote;
-            toolbar.removeNoteBtn.enabled = noteList.selectedNote;
-            toolbar.playCommentBtn.enabled = noteList.selectedNote && noteList.selectedNote.hasAudio;
+            toolbar.editNoteBtn.enabled = noteList.selectedNote != null;
+            toolbar.removeNoteBtn.enabled = noteList.selectedNote != null;
+            toolbar.playCommentBtn.enabled = noteList.selectedNote != null && noteList.selectedNote.hasAudio;
         }
 
         private function examplesListEnabled(selectedNote:Note, noteExampleColl:ArrayCollection):Boolean {
@@ -154,6 +155,7 @@
     <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
 
     <components:SearchBoard id="searchBoard"
+                            isTemplatesEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                             width="100%"
                             startSearch="startSearchActivatedHandler(event)"/>
 

@@ -6,8 +6,8 @@
                    xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
+        import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -17,8 +17,8 @@
         //--------------------------------------
         //  word
         //--------------------------------------
-        public function get word():DeWord {
-            return note as DeWord;
+        public function get word():Word {
+            return note as Word;
         }
 
         //----------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@
     <fx:Declarations>
         <form:InvalidNotifier id="invalidNotifier"
                               width="200" height="31"
-                              text="Falsch!"
+                              text="{resourceManager.getString('app', 'False!')}"
                               bottom="50" horizontalCenter="0"/>
     </fx:Declarations>
 
@@ -134,7 +134,8 @@
 
     <test:TextBoard id="translateBoard"
                     width="100%" height="100%"
-                    title="Übersetzung" showText="{showDetails}"/>
+                    title="{resourceManager.getString('app', 'Translation')}"
+                    showText="{showDetails}"/>
 
     <button:BlackButton id="derBtn"
                         width="150" height="50"

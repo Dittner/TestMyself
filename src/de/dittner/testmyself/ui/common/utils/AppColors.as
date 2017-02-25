@@ -19,6 +19,7 @@ public class AppColors {
 	public static const TEXT_LIGHT:uint = 0xceced6;
 	public static const TEXT_RED:uint = 0xe33333;
 	public static const TEXT_YELLOW:uint = 0xccAA00;
+	public static const TEXT_GRAY:uint = 0x80838d;
 	public static const TEXT_DARK_GRAY:uint = 0x40434d;
 
 	public static const LIST_ITEM_SELECTION:Array = [0x444455, 0];

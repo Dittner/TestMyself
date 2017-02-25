@@ -5,16 +5,16 @@
                    xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.note.DeWord;
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
+        import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
         //--------------------------------------
         //  word
         //--------------------------------------
-        public function get word():DeWord {
-            return note as DeWord;
+        public function get word():Word {
+            return note as Word;
         }
 
         //----------------------------------------------------------------------------------------------
@@ -75,7 +75,8 @@
     <test:TextBoard id="translateBoard"
                     questionsIconEnabled="true"
                     width="{width - 2*padding}" height="33%"
-                    title="Übersetzung" showText="{showDetails}"/>
+                    title="{resourceManager.getString('app', 'Translation')}"
+                    showText="{showDetails}"/>
 
     <common2:ExampleList id="exampleList"
                          dataProvider="{note.exampleColl}"

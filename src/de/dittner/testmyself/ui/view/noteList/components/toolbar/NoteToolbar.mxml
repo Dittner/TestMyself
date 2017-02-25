@@ -46,7 +46,6 @@
     <button:ToolButton id="goBackBtn"
                        visible="{goBackBtn.enabled}"
                        includeInLayout="{goBackBtn.enabled}"
-                       description="Zurück"
                        image="@Embed(source='/assets/tools/goback.png')"
                        click="notifyToolAction(ToolAction.GO_BACK)"/>
 
@@ -55,17 +54,14 @@
               includeInLayout="{goBackBtn.enabled}"/>
 
     <button:ToolButton id="addNoteBtn"
-                       description="Neue Notiz hinzufügen"
                        image="@Embed(source='/assets/tools/add.png')"
                        click="notifyToolAction(ToolAction.CREATE_NOTE)"/>
 
     <button:ToolButton id="editNoteBtn"
-                       description="Die Notiz bearbeiten"
                        image="@Embed(source='/assets/tools/edit.png')"
                        click="notifyToolAction(ToolAction.EDIT_NOTE)"/>
 
     <button:ToolButton id="removeNoteBtn"
-                       description="Die Notiz entfernen"
                        image="@Embed(source='/assets/tools/recycle_bin.png')"
                        click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
@@ -75,7 +71,6 @@
                              visible="{hideDetailsBtn.enabled}"
                              includeInLayout="{hideDetailsBtn.enabled}"
                              selected="true"
-                             description="Die Details zeigen / verbergen"
                              selectedImage="@Embed(source='/assets/tools/collapse.png')"
                              image="@Embed(source='/assets/tools/expand.png')"
                              click="notifyToolAction(hideDetailsBtn.selected ? ToolAction.HIDE_DETAILS : ToolAction.SHOW_DETAILS)"/>
@@ -83,14 +78,12 @@
     <button:ToolButton id="transInvertBtn"
                        visible="{transInvertBtn.enabled}"
                        includeInLayout="{transInvertBtn.enabled}"
-                       description="Den Deutschtext / die Übersetzung invertieren"
                        image="@Embed(source='/assets/tools/trans_inversion.png')"
                        click="notifyToolAction(ToolAction.INVERT)"/>
 
     <button:ToolButton id="filterBtn"
                        visible="{filterBtn.enabled}"
                        includeInLayout="{filterBtn.enabled}"
-                       description="Filtern"
                        image="@Embed(source='/assets/tools/filter.png')"
                        click="notifyToolAction(ToolAction.FILTER)"/>
 
@@ -98,7 +91,6 @@
                              visible="{showFailedTasksBtn.enabled}"
                              includeInLayout="{showFailedTasksBtn.enabled}"
                              selected="true"
-                             description="Nur Notiz mit Fehlern"
                              selectedImage="@Embed(source='/assets/tools/failed_task_filter_selected.png')"
                              image="@Embed(source='/assets/tools/failed_task_filter.png')"
                              click="notifyToolAction(showFailedTasksBtn.selected ? ToolAction.SHOW_FAILED_TASK : ToolAction.SHOW_ALL_TASK)"/>
@@ -106,14 +98,12 @@
     <button:ToolButton id="setTaskAsRightBtn"
                        visible="{showFailedTasksBtn.enabled}"
                        includeInLayout="{showFailedTasksBtn.enabled}"
-                       description="Als richtig zeichnen"
                        image="@Embed(source='/assets/tools/set_task_as_right.png')"
                        click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
 
     <s:Spacer height="25"/>
 
     <button:ToolButton id="playCommentBtn"
-                       description="Abspielen"
                        image="@Embed(source='/assets/tools/audio.png')"
                        click="notifyToolAction(ToolAction.PLAY_AUDIO)"/>
 </s:Group>

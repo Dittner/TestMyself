@@ -19,7 +19,7 @@ public class TransferNoteAudioToOtherTblCmd extends StorageOperation implements 
 	private var storage:Storage;
 
 	public function execute():void {
-		selectAllNotes();
+		addColumn();
 	}
 
 	private function renameTable():void {
@@ -35,7 +35,7 @@ public class TransferNoteAudioToOtherTblCmd extends StorageOperation implements 
 	}
 
 	private function addColumn():void {
-		var sql:String = "ALTER TABLE note ADD COLUMN tags String";
+		var sql:String = "ALTER TABLE note ADD COLUMN langID int NOT NULL DEFAULT 1";
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql);
 		statement.sqlConnection = storage.sqlConnection;

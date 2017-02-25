@@ -3,10 +3,10 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.DeferredCommandManager;
-import de.dittner.testmyself.model.domain.language.DeLang;
 import de.dittner.testmyself.ui.common.menu.MenuID;
 import de.dittner.testmyself.ui.common.view.ViewModelFactory;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
+import de.dittner.testmyself.ui.view.langList.LangListVM;
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.map.MapVM;
@@ -46,7 +46,6 @@ public class Bootstrap extends Walter {
 		registerProxy("storage", storage);
 
 		var appModel:AppModel = new AppModel();
-		appModel.selectedLanguage = new DeLang(storage);
 		registerProxy("appModel", appModel);
 
 		registerProxy("deferredCommandManager", new DeferredCommandManager());
@@ -55,22 +54,21 @@ public class Bootstrap extends Walter {
 		registerProxy("vmFactory", new ViewModelFactory());
 
 		registerProxy("mainVM", new MainVM());
+		registerProxy("langListVM", new LangListVM());
 		registerProxy("mapVM", new MapVM());
 		registerProxy("noteListVM", new NoteListVM());
 		registerProxy("searchVM", new SearchVM());
 		registerProxy("testVM", new TestVM());
 		registerProxy("settingsVM", new SettingsVM());
 
-		viewNavigator.selectedViewID = MenuID.MAP;
+		viewNavigator.selectedViewID = MenuID.LANG_LIST;
+		var op:IAsyncOperation = appModel.init();
+		op.addCompleteCallback(modelInitialized);
+		return op;
+	}
+
+	private function modelInitialized(op:IAsyncOperation):void {
 		mainView.activate();
-		initOp = appModel.selectedLanguage.init();
-		initOp.addCompleteCallback(initCompleteHandler);
-		return initOp;
 	}
-
-	private function initCompleteHandler(op:IAsyncOperation):void {
-		(getProxy("appModel") as AppModel).init();
-	}
-
 }
 }

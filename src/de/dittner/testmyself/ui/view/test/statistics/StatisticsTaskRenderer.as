@@ -8,7 +8,7 @@ public class StatisticsTaskRenderer extends NoteRenderer {
 	}
 
 	override protected function updateData():void {
-		showWordArticle = testTask && word && word.article && (selected || testTask.test.id != TestID.SELECT_ARTICLE);
+		showWordArticle = testTask && word && word.article && (selected || testTask.test.id != TestID.DE_SELECT_ARTICLE);
 		super.updateData();
 	}
 

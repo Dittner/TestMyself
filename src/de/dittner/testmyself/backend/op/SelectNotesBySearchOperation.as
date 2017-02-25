@@ -33,16 +33,23 @@ public class SelectNotesBySearchOperation extends StorageOperation implements IA
 			sql = SQLLib.SEARCH_FILTERED_NOTES_SQL;
 			sqlParams.startIndex = page.number * page.size;
 			sqlParams.amount = page.size;
+			sqlParams.langID = page.lang.id;
 			sqlParams.loadExamples = page.loadExamples ? 1 : 0;
 			sqlParams.searchText = "%" + page.searchText.toLowerCase() + "%";
 
 			var selectedVocabulariesStr:String = SQLUtils.idsToSqlStr(page.vocabularyIDs);
-			sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
+			if (selectedVocabulariesStr)
+				sql = sql.replace("#selectedVocabularyList", selectedVocabulariesStr);
+			else {
+				executeComplete();
+				return;
+			}
 		}
 		else {
 			sql = SQLLib.SEARCH_NOTES_SQL;
 			sqlParams.startIndex = page.number * page.size;
 			sqlParams.amount = page.size;
+			sqlParams.langID = page.lang.id;
 			sqlParams.searchText = "%" + page.searchText.toLowerCase() + "%";
 		}
 
@@ -51,10 +58,10 @@ public class SelectNotesBySearchOperation extends StorageOperation implements IA
 		statement.execute(-1, new Responder(executeComplete, executeError));
 	}
 
-	private function executeComplete(result:SQLResult):void {
+	private function executeComplete(result:SQLResult = null):void {
 		var notes:Array = [];
 		var vocabulary:Vocabulary;
-		if (result.data is Array)
+		if (result && result.data is Array)
 			for each(var item:Object in result.data) {
 				if (!item.vocabularyID)
 					dispatchError("Item returned by searching has not 'vocabularyID' prop!");

@@ -86,7 +86,7 @@
 
         public function getSettings():SettingsInfo {
             var info:SettingsInfo = new SettingsInfo();
-            info.maxAudioRecordDuration = maxAudioRecordDurationSpinner.value;
+            info.maxAudioRecordDurationInMin = maxAudioRecordDurationSpinner.value;
             info.backUpServerInfo.host = hostInput.text;
             info.backUpServerInfo.port = int(portInput.text);
             info.backUpServerInfo.user = userNameInput.text;
@@ -109,7 +109,7 @@
                                    color="{AppColors.TEXT_BLACK}"
                                    minimum="1" maximum="30" value="1"/>
 
-            <s:Label text="Höchsgröße der Audioaufnahme in Minuten"
+            <s:Label text="{resourceManager.getString('app', 'AudioRecordSize')}"
                      fontFamily="{FontName.MYRIAD}"
                      fontStyle="italic"
                      fontSize="18"
@@ -122,7 +122,7 @@
 
     <s:Spacer height="15%"/>
 
-    <s:Label text="Die Dataibank kopieren/aktualisieren"
+    <s:Label text="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
              width="815"
              fontFamily="{FontName.MYRIAD}"
              fontStyle="italic"
@@ -131,24 +131,24 @@
 
     <s:HGroup gap="15">
         <input:TextInputForm id="hostInput"
-                             width="400" title="Server"/>
+                             width="400" title="{resourceManager.getString('app', 'Server')}"/>
 
         <input:TextInputForm id="userNameInput"
-                             width="400" title="Benutzer"/>
+                             width="400" title="{resourceManager.getString('app', 'User')}"/>
     </s:HGroup>
 
     <s:HGroup gap="15">
         <input:TextInputForm id="portInput"
-                             width="400" title="Port"/>
+                             width="400" title="{resourceManager.getString('app', 'Port')}"/>
 
         <input:TextInputForm id="pwdInput"
                              displayAsPassword="true"
-                             width="400" title="Passwort"/>
+                             width="400" title="{resourceManager.getString('app', 'Passwort')}"/>
     </s:HGroup>
 
     <s:Group width="815">
         <input:TextInputForm id="remoteDirInput"
-                             width="400" title="Remoteverzeichnis"/>
+                             width="400" title="{resourceManager.getString('app', 'RemoteDirectory')}"/>
     </s:Group>
 
     <s:Spacer height="5%"/>
@@ -156,7 +156,7 @@
     <s:HGroup width="815" gap="20" verticalAlign="middle">
         <button:BlackButton id="uploadBtn"
                             width="100%"
-                            label="Auf den Server exportieren"
+                            label="{resourceManager.getString('app', 'ExportToTheServer')}"
                             enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
                             click="uploadDB()"/>
 
@@ -164,7 +164,7 @@
 
         <button:GrayButton id="downloadBtn"
                            width="100%"
-                           label="Vom Server aktualisieren"
+                           label="{resourceManager.getString('app', 'UpdateFromTheServer')}"
                            enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
                            click="downloadDB()"/>
     </s:HGroup>
@@ -174,7 +174,7 @@
     <progressbar:ProgressBar id="progressBar"
                              visible="false"
                              verticalCenter="100" horizontalCenter="0"
-                             title="{isUploading ? 'Die Dateibank wird hochgeladen...' : 'Die Dateibank wird aktualisiert...'}"
+                             title="{isUploading ? resourceManager.getString('app', 'DatabaseIsUploading') : resourceManager.getString('app', 'DatabaseIsUpdating')}"
                              width="400"/>
 
     <s:Label fontFamily="{FontName.MYRIAD}"
@@ -194,6 +194,6 @@
              width="815"
              fontSize="16"
              textAlign="center"
-             text="{isUploading ? 'Die Dateibank wurde erfolgreich hochgeladen!' : 'Die Dateibank wurde aktualisiert!'}"/>
+             text="{isUploading ? resourceManager.getString('app', 'DatabaseHasBeenUploaded') : resourceManager.getString('app', 'DatabaseHasBeenUpdated')}"/>
 
 </s:Group>

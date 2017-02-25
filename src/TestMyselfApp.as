@@ -1,8 +1,12 @@
 package {
+import de.dittner.testmyself.backend.LocalStorage;
+import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 
 import flash.events.UncaughtErrorEvent;
+
+import mx.events.FlexEvent;
 
 import spark.components.Application;
 
@@ -10,6 +14,11 @@ public class TestMyselfApp extends Application {
 	public function TestMyselfApp() {
 		super();
 		addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtErrorHandler);
+		addEventListener(FlexEvent.PREINITIALIZE, initializeHandler);
+	}
+
+	private function initializeHandler(event:FlexEvent):void {
+		resourceManager.localeChain = [LocalStorage.read(LocalStorageKey.SELECTED_LANG) || "en_US"];
 	}
 
 	private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {

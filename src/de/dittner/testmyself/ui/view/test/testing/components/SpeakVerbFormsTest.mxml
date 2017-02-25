@@ -5,15 +5,15 @@
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.note.DeVerb;
+        import de.dittner.testmyself.model.domain.note.IrregularVerb;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
         //--------------------------------------
         //  word
         //--------------------------------------
-        public function get verb():DeVerb {
-            return note as DeVerb;
+        public function get verb():IrregularVerb {
+            return note as IrregularVerb;
         }
 
         //----------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@
 
     <s:Group width="{width - 2*padding}" height="100">
         <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-        <s:Label text="Infinitiv"
+        <s:Label text="{resourceManager.getString('app', 'Infinitive')}"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  fontSize="20"
@@ -69,7 +69,7 @@
 
     <s:Group width="{width - 2*padding}" height="100">
         <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
-        <s:Label text="Präsens, Präteritum, Partizip II"
+        <s:Label text="{resourceManager.getString('app', 'VerbForms')}"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  fontSize="20"
@@ -90,6 +90,7 @@
     <test:TextBoard id="translateBoard"
                     questionsIconEnabled="false"
                     width="{width - 2*padding}" height="100%"
-                    title="Übersetzung" showText="{showDetails}"/>
+                    title="{resourceManager.getString('app', 'Translation')}"
+                    showText="{showDetails}"/>
 
 </test:TestableView>

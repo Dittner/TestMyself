@@ -24,7 +24,6 @@ public class ListBoxSkin extends ListSkin {
 		super.createChildren();
 		addChild(dropDownBtn = new Button);
 		addChild(titleDisplay = TextFieldFactory.create(TITLE_FORMAT));
-		titleDisplay.text = "Artikel";
 	}
 
 	override protected function measure():void {
@@ -34,6 +33,7 @@ public class ListBoxSkin extends ListSkin {
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
+		titleDisplay.text = resourceManager.getString('app', 'Article');
 		titleDisplay.x = -2;
 		titleDisplay.y = 0;
 

@@ -66,7 +66,7 @@
                    horizontalScrollPolicy="off"
                    width="{width - 2*padding}"
                    dataProvider="{vm.vocabularyColl}"
-                   title="Wählen Sie bitte die wünschen Notizart aus der Liste aus"
+                   title="{resourceManager.getString('app', 'PleaseChooseTheDesiredNoteType')}"
                    itemRenderer="de.dittner.testmyself.ui.view.test.testList.VocabularyRenderer">
         <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
@@ -79,7 +79,7 @@
                    horizontalScrollPolicy="off"
                    width="{width - 2*padding}" height="100%"
                    dataProvider="{getTestInfoList(vocabularyList.selectedItem)}"
-                   title="Wählen Sie bitte den wünschen Test aus der Liste aus"
+                   title="{resourceManager.getString('app', 'PleaseChooseTheDesiredTest')}"
                    itemRenderer="de.dittner.testmyself.ui.view.test.testList.TestInfoRenderer"
                    change="selectedTestHandler(event)">
         <list:layout>

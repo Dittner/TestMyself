@@ -1,5 +1,6 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.ui.common.menu.MenuID;
+import de.dittner.testmyself.ui.view.langList.LangListView;
 import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.map.MapView;
 import de.dittner.testmyself.ui.view.noteList.LessonView;
@@ -67,30 +68,35 @@ public class ViewNavigator extends WalterProxy {
 		sendMessage(SELECTED_VIEW_CHANGED_MSG, selectedView);
 	}
 
-	private static var noteScreen:NoteListView = new NoteListView();
-	private static var lessonScreen:LessonView = new LessonView();
-	private static var testScreen:TestView = new TestView();
-	private static var searchScreen:SearchView = new SearchView();
+	private static var langListView:LangListView = new LangListView();
+	private static var mapView:MapView = new MapView();
+	private static var noteListView:NoteListView = new NoteListView();
+	private static var lessonView:LessonView = new LessonView();
+	private static var testView:TestView = new TestView();
+	private static var searchView:SearchView = new SearchView();
 	private function createView(viewID:String):ViewBase {
 		var view:ViewBase;
 		switch (viewID) {
+			case MenuID.LANG_LIST :
+				view = langListView;
+				break;
 			case MenuID.MAP :
-				view = new MapView();
+				view = mapView;
 				break;
 			case MenuID.WORD :
-				view = noteScreen;
+				view = noteListView;
 				break;
 			case MenuID.VERB :
-				view = noteScreen;
+				view = noteListView;
 				break;
 			case MenuID.LESSON :
-				view = lessonScreen;
+				view = lessonView;
 				break;
 			case MenuID.TEST :
-				view = testScreen;
+				view = testView;
 				break;
 			case MenuID.SEARCH :
-				view = searchScreen;
+				view = searchView;
 				break;
 			case MenuID.SETTINGS :
 				view = new SettingsView();

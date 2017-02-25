@@ -9,6 +9,5 @@ public class VocabularyID {
 	public static const EN_WORD:uint = 11;
 	public static const EN_VERB:uint = 12;
 	public static const EN_LESSON:uint = 13;
-
 }
 }

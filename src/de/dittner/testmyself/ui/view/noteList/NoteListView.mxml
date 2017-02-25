@@ -49,9 +49,11 @@
 
             switch (vm.page.vocabulary.id) {
                 case VocabularyID.DE_WORD :
+                case VocabularyID.EN_WORD :
                     setCurrentState("word");
                     break;
                 case VocabularyID.DE_VERB :
+                case VocabularyID.EN_VERB :
                     toolbar.hideDetailsBtn.enabled = false;
                     toolbar.transInvertBtn.enabled = false;
                     setCurrentState("verb");
@@ -149,9 +151,9 @@
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
             if (!isActive) return;
-            toolbar.editNoteBtn.enabled = noteList.selectedNote;
-            toolbar.removeNoteBtn.enabled = noteList.selectedNote;
-            toolbar.playCommentBtn.enabled = noteList.selectedNote && noteList.selectedNote.hasAudio;
+            toolbar.editNoteBtn.enabled = noteList.selectedNote != null;
+            toolbar.removeNoteBtn.enabled = noteList.selectedNote != null;
+            toolbar.playCommentBtn.enabled = noteList.selectedNote != null && noteList.selectedNote.hasAudio;
         }
         ]]></fx:Script>
 

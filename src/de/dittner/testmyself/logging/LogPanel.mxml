@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         percentHeight="75" percentWidth="95" horizontalCenter="33">
+         percentHeight="50" percentWidth="95" horizontalCenter="0">
 
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
@@ -11,6 +12,11 @@
         import spark.events.TextOperationEvent;
 
         private static const HEADER_HEI:Number = Values.PT50;
+
+        [Embed(source='/assets/button/close_icon_small.png')]
+        private static const CloseSmallIconClass:Class;
+        [Embed(source='/assets/button/close_icon_large.png')]
+        private static const CloseLargeIconClass:Class;
 
         //--------------------------------------
         //  logNoteColl
@@ -22,7 +28,7 @@
             if (_logNoteColl != value) {
                 if (logNoteColl) logNoteColl.filterFunction = null;
                 _logNoteColl = value;
-                if (logNoteColl) logNoteColl.filterFunction = tagFilterFunc;
+                if (logNoteColl) logNoteColl.filterFunction = categoryFilterFunc;
 
                 dispatchEvent(new Event("logNoteCollChanged"));
             }
@@ -87,8 +93,8 @@
             refresh();
         }
 
-        private function tagFilterFunc(note:LogNote):Boolean {
-            return tagFilInput.text.length < 2 || note.tag.toLowerCase().indexOf(tagFilInput.text.toLowerCase()) != -1;
+        private function categoryFilterFunc(note:LogNote):Boolean {
+            return tagFilterInput.text.length < 2 || note.tag.toLowerCase().indexOf(tagFilterInput.text.toLowerCase()) != -1;
         }
 
         private function pauseRunBtnTitle(isPaused:Boolean):String {
@@ -110,9 +116,11 @@
             </s:fill>
         </s:Rect>
 
-        <s:HGroup gap="{Values.PT10}" width="100%" height="{HEADER_HEI}" verticalAlign="middle"
+        <s:HGroup width="100%" height="{HEADER_HEI}"
+                  gap="{Values.PT10}" verticalAlign="middle"
                   paddingLeft="{Values.PT15}" paddingTop="{Values.PT5}">
-            <s:TextInput id="tagFilInput"
+            <s:TextInput id="tagFilterInput"
+                         width="{Values.PT350}"
                          borderVisible="false" scaleX=".75" scaleY=".75"
                          prompt="Фильтровать логи"
                          fontSize="{Values.PT20}"
@@ -128,6 +136,11 @@
                      fontSize="{Values.PT18}"
                      click="isPaused = !isPaused"/>
         </s:HGroup>
+
+        <s:Image id="closeBtn"
+                 source="{Device.factor > 1.5 ? CloseLargeIconClass : CloseSmallIconClass}"
+                 right="{-Values.PT15}"
+                 top="{-Values.PT25}"/>
 
     </s:Group>
 

@@ -19,6 +19,19 @@
         private static var bgBitmapData:BitmapData;
         private static const SEARCH_TEMPLATES:Array = ["halten+", "weisen+", "lassen+", "gehen+", "setzen+", "tragen+", "nehmen+", "gehen+", "finden+", "treten+", "stellen+", "ziehen+", "wenden+", "kommen+", "sehen+", "geben+", "stehen+", "legen+", "steigen+", "bringen+", "treffen+", "werfen+", "fallen+", "sprechen+", "werfen+", "fangen+", "heben+", "brechen+", "fassen+", "richten+", "stoßen+"];
 
+        //--------------------------------------
+        //  isTemplatesEnabled
+        //--------------------------------------
+        private var _isTemplatesEnabled:Boolean = true;
+        [Bindable("isTemplatesEnabledChanged")]
+        public function get isTemplatesEnabled():Boolean {return _isTemplatesEnabled;}
+        public function set isTemplatesEnabled(value:Boolean):void {
+            if (_isTemplatesEnabled != value) {
+                _isTemplatesEnabled = value;
+                dispatchEvent(new Event("isTemplatesEnabledChanged"));
+            }
+        }
+
         override protected function measure():void {
             super.measure();
             measuredHeight = measuredMinHeight = currentState == "normal" ? 140 : 90;
@@ -78,15 +91,16 @@
               visible="true" includeInLayout="true"
               visible.collapsed="false" includeInLayout.collapsed="false">
         <s:CheckBox id="wordBox"
-                    label="Wörter" selected="true"/>
+                    label="{resourceManager.getString('app', 'Words')}" selected="true"/>
 
         <s:CheckBox id="verbBox"
-                    label="Starke Verben" selected="true"/>
+                    label="{resourceManager.getString('app', 'IrregularVerbs')}" selected="true"/>
 
         <s:CheckBox id="lessonBox"
-                    label="Übungen" selected="true"/>
+                    label="{resourceManager.getString('app', 'Lessons')}" selected="true"/>
 
-        <s:CheckBox id="examplesBox" label="Beispiele" selected="true"/>
+        <s:CheckBox id="examplesBox"
+                    label="{resourceManager.getString('app', 'WithExamples')}" selected="true"/>
 
     </s:HGroup>
 
@@ -96,7 +110,8 @@
         <s:HGroup width="{width/2 - 20 + AppSizes.MENU_WID/2}" gap="20" verticalAlign="bottom">
             <input:DropdownInputForm id="searchInput"
                                      width="100%"
-                                     title="Für die Suche ein Wort oder einen Satz eingeben"
+                                     isTemplatesEnabled="{isTemplatesEnabled}"
+                                     title="{resourceManager.getString('app', 'EnterTheTextThatYouWantToSearch')}"
                                      inputTemplateColl="{new ArrayCollection(SEARCH_TEMPLATES)}"
                                      enterPressed="startSearch()"/>
 
@@ -116,7 +131,7 @@
         <button:BlackButton id="applyBtn"
                             width="100%"
                             enabled="{searchInput.text.length > 1}"
-                            label="Suchen"
+                            label="{resourceManager.getString('app', 'Search')}"
                             click="startSearch()"/>
 
         <button:BitmapButton id="openFilterBtn"

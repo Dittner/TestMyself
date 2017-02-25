@@ -4,7 +4,7 @@
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.note.DeWord;
+        import de.dittner.testmyself.model.domain.note.Word;
 
         //--------------------------------------
         //  translateFromNativeIntoForeign
@@ -30,8 +30,8 @@
 
         private function noteToTitle():String {
             var res:String;
-            if (note is DeWord) {
-                var w:DeWord = note as DeWord;
+            if (note is Word) {
+                var w:Word = note as Word;
                 res = w.article ? w.article + " " : "";
                 res += w.title;
                 res += w.declension ? ", " + w.declension : "";
@@ -59,11 +59,12 @@
 
     <test:TextBoard id="titleBoard"
                     width="{width - 2*padding}" height="100%"
-                    title="Deutschtext"/>
+                    title="{resourceManager.getString('app', 'TextInput')}"/>
 
     <test:TextBoard id="translateBoard"
                     questionsIconEnabled="true"
                     width="{width - 2*padding}" height="100%"
-                    title="Übersetzung" showText="{showDetails}"/>
+                    title="{resourceManager.getString('app', 'Translation')}"
+                    showText="{showDetails}"/>
 
 </test:TestableView>

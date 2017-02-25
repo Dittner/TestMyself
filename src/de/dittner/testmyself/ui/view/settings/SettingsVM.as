@@ -4,8 +4,11 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.async.ProgressCommand;
 import de.dittner.ftpClient.FtpClient;
 import de.dittner.testmyself.backend.LocalStorage;
+import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.Device;
+import de.dittner.testmyself.model.domain.language.Language;
+import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
@@ -18,9 +21,9 @@ import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 
 import mx.collections.ArrayCollection;
+import mx.resources.ResourceManager;
 
 public class SettingsVM extends ViewModel {
-	private static const SETTINGS_KEY:String = "SETTINGS_KEY";
 	private static var ftp:FtpClient;
 
 	public function SettingsVM() {
@@ -98,12 +101,20 @@ public class SettingsVM extends ViewModel {
 
 	override public function viewActivated(viewID:String):void {
 		super.viewActivated(viewID);
-		viewTitle = "EINSTELLUNGEN";
+		var lang:Language = appModel.selectedLanguage;
+		viewTitle = ResourceManager.getInstance().getString('app', 'SETTINGS');
 		if (!ftp) ftp = new FtpClient(Device.stage);
-		_settings = LocalStorage.read(SETTINGS_KEY) || new SettingsInfo();
-		setWordVocabulary(appModel.selectedLanguage.vocabularyHash.read(VocabularyID.DE_WORD));
-		setVerbVocabulary(appModel.selectedLanguage.vocabularyHash.read(VocabularyID.DE_VERB));
-		setLessonVocabulary(appModel.selectedLanguage.vocabularyHash.read(VocabularyID.DE_LESSON));
+		_settings = LocalStorage.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo();
+		if (lang.id == LanguageID.DE) {
+			setWordVocabulary(lang.vocabularyHash.read(VocabularyID.DE_WORD));
+			setVerbVocabulary(lang.vocabularyHash.read(VocabularyID.DE_VERB));
+			setLessonVocabulary(lang.vocabularyHash.read(VocabularyID.DE_LESSON));
+		}
+		else if (lang.id == LanguageID.EN) {
+			setWordVocabulary(lang.vocabularyHash.read(VocabularyID.EN_WORD));
+			setVerbVocabulary(lang.vocabularyHash.read(VocabularyID.EN_VERB));
+			setLessonVocabulary(lang.vocabularyHash.read(VocabularyID.EN_LESSON));
+		}
 
 		var allTests:Array = [];
 		var test:Test;
@@ -115,7 +126,7 @@ public class SettingsVM extends ViewModel {
 
 	public function storeSettings(s:SettingsInfo):void {
 		_settings = s;
-		LocalStorage.write(SETTINGS_KEY, s);
+		LocalStorage.write(LocalStorageKey.SETTINGS_KEY, s);
 	}
 
 	//--------------------------------------

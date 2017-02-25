@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark">
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+
+        //--------------------------------------
+        //  wordVocabularyInfo
+        //--------------------------------------
+        private var _wordVocabularyInfo:VocabularyInfo = new VocabularyInfo();
+        public function get wordVocabularyInfo():VocabularyInfo {return _wordVocabularyInfo;}
+        public function set wordVocabularyInfo(value:VocabularyInfo):void {
+            if (_wordVocabularyInfo != value) {
+                _wordVocabularyInfo = value;
+                invalidateProperties()
+            }
+        }
+
+        //--------------------------------------
+        //  verbVocabularyInfo
+        //--------------------------------------
+        private var _verbVocabularyInfo:VocabularyInfo = new VocabularyInfo();
+        public function get verbVocabularyInfo():VocabularyInfo {return _verbVocabularyInfo;}
+        public function set verbVocabularyInfo(value:VocabularyInfo):void {
+            if (_verbVocabularyInfo != value) {
+                _verbVocabularyInfo = value;
+                invalidateProperties()
+            }
+        }
+
+        //--------------------------------------
+        //  lessonVocabularyInfo
+        //--------------------------------------
+        private var _lessonVocabularyInfo:VocabularyInfo = new VocabularyInfo();
+        public function get lessonVocabularyInfo():VocabularyInfo {return _lessonVocabularyInfo;}
+        public function set lessonVocabularyInfo(value:VocabularyInfo):void {
+            if (_lessonVocabularyInfo != value) {
+                _lessonVocabularyInfo = value;
+                invalidateProperties()
+            }
+        }
+
+        override protected function commitProperties():void {
+            super.commitProperties();
+            var infoText:String;
+            var words:int = wordVocabularyInfo ? wordVocabularyInfo.notesAmount : 0;
+            var verbs:int = verbVocabularyInfo ? verbVocabularyInfo.notesAmount : 0;
+            var lessons:int = lessonVocabularyInfo ? lessonVocabularyInfo.notesAmount : 0;
+
+            var examples:int = 0;
+            if (wordVocabularyInfo) examples += wordVocabularyInfo.examplesAmount;
+            if (verbVocabularyInfo) examples += verbVocabularyInfo.examplesAmount;
+            if (lessonVocabularyInfo) examples += lessonVocabularyInfo.examplesAmount;
+
+            var audios:int = 0;
+            if (wordVocabularyInfo) audios += wordVocabularyInfo.audioCommentsAmount;
+            if (verbVocabularyInfo) audios += verbVocabularyInfo.audioCommentsAmount;
+            if (lessonVocabularyInfo) audios += lessonVocabularyInfo.audioCommentsAmount;
+
+            infoText = words + "\n";
+            infoText += verbs + "\n";
+            infoText += lessons + "\n";
+            infoText += examples + "\n";
+            infoText += audios;
+
+            valuesLbl.text = infoText;
+        }
+
+        //--------------------------------------
+        //  localeInfo
+        //--------------------------------------
+        private var _localeInfo:String = "";
+        [Bindable("localeInfoChanged")]
+        public function get localeInfo():String {return _localeInfo;}
+        public function set localeInfo(value:String):void {
+            if (_localeInfo != value) {
+                _localeInfo = value;
+                dispatchEvent(new Event("localeInfoChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+    <s:layout>
+        <s:VerticalLayout gap="10" horizontalAlign="right" paddingLeft="5" paddingBottom="5" paddingTop="5" paddingRight="5"/>
+    </s:layout>
+
+    <s:Label width="60%"
+             paddingLeft="5"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="24"
+             fontWeight="bold"
+             color="{AppColors.TEXT_WHITE}"
+             text="{resourceManager.getString('app', 'Statistics', null, localeInfo)}"/>
+
+    <s:HGroup width="100%" gap="10">
+        <s:Label id="valuesLbl"
+                 width="40%"
+                 textAlign="right"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontSize="18"
+                 fontWeight="bold"
+                 color="{AppColors.TEXT_WHITE}"/>
+
+        <s:Label width="60%"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontSize="18"
+                 fontWeight="bold"
+                 color="{AppColors.TEXT_WHITE}"
+                 text="{resourceManager.getString('app', 'statisticsHeaders', null, localeInfo)}"/>
+    </s:HGroup>
+
+</s:Group>

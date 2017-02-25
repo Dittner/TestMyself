@@ -11,6 +11,7 @@ import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 import flash.events.Event;
 
 import mx.collections.ArrayCollection;
+import mx.resources.ResourceManager;
 
 public class TestVM extends ViewModel {
 	public function TestVM() {
@@ -155,7 +156,7 @@ public class TestVM extends ViewModel {
 
 	override public function viewActivated(viewID:String):void {
 		super.viewActivated(viewID);
-		viewTitle = "TESTEN";
+		viewTitle = ResourceManager.getInstance().getString("app", "TESTS");
 		selectedTestTask = null;
 		if (!testPage) setTestPage(new TestPage());
 		testPage.loadOnlyFailedTestTask = true;

@@ -21,7 +21,7 @@
         //--------------------------------------
         //  text
         //--------------------------------------
-        private var _text:String;
+        private var _text:String = "";
         [Bindable("textChanged")]
         public function get text():String {return _text;}
         public function set text(value:String):void {
@@ -122,7 +122,7 @@
                      fontSize="14"
                      fontFamily="{FontName.MYRIAD_COND}"
                      top="1" horizontalCenter="0"
-                     text="TAFEL"/>
+                     text="{resourceManager.getString('app', 'BOARD')}"/>
         </s:Group>
 
     </s:Group>

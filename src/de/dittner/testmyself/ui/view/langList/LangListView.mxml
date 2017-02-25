@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                xmlns:components="de.dittner.testmyself.ui.view.langList.components.*"
+                horizontalCenter="0">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.language.LanguageID;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+
+        [Bindable]
+        public var vm:LangListVM;
+
+        override protected function activating():void {
+            vm = ViewModelFactory.instance.langListVM;
+            vm.lockView();
+            toolbar.visible = toolbar.includeInLayout = false;
+            menu.visible = menu.includeInLayout = false;
+        }
+
+        override protected function activate():void {
+            vm.unlockView();
+            vm.viewActivated(viewID);
+        }
+
+        override protected function deactivate():void {
+            menu.visible = menu.includeInLayout = true;
+        }
+        ]]></fx:Script>
+
+    <s:BitmapImage height="100%" width="100%" right="0" scaleMode="zoom" fillMode="scale"
+                   source="@Embed('/assets/photo/london.png')"/>
+
+    <s:BitmapImage height="100%" width="100%" right="{width/2}" scaleMode="zoom" fillMode="scale"
+                   source="@Embed('/assets/photo/koeln.jpg')"/>
+
+    <button:LangButton label="{resourceManager.getString('app', 'German')}"
+                       flagIcon="@Embed('/assets/button/german_flag.png')"
+                       left="{width/8}" width="{width/4}" bottom="20"
+                       click="vm.selectLang(LanguageID.DE)"/>
+
+    <button:LangButton label="{resourceManager.getString('app', 'English')}"
+                       flagIcon="@Embed('/assets/button/gb_flag.png')"
+                       right="{width/8}" width="{width/4}" bottom="20"
+                       click="vm.selectLang(LanguageID.EN)"/>
+
+    <components:LanguageInfoBoard id="deInfoBoard"
+                                  localeInfo="de_DE"
+                                  mouseEnabled="false" mouseChildren="false"
+                                  wordVocabularyInfo="{vm.deWordVocabularyInfo}"
+                                  verbVocabularyInfo="{vm.deVerbVocabularyInfo}"
+                                  lessonVocabularyInfo="{vm.deLessonVocabularyInfo}"
+                                  top="20" width="{width/2}" left="0"/>
+
+    <components:LanguageInfoBoard id="enInfoBoard"
+                                  localeInfo="en_US"
+                                  mouseEnabled="false" mouseChildren="false"
+                                  wordVocabularyInfo="{vm.enWordVocabularyInfo}"
+                                  verbVocabularyInfo="{vm.enVerbVocabularyInfo}"
+                                  lessonVocabularyInfo="{vm.enLessonVocabularyInfo}"
+                                  top="20" width="{width/2}" right="0"/>
+
+</view:SmartView>

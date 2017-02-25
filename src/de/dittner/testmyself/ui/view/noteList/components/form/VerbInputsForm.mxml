@@ -66,6 +66,19 @@
             dispatchEvent(new Event("perfectChanged"));
         }
 
+        //--------------------------------------
+        //  isPresentFormEnabled
+        //--------------------------------------
+        private var _isPresentFormEnabled:Boolean = true;
+        [Bindable("isPresentFormEnabledChanged")]
+        public function get isPresentFormEnabled():Boolean {return _isPresentFormEnabled;}
+        public function set isPresentFormEnabled(value:Boolean):void {
+            if (_isPresentFormEnabled != value) {
+                _isPresentFormEnabled = value;
+                dispatchEvent(new Event("isPresentFormEnabledChanged"));
+            }
+        }
+
         private const regexp:RegExp = NoteFormUtils.LETTERS_AND_SYMBOLS;
         private function wordValidationHandler(event:TextOperationEvent):void {
             if (event.operation is TextInputOperation) {
@@ -85,27 +98,29 @@
                          text="{infinitive}"
                          width="100%"
                          maxChars="{Device.MAX_WORD_LENGTH}"
-                         title="Infinitiv"/>
+                         title="{resourceManager.getString('app', 'Infinitive')}"/>
 
     <input:TextInputForm id="presentInput"
+                         visible="{isPresentFormEnabled}"
+                         includeInLayout="{isPresentFormEnabled}"
                          changing="wordValidationHandler(event)"
                          text="{present}"
                          width="100%"
                          maxChars="{Device.MAX_WORD_LENGTH}"
-                         title="Präsens"/>
+                         title="{resourceManager.getString('app', 'Present')}"/>
 
     <input:TextInputForm id="pastInput"
                          changing="wordValidationHandler(event)"
                          text="{past}"
                          width="100%"
                          maxChars="{Device.MAX_WORD_LENGTH}"
-                         title="Präteritum"/>
+                         title="{resourceManager.getString('app', 'PastSimple')}"/>
 
     <input:TextInputForm id="perfectInput"
                          changing="wordValidationHandler(event)"
                          text="{perfect}"
                          width="100%"
                          maxChars="{Device.MAX_WORD_LENGTH}"
-                         title="Partizip II"/>
+                         title="{resourceManager.getString('app', 'PastParticiple')}"/>
 
 </s:Group>
