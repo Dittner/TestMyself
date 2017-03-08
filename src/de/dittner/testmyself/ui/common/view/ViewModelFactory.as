@@ -24,7 +24,11 @@ public class ViewModelFactory extends WalterProxy {
 	[Inject]
 	public var mapVM:MapVM;
 	[Inject]
-	public var noteListVM:NoteListVM;
+	public var wordListVM:NoteListVM;
+	[Inject]
+	public var verbListVM:NoteListVM;
+	[Inject]
+	public var lessonListVM:NoteListVM;
 	[Inject]
 	public var searchVM:SearchVM;
 	[Inject]

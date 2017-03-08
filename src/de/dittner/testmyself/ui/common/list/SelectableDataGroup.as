@@ -13,6 +13,7 @@ import spark.components.DataGroup;
 import spark.components.IItemRenderer;
 import spark.events.RendererExistenceEvent;
 
+[Event(name="dataProviderChanged", type="flash.events.Event")]
 [Event(name="selectedItemChange", type="flash.events.Event")]
 public class SelectableDataGroup extends DataGroup {
 
@@ -79,8 +80,6 @@ public class SelectableDataGroup extends DataGroup {
 		if (super.dataProvider != value) {
 			selectedItem = null;
 			super.dataProvider = value;
-			if (selectFirstItemByDefault && dataProvider && dataProvider.length > 0)
-				selectedItem = dataProvider.getItemAt(0);
 		}
 	}
 
@@ -122,19 +121,6 @@ public class SelectableDataGroup extends DataGroup {
 		if (_deselectEnabled != value) {
 			_deselectEnabled = value;
 			dispatchEvent(new Event("deselectEnabledChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  selectFirstItemByDefault
-	//--------------------------------------
-	private var _selectFirstItemByDefault:Boolean = false;
-	[Bindable("selectFirstItemByDefaultChanged")]
-	public function get selectFirstItemByDefault():Boolean {return _selectFirstItemByDefault;}
-	public function set selectFirstItemByDefault(value:Boolean):void {
-		if (_selectFirstItemByDefault != value) {
-			_selectFirstItemByDefault = value;
-			dispatchEvent(new Event("selectFirstItemByDefaultChanged"));
 		}
 	}
 

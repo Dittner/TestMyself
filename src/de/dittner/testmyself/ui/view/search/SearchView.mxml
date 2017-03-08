@@ -47,6 +47,9 @@
             setCurrentState("active");
             toolbar.hideDetailsBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
+            toolbar.nextBtn.enabled = true;
+            toolbar.prevBtn.enabled = true;
+
             noteList.pageLayout = pageLayoutInfo;
             toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
             vm.unlockView();
@@ -67,10 +70,40 @@
             NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
 
+        private var needSelectFirstNote:Boolean = false;
+        private var needSelectLastNote:Boolean = false;
         private var pageLayoutInfo:PageLayout = new PageLayout();
         private function toolActionSelectedHandler(event:ToolbarEvent):void {
             var op:IAsyncOperation;
             switch (event.toolAction) {
+                case(ToolAction.NEXT_NOTE) :
+                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
+                        if (!noteList.selectedItem) {
+                            vm.selectedNote = noteList.dataProvider[0];
+                        }
+                        else if (noteList.selectedIndex < noteList.dataProvider.length - 1) {
+                            noteList.selectedIndex++;
+                        }
+                        else if (paginationBar.pageNum < paginationBar.totalPages - 1) {
+                            vm.page.number++;
+                            needSelectFirstNote = true;
+                        }
+                    }
+                    break;
+                case(ToolAction.PREV_NOTE) :
+                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
+                        if (!noteList.selectedItem) {
+                            noteList.selectedItem = noteList.dataProvider[0];
+                        }
+                        else if (noteList.selectedIndex > 0) {
+                            noteList.selectedIndex--;
+                        }
+                        else if (paginationBar.pageNum > 0) {
+                            vm.page.number--;
+                            needSelectLastNote = true;
+                        }
+                    }
+                    break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
                     op = form.edit(noteList.selectedNote);
@@ -144,6 +177,26 @@
         private function examplesListEnabled(selectedNote:Note, noteExampleColl:ArrayCollection):Boolean {
             return selectedNote && noteExampleColl && noteExampleColl.length > 0
         }
+
+        private function noteList_dataProviderChangedHandler(event:Event):void {
+            if (!noteList.dataProvider || noteList.dataProvider.length == 0) {
+                needSelectFirstNote = false;
+                needSelectLastNote = false;
+                return;
+            }
+
+            if (needSelectFirstNote) {
+                needSelectFirstNote = false;
+                vm.selectedNote = noteList.dataProvider[0];
+            }
+            else if (needSelectLastNote) {
+                needSelectLastNote = false;
+                vm.selectedNote = noteList.dataProvider[noteList.dataProvider.length - 1];
+            }
+            else if (vm.page.number == 0) {
+                vm.selectedNote = noteList.dataProvider[0];
+            }
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -170,9 +223,9 @@
                          width="100%"
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
-                         selectFirstItemByDefault="{vm.page.number == 0}"
                          itemRenderer="de.dittner.testmyself.ui.view.search.components.FoundNoteRenderer"
-                         selectedItemChange="noteList_selectedItemChangeHandler(event)">
+                         selectedItemChange="noteList_selectedItemChangeHandler(event)"
+                         dataProviderChanged="noteList_dataProviderChangedHandler(event)">
             <common:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </common:layout>

@@ -151,7 +151,7 @@
                             width="250"
                             verticalCenter="0"
                             left="{padding}"
-                            label="{resourceManager.getString('app', 'Statistics')}"
+                            label="{resourceManager.getString('app', 'TestResults')}"
                             click="showStatisticsBtnClickHandler(event)"/>
 
         <button:BlackButton id="startTestingBtn"

@@ -63,6 +63,8 @@
             toolbar.goBackBtn.enabled = true;
             toolbar.showFailedTasksBtn.enabled = true;
             toolbar.showFailedTasksBtn.selected = vm.testPage.loadOnlyFailedTestTask;
+            toolbar.nextBtn.enabled = true;
+            toolbar.prevBtn.enabled = true;
         }
 
         private function startTesting():void {
@@ -87,6 +89,34 @@
                     else if (currentState == "testing") {
                         testingScreen.deactivate();
                         showTestPresets();
+                    }
+                    break;
+                case(ToolAction.NEXT_NOTE) :
+                    if (statisticsScreen.list.dataProvider && statisticsScreen.list.dataProvider.length > 0) {
+                        if (!statisticsScreen.list.selectedItem) {
+                            statisticsScreen.list.selectedItem = statisticsScreen.list.dataProvider[0];
+                        }
+                        else if (statisticsScreen.list.selectedIndex < statisticsScreen.list.dataProvider.length - 1) {
+                            statisticsScreen.list.selectedIndex++;
+                        }
+                        else if (statisticsScreen.paginationBar.pageNum < statisticsScreen.paginationBar.totalPages - 1) {
+                            vm.testPage.number++;
+                            statisticsScreen.needSelectFirstNote = true;
+                        }
+                    }
+                    break;
+                case(ToolAction.PREV_NOTE) :
+                    if (statisticsScreen.list.dataProvider && statisticsScreen.list.dataProvider.length > 0) {
+                        if (!statisticsScreen.list.selectedItem) {
+                            statisticsScreen.list.selectedItem = statisticsScreen.list.dataProvider[0];
+                        }
+                        else if (statisticsScreen.list.selectedIndex > 0) {
+                            statisticsScreen.list.selectedIndex--;
+                        }
+                        else if (statisticsScreen.paginationBar.pageNum > 0) {
+                            vm.testPage.number--;
+                            statisticsScreen.needSelectLastNote = true;
+                        }
                     }
                     break;
                 case(ToolAction.EDIT_NOTE) :

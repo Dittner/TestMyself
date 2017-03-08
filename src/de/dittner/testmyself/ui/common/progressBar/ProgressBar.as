@@ -55,11 +55,11 @@ public class ProgressBar extends UIComponent {
 
 	override protected function createChildren():void {
 		super.createChildren();
-		progressTF = TextFieldFactory.create(PROGRESS_FORMAT, false);
+		progressTF = TextFieldFactory.create(PROGRESS_FORMAT);
 		progressTF.text = "0%";
 		addChild(progressTF);
 
-		titleTF = TextFieldFactory.create(TITTLE_FORMAT, false);
+		titleTF = TextFieldFactory.create(TITTLE_FORMAT);
 		addChild(titleTF);
 	}
 

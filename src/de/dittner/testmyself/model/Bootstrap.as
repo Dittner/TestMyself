@@ -56,7 +56,9 @@ public class Bootstrap extends Walter {
 		registerProxy("mainVM", new MainVM());
 		registerProxy("langListVM", new LangListVM());
 		registerProxy("mapVM", new MapVM());
-		registerProxy("noteListVM", new NoteListVM());
+		registerProxy("wordListVM", new NoteListVM());
+		registerProxy("verbListVM", new NoteListVM());
+		registerProxy("lessonListVM", new NoteListVM());
 		registerProxy("searchVM", new SearchVM());
 		registerProxy("testVM", new TestVM());
 		registerProxy("settingsVM", new SettingsVM());

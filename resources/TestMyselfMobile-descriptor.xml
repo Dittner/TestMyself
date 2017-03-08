@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/18.0">
+<application xmlns="http://ns.adobe.com/air/application/23.0">
 
     <id>ru.idecide.air.sapientia</id>
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>3.0</versionNumber>
-    <versionLabel>3.0</versionLabel>
+    <versionNumber>3.4</versionNumber>
+    <versionLabel>3.4</versionLabel>
 
     <initialWindow>
         <content>TestMyself.swf</content>

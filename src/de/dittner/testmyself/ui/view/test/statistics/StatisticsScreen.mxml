@@ -12,6 +12,9 @@
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.view.test.TestVM;
 
+        public var needSelectFirstNote:Boolean = false;
+        public var needSelectLastNote:Boolean = false;
+
         //--------------------------------------
         //  padding
         //--------------------------------------
@@ -77,6 +80,23 @@
             vm.selectedTestTask = list.selectedItem as TestTask;
             examplesListEnabled = vm.selectedTestTask && vm.selectedTestTask.note.exampleColl.length > 0;
         }
+
+        private function noteList_dataProviderChangedHandler(event:Event):void {
+            if (!list.dataProvider || list.dataProvider.length == 0) {
+                needSelectFirstNote = false;
+                needSelectLastNote = false;
+                return;
+            }
+
+            if (needSelectFirstNote) {
+                needSelectFirstNote = false;
+                list.selectedItem = list.dataProvider[0];
+            }
+            else if (needSelectLastNote) {
+                needSelectLastNote = false;
+                list.selectedItem = list.dataProvider[list.dataProvider.length - 1];
+            }
+        }
         ]]></fx:Script>
 
     <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
@@ -90,7 +110,8 @@
                           width="100%"
                           deselectEnabled="true"
                           itemRenderer="de.dittner.testmyself.ui.view.test.statistics.StatisticsTaskRenderer"
-                          selectedItemChange="selectedItemChange(event)">
+                          selectedItemChange="selectedItemChange(event)"
+                          dataProviderChanged="noteList_dataProviderChangedHandler(event)">
             <common2:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </common2:layout>

@@ -13,6 +13,7 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+        import de.dittner.testmyself.ui.common.menu.MenuID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
@@ -31,7 +32,13 @@
         //----------------------------------------------------------------------------------------------
 
         override protected function activating():void {
-            vm = ViewModelFactory.instance.noteListVM;
+            if (viewID == MenuID.WORD)
+                vm = ViewModelFactory.instance.wordListVM;
+            else if (viewID == MenuID.VERB)
+                vm = ViewModelFactory.instance.verbListVM;
+            else
+                throw new Error("Unknown ViewID: " + viewID);
+
             vm.lockView();
             toolbar.visible = toolbar.includeInLayout = true;
             toolbar.revert();
@@ -46,6 +53,8 @@
             toolbar.hideDetailsBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
             toolbar.filterBtn.enabled = true;
+            toolbar.nextBtn.enabled = true;
+            toolbar.prevBtn.enabled = true;
 
             switch (vm.page.vocabulary.id) {
                 case VocabularyID.DE_WORD :
@@ -71,10 +80,40 @@
             setCurrentState("inactive");
         }
 
+        private var needSelectFirstNote:Boolean = false;
+        private var needSelectLastNote:Boolean = false;
         private var pageLayoutInfo:PageLayout = new PageLayout();
         private function toolActionSelectedHandler(event:ToolbarEvent):void {
             var op:IAsyncOperation;
             switch (event.toolAction) {
+                case(ToolAction.NEXT_NOTE) :
+                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
+                        if (!noteList.selectedItem) {
+                            vm.selectedNote = noteList.dataProvider[0];
+                        }
+                        else if (noteList.selectedIndex < noteList.dataProvider.length - 1) {
+                            noteList.selectedIndex++;
+                        }
+                        else if (paginationBar.pageNum < paginationBar.totalPages - 1) {
+                            vm.page.number++;
+                            needSelectFirstNote = true;
+                        }
+                    }
+                    break;
+                case(ToolAction.PREV_NOTE) :
+                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
+                        if (!noteList.selectedItem) {
+                            noteList.selectedItem = noteList.dataProvider[0];
+                        }
+                        else if (noteList.selectedIndex > 0) {
+                            noteList.selectedIndex--;
+                        }
+                        else if (paginationBar.pageNum > 0) {
+                            vm.page.number--;
+                            needSelectLastNote = true;
+                        }
+                    }
+                    break;
                 case(ToolAction.CREATE_NOTE) :
                     form.visible = true;
                     op = form.add(vm.page.vocabulary.createNote());
@@ -155,6 +194,23 @@
             toolbar.removeNoteBtn.enabled = noteList.selectedNote != null;
             toolbar.playCommentBtn.enabled = noteList.selectedNote != null && noteList.selectedNote.hasAudio;
         }
+
+        private function noteList_dataProviderChangedHandler(event:Event):void {
+            if (!noteList.dataProvider || noteList.dataProvider.length == 0) {
+                needSelectFirstNote = false;
+                needSelectLastNote = false;
+                return;
+            }
+
+            if (needSelectFirstNote) {
+                needSelectFirstNote = false;
+                vm.selectedNote = noteList.dataProvider[0];
+            }
+            else if (needSelectLastNote) {
+                needSelectLastNote = false;
+                vm.selectedNote = noteList.dataProvider[noteList.dataProvider.length - 1];
+            }
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -177,7 +233,8 @@
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
                          itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
-                         selectedItemChange="noteList_selectedItemChangeHandler(event)">
+                         selectedItemChange="noteList_selectedItemChangeHandler(event)"
+                         dataProviderChanged="noteList_dataProviderChangedHandler(event)">
             <common:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </common:layout>

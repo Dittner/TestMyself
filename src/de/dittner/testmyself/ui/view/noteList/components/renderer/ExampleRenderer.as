@@ -21,7 +21,7 @@ public class ExampleRenderer extends NoteRenderer {
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = createMultilineTextField(TITLE_FORMAT);
+			titleTf = createMultilineTextField(TITLE_FORMAT, 50);
 			addChild(titleTf);
 		}
 		super.createChildren();
@@ -30,6 +30,11 @@ public class ExampleRenderer extends NoteRenderer {
 	override protected function get pad():uint {return 15;}
 
 	override protected function get gap():uint {return 10;}
+
+	override protected function updateText():void {
+		titleTf.htmlText = note ? getTitle() : "";
+		descriptionTf.htmlText = note ? getDescription() : "";
+	}
 
 }
 }

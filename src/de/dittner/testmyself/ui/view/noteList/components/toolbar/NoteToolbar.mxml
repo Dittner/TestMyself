@@ -23,6 +23,8 @@
             showFailedTasksBtn.enabled = false;
             hideDetailsBtn.selected = true;
             showFailedTasksBtn.selected = true;
+            nextBtn.enabled = false;
+            prevBtn.enabled = false;
         }
 
         private function notifyToolAction(action:String):void {
@@ -40,7 +42,8 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="20" verticalAlign="top" horizontalAlign="center"/>
+        <s:VerticalLayout id="verLayout"
+                          gap="12" verticalAlign="top" horizontalAlign="center"/>
     </s:layout>
 
     <button:ToolButton id="goBackBtn"
@@ -49,9 +52,8 @@
                        image="@Embed(source='/assets/tools/goback.png')"
                        click="notifyToolAction(ToolAction.GO_BACK)"/>
 
-    <s:Spacer height="30"
-              visible="{goBackBtn.enabled}"
-              includeInLayout="{goBackBtn.enabled}"/>
+    <s:Spacer height="25"
+              visible="{goBackBtn.enabled}" includeInLayout="{goBackBtn.enabled}"/>
 
     <button:ToolButton id="addNoteBtn"
                        image="@Embed(source='/assets/tools/add.png')"
@@ -65,7 +67,7 @@
                        image="@Embed(source='/assets/tools/recycle_bin.png')"
                        click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
-    <s:Spacer height="30"/>
+    <s:Spacer height="25"/>
 
     <button:ToolToggleButton id="hideDetailsBtn"
                              visible="{hideDetailsBtn.enabled}"
@@ -100,6 +102,22 @@
                        includeInLayout="{showFailedTasksBtn.enabled}"
                        image="@Embed(source='/assets/tools/set_task_as_right.png')"
                        click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
+
+    <s:Spacer height="25"
+              visible="{prevBtn.enabled}"
+              includeInLayout="{prevBtn.enabled}"/>
+
+    <button:ToolButton id="prevBtn"
+                       visible="{prevBtn.enabled}"
+                       includeInLayout="{prevBtn.enabled}"
+                       image="@Embed(source='/assets/tools/prev.png')"
+                       click="notifyToolAction(ToolAction.PREV_NOTE)"/>
+
+    <button:ToolButton id="nextBtn"
+                       visible="{nextBtn.enabled}"
+                       includeInLayout="{nextBtn.enabled}"
+                       image="@Embed(source='/assets/tools/next.png')"
+                       click="notifyToolAction(ToolAction.NEXT_NOTE)"/>
 
     <s:Spacer height="25"/>
 

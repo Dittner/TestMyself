@@ -2,6 +2,8 @@ package de.dittner.testmyself.ui.view.noteList.components.toolbar {
 public class ToolAction {
 
 	public static const GO_BACK:String = "GO_BACK";
+	public static const NEXT_NOTE:String = "NEXT_NOTE";
+	public static const PREV_NOTE:String = "PREV_NOTE";
 	public static const CREATE_NOTE:String = "CREATE_NOTE";
 	public static const EDIT_NOTE:String = "EDIT_NOTE";
 	public static const REMOVE_NOTE:String = "REMOVE_NOTE";

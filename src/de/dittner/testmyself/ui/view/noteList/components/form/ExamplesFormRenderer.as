@@ -29,5 +29,9 @@ public class ExamplesFormRenderer extends NoteRenderer {
 	override protected function get pad():uint {return 5;}
 
 	override protected function get gap():uint {return 5;}
+
+	override protected function getTitleTextFormat():TextFormat {
+		return TITLE_FORMAT;
+	}
 }
 }

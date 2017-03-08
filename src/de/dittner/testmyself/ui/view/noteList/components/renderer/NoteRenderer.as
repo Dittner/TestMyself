@@ -18,10 +18,11 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_BLACK, true);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 24, AppColors.TEXT_BLACK);
+	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 22, AppColors.TEXT_DARK_GRAY);
-	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_RED, true);
-	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_YELLOW, true);
+	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_RED);
+	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_YELLOW);
 
 	private static const TEXT_DEFAULT_OFFSET:uint = 2;
 	private static const DEF_PAGE_LAYOUT:PageLayout = new PageLayout();
@@ -47,6 +48,10 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	protected function get gap():uint {return 10;}
 
 	protected function get pad():uint {return 19;}
+
+	protected function getTitleTextFormat():TextFormat {
+		return word || verb ? WORD_AND_VERB_TITLE_FORMAT : TITLE_FORMAT;
+	}
 
 	protected function get testTask():TestTask {
 		return data as TestTask;
@@ -95,7 +100,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = createMultilineTextField(TITLE_FORMAT);
+			titleTf = createMultilineTextField(TITLE_FORMAT, 80);
 			addChild(titleTf);
 		}
 		if (!commentPlayBtn) {
@@ -136,6 +141,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 	protected function updateText():void {
 		if (note) {
+			titleTf.defaultTextFormat = getTitleTextFormat();
 			titleTf.htmlText = getTitle();
 			descriptionTf.htmlText = getDescription();
 

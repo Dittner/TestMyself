@@ -33,7 +33,7 @@
         //----------------------------------------------------------------------------------------------
 
         override protected function activating():void {
-            vm = ViewModelFactory.instance.noteListVM;
+            vm = ViewModelFactory.instance.lessonListVM;
             vm.lockView();
 
             toolbar.visible = toolbar.includeInLayout = true;
@@ -69,6 +69,8 @@
             toolbar.goBackBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
             toolbar.hideDetailsBtn.enabled = true;
+            toolbar.nextBtn.enabled = true;
+            toolbar.prevBtn.enabled = true;
             setCurrentState("lessonContent");
         }
 
@@ -118,12 +120,42 @@
             }
         }
 
+        private var needSelectFirstNote:Boolean = false;
+        private var needSelectLastNote:Boolean = false;
         private var pageLayoutInfo:PageLayout = new PageLayout();
         private function toolActionSelectedHandler(event:ToolbarEvent):void {
             var op:IAsyncOperation;
             switch (event.toolAction) {
                 case(ToolAction.GO_BACK) :
                     showLessonList();
+                    break;
+                case(ToolAction.NEXT_NOTE) :
+                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
+                        if (!noteList.selectedItem) {
+                            vm.selectedNote = noteList.dataProvider[0];
+                        }
+                        else if (noteList.selectedIndex < noteList.dataProvider.length - 1) {
+                            noteList.selectedIndex++;
+                        }
+                        else if (paginationBar.pageNum < paginationBar.totalPages - 1) {
+                            vm.page.number++;
+                            needSelectFirstNote = true;
+                        }
+                    }
+                    break;
+                case(ToolAction.PREV_NOTE) :
+                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
+                        if (!noteList.selectedItem) {
+                            noteList.selectedItem = noteList.dataProvider[0];
+                        }
+                        else if (noteList.selectedIndex > 0) {
+                            noteList.selectedIndex--;
+                        }
+                        else if (paginationBar.pageNum > 0) {
+                            vm.page.number--;
+                            needSelectLastNote = true;
+                        }
+                    }
                     break;
                 case(ToolAction.CREATE_NOTE) :
                     if (currentState == "lessonList") {
@@ -200,6 +232,23 @@
             toolbar.removeNoteBtn.enabled = noteList.selectedNote != null;
             toolbar.playCommentBtn.enabled = noteList.selectedNote != null && noteList.selectedNote.hasAudio;
         }
+
+        private function noteList_dataProviderChangedHandler(event:Event):void {
+            if (!noteList.dataProvider || noteList.dataProvider.length == 0) {
+                needSelectFirstNote = false;
+                needSelectLastNote = false;
+                return;
+            }
+
+            if (needSelectFirstNote) {
+                needSelectFirstNote = false;
+                vm.selectedNote = noteList.dataProvider[0];
+            }
+            else if (needSelectLastNote) {
+                needSelectLastNote = false;
+                vm.selectedNote = noteList.dataProvider[noteList.dataProvider.length - 1];
+            }
+        }
         ]]></fx:Script>
 
     <core:states>
@@ -217,13 +266,14 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <common:NoteList id="noteList"
+                         itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
                          selectedNote="@{vm.selectedNote}"
                          dataProvider="{vm.page.noteColl}"
                          width="100%"
                          contentBackgroundAlpha="0"
                          deselectEnabled="true"
                          selectedItemChange="noteList_selectedItemChangeHandler(event)"
-                         itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer">
+                         dataProviderChanged="noteList_dataProviderChangedHandler(event)">
             <common:layout>
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </common:layout>
