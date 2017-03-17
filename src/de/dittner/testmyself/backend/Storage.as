@@ -4,6 +4,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
 import de.dittner.testmyself.backend.cmd.LoadAllTagsCmd;
 import de.dittner.testmyself.backend.cmd.LoadAudioCommentCmd;
+import de.dittner.testmyself.backend.cmd.LoadHashDataCmd;
 import de.dittner.testmyself.backend.cmd.LoadNoteByNoteIDCmd;
 import de.dittner.testmyself.backend.cmd.LoadNotePageCmd;
 import de.dittner.testmyself.backend.cmd.LoadTaskIDsCmd;
@@ -17,11 +18,13 @@ import de.dittner.testmyself.backend.cmd.RemoveTagCmd;
 import de.dittner.testmyself.backend.cmd.RunDataBaseCmd;
 import de.dittner.testmyself.backend.cmd.SearchNotesCmd;
 import de.dittner.testmyself.backend.cmd.SelectAllNotesTitlesCmd;
+import de.dittner.testmyself.backend.cmd.StoreHashDataCmd;
 import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
 import de.dittner.testmyself.backend.cmd.StoreTagCmd;
 import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
 import de.dittner.testmyself.backend.op.LoadAllExamplesOperation;
+import de.dittner.testmyself.backend.utils.HashData;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.tag.Tag;
@@ -220,6 +223,22 @@ public class Storage extends WalterProxy {
 		var op:IAsyncCommand = new ClearTestHistoryCmd(this, test);
 		deferredCommandManager.add(op);
 		return op;
+	}
+
+	//--------------------------------------
+	//  hash
+	//--------------------------------------
+
+	public function store(hashData:HashData):IAsyncOperation {
+		var cmd:IAsyncCommand = new StoreHashDataCmd(this, hashData);
+		cmd.execute();
+		return cmd;
+	}
+
+	public function load(hashDataKey:String):IAsyncOperation {
+		var cmd:IAsyncCommand = new LoadHashDataCmd(this, hashDataKey);
+		cmd.execute();
+		return cmd;
 	}
 
 }

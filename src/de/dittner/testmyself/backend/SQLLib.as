@@ -7,7 +7,7 @@ public class SQLLib {
 	//--------------------------------------
 
 	public static function getNoteDBTables():Array {
-		return [CREATE_NOTE_TBL_SQL, CREATE_TAG_TBL_SQL, CREATE_TEST_TBL_SQL, CREATE_AUDIO_TBL_SQL];
+		return [CREATE_NOTE_TBL_SQL, CREATE_TAG_TBL_SQL, CREATE_TEST_TBL_SQL, CREATE_AUDIO_TBL_SQL, CREATE_HASH_TBL_SQL];
 	}
 
 	public static function getAudioDBTables():Array {
@@ -30,6 +30,10 @@ public class SQLLib {
 	private static const CreateAudioTblClass:Class;
 	public static const CREATE_AUDIO_TBL_SQL:String = new CreateAudioTblClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/CreateHashTbl.sql", mimeType="application/octet-stream")]
+	private static const CreateHashTblClass:Class;
+	public static const CREATE_HASH_TBL_SQL:String = new CreateHashTblClass();
+
 	//--------------------------------------
 	//  insert
 	//--------------------------------------
@@ -50,6 +54,10 @@ public class SQLLib {
 	private static const InsertTestTaskClass:Class;
 	public static const INSERT_TEST_TASK_SQL:String = new InsertTestTaskClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/InsertHashData.sql", mimeType="application/octet-stream")]
+	private static const InsertHashDataClass:Class;
+	public static const INSERT_HASH_DATA_SQL:String = new InsertHashDataClass();
+
 	//--------------------------------------
 	//  update
 	//--------------------------------------
@@ -69,6 +77,11 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateTestTask.sql", mimeType="application/octet-stream")]
 	private static const UpdateTestTaskClass:Class;
 	public static const UPDATE_TEST_TASK_SQL:String = new UpdateTestTaskClass();
+
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/UpdateHashData.sql", mimeType="application/octet-stream")]
+	private static const UpdateHashDataClass:Class;
+	public static const UPDATE_HASH_DATA_SQL:String = new UpdateHashDataClass();
 
 	//--------------------------------------
 	//  select
@@ -161,6 +174,10 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectCountFilteredTestTask.sql", mimeType="application/octet-stream")]
 	private static const SelectCountFilteredTestTaskClass:Class;
 	public static const SELECT_COUNT_FILTERED_TEST_TASK_SQL:String = new SelectCountFilteredTestTaskClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectHashData.sql", mimeType="application/octet-stream")]
+	private static const SelectHashDataClass:Class;
+	public static const SELECT_HASH_DATA_SQL:String = new SelectHashDataClass();
 
 	//--------------------------------------
 	//  delete

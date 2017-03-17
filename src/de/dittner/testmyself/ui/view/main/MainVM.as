@@ -1,10 +1,10 @@
 package de.dittner.testmyself.ui.view.main {
 
-import de.dittner.testmyself.backend.LocalStorage;
 import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
 import de.dittner.walter.WalterProxy;
+import de.dittner.walter.message.WalterMessage;
 
 import flash.events.Event;
 
@@ -57,14 +57,19 @@ public class MainVM extends WalterProxy {
 	public function set commentsBoardText(value:String):void {
 		if (_commentsBoardText != value) {
 			_commentsBoardText = value;
-			LocalStorage.write(LocalStorageKey.COMMENTS_BOARD_TEXT_KEY, value || "");
+			appModel.hash.write(LocalStorageKey.COMMENTS_BOARD_TEXT_KEY, value || "");
 			dispatchEvent(new Event("commentsBoardTextChanged"));
 		}
 	}
 
 	public function viewActivated(mainView:MainView):void {
 		this.mainView = mainView;
-		commentsBoardText = LocalStorage.read(LocalStorageKey.COMMENTS_BOARD_TEXT_KEY) || "";
+		listenProxy(appModel, AppModel.HASH_CHANGED_MSG, updateCommentsBoardText);
+		updateCommentsBoardText();
+	}
+
+	private function updateCommentsBoardText(msg:WalterMessage = null):void {
+		commentsBoardText = appModel.hash.read(LocalStorageKey.COMMENTS_BOARD_TEXT_KEY) || "";
 	}
 
 	override protected function deactivate():void {

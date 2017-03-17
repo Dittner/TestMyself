@@ -1,8 +1,10 @@
 package de.dittner.testmyself.model {
 import air.net.URLMonitor;
 
+import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
+import de.dittner.testmyself.backend.utils.HashData;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.language.DeLang;
@@ -15,8 +17,9 @@ import flash.events.StatusEvent;
 import flash.net.URLRequest;
 
 public class AppModel extends WalterProxy {
-	private static const SELECTED_LANG_CHANGED_MSG:String = "SELECTED_LANG_CHANGED_MSG";
-	private static const SELECTED_VOCABULARY_CHANGED_MSG:String = "SELECTED_VOCABULARY_CHANGED_MSG";
+	public static const HASH_CHANGED_MSG:String = "HASH_CHANGED_MSG";
+	public static const SELECTED_LANG_CHANGED_MSG:String = "SELECTED_LANG_CHANGED_MSG";
+	public static const SELECTED_VOCABULARY_CHANGED_MSG:String = "SELECTED_VOCABULARY_CHANGED_MSG";
 
 	public function AppModel() {
 		super();
@@ -76,27 +79,72 @@ public class AppModel extends WalterProxy {
 		}
 	}
 
+	//--------------------------------------
+	//  hash
+	//--------------------------------------
+	private var _hash:HashData;
+	[Bindable("hashChanged")]
+	public function get hash():HashData {return _hash;}
+	public function set hash(value:HashData):void {
+		if (_hash != value) {
+			_hash = value;
+			dispatchEvent(new Event("hashChanged"));
+			sendMessage(HASH_CHANGED_MSG, selectedLanguage);
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
 
-	public function init():IAsyncOperation {
-		CLog.info(LogTag.SYSTEM, "AppModel initialization is started");
-
-		_deLang = new DeLang(storage);
-		_enLang = new EnLang(storage);
-
-		deLang.init();
-		var op:IAsyncOperation = enLang.init();
-		return op;
-	}
-
 	private var networkStatusMonitor:URLMonitor;
 	private function connectionStatusChanged(event:StatusEvent):void {
 		CLog.info(LogTag.CONNECTION, "Network status: " + event.code);
 		setHasNetworkConnection(networkStatusMonitor.available);
+	}
+
+	private var initOp:IAsyncOperation;
+	public function init():IAsyncOperation {
+		if (!initOp) {
+			CLog.info(LogTag.SYSTEM, "AppModel initialization is started");
+
+			_deLang = new DeLang(storage);
+			_enLang = new EnLang(storage);
+
+			initOp = new AsyncOperation();
+			initDeLang();
+		}
+		return initOp;
+	}
+
+	private function initDeLang():void {
+		var op:IAsyncOperation = deLang.init();
+		op.addCompleteCallback(function (op:IAsyncOperation):void {
+			initEnLang();
+		});
+	}
+
+	private function initEnLang():void {
+		var op:IAsyncOperation = enLang.init();
+		op.addCompleteCallback(function (op:IAsyncOperation):void {
+			loadAppHash();
+		});
+	}
+
+	public function loadAppHash():void {
+		var op:IAsyncOperation = storage.load("appHash");
+		op.addCompleteCallback(function (op:IAsyncOperation):void {
+			if (op.result is HashData) {
+				hash = op.result;
+			}
+			else {
+				hash = new HashData();
+				hash.key = "appHash";
+			}
+			initOp.dispatchSuccess();
+		});
 	}
 
 }

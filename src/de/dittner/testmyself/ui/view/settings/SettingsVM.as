@@ -3,7 +3,6 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.async.ProgressCommand;
 import de.dittner.ftpClient.FtpClient;
-import de.dittner.testmyself.backend.LocalStorage;
 import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.Device;
@@ -104,7 +103,7 @@ public class SettingsVM extends ViewModel {
 		var lang:Language = appModel.selectedLanguage;
 		viewTitle = ResourceManager.getInstance().getString('app', 'SETTINGS');
 		if (!ftp) ftp = new FtpClient(Device.stage);
-		_settings = LocalStorage.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo();
+		_settings = appModel.hash.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo();
 		if (lang.id == LanguageID.DE) {
 			setWordVocabulary(lang.vocabularyHash.read(VocabularyID.DE_WORD));
 			setVerbVocabulary(lang.vocabularyHash.read(VocabularyID.DE_VERB));
@@ -126,7 +125,7 @@ public class SettingsVM extends ViewModel {
 
 	public function storeSettings(s:SettingsInfo):void {
 		_settings = s;
-		LocalStorage.write(LocalStorageKey.SETTINGS_KEY, s);
+		appModel.hash.write(LocalStorageKey.SETTINGS_KEY, s);
 	}
 
 	//--------------------------------------
@@ -193,6 +192,7 @@ public class SettingsVM extends ViewModel {
 	}
 
 	private function dbReloaded(op:IAsyncOperation):void {
+		appModel.loadAppHash();
 		var initOp:IAsyncOperation = appModel.selectedLanguage.init();
 		initOp.addCompleteCallback(initCompleteHandler);
 	}
