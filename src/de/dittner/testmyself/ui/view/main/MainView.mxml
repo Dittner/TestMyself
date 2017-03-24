@@ -6,6 +6,7 @@
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
          xmlns:toobar="de.dittner.testmyself.ui.view.noteList.components.toolbar.*"
          xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
+         implements="de.dittner.testmyself.ui.view.main.IMainView"
          creationComplete="creationCompleteHandler(event)"
          currentState="normal">
     <fx:Script><![CDATA[
@@ -25,6 +26,14 @@
 
         [Bindable]
         public var vm:MainVM;
+
+        //--------------------------------------
+        //  interface
+        //--------------------------------------
+
+        public function get menu():MenuBoard {return menuBoard;}
+        public function get toolbar():NoteToolbar {return noteToolbar;}
+        public function get form():NoteForm {return noteForm;}
 
         //--------------------------------------
         //  isActive
@@ -145,12 +154,14 @@
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"
              mouseEnabled.normal="true" mouseChildren.normal="true"
-             left="{menu.visible ? AppSizes.MENU_WID : 0}"
-             right="{toolbar.visible ? AppSizes.MENU_WID : 0}"
+             left="{menuBoard.visible ? AppSizes.MENU_WID : 0}"
+             right="{noteToolbar.visible ? AppSizes.MENU_WID : 0}"
              height="100%"/>
 
-    <menu:MenuBoard id="menu"
+    <menu:MenuBoard id="menuBoard"
                     left="0"
+                    visible="false"
+                    includeInLayout="false"
                     width="{AppSizes.MENU_WID}" height="100%"
                     selectedViewMenuID="@{vm.viewNavigator.selectedViewID}"
                     hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
@@ -158,21 +169,21 @@
                     enabled="false"
                     enabled.normal="{!vm.menuLocked}"/>
 
-    <toobar:NoteToolbar id="toolbar"
+    <toobar:NoteToolbar id="noteToolbar"
                         visible="false"
                         includeInLayout="false"
                         right="0"
                         width="{AppSizes.MENU_WID}"
                         height="100%"/>
 
-    <form:NoteForm id="form"
+    <form:NoteForm id="noteForm"
                    left="{AppSizes.MENU_WID}" right="0" height="100%"
                    visible="false"
                    isArticleEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                    isPresentVerbFormEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                    isOptionalTemplatesEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                    isLoadMp3FileFromDudenEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
-                   menu="{menu}"
+                   menu="{menuBoard}"
                    hasNetworkConnection="{vm.appModel.hasNetworkConnection}"/>
 
     <main:CommentsBoard id="commentsBoard"

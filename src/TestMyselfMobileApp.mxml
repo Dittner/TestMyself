@@ -1,28 +1,25 @@
 <?xml version="1.0"?>
 <local:TestMyselfApp xmlns:fx="http://ns.adobe.com/mxml/2009"
-                     xmlns:main="de.dittner.testmyself.ui.view.main.*"
                      frameRate="30"
                      usePreloader="true"
                      preloader="de.dittner.testmyself.ui.common.preloader.AppPreloader"
                      backgroundColor="#3d3f4b"
                      creationComplete="creationCompleteHandler(event)"
-                     xmlns:local="*">
+                     xmlns:local="*"
+                     interactionMode="touch">
     <fx:Metadata>
         [ResourceBundle("app")]
     </fx:Metadata>
+
+    <fx:Style source="/TestMyselfMobileStyle.css"/>
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Bootstrap;
 
         private function creationCompleteHandler(event:Event):void {
-            var boot:Bootstrap = new Bootstrap(mainView);
+            var boot:Bootstrap = new Bootstrap();
             boot.start();
         }
         ]]></fx:Script>
-
-    <fx:Style source="/TestMyselfMobileStyle.css"/>
-
-    <main:MainView id="mainView"
-                   width="100%" height="100%"/>
 
 </local:TestMyselfApp>

@@ -1,10 +1,11 @@
 package de.dittner.testmyself.ui.view.noteList.components.form {
+import de.dittner.testmyself.ui.common.tileClasses.TileID;
+import de.dittner.testmyself.ui.common.tileClasses.TileShape;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 
-import flash.display.Bitmap;
 import flash.display.Graphics;
 import flash.events.Event;
 import flash.text.TextField;
@@ -15,18 +16,11 @@ import mx.core.UIComponent;
 public class EditorBg extends UIComponent {
 	public function EditorBg() {
 		super();
+		toolIcon = new TileShape();
+		addChild(toolIcon);
 	}
 
-	[Embed(source='/assets/tools/add_light.png')]
-	private static const AddIconClass:Class;
-	[Embed(source='/assets/tools/edit_light.png')]
-	private static const EditIconClass:Class;
-	[Embed(source='/assets/tools/recycle_bin_light.png')]
-	private static const RemoveIconClass:Class;
-	[Embed(source='/assets/tools/filter_light.png')]
-	private static const FilterIconClass:Class;
-
-	private var toolIcon:Bitmap;
+	private var toolIcon:TileShape;
 
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_LIGHT);
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
@@ -65,12 +59,10 @@ public class EditorBg extends UIComponent {
 	}
 
 	private function createIcon():void {
-		if (toolIcon) removeChild(toolIcon);
-		if (mode == "add") toolIcon = new AddIconClass();
-		else if (mode == "edit") toolIcon = new EditIconClass();
-		else if (mode == "remove") toolIcon = new RemoveIconClass();
-		else if (mode == "filter") toolIcon = new FilterIconClass();
-		if (toolIcon) addChild(toolIcon);
+		if (mode == "add") toolIcon.tileID = TileID.TOOLBAR_ADD_LIGHT;
+		else if (mode == "edit") toolIcon.tileID = TileID.TOOLBAR_EDIT_LIGHT;
+		else if (mode == "remove") toolIcon.tileID = TileID.TOOLBAR_DELETE_LIGHT;
+		else if (mode == "filter") toolIcon.tileID = TileID.TOOLBAR_FILTER_LIGHT;
 	}
 
 	public var titleTf:TextField;

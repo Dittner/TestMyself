@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/#airSdkVersion">
+
+    <id>#domainId</id>
+    <filename>#fileString</filename>
+    <name>#nameString</name>
+    <versionNumber>#versionString</versionNumber>
+    <versionLabel>#versionString</versionLabel>
+
+    <initialWindow>
+        <content>#swfFile</content>
+        <visible>true</visible>
+        <fullScreen>false</fullScreen>
+        <autoOrients>true</autoOrients>
+        <aspectRatio>landscape</aspectRatio>
+        <renderMode>gpu</renderMode>
+    </initialWindow>
+
+    <supportedProfiles>mobileDevice</supportedProfiles>
+
+    <icon>
+        <image29x29>/icons/logo29.png</image29x29>
+        <image60x60>/icons/logo60.png</image60x60>
+        <image72x72>/icons/logo72.png</image72x72>
+        <image128x128>/icons/logo128.png</image128x128>
+        <image512x512>/icons/logo512.png</image512x512>
+    </icon>
+
+    <iPhone>
+        <InfoAdditions><![CDATA[
+                <key>UIDeviceFamily</key>
+                <array>
+                    <string>2</string>
+                </array>
+
+                <key>UIRequiredDeviceCapabilities</key>
+                <array>
+                    <string>microphone</string>
+                </array>
+
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleLightContent</string>
+
+                <key>UIPrerenderedIcon</key>
+                <true/>
+
+                <key>UIFileSharingEnabled</key>
+                <true/>
+
+                ]]></InfoAdditions>
+        <requestedDisplayResolution>standard</requestedDisplayResolution>
+    </iPhone>
+
+</application>
+

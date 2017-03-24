@@ -36,6 +36,19 @@
 }
 
 @font-face {
+    src: url("/fonts/Georgia.ttf");
+    font-family: Georgia;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/GeorgiaBold.ttf");
+    font-family: Georgia;
+    fontWeight: bold;
+    embedAsCFF: true;
+}
+
+@font-face {
     src: url("/fonts/MyriadPro-Cond.otf");
     font-family: MyriadProCond;
     embedAsCFF: true;
@@ -80,6 +93,19 @@
     src: url("/fonts/MyriadPro-BoldCond.otf");
     font-family: MyriadProCondMX;
     font-weight: bold;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/Georgia.ttf");
+    font-family: GeorgiaMX;
+    embedAsCFF: false;
+}
+
+@font-face {
+    src: url("/fonts/GeorgiaBold.ttf");
+    font-family: GeorgiaMX;
+    fontWeight: bold;
     embedAsCFF: false;
 }
 

@@ -16,14 +16,8 @@
 
     <s:BitmapImage
             id="bg"
-            source.up="@Embed(source='/assets/voiceRecording/bar.png',
-            scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
-            source.down="@Embed(source='/assets/voiceRecording/bar.png',
-            scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
-            source.disabled="@Embed(source='/assets/voiceRecording/bar.png',
-            scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
+            source="@Embed(source='/assets/voiceRecording/bar.png', scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
             height="14"
-            width="100%"
-            />
+            width="100%"/>
 
 </s:SparkSkin>

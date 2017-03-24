@@ -3,12 +3,13 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:spinner="de.dittner.testmyself.ui.common.spinner.*"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
-         xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:progressbar="de.dittner.testmyself.ui.common.progressBar.*">
+         xmlns:progressbar="de.dittner.testmyself.ui.common.progressBar.*"
+         xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.async.ProgressCommand;
+        import de.dittner.testmyself.ui.common.tileClasses.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.view.settings.SettingsVM;
@@ -153,21 +154,30 @@
 
     <s:Spacer height="5%"/>
 
-    <s:HGroup width="815" gap="20" verticalAlign="middle">
-        <button:BlackButton id="uploadBtn"
-                            width="100%"
-                            label="{resourceManager.getString('app', 'ExportToTheServer')}"
-                            enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
-                            click="uploadDB()"/>
+    <s:Group width="815">
 
-        <s:BitmapImage source="@Embed(source='/assets/uploadDownloadIcon.png')"/>
+        <tileclasses:FadeTileButton id="downloadBtn"
+                                    title="{resourceManager.getString('app', 'UpdateFromTheServer')}"
+                                    use9Scale="true"
+                                    upTileID="{TileID.BTN_DOWNLOAD_DB_UP}"
+                                    downTileID="{TileID.BTN_DOWNLOAD_DB_DOWN}"
+                                    enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                                    width="35%" top="0" right="0"
+                                    textColor="#0"
+                                    click="downloadDB()"/>
 
-        <button:GrayButton id="downloadBtn"
-                           width="100%"
-                           label="{resourceManager.getString('app', 'UpdateFromTheServer')}"
-                           enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
-                           click="downloadDB()"/>
-    </s:HGroup>
+        <tileclasses:TileImage actualTileID="{TileID.CLOUD_ICON}" horizontalCenter="0"/>
+
+        <tileclasses:FadeTileButton id="uploadBtn"
+                                    title="{resourceManager.getString('app', 'ExportToTheServer')}"
+                                    use9Scale="true"
+                                    upTileID="{TileID.BTN_UPLOAD_DB_UP}"
+                                    downTileID="{TileID.BTN_UPLOAD_DB_DOWN}"
+                                    enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                                    width="35%" bottom="0" left="0"
+                                    textColor="#ffFFff"
+                                    click="uploadDB()"/>
+    </s:Group>
 
     <s:Spacer height="5%"/>
 

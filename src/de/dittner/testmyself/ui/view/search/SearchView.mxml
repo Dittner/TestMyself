@@ -23,6 +23,7 @@
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
 
@@ -242,11 +243,11 @@
                         showTitle="false"
                         hasFocusableChildren="false"/>
 
-    <s:BitmapImage width="100%"
+    <s:BitmapImage width="100%" height="{Values.PT7}"
                    top="{searchBoard.height}"
                    smooth="true"
                    alpha=".75"
-                   source="@Embed(source='/assets/shadow.png', scaleGridLeft='5', scaleGridRight='6', scaleGridTop='3', scaleGridBottom='4')"/>
+                   source="@Embed(source='/assets/shadow.png')"/>
 
     <!--footer-->
     <utils:BG width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" color="{AppColors.SCREEN_FOOTER_BG}"/>
@@ -265,11 +266,6 @@
                                   pageNum="@{vm.page.number}"
                                   height="100%"
                                   pageNumChanged="pageNumChanged()"/>
-        <s:Label id="tagsLbl"
-                 text="{vm.selectedNoteTags}"
-                 height="100%" width="50%" textAlign="right" paddingRight="10"
-                 fontSize="14" verticalAlign="middle" paddingTop="1"
-                 maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
+        <s:Spacer width="50%"/>
     </s:HGroup>
 </view:SmartView>

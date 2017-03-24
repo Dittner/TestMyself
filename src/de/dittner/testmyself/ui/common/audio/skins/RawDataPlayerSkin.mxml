@@ -11,6 +11,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.utils.Values;
 
         private var preloaderMask:Shape = new Shape();
         override protected function updateDisplayList(w:Number, h:Number):void {
@@ -46,7 +47,7 @@
 
     <s:Label text="{resourceManager.getString('app', 'NoAudioRecord')}"
              top="0" bottom="10"
-             left="50" right="10"
+             left="50" width="{Values.PT100}"
              verticalAlign="middle"
              visible.normal="true"
              visible.recording="false"

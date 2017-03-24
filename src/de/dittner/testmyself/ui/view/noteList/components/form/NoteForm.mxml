@@ -24,10 +24,8 @@
         import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
         import de.dittner.testmyself.ui.common.menu.MenuID;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
-        import de.dittner.testmyself.ui.common.renderer.AddedTagItemRenderer;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
-        import de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer;
 
         import mx.collections.ArrayCollection;
 
@@ -422,12 +420,6 @@
                 note.remove();
         }
 
-        private function tagsRendererFunc(item:Object):IFactory {
-            var tag:Tag = item as Tag;
-            if (tag.id == -1) return new ClassFactory(AddedTagItemRenderer);
-            else return new ClassFactory(TagRenderer);
-        }
-
         private function wordValidationHandler(event:TextOperationEvent):void {
             if (event.operation is TextInputOperation) {
                 var inputOperation:TextInputOperation = event.operation as TextInputOperation;
@@ -613,7 +605,7 @@
                            depth="10"
                            width="100%" height="100%"
                            title="{resourceManager.getString('app', 'Tags')}"
-                           itemRendererFunction="tagsRendererFunc"
+                           itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer"
                            allowMultipleSelection.lesson="false"
                            allowMultipleSelection="true">
                 <list:layout>

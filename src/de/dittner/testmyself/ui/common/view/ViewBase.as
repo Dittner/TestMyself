@@ -4,7 +4,7 @@ import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.ui.common.menu.IMenuBoard;
-import de.dittner.testmyself.ui.view.main.MainView;
+import de.dittner.testmyself.ui.view.main.IMainView;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
 import de.dittner.testmyself.ui.view.noteList.components.toolbar.NoteToolbar;
 
@@ -60,10 +60,10 @@ public class ViewBase extends SkinnableContainer {
 	//--------------------------------------
 	//  mainView
 	//--------------------------------------
-	private var _mainView:MainView;
+	private var _mainView:IMainView;
 	[Bindable("mainViewChanged")]
-	public function get mainView():MainView {return _mainView;}
-	public function set mainView(value:MainView):void {
+	public function get mainView():IMainView {return _mainView;}
+	public function set mainView(value:IMainView):void {
 		if (_mainView != value) {
 			_mainView = value;
 			dispatchEvent(new Event("mainViewChanged"));

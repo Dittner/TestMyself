@@ -143,13 +143,7 @@
                                   pageSize="{vm.testPage.size}"
                                   pageNum="@{vm.testPage.number}"
                                   pageNumChanged="pageNumChanged()"/>
-
-        <s:Label id="tagsLbl"
-                 text="{vm.selectedNoteTags}"
-                 height="100%" width="50%" textAlign="right" paddingRight="10"
-                 fontSize="14" verticalAlign="middle" paddingTop="1"
-                 maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
+        <s:Spacer width="50%"/>
     </s:HGroup>
 
 </s:Group>

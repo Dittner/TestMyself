@@ -1,15 +1,19 @@
 package de.dittner.testmyself.ui.view.noteList.components.renderer {
+import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.note.DeWordArticle;
 import de.dittner.testmyself.model.domain.note.IrregularVerb;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.note.Word;
 import de.dittner.testmyself.model.domain.test.TestTask;
-import de.dittner.testmyself.ui.common.audio.mp3.CommentPlayButton;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.renderer.*;
+import de.dittner.testmyself.ui.common.tileClasses.FadeTileButton;
+import de.dittner.testmyself.ui.common.tileClasses.TileID;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.view.noteList.components.NoteList;
 import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
 import flash.events.Event;
@@ -17,17 +21,20 @@ import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
+import flashx.textLayout.formats.TextAlign;
+
 public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 24, AppColors.TEXT_BLACK);
 	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 22, AppColors.TEXT_DARK_GRAY);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_RED);
 	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_YELLOW);
+	private static const FOOTER_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 10, AppColors.TEXT_GRAY, null, true, null, null, null, TextAlign.RIGHT);
 
-	private static const TEXT_DEFAULT_OFFSET:uint = 2;
+	protected static const TEXT_DEFAULT_OFFSET:uint = 2;
 	private static const DEF_PAGE_LAYOUT:PageLayout = new PageLayout();
 
-	protected var commentPlayBtn:CommentPlayButton;
+	protected var commentPlayBtn:FadeTileButton;
 
 	public function NoteRenderer() {
 		super();
@@ -38,6 +45,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	protected var showWordArticle:Boolean = true;
 	protected var titleTf:TextField;
 	protected var descriptionTf:TextField;
+	private var footerTf:TextField;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -104,11 +112,17 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			addChild(titleTf);
 		}
 		if (!commentPlayBtn) {
-			commentPlayBtn = new CommentPlayButton();
-
+			commentPlayBtn = new FadeTileButton();
+			commentPlayBtn.upTileID = TileID.BTN_PLAY_AUDIO_UP;
+			commentPlayBtn.downTileID = TileID.BTN_PLAY_AUDIO_DOWN;
 			commentPlayBtn.visible = false;
 			commentPlayBtn.addEventListener(MouseEvent.CLICK, playComment);
 			addChild(commentPlayBtn);
+		}
+
+		if (!footerTf) {
+			footerTf = createTextField(FOOTER_FORMAT, 50);
+			addChild(footerTf);
 		}
 	}
 
@@ -225,6 +239,11 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		var g:Graphics = graphics;
 		g.clear();
 
+		if (w != measuredWidth) {
+			invalidateSize();
+			invalidateDisplayList();
+		}
+
 		commentPlayBtn.x = w - commentPlayBtn.width;
 		commentPlayBtn.y = 72 - commentPlayBtn.height >> 1;
 		commentPlayBtn.visible = hasAudioComment();
@@ -253,6 +272,57 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		else if (titleTf.visible) {
 			titleTf.y = pad - TEXT_DEFAULT_OFFSET;
 		}
+
+		if (selected) {
+			footerTf.visible = true;
+			footerTf.text = getFooterText();
+			footerTf.x = pad - TEXT_DEFAULT_OFFSET;
+			footerTf.y = h - footerTf.textHeight - Values.PT5;
+			footerTf.width = w - footerTf.x - Values.PT15;
+		}
+		else {
+			footerTf.visible = false;
+		}
+	}
+
+	private function getFooterText():String {
+		var res:String = "";
+		if (note) {
+			res = getVocabularySymbol();
+			if (note.isExample) res += " " + getExampleSymbol();
+			else if (note.tagIDs && note.tagIDs.length > 0)
+				res += " " + note.tagsToStr();
+		}
+		return res;
+	}
+
+	private function getVocabularySymbol():String {
+		if (!note) return "";
+
+		switch (note.vocabulary.id) {
+			case VocabularyID.DE_WORD :
+			case VocabularyID.EN_WORD :
+				return "W.";
+			case VocabularyID.DE_VERB :
+			case VocabularyID.EN_VERB :
+				return "V.";
+			case VocabularyID.DE_LESSON :
+				return "Ü.";
+			case VocabularyID.EN_LESSON :
+				return "L.";
+			default :
+				return ""
+		}
+	}
+
+	private function getExampleSymbol():String {
+		if (note && note.vocabulary.lang.id == LanguageID.DE) {
+			return "Bsp.";
+		}
+		else if (note && note.vocabulary.lang.id == LanguageID.EN) {
+			return "e. g.";
+		}
+		return "";
 	}
 
 	private function playComment(e:Event):void {

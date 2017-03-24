@@ -3,8 +3,9 @@ import de.dittner.async.AsyncCallbacksLib;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.Device;
+import de.dittner.testmyself.ui.common.utils.AppColors;
+import de.dittner.testmyself.utils.Values;
 
-import flash.display.Bitmap;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
@@ -19,11 +20,7 @@ import mx.preloaders.Preloader;
 
 public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay {
 
-	[Embed(source='/assets/clock_icon.png')]
-	private var ClockIcon:Class;
-	private var clockBitmap:Bitmap;
-
-	private static const MINIMUM_DISPLAY_TIME:uint = 3000;
+	private static const MINIMUM_DISPLAY_TIME:uint = 7000;
 
 	public function AppPreloader(color:uint = 0xFFffFF):void {
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
@@ -141,19 +138,7 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 		visible = true;
 	}
 
-	protected function createChildren():void {
-		clockBitmap = new ClockIcon();
-		clockBitmap.visible = false;
-		addChild(clockBitmap);
-	}
-
-	private function updateClockPos():void {
-		if (clockBitmap && !clockBitmap.visible) {
-			clockBitmap.visible = true;
-			clockBitmap.x = Math.floor(stage.stageWidth - clockBitmap.width >> 1);
-			clockBitmap.y = Math.floor(stage.stageHeight - clockBitmap.height >> 1);
-		}
-	}
+	protected function createChildren():void {}
 
 	private var _lastRes:Number = 0;
 	private function set setPercent(val:Number):void {
@@ -171,17 +156,28 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 		if (res > _lastRes) {
 			_lastRes = res;
 		}
+
+		preloader.x = Device.stage.stageWidth - Values.PT200 >> 1;
+		preloader.y = Device.stage.stageHeight / 2;
+		preloader.graphics.clear();
+
+		preloader.graphics.beginFill(AppColors.WHITE);
+		preloader.graphics.drawRect(0, 0, Values.PT200, Values.PT2);
+		preloader.graphics.endFill();
+
+		preloader.graphics.beginFill(AppColors.PINK);
+		preloader.graphics.drawRect(0, 0, res * Values.PT2, Values.PT2);
+		preloader.graphics.endFill();
 	}
 
 	protected function progressEventHandler(event:ProgressEvent):void {
 		setPercent = Math.min(100 * event.bytesLoaded / event.bytesTotal, 100);
-		updateClockPos();
 	}
 
 	private var _completeLoading:Boolean = false;
 	protected function initCompleteEventHandler(event:FlexEvent):void {
 		_completeLoading = true;
-		minDisplayTimer = new Timer(100, 0);
+		minDisplayTimer = new Timer(10, 0);
 		minDisplayTimer.addEventListener(TimerEvent.TIMER, timerHandler);
 		minDisplayTimer.start();
 	}

@@ -13,10 +13,11 @@
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.events.FlexEvent;
 
-        private static const THUMB_BTN_HEI:uint = Device.isDesktop ? 15 : 40;
+        private static const THUMB_BTN_HEI:uint = Device.isDesktop ? Values.PT15 : Values.PT40;
 
         //--------------------------------------
         //  text
@@ -100,7 +101,7 @@
                                fontFamily="{FontName.MYRIAD}"
                                fontSize="18"
                                color="{AppColors.TEXT_BLACK}"
-                               left="15" top="10" right="15" bottom="10"/>
+                               left="{Values.PT15}" top="{Values.PT10}" right="{Values.PT15}" bottom="{Values.PT10}"/>
 
         <s:Group width="100" height="{THUMB_BTN_HEI}"
                  horizontalCenter="0"
@@ -110,7 +111,12 @@
                  mouseUp="setCurrentState('up')"
                  mouseOut="setCurrentState('up')"
                  click="isOpened ? hide() : open()">
-            <s:Rect width="100%" height="15" bottomLeftRadiusX="8" bottomLeftRadiusY="8" bottomRightRadiusX="8" bottomRightRadiusY="8">
+
+            <s:Rect width="100%" height="{Values.PT15}"
+                    bottomLeftRadiusX="{Values.PT8}"
+                    bottomLeftRadiusY="{Values.PT8}"
+                    bottomRightRadiusX="{Values.PT8}"
+                    bottomRightRadiusY="{Values.PT8}">
                 <s:fill>
                     <s:SolidColor id="thumbBg" color="#0"
                                   alpha.up="{isMoving || isOpened ? 1 : 0.3}"
@@ -119,7 +125,7 @@
                 </s:fill>
             </s:Rect>
             <s:Label color="#ffFFff"
-                     fontSize="14"
+                     fontSize="{Values.PT14}"
                      fontFamily="{FontName.MYRIAD_COND}"
                      top="1" horizontalCenter="0"
                      text="{resourceManager.getString('app', 'BOARD')}"/>

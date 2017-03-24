@@ -16,21 +16,19 @@ import de.dittner.testmyself.ui.view.settings.SettingsVM;
 import de.dittner.testmyself.ui.view.test.TestVM;
 import de.dittner.walter.Walter;
 
+import mx.core.FlexGlobals;
+
+import spark.components.Application;
+
 public class Bootstrap extends Walter {
-	public function Bootstrap(mainView:MainView) {
+	public function Bootstrap() {
 		super();
-		this.mainView = mainView;
 	}
 
-	//----------------------------------------------------------------------------------------------
-	//
-	//  Methods
-	//
-	//----------------------------------------------------------------------------------------------
-
 	private var mainView:MainView;
-
+	private var viewNavigator:ViewNavigator;
 	private var initOp:IAsyncOperation;
+
 	public function start():IAsyncOperation {
 		if (initOp && initOp.isProcessing) {
 			return initOp;
@@ -49,8 +47,6 @@ public class Bootstrap extends Walter {
 		registerProxy("appModel", appModel);
 
 		registerProxy("deferredCommandManager", new DeferredCommandManager());
-		var viewNavigator:ViewNavigator = new ViewNavigator(mainView);
-		registerProxy("viewNavigator", viewNavigator);
 		registerProxy("vmFactory", new ViewModelFactory());
 
 		registerProxy("mainVM", new MainVM());
@@ -63,14 +59,22 @@ public class Bootstrap extends Walter {
 		registerProxy("testVM", new TestVM());
 		registerProxy("settingsVM", new SettingsVM());
 
-		viewNavigator.selectedViewID = MenuID.LANG_LIST;
 		var op:IAsyncOperation = appModel.init();
 		op.addCompleteCallback(modelInitialized);
 		return op;
 	}
 
 	private function modelInitialized(op:IAsyncOperation):void {
+		mainView = new MainView();
+		mainView.percentWidth = 100;
+		mainView.percentHeight = 100;
+
+		viewNavigator = new ViewNavigator(mainView);
+		registerProxy("viewNavigator", viewNavigator);
+
+		(FlexGlobals.topLevelApplication as Application).addElement(mainView);
 		mainView.activate();
+		viewNavigator.selectedViewID = MenuID.LANG_LIST;
 	}
 }
 }

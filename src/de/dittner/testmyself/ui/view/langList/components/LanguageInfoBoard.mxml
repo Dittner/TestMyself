@@ -92,7 +92,7 @@
              fontSize="24"
              fontWeight="bold"
              color="{AppColors.TEXT_WHITE}"
-             text="{resourceManager.getString('app', 'TestResults', null, localeInfo)}"/>
+             text="{resourceManager.getString('app', 'Statistics', null, localeInfo)}"/>
 
     <s:HGroup width="100%" gap="10">
         <s:Label id="valuesLbl"

@@ -4,7 +4,7 @@
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
                    xmlns:input="de.dittner.testmyself.ui.common.input.*"
-                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
+                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*" xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
@@ -12,6 +12,7 @@
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.tileClasses.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -171,9 +172,9 @@
                  includeInLayout="{showDetails}"
                  fontSize="42"/>
 
-        <s:BitmapImage visible="{!showDetails}"
-                       includeInLayout="{!showDetails}"
-                       source="@Embed('/assets/test/questions.png')"/>
+        <tileclasses:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
+                               visible="{!showDetails}"
+                               includeInLayout="{!showDetails}"/>
     </s:HGroup>
 
     <s:HGroup width="100%" gap="15" paddingLeft="{padding}" paddingRight="{padding}" verticalAlign="bottom">

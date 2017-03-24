@@ -44,13 +44,6 @@ public class NoteListVM extends ViewModel {
 	}
 
 	//--------------------------------------
-	//  selectedNoteTags
-	//--------------------------------------
-	private var _selectedNoteTags:String = "";
-	[Bindable("selectedNoteChanged")]
-	public function get selectedNoteTags():String {return _selectedNoteTags;}
-
-	//--------------------------------------
 	//  selectedNote
 	//--------------------------------------
 	private var _selectedNote:Note;
@@ -59,7 +52,6 @@ public class NoteListVM extends ViewModel {
 	public function set selectedNote(value:Note):void {
 		if (_selectedNote != value) {
 			_selectedNote = value;
-			_selectedNoteTags = selectedNote ? selectedNote.tagsToStr() : "";
 			dispatchEvent(new Event("selectedNoteChanged"));
 		}
 	}

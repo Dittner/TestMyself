@@ -100,6 +100,7 @@ public class CLog {
 		logTxt += logDate.date + " " + DateTimeUtils.monthNumToRuName(logDate.month) + " " + logDate.fullYear + "\n";
 		logTxt += "appID: " + appCopyright + "\n";
 		logTxt += "version: " + appVersion + "\n";
+		logTxt += "factor: " + Device.factor + "\n";
 		info(LogTag.SYSTEM, logTxt);
 	}
 

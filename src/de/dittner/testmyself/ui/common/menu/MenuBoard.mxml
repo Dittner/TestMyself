@@ -3,6 +3,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
          xmlns:components="de.dittner.testmyself.ui.view.test.testing.components.*"
+         xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*"
          implements="de.dittner.testmyself.ui.common.menu.IMenuBoard"
          currentState="view">
 
@@ -14,7 +15,9 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.test.TestTaskPriority;
+        import de.dittner.testmyself.ui.common.tileClasses.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  hasNetworkConnection
@@ -114,12 +117,12 @@
         }
 
         private function menuBtnClickHandler(e:Event):void {
-            var menuBtn:MenuBitmapButton = e.target as MenuBitmapButton;
+            var menuBtn:MenuButton = e.target as MenuButton;
             if (menuBtn) dispatchEvent(new MenuBoardEvent(MenuBoardEvent.CLICKED, menuBtn.menuID));
         }
 
         private function viewMenuBtnSelectedHandler(e:Event):void {
-            var menuBtn:MenuBitmapToggleButton = e.target as MenuBitmapToggleButton;
+            var menuBtn:MenuButton = e.target as MenuButton;
             if (menuBtn && menuBtn.selected) {
                 selectedViewMenuID = menuBtn.menuID;
                 dispatchEvent(new MenuBoardEvent(MenuBoardEvent.SELECTED, menuBtn.menuID));
@@ -144,99 +147,125 @@
 
         <s:VGroup width="100%" height="100%"
                   disabledAlpha="1"
-                  paddingTop="10" paddingBottom="10" gap="25"
+                  paddingTop="{Values.PT15}" paddingBottom="{Values.PT10}" gap="{Values.PT25}"
                   includeIn="view"
                   horizontalAlign="center">
-            <menu:MenuBitmapToggleButton id="langListViewBtn"
-                                         enabled="{enabled}"
-                                         menuID="{MenuID.LANG_LIST}"
-                                         selected="{selectedViewMenuID == MenuID.LANG_LIST}"
-                                         image="@Embed(source='/assets/menu/info.png')"
-                                         disabledImage="@Embed(source='/assets/menu/info_red.png')"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
+            <menu:MenuButton id="langListViewBtn"
+                             enabled="{enabled}"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             menuID="{MenuID.LANG_LIST}"
+                             upTileID="{TileID.MENU_INFO_ICON}"
+                             downTileID="{TileID.MENU_INFO_ICON}"
+                             disabledTileID="{TileID.MENU_INFO_RED_ICON}"
+                             selected="{selectedViewMenuID == MenuID.LANG_LIST}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
 
             <s:Spacer height="100%"/>
 
-            <menu:MenuBitmapToggleButton id="wordViewBtn"
-                                         menuID="{MenuID.WORD}"
-                                         selected="{selectedViewMenuID == MenuID.WORD}"
-                                         enabled="{enabled}"
-                                         image="@Embed(source='/assets/menu/word.png')"
-                                         disabledImage="@Embed(source='/assets/menu/word_red.png')"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
+            <menu:MenuButton id="wordViewBtn"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             menuID="{MenuID.WORD}"
+                             upTileID="{TileID.MENU_WORD_ICON}"
+                             downTileID="{TileID.MENU_WORD_ICON}"
+                             disabledTileID="{TileID.MENU_WORD_RED_ICON}"
+                             selected="{selectedViewMenuID == MenuID.WORD}"
+                             enabled="{enabled}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
 
-            <menu:MenuBitmapToggleButton id="verbViewBtn"
-                                         menuID="{MenuID.VERB}"
-                                         selected="{selectedViewMenuID == MenuID.VERB}"
-                                         enabled="{enabled}"
-                                         image="@Embed(source='/assets/menu/verb.png')"
-                                         disabledImage="@Embed(source='/assets/menu/verb_red.png')"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
+            <menu:MenuButton id="verbViewBtn"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             menuID="{MenuID.VERB}"
+                             upTileID="{TileID.MENU_VERB_ICON}"
+                             downTileID="{TileID.MENU_VERB_ICON}"
+                             disabledTileID="{TileID.MENU_VERB_RED_ICON}"
+                             selected="{selectedViewMenuID == MenuID.VERB}"
+                             enabled="{enabled}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
 
-            <menu:MenuBitmapToggleButton id="lessonViewBtn"
-                                         menuID="{MenuID.LESSON}"
-                                         selected="{selectedViewMenuID == MenuID.LESSON}"
-                                         enabled="{enabled}"
-                                         image="{resourceManager.getClass('app', 'LESSON_MENU_ICON')}"
-                                         disabledImage="{resourceManager.getClass('app', 'LESSON_DISABLED_MENU_ICON')}"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
-
-            <s:Spacer height="100%"/>
-
-            <menu:MenuBitmapToggleButton id="mapViewBtn"
-                                         enabled="{enabled}"
-                                         menuID="{MenuID.MAP}"
-                                         selected="{selectedViewMenuID == MenuID.MAP}"
-                                         image="@Embed(source='/assets/menu/map.png')"
-                                         disabledImage="@Embed(source='/assets/menu/map_red.png')"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
-
-            <menu:MenuBitmapToggleButton id="testingViewBtn"
-                                         menuID="{MenuID.TEST}"
-                                         selected="{selectedViewMenuID == MenuID.TEST}"
-                                         enabled="{enabled}"
-                                         image="@Embed(source='/assets/menu/testing.png')"
-                                         disabledImage="@Embed(source='/assets/menu/testing_red.png')"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
-
-            <menu:MenuBitmapToggleButton id="searchViewBtn"
-                                         menuID="{MenuID.SEARCH}"
-                                         selected="{selectedViewMenuID == MenuID.SEARCH}"
-                                         enabled="{enabled}"
-                                         image="@Embed(source='/assets/menu/search.png')"
-                                         disabledImage="@Embed(source='/assets/menu/search_red.png')"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
+            <menu:MenuButton id="lessonViewBtn"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             menuID="{MenuID.LESSON}"
+                             upTileID="{resourceManager.getString('app', 'LESSON_MENU_ICON')}"
+                             downTileID="{resourceManager.getString('app', 'LESSON_MENU_ICON')}"
+                             disabledTileID="{resourceManager.getString('app', 'LESSON_DISABLED_MENU_ICON')}"
+                             selected="{selectedViewMenuID == MenuID.LESSON}"
+                             enabled="{enabled}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
 
             <s:Spacer height="100%"/>
 
-            <menu:MenuBitmapToggleButton id="settingsViewBtn"
-                                         menuID="{MenuID.SETTINGS}"
-                                         selected="{selectedViewMenuID == MenuID.SETTINGS}"
-                                         enabled="{enabled}"
-                                         image="@Embed(source='/assets/menu/settings.png')"
-                                         disabledImage="@Embed(source='/assets/menu/settings_red.png')"
-                                         change="viewMenuBtnSelectedHandler(event)"/>
+            <menu:MenuButton id="mapViewBtn"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             enabled="{enabled}"
+                             menuID="{MenuID.MAP}"
+                             upTileID="{TileID.MENU_MAP_ICON}"
+                             downTileID="{TileID.MENU_MAP_ICON}"
+                             disabledTileID="{TileID.MENU_MAP_RED_ICON}"
+                             selected="{selectedViewMenuID == MenuID.MAP}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
+
+            <menu:MenuButton id="testingViewBtn"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             menuID="{MenuID.TEST}"
+                             upTileID="{TileID.MENU_TESTING_ICON}"
+                             downTileID="{TileID.MENU_TESTING_ICON}"
+                             disabledTileID="{TileID.MENU_TESTING_RED_ICON}"
+                             selected="{selectedViewMenuID == MenuID.TEST}"
+                             enabled="{enabled}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
+
+            <menu:MenuButton id="searchViewBtn"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             menuID="{MenuID.SEARCH}"
+                             upTileID="{TileID.MENU_SEARCH_ICON}"
+                             downTileID="{TileID.MENU_SEARCH_ICON}"
+                             disabledTileID="{TileID.MENU_SEARCH_RED_ICON}"
+                             selected="{selectedViewMenuID == MenuID.SEARCH}"
+                             enabled="{enabled}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
+
+            <s:Spacer height="100%"/>
+
+            <menu:MenuButton id="settingsViewBtn"
+                             isToggle="true"
+                             deselectOnlyProgrammatically="true"
+                             menuID="{MenuID.SETTINGS}"
+                             upTileID="{TileID.MENU_SETTINGS_ICON}"
+                             downTileID="{TileID.MENU_SETTINGS_ICON}"
+                             disabledTileID="{TileID.MENU_SETTINGS_RED_ICON}"
+                             selected="{selectedViewMenuID == MenuID.SETTINGS}"
+                             enabled="{enabled}"
+                             change="viewMenuBtnSelectedHandler(event)"/>
         </s:VGroup>
 
         <!--Form Menu-->
 
         <s:VGroup width="100%" height="100%"
                   includeIn="form"
-                  gap="25"
+                  gap="{Values.PT25}"
                   horizontalAlign="center" verticalAlign="middle">
-            <menu:MenuBitmapButton id="applyBtn"
-                                   menuID="{MenuID.APPLY}"
-                                   enabled="{enabled}"
-                                   image="@Embed(source='/assets/menu/apply.png')"
-                                   disabledImage="@Embed(source='/assets/menu/apply_red.png')"
-                                   click="menuBtnClickHandler(event)"/>
+            <menu:MenuButton id="applyBtn"
+                             menuID="{MenuID.APPLY}"
+                             upTileID="{TileID.MENU_APPLY_ICON}"
+                             downTileID="{TileID.MENU_APPLY_ICON}"
+                             disabledTileID="{TileID.MENU_APPLY_ICON}"
+                             enabled="{enabled}"
+                             click="menuBtnClickHandler(event)"/>
 
-            <menu:MenuBitmapButton id="cancelBtn"
-                                   menuID="{MenuID.CANCEL}"
-                                   enabled="{enabled}"
-                                   image="@Embed(source='/assets/menu/cancel.png')"
-                                   disabledImage="@Embed(source='/assets/menu/cancel_red.png')"
-                                   click="menuBtnClickHandler(event)"/>
+            <menu:MenuButton id="cancelBtn"
+                             menuID="{MenuID.CANCEL}"
+                             upTileID="{TileID.MENU_CANCEL_ICON}"
+                             downTileID="{TileID.MENU_CANCEL_ICON}"
+                             disabledTileID="{TileID.MENU_CANCEL_RED_ICON}"
+                             enabled="{enabled}"
+                             click="menuBtnClickHandler(event)"/>
 
         </s:VGroup>
 
@@ -244,7 +273,7 @@
 
         <s:VGroup width="100%" height="100%"
                   includeIn="test"
-                  gap="25"
+                  gap="{Values.PT25}"
                   horizontalAlign="center" verticalAlign="middle">
             <s:Spacer height="100%"/>
 
@@ -254,47 +283,50 @@
 
             <s:Spacer height="100%"/>
 
-            <menu:MenuBitmapButton id="trueBtn"
-                                   menuID="{MenuID.TRUE}"
-                                   visible="{trueBtnEnabled}" includeInLayout="{trueBtnEnabled}"
-                                   enabled="{enabled}"
-                                   image="@Embed(source='/assets/menu/apply.png')"
-                                   disabledImage="@Embed(source='/assets/menu/apply_red.png')"
-                                   click="menuBtnClickHandler(event)"/>
+            <menu:MenuButton id="trueBtn"
+                             menuID="{MenuID.TRUE}"
+                             upTileID="{TileID.MENU_APPLY_ICON}"
+                             downTileID="{TileID.MENU_APPLY_ICON}"
+                             disabledTileID="{TileID.MENU_APPLY_RED_ICON}"
+                             visible="{trueBtnEnabled}" includeInLayout="{trueBtnEnabled}"
+                             enabled="{enabled}"
+                             click="menuBtnClickHandler(event)"/>
 
-            <menu:MenuBitmapButton id="falseBtn"
-                                   menuID="{MenuID.FALSE}"
-                                   visible="{falseBtnEnabled}" includeInLayout="{falseBtnEnabled}"
-                                   enabled="{enabled}"
-                                   image="@Embed(source='/assets/menu/cancel.png')"
-                                   disabledImage="@Embed(source='/assets/menu/cancel_red.png')"
-                                   click="menuBtnClickHandler(event)"/>
+            <menu:MenuButton id="falseBtn"
+                             menuID="{MenuID.FALSE}"
+                             upTileID="{TileID.MENU_CANCEL_ICON}"
+                             downTileID="{TileID.MENU_CANCEL_ICON}"
+                             disabledTileID="{TileID.MENU_CANCEL_RED_ICON}"
+                             visible="{falseBtnEnabled}" includeInLayout="{falseBtnEnabled}"
+                             enabled="{enabled}"
+                             click="menuBtnClickHandler(event)"/>
 
-            <menu:MenuBitmapButton id="nextBtn"
-                                   menuID="{MenuID.NEXT}"
-                                   visible="{nextTaskBtnEnabled}" includeInLayout="{nextTaskBtnEnabled}"
-                                   enabled="{enabled}"
-                                   image="@Embed(source='/assets/menu/next.png')"
-                                   disabledImage="@Embed(source='/assets/menu/next_red.png')"
-                                   click="menuBtnClickHandler(event)"/>
+            <menu:MenuButton id="nextBtn"
+                             menuID="{MenuID.NEXT}"
+                             upTileID="{TileID.MENU_NEXT_ICON}"
+                             downTileID="{TileID.MENU_NEXT_ICON}"
+                             disabledTileID="{TileID.MENU_NEXT_RED_ICON}"
+                             visible="{nextTaskBtnEnabled}" includeInLayout="{nextTaskBtnEnabled}"
+                             enabled="{enabled}"
+                             click="menuBtnClickHandler(event)"/>
 
-            <menu:MenuBitmapButton id="answerBtn"
-                                   menuID="{MenuID.ANSWER}"
-                                   enabled="{enabled}"
-                                   image="@Embed(source='/assets/menu/question.png')"
-                                   disabledImage="@Embed(source='/assets/menu/question_red.png')"
-                                   click="menuBtnClickHandler(event)"/>
+            <menu:MenuButton id="answerBtn"
+                             menuID="{MenuID.ANSWER}"
+                             upTileID="{TileID.MENU_QUESTION_ICON}"
+                             downTileID="{TileID.MENU_QUESTION_ICON}"
+                             disabledTileID="{TileID.MENU_QUESTION_RED_ICON}"
+                             enabled="{enabled}"
+                             click="menuBtnClickHandler(event)"/>
 
             <s:Spacer height="100%"/>
         </s:VGroup>
 
-        <s:BitmapImage left="45" top="27"
-                       visible="{hasNetworkConnection}"
-                       source="@Embed('/assets/menu/network_icon.png')"/>
-
-        <s:BitmapImage left="12" top="28"
-                       rotationZ="-180"
-                       visible="{hasNetworkConnection}"
-                       source="@Embed('/assets/menu/network_icon.png')"/>
+        <tileclasses:FadeTileButton left="{Values.PT3}" top="{Values.PT3}"
+                                    mouseEnabled="false"
+                                    visible="{hasNetworkConnection}"
+                                    upTileID="{TileID.NETWORK_ICON}"
+                                    downTileID="{TileID.NETWORK_ICON}"
+                                    disabledTileID="{TileID.NETWORK_RED_ICON}"
+                                    enabled="{enabled}"/>
     </s:Group>
 </s:Group>

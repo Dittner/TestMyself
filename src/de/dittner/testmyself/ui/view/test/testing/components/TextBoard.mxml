@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*">
 
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.tileClasses.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
 
@@ -87,8 +89,8 @@
 
     </s:Scroller>
 
-    <s:BitmapImage visible="{isShownQuestions(questionsIconEnabled, showText)}"
-                   verticalCenter="0" horizontalCenter="0"
-                   source="@Embed('/assets/test/questions.png')"/>
+    <tileclasses:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
+                           visible="{isShownQuestions(questionsIconEnabled, showText)}"
+                           verticalCenter="0" horizontalCenter="0"/>
 
 </s:Group>

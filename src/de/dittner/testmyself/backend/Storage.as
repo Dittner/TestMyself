@@ -24,7 +24,13 @@ import de.dittner.testmyself.backend.cmd.StoreTagCmd;
 import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
 import de.dittner.testmyself.backend.op.LoadAllExamplesOperation;
+import de.dittner.testmyself.backend.tileStorage.GenerateTilesCommand;
+import de.dittner.testmyself.backend.tileStorage.TileSQLLib;
+import de.dittner.testmyself.backend.tileStorage.cmd.LoadAllTilesCmd;
+import de.dittner.testmyself.backend.tileStorage.cmd.StoreTileCmd;
 import de.dittner.testmyself.backend.utils.HashData;
+import de.dittner.testmyself.logging.CLog;
+import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.tag.Tag;
@@ -33,26 +39,49 @@ import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.page.SearchPage;
+import de.dittner.testmyself.ui.common.tileClasses.Tile;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
+import flash.display.BitmapData;
 
 public class Storage extends WalterProxy {
+	public static const TILE_STORAGE_HAS_TILES_KEY:String = "TILE_STORAGE_HAS_TILES_KEY";
+
 	public function Storage() {
 		super();
+		_hasTiles = LocalStorage.read(TILE_STORAGE_HAS_TILES_KEY);
+
 	}
 
 	[Inject]
 	public var deferredCommandManager:IDeferredCommandManager;
 
 	public var exampleHash:Object = {};
+	public var tileBitmapDataCache:Object = {};
 
 	private var _sqlConnection:SQLConnection;
 	public function get sqlConnection():SQLConnection {return _sqlConnection;}
 
 	private var _audioSqlConnection:SQLConnection;
 	public function get audioSqlConnection():SQLConnection {return _audioSqlConnection;}
+
+	private var _tileSqlConnection:SQLConnection;
+	public function get tileSqlConnection():SQLConnection {return _tileSqlConnection;}
+
+
+	//--------------------------------------
+	//  hasTiles
+	//--------------------------------------
+	private var _hasTiles:Boolean = false;
+	public function get hasTiles():Boolean {return _hasTiles;}
+	public function set hasTiles(value:Boolean):void {
+		if (_hasTiles != value) {
+			_hasTiles = value;
+			LocalStorage.write(TILE_STORAGE_HAS_TILES_KEY, hasTiles);
+		}
+	}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -96,8 +125,20 @@ public class Storage extends WalterProxy {
 
 	private function audioDataBaseReadyHandler(opEvent:*):void {
 		_audioSqlConnection = opEvent.result as SQLConnection;
+
+		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.tileDBPath, [TileSQLLib.CREATE_TILE_TBL]);
+		cmd.addCompleteCallback(tileDataBaseReadyHandler);
+		cmd.execute();
+	}
+
+	private function tileDataBaseReadyHandler(opEvent:*):void {
+		_tileSqlConnection = opEvent.result as SQLConnection;
 		deferredCommandManager.start();
-		var cmd:LoadAllExamplesOperation = new LoadAllExamplesOperation(this);
+		var cmd:IAsyncCommand = new LoadAllExamplesOperation(this);
+		deferredCommandManager.add(cmd);
+		cmd = new LoadAllTilesCmd(this);
+		deferredCommandManager.add(cmd);
+		cmd = new GenerateTilesCommand(this);
 		deferredCommandManager.add(cmd);
 	}
 
@@ -223,6 +264,37 @@ public class Storage extends WalterProxy {
 		var op:IAsyncCommand = new ClearTestHistoryCmd(this, test);
 		deferredCommandManager.add(op);
 		return op;
+	}
+
+	//--------------------------------------
+	//  tiles
+	//--------------------------------------
+
+	public function storeTile(tile:Tile):IAsyncOperation {
+		return new StoreTileCmd(this, tile);
+	}
+
+	public function getTileBitmapData(tileID:String):BitmapData {
+		return tileBitmapDataCache[tileID];
+	}
+
+	public function logCachedTilesSize():void {
+		var totalBytes:Number = 0;
+		var totalTiles:int = 0;
+		var bytes:Number;
+		var bd:BitmapData;
+		for (var prop:String in tileBitmapDataCache) {
+			bd = tileBitmapDataCache[prop];
+			totalTiles++;
+			bytes = bd.width * bd.height * 4;
+			totalBytes += bytes;
+		}
+		CLog.info(LogTag.UI, totalTiles + " tiles have been cashed. Total size = " + bytesToMb(totalBytes) + " Mb");
+	}
+
+	private function bytesToMb(value:Number):Number {
+		var res:Number = value / 1024 / 1024;
+		return Math.round(res * 100) / 100;
 	}
 
 	//--------------------------------------
