@@ -406,8 +406,8 @@ public class FadeTileButton extends UIComponent {
 
 		if (w != 0 && h != 0) {
 			if (titleTf) {
-				titleTf.x = (w - titleTf.textWidth >> 1) - Values.PT1;
-				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT2;
+				titleTf.x = (w - titleTf.textWidth >> 1) - Values.PT2;
+				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT1;
 				titleTf.width = w - titleTf.x;
 				titleTf.height = h - titleTf.y;
 			}

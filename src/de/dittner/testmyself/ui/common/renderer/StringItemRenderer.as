@@ -46,9 +46,9 @@ public class StringItemRenderer extends ItemRendererBase {
 	}
 
 	override protected function measure():void {
-		measuredMinWidth = measuredWidth = parent ? parent.width : 50;
+		measuredMinWidth = measuredWidth = parent ? parent.width : Values.PT50;
 		minHeight = 10;
-		measuredHeight = tf.textHeight + 5 + 2 * verPad;
+		measuredHeight = tf.textHeight + Values.PT4 + 2 * verPad;
 	}
 
 	private var matr:Matrix = new Matrix();

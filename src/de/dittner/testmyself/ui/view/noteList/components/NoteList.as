@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.view.noteList.components {
 import de.dittner.async.utils.invalidateOf;
-import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.ui.common.list.SelectableDataGroup;
 import de.dittner.testmyself.ui.common.renderer.IFlexibleRenderer;
 
@@ -9,15 +8,6 @@ import flash.events.Event;
 public class NoteList extends SelectableDataGroup {
 	public function NoteList() {
 		super();
-	}
-
-	//--------------------------------------
-	//  selectedNote
-	//--------------------------------------
-	[Bindable("selectedItemChange")]
-	public function get selectedNote():Note {return selectedItem as Note;}
-	public function set selectedNote(value:Note):void {
-		selectedItem = value;
 	}
 
 	//--------------------------------------
@@ -47,7 +37,7 @@ public class NoteList extends SelectableDataGroup {
 
 	override protected function notifySelectedItemChanged():void {
 		super.notifySelectedItemChanged();
-		if (selectedNote) invalidateOf(ensureSelectedItemIsVisible);
+		if (selectedItem) invalidateOf(ensureSelectedItemIsVisible);
 	}
 }
 }

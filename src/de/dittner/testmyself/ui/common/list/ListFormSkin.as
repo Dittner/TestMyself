@@ -63,7 +63,7 @@ public class ListFormSkin extends ListSkin {
 		scroller.x = 1;
 		scroller.y = hostInput.showTitle ? TITLE_HEIGHT + 1 : 1;
 		dataGroup.width = w - 2;
-		scroller.width = w - 2 + Values.PT20;//otherwise its blocking right side of content
+		scroller.width = w - 2 + Values.PT10;//otherwise its blocking right side of content
 		scroller.height = h - scroller.y - 1;
 	}
 

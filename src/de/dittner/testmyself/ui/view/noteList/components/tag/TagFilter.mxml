@@ -62,15 +62,6 @@
                    title="{resourceManager.getString('app', 'Filter')}"
                    mode="filter"/>
 
-    <s:Rect left="{EditorBg.BORDER_THICKNESS}"
-            right="{EditorBg.BORDER_THICKNESS}"
-            bottom="{EditorBg.BORDER_THICKNESS}"
-            height="{FOOTER_HEI}">
-        <s:fill>
-            <s:SolidColor color="{AppColors.SCREEN_FOOTER_BG}"/>
-        </s:fill>
-    </s:Rect>
-
     <s:Scroller left="{EditorBg.BORDER_THICKNESS}"
                 right="{EditorBg.BORDER_THICKNESS}"
                 top="{EditorBg.HEADER_HEIGHT}"

@@ -230,8 +230,8 @@
 
     <button:TransparentBlackButton id="loadRemoteMp3Btn"
                                    verticalCenter="{Values.PT11}"
-                                   paddingLeft="{Values.PT10}"
-                                   paddingRight="{Values.PT10}"
+                                   paddingLeft="{Values.PT15}"
+                                   paddingRight="{Values.PT15}"
                                    right="{Values.PT170}"
                                    title="Duden"
                                    enabled="{!isMp3Loading}"
@@ -240,8 +240,8 @@
 
     <button:TransparentBlackButton id="loadLocalMp3Btn"
                                    verticalCenter="{Values.PT11}"
-                                   paddingLeft="{Values.PT10}"
-                                   paddingRight="{Values.PT10}"
+                                   paddingLeft="{Values.PT15}"
+                                   paddingRight="{Values.PT15}"
                                    right="{Values.PT10}"
                                    title="{resourceManager.getString('app', 'ChooseMp3File')}"
                                    enabled="{!isMp3Loading}"

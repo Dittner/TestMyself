@@ -64,8 +64,8 @@
 
         private function showLessonContent():void {
             toolbar.addNoteBtn.enabled = true;
-            toolbar.editNoteBtn.enabled = noteList.selectedNote != null;
-            toolbar.removeNoteBtn.enabled = noteList.selectedNote != null;
+            toolbar.editNoteBtn.enabled = noteList.selectedItem != null;
+            toolbar.removeNoteBtn.enabled = noteList.selectedItem != null;
             toolbar.goBackBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
             toolbar.hideDetailsBtn.enabled = true;
@@ -170,12 +170,12 @@
                     break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
-                    op = form.edit(noteList.selectedNote);
+                    op = form.edit(noteList.selectedItem);
                     op.addCompleteCallback(noteEditComplete);
                     break;
                 case(ToolAction.REMOVE_NOTE) :
                     form.visible = true;
-                    op = form.remove(noteList.selectedNote);
+                    op = form.remove(noteList.selectedItem);
                     op.addCompleteCallback(noteRemovedComplete);
                     break;
                 case(ToolAction.INVERT) :
@@ -228,9 +228,9 @@
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
             if (!isActive) return;
-            toolbar.editNoteBtn.enabled = noteList.selectedNote != null;
-            toolbar.removeNoteBtn.enabled = noteList.selectedNote != null;
-            toolbar.playCommentBtn.enabled = noteList.selectedNote != null && noteList.selectedNote.hasAudio;
+            toolbar.editNoteBtn.enabled = noteList.selectedItem != null;
+            toolbar.removeNoteBtn.enabled = noteList.selectedItem != null;
+            toolbar.playCommentBtn.enabled = noteList.selectedItem != null && noteList.selectedItem.hasAudio;
         }
 
         private function noteList_dataProviderChangedHandler(event:Event):void {
@@ -267,7 +267,7 @@
                 hasFocusableChildren="false">
         <common:NoteList id="noteList"
                          itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
-                         selectedNote="@{vm.selectedNote}"
+                         selectedItem="@{vm.selectedNote}"
                          dataProvider="{vm.page.noteColl}"
                          width="100%"
                          contentBackgroundAlpha="0"

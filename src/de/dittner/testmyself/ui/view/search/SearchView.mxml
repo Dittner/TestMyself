@@ -107,12 +107,12 @@
                     break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
-                    op = form.edit(noteList.selectedNote);
+                    op = form.edit(noteList.selectedItem);
                     op.addCompleteCallback(noteEditComplete);
                     break;
                 case(ToolAction.REMOVE_NOTE) :
                     form.visible = true;
-                    op = form.remove(noteList.selectedNote);
+                    op = form.remove(noteList.selectedItem);
                     op.addCompleteCallback(noteRemovedComplete);
                     break;
                 case(ToolAction.INVERT) :
@@ -170,9 +170,9 @@
         }
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
-            toolbar.editNoteBtn.enabled = noteList.selectedNote != null;
-            toolbar.removeNoteBtn.enabled = noteList.selectedNote != null;
-            toolbar.playCommentBtn.enabled = noteList.selectedNote != null && noteList.selectedNote.hasAudio;
+            toolbar.editNoteBtn.enabled = noteList.selectedItem != null;
+            toolbar.removeNoteBtn.enabled = noteList.selectedItem != null;
+            toolbar.playCommentBtn.enabled = noteList.selectedItem != null && noteList.selectedItem.hasAudio;
         }
 
         private function examplesListEnabled(selectedNote:Note, noteExampleColl:ArrayCollection):Boolean {
@@ -219,7 +219,7 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <common:NoteList id="noteList"
-                         selectedNote="@{vm.selectedNote}"
+                         selectedItem="@{vm.selectedNote}"
                          dataProvider="{vm.page.noteColl}"
                          width="100%"
                          contentBackgroundAlpha="0"

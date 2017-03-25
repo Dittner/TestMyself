@@ -49,10 +49,10 @@ public class SelectableDataGroup extends DataGroup {
 	//--------------------------------------------------------------------------------
 	//  selectedItem
 	//--------------------------------------------------------------------------------
-	private var _selectedItem:Object;
+	private var _selectedItem:*;
 	[Bindable("selectedItemChange")]
-	public function get selectedItem():Object {return _selectedItem;}
-	public function set selectedItem(value:Object):void {
+	public function get selectedItem():* {return _selectedItem;}
+	public function set selectedItem(value:*):void {
 		if (value == _selectedItem) {
 			if (allowSelectLastItem) notifySelectedItemChanged();
 			return;

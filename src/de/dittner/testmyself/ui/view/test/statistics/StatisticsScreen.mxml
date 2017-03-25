@@ -7,7 +7,6 @@
          xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.test.TestTask;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.view.test.TestVM;
@@ -77,7 +76,6 @@
         }
 
         private function selectedItemChange(event:Event):void {
-            vm.selectedTestTask = list.selectedItem as TestTask;
             examplesListEnabled = vm.selectedTestTask && vm.selectedTestTask.note.exampleColl.length > 0;
         }
 
@@ -105,7 +103,7 @@
                 horizontalScrollPolicy="off"
                 hasFocusableChildren="false">
         <common2:NoteList id="list"
-                          selectedItem="{vm.selectedTestTask}"
+                          selectedItem="@{vm.selectedTestTask}"
                           dataProvider="{vm.testPage.taskColl}"
                           width="100%"
                           deselectEnabled="true"

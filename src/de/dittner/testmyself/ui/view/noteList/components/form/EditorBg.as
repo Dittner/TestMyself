@@ -25,7 +25,8 @@ public class EditorBg extends UIComponent {
 
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_LIGHT);
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
-	public static const PAD:uint = Values.PT10;
+	public static const PAD:uint = Values.PT15;
+	public static const GAP:uint = Values.PT5;
 	public static const VOFFSET:uint = 0;
 	public static const BORDER_THICKNESS:uint = 0;
 
@@ -87,12 +88,12 @@ public class EditorBg extends UIComponent {
 		if (toolIcon) {
 			toolIcon.x = xOffset;
 			toolIcon.y = (HEADER_HEIGHT + VOFFSET - toolIcon.height >> 1);
-			xOffset += toolIcon.width + 5;
+			xOffset += toolIcon.width + GAP;
 		}
 		titleTf.text = title;
-		titleTf.x = xOffset - 2;
+		titleTf.x = xOffset;
 		titleTf.y = (HEADER_HEIGHT + VOFFSET - titleTf.textHeight >> 1) - 2;
-		titleTf.width = w - 2 * titleTf.x;
+		titleTf.width = w - titleTf.x;
 	}
 
 	private function drawBackground(w:Number, h:Number):void {

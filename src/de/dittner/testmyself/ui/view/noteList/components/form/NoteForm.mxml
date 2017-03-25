@@ -508,7 +508,7 @@
                     mode="{mode}"/>
 
     <button:TransparentWhiteButton id="formatBtn"
-                                   width="{Values.PT330}" right="{Values.PT15}" top="{Values.PT5}"
+                                   width="{Values.PT330}" right="{Values.PT15}" top="{Values.PT4}"
                                    title="{resourceManager.getString('app', 'Formatting')}"
                                    visible="{!isRemoveMode}"
                                    click="correct()"/>

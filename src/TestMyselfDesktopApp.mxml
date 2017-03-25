@@ -6,7 +6,7 @@
                      backgroundColor="#3d3f4b"
                      creationComplete="creationCompleteHandler(event)"
                      xmlns:local="*"
-                     interactionMode="mouse">
+                     interactionMode="touch">
     <fx:Metadata>
         [ResourceBundle("app")]
     </fx:Metadata>

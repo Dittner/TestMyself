@@ -42,15 +42,6 @@
                        title="{resourceManager.getString('app', 'AddNewLesson')}"
                        mode="add"/>
 
-        <s:Rect left="{EditorBg.BORDER_THICKNESS}"
-                right="{EditorBg.BORDER_THICKNESS}"
-                bottom="{EditorBg.BORDER_THICKNESS}"
-                height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
-            <s:fill>
-                <s:SolidColor color="{AppColors.SCREEN_FOOTER_BG}"/>
-            </s:fill>
-        </s:Rect>
-
         <input:TextInputForm id="addLessonInput"
                              fontSize="{Values.PT18}"
                              top="{AppSizes.SCREEN_HEADER_HEIGHT + Values.PT15}"
@@ -62,7 +53,7 @@
         <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                   bottom="0" horizontalAlign="right"
                   paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}" paddingBottom="{EditorBg.BORDER_THICKNESS}"
-                  gap="{Values.PT15}" verticalAlign="middle">
+                  gap="{Values.PT15}">
 
             <button:TransparentBlackButton id="cancelBtn"
                                            width="{Values.PT250}"
