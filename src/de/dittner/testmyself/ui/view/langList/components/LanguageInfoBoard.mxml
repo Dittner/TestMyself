@@ -5,6 +5,7 @@
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  wordVocabularyInfo
@@ -83,29 +84,30 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="10" horizontalAlign="right" paddingLeft="5" paddingBottom="5" paddingTop="5" paddingRight="5"/>
+        <s:VerticalLayout gap="{Values.PT10}" horizontalAlign="right"
+                          paddingLeft="{Values.PT5}" paddingBottom="{Values.PT5}" paddingTop="{Values.PT5}" paddingRight="{Values.PT5}"/>
     </s:layout>
 
     <s:Label width="60%"
-             paddingLeft="5"
+             paddingLeft="{Values.PT5}"
              fontFamily="{FontName.MYRIAD}"
-             fontSize="24"
+             fontSize="{Values.PT24}"
              fontWeight="bold"
              color="{AppColors.TEXT_WHITE}"
              text="{resourceManager.getString('app', 'Statistics', null, localeInfo)}"/>
 
-    <s:HGroup width="100%" gap="10">
+    <s:HGroup width="100%" gap="{Values.PT10}">
         <s:Label id="valuesLbl"
                  width="40%"
                  textAlign="right"
                  fontFamily="{FontName.MYRIAD}"
-                 fontSize="18"
+                 fontSize="{Values.PT18}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"/>
 
         <s:Label width="60%"
                  fontFamily="{FontName.MYRIAD}"
-                 fontSize="18"
+                 fontSize="{Values.PT18}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"
                  text="{resourceManager.getString('app', 'statisticsHeaders', null, localeInfo)}"/>

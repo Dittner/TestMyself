@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.input {
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
 import flash.text.TextField;
@@ -9,9 +10,9 @@ import flash.text.TextFormat;
 
 public class DropdownListItemRenderer extends ItemRendererBase {
 
-	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_BLACK);
-	private static const VPAD:uint = 5;
-	private static const HPAD:uint = 5;
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_BLACK);
+	private static const VPAD:uint = Values.PT5;
+	private static const HPAD:uint = Values.PT5;
 
 	public function DropdownListItemRenderer() {
 		super();
@@ -43,9 +44,9 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 	}
 
 	override protected function measure():void {
-		measuredMinWidth = measuredWidth = parent ? parent.width : 50;
-		minHeight = 10;
-		measuredHeight = tf.textHeight + 5 + 2 * verPad;
+		measuredMinWidth = measuredWidth = parent ? parent.width : Values.PT50;
+		minHeight = Values.PT10;
+		measuredHeight = tf.textHeight + Values.PT5 + 2 * verPad;
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {

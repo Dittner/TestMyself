@@ -14,6 +14,7 @@
         import de.dittner.testmyself.ui.view.test.TestVM;
         import de.dittner.testmyself.ui.view.test.common.TestingAction;
         import de.dittner.testmyself.ui.view.test.testing.components.TestableView;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  padding
@@ -156,7 +157,7 @@
     <s:Label text="{errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
              right="{padding}" top="{padding}"
              textAlign="right"
-             fontSize="20"
+             fontSize="{Values.PT20}"
              maxDisplayedLines="1"
              mouseChildren="false" mouseEnabled="false"
              color="{AppColors.TEXT_LIGHT}"/>
@@ -164,14 +165,14 @@
     <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
              fontFamily="{FontName.MYRIAD_COND}"
              fontWeight="bold"
-             fontSize="20"
+             fontSize="{Values.PT20}"
              mouseChildren="false" mouseEnabled="false"
              left="{padding}" top="{padding}"
              color="{AppColors.TEXT_LIGHT}"/>
 
     <!--BODY-->
 
-    <s:Group width="100%" top="50" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT + 20}">
+    <s:Group width="100%" top="{Values.PT50}" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT + Values.PT20}">
 
         <test:SpeakWordTranslationTest id="speakWordTranslationTest"
                                        width="100%" height="100%"
@@ -213,15 +214,15 @@
         <s:Label id="titleLbl"
                  text="{vm.selectedVocabulary.title.toUpperCase() + '. ' + vm.testPage.test.title}"
                  width="50%" height="100%" verticalAlign="middle"
-                 fontSize="14"
-                 paddingLeft="10" paddingTop="1"
+                 fontSize="{Values.PT14}"
+                 paddingLeft="{Values.PT10}" paddingTop="{Values.PT1}"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_BLACK}"/>
 
         <s:Label id="tagsLbl"
                  text="{vm.selectedNoteTags}"
-                 height="100%" width="50%" textAlign="right" paddingRight="10"
-                 fontSize="14" verticalAlign="middle" paddingTop="1"
+                 height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
+                 fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="{Values.PT1}"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_BLACK}"/>
     </s:HGroup>

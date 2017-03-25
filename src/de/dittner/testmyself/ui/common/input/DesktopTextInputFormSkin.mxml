@@ -17,6 +17,7 @@
     <fx:Script fb:purpose="styling">
         <![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.core.FlexVersion;
 
@@ -34,10 +35,10 @@
 
         override protected function measure():void {
             super.measure();
-            measuredHeight = hostComponent.showTitle ? TITLE_HEIGHT + 30 : 30;
+            measuredHeight = hostComponent.showTitle ? TITLE_HEIGHT + Values.PT30 : Values.PT30;
         }
 
-        private static const TITLE_HEIGHT:uint = 20;
+        private static const TITLE_HEIGHT:uint = Values.PT20;
 
         override protected function updateDisplayList(w:Number, h:Number):void {
             super.updateDisplayList(w, h);
@@ -72,11 +73,12 @@
     </s:states>
 
     <input:MXLabel id="titleLbl"
+                   fontSize="{Values.PT15}"
                    mouseEnabled="false"
                    text="{hostComponent.title}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
     <s:RichEditableText id="textDisplay"
-                        left="5" right="5"/>
+                        left="{Values.PT5}" right="{Values.PT5}"/>
 
 </s:SparkSkin>

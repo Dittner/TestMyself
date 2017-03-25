@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<button:IconButton xmlns:fx="http://ns.adobe.com/mxml/2009"
-                   xmlns:button="de.dittner.testmyself.ui.common.button.*"
-                   minWidth="150"
-                   color="#ffFFff"
-                   upImage="@Embed(source='/assets/button/red_btn_up.png', scaleGridLeft='15', scaleGridRight='16', scaleGridTop='15', scaleGridBottom='16')"
-                   downImage="@Embed(source='/assets/button/red_btn_down.png', scaleGridLeft='15', scaleGridRight='16', scaleGridTop='15', scaleGridBottom='16')">
-
-</button:IconButton>

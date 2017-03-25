@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.audio {
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
 import de.dittner.testmyself.ui.common.audio.event.VoiceRecorderEvent;
+import de.dittner.testmyself.ui.common.tile.FadeTileButton;
 
 import flash.display.MovieClip;
 import flash.events.Event;
@@ -9,7 +10,6 @@ import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
 
-import spark.components.Button;
 import spark.components.supportClasses.SkinnableComponent;
 import spark.core.SpriteVisualElement;
 
@@ -82,19 +82,19 @@ public class RawDataPlayer extends SkinnableComponent {
 	//--------------------------------------------------------------------------
 
 	[SkinPart(required="false")]
-	public var recordBtn:Button;
+	public var recordBtn:FadeTileButton;
 
 	[SkinPart(required="false")]
-	public var stopBtn:Button;
+	public var stopBtn:FadeTileButton;
 
 	[SkinPart(required="false")]
-	public var playBtn:Button;
+	public var playBtn:FadeTileButton;
 
 	[SkinPart(required="false")]
-	public var pauseBtn:Button;
+	public var pauseBtn:FadeTileButton;
 
 	[SkinPart(required="false")]
-	public var removeRecordBtn:Button;
+	public var removeRecordBtn:FadeTileButton;
 
 	[SkinPart(required="false")]
 	public var recordingAnimation:SpriteVisualElement;

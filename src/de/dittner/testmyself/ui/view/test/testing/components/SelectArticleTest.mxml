@@ -11,6 +11,7 @@
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         private var isCorrectlyAnswered:Boolean = true;
 
@@ -102,32 +103,34 @@
         ]]></fx:Script>
     <fx:Declarations>
         <form:InvalidNotifier id="invalidNotifier"
-                              width="200" height="31"
+                              width="{Values.PT200}" height="{Values.PT31}"
                               text="{resourceManager.getString('app', 'False!')}"
-                              bottom="50" horizontalCenter="0"/>
+                              bottom="{Values.PT50}" horizontalCenter="0"/>
     </fx:Declarations>
 
     <test:layout>
-        <s:VerticalLayout gap="15" horizontalAlign="right" paddingLeft="{padding}" paddingRight="{padding}"/>
+        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="right" paddingLeft="{padding}" paddingRight="{padding}"/>
     </test:layout>
 
     <s:HGroup width="100%" horizontalAlign="center" gap="0">
         <s:Label id="articleLbl"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
-                 fontSize="42"
+                 fontSize="{Values.PT42}"
                  includeInLayout="{showDetails}"
                  visible="{showDetails}"/>
+
         <s:Label id="titleLbl"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_BLACK}"
-                 fontSize="42"/>
+                 fontSize="{Values.PT42}"/>
+
         <s:Label id="optionsLbl"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_BLACK}"
-                 fontSize="42"
+                 fontSize="{Values.PT42}"
                  visible="{showDetails}"
                  includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
     </s:HGroup>
@@ -138,21 +141,21 @@
                     showText="{showDetails}"/>
 
     <button:BlackButton id="derBtn"
-                        width="150" height="50"
+                        width="{Values.PT150}" height="{Values.PT50}"
                         enabled="{isActivating}"
-                        label="DER"
+                        title="DER"
                         click="onDerAnswered()"/>
 
     <button:RedButton id="dieBtn"
-                      width="150" height="50"
+                      width="{Values.PT150}" height="{Values.PT50}"
                       enabled="{isActivating}"
-                      label="DIE"
+                      title="DIE"
                       click="onDieAnswered()"/>
 
     <button:YellowButton id="dasBtn"
-                         width="150" height="50"
+                         width="{Values.PT150}" height="{Values.PT50}"
                          enabled="{isActivating}"
-                         label="DAS"
+                         title="DAS"
                          click="onDasAnswered()"/>
 
 </test:TestableView>

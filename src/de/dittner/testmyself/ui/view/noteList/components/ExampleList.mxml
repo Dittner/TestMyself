@@ -8,6 +8,7 @@
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
 
@@ -68,14 +69,14 @@
 
     <s:Label text="{resourceManager.getString('app', 'Examples')}"
              fontFamily="{FontName.MYRIAD_COND}"
-             fontSize="20"
+             fontSize="{Values.PT20}"
              fontWeight="bold"
              mouseChildren="false" mouseEnabled="false"
-             left="15" right="15"
+             left="{Values.PT15}" right="{Values.PT15}"
              visible="{showTitle}"
              color="{AppColors.TEXT_LIGHT}"/>
 
-    <s:Scroller left="0" right="0" top="{showTitle ? 25 : 0}" bottom="0"
+    <s:Scroller left="0" right="0" top="{showTitle ? Values.PT25 : 0}" bottom="0"
                 hasFocusableChildren="false">
         <list:NoteList id="list"
                        selectedItem="{selectedNote}"

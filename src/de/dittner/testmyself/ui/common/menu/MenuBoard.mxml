@@ -3,7 +3,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
          xmlns:components="de.dittner.testmyself.ui.view.test.testing.components.*"
-         xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
          implements="de.dittner.testmyself.ui.common.menu.IMenuBoard"
          currentState="view">
 
@@ -15,7 +15,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.test.TestTaskPriority;
-        import de.dittner.testmyself.ui.common.tileClasses.TileID;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.utils.Values;
 
@@ -156,7 +156,6 @@
                              deselectOnlyProgrammatically="true"
                              menuID="{MenuID.LANG_LIST}"
                              upTileID="{TileID.MENU_INFO_ICON}"
-                             downTileID="{TileID.MENU_INFO_ICON}"
                              disabledTileID="{TileID.MENU_INFO_RED_ICON}"
                              selected="{selectedViewMenuID == MenuID.LANG_LIST}"
                              change="viewMenuBtnSelectedHandler(event)"/>
@@ -168,7 +167,6 @@
                              deselectOnlyProgrammatically="true"
                              menuID="{MenuID.WORD}"
                              upTileID="{TileID.MENU_WORD_ICON}"
-                             downTileID="{TileID.MENU_WORD_ICON}"
                              disabledTileID="{TileID.MENU_WORD_RED_ICON}"
                              selected="{selectedViewMenuID == MenuID.WORD}"
                              enabled="{enabled}"
@@ -179,7 +177,6 @@
                              deselectOnlyProgrammatically="true"
                              menuID="{MenuID.VERB}"
                              upTileID="{TileID.MENU_VERB_ICON}"
-                             downTileID="{TileID.MENU_VERB_ICON}"
                              disabledTileID="{TileID.MENU_VERB_RED_ICON}"
                              selected="{selectedViewMenuID == MenuID.VERB}"
                              enabled="{enabled}"
@@ -190,7 +187,6 @@
                              deselectOnlyProgrammatically="true"
                              menuID="{MenuID.LESSON}"
                              upTileID="{resourceManager.getString('app', 'LESSON_MENU_ICON')}"
-                             downTileID="{resourceManager.getString('app', 'LESSON_MENU_ICON')}"
                              disabledTileID="{resourceManager.getString('app', 'LESSON_DISABLED_MENU_ICON')}"
                              selected="{selectedViewMenuID == MenuID.LESSON}"
                              enabled="{enabled}"
@@ -204,7 +200,6 @@
                              enabled="{enabled}"
                              menuID="{MenuID.MAP}"
                              upTileID="{TileID.MENU_MAP_ICON}"
-                             downTileID="{TileID.MENU_MAP_ICON}"
                              disabledTileID="{TileID.MENU_MAP_RED_ICON}"
                              selected="{selectedViewMenuID == MenuID.MAP}"
                              change="viewMenuBtnSelectedHandler(event)"/>
@@ -214,7 +209,6 @@
                              deselectOnlyProgrammatically="true"
                              menuID="{MenuID.TEST}"
                              upTileID="{TileID.MENU_TESTING_ICON}"
-                             downTileID="{TileID.MENU_TESTING_ICON}"
                              disabledTileID="{TileID.MENU_TESTING_RED_ICON}"
                              selected="{selectedViewMenuID == MenuID.TEST}"
                              enabled="{enabled}"
@@ -225,7 +219,6 @@
                              deselectOnlyProgrammatically="true"
                              menuID="{MenuID.SEARCH}"
                              upTileID="{TileID.MENU_SEARCH_ICON}"
-                             downTileID="{TileID.MENU_SEARCH_ICON}"
                              disabledTileID="{TileID.MENU_SEARCH_RED_ICON}"
                              selected="{selectedViewMenuID == MenuID.SEARCH}"
                              enabled="{enabled}"
@@ -238,7 +231,6 @@
                              deselectOnlyProgrammatically="true"
                              menuID="{MenuID.SETTINGS}"
                              upTileID="{TileID.MENU_SETTINGS_ICON}"
-                             downTileID="{TileID.MENU_SETTINGS_ICON}"
                              disabledTileID="{TileID.MENU_SETTINGS_RED_ICON}"
                              selected="{selectedViewMenuID == MenuID.SETTINGS}"
                              enabled="{enabled}"
@@ -254,15 +246,13 @@
             <menu:MenuButton id="applyBtn"
                              menuID="{MenuID.APPLY}"
                              upTileID="{TileID.MENU_APPLY_ICON}"
-                             downTileID="{TileID.MENU_APPLY_ICON}"
-                             disabledTileID="{TileID.MENU_APPLY_ICON}"
+                             disabledTileID="{TileID.MENU_APPLY_RED_ICON}"
                              enabled="{enabled}"
                              click="menuBtnClickHandler(event)"/>
 
             <menu:MenuButton id="cancelBtn"
                              menuID="{MenuID.CANCEL}"
                              upTileID="{TileID.MENU_CANCEL_ICON}"
-                             downTileID="{TileID.MENU_CANCEL_ICON}"
                              disabledTileID="{TileID.MENU_CANCEL_RED_ICON}"
                              enabled="{enabled}"
                              click="menuBtnClickHandler(event)"/>
@@ -286,7 +276,6 @@
             <menu:MenuButton id="trueBtn"
                              menuID="{MenuID.TRUE}"
                              upTileID="{TileID.MENU_APPLY_ICON}"
-                             downTileID="{TileID.MENU_APPLY_ICON}"
                              disabledTileID="{TileID.MENU_APPLY_RED_ICON}"
                              visible="{trueBtnEnabled}" includeInLayout="{trueBtnEnabled}"
                              enabled="{enabled}"
@@ -295,7 +284,6 @@
             <menu:MenuButton id="falseBtn"
                              menuID="{MenuID.FALSE}"
                              upTileID="{TileID.MENU_CANCEL_ICON}"
-                             downTileID="{TileID.MENU_CANCEL_ICON}"
                              disabledTileID="{TileID.MENU_CANCEL_RED_ICON}"
                              visible="{falseBtnEnabled}" includeInLayout="{falseBtnEnabled}"
                              enabled="{enabled}"
@@ -304,7 +292,6 @@
             <menu:MenuButton id="nextBtn"
                              menuID="{MenuID.NEXT}"
                              upTileID="{TileID.MENU_NEXT_ICON}"
-                             downTileID="{TileID.MENU_NEXT_ICON}"
                              disabledTileID="{TileID.MENU_NEXT_RED_ICON}"
                              visible="{nextTaskBtnEnabled}" includeInLayout="{nextTaskBtnEnabled}"
                              enabled="{enabled}"
@@ -313,7 +300,6 @@
             <menu:MenuButton id="answerBtn"
                              menuID="{MenuID.ANSWER}"
                              upTileID="{TileID.MENU_QUESTION_ICON}"
-                             downTileID="{TileID.MENU_QUESTION_ICON}"
                              disabledTileID="{TileID.MENU_QUESTION_RED_ICON}"
                              enabled="{enabled}"
                              click="menuBtnClickHandler(event)"/>
@@ -321,12 +307,11 @@
             <s:Spacer height="100%"/>
         </s:VGroup>
 
-        <tileclasses:FadeTileButton left="{Values.PT3}" top="{Values.PT3}"
-                                    mouseEnabled="false"
-                                    visible="{hasNetworkConnection}"
-                                    upTileID="{TileID.NETWORK_ICON}"
-                                    downTileID="{TileID.NETWORK_ICON}"
-                                    disabledTileID="{TileID.NETWORK_RED_ICON}"
-                                    enabled="{enabled}"/>
+        <tile:FadeTileButton left="{Values.PT3}" top="{Values.PT3}"
+                             mouseEnabled="false"
+                             visible="{hasNetworkConnection}"
+                             upTileID="{TileID.NETWORK_ICON}"
+                             disabledTileID="{TileID.NETWORK_RED_ICON}"
+                             enabled="{enabled}"/>
     </s:Group>
 </s:Group>

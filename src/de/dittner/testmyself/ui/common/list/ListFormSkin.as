@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.list {
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
 import flash.text.TextField;
@@ -11,8 +12,8 @@ import spark.skins.mobile.ListSkin;
 
 public class ListFormSkin extends ListSkin {
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 15, AppColors.TEXT_CONTROL_TITLE);
-	private static const TITLE_HEIGHT:uint = 20;
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT15, AppColors.TEXT_CONTROL_TITLE);
+	private static const TITLE_HEIGHT:uint = Values.PT20;
 
 	public function ListFormSkin() {
 		super();
@@ -62,7 +63,7 @@ public class ListFormSkin extends ListSkin {
 		scroller.x = 1;
 		scroller.y = hostInput.showTitle ? TITLE_HEIGHT + 1 : 1;
 		dataGroup.width = w - 2;
-		scroller.width = w - 2 + 20;//otherwise its blocking right side of content
+		scroller.width = w - 2 + Values.PT20;//otherwise its blocking right side of content
 		scroller.height = h - scroller.y - 1;
 	}
 

@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.input {
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
 import flash.text.TextField;
@@ -10,8 +11,8 @@ import flash.text.TextFormat;
 import spark.skins.mobile.TextInputSkin;
 
 public class MobileTextInputFormSkin extends TextInputSkin {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 15, AppColors.TEXT_CONTROL_TITLE);
-	private static const TITLE_HEIGHT:uint = 20;
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT15, AppColors.TEXT_CONTROL_TITLE);
+	private static const TITLE_HEIGHT:uint = Values.PT20;
 
 	public function MobileTextInputFormSkin() {
 		super();
@@ -29,7 +30,7 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 
 	override protected function measure():void {
 		super.measure();
-		measuredHeight = hostInput.showTitle ? TITLE_HEIGHT + 30 : 30;
+		measuredHeight = hostInput.showTitle ? TITLE_HEIGHT + Values.PT30 : Values.PT30;
 	}
 
 	override protected function drawBackground(w:Number, h:Number):void {}
@@ -38,12 +39,12 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 		var textHeight:Number = getElementPreferredHeight(textDisplay);
 
 		if (hostInput.showTitle) {
-			setElementSize(textDisplay, w - 10, textHeight);
+			setElementSize(textDisplay, w - Values.PT10, textHeight);
 			setElementPosition(textDisplay, 7, TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2));
 		}
 		else {
-			setElementSize(textDisplay, w - 10, h - textDisplay.y - 2);
-			setElementPosition(textDisplay, 5, Math.round((h - textHeight) / 2));
+			setElementSize(textDisplay, w - Values.PT10, h - textDisplay.y - 2);
+			setElementPosition(textDisplay, Values.PT5, Math.round((h - textHeight) / 2));
 		}
 
 		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;

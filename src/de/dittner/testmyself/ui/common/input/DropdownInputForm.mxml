@@ -2,8 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:common="de.dittner.testmyself.ui.common.list.*"
-         xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:input="de.dittner.testmyself.ui.common.input.*">
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
     <fx:Metadata>
         [Event(name="enterPressed", type="flash.events.Event")]
     </fx:Metadata>
@@ -11,8 +11,10 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.ZeroPos;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
         import mx.events.FlexEvent;
@@ -135,20 +137,21 @@
     </fx:Declarations>
 
     <s:layout>
-        <s:HorizontalLayout gap="0" verticalAlign="bottom"/>
+        <s:HorizontalLayout gap="{Values.PT1}" verticalAlign="bottom"/>
     </s:layout>
 
     <input:TextInputForm id="input"
+                         fontSize="{Values.PT18}"
                          text="@{text}"
                          width="100%"
                          maxChars="{Device.MAX_TAG_NAME_LENGTH}"
                          title="{title}"
                          enter="input_enterHandler(event)"/>
 
-    <button:BitmapToggleButton id="dropdownBtn"
-                               enabled="{isTemplatesEnabled}"
-                               upImage="@Embed(source='/assets/button/dropdown_btn_up.png')"
-                               downImage="@Embed(source='/assets/button/dropdown_btn_down.png')"
-                               change="dropdownBtnChangeHandler(event)"/>
+    <tile:FadeTileButton id="dropdownBtn"
+                         isToggle="true"
+                         enabled="{isTemplatesEnabled}"
+                         upTileID="{TileID.BTN_DROPDOWN}"
+                         click="dropdownBtnChangeHandler(event)"/>
 
 </s:Group>

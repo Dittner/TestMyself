@@ -7,6 +7,7 @@
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:listBox="de.dittner.testmyself.ui.view.noteList.components.form.articleList.*"
          xmlns:form2="de.dittner.testmyself.ui.view.noteList.components.form.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
          currentState="normal">
 
     <fx:Script><![CDATA[
@@ -24,8 +25,10 @@
         import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
         import de.dittner.testmyself.ui.common.menu.MenuID;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
 
@@ -33,8 +36,8 @@
         import spark.events.TextOperationEvent;
 
         private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "-(e)s, -er", "-(e)s, sg", "-en, -en", "-n, -n", "-s, -e", "-s, -s", "-ses, -se", "-s, =", "-s, sg", "=, -en", "=, -n", "=, -se", "=, sg", "sub", "pl"];
-        protected const HGAP:uint = 10;
-        protected const VGAP:uint = 5;
+        protected const HGAP:uint = Values.PT10;
+        protected const VGAP:uint = Values.PT5;
         private var curOperation:IAsyncOperation;
 
         //--------------------------------------
@@ -495,7 +498,7 @@
 
     <fx:Declarations>
         <form2:InvalidNotifier id="invalidNotifier"
-                               width="500" height="150"
+                               width="{Values.PT500}" height="{Values.PT150}"
                                verticalCenter="0" horizontalCenter="0"/>
     </fx:Declarations>
 
@@ -504,15 +507,18 @@
                     title="{title}"
                     mode="{mode}"/>
 
-    <button:WhiteButton id="formatBtn"
-                        width="330" right="15" top="5"
-                        label="{resourceManager.getString('app', 'Formatting')}"
-                        visible="{!isRemoveMode}"
-                        click="correct()"/>
+    <button:TransparentWhiteButton id="formatBtn"
+                                   width="{Values.PT330}" right="{Values.PT15}" top="{Values.PT5}"
+                                   title="{resourceManager.getString('app', 'Formatting')}"
+                                   visible="{!isRemoveMode}"
+                                   click="correct()"/>
 
     <!--ADD EDIT MODE-->
 
-    <s:HGroup width="100%" top="50" bottom="20" gap="{HGAP}" paddingLeft="15" paddingRight="15"
+    <s:HGroup width="100%"
+              top="{Values.PT50}" bottom="{Values.PT20}"
+              gap="{HGAP}"
+              paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}"
               visible="{!isRemoveMode}" includeInLayout="{!isRemoveMode}">
         <s:VGroup width="100%" height="100%" gap="{VGAP}">
             <s:HGroup width="100%" height="100%" gap="{HGAP}">
@@ -522,16 +528,16 @@
                                  visible="false" includeInLayout="false"
                                  visible.word="{isArticleEnabled}" includeInLayout.word="{true}"
                                  visible.verb="false" includeInLayout.verb="false"
-                                 width="110"
+                                 width="{Values.PT110}"
                                  itemRenderer="de.dittner.testmyself.ui.view.noteList.components.form.articleList.ArticleItemRenderer"
                                  skinClass="de.dittner.testmyself.ui.view.noteList.components.form.articleList.ListBoxSkin"
                                  dataProvider="{new ArrayCollection(DeWordArticle.ARTICLES)}"/>
 
                 <s:VGroup width="100%" height="100%" gap="{VGAP}">
                     <input:TextAreaForm id="titleArea"
-                                        fontSize.word="18"
-                                        fontSize.verb="18"
-                                        fontSize="22"
+                                        fontSize.word="{Values.PT18}"
+                                        fontSize.verb="{Values.PT18}"
+                                        fontSize="{Values.PT22}"
                                         visible="true" includeInLayout="true"
                                         visible.word="false" includeInLayout.word="false"
                                         visible.verb="false" includeInLayout.verb="false"
@@ -541,6 +547,7 @@
                                         change="validateInputText(titleArea.text)"/>
 
                     <input:TextInputForm id="wordInput"
+                                         fontSize="{Values.PT18}"
                                          visible="false" includeInLayout="false"
                                          visible.word="true" includeInLayout.word="true"
                                          width="100%"
@@ -562,9 +569,9 @@
                                             width="100%" height="100%"
                                             maxChars="{Device.MAX_TEXT_LENGTH}"
                                             title="{resourceManager.getString('app', 'Translation')}"
-                                            fontSize.word="18"
-                                            fontSize.verb="18"
-                                            fontSize="22"/>
+                                            fontSize.word="{Values.PT18}"
+                                            fontSize.verb="{Values.PT18}"
+                                            fontSize="{Values.PT22}"/>
                     </s:HGroup>
 
                 </s:VGroup>
@@ -579,16 +586,16 @@
                                 visible.verb="true" includeInLayout.verb="true"
                                 mainForm="{this}"/>
 
-            <s:Group width="100%" height="72">
+            <s:Group width="100%" height="{Values.PT72}">
                 <audio:AudioRecorder id="audioRecorder"
                                      isLoadMp3FileFromDudenEnabled="{isLoadMp3FileFromDudenEnabled}"
                                      noteTitleToLoadMp3="{getNoteTitle(hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
-                                     height="72" left="118" left.lesson="0" left.normal="0" right="0"
+                                     height="{Values.PT72}" left="{Values.PT118}" left.lesson="0" left.normal="0" right="0"
                                      loadRemoteMp3WithError="showInvalidMsg(resourceManager.getString('app', 'FailedToLoadMp3File'))"/>
             </s:Group>
         </s:VGroup>
 
-        <s:VGroup width="330" height="100%" gap="{VGAP}"
+        <s:VGroup width="{Values.PT330}" height="100%" gap="{VGAP}"
                   visible.normal="false" includeInLayout.normal="false"
                   visible.lesson="{!isAddMode}" includeInLayout.lesson="{!isAddMode}"
                   visible.word="true" includeInLayout.word="true"
@@ -613,16 +620,16 @@
                 </list:layout>
             </list:ListForm>
 
-            <s:HGroup width="100%" height="72" gap="0" verticalAlign="bottom"
+            <s:HGroup width="100%" height="{Values.PT72}" gap="{Values.PT1}" verticalAlign="bottom"
                       visible.lesson="false" includeInLayout.lesson="false">
                 <input:TextInputForm id="addTagInput"
+                                     fontSize="{Values.PT18}"
                                      width="100%"
                                      maxChars="{Device.MAX_TAG_NAME_LENGTH}"
                                      title="{resourceManager.getString('app', 'NewTagsName')}"/>
 
-                <button:BitmapButton id="addTagBtn"
-                                     upImage="@Embed(source='/assets/button/add_element_btn_up.png')"
-                                     downImage="@Embed(source='/assets/button/add_element_btn_down.png')"
+                <tile:FadeTileButton id="addTagBtn"
+                                     upTileID="{TileID.BTN_ADD_TAG}"
                                      click="addTagBtnClickHandler(event)"/>
             </s:HGroup>
         </s:VGroup>
@@ -635,9 +642,9 @@
              visible="{isRemoveMode}"
              width="100%"
              textAlign="center"
-             verticalCenter="-100"
+             verticalCenter="{-Values.PT100}"
              color="{AppColors.TEXT_BLACK}"
-             fontSize="24"
+             fontSize="{Values.PT24}"
              text="{getRemoveNotification(note)}"/>
 
     <s:Label id="removeNoteTitleLbl"
@@ -645,7 +652,7 @@
              width="100%"
              verticalCenter="0"
              color="{AppColors.TEXT_BLACK}"
-             fontSize="18"
+             fontSize="{Values.PT18}"
              fontWeight="bold"
              textAlign="center" verticalAlign="middle"/>
 

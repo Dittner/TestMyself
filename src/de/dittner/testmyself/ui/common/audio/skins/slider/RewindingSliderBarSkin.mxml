@@ -1,11 +1,15 @@
 <?xml version="1.0"?>
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
              xmlns:s="library://ns.adobe.com/flex/spark"
-             height="14"
-        >
+             xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+             height="{Values.PT14}">
     <fx:Metadata>
         [HostComponent("spark.components.Button")]
     </fx:Metadata>
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.utils.Values;
+        ]]></fx:Script>
 
     <s:states>
         <s:State name="disabled"/>
@@ -14,10 +18,9 @@
         <s:State name="up"/>
     </s:states>
 
-    <s:BitmapImage
-            id="bg"
-            source="@Embed(source='/assets/voiceRecording/bar.png', scaleGridLeft='4', scaleGridRight='5', scaleGridTop='0', scaleGridBottom='10')"
-            height="14"
-            width="100%"/>
+    <tile:TileImage id="bg"
+                    actualTileID="{TileID.PLAYER_BAR_ICON}"
+                    use9Scale="true"
+                    width="100%"/>
 
 </s:SparkSkin>

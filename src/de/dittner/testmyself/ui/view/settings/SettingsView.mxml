@@ -12,11 +12,12 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
+        import de.dittner.testmyself.utils.Values;
 
         [Bindable]
         public var vm:SettingsVM;
 
-        private static const TAB_BAR_HEI:uint = 40;
+        private static const TAB_BAR_HEI:uint = Values.PT40;
 
         override protected function activating():void {
             vm = ViewModelFactory.instance.settingsVM;

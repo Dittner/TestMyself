@@ -10,6 +10,7 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
+        import de.dittner.testmyself.utils.Values;
 
         import spark.components.supportClasses.TextInputOperation;
         import spark.events.TextOperationEvent;
@@ -89,10 +90,11 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="15" paddingLeft="118"/>
+        <s:VerticalLayout gap="{Values.PT15}" paddingLeft="{Values.PT118}"/>
     </s:layout>
 
     <input:TextInputForm id="infinitiveInput"
+                         fontSize="{Values.PT18}"
                          changing="wordValidationHandler(event)"
                          change="dispatchEvent(event.clone())"
                          text="{infinitive}"
@@ -101,6 +103,7 @@
                          title="{resourceManager.getString('app', 'Infinitive')}"/>
 
     <input:TextInputForm id="presentInput"
+                         fontSize="{Values.PT18}"
                          visible="{isPresentFormEnabled}"
                          includeInLayout="{isPresentFormEnabled}"
                          changing="wordValidationHandler(event)"
@@ -110,6 +113,7 @@
                          title="{resourceManager.getString('app', 'Present')}"/>
 
     <input:TextInputForm id="pastInput"
+                         fontSize="{Values.PT18}"
                          changing="wordValidationHandler(event)"
                          text="{past}"
                          width="100%"
@@ -117,6 +121,7 @@
                          title="{resourceManager.getString('app', 'PastSimple')}"/>
 
     <input:TextInputForm id="perfectInput"
+                         fontSize="{Values.PT18}"
                          changing="wordValidationHandler(event)"
                          text="{perfect}"
                          width="100%"

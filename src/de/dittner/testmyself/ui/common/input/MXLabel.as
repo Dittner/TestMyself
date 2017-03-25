@@ -3,6 +3,7 @@ import de.dittner.async.utils.invalidateOf;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.DisplayObject;
 import flash.events.Event;
@@ -23,7 +24,7 @@ public class MXLabel extends SpriteVisualElement {
 		addChild(tf);
 	}
 
-	private static const titleFormat:TextFormat = new TextFormat(FontName.MYRIAD_MX, 15, AppColors.TEXT_CONTROL_TITLE);
+	private static const titleFormat:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT15, AppColors.TEXT_CONTROL_TITLE);
 	private var tf:TextField;
 
 	//----------------------------------------------------------------------------------------------

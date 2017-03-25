@@ -1,11 +1,12 @@
 package de.dittner.testmyself.ui.common.menu {
-import de.dittner.testmyself.ui.common.tileClasses.FadeTileButton;
+import de.dittner.testmyself.ui.common.tile.FadeTileButton;
 
 import flash.events.Event;
 
 public class MenuButton extends FadeTileButton {
 	public function MenuButton() {
 		super();
+		upBgAlpha = 0.4;
 	}
 
 	//--------------------------------------

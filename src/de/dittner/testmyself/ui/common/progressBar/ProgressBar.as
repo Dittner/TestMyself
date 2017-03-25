@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.progressBar {
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
 import flash.text.TextField;
@@ -12,10 +13,10 @@ import flashx.textLayout.formats.TextAlign;
 import mx.core.UIComponent;
 
 public class ProgressBar extends UIComponent {
-	private static const TITTLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
-	private static const PROGRESS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 16, AppColors.TEXT_BLACK);
-	private static const VGAP:uint = 10;
-	private static const BAR_HEI:uint = 5;
+	private static const TITTLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT16, AppColors.TEXT_BLACK);
+	private static const PROGRESS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT16, AppColors.TEXT_BLACK);
+	private static const VGAP:uint = Values.PT10;
+	private static const BAR_HEI:uint = Values.PT5;
 
 	public function ProgressBar() {
 		super();

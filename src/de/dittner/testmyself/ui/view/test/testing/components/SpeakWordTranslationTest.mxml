@@ -9,6 +9,7 @@
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  word
@@ -54,22 +55,22 @@
         ]]></fx:Script>
 
     <test:layout>
-        <s:VerticalLayout gap="15" horizontalAlign="center"/>
+        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="center"/>
     </test:layout>
 
-    <s:HGroup width="100%" horizontalAlign="center" gap="10">
+    <s:HGroup width="100%" horizontalAlign="center" gap="{Values.PT10}">
         <s:Label id="articleLbl"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
-                 fontSize="42"/>
+                 fontSize="{Values.PT42}"/>
         <s:Label id="titleLbl"
-                 maxWidth="{width - 100}"
+                 maxWidth="{width - Values.PT100}"
                  maxDisplayedLines="2"
                  textAlign="center"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_BLACK}"
-                 fontSize="42"/>
+                 fontSize="{Values.PT42}"/>
     </s:HGroup>
 
     <test:TextBoard id="translateBoard"

@@ -2,11 +2,12 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         height="40">
+         height="{Values.PT40}">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  title
@@ -52,7 +53,7 @@
 
     <s:Label text="{title}"
              fontFamily="{FontName.MYRIAD}"
-             fontSize="16"
+             fontSize="{Values.PT16}"
              mouseChildren="false" mouseEnabled="false"
              width="70%" height="100%" verticalAlign="middle"
              left="{padding}"
@@ -60,7 +61,7 @@
 
     <s:Label text="{description}"
              fontFamily="{FontName.MYRIAD}"
-             fontSize="16"
+             fontSize="{Values.PT16}"
              height="100%" verticalAlign="middle"
              mouseChildren="false" mouseEnabled="false"
              right="{padding}"

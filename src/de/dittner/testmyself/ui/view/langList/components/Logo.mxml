@@ -5,12 +5,13 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.utils.logoMaker.LabelCard;
+        import de.dittner.testmyself.utils.Values;
 
         override protected function createChildren():void {
             super.createChildren();
 
             var lbl:LabelCard;
-            lbl = new LabelCard("TESTMYSELF", 15, 22, 2, 90, 0xffFFff, 10, FontName.MYRIAD_MX);
+            lbl = new LabelCard("TESTMYSELF", Values.PT15, Values.PT22, Values.PT2, 90, 0xffFFff, Values.PT10, FontName.MYRIAD_MX);
             addElement(lbl);
         }
         ]]></fx:Script>

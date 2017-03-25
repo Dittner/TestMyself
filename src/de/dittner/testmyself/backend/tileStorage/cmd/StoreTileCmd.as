@@ -5,7 +5,7 @@ import de.dittner.testmyself.backend.tileStorage.TileSQLLib;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
-import de.dittner.testmyself.ui.common.tileClasses.Tile;
+import de.dittner.testmyself.ui.common.tile.Tile;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;

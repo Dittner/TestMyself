@@ -3,12 +3,13 @@ import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.renderer.StringItemRenderer;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
+import de.dittner.testmyself.utils.Values;
 
 import flash.text.TextFormat;
 
 public class VocabularyRenderer extends StringItemRenderer {
-	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT_BLACK);
-	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT_WHITE);
+	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_BLACK);
+	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_WHITE);
 
 	public function VocabularyRenderer() {
 		super();

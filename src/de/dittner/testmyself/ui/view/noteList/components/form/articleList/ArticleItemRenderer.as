@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.view.noteList.components.form.articleList {
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.GradientType;
 import flash.display.Graphics;
@@ -10,11 +11,11 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class ArticleItemRenderer extends ItemRendererBase {
-	private static const TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_DARK_GRAY);
-	private static const SELECTED_TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_WHITE);
-	private static const PADDING:uint = 3;
+	private static const TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_DARK_GRAY);
+	private static const SELECTED_TAG_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_WHITE);
+	private static const PADDING:uint = Values.PT3;
 	private static const HOVER_COLOR:uint = AppColors.LIST_ITEM_HOVER;
-	private static const REN_HEI:uint = 35;
+	private static const REN_HEI:uint = Values.PT35;
 
 	public function ArticleItemRenderer() {
 		super();

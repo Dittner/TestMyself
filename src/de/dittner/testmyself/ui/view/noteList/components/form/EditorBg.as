@@ -1,10 +1,11 @@
 package de.dittner.testmyself.ui.view.noteList.components.form {
-import de.dittner.testmyself.ui.common.tileClasses.TileID;
-import de.dittner.testmyself.ui.common.tileClasses.TileShape;
+import de.dittner.testmyself.ui.common.tile.TileID;
+import de.dittner.testmyself.ui.common.tile.TileShape;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
 import flash.events.Event;
@@ -22,9 +23,9 @@ public class EditorBg extends UIComponent {
 
 	private var toolIcon:TileShape;
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 18, AppColors.TEXT_LIGHT);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_LIGHT);
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
-	public static const PAD:uint = 20;
+	public static const PAD:uint = Values.PT10;
 	public static const VOFFSET:uint = 0;
 	public static const BORDER_THICKNESS:uint = 0;
 

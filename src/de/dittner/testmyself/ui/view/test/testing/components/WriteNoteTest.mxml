@@ -4,7 +4,7 @@
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
                    xmlns:input="de.dittner.testmyself.ui.common.input.*"
-                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*" xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*">
+                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*" xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
@@ -12,9 +12,10 @@
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
-        import de.dittner.testmyself.ui.common.tileClasses.TileID;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  isCorrectlyAnswered
@@ -137,13 +138,13 @@
         ]]></fx:Script>
     <fx:Declarations>
         <form:InvalidNotifier id="invalidNotifier"
-                              width="200" height="31"
+                              width="{Values.PT200}" height="{Values.PT31}"
                               text="{resourceManager.getString('app', 'False!')}"
-                              bottom="50" horizontalCenter="0"/>
+                              bottom="{Values.PT50}" horizontalCenter="0"/>
     </fx:Declarations>
 
     <test:layout>
-        <s:VerticalLayout gap="15" horizontalAlign="center"/>
+        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="center"/>
     </test:layout>
 
     <test:TextBoard id="titleBoard"
@@ -155,13 +156,14 @@
 
     <s:HGroup visible="{!isBigText}" includeInLayout="{!isBigText}"
               width="100%"
-              horizontalAlign="center" gap="0" height="60" verticalAlign="bottom">
+              horizontalAlign="center" gap="0" height="{Values.PT60}" verticalAlign="bottom">
         <s:Label id="articleLbl"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
                  visible="{showDetails}"
                  includeInLayout="{showDetails}"
-                 fontSize="42"/>
+                 fontSize="{Values.PT42}"/>
+
         <s:Label id="titleLbl"
                  maxWidth="{0.75 * width}"
                  maxDisplayedLines="2"
@@ -170,16 +172,17 @@
                  color="{AppColors.TEXT_BLACK}"
                  visible="{showDetails}"
                  includeInLayout="{showDetails}"
-                 fontSize="42"/>
+                 fontSize="{Values.PT42}"/>
 
-        <tileclasses:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
+        <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
                                visible="{!showDetails}"
                                includeInLayout="{!showDetails}"/>
     </s:HGroup>
 
-    <s:HGroup width="100%" gap="15" paddingLeft="{padding}" paddingRight="{padding}" verticalAlign="bottom">
+    <s:HGroup width="100%" gap="{Values.PT15}" paddingLeft="{padding}" paddingRight="{padding}" verticalAlign="bottom">
 
         <input:TextInputForm id="textInput"
+                             fontSize="{Values.PT18}"
                              visible="{!isBigText}" includeInLayout="{!isBigText}"
                              width="100%"
                              maxChars="{Device.MAX_WORD_LENGTH}"
@@ -193,14 +196,14 @@
                             title="{resourceManager.getString('app', 'PleaseWriteText')}"/>
 
         <button:BlackButton id="validateBtn"
-                            width="200"
+                            width="{Values.PT200}"
                             enabled="{isActivating  &amp;&amp; isCorrectlyAnswered}"
-                            label="Prüfen"
+                            title="{resourceManager.getString('app', 'Check')}"
                             click="onAnswered()"/>
     </s:HGroup>
 
     <test:TextBoard id="translateBoard"
-                    width="{width - 2*padding}" height="300"
+                    width="{width - 2*padding}" height="{Values.PT300}"
                     title="{resourceManager.getString('app', 'Translation')}"
                     showText="{showDetails}"/>
 

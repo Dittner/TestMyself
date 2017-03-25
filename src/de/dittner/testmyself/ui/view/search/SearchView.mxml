@@ -213,7 +213,7 @@
                             width="100%"
                             startSearch="startSearchActivatedHandler(event)"/>
 
-    <s:Scroller left="0" percentWidth="{exampleList.visible ? 50 : 100}"
+    <s:Scroller left="0" percentWidth="{exampleList.visible ? Values.PT50 : Values.PT100}"
                 top="{searchBoard.height}" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                 excludeFrom="inactive"
                 horizontalScrollPolicy="off"

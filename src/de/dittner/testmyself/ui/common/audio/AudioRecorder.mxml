@@ -14,6 +14,7 @@
         import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.utils.FileChooser;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  comment
@@ -198,12 +199,13 @@
         ]]></fx:Script>
     <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
 
-    <input:MXLabel height="20"
+    <input:MXLabel height="{Values.PT20}"
+                   fontSize="{Values.PT15}"
                    mouseEnabled="false"
                    text="{resourceManager.getString('app', 'AudioRecord')}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
-    <s:Rect width="100%" top="20" bottom="0">
+    <s:Rect width="100%" top="{Values.PT20}" bottom="0">
         <s:fill>
             <s:SolidColor alpha="0"/>
         </s:fill>
@@ -213,32 +215,36 @@
     </s:Rect>
 
     <audio:RawDataPlayer id="rawDataPlayer"
-                         top="32" bottom="0"
+                         top="{Values.PT32}" bottom="0"
                          width="100%"
                          maxRecordSizeInMin="{maxRecordSizeInMin}"
                          removeCommentClick="mp3Player_removeCommentClickHandler(event)"
                          skinClass="de.dittner.testmyself.ui.common.audio.skins.RawDataPlayerSkin"/>
 
     <mp3:MP3PlayerComponent id="mp3Player"
-                            top="22" bottom="0"
+                            top="{Values.PT22}" bottom="0"
                             width="100%"
                             visible="false"
                             removeRecordEnabled="true"
                             removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
 
-    <button:GrayButton id="loadRemoteMp3Btn"
-                       verticalCenter="11"
-                       right="170"
-                       label="Duden"
-                       enabled="{!isMp3Loading}"
-                       visible="{loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled, noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
-                       click="loadRemoteMp3()"/>
+    <button:TransparentBlackButton id="loadRemoteMp3Btn"
+                                   verticalCenter="{Values.PT11}"
+                                   paddingLeft="{Values.PT10}"
+                                   paddingRight="{Values.PT10}"
+                                   right="{Values.PT170}"
+                                   title="Duden"
+                                   enabled="{!isMp3Loading}"
+                                   visible="{loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled, noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
+                                   click="loadRemoteMp3()"/>
 
-    <button:GrayButton id="loadLocalMp3Btn"
-                       verticalCenter="11"
-                       right="10"
-                       label="{resourceManager.getString('app', 'ChooseMp3File')}"
-                       enabled="{!isMp3Loading}"
-                       visible="{loadLocalMp3BtnVisible(rawDataPlayer.recording, rawDataPlayer.visible, mp3Player.comment, rawDataPlayer.recorder.recordedBytes)}"
-                       click="loadLocalMp3()"/>
+    <button:TransparentBlackButton id="loadLocalMp3Btn"
+                                   verticalCenter="{Values.PT11}"
+                                   paddingLeft="{Values.PT10}"
+                                   paddingRight="{Values.PT10}"
+                                   right="{Values.PT10}"
+                                   title="{resourceManager.getString('app', 'ChooseMp3File')}"
+                                   enabled="{!isMp3Loading}"
+                                   visible="{loadLocalMp3BtnVisible(rawDataPlayer.recording, rawDataPlayer.visible, mp3Player.comment, rawDataPlayer.recorder.recordedBytes)}"
+                                   click="loadLocalMp3()"/>
 </s:Group>

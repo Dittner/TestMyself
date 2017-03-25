@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.view.noteList.components.renderer {
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.note.DeWordArticle;
 import de.dittner.testmyself.model.domain.note.IrregularVerb;
@@ -7,8 +8,8 @@ import de.dittner.testmyself.model.domain.note.Word;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.renderer.*;
-import de.dittner.testmyself.ui.common.tileClasses.FadeTileButton;
-import de.dittner.testmyself.ui.common.tileClasses.TileID;
+import de.dittner.testmyself.ui.common.tile.FadeTileButton;
+import de.dittner.testmyself.ui.common.tile.TileID;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.view.noteList.components.NoteList;
@@ -24,12 +25,12 @@ import flash.text.TextFormat;
 import flashx.textLayout.formats.TextAlign;
 
 public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 24, AppColors.TEXT_BLACK);
-	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 22, AppColors.TEXT_DARK_GRAY);
-	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_RED);
-	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 26, AppColors.TEXT_YELLOW);
-	private static const FOOTER_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 10, AppColors.TEXT_GRAY, null, true, null, null, null, TextAlign.RIGHT);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.TEXT_BLACK);
+	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
+	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_RED);
+	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_YELLOW);
+	private static const FOOTER_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT10, AppColors.TEXT_GRAY, null, true, null, null, null, TextAlign.RIGHT);
 
 	protected static const TEXT_DEFAULT_OFFSET:uint = 2;
 	private static const DEF_PAGE_LAYOUT:PageLayout = new PageLayout();
@@ -53,9 +54,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	//
 	//----------------------------------------------------------------------------------------------
 
-	protected function get gap():uint {return 10;}
+	protected function get gap():uint {return Values.PT10;}
 
-	protected function get pad():uint {return 19;}
+	protected function get pad():uint {return Values.PT19;}
 
 	protected function getTitleTextFormat():TextFormat {
 		return word || verb ? WORD_AND_VERB_TITLE_FORMAT : TITLE_FORMAT;
@@ -245,7 +246,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		}
 
 		commentPlayBtn.x = w - commentPlayBtn.width;
-		commentPlayBtn.y = 72 - commentPlayBtn.height >> 1;
+		commentPlayBtn.y = 72*Device.factor - commentPlayBtn.height >> 1;
 		commentPlayBtn.visible = hasAudioComment();
 		commentPlayBtn.enabled = selected;
 

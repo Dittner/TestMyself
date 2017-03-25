@@ -21,6 +21,7 @@
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
+        import de.dittner.testmyself.utils.Values;
 
         [Bindable]
         public var vm:NoteListVM;
@@ -284,7 +285,7 @@
         <tag:TagFilter id="filter"
                        selectedTag="@{vm.page.selectedTag}"
                        tags="{vm.page.vocabulary.tagColl}"
-                       width="350"
+                       width="{Values.PT350}"
                        visible="false"
                        right="0"
                        height="100%"

@@ -6,9 +6,9 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.Device;
-import de.dittner.testmyself.ui.common.tileClasses.ClassParser;
-import de.dittner.testmyself.ui.common.tileClasses.Tile;
-import de.dittner.testmyself.ui.common.tileClasses.TileID;
+import de.dittner.testmyself.ui.common.tile.ClassParser;
+import de.dittner.testmyself.ui.common.tile.Tile;
+import de.dittner.testmyself.ui.common.tile.TileID;
 
 import flash.display.BitmapData;
 import flash.display.Loader;

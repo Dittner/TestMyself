@@ -8,6 +8,7 @@
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  word
@@ -45,17 +46,17 @@
         ]]></fx:Script>
 
     <test:layout>
-        <s:VerticalLayout gap="15" horizontalAlign="center"/>
+        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="center"/>
     </test:layout>
 
-    <s:Group width="{width - 2*padding}" height="100">
+    <s:Group width="{width - 2*padding}" height="{Values.PT100}">
         <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
         <s:Label text="{resourceManager.getString('app', 'Infinitive')}"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
-                 fontSize="20"
+                 fontSize="{Values.PT20}"
                  mouseChildren="false" mouseEnabled="false"
-                 left="5" right="5"
+                 left="{Values.PT5}" right="{Values.PT5}"
                  color="{AppColors.TEXT_LIGHT}"/>
 
         <s:Label id="titleLbl"
@@ -64,17 +65,17 @@
                  fontWeight="bold"
                  textAlign="center"
                  color="{AppColors.TEXT_BLACK}"
-                 fontSize="30"/>
+                 fontSize="{Values.PT30}"/>
     </s:Group>
 
-    <s:Group width="{width - 2*padding}" height="100">
+    <s:Group width="{width - 2*padding}" height="{Values.PT100}">
         <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
         <s:Label text="{resourceManager.getString('app', 'VerbForms')}"
                  fontFamily="{FontName.MYRIAD_COND}"
                  fontWeight="bold"
-                 fontSize="20"
+                 fontSize="{Values.PT20}"
                  mouseChildren="false" mouseEnabled="false"
-                 left="5" right="5"
+                 left="{Values.PT5}" right="{Values.PT5}"
                  color="{AppColors.TEXT_LIGHT}"/>
 
         <s:Label id="verbsFormsLbl"
@@ -84,7 +85,7 @@
                  fontWeight="bold"
                  textAlign="center"
                  color="{AppColors.TEXT_BLACK}"
-                 fontSize="30"/>
+                 fontSize="{Values.PT30}"/>
     </s:Group>
 
     <test:TextBoard id="translateBoard"

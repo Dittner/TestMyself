@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.view.settings.components {
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
+import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
 import flash.text.TextField;
@@ -10,8 +11,8 @@ import flash.text.TextFormat;
 import spark.components.DataGroup;
 
 public class SettingsItemRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, 20, AppColors.TEXT_DARK_GRAY, true);
-	private static const PADDING:uint = 3;
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_DARK_GRAY, true);
+	private static const PADDING:uint = Values.PT3;
 
 	public function SettingsItemRenderer() {
 		super();
@@ -35,9 +36,9 @@ public class SettingsItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		var dg:DataGroup = parent as DataGroup;
-		measuredWidth = dg ? dg.width / dg.numElements : tf.textWidth + 10;
-		minHeight = 10;
-		measuredHeight = tf.textHeight + 5 + 2 * PADDING;
+		measuredWidth = dg ? dg.width / dg.numElements : tf.textWidth + Values.PT10;
+		minHeight = Values.PT10;
+		measuredHeight = tf.textHeight + Values.PT5 + Values.PT2 * PADDING;
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {

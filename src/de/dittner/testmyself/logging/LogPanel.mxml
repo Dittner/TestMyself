@@ -16,9 +16,9 @@
 
         private static const HEADER_HEI:Number = Values.PT50;
 
-        [Embed(source='/assets/button/close_icon_small.png')]
+        [Embed(source='/assets/close_icon_small.png')]
         private static const CloseSmallIconClass:Class;
-        [Embed(source='/assets/button/close_icon_large.png')]
+        [Embed(source='/assets/close_icon_large.png')]
         private static const CloseLargeIconClass:Class;
 
         //--------------------------------------

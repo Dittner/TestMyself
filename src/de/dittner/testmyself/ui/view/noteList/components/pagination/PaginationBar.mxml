@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:pagination="de.dittner.testmyself.ui.view.noteList.components.pagination.*">
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Metadata>
         [Event(name="pageNumChanged", type="flash.events.Event")]
     </fx:Metadata>
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  unitsTotal
@@ -69,9 +71,9 @@
             firstPageBtn.enabled = pageNum > 0;
             lastPageBtn.enabled = pageNum + 1 < totalPages;
 
-            curPageBtn.label = (pageNum + 1).toString();
-            lastPageBtn.label = lastPageBtn.enabled ? totalPages.toString() : "";
-            firstPageBtn.label = firstPageBtn.enabled ? "1" : "";
+            curPageBtn.title = (pageNum + 1).toString();
+            lastPageBtn.title = lastPageBtn.enabled ? totalPages.toString() : "";
+            firstPageBtn.title = firstPageBtn.enabled ? "1" : "";
         }
 
         private function nextPageBtnClickHandler(event:MouseEvent):void {
@@ -91,39 +93,51 @@
         }
         ]]></fx:Script>
 
-    <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="0">
+    <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="{Values.PT10}">
 
-        <pagination:PaginationButton id="prevPageBtn"
-                                     enabled="false"
-                                     image="@Embed(source='/assets/button/page_prev_icon.png')"
-                                     click="prevPageBtnClickHandler(event)"/>
+        <tile:FadeTileButton id="prevPageBtn"
+                             upTileID="{TileID.PAGE_PREV_ICON}"
+                             enabled="false"
+                             click="prevPageBtnClickHandler(event)"/>
 
-        <s:Spacer width="15"/>
+        <s:Spacer width="{Values.PT15}"/>
 
-        <pagination:PaginationButton id="firstPageBtn"
-                                     label="1"
-                                     enabled="false"
-                                     color="#ffFFff"
-                                     image="@Embed(source='/assets/button/page_dark_icon.png')"
-                                     click="firstPageBtnClickHandler(event)"/>
+        <tile:FadeTileButton id="firstPageBtn"
+                             upTileID="{TileID.PAGE_BLACK_ICON}"
+                             isBold="true"
+                             title="1"
+                             paddingLeft="0" paddingRight="0"
+                             enabled="false"
+                             textColor="#ffFFff"
+                             font="{FontName.MYRIAD_COND_MX}"
+                             fontSize="{Values.PT15}"
+                             click="firstPageBtnClickHandler(event)"/>
 
-        <pagination:PaginationButton id="curPageBtn"
-                                     label="1"
-                                     color="{AppColors.TEXT_BLACK}"
-                                     image="@Embed(source='/assets/button/page_light_icon.png')"/>
+        <tile:FadeTileButton id="curPageBtn"
+                             upTileID="{TileID.PAGE_WHITE_ICON}"
+                             title="1"
+                             isBold="true"
+                             paddingLeft="0" paddingRight="0"
+                             textColor="#0"
+                             font="{FontName.MYRIAD_COND_MX}"
+                             fontSize="{Values.PT15}"/>
 
-        <pagination:PaginationButton id="lastPageBtn"
-                                     enabled="false"
-                                     color="#ffFFff"
-                                     image="@Embed(source='/assets/button/page_dark_icon.png')"
-                                     click="lastPageBtnClickHandler(event)"/>
+        <tile:FadeTileButton id="lastPageBtn"
+                             upTileID="{TileID.PAGE_BLACK_ICON}"
+                             isBold="true"
+                             paddingLeft="0" paddingRight="0"
+                             enabled="false"
+                             textColor="#ffFFff"
+                             font="{FontName.MYRIAD_COND_MX}"
+                             fontSize="{Values.PT15}"
+                             click="lastPageBtnClickHandler(event)"/>
 
-        <s:Spacer width="15"/>
+        <s:Spacer width="{Values.PT15}"/>
 
-        <pagination:PaginationButton id="nextPageBtn"
-                                     enabled="false"
-                                     image="@Embed(source='/assets/button/page_next_icon.png')"
-                                     click="nextPageBtnClickHandler(event)"/>
+        <tile:FadeTileButton id="nextPageBtn"
+                             upTileID="{TileID.PAGE_NEXT_ICON}"
+                             enabled="false"
+                             click="nextPageBtnClickHandler(event)"/>
     </s:HGroup>
 
 </s:Group>

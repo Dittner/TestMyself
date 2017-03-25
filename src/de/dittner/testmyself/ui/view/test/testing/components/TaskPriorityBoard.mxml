@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
          currentState="highPriority"
          mouseEnabledWhereTransparent="true"
          click="clickHandler(event)"
@@ -9,7 +9,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.test.TestTaskPriority;
-        import de.dittner.testmyself.ui.common.tileClasses.TileID;
+        import de.dittner.testmyself.ui.common.tile.TileID;
 
         //--------------------------------------
         //  complexity
@@ -41,14 +41,11 @@
         <s:State name="lowPriority"/>
     </s:states>
 
-    <tileclasses:TileImage id="icon"
-                           actualTileID.lowPriority="{TileID.MENU_PRIORITY_LOW_ICON}"
-                           actualTileID.middlePriority="{TileID.MENU_PRIORITY_MIDDLE_ICON}"
-                           actualTileID.highPriority="{TileID.MENU_PRIORITY_HIGH_ICON}"/>
-
-    <tileclasses:TileImage id="disabledIcon"
-                           alpha="0"
-                           actualTileID.lowPriority="{TileID.MENU_PRIORITY_LOW_RED_ICON}"
-                           actualTileID.middlePriority="{TileID.MENU_PRIORITY_MIDDLE_RED_ICON}"
-                           actualTileID.highPriority="{TileID.MENU_PRIORITY_HIGH_RED_ICON}"/>
+    <tile:FadeTileButton upTileID.lowPriority="{TileID.MENU_PRIORITY_LOW_ICON}"
+                         upTileID.middlePriority="{TileID.MENU_PRIORITY_MIDDLE_ICON}"
+                         upTileID.highPriority="{TileID.MENU_PRIORITY_HIGH_ICON}"
+                         disabledTileID.lowPriority="{TileID.MENU_PRIORITY_LOW_RED_ICON}"
+                         disabledTileID.middlePriority="{TileID.MENU_PRIORITY_MIDDLE_RED_ICON}"
+                         disabledTileID.highPriority="{TileID.MENU_PRIORITY_HIGH_RED_ICON}"
+                         enabled="{enabled}"/>
 </s:Group>

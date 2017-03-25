@@ -1,10 +1,12 @@
 package de.dittner.testmyself.ui.view.noteList.components.form.articleList {
 
+import de.dittner.testmyself.ui.common.tile.FadeTileButton;
+
 import flash.events.MouseEvent;
+import flash.text.TextField;
 
 import mx.events.FlexEvent;
 
-import spark.components.Button;
 import spark.components.List;
 import spark.events.IndexChangeEvent;
 
@@ -16,7 +18,10 @@ public class ListBox extends List {
 	}
 
 	[SkinPart(required="true")]
-	public var dropDownBtn:Button;
+	public var dropDownBtn:FadeTileButton;
+
+	[SkinPart(required="true")]
+	public var dropDownTf:TextField;
 
 	//--------------------------------------------------------------------------
 	//  partAdded
@@ -25,7 +30,9 @@ public class ListBox extends List {
 		super.partAdded(partName, instance);
 		if (instance == dropDownBtn) {
 			dropDownBtn.addEventListener(MouseEvent.CLICK, dropDownBtnClickHandler);
-			if (selectedItem && selectedItem is String) dropDownBtn.label = selectedItem as String;
+		}
+		else if (instance == dropDownTf) {
+			if (selectedItem && selectedItem is String) dropDownTf.text = selectedItem as String;
 		}
 		else if (instance == scroller) {
 			scroller.visible = scroller.includeInLayout = false;
@@ -53,12 +60,12 @@ public class ListBox extends List {
 	}
 
 	protected function indexChangeHandler(event:IndexChangeEvent):void {
-		if (selectedItem && selectedItem is String) dropDownBtn.label = selectedItem as String;
+		if (selectedItem && selectedItem is String) dropDownTf.text = selectedItem as String;
 		scroller.visible = scroller.includeInLayout = false;
 	}
 
 	protected function valueCommitHandler(event:FlexEvent):void {
-		dropDownBtn.label = selectedItem is String ? selectedItem as String : "";
+		dropDownTf.text = selectedItem is String ? selectedItem as String : "";
 	}
 }
 }

@@ -6,8 +6,9 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
-        private static const PAD:uint = 2;
+        private static const PAD:uint = Values.PT2;
 
         [Bindable]
         public var text:String = "";
@@ -38,7 +39,7 @@
              text="{text}"
              fontWeight="bold"
              fontFamily="{FontName.MYRIAD}"
-             fontSize="20"
+             fontSize="{Values.PT20}"
              color="#ffFFff"/>
 
 </s:Group>

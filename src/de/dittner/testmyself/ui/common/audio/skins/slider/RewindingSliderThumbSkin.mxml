@@ -1,12 +1,16 @@
 <?xml version="1.0"?>
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
              xmlns:s="library://ns.adobe.com/flex/spark"
-             width="27"
-             height="27"
-        >
+             xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+             width="{Values.PT27}"
+             height="{Values.PT27}">
     <fx:Metadata>
         [HostComponent("spark.components.Button")]
     </fx:Metadata>
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.utils.Values;
+        ]]></fx:Script>
 
     <s:states>
         <s:State name="disabled"/>
@@ -15,11 +19,9 @@
         <s:State name="up"/>
     </s:states>
 
-    <s:BitmapImage
-            id="bg"
-            source.up="@Embed(source='/assets/voiceRecording/dragball.png')"
-            source.down="@Embed(source='/assets/voiceRecording/dragball.png')"
-            source.disabled="@Embed(source='/assets/voiceRecording/dragball.png')"
-            width="27" height="27"/>
+    <tile:TileImage id="bg"
+                    x="{-Values.PT2}"
+                    actualTileID="{TileID.PLAYER_THUMB_ICON}"
+                    width="100%"/>
 
 </s:SparkSkin>

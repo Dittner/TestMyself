@@ -112,7 +112,6 @@
 /***********************************************************/
 
 global {
-    fontSize: 14px;
     fontFamily: MyriadProMX;
     fontWeight: normal;
     contentBackgroundAlpha: 0;
@@ -121,13 +120,11 @@ global {
 }
 
 s|Button {
-    fontSize: 14px;
     fontFamily: MyriadPro;
     fontWeight: normal;
 }
 
 s|Label {
-    fontSize: 14px;
     fontFamily: MyriadPro;
     fontWeight: normal;
 }
@@ -140,7 +137,6 @@ input|TextInputForm {
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: MyriadPro;
     focusedTextSelectionColor: #ffbbb8;
-    fontSize: 18px;
     color: #333333;
 }
 
@@ -151,7 +147,6 @@ s|TextArea {
     horizontalScrollPolicy: off;
     focusedTextSelectionColor: #ffbbb8;
     fontFamily: MyriadPro;
-    fontSize: 18px;
     color: #333333;
 }
 
@@ -165,7 +160,6 @@ list|ListForm {
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
     fontFamily: MyriadProMX;
-    fontSize: 18px;
     color: #333333;
 }
 
@@ -188,11 +182,6 @@ s|RadioButton {
 
 spinner|CustomSpinner {
     skin-class: ClassReference("de.dittner.testmyself.ui.common.spinner.CustomSpinnerSkin");
-    fontSize: 16px;
     color: #4e4f61;
     fontFamily: MyriadPro;
-}
-
-s|Button.dropDownBtnStyle {
-    skinClass: ClassReference("de.dittner.testmyself.ui.view.noteList.components.form.articleList.ListBoxDropDownButtonSkin");
 }

@@ -2,12 +2,13 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*">
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.ui.common.tileClasses.TileID;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  showText
@@ -70,12 +71,12 @@
     <s:Label text="{title}"
              fontFamily="{FontName.MYRIAD_COND}"
              fontWeight="bold"
-             fontSize="20"
+             fontSize="{Values.PT20}"
              mouseChildren="false" mouseEnabled="false"
-             left="15" right="15"
+             left="{Values.PT15}" right="{Values.PT15}"
              color="{AppColors.TEXT_LIGHT}"/>
 
-    <s:Scroller left="15" right="15" top="22" bottom="2"
+    <s:Scroller left="{Values.PT15}" right="{Values.PT15}" top="{Values.PT22}" bottom="{Values.PT2}"
                 visible="{showText}"
                 horizontalScrollPolicy="off">
         <s:Group width="100%">
@@ -84,13 +85,13 @@
                      width="100%"
                      fontFamily="{FontName.MYRIAD}"
                      color="{AppColors.TEXT_BLACK}"
-                     fontSize="22"/>
+                     fontSize="{Values.PT22}"/>
         </s:Group>
 
     </s:Scroller>
 
-    <tileclasses:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
-                           visible="{isShownQuestions(questionsIconEnabled, showText)}"
-                           verticalCenter="0" horizontalCenter="0"/>
+    <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
+                    visible="{isShownQuestions(questionsIconEnabled, showText)}"
+                    verticalCenter="0" horizontalCenter="0"/>
 
 </s:Group>

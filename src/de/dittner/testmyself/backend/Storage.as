@@ -39,7 +39,7 @@ import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.page.SearchPage;
-import de.dittner.testmyself.ui.common.tileClasses.Tile;
+import de.dittner.testmyself.ui.common.tile.Tile;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 import de.dittner.walter.WalterProxy;
 

@@ -13,6 +13,7 @@
 		<![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         private static const focusExclusions:Array = ["labelDisplay"];
         override public function get focusSkinExclusions():Array { return focusExclusions;}
@@ -30,7 +31,7 @@
         <s:State name="disabledAndSelected" stateGroups="disabledStates, selectedStates"/>
     </s:states>
 
-    <s:Group bottom="0" width="23" height="23">
+    <s:Group bottom="0" width="{Values.PT23}" height="{Values.PT23}">
 
         <s:Rect left="0" right="0" top="0" bottom="0">
             <s:fill>
@@ -43,7 +44,7 @@
 
         <!-- checkmark -->
         <s:Path includeIn="selectedStates" id="check" itemCreationPolicy="immediate"
-                width="18" height="18"
+                width="{Values.PT18}" height="{Values.PT18}"
                 verticalCenter="0" horizontalCenter="0"
                 data="M 0 4.969 L 1.5 3.469 L 3.75 5.719 L 8.188 0 L 9.781 1.406 L 3.813 9.094 L 0 4.969 Z">
             <s:fill>
@@ -53,10 +54,10 @@
     </s:Group>
 
     <s:Label id="labelDisplay"
-             left="28" right="0" verticalCenter="1"
+             left="{Values.PT28}" right="0" verticalCenter="1"
              fontFamily="{FontName.MYRIAD}"
              fontStyle="italic"
-             fontSize="20"
+             fontSize="{Values.PT20}"
              color="{AppColors.TEXT_BLACK}"
              maxDisplayedLines="1"/>
 

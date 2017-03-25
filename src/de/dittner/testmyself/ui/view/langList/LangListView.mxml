@@ -3,12 +3,12 @@
                 xmlns:s="library://ns.adobe.com/flex/spark"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
                 xmlns:components="de.dittner.testmyself.ui.view.langList.components.*"
-                xmlns:tileclasses="de.dittner.testmyself.ui.common.tileClasses.*"
+                xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
                 horizontalCenter="0">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.language.LanguageID;
-        import de.dittner.testmyself.ui.common.tileClasses.TileID;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.Values;
 
@@ -38,27 +38,27 @@
     <s:BitmapImage height="100%" width="100%" right="{width/2}" scaleMode="zoom" fillMode="scale"
                    source="@Embed('/assets/koeln.jpg')"/>
 
-    <tileclasses:FadeTileButton title="{resourceManager.getString('app', 'German')}"
-                                use9Scale="true"
-                                iconTileID="{TileID.FLAG_GERMANY}"
-                                upTileID="{TileID.BTN_LANG_UP}"
-                                downTileID="{TileID.BTN_LANG_DOWN}"
-                                left="{width/8}" width="{width/4}" bottom="20"
-                                paddingLeft="{Values.PT10}"
-                                textColor="#ffFFff"
-                                fontSize="{Values.PT30}"
-                                click="vm.selectLang(LanguageID.DE)"/>
+    <tile:FadeTileButton title="{resourceManager.getString('app', 'German')}"
+                         use9Scale="true"
+                         iconTileID="{TileID.FLAG_GERMANY}"
+                         upTileID="{TileID.BTN_LANG_UP}"
+                         downTileID="{TileID.BTN_LANG_DOWN}"
+                         left="{width/8}" width="{width/4}" bottom="20"
+                         paddingLeft="{Values.PT10}"
+                         textColor="#ffFFff"
+                         fontSize="{Values.PT30}"
+                         click="vm.selectLang(LanguageID.DE)"/>
 
-    <tileclasses:FadeTileButton title="{resourceManager.getString('app', 'English')}"
-                                use9Scale="true"
-                                iconTileID="{TileID.FLAG_GB}"
-                                upTileID="{TileID.BTN_LANG_UP}"
-                                downTileID="{TileID.BTN_LANG_DOWN}"
-                                right="{width/8}" width="{width/4}" bottom="20"
-                                paddingLeft="{Values.PT10}"
-                                textColor="#ffFFff"
-                                fontSize="{Values.PT30}"
-                                click="vm.selectLang(LanguageID.EN)"/>
+    <tile:FadeTileButton title="{resourceManager.getString('app', 'English')}"
+                         use9Scale="true"
+                         iconTileID="{TileID.FLAG_GB}"
+                         upTileID="{TileID.BTN_LANG_UP}"
+                         downTileID="{TileID.BTN_LANG_DOWN}"
+                         right="{width/8}" width="{width/4}" bottom="20"
+                         paddingLeft="{Values.PT10}"
+                         textColor="#ffFFff"
+                         fontSize="{Values.PT30}"
+                         click="vm.selectLang(LanguageID.EN)"/>
 
     <components:LanguageInfoBoard id="deInfoBoard"
                                   localeInfo="de_DE"

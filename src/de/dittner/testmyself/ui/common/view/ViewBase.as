@@ -7,6 +7,7 @@ import de.dittner.testmyself.ui.common.menu.IMenuBoard;
 import de.dittner.testmyself.ui.view.main.IMainView;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
 import de.dittner.testmyself.ui.view.noteList.components.toolbar.NoteToolbar;
+import de.dittner.testmyself.utils.Values;
 
 import flash.events.Event;
 import flash.utils.getQualifiedClassName;
@@ -42,7 +43,7 @@ public class ViewBase extends SkinnableContainer {
 	protected var isActivateWaiting:Boolean = false;
 
 	public var data:Object;
-	public const PADDING:uint = 20;
+	public const PADDING:uint = Values.PT20;
 
 	//--------------------------------------
 	//  viewID

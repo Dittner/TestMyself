@@ -1,10 +1,10 @@
 package de.dittner.testmyself.ui.common.spinner {
 
+import de.dittner.testmyself.ui.common.tile.FadeTileButton;
+
 import flash.events.Event;
+import flash.events.MouseEvent;
 
-import mx.events.FlexEvent;
-
-import spark.components.Button;
 import spark.components.SkinnableContainer;
 
 [Event(name="change", type="flash.events.Event")]
@@ -16,10 +16,10 @@ public class CustomSpinner extends SkinnableContainer {
 	}
 
 	[SkinPart(required="false")]
-	public var decrementButton:Button;
+	public var decrementButton:FadeTileButton;
 
 	[SkinPart(required="false")]
-	public var incrementButton:Button;
+	public var incrementButton:FadeTileButton;
 
 	//--------------------------------------------------------------------------
 	//
@@ -125,13 +125,11 @@ public class CustomSpinner extends SkinnableContainer {
 
 		if (instance == incrementButton) {
 			incrementButton.focusEnabled = false;
-			incrementButton.addEventListener(FlexEvent.BUTTON_DOWN, incrementButton_buttonDownHandler);
-			incrementButton.autoRepeat = true;
+			incrementButton.addEventListener(MouseEvent.CLICK, incrementButton_buttonDownHandler);
 		}
 		else if (instance == decrementButton) {
 			decrementButton.focusEnabled = false;
-			decrementButton.addEventListener(FlexEvent.BUTTON_DOWN, decrementButton_buttonDownHandler);
-			decrementButton.autoRepeat = true;
+			decrementButton.addEventListener(MouseEvent.CLICK, decrementButton_buttonDownHandler);
 		}
 	}
 
@@ -139,10 +137,10 @@ public class CustomSpinner extends SkinnableContainer {
 		super.partRemoved(partName, instance);
 
 		if (instance == incrementButton) {
-			incrementButton.removeEventListener(FlexEvent.BUTTON_DOWN, incrementButton_buttonDownHandler);
+			incrementButton.removeEventListener(MouseEvent.CLICK, incrementButton_buttonDownHandler);
 		}
 		else if (instance == decrementButton) {
-			decrementButton.removeEventListener(FlexEvent.BUTTON_DOWN, decrementButton_buttonDownHandler);
+			decrementButton.removeEventListener(MouseEvent.CLICK, decrementButton_buttonDownHandler);
 		}
 	}
 

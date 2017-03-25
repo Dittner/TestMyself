@@ -13,6 +13,7 @@
         import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
 
@@ -177,14 +178,14 @@
     </s:states>
 
     <s:layout>
-        <s:VerticalLayout gap="10"/>
+        <s:VerticalLayout gap="{Values.PT10}"/>
     </s:layout>
 
     <button:DottedLabelBtn id="editLbl"
                            text="{editLblText}"
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
-                           fontSize="20"
+                           fontSize="{Values.PT20}"
                            visible="{haveTags(vocabulary.tagColl)}"
                            includeInLayout="{haveTags(vocabulary.tagColl)}"
                            upColor="{AppColors.TEXT_BLACK}"
@@ -195,7 +196,7 @@
                            text="{removeLblText}"
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
-                           fontSize="20"
+                           fontSize="{Values.PT20}"
                            visible="{haveTags(vocabulary.tagColl)}"
                            includeInLayout="{haveTags(vocabulary.tagColl)}"
                            upColor="{AppColors.TEXT_BLACK}"
@@ -203,7 +204,7 @@
                            click="setCurrentState('removeTag')"/>
 
     <s:Label fontFamily="{FontName.MYRIAD}"
-             fontSize="25"
+             fontSize="{Values.PT25}"
              fontWeight="bold"
              color="{AppColors.TEXT_GRAY}"
              width="100%" height="100%"
@@ -233,10 +234,10 @@
         <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
 
         <list:ListForm id="tagsList"
-                       top="10"
-                       bottom="10"
-                       left="col1:10"
-                       right="col1:10"
+                       top="{Values.PT20}"
+                       bottom="{Values.PT10}"
+                       left="col1:20"
+                       right="col1:20"
                        dataProvider="{vocabulary.tagColl}"
                        title="{tagsListTitle}"
                        itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer">
@@ -246,37 +247,38 @@
         </list:ListForm>
 
         <s:Label id="notifyLbl"
-                 left="col2:10" top="row1:10" right="10"
+                 left="col2:20" top="row1:20" right="{Values.PT10}"
                  fontFamily="{FontName.MYRIAD}"
                  color="{AppColors.TEXT_BLACK}"
-                 fontSize="16"
+                 fontSize="{Values.PT16}"
                  visible="false" visible.removeTag="true"
                  includeInLayout="false" includeInLayout.removeTag="true"
                  text="{notificationText}"/>
 
         <input:TextInputForm id="tagNameInputForm"
-                             top="row1:10" left="col2:10" right="10"
+                             fontSize="{Values.PT18}"
+                             top="row1:20" left="col2:20" right="{Values.PT10}"
                              text="{tagsList.selectedItem.name}"
                              title="{tagNameInputTitle}"
                              maxChars="{Device.MAX_TAG_NAME_LENGTH}"
                              visible="false" visible.renameTag="true"
                              includeInLayout="false" includeInLayout.renameTag="true"/>
 
-        <button:GrayButton id="cancelBtn"
-                           top="row2:10"
-                           left="col2:10"
-                           right="col2:10"
-                           label="{resourceManager.getString('app', 'Cancel')}"
-                           click="cancelBtn_clickHandler(event)"/>
+        <button:TransparentBlackButton id="cancelBtn"
+                                       top="row2:20"
+                                       left="col2:20"
+                                       right="col2:20"
+                                       title="{resourceManager.getString('app', 'Cancel')}"
+                                       click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="applyBtn"
                             enabled.renameTag="{applyBtnEnabled(tagsList.selectedItem, tagNameInputForm.text)}"
                             enabled.removeTag="{tagsList.selectedItem != null}"
-                            label.renameTag="{resourceManager.getString('app', 'Rename')}"
-                            label.removeTag="{resourceManager.getString('app', 'Delete')}"
-                            top="row2:10"
-                            left="col3:10"
-                            right="10"
+                            title.renameTag="{resourceManager.getString('app', 'Rename')}"
+                            title.removeTag="{resourceManager.getString('app', 'Delete')}"
+                            top="row2:20"
+                            left="col3:20"
+                            right="20"
                             click="applyBtnClickHandler(event)"/>
     </s:Group>
 

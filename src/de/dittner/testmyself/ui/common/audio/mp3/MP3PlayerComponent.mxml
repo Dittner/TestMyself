@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:components2="de.dittner.testmyself.ui.common.audio.components.*"
-         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
          addedToStage="addedToStageHandler(event)"
          removedFromStage="removedFromStageHandler(event)">
     <fx:Metadata>
@@ -13,7 +13,9 @@
         import de.dittner.testmyself.model.domain.audioComment.AudioComment;
         import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
         import de.dittner.testmyself.ui.common.audio.utils.PlayerUtils;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.utils.Values;
 
         //--------------------------------------
         //  player
@@ -146,26 +148,24 @@
     </s:states>
 
     <s:layout>
-        <s:HorizontalLayout gap="5" verticalAlign="middle" paddingLeft="10" paddingRight="10"/>
+        <s:HorizontalLayout gap="{Values.PT5}" verticalAlign="middle" paddingLeft="{Values.PT10}" paddingRight="{Values.PT10}"/>
     </s:layout>
 
-    <button:BitmapButton id="playBtn"
-                         upImage="@Embed(source='/assets/voiceRecording/play_btn_up.png')"
-                         downImage="@Embed(source='/assets/voiceRecording/play_btn_down.png')"
+    <tile:FadeTileButton id="playBtn"
+                         upTileID="{TileID.BTN_PLAY}"
                          visible="true" visible.playing="false"
                          includeInLayout="true" includeInLayout.playing="false"
                          enabled="true" enabled.normal="false"
                          click="player.play()"/>
 
-    <button:BitmapButton id="pauseBtn"
-                         upImage="@Embed(source='/assets/voiceRecording/pause_btn_up.png')"
-                         downImage="@Embed(source='/assets/voiceRecording/pause_btn_down.png')"
+    <tile:FadeTileButton id="pauseBtn"
+                         upTileID="{TileID.BTN_PAUSE}"
                          visible="false" visible.playing="true"
                          includeInLayout="false" includeInLayout.playing="true"
                          click="player.pause()"/>
 
     <s:Label text="{secToStr(player.playbackTime)}"
-             fontSize="14"
+             fontSize="{Values.PT14}"
              paddingTop="1"
              color="{AppColors.TEXT_BLACK}"/>
 
@@ -183,16 +183,15 @@
 
     <s:Label text="{secToStr(player.soundDuration)}"
              text.normal="00:00"
-             fontSize="14"
+             fontSize="{Values.PT14}"
              paddingTop="1"
              color="{AppColors.TEXT_BLACK}"/>
 
-    <button:BitmapButton id="removeRecordBtn"
-                         upImage="@Embed(source='/assets/voiceRecording/delete_btn_up.png')"
-                         downImage="@Embed(source='/assets/voiceRecording/delete_btn_down.png')"
-                         click="removeRecord()"
+    <tile:FadeTileButton id="removeRecordBtn"
+                         upTileID="{TileID.BTN_DELETE_AUDIO}"
                          enabled="{removeRecordEnabled}"
                          visible="{removeRecordEnabled}"
-                         includeInLayout="{removeRecordEnabled}"/>
+                         includeInLayout="{removeRecordEnabled}"
+                         click="removeRecord()"/>
 
 </s:Group>

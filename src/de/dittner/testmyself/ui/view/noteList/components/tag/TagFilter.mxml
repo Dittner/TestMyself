@@ -13,6 +13,7 @@
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.view.noteList.components.form.EditorBg;
+        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
 
@@ -88,17 +89,17 @@
 
     <s:HGroup width="100%" height="{FOOTER_HEI}"
               bottom="0"
-              paddingLeft="15" paddingRight="15" paddingBottom="{EditorBg.BORDER_THICKNESS}"
-              gap="15" verticalAlign="middle">
+              paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}" paddingBottom="{EditorBg.BORDER_THICKNESS}"
+              gap="{Values.PT15}" verticalAlign="middle">
         <button:BlackButton id="applyBtn"
                             width="100%"
-                            label="Bestätigen"
+                            title="{resourceManager.getString('app', 'Apply')}"
                             click="visible = false; selectedTag = tagList.selectedItem as Tag"/>
     </s:HGroup>
 
-    <s:Label text="Kein Tag"
+    <s:Label text="{resourceManager.getString('app', 'NoTags')}"
              visible="{!hasTags}"
-             fontSize="14"
+             fontSize="{Values.PT14}"
              color="{AppColors.TEXT_LIGHT}"
              verticalCenter="0" horizontalCenter="0"/>
 
