@@ -1,31 +1,25 @@
 package de.dittner.testmyself.ui.common.input {
-import de.dittner.async.utils.invalidateOf;
-import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
 
-import flash.display.DisplayObject;
 import flash.events.Event;
-import flash.geom.Rectangle;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-import mx.events.FlexEvent;
+import flashx.textLayout.formats.TextAlign;
 
-import spark.core.SpriteVisualElement;
+import mx.core.UIComponent;
 
-[Event(name="click", type="flash.events.MouseEvent")]
-
-public class MXLabel extends SpriteVisualElement {
+public class MXLabel extends UIComponent {
 	public function MXLabel() {
 		super();
-		tf = TextFieldFactory.create(titleFormat);
-		addChild(tf);
+		mouseEnabled = false;
 	}
 
-	private static const titleFormat:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT15, AppColors.TEXT_CONTROL_TITLE);
-	private var tf:TextField;
+	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, _color, _isBold, null, null, null, null, _textAlign);
+	private var titleTF:TextField;
+	private var pointsTF:TextField;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -42,7 +36,8 @@ public class MXLabel extends SpriteVisualElement {
 	public function set horPadding(value:Number):void {
 		if (_horPadding != value) {
 			_horPadding = value;
-			invalidateOf(redraw);
+			invalidateSize();
+			invalidateDisplayList();
 			dispatchEvent(new Event("horPaddingChanged"));
 		}
 	}
@@ -56,7 +51,9 @@ public class MXLabel extends SpriteVisualElement {
 	public function set text(value:String):void {
 		if (_text != value) {
 			_text = value;
-			invalidateOf(redraw);
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 			dispatchEvent(new Event("textChanged"));
 		}
 	}
@@ -64,14 +61,30 @@ public class MXLabel extends SpriteVisualElement {
 	//--------------------------------------
 	//  fontSize
 	//--------------------------------------
-	private var _fontSize:Number = 15;
+	private var _fontSize:Number = Values.PT17;
 	[Bindable("fontSizeChanged")]
 	public function get fontSize():Number {return _fontSize;}
 	public function set fontSize(value:Number):void {
 		if (_fontSize != value) {
 			_fontSize = value;
-			invalidateOf(redraw);
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 			dispatchEvent(new Event("fontSizeChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  textAlign
+	//--------------------------------------
+	private var _textAlign:String = TextAlign.LEFT;
+	[Bindable("textAlignChanged")]
+	public function get textAlign():String {return _textAlign;}
+	public function set textAlign(value:String):void {
+		if (_textAlign != value) {
+			_textAlign = value;
+			invalidateProperties();
+			dispatchEvent(new Event("textAlignChanged"));
 		}
 	}
 
@@ -84,7 +97,9 @@ public class MXLabel extends SpriteVisualElement {
 	public function set isBold(value:Boolean):void {
 		if (_isBold != value) {
 			_isBold = value;
-			invalidateOf(redraw);
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
 			dispatchEvent(new Event("isBoldChanged"));
 		}
 	}
@@ -92,59 +107,15 @@ public class MXLabel extends SpriteVisualElement {
 	//--------------------------------------
 	//  color
 	//--------------------------------------
-	private var _color:uint = AppColors.TEXT_CONTROL_TITLE;
+	private var _color:uint = 0x565656;
 	[Bindable("colorChanged")]
 	public function get color():uint {return _color;}
 	public function set color(value:uint):void {
 		if (_color != value) {
 			_color = value;
-			tf.textColor = color;
+			invalidateDisplayList();
 			dispatchEvent(new Event("colorChanged"));
 		}
-	}
-
-	//--------------------------------------
-	//  textColor
-	//--------------------------------------
-	protected var _measuredWidth:Number = 0;
-	public function get measuredWidth():Number {return _measuredWidth;}
-
-	//--------------------------------------
-	//  textColor
-	//--------------------------------------
-	protected var _measuredHeight:Number = 0;
-	public function get measuredHeight():Number {return _measuredHeight;}
-
-	//--------------------------------------
-	//  textColor
-	//--------------------------------------
-	private var explicitWidth:Number = 0;
-	[Bindable(event='sizeChanged')]
-	override public function get width():Number {return explicitWidth || measuredWidth;}
-	override public function set width(value:Number):void {
-		if (explicitWidth != value) {
-			explicitWidth = value;
-			dispatchEvent(new Event("sizeChanged"));
-			invalidateOf(redraw);
-		}
-	}
-
-	//--------------------------------------
-	//  textColor
-	//--------------------------------------
-	private var explicitHeight:Number = 0;
-	[Bindable(event='sizeChanged')]
-	override public function get height():Number {return explicitHeight || measuredHeight;}
-	override public function set height(value:Number):void {
-		if (explicitHeight != value) {
-			explicitHeight = value;
-			dispatchEvent(new Event("sizeChanged"));
-			invalidateOf(redraw);
-		}
-	}
-
-	override public function getBounds(targetCoordinateSpace:DisplayObject):Rectangle {
-		return new Rectangle(0, 0, measuredWidth, measuredHeight);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -153,20 +124,46 @@ public class MXLabel extends SpriteVisualElement {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private function redraw():void {
-		tf.defaultTextFormat = new TextFormat(FontName.MYRIAD_MX, fontSize, color, isBold);
-		tf.text = text;
-		tf.x = -2;
-		_measuredWidth = tf.textWidth + 2 * horPadding;
-		_measuredHeight = tf.textHeight;
-		invalidateSize();
+	override protected function createChildren():void {
+		super.createChildren();
+		if (!titleTF) {
+			titleTF = TextFieldFactory.create(TITLE_FORMAT);
+			addChild(titleTF);
+		}
+		if (!pointsTF) {
+			pointsTF = TextFieldFactory.create(TITLE_FORMAT);
+			pointsTF.visible = false;
+			addChild(pointsTF);
+		}
 	}
 
-	override public function set visible(value:Boolean):void {
-		if (visible != value) {
-			super.visible = value;
-			dispatchEvent(new FlexEvent(visible ? FlexEvent.SHOW : FlexEvent.HIDE));
-		}
+	override protected function commitProperties():void {
+		super.commitProperties();
+		TITLE_FORMAT.size = fontSize;
+		TITLE_FORMAT.bold = isBold;
+		TITLE_FORMAT.color = color;
+		TITLE_FORMAT.align = textAlign;
+		titleTF.defaultTextFormat = TITLE_FORMAT;
+		pointsTF.defaultTextFormat = TITLE_FORMAT;
+		titleTF.text = text;
+		pointsTF.text = "...";
+	}
+
+	override protected function measure():void {
+		super.measure();
+		measuredWidth = titleTF.textWidth + 2 * horPadding + Values.PT5;
+		measuredMinHeight = measuredHeight = titleTF.textHeight + Values.PT5;
+	}
+
+	override protected function updateDisplayList(w:Number, h:Number):void {
+		super.updateDisplayList(w, h);
+		pointsTF.x = w - horPadding - pointsTF.textWidth;
+		pointsTF.y = -Values.PT5;
+		pointsTF.visible = titleTF.textWidth > w - 2 * horPadding;
+
+		titleTF.x = horPadding - Values.PT2;
+		titleTF.y = -Values.PT2;
+		titleTF.width = pointsTF.visible ? w - 2 * horPadding - pointsTF.textWidth : w - 2 * horPadding;
 	}
 }
 }

@@ -3,7 +3,6 @@ package de.dittner.testmyself.backend.op {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 
@@ -35,11 +34,8 @@ public class LoadAllExamplesOperation extends StorageOperation implements IAsync
 				else
 					storage.exampleHash[item.parentID] = [item];
 			}
-			dispatchSuccess();
 		}
-		else {
-			dispatchError(ErrorCode.SQL_TRANSACTION_FAILED + ": all examples load is failed!");
-		}
+		dispatchSuccess();
 	}
 
 	override public function destroy():void {

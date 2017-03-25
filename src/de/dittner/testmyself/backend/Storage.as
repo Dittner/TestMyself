@@ -1,6 +1,7 @@
 package de.dittner.testmyself.backend {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.async.ProgressCommand;
 import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
 import de.dittner.testmyself.backend.cmd.LoadAllTagsCmd;
 import de.dittner.testmyself.backend.cmd.LoadAudioCommentCmd;
@@ -37,14 +38,23 @@ import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+import de.dittner.testmyself.ui.common.input.MXLabel;
 import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.page.SearchPage;
 import de.dittner.testmyself.ui.common.tile.Tile;
+import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
+import de.dittner.testmyself.utils.Values;
 import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
 import flash.display.BitmapData;
+
+import flashx.textLayout.formats.TextAlign;
+
+import mx.core.FlexGlobals;
+
+import spark.components.Application;
 
 public class Storage extends WalterProxy {
 	public static const TILE_STORAGE_HAS_TILES_KEY:String = "TILE_STORAGE_HAS_TILES_KEY";
@@ -69,7 +79,6 @@ public class Storage extends WalterProxy {
 
 	private var _tileSqlConnection:SQLConnection;
 	public function get tileSqlConnection():SQLConnection {return _tileSqlConnection;}
-
 
 	//--------------------------------------
 	//  hasTiles
@@ -134,12 +143,52 @@ public class Storage extends WalterProxy {
 	private function tileDataBaseReadyHandler(opEvent:*):void {
 		_tileSqlConnection = opEvent.result as SQLConnection;
 		deferredCommandManager.start();
+
 		var cmd:IAsyncCommand = new LoadAllExamplesOperation(this);
 		deferredCommandManager.add(cmd);
+
 		cmd = new LoadAllTilesCmd(this);
 		deferredCommandManager.add(cmd);
-		cmd = new GenerateTilesCommand(this);
-		deferredCommandManager.add(cmd);
+
+		var progressCmd:ProgressCommand = new GenerateTilesCommand(this);
+		progressCmd.addCompleteCallback(tileGeneratingComplete);
+		progressCmd.addProgressCallback(tileGeneratingProgress);
+		deferredCommandManager.add(progressCmd);
+	}
+
+	private function tileGeneratingComplete(op:IAsyncOperation):void {
+		if (op.isSuccess) {
+			CLog.info(LogTag.UI, "Графика загружена из БД");
+			showMsg("GUI is ready");
+		}
+		else {
+			CLog.err(LogTag.UI, "Tiles generating is failed! Details: " + op.error);
+			showMsg("GUI's generating is failed! Details: " + op.error);
+		}
+	}
+
+	private function tileGeneratingProgress(value:Number):void {
+		if (value < 1) {
+			showMsg("GUI is processing:  " + Math.floor(value * 100) + "%");
+		}
+	}
+
+	private var msgLabel:MXLabel;
+	private function showMsg(msg:String):void {
+		if (!msgLabel) {
+			msgLabel = new MXLabel();
+			msgLabel.color = AppColors.WHITE;
+			msgLabel.fontSize = Values.PT18;
+			msgLabel.textAlign = TextAlign.CENTER;
+			msgLabel.width = Device.width;
+			msgLabel.verticalCenter = 0;
+			msgLabel.horizontalCenter = 0;
+		}
+
+		msgLabel.text = msg;
+		if (!msgLabel.parent) {
+			(FlexGlobals.topLevelApplication as Application).addElement(msgLabel);
+		}
 	}
 
 	public function loadVocabularyInfo(v:Vocabulary):IAsyncOperation {

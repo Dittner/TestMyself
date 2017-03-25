@@ -10,7 +10,6 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.utils.Values;
@@ -69,9 +68,7 @@
                              left="{Values.PT10}"/>
 
         <s:SpriteVisualElement id="recordingAnimation"
-                               scaleX="{Device.factor}"
-                               scaleY="{Device.factor}"
-                               top="11" left="{Values.PT100}" right="{Values.PT10}"/>
+                               top="{Values.PT10}" left="{Values.PT100}" right="{Values.PT10}"/>
 
     </s:Group>
 

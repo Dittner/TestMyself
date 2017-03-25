@@ -101,7 +101,7 @@
         }
 
         private function pauseRunBtnTitle(isPaused:Boolean):String {
-            return isPaused ? "Запустить" : "Пауза";
+            return isPaused ? "Launch" : "Pause";
         }
         ]]></fx:Script>
 
@@ -125,7 +125,7 @@
             <s:TextInput id="tagFilterInput"
                          width="{Values.PT350}"
                          borderVisible="false" scaleX=".75" scaleY=".75"
-                         prompt="Фильтровать логи"
+                         prompt="Log's Filter"
                          fontSize="{Values.PT20}"
                          paddingTop="0" paddingBottom="0"
                          change="tagFilterChangeHandler(event)"/>

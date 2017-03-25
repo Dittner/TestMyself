@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.tile {
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
@@ -454,7 +455,7 @@ public class FadeTileButton extends UIComponent {
 		}
 
 		if (upBg)
-			upBg.alphaTo = enabled ? 1 : upBgAlpha;
+			upBg.alphaTo = enabled && Device.isDesktop ? 1 : upBgAlpha;
 
 		if (downBg)
 			downBg.alphaTo = isToggle && selected ? 1 : 0;

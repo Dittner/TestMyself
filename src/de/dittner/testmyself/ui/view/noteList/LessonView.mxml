@@ -22,6 +22,7 @@
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
         import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
+        import de.dittner.testmyself.utils.Values;
 
         [Bindable]
         public var vm:NoteListVM;
@@ -319,8 +320,8 @@
 
         <s:Label id="tagsLbl"
                  text="{vm.page.selectedTag.name}"
-                 height="100%" width="50%" textAlign="right" paddingRight="10"
-                 fontSize="14" verticalAlign="middle" paddingTop="1"
+                 height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
+                 fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="1"
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_BLACK}"/>
     </s:HGroup>
