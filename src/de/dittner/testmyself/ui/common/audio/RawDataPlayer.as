@@ -217,10 +217,9 @@ public class RawDataPlayer extends SkinnableComponent {
 			removeRecordBtn.addEventListener(MouseEvent.CLICK, removeRecordBtn_clickHandler);
 		}
 		else if (instance == recordingAnimation) {
-			animation = new BlackProgressbar();
+			animation = new PinkProgressbar();
 			recordingAnimation.addChild(animation);
 		}
-
 	}
 
 	override protected function partRemoved(partName:String, instance:Object):void {

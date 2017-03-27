@@ -65,7 +65,7 @@ public class ProgressBar extends UIComponent {
 	}
 
 	override protected function measure():void {
-		measuredWidth = 100;
+		measuredWidth = Values.PT100;
 		measuredHeight = 2 * (progressTF.textHeight + VGAP) + BAR_HEI;
 	}
 

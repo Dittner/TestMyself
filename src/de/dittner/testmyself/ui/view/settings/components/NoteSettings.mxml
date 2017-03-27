@@ -264,12 +264,12 @@
                              visible="false" visible.renameTag="true"
                              includeInLayout="false" includeInLayout.renameTag="true"/>
 
-        <button:TransparentBlackButton id="cancelBtn"
-                                       top="row2:20"
-                                       left="col2:20"
-                                       right="col2:20"
-                                       title="{resourceManager.getString('app', 'Cancel')}"
-                                       click="cancelBtn_clickHandler(event)"/>
+        <button:WhiteButton id="cancelBtn"
+                            top="row2:20"
+                            left="col2:20"
+                            right="col2:20"
+                            title="{resourceManager.getString('app', 'Cancel')}"
+                            click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="applyBtn"
                             enabled.renameTag="{applyBtnEnabled(tagsList.selectedItem, tagNameInputForm.text)}"

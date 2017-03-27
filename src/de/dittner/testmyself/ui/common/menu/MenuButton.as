@@ -6,7 +6,8 @@ import flash.events.Event;
 public class MenuButton extends FadeTileButton {
 	public function MenuButton() {
 		super();
-		upBgAlpha = 0.4;
+		upBgAlpha = 0.5;
+		animationDuration = 0.75;
 	}
 
 	//--------------------------------------

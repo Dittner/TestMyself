@@ -103,12 +103,12 @@
                  includeIn="removeHistory"
                  text="{resourceManager.getString('app', 'AreYouSureWantToDeleteTestData?')}"/>
 
-        <button:TransparentBlackButton id="cancelBtn"
-                                       top="row2:20"
-                                       left="col2:20"
-                                       right="col2:20"
-                                       title="{resourceManager.getString('app', 'Cancel')}"
-                                       click="cancelBtn_clickHandler(event)"/>
+        <button:WhiteButton id="cancelBtn"
+                            top="row2:20"
+                            left="col2:20"
+                            right="col2:20"
+                            title="{resourceManager.getString('app', 'Cancel')}"
+                            click="cancelBtn_clickHandler(event)"/>
 
         <button:BlackButton id="removeBtn"
                             enabled="{testList.selectedItem != null}"

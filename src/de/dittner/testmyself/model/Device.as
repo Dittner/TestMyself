@@ -1,4 +1,5 @@
 package de.dittner.testmyself.model {
+import flash.desktop.NativeApplication;
 import flash.display.Stage;
 import flash.filesystem.File;
 import flash.system.Capabilities;
@@ -15,7 +16,6 @@ public class Device {
 	public static const MAX_TAG_NAME_LENGTH:uint = 100;
 	public static const MAX_WORD_LENGTH:uint = 100;
 
-
 	private static var _stage:Stage;
 	public static function get stage():Stage {
 		return _stage;
@@ -25,6 +25,10 @@ public class Device {
 		_stage = stage;
 		_factor = isDesktop ? 1 : Math.max(stage.fullScreenWidth, stage.fullScreenHeight) / 1024;
 		if (_factor >= 0.9 && _factor <= 1.1) _factor = 1;
+
+		var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
+		var ns:Namespace = appDescriptor.namespace();
+		_appVersion = appDescriptor.ns::versionNumber;
 	}
 
 	public static function get isPortraitOrientation():Boolean {
@@ -94,6 +98,11 @@ public class Device {
 
 	public static function get isDesktop():Boolean {
 		return isWIN || isMAC;
+	}
+
+	private static var _appVersion:String = "";
+	public static function get appVersion():String {
+		return _appVersion;
 	}
 
 }

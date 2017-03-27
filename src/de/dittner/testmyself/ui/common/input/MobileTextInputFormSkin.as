@@ -1,10 +1,11 @@
 package de.dittner.testmyself.ui.common.input {
+import de.dittner.testmyself.ui.common.tile.TileID;
+import de.dittner.testmyself.ui.common.tile.TileShape;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
 
-import flash.display.Graphics;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -18,14 +19,22 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 		super();
 	}
 
+	private var bg:TileShape;
+
 	private var titleDisplay:TextField;
 	private function get hostInput():TextInputForm {return hostComponent as TextInputForm;}
 
 	override protected function createChildren():void {
 		super.createChildren();
+		if (!bg) {
+			bg = new TileShape();
+			addChild(bg);
+		}
 
-		titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
-		addChild(titleDisplay);
+		if (!titleDisplay) {
+			titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
+			addChild(titleDisplay);
+		}
 	}
 
 	override protected function measure():void {
@@ -40,24 +49,24 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 
 		if (hostInput.showTitle) {
 			setElementSize(textDisplay, w - Values.PT10, textHeight);
-			setElementPosition(textDisplay, 7, TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2));
+			setElementPosition(textDisplay, Values.PT5, TITLE_HEIGHT + Math.round((h - TITLE_HEIGHT - textHeight) / 2) + Values.PT1);
 		}
 		else {
-			setElementSize(textDisplay, w - Values.PT10, h - textDisplay.y - 2);
-			setElementPosition(textDisplay, Values.PT5, Math.round((h - textHeight) / 2));
+			setElementSize(textDisplay, w - Values.PT10, h - textDisplay.y - Values.PT1);
+			setElementPosition(textDisplay, Values.PT5, Math.round((h - textHeight) / 2) + Values.PT1);
 		}
 
 		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
-		var g:Graphics = graphics;
-		g.clear();
-		g.lineStyle(1, hostInput.isValidInput ? AppColors.INPUT_BORDER : AppColors.INVALID_INPUT_BORDER);
-		g.beginFill(AppColors.INPUT_CONTENT);
-		g.drawRect(0, bgVerOffset, w - 1, h - bgVerOffset - 1);
-		g.endFill();
+
+		bg.x = 0;
+		bg.y = bgVerOffset;
+		bg.width = w;
+		bg.height = h - bgVerOffset;
+		bg.tileID = hostInput.isValidInput ? TileID.WHITE_BG_ICON : TileID.WHITE_BG_INVALID_ICON;
 
 		titleDisplay.visible = hostInput.showTitle;
 		titleDisplay.text = hostInput.title;
-		titleDisplay.x = -2;
+		titleDisplay.x = -Values.PT1;
 		titleDisplay.y = 0;
 		titleDisplay.width = w;
 		titleDisplay.height = TITLE_HEIGHT;

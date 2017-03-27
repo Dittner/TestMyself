@@ -22,7 +22,7 @@
             var maskWid:Number = recordingAnimation.width;
             if (maskWid > 0) {
                 g.beginFill(0);
-                g.drawRoundRect(0, 0, maskWid, Values.PT10, Values.PT5, Values.PT5);
+                g.drawRect(0, 0, maskWid, Values.PT4);
                 g.endFill();
             }
             recordingAnimation.mask = preloaderMask;
@@ -68,7 +68,7 @@
                              left="{Values.PT10}"/>
 
         <s:SpriteVisualElement id="recordingAnimation"
-                               top="{Values.PT10}" left="{Values.PT100}" right="{Values.PT10}"/>
+                               top="{Values.PT15}" height="{Values.PT4}" left="{Values.PT100}" right="{Values.PT10}"/>
 
     </s:Group>
 

@@ -77,7 +77,8 @@ public class TileID {
 	//-------------------------------- BUTTON -------------------------
 
 	public static const BTN_BLACK:String = "BTN_BLACK";
-	public static const BTN_TRANSPARENT_BLACK:String = "BTN_TRANSPARENT_BLACK";
+	public static const BTN_WHITE_UP:String = "BTN_WHITE_UP";
+	public static const BTN_WHITE_DOWN:String = "BTN_WHITE_DOWN";
 	public static const BTN_TRANSPARENT_WHITE:String = "BTN_TRANSPARENT_WHITE";
 	public static const BTN_YELLOW:String = "BTN_YELLOW";
 	public static const BTN_RED:String = "BTN_RED";
@@ -95,6 +96,8 @@ public class TileID {
 
 	public static const BTN_INCREMENT:String = "BTN_INCREMENT";
 	public static const BTN_DROPDOWN:String = "BTN_DROPDOWN";
+
+	public static const BTN_TITLED_DROPDOWN:String = "BTN_TITLED_DROPDOWN";
 
 	public static const BTN_HISTORY_REDO:String = "BTN_HISTORY_REDO";
 	public static const BTN_HISTORY_UNDO:String = "BTN_HISTORY_UNDO";
@@ -130,5 +133,8 @@ public class TileID {
 
 	public static const DOWNLOAD_ICON:String = "DOWNLOAD_ICON";
 	public static const UPLOAD_ICON:String = "UPLOAD_ICON";
+
+	public static const WHITE_BG_ICON:String = "WHITE_BG_ICON";
+	public static const WHITE_BG_INVALID_ICON:String = "WHITE_BG_INVALID_ICON";
 }
 }

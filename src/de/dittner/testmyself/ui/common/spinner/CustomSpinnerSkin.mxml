@@ -11,7 +11,6 @@
     </fx:Metadata>
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.tile.TileID;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.utils.Values;
         ]]></fx:Script>
 
@@ -20,14 +19,9 @@
         <s:State name="disabled"/>
     </s:states>
 
-    <s:Rect width="{Values.PT52}" height="100%">
-        <s:fill>
-            <s:SolidColor color="{AppColors.INPUT_CONTENT}"/>
-        </s:fill>
-        <s:stroke>
-            <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
-        </s:stroke>
-    </s:Rect>
+    <tile:TileImage width="{Values.PT52}" height="100%"
+                    actualTileID="{TileID.WHITE_BG_ICON}"
+                    use9Scale="true"/>
 
     <s:Label text="{hostComponent.value.toString()}"
              fontSize="{Values.PT18}"

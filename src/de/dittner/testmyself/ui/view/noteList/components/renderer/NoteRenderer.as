@@ -30,9 +30,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_RED);
 	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_YELLOW);
-	private static const FOOTER_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT10, AppColors.TEXT_GRAY, null, true, null, null, null, TextAlign.RIGHT);
+	private static const FOOTER_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT11, AppColors.TEXT_GRAY, null, true, null, null, null, TextAlign.RIGHT);
 
-	protected static const TEXT_DEFAULT_OFFSET:uint = 2;
+	protected static const TEXT_DEFAULT_OFFSET:uint = Values.PT1;
 	private static const DEF_PAGE_LAYOUT:PageLayout = new PageLayout();
 
 	protected var commentPlayBtn:FadeTileButton;
@@ -223,7 +223,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 		if (titleTf.visible && descriptionTf.visible) {
 			titleTf.width = descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
-			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * pad + gap);
+			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * pad + gap + footerTf.height);
 		}
 		else if (descriptionTf.visible) {
 			descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
@@ -277,9 +277,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		if (selected) {
 			footerTf.visible = true;
 			footerTf.text = getFooterText();
-			footerTf.x = pad - TEXT_DEFAULT_OFFSET;
+			footerTf.x = pad;
 			footerTf.y = h - footerTf.textHeight - Values.PT5;
-			footerTf.width = w - footerTf.x - Values.PT15;
+			footerTf.width = w - footerTf.x;
 		}
 		else {
 			footerTf.visible = false;
@@ -290,9 +290,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		var res:String = "";
 		if (note) {
 			res = getVocabularySymbol();
-			if (note.isExample) res += " " + getExampleSymbol();
+			if (note.isExample) res += "  " + getExampleSymbol();
 			else if (note.tagIDs && note.tagIDs.length > 0)
-				res += " " + note.tagsToStr();
+				res += "  " + note.tagsToStr();
 		}
 		return res;
 	}
@@ -303,14 +303,14 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		switch (note.vocabulary.id) {
 			case VocabularyID.DE_WORD :
 			case VocabularyID.EN_WORD :
-				return "W.";
+				return "–W–";
 			case VocabularyID.DE_VERB :
 			case VocabularyID.EN_VERB :
-				return "V.";
+				return "–V–";
 			case VocabularyID.DE_LESSON :
-				return "Ü.";
+				return "–Ü–";
 			case VocabularyID.EN_LESSON :
-				return "L.";
+				return "–L–";
 			default :
 				return ""
 		}

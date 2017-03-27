@@ -49,6 +49,7 @@ import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
 import flash.display.BitmapData;
+import flash.filesystem.File;
 
 import flashx.textLayout.formats.TextAlign;
 
@@ -57,11 +58,12 @@ import mx.core.FlexGlobals;
 import spark.components.Application;
 
 public class Storage extends WalterProxy {
-	public static const TILE_STORAGE_HAS_TILES_KEY:String = "TILE_STORAGE_HAS_TILES_KEY";
+	public static const STORAGE_HAS_TILES_KEY:String = "TILE_STORAGE_HAS_TILES_KEY";
+	public static const APP_VERSION_KEY:String = "APP_VERSION_KEY";
 
 	public function Storage() {
 		super();
-		_hasTiles = LocalStorage.read(TILE_STORAGE_HAS_TILES_KEY);
+		_hasTiles = LocalStorage.read(STORAGE_HAS_TILES_KEY);
 
 	}
 
@@ -88,7 +90,7 @@ public class Storage extends WalterProxy {
 	public function set hasTiles(value:Boolean):void {
 		if (_hasTiles != value) {
 			_hasTiles = value;
-			LocalStorage.write(TILE_STORAGE_HAS_TILES_KEY, hasTiles);
+			LocalStorage.write(STORAGE_HAS_TILES_KEY, hasTiles);
 		}
 	}
 
@@ -135,13 +137,25 @@ public class Storage extends WalterProxy {
 	private function audioDataBaseReadyHandler(opEvent:*):void {
 		_audioSqlConnection = opEvent.result as SQLConnection;
 
+		removeOldTilesDB();
 		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.tileDBPath, [TileSQLLib.CREATE_TILE_TBL]);
 		cmd.addCompleteCallback(tileDataBaseReadyHandler);
 		cmd.execute();
 	}
 
+	private function removeOldTilesDB():void {
+		var dbFile:File = File.documentsDirectory.resolvePath(Device.tileDBPath);
+		var ver:String = Device.appVersion;
+		if (Device.appVersion != LocalStorage.read(APP_VERSION_KEY) && dbFile.exists) {
+			CLog.info(LogTag.UI, "Irrelevant Tiles DB is deleting...");
+			dbFile.deleteFile();
+		}
+	}
+
 	private function tileDataBaseReadyHandler(opEvent:*):void {
 		_tileSqlConnection = opEvent.result as SQLConnection;
+		LocalStorage.write(APP_VERSION_KEY, Device.appVersion);
+
 		deferredCommandManager.start();
 
 		var cmd:IAsyncCommand = new LoadAllExamplesOperation(this);

@@ -169,7 +169,8 @@
     <s:Group width="{CONT_WID}">
 
         <tile:FadeTileButton id="downloadBtn"
-                             upTileID="{TileID.BTN_TRANSPARENT_BLACK}"
+                             upTileID="{TileID.BTN_WHITE_UP}"
+                             downTileID="{TileID.BTN_WHITE_DOWN}"
                              iconTileID="{TileID.DOWNLOAD_ICON}"
                              title="{resourceManager.getString('app', 'UpdateFromTheServer')}"
                              use9Scale="true"

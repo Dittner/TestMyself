@@ -7,8 +7,6 @@ import flash.display.Shape;
 import flash.geom.Rectangle;
 
 public class TileShape extends Shape {
-	private static const ANIMATION_DURATION_IN_SEC:Number = 0.5;
-
 	public function TileShape(tileID:String = "") {
 		this.tileID = tileID;
 		super();
@@ -24,29 +22,46 @@ public class TileShape extends Shape {
 	public function set tileID(value:String):void {
 		if (_tileID != value) {
 			_tileID = value;
-			updateData();
+			redraw();
 		}
 	}
 
+	//--------------------------------------
+	//  width
+	//--------------------------------------
 	private var explicitWidth:Number = NaN;
 	override public function set width(value:Number):void {
 		if (explicitWidth != value) {
 			explicitWidth = value;
 			super.width = value;
-			updateData();
+			redraw();
 		}
 	}
 
+	//--------------------------------------
+	//  height
+	//--------------------------------------
 	private var explicitHeight:Number = NaN;
 	override public function set height(value:Number):void {
 		if (explicitHeight != value) {
 			explicitHeight = value;
 			super.height = value;
-			updateData();
+			redraw();
 		}
 	}
 
-	private function updateData():void {
+	//--------------------------------------
+	//  animationDuration
+	//--------------------------------------
+	private var _animationDuration:Number = 0.5;
+	public function get animationDuration():Number {return _animationDuration;}
+	public function set animationDuration(value:Number):void {
+		if (_animationDuration != value) {
+			_animationDuration = value;
+		}
+	}
+
+	private function redraw():void {
 		var g:Graphics = graphics;
 		g.clear();
 
@@ -56,7 +71,8 @@ public class TileShape extends Shape {
 
 			var bd:BitmapData = tile.bitmapData;
 			if (bd) {
-				if (explicitWidth || explicitHeight) {
+				var isInvalidSize:Boolean = (explicitWidth && explicitWidth < bd.width) || (explicitHeight && explicitHeight < bd.height);
+				if (!isInvalidSize && (explicitWidth || explicitHeight)) {
 					var rect:Rectangle = new Rectangle(bd.width / 2 - 1, bd.height / 2 - 1, 2, 2);
 					const gridX:Vector.<Number> = Vector.<Number>([rect.left, rect.right, bd.width]);
 					const gridY:Vector.<Number> = Vector.<Number>([rect.top, rect.bottom, bd.height]);
@@ -105,7 +121,7 @@ public class TileShape extends Shape {
 	private var isAnimating:Boolean = false;
 	private var hasPendingAnimation:Boolean = false;
 	private function startAlphaAnimation():void {
-		if(!tileID) {
+		if (!tileID) {
 			alpha = alphaTo;
 			return;
 		}
@@ -114,7 +130,7 @@ public class TileShape extends Shape {
 		}
 		else {
 			isAnimating = true;
-			TweenLite.to(this, ANIMATION_DURATION_IN_SEC, {alpha: alphaTo, onComplete: animationComplete});
+			TweenLite.to(this, animationDuration, {alpha: alphaTo, onComplete: animationComplete});
 		}
 	}
 

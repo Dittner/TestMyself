@@ -10,6 +10,8 @@ import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
+import flashx.textLayout.formats.TextAlign;
+
 import mx.core.UIComponent;
 import mx.core.mx_internal;
 
@@ -19,8 +21,8 @@ use namespace mx_internal;
 
 public class FadeTileButton extends UIComponent {
 
-	private const TITLE_FORMAT:TextFormat = new TextFormat(_font, _fontSize, _textColor, _isBold);
-	private static const DISABLED_BG_ALPHA:Number = 0.5;
+	private const TITLE_FORMAT:TextFormat = new TextFormat(_font, _fontSize, _textColor, _isBold, null, null, null, null, TextAlign.CENTER);
+	private var disabledBgAlpha:Number = 0.3;
 
 	public function FadeTileButton() {
 		super();
@@ -35,7 +37,35 @@ public class FadeTileButton extends UIComponent {
 	private var disabledBg:TileShape;
 	private var iconBg:TileShape;
 
-	protected var titleTf:TextField;
+	private var titleTf:TextField;
+
+	//--------------------------------------
+	//  upBgAlpha
+	//--------------------------------------
+	private var _upBgAlpha:Number = 0.7;
+	[Bindable("upBgAlphaChanged")]
+	public function get upBgAlpha():Number {return _upBgAlpha;}
+	public function set upBgAlpha(value:Number):void {
+		if (_upBgAlpha != value) {
+			_upBgAlpha = value;
+			invalidateDisplayList();
+			dispatchEvent(new Event("upBgAlphaChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  animationDuration
+	//--------------------------------------
+	private var _animationDuration:Number = 0.5;
+	[Bindable("animationDurationChanged")]
+	public function get animationDuration():Number {return _animationDuration;}
+	public function set animationDuration(value:Number):void {
+		if (_animationDuration != value) {
+			_animationDuration = value;
+			invalidateProperties();
+			dispatchEvent(new Event("animationDurationChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  use9Scale
@@ -48,20 +78,6 @@ public class FadeTileButton extends UIComponent {
 			_use9Scale = value;
 			invalidateDisplayList();
 			dispatchEvent(new Event("use9ScaleChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  upBgAlpha
-	//--------------------------------------
-	private var _upBgAlpha:Number = 0.6;
-	[Bindable("upBgAlphaChanged")]
-	public function get upBgAlpha():Number {return _upBgAlpha;}
-	public function set upBgAlpha(value:Number):void {
-		if (_upBgAlpha != value) {
-			_upBgAlpha = value;
-			updateBg();
-			dispatchEvent(new Event("upBgAlphaChanged"));
 		}
 	}
 
@@ -90,8 +106,8 @@ public class FadeTileButton extends UIComponent {
 	public function set disabledTileID(value:String):void {
 		if (_disabledTileID != value) {
 			_disabledTileID = value;
+			disabledBgAlpha = value ? 0 : 0.3;
 			invalidateProperties();
-			invalidateSize();
 			invalidateDisplayList();
 			dispatchEvent(new Event("disabledTileIDTileIDChanged"));
 		}
@@ -107,7 +123,6 @@ public class FadeTileButton extends UIComponent {
 		if (_downTileID != value) {
 			_downTileID = value;
 			invalidateProperties();
-			invalidateSize();
 			invalidateDisplayList();
 			dispatchEvent(new Event("downTileIDChanged"));
 		}
@@ -138,7 +153,7 @@ public class FadeTileButton extends UIComponent {
 	public function set isToggle(value:Boolean):void {
 		if (_isToggle != value) {
 			_isToggle = value;
-			updateBg();
+			invalidateDisplayList();
 			dispatchEvent(new Event("isToggleChanged"));
 		}
 	}
@@ -154,7 +169,7 @@ public class FadeTileButton extends UIComponent {
 		if (_selected != value) {
 			_selected = value;
 			if (isDown) denyInteractiveSelection = true;
-			updateBg();
+			invalidateDisplayList();
 			dispatchEvent(new Event("selectedChange"))
 		}
 	}
@@ -177,7 +192,7 @@ public class FadeTileButton extends UIComponent {
 			super.enabled = value;
 			super.mouseEnabled = enabled && _mouseEnabled;
 			super.mouseChildren = enabled && _mouseChildren;
-			updateBg();
+			invalidateDisplayList();
 		}
 	}
 
@@ -332,24 +347,35 @@ public class FadeTileButton extends UIComponent {
 			upBg.alphaTo = upBgAlpha;
 			addChild(upBg);
 		}
-		if (!downBg) {
-			downBg = new TileShape();
-			downBg.alphaTo = 0;
-			addChild(downBg);
-		}
-
-		if (!disabledBg) {
-			disabledBg = new TileShape();
-			disabledBg.alphaTo = 0;
-			addChild(disabledBg);
-		}
 	}
 
 	override protected function commitProperties():void {
 		super.commitProperties();
 		upBg.tileID = upTileID;
-		downBg.tileID = downTileID;
-		disabledBg.tileID = disabledTileID;
+		upBg.animationDuration = animationDuration;
+
+		if (downTileID && !downBg) {
+			downBg = new TileShape();
+			downBg.alphaTo = 0;
+			addChild(downBg);
+		}
+
+		if (disabledTileID && !disabledBg) {
+			disabledBg = new TileShape();
+			disabledBg.alphaTo = 0;
+			addChild(disabledBg);
+		}
+
+		if (downBg) {
+			downBg.tileID = downTileID;
+			downBg.animationDuration = animationDuration;
+
+		}
+
+		if (disabledBg) {
+			disabledBg.tileID = disabledTileID;
+			disabledBg.animationDuration = animationDuration;
+		}
 
 		if (iconTileID && !iconBg) {
 			iconBg = new TileShape(iconTileID);
@@ -397,7 +423,6 @@ public class FadeTileButton extends UIComponent {
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
-		alpha = enabled || disabledTileID ? 1 : DISABLED_BG_ALPHA;
 
 		var g:Graphics = graphics;
 		g.clear();
@@ -406,29 +431,32 @@ public class FadeTileButton extends UIComponent {
 		g.endFill();
 
 		if (w != 0 && h != 0) {
-			if (titleTf) {
-				titleTf.x = (w - titleTf.textWidth >> 1) - Values.PT2;
-				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT1;
-				titleTf.width = w - titleTf.x;
-				titleTf.height = h - titleTf.y;
-			}
-
 			if (iconBg) {
 				iconBg.x = paddingLeft;
 				iconBg.y = h - iconBg.height >> 1;
+			}
+
+			if (titleTf) {
+				titleTf.x = iconBg ? iconBg.x + iconBg.width + Values.PT5 : paddingLeft - Values.PT4;
+				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT2;
+				titleTf.width = iconBg ? w - 2 * titleTf.x : w - titleTf.x - paddingRight + Values.PT2;
+				titleTf.height = h - titleTf.y;
 			}
 
 			if (!use9Scale) {
 				w = NaN;
 				h = NaN;
 			}
+
 			upBg.width = w;
-			downBg.width = w;
-			disabledBg.width = w;
+			if (downBg) downBg.width = w;
+			if (disabledBg) disabledBg.width = w;
 
 			upBg.height = h;
-			downBg.height = h;
-			disabledBg.height = h;
+			if (downBg) downBg.height = h;
+			if (disabledBg) disabledBg.height = h;
+
+			redrawBg();
 		}
 	}
 
@@ -440,7 +468,7 @@ public class FadeTileButton extends UIComponent {
 
 	private var isDown:Boolean = false;
 
-	protected function mouseUpHandler(event:MouseEvent):void {
+	private function mouseUpHandler(event:MouseEvent):void {
 		if (isDown && isToggle) {
 			isDown = false;
 			if (denyInteractiveSelection) {
@@ -455,7 +483,7 @@ public class FadeTileButton extends UIComponent {
 		}
 
 		if (upBg)
-			upBg.alphaTo = enabled && Device.isDesktop ? 1 : upBgAlpha;
+			upBg.alphaTo = enabled ? Device.isDesktop ? 1 : upBgAlpha : disabledBgAlpha;
 
 		if (downBg)
 			downBg.alphaTo = isToggle && selected ? 1 : 0;
@@ -464,49 +492,49 @@ public class FadeTileButton extends UIComponent {
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	protected function mouseOverHandler(event:MouseEvent):void {
+	private function mouseOverHandler(event:MouseEvent):void {
 		if (upBg)
-			upBg.alphaTo = enabled ? 1 : upBgAlpha;
+			upBg.alphaTo = enabled ? 1 : disabledBgAlpha;
 
 		if (downBg)
-			downBg.alphaTo = isToggle && selected ? 1 : 0;
+			downBg.alphaTo = isToggle && selected ? enabled ? 1 : disabledBgAlpha : 0;
 
 		if (disabledBg)
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	protected function mouseDownHandler(event:MouseEvent):void {
+	private function mouseDownHandler(event:MouseEvent):void {
 		isDown = true;
 
 		if (upBg)
-			upBg.alphaTo = enabled ? 1 : upBgAlpha;
+			upBg.alphaTo = enabled ? 1 : disabledBgAlpha;
 
 		if (downBg)
-			downBg.alphaTo = enabled || (isToggle && selected) ? 1 : 0;
+			downBg.alphaTo = enabled ? 1 : disabledBgAlpha;
 
 		if (disabledBg)
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	protected function mouseOutHandler(event:MouseEvent):void {
+	private function mouseOutHandler(event:MouseEvent):void {
 		isDown = false;
 
 		if (upBg)
-			upBg.alphaTo = (isToggle && selected) ? 1 : upBgAlpha;
+			upBg.alphaTo = enabled ? (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
 
 		if (downBg)
-			downBg.alphaTo = isToggle && selected ? 1 : 0;
+			downBg.alphaTo = isToggle && selected ? enabled ? 1 : disabledBgAlpha : 0;
 
 		if (disabledBg)
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	protected function updateBg():void {
+	private function redrawBg():void {
 		if (upBg)
-			upBg.alphaTo = (isToggle && selected) ? 1 : upBgAlpha;
+			upBg.alphaTo = enabled ? (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
 
 		if (downBg)
-			downBg.alphaTo = isToggle && selected ? 1 : 0;
+			downBg.alphaTo = isToggle && selected ? enabled ? 1 : disabledBgAlpha : 0;
 
 		if (disabledBg)
 			disabledBg.alphaTo = enabled ? 0 : 1;

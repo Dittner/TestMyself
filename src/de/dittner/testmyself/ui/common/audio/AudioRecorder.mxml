@@ -228,23 +228,23 @@
                             removeRecordEnabled="true"
                             removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
 
-    <button:TransparentBlackButton id="loadRemoteMp3Btn"
-                                   verticalCenter="{Values.PT11}"
-                                   paddingLeft="{Values.PT15}"
-                                   paddingRight="{Values.PT15}"
-                                   right="{Values.PT170}"
-                                   title="Duden"
-                                   enabled="{!isMp3Loading}"
-                                   visible="{loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled, noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
-                                   click="loadRemoteMp3()"/>
+    <button:WhiteButton id="loadRemoteMp3Btn"
+                        verticalCenter="{Values.PT11}"
+                        paddingLeft="{Values.PT15}"
+                        paddingRight="{Values.PT15}"
+                        right="{Values.PT170}"
+                        title="Duden"
+                        enabled="{!isMp3Loading}"
+                        visible="{loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled, noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
+                        click="loadRemoteMp3()"/>
 
-    <button:TransparentBlackButton id="loadLocalMp3Btn"
-                                   verticalCenter="{Values.PT11}"
-                                   paddingLeft="{Values.PT15}"
-                                   paddingRight="{Values.PT15}"
-                                   right="{Values.PT10}"
-                                   title="{resourceManager.getString('app', 'ChooseMp3File')}"
-                                   enabled="{!isMp3Loading}"
-                                   visible="{loadLocalMp3BtnVisible(rawDataPlayer.recording, rawDataPlayer.visible, mp3Player.comment, rawDataPlayer.recorder.recordedBytes)}"
-                                   click="loadLocalMp3()"/>
+    <button:WhiteButton id="loadLocalMp3Btn"
+                        verticalCenter="{Values.PT11}"
+                        paddingLeft="{Values.PT15}"
+                        paddingRight="{Values.PT15}"
+                        right="{Values.PT10}"
+                        title="{resourceManager.getString('app', 'ChooseMp3File')}"
+                        enabled="{!isMp3Loading}"
+                        visible="{loadLocalMp3BtnVisible(rawDataPlayer.recording, rawDataPlayer.visible, mp3Player.comment, rawDataPlayer.recorder.recordedBytes)}"
+                        click="loadLocalMp3()"/>
 </s:Group>

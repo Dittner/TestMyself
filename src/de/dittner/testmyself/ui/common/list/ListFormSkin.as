@@ -1,10 +1,11 @@
 package de.dittner.testmyself.ui.common.list {
+import de.dittner.testmyself.ui.common.tile.TileID;
+import de.dittner.testmyself.ui.common.tile.TileShape;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
 
-import flash.display.Graphics;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
@@ -19,6 +20,7 @@ public class ListFormSkin extends ListSkin {
 		super();
 	}
 
+	private var bg:TileShape;
 	private var titleDisplay:TextField;
 	private function get hostInput():ListForm {return hostComponent as ListForm;}
 
@@ -29,9 +31,17 @@ public class ListFormSkin extends ListSkin {
 	//--------------------------------------------------------------------------
 
 	override protected function createChildren():void {
+		if (!bg) {
+			bg = new TileShape(TileID.WHITE_BG_ICON);
+			addChild(bg);
+		}
+
 		super.createChildren();
-		titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
-		addChild(titleDisplay);
+
+		if (!titleDisplay) {
+			titleDisplay = TextFieldFactory.create(TITLE_FORMAT);
+			addChild(titleDisplay);
+		}
 	}
 
 	override protected function measure():void {
@@ -46,12 +56,10 @@ public class ListFormSkin extends ListSkin {
 		super.updateDisplayList(w, h);
 
 		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
-		var g:Graphics = graphics;
-		g.clear();
-		g.lineStyle(1, AppColors.INPUT_BORDER);
-		g.beginFill(AppColors.INPUT_CONTENT);
-		g.drawRect(0, bgVerOffset, w - 1, h - bgVerOffset - 1);
-		g.endFill();
+		bg.x = 0;
+		bg.y = bgVerOffset;
+		bg.width = w;
+		bg.height = h - bgVerOffset;
 
 		titleDisplay.visible = hostInput.showTitle;
 		titleDisplay.text = hostInput.title;

@@ -2,7 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:button="de.dittner.testmyself.ui.common.button.*">
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
     <fx:Metadata>
         [Event(name="startTest", type="flash.events.Event")]
         [Event(name="showStatistics", type="flash.events.Event")]
@@ -11,6 +12,7 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.model.domain.test.TestTaskPriority;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -83,14 +85,9 @@
              color="{AppColors.TEXT_BLACK}"/>
 
     <s:Group width="{width -2*padding}" height="100%">
-        <s:Rect width="100%" top="{Values.PT20}" bottom="0">
-            <s:stroke>
-                <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
-            </s:stroke>
-            <s:fill>
-                <s:SolidColor color="{AppColors.INPUT_CONTENT}"/>
-            </s:fill>
-        </s:Rect>
+        <tile:TileImage width="100%" top="{Values.PT20}" bottom="0"
+                        actualTileID="{TileID.WHITE_BG_ICON}"
+                        use9Scale="true"/>
 
         <s:Label width="100%"
                  fontSize="{Values.PT16}"

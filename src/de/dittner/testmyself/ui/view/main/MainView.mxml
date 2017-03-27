@@ -15,6 +15,7 @@
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewBase;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
@@ -204,7 +205,7 @@
         <s:Rect width="100%" height="100%"
                 visible="{busyIndicatorLayer.alpha != 0}">
             <s:fill>
-                <s:SolidColor color="#ff1d5d" alpha="0.15"/>
+                <s:SolidColor color="{AppColors.PINK}" alpha="0.15"/>
             </s:fill>
         </s:Rect>
     </s:Group>

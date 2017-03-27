@@ -55,9 +55,9 @@
                   paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}" paddingBottom="{EditorBg.BORDER_THICKNESS}"
                   gap="{Values.PT15}">
 
-            <button:TransparentBlackButton id="cancelBtn"
-                                           width="{Values.PT250}"
-                                           title="{resourceManager.getString('app', 'Cancel')}"/>
+            <button:WhiteButton id="cancelBtn"
+                                width="{Values.PT250}"
+                                title="{resourceManager.getString('app', 'Cancel')}"/>
 
             <button:BlackButton id="applyBtn"
                                 width="{Values.PT250}"

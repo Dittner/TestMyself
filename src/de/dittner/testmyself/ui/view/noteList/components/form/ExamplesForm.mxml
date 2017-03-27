@@ -193,9 +193,9 @@
 
                         <s:Spacer width="100%"/>
 
-                        <button:TransparentBlackButton id="cancelBtn"
-                                                       title="{resourceManager.getString('app', 'Cancel')}"
-                                                       click="back()"/>
+                        <button:WhiteButton id="cancelBtn"
+                                            title="{resourceManager.getString('app', 'Cancel')}"
+                                            click="back()"/>
 
                         <button:BlackButton id="applyBtn"
                                             title.add="{resourceManager.getString('app', 'Add')}"
