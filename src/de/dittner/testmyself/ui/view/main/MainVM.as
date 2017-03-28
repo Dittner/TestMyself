@@ -36,19 +36,6 @@ public class MainVM extends WalterProxy {
 	}
 
 	//--------------------------------------
-	//  viewListLocked
-	//--------------------------------------
-	private var _menuLocked:Boolean = false;
-	[Bindable("viewListLockedChanged")]
-	public function get menuLocked():Boolean {return _menuLocked;}
-	public function set menuLocked(value:Boolean):void {
-		if (_menuLocked != value) {
-			_menuLocked = value;
-			dispatchEvent(new Event("viewListLockedChanged"));
-		}
-	}
-
-	//--------------------------------------
 	//  commentsBoardText
 	//--------------------------------------
 	private var _commentsBoardText:String = "";

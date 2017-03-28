@@ -4,7 +4,8 @@
          xmlns:audio="de.dittner.testmyself.ui.common.audio.*"
          xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:input="de.dittner.testmyself.ui.common.input.*">
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
     <fx:Metadata>
         [Event(name="loadRemoteMp3WithError", type="flash.events.Event")]
     </fx:Metadata>
@@ -205,14 +206,8 @@
                    text="{resourceManager.getString('app', 'AudioRecord')}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
-    <s:Rect width="100%" top="{Values.PT20}" bottom="0">
-        <s:fill>
-            <s:SolidColor alpha="0"/>
-        </s:fill>
-        <s:stroke>
-            <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
-        </s:stroke>
-    </s:Rect>
+    <utils:BG percentWidth="100" top="{Values.PT20}" bottom="0"
+              fillAlpha="0" borderColor="{AppColors.INPUT_BORDER}" borderWeight="1"/>
 
     <audio:RawDataPlayer id="rawDataPlayer"
                          top="{Values.PT32}" bottom="0"

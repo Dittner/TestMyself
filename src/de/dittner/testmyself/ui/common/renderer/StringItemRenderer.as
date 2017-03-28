@@ -47,8 +47,8 @@ public class StringItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : Values.PT50;
-		minHeight = 10;
-		measuredHeight = tf.textHeight + Values.PT4 + 2 * verPad;
+		minHeight = Values.PT10;
+		measuredHeight = Math.ceil(tf.textHeight + Values.PT4 + 2 * verPad);
 	}
 
 	private var matr:Matrix = new Matrix();
@@ -72,9 +72,10 @@ public class StringItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			g.lineStyle(1, 0xccCCcc, .75);
-			g.moveTo(0, h - 1);
-			g.lineTo(w, h - 1);
+
+			g.beginFill(AppColors.REN_SEP_COLOR);
+			g.drawRect(0, h-1, w, 1);
+			g.endFill();
 		}
 		else {
 			tf.alpha = 0.6;
@@ -84,9 +85,9 @@ public class StringItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			g.lineStyle(1, 0xccCCcc, .75);
-			g.moveTo(0, h - 1);
-			g.lineTo(w, h - 1);
+			g.beginFill(AppColors.REN_SEP_COLOR);
+			g.drawRect(0, h-1, w, 1);
+			g.endFill();
 		}
 
 		tf.x = horPad;

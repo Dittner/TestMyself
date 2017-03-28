@@ -45,6 +45,7 @@ public class Values {
 	public static const PT39:Number = 39 * Device.factor;
 	public static const PT40:Number = 40 * Device.factor;
 	public static const PT42:Number = 42 * Device.factor;
+	public static const PT46:Number = 46 * Device.factor;
 	public static const PT50:Number = 50 * Device.factor;
 	public static const PT52:Number = 52 * Device.factor;
 	public static const PT55:Number = 55 * Device.factor;

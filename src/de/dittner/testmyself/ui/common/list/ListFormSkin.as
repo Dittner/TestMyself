@@ -54,25 +54,26 @@ public class ListFormSkin extends ListSkin {
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
+		if (w > 0 && h > 0){
+			var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
+			bg.x = 0;
+			bg.y = bgVerOffset;
+			bg.width = w;
+			bg.height = h - bgVerOffset;
 
-		var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
-		bg.x = 0;
-		bg.y = bgVerOffset;
-		bg.width = w;
-		bg.height = h - bgVerOffset;
+			titleDisplay.visible = hostInput.showTitle;
+			titleDisplay.text = hostInput.title;
+			titleDisplay.x = -2;
+			titleDisplay.y = 0;
+			titleDisplay.width = w;
+			titleDisplay.height = TITLE_HEIGHT;
 
-		titleDisplay.visible = hostInput.showTitle;
-		titleDisplay.text = hostInput.title;
-		titleDisplay.x = -2;
-		titleDisplay.y = 0;
-		titleDisplay.width = w;
-		titleDisplay.height = TITLE_HEIGHT;
-
-		scroller.x = 1;
-		scroller.y = hostInput.showTitle ? TITLE_HEIGHT + 1 : 1;
-		dataGroup.width = w - 2;
-		scroller.width = w - 2 + Values.PT10;//otherwise its blocking right side of content
-		scroller.height = h - scroller.y - 1;
+			scroller.x = 1;
+			scroller.y = hostInput.showTitle ? TITLE_HEIGHT + 1 : 1;
+			dataGroup.width = w - 2;
+			scroller.width = w - 2 + Values.PT10;//otherwise its blocking right side of content
+			scroller.height = h - scroller.y - 1;
+		}
 	}
 
 }

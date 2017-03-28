@@ -223,7 +223,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 		if (titleTf.visible && descriptionTf.visible) {
 			titleTf.width = descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
-			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * pad + gap + footerTf.height);
+			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * pad + gap + footerTf.textHeight);
 		}
 		else if (descriptionTf.visible) {
 			descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
@@ -279,7 +279,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			footerTf.text = getFooterText();
 			footerTf.x = pad;
 			footerTf.y = h - footerTf.textHeight - Values.PT5;
-			footerTf.width = w - footerTf.x;
+			footerTf.width = w - footerTf.x - pad;
 		}
 		else {
 			footerTf.visible = false;

@@ -46,7 +46,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : Values.PT50;
 		minHeight = Values.PT10;
-		measuredHeight = tf.textHeight + Values.PT5 + 2 * verPad;
+		measuredHeight = Math.ceil(tf.textHeight + Values.PT5 + 2 * verPad);
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
@@ -66,9 +66,9 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			g.lineStyle(1, 0x666666, .75);
-			g.moveTo(HPAD, h - 1);
-			g.lineTo(w - 2 * HPAD, h - 1);
+			g.beginFill(0x666666, 0.75);
+			g.drawRect(HPAD, h - 1, w - 2 * HPAD, 1);
+			g.endFill();
 		}
 		else {
 			tf.alpha = 0.6;
@@ -78,9 +78,9 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			g.lineStyle(1, 0x666666, .75);
-			g.moveTo(HPAD, h - 1);
-			g.lineTo(w - 2 * HPAD, h - 1);
+			g.beginFill(0x666666, 0.75);
+			g.drawRect(HPAD, h - 1, w - 2 * HPAD, 1);
+			g.endFill();
 		}
 
 		tf.x = horPad;

@@ -64,9 +64,9 @@ public class ArticleItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			g.lineStyle(1, 0xccCCcc, .75);
-			g.moveTo(0, h - 1);
-			g.lineTo(w, h - 1);
+			g.beginFill(AppColors.REN_SEP_COLOR);
+			g.drawRect(0, h - 1, w, 1);
+			g.endFill();
 		}
 		else {
 			articleTF.setTextFormat(TAG_FORMAT);
@@ -75,9 +75,9 @@ public class ArticleItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			g.lineStyle(1, 0xccCCcc, .75);
-			g.moveTo(0, h - 1);
-			g.lineTo(w, h - 1);
+			g.beginFill(AppColors.REN_SEP_COLOR);
+			g.drawRect(0, h - 1, w, 1);
+			g.endFill();
 		}
 
 		articleTF.x = PADDING;

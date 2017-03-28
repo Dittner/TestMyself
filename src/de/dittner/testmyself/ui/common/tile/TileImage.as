@@ -115,8 +115,8 @@ public class TileImage extends UIComponent {
 
 	override protected function measure():void {
 		super.measure();
-		measuredWidth = bg.width - 2 * shadowSize;
-		measuredHeight = bg.height - 2 * shadowSize;
+		measuredWidth = bg.measuredWidth - 2 * shadowSize;
+		measuredHeight = bg.measuredHeight - 2 * shadowSize;
 	}
 
 	override public function validateDisplayList():void {
@@ -146,7 +146,7 @@ public class TileImage extends UIComponent {
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		if (w != 0 && h != 0) {
+		if (w > 0 && h > 0) {
 			bg.x = -shadowSize;
 			bg.y = -shadowSize;
 			if (use9Scale) {

@@ -173,7 +173,7 @@ public class Storage extends WalterProxy {
 	private function tileGeneratingComplete(op:IAsyncOperation):void {
 		if (op.isSuccess) {
 			CLog.info(LogTag.UI, "Графика загружена из БД");
-			showMsg("GUI is ready");
+			showMsg("100%");
 		}
 		else {
 			CLog.err(LogTag.UI, "Tiles generating is failed! Details: " + op.error);
@@ -183,7 +183,7 @@ public class Storage extends WalterProxy {
 
 	private function tileGeneratingProgress(value:Number):void {
 		if (value < 1) {
-			showMsg("GUI is processing:  " + Math.floor(value * 100) + "%");
+			showMsg(Math.floor(value * 100) + "%");
 		}
 	}
 

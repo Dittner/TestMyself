@@ -65,7 +65,8 @@
         }
         ]]></fx:Script>
 
-    <utils:BG left="0" right="0" top="0" bottom="0" color="{AppColors.EXAMPLES_BG}"/>
+    <utils:BG percentWidth="100" percentHeight="100"
+              fillColor="{AppColors.EXAMPLES_BG}"/>
 
     <s:Label text="{resourceManager.getString('app', 'Examples')}"
              fontFamily="{FontName.MYRIAD_COND}"

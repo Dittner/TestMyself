@@ -25,7 +25,7 @@
 
     <s:Label text="{hostComponent.value.toString()}"
              fontSize="{Values.PT18}"
-             left="0" width="{Values.PT50}" top="0" bottom="0" verticalAlign="middle"
+             left="{Values.PT2}" width="{Values.PT46}" top="0" bottom="0" verticalAlign="middle"
              textAlign="right" verticalCenter="0" maxDisplayedLines="1"/>
 
     <tile:FadeTileButton id="incrementButton"

@@ -22,6 +22,7 @@ public class TileShape extends Shape {
 	public function set tileID(value:String):void {
 		if (_tileID != value) {
 			_tileID = value;
+			if (!tile) tile = new Tile(tileID);
 			redraw();
 		}
 	}
@@ -29,11 +30,15 @@ public class TileShape extends Shape {
 	//--------------------------------------
 	//  width
 	//--------------------------------------
-	private var explicitWidth:Number = NaN;
+	public function get measuredWidth():Number {return tile && tile.bitmapData ? tile.bitmapData.width : 0;}
+
+	private var explicitWidth:Number = 0;
+	override public function get width():Number {
+		return explicitWidth ? explicitWidth : tile && tile.bitmapData ? tile.bitmapData.width : 0;
+	}
 	override public function set width(value:Number):void {
 		if (explicitWidth != value) {
 			explicitWidth = value;
-			super.width = value;
 			redraw();
 		}
 	}
@@ -41,11 +46,15 @@ public class TileShape extends Shape {
 	//--------------------------------------
 	//  height
 	//--------------------------------------
-	private var explicitHeight:Number = NaN;
+	public function get measuredHeight():Number {return tile && tile.bitmapData ? tile.bitmapData.height : 0;}
+
+	private var explicitHeight:Number = 0;
+	override public function get height():Number {
+		return explicitHeight ? explicitHeight : tile && tile.bitmapData ? tile.bitmapData.height : 0;
+	}
 	override public function set height(value:Number):void {
 		if (explicitHeight != value) {
 			explicitHeight = value;
-			super.height = value;
 			redraw();
 		}
 	}
@@ -66,13 +75,15 @@ public class TileShape extends Shape {
 		g.clear();
 
 		if (tileID) {
-			if (!tile) tile = new Tile(tileID);
-			else tile.id = tileID;
+			tile.id = tileID;
 
 			var bd:BitmapData = tile.bitmapData;
 			if (bd) {
-				var isInvalidSize:Boolean = (explicitWidth && explicitWidth < bd.width) || (explicitHeight && explicitHeight < bd.height);
-				if (!isInvalidSize && (explicitWidth || explicitHeight)) {
+				if (explicitWidth > bd.width || explicitHeight > bd.height) {
+					scale9Grid = null;
+					var wid:Number = Math.max(explicitWidth, bd.width);
+					var hei:Number = Math.max(explicitHeight, bd.height);
+
 					var rect:Rectangle = new Rectangle(bd.width / 2 - 1, bd.height / 2 - 1, 2, 2);
 					const gridX:Vector.<Number> = Vector.<Number>([rect.left, rect.right, bd.width]);
 					const gridY:Vector.<Number> = Vector.<Number>([rect.top, rect.bottom, bd.height]);
@@ -98,12 +109,16 @@ public class TileShape extends Shape {
 						i++;
 					}
 					scale9Grid = rect;
+					super.width = wid;
+					super.height = hei;
 				}
 				else {
+					scale9Grid = null;
 					g.beginBitmapFill(bd, null, false, true);
 					g.drawRect(0, 0, bd.width, bd.height);
 					g.endFill();
-					scale9Grid = null;
+					super.width = bd.width;
+					super.height = bd.height;
 				}
 			}
 		}

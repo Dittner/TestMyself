@@ -52,27 +52,29 @@ public class ListBoxSkin extends ListSkin {
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
-		titleDisplay.text = resourceManager.getString('app', 'Article');
-		titleDisplay.x = -Values.PT2;
-		titleDisplay.y = 0;
+		if (w > 0 && h > 0) {
+			titleDisplay.text = resourceManager.getString('app', 'Article');
+			titleDisplay.x = -Values.PT2;
+			titleDisplay.y = 0;
 
-		dropDownBtn.width = w;
-		dropDownBtn.y = TITLE_HEIGHT;
+			dropDownBtn.width = w;
+			dropDownBtn.y = TITLE_HEIGHT;
 
-		scroller.x = 1;
-		scroller.y = dropDownBtn.height + dropDownBtn.y + 1;
-		scroller.width = w - 2;
-		scroller.height = h - scroller.y - 1;
+			scroller.x = 1;
+			scroller.y = dropDownBtn.height + dropDownBtn.y + 1;
+			scroller.width = w - 2;
+			scroller.height = h - scroller.y - 1;
 
-		if (scroller.visible) {
-			bg.visible = true;
-			bg.x = 0;
-			bg.y = scroller.y;
-			bg.width = w;
-			bg.height = Math.min(scroller.height, dataGroup.getExplicitOrMeasuredHeight());
-		}
-		else {
-			bg.visible = false;
+			if (scroller.visible) {
+				bg.visible = true;
+				bg.x = 0;
+				bg.y = scroller.y;
+				bg.width = w;
+				bg.height = Math.min(scroller.height, dataGroup.getExplicitOrMeasuredHeight());
+			}
+			else {
+				bg.visible = false;
+			}
 		}
 	}
 }

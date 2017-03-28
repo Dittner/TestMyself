@@ -48,7 +48,6 @@
             var bgVerOffset:Number = hostComponent.showTitle ? TITLE_HEIGHT : 0;
             bg.x = 0;
             bg.y = bgVerOffset;
-            bg.width = w;
             bg.height = h - bgVerOffset;
             bg.actualTileID = hostComponent.isValidInput ? TileID.WHITE_BG_ICON : TileID.WHITE_BG_INVALID_ICON;
 
@@ -74,6 +73,7 @@
     </s:states>
 
     <tile:TileImage id="bg"
+                    width="100%"
                     use9Scale="true"/>
 
     <input:MXLabel id="titleLbl"

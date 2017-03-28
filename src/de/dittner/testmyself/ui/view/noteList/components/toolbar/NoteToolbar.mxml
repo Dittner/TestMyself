@@ -10,6 +10,7 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.utils.Values;
 
         public function revert():void {
             goBackBtn.enabled = false;
@@ -44,7 +45,7 @@
 
     <s:layout>
         <s:VerticalLayout id="verLayout"
-                          gap="12" verticalAlign="top" horizontalAlign="center"/>
+                          gap="{Values.PT5}" verticalAlign="top" horizontalAlign="center"/>
     </s:layout>
 
     <tile:FadeTileButton id="goBackBtn"
@@ -53,7 +54,7 @@
                          upTileID="{TileID.TOOLBAR_GO_BACK}"
                          click="notifyToolAction(ToolAction.GO_BACK)"/>
 
-    <s:Spacer height="25"
+    <s:Spacer height="30%"
               visible="{goBackBtn.enabled}" includeInLayout="{goBackBtn.enabled}"/>
 
     <tile:FadeTileButton id="addNoteBtn"
@@ -68,7 +69,7 @@
                          upTileID="{TileID.TOOLBAR_DELETE}"
                          click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
-    <s:Spacer height="25"/>
+    <s:Spacer height="30%"/>
 
     <tile:FadeTileButton id="hideDetailsBtn"
                          isToggle="true"
@@ -106,7 +107,7 @@
                          upTileID="{TileID.TOOLBAR_SET_TASK_AS_RIGHT}"
                          click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
 
-    <s:Spacer height="25"
+    <s:Spacer height="30%"
               visible="{prevBtn.enabled}"
               includeInLayout="{prevBtn.enabled}"/>
 
@@ -122,9 +123,12 @@
                          upTileID="{TileID.TOOLBAR_NEXT}"
                          click="notifyToolAction(ToolAction.NEXT_NOTE)"/>
 
-    <s:Spacer height="25"/>
+    <s:Spacer height="30%"/>
 
     <tile:FadeTileButton id="playCommentBtn"
                          upTileID="{TileID.TOOLBAR_PLAY_AUDIO}"
                          click="notifyToolAction(ToolAction.PLAY_AUDIO)"/>
+
+    <s:Spacer height="100%"/>
+
 </s:Group>

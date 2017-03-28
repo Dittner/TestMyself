@@ -151,7 +151,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG width="100%" height="100%" color="{AppColors.WHITE}"/>
+    <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.WHITE}"/>
 
     <!--HEADER-->
     <s:Label text="{errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"

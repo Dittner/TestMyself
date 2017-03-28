@@ -25,11 +25,12 @@ public class MobileTextInputFormSkin extends TextInputSkin {
 	private function get hostInput():TextInputForm {return hostComponent as TextInputForm;}
 
 	override protected function createChildren():void {
-		super.createChildren();
 		if (!bg) {
 			bg = new TileShape();
 			addChild(bg);
 		}
+
+		super.createChildren();
 
 		if (!titleDisplay) {
 			titleDisplay = TextFieldFactory.create(TITLE_FORMAT);

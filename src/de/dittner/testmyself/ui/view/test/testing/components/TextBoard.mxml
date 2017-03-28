@@ -67,7 +67,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG width="100%" height="100%" color="{AppColors.EDITOR_CONTENT_BG}"/>
+    <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.EDITOR_CONTENT_BG}"/>
     <s:Label text="{title}"
              fontFamily="{FontName.MYRIAD_COND}"
              fontWeight="bold"

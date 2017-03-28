@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.renderer {
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 
 import flash.events.Event;
@@ -15,7 +16,7 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	public function ItemRendererBase() {
 		super();
 		percentWidth = 100;
-		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+		if (Device.isDesktop) addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	}
 
 	//----------------------------------
@@ -102,10 +103,12 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	}
 
 	private function addedToStageHandler(event:Event):void {
-		removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-		addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
-		addEventListener(MouseEvent.MOUSE_OVER, overHandler);
-		addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+		if (Device.isDesktop) {
+			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
+			addEventListener(MouseEvent.MOUSE_OVER, overHandler);
+			addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+		}
 	}
 
 	protected function overHandler(event:MouseEvent):void {
@@ -117,10 +120,12 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	}
 
 	private function removedFromStageHandler(event:Event):void {
-		removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
-		removeEventListener(MouseEvent.MOUSE_OVER, overHandler);
-		removeEventListener(MouseEvent.MOUSE_OUT, outHandler);
-		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+		if (Device.isDesktop) {
+			removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
+			removeEventListener(MouseEvent.MOUSE_OVER, overHandler);
+			removeEventListener(MouseEvent.MOUSE_OUT, outHandler);
+			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+		}
 	}
 }
 }

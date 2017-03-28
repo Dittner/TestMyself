@@ -77,7 +77,7 @@
         </s:fill>
     </s:Rect>
 
-    <utils:BG width="100%" top="{PADDING + TAB_BAR_HEI}" bottom="0" color="#ffFFff"/>
+    <utils:BG percentWidth="100" top="{PADDING + TAB_BAR_HEI}" bottom="0" fillColor="#ffFFff"/>
 
     <list:SelectableDataGroup id="tabBar"
                               excludeFrom="inactive"

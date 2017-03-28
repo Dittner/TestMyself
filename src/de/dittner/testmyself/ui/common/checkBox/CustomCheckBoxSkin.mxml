@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
-             xmlns:s="library://ns.adobe.com/flex/spark"
+             xmlns:s="library://ns.adobe.com/flex/spark" xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
              alpha.disabledStates=".5">
 
     <fx:Metadata>
@@ -33,14 +33,10 @@
 
     <s:Group bottom="0" width="{Values.PT23}" height="{Values.PT23}">
 
-        <s:Rect left="0" right="0" top="0" bottom="0">
-            <s:fill>
-                <s:SolidColor color="{AppColors.INPUT_BORDER}" alpha=".2" alpha.selectedStates="1"/>
-            </s:fill>
-            <s:stroke>
-                <s:SolidColorStroke color="{AppColors.INPUT_BORDER}"/>
-            </s:stroke>
-        </s:Rect>
+        <utils:BG percentWidth="100" percentHeight="100"
+                  fillColor="{AppColors.INPUT_BORDER}" fillAlpha="0.2" fillAlpha.selectedStates="1"
+                  borderColor="{AppColors.INPUT_BORDER}"
+                  borderWeight="1"/>
 
         <!-- checkmark -->
         <s:Path includeIn="selectedStates" id="check" itemCreationPolicy="immediate"

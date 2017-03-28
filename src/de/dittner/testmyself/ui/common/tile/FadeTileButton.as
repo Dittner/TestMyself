@@ -22,7 +22,6 @@ use namespace mx_internal;
 public class FadeTileButton extends UIComponent {
 
 	private const TITLE_FORMAT:TextFormat = new TextFormat(_font, _fontSize, _textColor, _isBold, null, null, null, null, TextAlign.CENTER);
-	private var disabledBgAlpha:Number = 0.3;
 
 	public function FadeTileButton() {
 		super();
@@ -42,7 +41,7 @@ public class FadeTileButton extends UIComponent {
 	//--------------------------------------
 	//  upBgAlpha
 	//--------------------------------------
-	private var _upBgAlpha:Number = 0.7;
+	private var _upBgAlpha:Number = 0.6;
 	[Bindable("upBgAlphaChanged")]
 	public function get upBgAlpha():Number {return _upBgAlpha;}
 	public function set upBgAlpha(value:Number):void {
@@ -50,6 +49,20 @@ public class FadeTileButton extends UIComponent {
 			_upBgAlpha = value;
 			invalidateDisplayList();
 			dispatchEvent(new Event("upBgAlphaChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  disabledBgAlpha
+	//--------------------------------------
+	private var _disabledBgAlpha:Number = 0.3;
+	[Bindable("disabledBgAlphaChanged")]
+	public function get disabledBgAlpha():Number {return _disabledBgAlpha;}
+	public function set disabledBgAlpha(value:Number):void {
+		if (_disabledBgAlpha != value) {
+			_disabledBgAlpha = value;
+			invalidateDisplayList();
+			dispatchEvent(new Event("disabledBgAlphaChanged"));
 		}
 	}
 
@@ -106,7 +119,6 @@ public class FadeTileButton extends UIComponent {
 	public function set disabledTileID(value:String):void {
 		if (_disabledTileID != value) {
 			_disabledTileID = value;
-			disabledBgAlpha = value ? 0 : 0.3;
 			invalidateProperties();
 			invalidateDisplayList();
 			dispatchEvent(new Event("disabledTileIDTileIDChanged"));
@@ -399,9 +411,9 @@ public class FadeTileButton extends UIComponent {
 
 	override protected function measure():void {
 		super.measure();
-		measuredWidth = !use9Scale ? upBg.width : 0;
-		measuredWidth = titleTf && titleTf.text ? Math.max(measuredWidth, (titleTf.textWidth + paddingLeft + paddingRight)) : upBg.width;
-		measuredHeight = upBg.height;
+		measuredWidth = !use9Scale ? upBg.measuredWidth : 0;
+		measuredWidth = titleTf && titleTf.text ? Math.max(measuredWidth, (titleTf.textWidth + paddingLeft + paddingRight)) : upBg.measuredWidth;
+		measuredHeight = upBg.measuredHeight;
 	}
 
 	override public function validateDisplayList():void {
@@ -430,16 +442,16 @@ public class FadeTileButton extends UIComponent {
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		if (w != 0 && h != 0) {
+		if (w > 0 && h > 0) {
 			if (iconBg) {
 				iconBg.x = paddingLeft;
 				iconBg.y = h - iconBg.height >> 1;
 			}
 
 			if (titleTf) {
-				titleTf.x = iconBg ? iconBg.x + iconBg.width + Values.PT5 : paddingLeft - Values.PT4;
-				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT2;
-				titleTf.width = iconBg ? w - 2 * titleTf.x : w - titleTf.x - paddingRight + Values.PT2;
+				titleTf.x = iconBg ? iconBg.x + iconBg.width + Values.PT5 : paddingLeft - Values.PT3;
+				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT1;
+				titleTf.width = iconBg ? w - 2 * titleTf.x : w - titleTf.x - paddingRight + Values.PT3;
 				titleTf.height = h - titleTf.y;
 			}
 

@@ -150,7 +150,7 @@
         </s:Transition>
     </s:transitions>
 
-    <utils:BG width="100%" height="100%" color="#3d3f4b"/>
+    <utils:BG percentWidth="100" percentHeight="100" fillColor="#3d3f4b"/>
 
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"
@@ -168,7 +168,7 @@
                     hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                     disabledAlpha="1"
                     enabled="false"
-                    enabled.normal="{!vm.menuLocked}"/>
+                    enabled.normal="true"/>
 
     <toobar:NoteToolbar id="noteToolbar"
                         visible="false"
@@ -214,6 +214,6 @@
 
     <utils:BG visible="{Device.verticalPadding}"
               includeInLayout="{Device.verticalPadding}"
-              width="100%" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" color="#3d3f4b"/>
+              percentWidth="100" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" fillColor="#3d3f4b"/>
 
 </s:Group>

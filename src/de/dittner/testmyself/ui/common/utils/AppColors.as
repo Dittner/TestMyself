@@ -25,14 +25,10 @@ public class AppColors {
 	public static const LIST_ITEM_SELECTION:Array = [0x444455, 0];
 	public static const LIST_ITEM_HOVER:uint = 0xfafaff;
 
-	public static const TOOL_ICON:uint = 0x54545d;
-
 	public static const INPUT_BORDER:uint = 0xc7c7cf;
 	public static const INVALID_INPUT_BORDER:uint = 0xe33333;
-	public static const INPUT_CONTENT:uint = 0xffFFff;
 
 	public static const PINK:uint = 0xf70065;
-	public static const YELLOW:uint = 0xFFCC00;
 	public static const WHITE:uint = 0xffFFff;
 
 }

@@ -97,7 +97,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG width="100%" height="100%" color="{AppColors.BG}"/>
+    <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
 
     <s:Scroller left="0" percentWidth="{exampleList.visible ? 50 : 100}" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                 horizontalScrollPolicy="off"
@@ -126,7 +126,8 @@
                          hasFocusableChildren="false"/>
 
     <!--footer-->
-    <utils:BG width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0" color="{AppColors.SCREEN_FOOTER_BG}"/>
+    <utils:BG percentWidth="100" height="{AppSizes.SCREEN_FOOTER_HEIGHT}"
+              bottom="0" fillColor="{AppColors.SCREEN_FOOTER_BG}"/>
 
     <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
               verticalAlign="middle">

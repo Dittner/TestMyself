@@ -309,7 +309,8 @@
 
         <tile:FadeTileButton left="{Values.PT5}" top="{Values.PT5}"
                              mouseEnabled="false"
-                             visible="{hasNetworkConnection}"
+                             visible="false"
+                             visible.view="{hasNetworkConnection}"
                              upTileID="{TileID.NETWORK_ICON}"
                              disabledTileID="{TileID.NETWORK_RED_ICON}"
                              enabled="{enabled}"
