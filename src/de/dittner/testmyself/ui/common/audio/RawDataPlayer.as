@@ -11,7 +11,6 @@ import flash.events.TimerEvent;
 import flash.utils.Timer;
 
 import spark.components.supportClasses.SkinnableComponent;
-import spark.core.SpriteVisualElement;
 
 //--------------------------------------
 //  Events
@@ -95,9 +94,6 @@ public class RawDataPlayer extends SkinnableComponent {
 
 	[SkinPart(required="false")]
 	public var removeRecordBtn:FadeTileButton;
-
-	[SkinPart(required="false")]
-	public var recordingAnimation:SpriteVisualElement;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -215,10 +211,6 @@ public class RawDataPlayer extends SkinnableComponent {
 		}
 		else if (instance == removeRecordBtn) {
 			removeRecordBtn.addEventListener(MouseEvent.CLICK, removeRecordBtn_clickHandler);
-		}
-		else if (instance == recordingAnimation) {
-			animation = new PinkProgressbar();
-			recordingAnimation.addChild(animation);
 		}
 	}
 

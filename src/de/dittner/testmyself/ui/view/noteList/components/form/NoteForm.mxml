@@ -486,6 +486,15 @@
                 invalidNotifier.show();
             }
         }
+
+        private function descriptionAreaChangeHandler(event:Event):void {
+            if (currentState == "lesson") {
+                titleArea.percentHeight = descriptionArea.text.length / titleArea.text.length > 5 ? 15 : 100;
+            }
+            else {
+                titleArea.percentHeight = 100;
+            }
+        }
         ]]></fx:Script>
 
     <s:states>
@@ -571,7 +580,8 @@
                                             title="{resourceManager.getString('app', 'Translation')}"
                                             fontSize.word="{Values.PT18}"
                                             fontSize.verb="{Values.PT18}"
-                                            fontSize="{Values.PT22}"/>
+                                            fontSize="{Values.PT22}"
+                                            textChanged="descriptionAreaChangeHandler(event)"/>
                     </s:HGroup>
 
                 </s:VGroup>

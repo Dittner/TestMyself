@@ -50,6 +50,7 @@ public class Values {
 	public static const PT52:Number = 52 * Device.factor;
 	public static const PT55:Number = 55 * Device.factor;
 	public static const PT60:Number = 60 * Device.factor;
+	public static const PT65:Number = 65 * Device.factor;
 	public static const PT68:Number = 68 * Device.factor;
 	public static const PT70:Number = 70 * Device.factor;
 	public static const PT72:Number = 72 * Device.factor;
@@ -58,6 +59,7 @@ public class Values {
 	public static const PT90:Number = 90 * Device.factor;
 	public static const PT100:Number = 100 * Device.factor;
 	public static const PT110:Number = 110 * Device.factor;
+	public static const PT115:Number = 115 * Device.factor;
 	public static const PT113:Number = 113 * Device.factor;
 	public static const PT118:Number = 118 * Device.factor;
 	public static const PT120:Number = 120 * Device.factor;

@@ -136,5 +136,7 @@ public class TileID {
 
 	public static const WHITE_BG_ICON:String = "WHITE_BG_ICON";
 	public static const WHITE_BG_INVALID_ICON:String = "WHITE_BG_INVALID_ICON";
+	public static const MICROPHONE_ICON:String = "MICROPHONE_ICON";
+	public static const MICROPHONE_WAVES_ICON:String = "MICROPHONE_WAVES_ICON";
 }
 }
