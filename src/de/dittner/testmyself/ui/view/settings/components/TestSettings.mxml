@@ -2,13 +2,10 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+         xmlns:list="de.dittner.testmyself.ui.common.list.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.test.Test;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
@@ -26,19 +23,6 @@
             }
         }
 
-        private function cancelBtn_clickHandler(event:MouseEvent):void {
-            if (testList) testList.selectedItem = null;
-            setCurrentState("normal");
-        }
-
-        public function get isHistoryRemoving():Boolean {
-            return currentState == "removeHistory";
-        }
-
-        public function clear():void {
-            setCurrentState('normal');
-        }
-
         private function removeTestHistory():void {
             if (testList.selectedItem is Test) {
                 var selectedTest:Test = testList.selectedItem as Test;
@@ -47,76 +31,24 @@
         }
         ]]></fx:Script>
 
-    <s:states>
-        <s:State name="normal"/>
-        <s:State name="removeHistory"/>
-    </s:states>
-
     <s:layout>
-        <s:VerticalLayout gap="{Values.PT10}"/>
+        <s:VerticalLayout gap="{Values.PT20}" horizontalAlign="right"/>
     </s:layout>
 
-    <button:DottedLabelBtn text="{resourceManager.getString('app', 'DeleteTestData')}"
-                           fontFamily="{FontName.MYRIAD}"
-                           fontStyle="italic"
-                           fontSize="{Values.PT20}"
-                           upColor="{AppColors.TEXT_BLACK}"
-                           downColor="{AppColors.TEXT_BLACK}"
-                           click="setCurrentState('removeHistory')"/>
+    <list:ListForm id="testList"
+                   width="100%" height="100%"
+                   dataProvider="{testColl}"
+                   title="{resourceManager.getString('app', 'Tests')}"
+                   itemRenderer="de.dittner.testmyself.ui.view.settings.components.SettingsTestRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
 
-    <s:Group width="100%" height="100%"
-             visible.removeHistory="true"
-             visible="false">
-        <s:layout>
-            <s:ConstraintLayout>
-                <s:constraintColumns>
-                    <s:ConstraintColumn id="col1" width="50%"/>
-                    <s:ConstraintColumn id="col2" width="25%"/>
-                    <s:ConstraintColumn id="col3" width="25%"/>
-                </s:constraintColumns>
-                <s:constraintRows>
-                    <s:ConstraintRow id="row1"/>
-                    <s:ConstraintRow id="row2" height="100%"/>
-                </s:constraintRows>
-            </s:ConstraintLayout>
-        </s:layout>
-
-        <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.EDITOR_CONTENT_BG}"/>
-
-        <list:ListForm id="testList"
-                       top="{Values.PT10}"
-                       bottom="{Values.PT10}"
-                       left="col1:20"
-                       right="col1:20"
-                       dataProvider="{testColl}"
-                       title="{resourceManager.getString('app', 'Tests')}"
-                       itemRenderer="de.dittner.testmyself.ui.view.settings.components.SettingsTestRenderer">
-            <list:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </list:layout>
-        </list:ListForm>
-
-        <s:Label left="col2:20" top="row1:20" right="{Values.PT10}"
-                 fontFamily="{FontName.MYRIAD}"
-                 color="{AppColors.TEXT_BLACK}"
-                 fontSize="{Values.PT16}"
-                 includeIn="removeHistory"
-                 text="{resourceManager.getString('app', 'AreYouSureWantToDeleteTestData?')}"/>
-
-        <button:WhiteButton id="cancelBtn"
-                            top="row2:20"
-                            left="col2:20"
-                            right="col2:20"
-                            title="{resourceManager.getString('app', 'Cancel')}"
-                            click="cancelBtn_clickHandler(event)"/>
-
-        <button:BlackButton id="removeBtn"
-                            enabled="{testList.selectedItem != null}"
-                            title="{resourceManager.getString('app', 'Delete')}"
-                            top="row2:20"
-                            left="col3:20"
-                            right="{Values.PT10}"
-                            click="removeTestHistory()"/>
-    </s:Group>
+    <button:BlackButton id="removeBtn"
+                        width="50%"
+                        enabled="{testList.selectedItem != null}"
+                        title="{resourceManager.getString('app', 'DeleteTestData')}"
+                        click="removeTestHistory()"/>
 
 </s:Group>

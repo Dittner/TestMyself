@@ -9,7 +9,6 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.async.ProgressCommand;
-        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -24,8 +23,6 @@
         public var isDataBaseTransferOperationSuccess:Boolean = false;
         [Bindable]
         public var isUploading:Boolean = false;
-
-        private static const CONT_WID:Number = 815 * Device.factor;
 
         private function loadEnabled(connection:Boolean, hostText:String, portText:String, pwdText:String, userName:String):Boolean {
             return connection && hostText && portText && pwdText && userName;
@@ -102,10 +99,12 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="{Values.PT10}" horizontalAlign="center" paddingTop="{Values.PT10}"/>
+        <s:VerticalLayout gap="{Values.PT10}"
+                          paddingLeft="{Values.PT20}" paddingRight="{Values.PT20}"
+                          paddingTop="{Values.PT20}" paddingBottom="{Values.PT20}"/>
     </s:layout>
 
-    <s:Label width="{CONT_WID}"
+    <s:Label width="100%"
              text="{resourceManager.getString('app', 'AudioRecordSize')}"
              fontFamily="{FontName.MYRIAD}"
              fontStyle="italic"
@@ -113,7 +112,6 @@
              color="{AppColors.TEXT_BLACK}"/>
 
     <spinner:CustomSpinner id="maxAudioRecordDurationSpinner"
-                           width="{CONT_WID}"
                            fontFamily="{FontName.MYRIAD}"
                            fontStyle="italic"
                            fontSize="{Values.PT20}"
@@ -126,13 +124,12 @@
     <s:Spacer height="50%"/>
 
     <s:Label text="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
-             width="{CONT_WID}"
+             width="100%"
              fontFamily="{FontName.MYRIAD}"
              fontStyle="italic"
              fontSize="{Values.PT18}"
              color="{AppColors.TEXT_BLACK}"/>
 
-    <s:HGroup gap="{Values.PT15}">
         <input:TextInputForm id="hostInput"
                              fontSize="{Values.PT18}"
                              width="{Values.PT400}"
@@ -142,9 +139,7 @@
                              fontSize="{Values.PT18}"
                              width="{Values.PT400}"
                              title="{resourceManager.getString('app', 'User')}"/>
-    </s:HGroup>
 
-    <s:HGroup gap="{Values.PT15}">
         <input:TextInputForm id="portInput"
                              fontSize="{Values.PT18}"
                              width="{Values.PT400}"
@@ -155,18 +150,15 @@
                              displayAsPassword="true"
                              width="{Values.PT400}"
                              title="{resourceManager.getString('app', 'Passwort')}"/>
-    </s:HGroup>
 
-    <s:Group width="{CONT_WID}">
         <input:TextInputForm id="remoteDirInput"
                              fontSize="{Values.PT18}"
                              width="{Values.PT400}"
                              title="{resourceManager.getString('app', 'RemoteDirectory')}"/>
-    </s:Group>
 
     <s:Spacer height="50%"/>
 
-    <s:Group width="{CONT_WID}">
+    <s:Group width="100%">
 
         <tile:FadeTileButton id="downloadBtn"
                              upTileID="{TileID.BTN_WHITE_UP}"
@@ -209,7 +201,7 @@
              visible="{errorText}"
              fontSize="{Values.PT18}"
              color="{AppColors.INVALID_INPUT_BORDER}"
-             width="{CONT_WID}"
+             width="100%"
              textAlign="center"
              maxDisplayedLines="5"
              text="{errorText}"/>
@@ -218,7 +210,7 @@
              fontWeight="bold"
              visible="{isDataBaseTransferOperationSuccess}"
              color="{AppColors.TEXT_BLACK}"
-             width="{CONT_WID}"
+             width="100%"
              fontSize="{Values.PT16}"
              textAlign="center"
              text="{isUploading ? resourceManager.getString('app', 'DatabaseHasBeenUploaded') : resourceManager.getString('app', 'DatabaseHasBeenUpdated')}"/>

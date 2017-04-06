@@ -5,7 +5,6 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.op.*;
 import de.dittner.testmyself.backend.utils.SQLUtils;
-import de.dittner.testmyself.model.domain.note.Note;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -13,21 +12,21 @@ import flash.net.Responder;
 
 public class LoadAudioCommentCmd extends StorageOperation implements IAsyncCommand {
 
-	public function LoadAudioCommentCmd(storage:Storage, note:Note) {
+	public function LoadAudioCommentCmd(storage:Storage, noteID:int) {
 		super();
 		this.storage = storage;
-		this.note = note;
+		this.noteID = noteID;
 	}
 
 	private var storage:Storage;
-	private var note:Note;
+	private var noteID:int;
 
 	public function execute():void {
-		if (!note || note.id == -1) {
-			dispatchError(ErrorCode.NULLABLE_NOTE + ": Отсутствует запись или ID записи");
+		if (!noteID || noteID == -1) {
+			dispatchError(ErrorCode.NULLABLE_NOTE + ": Отсутствует ID записи");
 		}
 		else {
-			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_AUDIO_COMMENT_SQL, {noteID: note.id});
+			var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_AUDIO_COMMENT_SQL, {noteID: noteID});
 			statement.sqlConnection = storage.audioSqlConnection;
 			statement.execute(-1, new Responder(executeComplete, executeError));
 		}
@@ -35,8 +34,9 @@ public class LoadAudioCommentCmd extends StorageOperation implements IAsyncComma
 
 	private function executeComplete(result:SQLResult):void {
 		if (result.data && result.data.length > 0)
-			note.audioComment = result.data[0].audioComment;
-		dispatchSuccess(note);
+			dispatchSuccess(result.data[0].audioComment.bytes);
+		else
+			dispatchSuccess();
 	}
 
 }

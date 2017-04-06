@@ -28,9 +28,10 @@ public class ExampleRenderer extends NoteRenderer {
 		super.createChildren();
 	}
 
-	override protected function get pad():uint {return Values.PT15;}
+	override protected function get horizontalPadding():uint {return 0;}
+	override protected function get verticalPadding():uint {return Values.PT10;}
 
-	override protected function get gap():uint {return Values.PT10;}
+	override protected function get gap():uint {return Values.PT5;}
 
 	override protected function updateText():void {
 		titleTf.htmlText = note ? getTitle() : "";

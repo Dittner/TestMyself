@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         xmlns:common2="de.dittner.testmyself.ui.view.noteList.components.*"
-         xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
+<common:Container xmlns:fx="http://ns.adobe.com/mxml/2009"
+                  xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                  xmlns:common="de.dittner.testmyself.ui.common.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.model.domain.test.TestID;
+        import de.dittner.testmyself.ui.common.menu.IActionMenu;
+        import de.dittner.testmyself.ui.common.menu.NoteToolbar;
         import de.dittner.testmyself.ui.view.test.TestVM;
 
         public var needSelectFirstNote:Boolean = false;
@@ -40,19 +38,6 @@
             }
         }
 
-        //--------------------------------------
-        //  examplesListEnabled
-        //--------------------------------------
-        private var _examplesListEnabled:Boolean = false;
-        [Bindable("examplesListEnabledChanged")]
-        public function get examplesListEnabled():Boolean {return _examplesListEnabled;}
-        public function set examplesListEnabled(value:Boolean):void {
-            if (_examplesListEnabled != value) {
-                _examplesListEnabled = value;
-                dispatchEvent(new Event("examplesListEnabledChanged"));
-            }
-        }
-
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -60,11 +45,22 @@
         //----------------------------------------------------------------------------------------------
         private var needTranslationInvert:Boolean = false;
 
-        public function activate():void {
+        public function activate(toolbar:NoteToolbar, actionMenu:IActionMenu):void {
             vm.testPage.number = 0;
             vm.testPage.countAllNotes = true;
             vm.loadStatisticsPage();
-            list.pageLayout.inverted = vm.testPage.test.translateFromNativeIntoForeign;
+            actionMenu.hide();
+            noteContent.toolbar = toolbar;
+            noteContent.actionMenu = actionMenu;
+            noteContent.activate();
+            noteContent.showWordArticle = vm.testPage.test.id != TestID.DE_SELECT_ARTICLE;
+            noteContent.showNotesInverted = vm.testPage.test.translateFromNativeIntoForeign;
+            visible = true;
+        }
+
+        public function deactivate():void {
+            noteContent.deactivate();
+            visible = false;
         }
 
         private function setTaskAsRightBtnEnabled(selectedTask:*, isFailedTaskShown:Boolean):Boolean {
@@ -74,75 +70,13 @@
         private function pageNumChanged():void {
             vm.loadStatisticsPage();
         }
-
-        private function selectedItemChange(event:Event):void {
-            examplesListEnabled = vm.selectedTestTask && vm.selectedTestTask.note.exampleColl.length > 0;
-        }
-
-        private function noteList_dataProviderChangedHandler(event:Event):void {
-            if (!list.dataProvider || list.dataProvider.length == 0) {
-                needSelectFirstNote = false;
-                needSelectLastNote = false;
-                return;
-            }
-
-            if (needSelectFirstNote) {
-                needSelectFirstNote = false;
-                list.selectedItem = list.dataProvider[0];
-            }
-            else if (needSelectLastNote) {
-                needSelectLastNote = false;
-                list.selectedItem = list.dataProvider[list.dataProvider.length - 1];
-            }
-        }
         ]]></fx:Script>
 
-    <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
+    <note:NoteContent id="noteContent"
+                      width="{width}" height="100%"
+                      selectedItem="@{vm.selectedTestTask}"
+                      dataProvider="{vm.testPage.coll}"
+                      page="{vm.testPage}"
+                      pageNumChanged="pageNumChanged()"/>
 
-    <s:Scroller left="0" percentWidth="{exampleList.visible ? 50 : 100}" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-                horizontalScrollPolicy="off"
-                hasFocusableChildren="false">
-        <common2:NoteList id="list"
-                          selectedItem="@{vm.selectedTestTask}"
-                          dataProvider="{vm.testPage.taskColl}"
-                          width="100%"
-                          deselectEnabled="true"
-                          itemRenderer="de.dittner.testmyself.ui.view.test.statistics.StatisticsTaskRenderer"
-                          selectedItemChange="selectedItemChange(event)"
-                          dataProviderChanged="noteList_dataProviderChangedHandler(event)">
-            <common2:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </common2:layout>
-        </common2:NoteList>
-    </s:Scroller>
-
-    <common2:ExampleList id="exampleList"
-                         width="50%" top="0" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-                         right="0"
-                         dataProvider="{vm.selectedTestTask.note.exampleColl}"
-                         selectedNote="@{vm.selectedNoteExample}"
-                         visible="{examplesListEnabled}"
-                         showTitle="false"
-                         hasFocusableChildren="false"/>
-
-    <!--footer-->
-    <utils:BG percentWidth="100" height="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-              bottom="0" fillColor="{AppColors.SCREEN_FOOTER_BG}"/>
-
-    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
-              verticalAlign="middle">
-        <mp3:MP3PlayerComponent id="mp3"
-                                visible="{mp3.isPlaying || mp3.isPaused}"
-                                width="50%"/>
-
-        <navigation:PaginationBar id="paginationBar"
-                                  height="100%"
-                                  allNotesAmount="{vm.testPage.amountAllTasks}"
-                                  notesOnCurPage="{vm.testPage.taskColl.length}"
-                                  pageSize="{vm.testPage.size}"
-                                  pageNum="@{vm.testPage.number}"
-                                  pageNumChanged="pageNumChanged()"/>
-        <s:Spacer width="50%"/>
-    </s:HGroup>
-
-</s:Group>
+</common:Container>

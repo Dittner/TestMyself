@@ -30,9 +30,9 @@ public class MP3EncodingOperation extends StorageOperation implements IAsyncComm
 	}
 
 	private function encodeCompleteHandler(output:ByteArray):void {
-		comment.isMp3 = true;
 		comment.bytes.clear();
 		comment.bytes = output;
+		comment.isMp3 = true;
 		//saveLocally();
 		dispatchSuccess();
 	}

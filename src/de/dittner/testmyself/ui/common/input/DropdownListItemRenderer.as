@@ -27,7 +27,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 
 	override protected function createChildren():void {
 		super.createChildren();
-		tf = createTextField(format);
+		tf = createMultilineTextField(format);
 		addChild(tf);
 	}
 
@@ -45,7 +45,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : Values.PT50;
-		minHeight = Values.PT10;
+		minHeight = Values.PT40;
 		measuredHeight = Math.ceil(tf.textHeight + Values.PT5 + 2 * verPad);
 	}
 
@@ -84,7 +84,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 		}
 
 		tf.x = horPad;
-		tf.y = verPad;
+		tf.y = h - tf.textHeight >> 1;
 		tf.width = w - 2 * horPad;
 		tf.height = h - 2 * verPad;
 	}

@@ -1,4 +1,4 @@
-package de.dittner.testmyself.ui.common.utils {
+package de.dittner.testmyself.ui.common {
 
 import flash.display.Graphics;
 import flash.events.Event;

@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:common="de.dittner.testmyself.ui.common.*"
          mask="{maskObj}">
 
     <fx:Script><![CDATA[
@@ -167,7 +167,7 @@
         </s:Group>
     </fx:Declarations>
 
-    <utils:BG percentWidth="100" percentHeight="100" fillColor="0"/>
+    <common:BG percentWidth="100" percentHeight="100" fillColor="0"/>
 
     <mx:UIComponent id="canvas" width="{size}" height="{size}"/>
 
@@ -181,6 +181,6 @@
         </s:filters>
     </s:Label>
 
-    <utils:BG percentWidth="100" percentHeight="100"
-              fillAlpha="0" borderColor="0" borderWeight="{borderSize}"/>
+    <common:BG percentWidth="100" percentHeight="100"
+               fillAlpha="0" borderColor="0" borderWeight="{borderSize}"/>
 </s:Group>

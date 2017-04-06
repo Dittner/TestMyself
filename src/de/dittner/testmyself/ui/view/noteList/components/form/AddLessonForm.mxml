@@ -7,7 +7,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.utils.Values;
 
@@ -29,41 +28,32 @@
         }
         ]]></fx:Script>
 
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
-        </s:fill>
-    </s:Rect>
+    <form:EditorBg width="100%"
+                   height="100%"
+                   title="{resourceManager.getString('app', 'AddNewLesson')}"
+                   mode="add"/>
 
-    <s:Group height="{Values.PT180}" width="100%">
+    <input:TextInputForm id="addLessonInput"
+                         fontSize="{Values.PT18}"
+                         top="{AppSizes.SCREEN_HEADER_HEIGHT + Values.PT15}"
+                         width="50%"
+                         horizontalCenter="0"
+                         maxChars="{Device.MAX_TAG_NAME_LENGTH}"
+                         title="{resourceManager.getString('app', 'NewLessonName')}"/>
 
-        <form:EditorBg width="100%"
-                       height="100%"
-                       title="{resourceManager.getString('app', 'AddNewLesson')}"
-                       mode="add"/>
+    <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
+              bottom="{Values.PT15}" horizontalAlign="center"
+              paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}" paddingBottom="{EditorBg.BORDER_THICKNESS}"
+              gap="{Values.PT15}">
 
-        <input:TextInputForm id="addLessonInput"
-                             fontSize="{Values.PT18}"
-                             top="{AppSizes.SCREEN_HEADER_HEIGHT + Values.PT15}"
-                             width="50%"
-                             horizontalCenter="0"
-                             maxChars="{Device.MAX_TAG_NAME_LENGTH}"
-                             title="{resourceManager.getString('app', 'NewLessonName')}"/>
+        <button:WhiteButton id="cancelBtn"
+                            width="{Values.PT250}"
+                            title="{resourceManager.getString('app', 'Cancel')}"/>
 
-        <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-                  bottom="0" horizontalAlign="right"
-                  paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}" paddingBottom="{EditorBg.BORDER_THICKNESS}"
-                  gap="{Values.PT15}">
-
-            <button:WhiteButton id="cancelBtn"
-                                width="{Values.PT250}"
-                                title="{resourceManager.getString('app', 'Cancel')}"/>
-
-            <button:BlackButton id="applyBtn"
-                                width="{Values.PT250}"
-                                enabled="{applyEnabled(addLessonInput.text)}"
-                                title="{resourceManager.getString('app', 'Apply')}"/>
-        </s:HGroup>
-    </s:Group>
+        <button:BlackButton id="applyBtn"
+                            width="{Values.PT250}"
+                            enabled="{applyEnabled(addLessonInput.text)}"
+                            title="{resourceManager.getString('app', 'Apply')}"/>
+    </s:HGroup>
 
 </s:Group>

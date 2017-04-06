@@ -12,10 +12,10 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.note.Note;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
-        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
-        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
 
         [Bindable]
         public var vm:TestVM;
@@ -23,7 +23,7 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.testVM;
             vm.lockView();
-            toolbar.visible = toolbar.includeInLayout = false;
+            toolbar.hide();
             toolbar.revert();
         }
 
@@ -31,92 +31,102 @@
             vm.unlockView();
             vm.viewActivated(viewID);
             showTestList();
-            toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
+            toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelected);
         }
 
         override protected function deactivate():void {
-            toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, toolActionSelected);
             setCurrentState("inactive");
             vm.viewDeactivated();
         }
 
         private function showTestList():void {
             vm.selectedTestTask = null;
+            if (testListScreen) {
+                testListScreen.activate();
+            }
+            if (testPresetsScreen) {
+                testPresetsScreen.moveDirectionWhenHiding = currentState == "presets" ? "right" : "left";
+                testPresetsScreen.deactivate();
+            }
             setCurrentState("testList");
-            toolbar.visible = toolbar.includeInLayout = false;
+            toolbar.hide();
         }
 
         private function showTestPresets():void {
             vm.selectedTestTask = null;
+            if (testListScreen) {
+                testListScreen.deactivate();
+            }
+            if (statisticsScreen) {
+                statisticsScreen.deactivate();
+            }
+            if (testingScreen) {
+                testingScreen.deactivate();
+            }
+            if (testPresetsScreen) {
+                testPresetsScreen.moveDirectionWhenHiding = currentState == "testList" ? "right" : "left";
+                testPresetsScreen.activate();
+            }
             setCurrentState("presets");
-            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.show();
             toolbar.revert();
             toolbar.goBackBtn.enabled = true;
         }
 
         private function showStatistics():void {
             vm.selectedTestTask = null;
-            statisticsScreen.activate();
+            if (statisticsScreen) {
+                statisticsScreen.activate(toolbar, actionMenu);
+            }
+            if (testPresetsScreen) {
+                testPresetsScreen.moveDirectionWhenHiding = "left";
+                testPresetsScreen.deactivate();
+            }
             setCurrentState("statistics");
-            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.show();
             toolbar.revert();
             toolbar.goBackBtn.enabled = true;
             toolbar.showFailedTasksBtn.enabled = true;
             toolbar.showFailedTasksBtn.selected = vm.testPage.loadOnlyFailedTestTask;
-            toolbar.nextBtn.enabled = true;
-            toolbar.prevBtn.enabled = true;
         }
 
         private function startTesting():void {
             vm.selectedTestTask = null;
-            testingScreen.activate(menu);
+            if (testingScreen) {
+                testingScreen.activate(actionMenu);
+            }
+            if (statisticsScreen) {
+                statisticsScreen.deactivate();
+            }
+            if (testPresetsScreen) {
+                testPresetsScreen.moveDirectionWhenHiding = "left";
+                testPresetsScreen.deactivate();
+            }
             setCurrentState("testing");
-            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.show();
             toolbar.revert();
             toolbar.goBackBtn.enabled = true;
         }
 
-        private function toolActionSelectedHandler(event:ToolbarEvent):void {
+        private function toolActionSelected(event:ToolActionEvent):void {
             var op:IAsyncOperation;
-            switch (event.toolAction) {
+            switch (event.actionID) {
                 case(ToolAction.GO_BACK) :
                     if (currentState == "presets") {
                         showTestList();
                     }
                     else if (currentState == "statistics") {
-                        showTestPresets();
+                        if (statisticsScreen.noteContent.visible && statisticsScreen.noteContent.isNoteCardShown) {
+                            statisticsScreen.noteContent.hideNoteCard();
+                        }
+                        else {
+                            showTestPresets();
+                        }
                     }
                     else if (currentState == "testing") {
                         testingScreen.deactivate();
                         showTestPresets();
-                    }
-                    break;
-                case(ToolAction.NEXT_NOTE) :
-                    if (statisticsScreen.list.dataProvider && statisticsScreen.list.dataProvider.length > 0) {
-                        if (!statisticsScreen.list.selectedItem) {
-                            statisticsScreen.list.selectedItem = statisticsScreen.list.dataProvider[0];
-                        }
-                        else if (statisticsScreen.list.selectedIndex < statisticsScreen.list.dataProvider.length - 1) {
-                            statisticsScreen.list.selectedIndex++;
-                        }
-                        else if (statisticsScreen.paginationBar.pageNum < statisticsScreen.paginationBar.totalPages - 1) {
-                            vm.testPage.number++;
-                            statisticsScreen.needSelectFirstNote = true;
-                        }
-                    }
-                    break;
-                case(ToolAction.PREV_NOTE) :
-                    if (statisticsScreen.list.dataProvider && statisticsScreen.list.dataProvider.length > 0) {
-                        if (!statisticsScreen.list.selectedItem) {
-                            statisticsScreen.list.selectedItem = statisticsScreen.list.dataProvider[0];
-                        }
-                        else if (statisticsScreen.list.selectedIndex > 0) {
-                            statisticsScreen.list.selectedIndex--;
-                        }
-                        else if (statisticsScreen.paginationBar.pageNum > 0) {
-                            vm.testPage.number--;
-                            statisticsScreen.needSelectLastNote = true;
-                        }
                     }
                     break;
                 case(ToolAction.EDIT_NOTE) :
@@ -140,11 +150,8 @@
                         vm.selectedTestTask.isFailed = false;
                         vm.selectedTestTask.store();
                         vm.loadStatisticsPage();
+                        statisticsScreen.noteContent.hideNoteCard();
                     }
-                    break;
-                case(ToolAction.PLAY_AUDIO) :
-                    if (vm.selectedTestTask && vm.selectedTestTask.note.hasAudio)
-                        vm.selectedTestTask.note.loadAndPlayAudioComment();
                     break;
             }
         }
@@ -152,8 +159,9 @@
         private function noteRemoveOperationComplete(op:IAsyncOperation):void {
             if (op.isSuccess && op.result == FormOperationResult.OK) {
                 if (currentState == "statistics") {
-                    vm.testPage.amountAllTasks--;
+                    vm.testPage.allNotesAmount--;
                     vm.loadStatisticsPage();
+                    statisticsScreen.noteContent.hideNoteCard();
                 }
                 else if (currentState == "testing") {
                     vm.loadNextTestTask();
@@ -163,11 +171,19 @@
         }
 
         private function noteEditOperationComplete(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result == FormOperationResult.OK) {
-                if (currentState == "statistics")
+            if (currentState == "statistics") {
+                if (op.isSuccess && op.result == FormOperationResult.OK) {
                     vm.loadStatisticsPage();
-                else if (currentState == "testing")
+                    statisticsScreen.noteContent.hideNoteCard();
+                }
+                else {
+                    statisticsScreen.noteContent.updateSelectedItem();
+                }
+            }
+            else if (currentState == "testing") {
+                if (op.isSuccess && op.result == FormOperationResult.OK) {
                     vm.loadNextTestTask();
+                }
             }
             form.visible = false;
         }
@@ -179,6 +195,7 @@
                 vm.testPage.countAllNotes = true;
                 vm.loadStatisticsPage();
                 toolbar.setTaskAsRightBtn.enabled = vm.selectedTestTask && vm.selectedTestTask.isFailed;
+                statisticsScreen.noteContent.hideNoteCard();
             }
         }
 
@@ -195,7 +212,6 @@
                 toolbar.editNoteBtn.enabled = selectedNote;
                 toolbar.removeNoteBtn.enabled = selectedNote;
                 toolbar.setTaskAsRightBtn.enabled = currentState == "statistics" && vm.selectedTestTask && vm.selectedTestTask.isFailed;
-                toolbar.playCommentBtn.enabled = vm.selectedTestTask && vm.selectedTestTask.note.hasAudio;
 
                 dispatchEvent(new Event("selectedNoteChanged"));
             }
@@ -220,35 +236,38 @@
         </s:fill>
     </s:Rect>
 
-    <s:Group width="100%" top="0" bottom="0"
-             excludeFrom="inactive">
+    <testlist:TestListScreen id="testListScreen"
+                             excludeFrom="inactive"
+                             vm="{vm}"
+                             width="{width}" height="100%"
+                             padding="{PADDING}"
+                             depth="1"
+                             testSelected="showTestPresets()"/>
 
-        <testlist:TestListScreen id="testListScreen"
-                                 vm="{vm}"
-                                 width="100%" height="100%"
-                                 padding="{PADDING}"
-                                 visible="false" visible.testList="true"
-                                 testSelected="showTestPresets()"/>
-
-        <presets:TestPresetsScreen id="testPresetsScreen"
-                                   vm="{vm}"
-                                   width="100%" height="100%"
-                                   padding="{PADDING}"
-                                   visible="false" visible.presets="true"
-                                   showStatistics="showStatistics()"
-                                   startTest="startTesting()"/>
-
-        <testing:TestingScreen id="testingScreen"
+    <presets:TestPresetsScreen id="testPresetsScreen"
+                               excludeFrom="inactive"
                                vm="{vm}"
-                               width="100%" height="100%"
+                               width="{width}" height="100%"
                                padding="{PADDING}"
-                               visible="false" visible.testing="true"/>
+                               moveDirectionWhenHiding="right"
+                               visible="false"
+                               showStatistics="showStatistics()"
+                               startTest="startTesting()"/>
 
-        <results:StatisticsScreen id="statisticsScreen"
-                                  vm="{vm}"
-                                  width="100%" height="100%"
-                                  padding="{PADDING}"
-                                  visible="false" visible.statistics="true"/>
-    </s:Group>
+    <testing:TestingScreen id="testingScreen"
+                           excludeFrom="inactive"
+                           vm="{vm}"
+                           width="{width}" height="100%"
+                           padding="{PADDING}"
+                           moveDirectionWhenHiding="right"
+                           visible="false"/>
+
+    <results:StatisticsScreen id="statisticsScreen"
+                              excludeFrom="inactive"
+                              vm="{vm}"
+                              width="{width}" height="100%"
+                              padding="{PADDING}"
+                              moveDirectionWhenHiding="right"
+                              visible="false"/>
 
 </view:SmartView>

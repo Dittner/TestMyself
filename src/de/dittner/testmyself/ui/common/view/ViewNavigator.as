@@ -1,5 +1,5 @@
 package de.dittner.testmyself.ui.common.view {
-import de.dittner.testmyself.ui.common.menu.MenuID;
+import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.view.langList.LangListView;
 import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.map.MapView;
@@ -77,28 +77,28 @@ public class ViewNavigator extends WalterProxy {
 	private function createView(viewID:String):ViewBase {
 		var view:ViewBase;
 		switch (viewID) {
-			case MenuID.LANG_LIST :
+			case ViewID.LANG_LIST :
 				view = langListView;
 				break;
-			case MenuID.MAP :
+			case ViewID.MAP :
 				view = mapView;
 				break;
-			case MenuID.WORD :
+			case ViewID.WORD :
 				view = noteListView;
 				break;
-			case MenuID.VERB :
+			case ViewID.VERB :
 				view = noteListView;
 				break;
-			case MenuID.LESSON :
+			case ViewID.LESSON :
 				view = lessonView;
 				break;
-			case MenuID.TEST :
+			case ViewID.TEST :
 				view = testView;
 				break;
-			case MenuID.SEARCH :
+			case ViewID.SEARCH :
 				view = searchView;
 				break;
-			case MenuID.SETTINGS :
+			case ViewID.SETTINGS :
 				view = new SettingsView();
 				break;
 			default :

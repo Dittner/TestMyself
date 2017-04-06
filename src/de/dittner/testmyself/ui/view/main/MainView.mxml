@@ -2,10 +2,9 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:main="de.dittner.testmyself.ui.view.main.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
-         xmlns:toobar="de.dittner.testmyself.ui.view.noteList.components.toolbar.*"
          xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
+         xmlns:common="de.dittner.testmyself.ui.common.*"
          implements="de.dittner.testmyself.ui.view.main.IMainView"
          creationComplete="creationCompleteHandler(event)"
          currentState="normal">
@@ -14,6 +13,7 @@
         import de.dittner.testmyself.logging.LogPanel;
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.language.LanguageID;
+        import de.dittner.testmyself.ui.common.menu.NavigationMenu;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -32,7 +32,8 @@
         //  interface
         //--------------------------------------
 
-        public function get menu():MenuBoard {return menuBoard;}
+        public function get navigationMenu():NavigationMenu {return navigationMenuComponent;}
+        public function get actionMenu():ActionMenu {return actionMenuComponent;}
         public function get toolbar():NoteToolbar {return noteToolbar;}
         public function get form():NoteForm {return noteForm;}
 
@@ -120,7 +121,7 @@
             }
             else {
                 logsLayer.addElement(logPanel);
-                logPanel.y = INTERACTION_AREA_HEI;
+                logPanel.y = INTERACTION_AREA_HEI + AppSizes.MENU_HEIGHT;
             }
         }
 
@@ -132,6 +133,13 @@
 
         private function scrollToLastLogNote():void {
             if (logPanel.parent) logPanel.refresh();
+        }
+
+        private function viewContTopOffset(isNavigationMenuVisible:Boolean, isToolbarVisible:Boolean):Number {
+            var res:Number = 0;
+            if (isNavigationMenuVisible) res += AppSizes.MENU_HEIGHT;
+            if (isToolbarVisible) res += AppSizes.MENU_HEIGHT;
+            return res;
         }
         ]]></fx:Script>
     <fx:Binding source="vm.viewNavigator.selectedView" destination="selectedView"/>
@@ -150,42 +158,54 @@
         </s:Transition>
     </s:transitions>
 
-    <utils:BG percentWidth="100" percentHeight="100" fillColor="#3d3f4b"/>
+    <common:BG percentWidth="100" percentHeight="100" fillColor="#3d3f4b"/>
 
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"
              mouseEnabled.normal="true" mouseChildren.normal="true"
-             left="{menuBoard.visible ? AppSizes.MENU_WID : 0}"
-             right="{noteToolbar.visible ? AppSizes.MENU_WID : 0}"
-             height="100%"/>
+             width="100%"
+             top="{viewContTopOffset(navigationMenuComponent.visible, noteToolbar.visible)}"
+             bottom="{actionMenuComponent.visible ? AppSizes.MENU_HEIGHT : 0}"/>
 
-    <menu:MenuBoard id="menuBoard"
-                    left="0"
-                    visible="false"
-                    includeInLayout="false"
-                    width="{AppSizes.MENU_WID}" height="100%"
-                    selectedViewMenuID="@{vm.viewNavigator.selectedViewID}"
-                    hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
-                    disabledAlpha="1"
-                    enabled="false"
-                    enabled.normal="true"/>
+    <menu:NavigationMenu id="navigationMenuComponent"
+                         visible="false"
+                         includeInLayout="false"
+                         width="100%" height="{AppSizes.MENU_HEIGHT}"
+                         selectedViewMenuID="@{vm.viewNavigator.selectedViewID}"
+                         hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
+                         disabledAlpha="1"
+                         enabled="false"
+                         enabled.normal="true"/>
 
-    <toobar:NoteToolbar id="noteToolbar"
-                        visible="false"
-                        includeInLayout="false"
-                        right="0"
-                        width="{AppSizes.MENU_WID}"
-                        height="100%"/>
+    <menu:NoteToolbar id="noteToolbar"
+                      visible="false"
+                      includeInLayout="false"
+                      top="{AppSizes.MENU_HEIGHT}"
+                      disabledAlpha="1"
+                      enabled="false"
+                      enabled.normal="true"
+                      width="100%" height="{AppSizes.MENU_HEIGHT}"
+                      right="0"/>
 
     <form:NoteForm id="noteForm"
-                   left="{AppSizes.MENU_WID}" right="0" height="100%"
+                   width="100%"
+                   top="0" bottom="{AppSizes.MENU_HEIGHT}"
                    visible="false"
                    isArticleEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                    isPresentVerbFormEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                    isOptionalTemplatesEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                    isLoadMp3FileFromDudenEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
-                   menu="{menuBoard}"
+                   actionMenu="{actionMenuComponent}"
                    hasNetworkConnection="{vm.appModel.hasNetworkConnection}"/>
+
+    <menu:ActionMenu id="actionMenuComponent"
+                     visible="false"
+                     includeInLayout="false"
+                     width="100%" height="{AppSizes.MENU_HEIGHT}"
+                     bottom="0"
+                     disabledAlpha="1"
+                     enabled="false"
+                     enabled.normal="true"/>
 
     <main:CommentsBoard id="commentsBoard"
                         mouseEnabled="false" mouseChildren="false"
@@ -212,8 +232,8 @@
 
     <s:Group id="logsLayer" width="100%" height="100%"/>
 
-    <utils:BG visible="{Device.verticalPadding}"
-              includeInLayout="{Device.verticalPadding}"
-              percentWidth="100" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" fillColor="#3d3f4b"/>
+    <common:BG visible="{Device.verticalPadding}"
+               includeInLayout="{Device.verticalPadding}"
+               percentWidth="100" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" fillColor="#3d3f4b"/>
 
 </s:Group>

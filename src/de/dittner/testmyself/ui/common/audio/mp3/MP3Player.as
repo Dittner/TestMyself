@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.audio.mp3 {
+import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.ui.common.audio.event.VoiceCommentEvent;
 
@@ -11,7 +12,7 @@ import flash.media.Sound;
 public class MP3Player extends EventDispatcher implements IPlayerContext {
 	public function MP3Player() {
 		super();
-
+		if (_instance) throw Error('Singleton error in SimplePopup');
 		playingState = new PlayingState(this);
 		pausedState = new PausedState(this);
 		stoppedState = new StoppedState(this);
@@ -30,46 +31,13 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 	//----------------------------------------------------------------------------------------------
 
 	//--------------------------------------
-	//  hasComment
+	//  instance
 	//--------------------------------------
-	[Bindable("commentChanged")]
-	public function get hasComment():Boolean {return comment && comment.bytes;}
-
-	//--------------------------------------
-	//  comment
-	//--------------------------------------
-	private var _comment:AudioComment;
-	[Bindable("commentChanged")]
-	public function get comment():AudioComment {return _comment;}
-	public function set comment(value:AudioComment):void {
-		if (_comment != value) {
-			stop();
-			_comment = value;
-			if (comment && comment.bytes) {
-				comment.bytes.position = 0;
-				playbackTime = 0;
-				updateSound();
-			}
-			dispatchEvent(new Event("commentChanged"));
-		}
+	private static var _instance:MP3Player;
+	public static function get instance():MP3Player {
+		if (!_instance) _instance = new MP3Player();
+		return _instance;
 	}
-
-	//--------------------------------------
-	//  curState
-	//--------------------------------------
-	private var _curState:IPlayerState;
-	[Bindable("curStateChanged")]
-	public function get curState():IPlayerState {return _curState;}
-	public function set curState(value:IPlayerState):void {
-		if (_curState != value) {
-			_curState = value;
-			dispatchEvent(new Event("curStateChanged"));
-		}
-	}
-
-	public function getPlayingState():IPlayerState {return playingState;}
-	public function getPausedState():IPlayerState {return pausedState;}
-	public function getStoppedState():IPlayerState {return stoppedState;}
 
 	//--------------------------------------
 	//  soundDuration in sec
@@ -98,14 +66,71 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 		}
 	}
 
+	//--------------------------------------
+	//  curState
+	//--------------------------------------
+	private var _curState:IPlayerState;
+	[Bindable("curStateChanged")]
+	public function get curState():IPlayerState {return _curState;}
+	public function set curState(value:IPlayerState):void {
+		if (_curState != value) {
+			_curState = value;
+			dispatchEvent(new Event("curStateChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  comment
+	//--------------------------------------
+	private var _comment:AudioComment;
+	[Bindable("commentChanged")]
+	public function get comment():AudioComment {return _comment;}
+	public function set comment(value:AudioComment):void {
+		if (_comment != value) {
+			stop();
+			_comment = value;
+			if (_comment && _comment.hasBytes) {
+				updateSound();
+			}
+			else if (_comment && _comment.isMp3) {
+				sound = null;
+				soundDuration = 0;
+				_comment.loadMP3().addCompleteCallback(updateSound);
+			}
+			else {
+				sound = null;
+				soundDuration = 0;
+			}
+			dispatchEvent(new Event("commentChanged"));
+		}
+	}
+
+	private function updateSound(op:IAsyncOperation = null):void {
+		if (comment && comment.hasBytes) {
+			var mp3Sound:Sound = new Sound();
+			_comment.bytes.position = 0;
+			mp3Sound.loadCompressedDataFromByteArray(comment.bytes, comment.bytes.length);
+			sound = mp3Sound;
+			soundDuration = Math.ceil(sound.length / 1000);
+		}
+	}
+
+	//--------------------------------------
+	//  sound
+	//--------------------------------------
+	private var _sound:Sound;
+	[Bindable("soundChanged")]
+	public function get sound():Sound {return _sound;}
+	public function set sound(value:Sound):void {
+		if (_sound != value) {
+			_sound = value;
+			dispatchEvent(new Event("soundChanged"));
+		}
+	}
+
 	public function updatePlayback(sec:Number):void {
 		_playbackTime = sec;
 		dispatchEvent(new Event("playbackTimeChanged"));
-	}
-
-	private var _sound:Sound = new Sound();
-	public function get sound():Sound {
-		return _sound;
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -114,14 +139,12 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private function updateSound():void {
-		_sound = new Sound();
-		sound.loadCompressedDataFromByteArray(comment.bytes, comment.bytes.length);
-		soundDuration = Math.ceil(sound.length / 1000);
-	}
+	public function getPlayingState():IPlayerState {return playingState;}
+	public function getPausedState():IPlayerState {return pausedState;}
+	public function getStoppedState():IPlayerState {return stoppedState;}
 
 	public function play():void {
-		if (comment) curState.play();
+		curState.play();
 	}
 
 	public function pause():void {

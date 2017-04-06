@@ -119,15 +119,15 @@ public class SearchPage extends EventDispatcher implements INotePage {
 	}
 
 	//--------------------------------------
-	//  noteColl
+	//  coll
 	//--------------------------------------
-	private var _noteColl:ArrayCollection = new ArrayCollection();
-	[Bindable("noteCollChanged")]
-	public function get noteColl():ArrayCollection {return _noteColl;}
-	public function set noteColl(value:ArrayCollection):void {
-		if (_noteColl != value) {
-			_noteColl = value;
-			dispatchEvent(new Event("noteCollChanged"));
+	private var _coll:ArrayCollection = new ArrayCollection();
+	[Bindable("collChanged")]
+	public function get coll():ArrayCollection {return _coll;}
+	public function set coll(value:ArrayCollection):void {
+		if (_coll != value) {
+			_coll = value;
+			dispatchEvent(new Event("collChanged"));
 		}
 	}
 

@@ -31,14 +31,14 @@ public class SelectNotesByTestPageOperation extends StorageOperation implements 
 			composite.execute();
 		}
 		else {
-			page.taskColl = new ArrayCollection();
+			page.coll = new ArrayCollection();
 			dispatchSuccess();
 		}
 	}
 
 	private function completeHandler(op:IAsyncOperation):void {
 		if (op.isSuccess) {
-			page.taskColl = new ArrayCollection(page.tasks);
+			page.coll = new ArrayCollection(page.tasks);
 			dispatchSuccess(page);
 		}
 		else dispatchError();

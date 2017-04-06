@@ -18,8 +18,8 @@ public class SelectExamplesByPageOperation extends StorageOperation implements I
 	private var page:INotePage;
 
 	public function execute():void {
-		if (page.noteColl.length > 0) {
-			for each(var note:Note in page.noteColl) {
+		if (page.coll.length > 0) {
+			for each(var note:Note in page.coll) {
 				if (storage.exampleHash[note.id]) {
 					var examples:Array = [];
 					var example:Note;

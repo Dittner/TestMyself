@@ -1,13 +1,14 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
 import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.test.Test;
+import de.dittner.testmyself.ui.common.page.INotePage;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
 import mx.collections.ArrayCollection;
 
-public class TestPage extends EventDispatcher {
+public class TestPage extends EventDispatcher implements INotePage{
 	public function TestPage() {
 		super();
 	}
@@ -39,15 +40,15 @@ public class TestPage extends EventDispatcher {
 	}
 
 	//--------------------------------------
-	//  amountAllTasks
+	//  allNotesAmount
 	//--------------------------------------
-	private var _amountAllTasks:int = 0;
-	[Bindable("amountAllTasksChanged")]
-	public function get amountAllTasks():int {return _amountAllTasks;}
-	public function set amountAllTasks(value:int):void {
-		if (_amountAllTasks != value) {
-			_amountAllTasks = value;
-			dispatchEvent(new Event("amountAllTasksChanged"));
+	private var _allNotesAmount:int = 0;
+	[Bindable("allNotesAmountChanged")]
+	public function get allNotesAmount():int {return _allNotesAmount;}
+	public function set allNotesAmount(value:int):void {
+		if (_allNotesAmount != value) {
+			_allNotesAmount = value;
+			dispatchEvent(new Event("allNotesAmountChanged"));
 		}
 	}
 
@@ -78,16 +79,16 @@ public class TestPage extends EventDispatcher {
 	}
 
 	//--------------------------------------
-	//  taskColl
+	//  coll
 	//--------------------------------------
 	public var tasks:Array;
-	private var _taskColl:ArrayCollection;
-	[Bindable("taskCollChanged")]
-	public function get taskColl():ArrayCollection {return _taskColl;}
-	public function set taskColl(value:ArrayCollection):void {
-		if (_taskColl != value) {
-			_taskColl = value;
-			dispatchEvent(new Event("taskCollChanged"));
+	private var _coll:ArrayCollection;
+	[Bindable("collChanged")]
+	public function get coll():ArrayCollection {return _coll;}
+	public function set coll(value:ArrayCollection):void {
+		if (_coll != value) {
+			_coll = value;
+			dispatchEvent(new Event("collChanged"));
 		}
 	}
 

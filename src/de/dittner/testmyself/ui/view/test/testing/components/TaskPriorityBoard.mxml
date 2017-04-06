@@ -29,8 +29,8 @@
         }
 
         private function clickHandler(event:MouseEvent):void {
-            if (event.localY <= height / 3) taskPriority = TestTaskPriority.LOW;
-            else if (event.localY <= 2 * height / 3) taskPriority = TestTaskPriority.MIDDLE;
+            if (event.localX <= width / 3) taskPriority = TestTaskPriority.LOW;
+            else if (event.localX <= 2 * width / 3) taskPriority = TestTaskPriority.MIDDLE;
             else taskPriority = TestTaskPriority.HIGH;
         }
         ]]></fx:Script>

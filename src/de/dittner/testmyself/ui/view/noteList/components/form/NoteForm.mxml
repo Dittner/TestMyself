@@ -5,9 +5,9 @@
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:listBox="de.dittner.testmyself.ui.view.noteList.components.form.articleList.*"
          xmlns:form2="de.dittner.testmyself.ui.view.noteList.components.form.*"
          xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+         xmlns:note="de.dittner.testmyself.ui.common.note.*"
          currentState="normal">
 
     <fx:Script><![CDATA[
@@ -21,9 +21,9 @@
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-        import de.dittner.testmyself.ui.common.menu.IMenuBoard;
-        import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
-        import de.dittner.testmyself.ui.common.menu.MenuID;
+        import de.dittner.testmyself.ui.common.menu.IActionMenu;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -126,24 +126,21 @@
         }
 
         //--------------------------------------
-        //  menu
+        //  actionMenu
         //--------------------------------------
-        private var _menu:IMenuBoard;
-        [Bindable("menuChanged")]
-        public function get menu():IMenuBoard {return _menu;}
-        public function set menu(value:IMenuBoard):void {
-            if (_menu != value) {
-                _menu = value;
-                dispatchEvent(new Event("menuChanged"));
+        private var _actionMenu:IActionMenu;
+        [Bindable("actionMenuChanged")]
+        public function get actionMenu():IActionMenu {return _actionMenu;}
+        public function set actionMenu(value:IActionMenu):void {
+            if (_actionMenu != value) {
+                _actionMenu = value;
+                dispatchEvent(new Event("actionMenuChanged"));
             }
         }
 
-        //--------------------------------------
-        //  selectedMenu
-        //--------------------------------------
-        private function menuClicked(e:MenuBoardEvent):void {
-            if (e.menuID == MenuID.APPLY) apply();
-            else if (e.menuID == MenuID.CANCEL) cancel();
+        private function toolActionSelected(e:ToolActionEvent):void {
+            if (e.actionID == ToolAction.APPLY) apply();
+            else if (e.actionID == ToolAction.CANCEL) cancel();
         }
 
         //--------------------------------------
@@ -213,8 +210,8 @@
             showSelectedTags(note.tagIDs);
             dispatchEvent(new Event("taskChanged"));
             invalidateOf(focusTextInput);
-            menu.showFormMenu();
-            menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
+            actionMenu.showFormMenu();
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, toolActionSelected);
             return curOperation;
         }
 
@@ -247,22 +244,15 @@
             showSelectedTags(note.tagIDs);
 
             if (note.hasAudio) {
-                if (note.audioComment.isEmpty)
-                    note.loadAudioComment().addCompleteCallback(updateAudioComment);
-                else
-                    updateAudioComment();
+                audioRecorder.setComment(note.audioComment);
             }
 
             invalidateDisplayList();
             invalidateOf(focusTextInput);
             dispatchEvent(new Event("taskChanged"));
-            menu.showFormMenu();
-            menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
+            actionMenu.showFormMenu();
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, toolActionSelected);
             return curOperation;
-        }
-
-        private function updateAudioComment(op:IAsyncOperation = null):void {
-            audioRecorder.setComment(note.audioComment);
         }
 
         private function showSelectedTags(noteTagIDs:Array):void {
@@ -292,8 +282,8 @@
             updateState();
             setMode("remove");
             removeNoteTitleLbl.text = '«' + note.title + '»';
-            menu.showFormMenu();
-            menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
+            actionMenu.showFormMenu();
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, toolActionSelected);
             return curOperation;
         }
 
@@ -336,8 +326,15 @@
 
         private function cancel():void {
             if (isEditMode) {
-                note.revertChanges();
+                note.revertChanges().addCompleteCallback(noteRevertedAfterCancel);
             }
+            else {
+                curOperation.dispatchSuccess(FormOperationResult.CANCEL);
+                close();
+            }
+        }
+
+        private function noteRevertedAfterCancel(op:IAsyncOperation):void {
             curOperation.dispatchSuccess(FormOperationResult.CANCEL);
             close();
         }
@@ -346,8 +343,8 @@
             if (isOpen) {
                 clear();
                 setMode("");
-                menu.showPrevMenu();
-                menu.removeEventListener(MenuBoardEvent.CLICKED, menuClicked);
+                actionMenu.showPrevMenu();
+                actionMenu.removeEventListener(ToolActionEvent.SELECTED, toolActionSelected);
             }
         }
 
@@ -361,16 +358,26 @@
                     showInvalidMsg(NoteValidationErrorKey.keyToString(errKey, note.vocabulary.lang.id));
                 }
                 else {
-                    storeChanges();
-                    curOperation.dispatchSuccess(FormOperationResult.OK);
-                    close();
+                    storeChanges().addCompleteCallback(noteStoredAfterApply);
                 }
             }
             else {
-                storeChanges();
-                curOperation.dispatchSuccess(FormOperationResult.OK);
-                close();
+                storeChanges().addCompleteCallback(noteStoredAfterApply);
             }
+        }
+
+        private function storeChanges():IAsyncOperation {
+            if (isAddMode || isEditMode)
+                return note.store();
+            else if (isRemoveMode)
+                return note.remove();
+            else
+                throw Error("Unknown mode in NoteForm!");
+        }
+
+        private function noteStoredAfterApply(op:IAsyncOperation):void {
+            curOperation.dispatchSuccess(FormOperationResult.OK);
+            close();
         }
 
         private function correct():void {
@@ -414,13 +421,6 @@
                 if (!note.isExample)
                     note.tagIDs = getSelectedTagIDs();
             }
-        }
-
-        private function storeChanges():void {
-            if (isAddMode || isEditMode)
-                note.store();
-            else if (isRemoveMode)
-                note.remove();
         }
 
         private function wordValidationHandler(event:TextOperationEvent):void {
@@ -517,7 +517,7 @@
                     mode="{mode}"/>
 
     <button:TransparentWhiteButton id="formatBtn"
-                                   width="{Values.PT330}" right="{Values.PT15}" top="{Values.PT4}"
+                                   width="{Values.PT300}" right="{Values.PT15}" top="{Values.PT4}"
                                    title="{resourceManager.getString('app', 'Formatting')}"
                                    visible="{!isRemoveMode}"
                                    click="correct()"/>
@@ -530,63 +530,44 @@
               paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}"
               visible="{!isRemoveMode}" includeInLayout="{!isRemoveMode}">
         <s:VGroup width="100%" height="100%" gap="{VGAP}">
-            <s:HGroup width="100%" height="100%" gap="{HGAP}">
-                <listBox:ListBox id="articleBox"
-                                 verticalScrollPolicy="off"
-                                 requireSelection="true"
+            <input:TextAreaForm id="titleArea"
+                                fontSize.word="{Values.PT18}"
+                                fontSize.verb="{Values.PT18}"
+                                fontSize="{Values.PT22}"
+                                visible="true" includeInLayout="true"
+                                visible.word="false" includeInLayout.word="false"
+                                visible.verb="false" includeInLayout.verb="false"
+                                width="100%" height="100%"
+                                title="{resourceManager.getString('app', 'TextInput')}"
+                                maxChars="{Device.MAX_TEXT_LENGTH}"
+                                change="validateInputText(titleArea.text)"/>
+
+            <input:TextInputForm id="wordInput"
+                                 fontSize="{Values.PT18}"
                                  visible="false" includeInLayout="false"
-                                 visible.word="{isArticleEnabled}" includeInLayout.word="{true}"
-                                 visible.verb="false" includeInLayout.verb="false"
-                                 width="{Values.PT110}"
-                                 itemRenderer="de.dittner.testmyself.ui.view.noteList.components.form.articleList.ArticleItemRenderer"
-                                 skinClass="de.dittner.testmyself.ui.view.noteList.components.form.articleList.ListBoxSkin"
-                                 dataProvider="{new ArrayCollection(DeWordArticle.ARTICLES)}"/>
+                                 visible.word="true" includeInLayout.word="true"
+                                 width="100%"
+                                 maxChars="{Device.MAX_WORD_LENGTH}"
+                                 changing="wordValidationHandler(event)"
+                                 change="validateInputText(wordInput.text)"
+                                 title="{resourceManager.getString('app', 'WordInput')}"/>
 
-                <s:VGroup width="100%" height="100%" gap="{VGAP}">
-                    <input:TextAreaForm id="titleArea"
-                                        fontSize.word="{Values.PT18}"
-                                        fontSize.verb="{Values.PT18}"
-                                        fontSize="{Values.PT22}"
-                                        visible="true" includeInLayout="true"
-                                        visible.word="false" includeInLayout.word="false"
-                                        visible.verb="false" includeInLayout.verb="false"
-                                        width="100%" height="100%"
-                                        title="{resourceManager.getString('app', 'TextInput')}"
-                                        maxChars="{Device.MAX_TEXT_LENGTH}"
-                                        change="validateInputText(titleArea.text)"/>
+            <form2:VerbInputsForm id="verbInputsForm"
+                                  width="100%"
+                                  visible="false" includeInLayout="false"
+                                  visible.word="false" includeInLayout.word="false"
+                                  visible.verb="true" includeInLayout.verb="true"
+                                  isPresentFormEnabled="{isPresentVerbFormEnabled}"
+                                  change="validateInputText(verbInputsForm.infinitiveInput.text)"/>
 
-                    <input:TextInputForm id="wordInput"
-                                         fontSize="{Values.PT18}"
-                                         visible="false" includeInLayout="false"
-                                         visible.word="true" includeInLayout.word="true"
-                                         width="100%"
-                                         maxChars="{Device.MAX_WORD_LENGTH}"
-                                         changing="wordValidationHandler(event)"
-                                         change="validateInputText(wordInput.text)"
-                                         title="{resourceManager.getString('app', 'WordInput')}"/>
-
-                    <s:HGroup width="100%" height="100%" gap="{HGAP}">
-                        <form2:VerbInputsForm id="verbInputsForm"
-                                              width="100%" height="100%"
-                                              visible="false" includeInLayout="false"
-                                              visible.word="false" includeInLayout.word="false"
-                                              visible.verb="true" includeInLayout.verb="true"
-                                              isPresentFormEnabled="{isPresentVerbFormEnabled}"
-                                              change="validateInputText(verbInputsForm.infinitiveInput.text)"/>
-
-                        <input:TextAreaForm id="descriptionArea"
-                                            width="100%" height="100%"
-                                            maxChars="{Device.MAX_TEXT_LENGTH}"
-                                            title="{resourceManager.getString('app', 'Translation')}"
-                                            fontSize.word="{Values.PT18}"
-                                            fontSize.verb="{Values.PT18}"
-                                            fontSize="{Values.PT22}"
-                                            textChanged="descriptionAreaChangeHandler(event)"/>
-                    </s:HGroup>
-
-                </s:VGroup>
-
-            </s:HGroup>
+            <input:TextAreaForm id="descriptionArea"
+                                width="100%" height="100%"
+                                maxChars="{Device.MAX_TEXT_LENGTH}"
+                                title="{resourceManager.getString('app', 'Translation')}"
+                                fontSize.word="{Values.PT18}"
+                                fontSize.verb="{Values.PT18}"
+                                fontSize="{Values.PT22}"
+                                textChanged="descriptionAreaChangeHandler(event)"/>
 
             <form2:ExamplesForm id="examplesForm"
                                 parentNote="{note}"
@@ -596,20 +577,26 @@
                                 visible.verb="true" includeInLayout.verb="true"
                                 mainForm="{this}"/>
 
-            <s:Group width="100%" height="{Values.PT72}">
-                <audio:AudioRecorder id="audioRecorder"
-                                     isLoadMp3FileFromDudenEnabled="{isLoadMp3FileFromDudenEnabled}"
-                                     noteTitleToLoadMp3="{getNoteTitle(hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
-                                     height="{Values.PT72}" left="{Values.PT118}" left.lesson="0" left.normal="0" right="0"
-                                     loadRemoteMp3WithError="showInvalidMsg(resourceManager.getString('app', 'FailedToLoadMp3File'))"/>
-            </s:Group>
+            <audio:AudioRecorder id="audioRecorder"
+                                 isLoadMp3FileFromDudenEnabled="{isLoadMp3FileFromDudenEnabled}"
+                                 noteTitleToLoadMp3="{getNoteTitle(hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
+                                 height="{Values.PT72}" width="100%"
+                                 loadRemoteMp3WithError="showInvalidMsg(resourceManager.getString('app', 'FailedToLoadMp3File'))"/>
         </s:VGroup>
 
-        <s:VGroup width="{Values.PT330}" height="100%" gap="{VGAP}"
+        <s:VGroup width="{Values.PT300}" height="100%" gap="{VGAP}"
                   visible.normal="false" includeInLayout.normal="false"
                   visible.lesson="{!isAddMode}" includeInLayout.lesson="{!isAddMode}"
                   visible.word="true" includeInLayout.word="true"
                   visible.verb="true" includeInLayout.verb="true">
+            <note:ArticleList id="articleBox"
+                              title="{resourceManager.getString('app', 'Article')}"
+                              visible="false" includeInLayout="false"
+                              visible.word="{isArticleEnabled}" includeInLayout.word="{true}"
+                              visible.verb="false" includeInLayout.verb="false"
+                              width="100%"
+                              dataProvider="{new ArrayCollection(DeWordArticle.ARTICLES)}"/>
+
             <input:DropdownInputForm id="wordOptionsInput"
                                      isTemplatesEnabled="{isOptionalTemplatesEnabled}"
                                      visible="false" includeInLayout="false"

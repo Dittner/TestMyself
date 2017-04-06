@@ -4,17 +4,17 @@
          xmlns:common="de.dittner.testmyself.ui.common.list.*"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
          xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+         xmlns:common2="de.dittner.testmyself.ui.common.*">
     <fx:Metadata>
         [Event(name="enterPressed", type="flash.events.Event")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.ui.common.ZeroPos;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.ZeroPos;
         import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
@@ -85,7 +85,7 @@
         private function dropdownBtnChangeHandler(event:Event):void {
             if (!SimplePopup.isShownInPopup(templateListCont) && dropdownBtn.selected) {
                 templateListCont.width = input.width + dropdownBtn.width;
-                SimplePopup.show(templateListCont, false, templateListCloseHandler);
+                SimplePopup.show(templateListCont, false, templateListCloseHandler, 0, 0);
                 var btnPos:Point = input.localToGlobal(ZeroPos.POINT);
                 templateListCont.x = btnPos.x;
                 templateListCont.y = btnPos.y + input.height - Device.verticalPadding;
@@ -114,10 +114,10 @@
         <s:Group id="templateListCont"
                  width="100%" maxHeight="{Values.PT600}">
 
-            <utils:BG percentWidth="100" percentHeight="100"
-                      fillColor="{AppColors.SCREEN_FOOTER_BG}"
-                      borderColor="{AppColors.INPUT_BORDER}"
-                      borderWeight="1"/>
+            <common2:BG percentWidth="100" percentHeight="100"
+                        fillColor="{AppColors.SCREEN_FOOTER_BG}"
+                        borderColor="{AppColors.INPUT_BORDER}"
+                        borderWeight="1"/>
 
             <s:Scroller width="100%" height="100%">
                 <common:SelectableDataGroup id="templateList"

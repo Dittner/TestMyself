@@ -3,8 +3,8 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         xmlns:input="de.dittner.testmyself.ui.common.input.*">
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -169,6 +169,16 @@
                 if (tag.name == tagName) return tag;
             return null;
         }
+
+        private function setupRenameMode():void {
+            setCurrentState('renameTag');
+            removeRadioBtn.selected = false;
+        }
+
+        private function setupRemoveMode():void {
+            setCurrentState('removeTag');
+            renameRadioBtn.selected = false;
+        }
         ]]></fx:Script>
 
     <s:states>
@@ -178,30 +188,30 @@
     </s:states>
 
     <s:layout>
-        <s:VerticalLayout gap="{Values.PT10}"/>
+        <s:HorizontalLayout gap="{Values.PT20}"/>
     </s:layout>
 
-    <button:DottedLabelBtn id="editLbl"
-                           text="{editLblText}"
-                           fontFamily="{FontName.MYRIAD}"
-                           fontStyle="italic"
-                           fontSize="{Values.PT20}"
-                           visible="{haveTags(vocabulary.tagColl)}"
-                           includeInLayout="{haveTags(vocabulary.tagColl)}"
-                           upColor="{AppColors.TEXT_BLACK}"
-                           downColor="{AppColors.TEXT_BLACK}"
-                           click="setCurrentState('renameTag')"/>
+    <s:VGroup width="50%" height="100%"
+              gap="{Values.PT20}">
 
-    <button:DottedLabelBtn id="removeLbl"
-                           text="{removeLblText}"
-                           fontFamily="{FontName.MYRIAD}"
-                           fontStyle="italic"
-                           fontSize="{Values.PT20}"
-                           visible="{haveTags(vocabulary.tagColl)}"
-                           includeInLayout="{haveTags(vocabulary.tagColl)}"
-                           upColor="{AppColors.TEXT_BLACK}"
-                           downColor="{AppColors.TEXT_BLACK}"
-                           click="setCurrentState('removeTag')"/>
+        <tile:TileRadioButton id="renameRadioBtn"
+                              title="{editLblText}"
+                              visible="{haveTags(vocabulary.tagColl)}"
+                              includeInLayout="{haveTags(vocabulary.tagColl)}"
+                              change="if(renameRadioBtn.selected) setupRenameMode()"/>
+
+        <list:ListForm id="tagsList"
+                       width="100%" height="100%"
+                       dataProvider="{vocabulary.tagColl}"
+                       title="{tagsListTitle}"
+                       visible.edit="{haveTags(vocabulary.tagColl)}"
+                       visible="false"
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer">
+            <list:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </list:layout>
+        </list:ListForm>
+    </s:VGroup>
 
     <s:Label fontFamily="{FontName.MYRIAD}"
              fontSize="{Values.PT25}"
@@ -214,40 +224,18 @@
              includeInLayout="{!haveTags(vocabulary.tagColl)}"
              text="{resourceManager.getString('app', 'NO_DATA')}"/>
 
-    <s:Group width="100%" height="100%"
-             visible.edit="{haveTags(vocabulary.tagColl)}"
-             visible="false">
-        <s:layout>
-            <s:ConstraintLayout>
-                <s:constraintColumns>
-                    <s:ConstraintColumn id="col1" width="50%"/>
-                    <s:ConstraintColumn id="col2" width="25%"/>
-                    <s:ConstraintColumn id="col3" width="25%"/>
-                </s:constraintColumns>
-                <s:constraintRows>
-                    <s:ConstraintRow id="row1"/>
-                    <s:ConstraintRow id="row2" height="100%"/>
-                </s:constraintRows>
-            </s:ConstraintLayout>
-        </s:layout>
-
-        <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.EDITOR_CONTENT_BG}"/>
-
-        <list:ListForm id="tagsList"
-                       top="{Values.PT20}"
-                       bottom="{Values.PT10}"
-                       left="col1:20"
-                       right="col1:20"
-                       dataProvider="{vocabulary.tagColl}"
-                       title="{tagsListTitle}"
-                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer">
-            <list:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </list:layout>
-        </list:ListForm>
+    <s:VGroup width="50%" height="100%"
+              gap="{Values.PT20}">
+        <tile:TileRadioButton id="removeRadioBtn"
+                              title="{removeLblText}"
+                              fontSize="{Values.PT20}"
+                              visible="{haveTags(vocabulary.tagColl)}"
+                              includeInLayout="{haveTags(vocabulary.tagColl)}"
+                              click="if(removeRadioBtn.selected) setupRemoveMode()"/>
 
         <s:Label id="notifyLbl"
-                 left="col2:20" top="row1:20" right="{Values.PT10}"
+                 width="100%"
+                 paddingTop="{Values.PT20}"
                  fontFamily="{FontName.MYRIAD}"
                  color="{AppColors.TEXT_BLACK}"
                  fontSize="{Values.PT16}"
@@ -257,7 +245,7 @@
 
         <input:TextInputForm id="tagNameInputForm"
                              fontSize="{Values.PT18}"
-                             top="row1:20" left="col2:20" right="{Values.PT10}"
+                             width="100%"
                              text="{tagsList.selectedItem.name}"
                              title="{tagNameInputTitle}"
                              maxChars="{Device.MAX_TAG_NAME_LENGTH}"
@@ -265,9 +253,9 @@
                              includeInLayout="false" includeInLayout.renameTag="true"/>
 
         <button:WhiteButton id="cancelBtn"
-                            top="row2:20"
-                            left="col2:20"
-                            right="col2:20"
+                            width="100%"
+                            visible.edit="{haveTags(vocabulary.tagColl)}"
+                            visible="false"
                             title="{resourceManager.getString('app', 'Cancel')}"
                             click="cancelBtn_clickHandler(event)"/>
 
@@ -276,10 +264,10 @@
                             enabled.removeTag="{tagsList.selectedItem != null}"
                             title.renameTag="{resourceManager.getString('app', 'Rename')}"
                             title.removeTag="{resourceManager.getString('app', 'Delete')}"
-                            top="row2:20"
-                            left="col3:20"
-                            right="20"
+                            visible.edit="{haveTags(vocabulary.tagColl)}"
+                            visible="false"
+                            width="100%"
                             click="applyBtnClickHandler(event)"/>
-    </s:Group>
+    </s:VGroup>
 
 </s:Group>

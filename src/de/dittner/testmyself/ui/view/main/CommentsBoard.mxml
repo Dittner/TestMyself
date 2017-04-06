@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:common="de.dittner.testmyself.ui.common.*"
          creationComplete="creationCompleteHandler(event)"
          currentState="up">
 
@@ -93,8 +93,8 @@
     </s:states>
 
     <s:Group id="cont" width="100%" height="{height}">
-        <utils:BG percentWidth="100" percentHeight="100" fillColor="#ecdfa8"/>
-        <utils:BG percentWidth="100" height="{Values.PT5}" bottom="0" fillColor="#0"/>
+        <common:BG percentWidth="100" percentHeight="100" fillColor="#ecdfa8"/>
+        <common:BG percentWidth="100" height="{Values.PT5}" bottom="0" fillColor="#0"/>
 
         <input:HistoryTextArea id="textArea"
                                fontSize="{Values.PT18}"

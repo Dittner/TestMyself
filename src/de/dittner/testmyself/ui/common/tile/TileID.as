@@ -52,6 +52,12 @@ public class TileID {
 	public static const MENU_PRIORITY_HIGH_ICON:String = "MENU_PRIORITY_HIGH_ICON";
 	public static const MENU_PRIORITY_HIGH_RED_ICON:String = "MENU_PRIORITY_HIGH_RED_ICON";
 
+	public static const MENU_NEXT_NOTE_ICON:String = "MENU_NEXT_NOTE_ICON";
+	public static const MENU_NEXT_NOTE_RED_ICON:String = "MENU_NEXT_NOTE_RED_ICON";
+
+	public static const MENU_PREV_NOTE_ICON:String = "MENU_PREV_NOTE_ICON";
+	public static const MENU_PREV_NOTE_RED_ICON:String = "MENU_PREV_NOTE_RED_ICON";
+
 	//-------------------------------- TOOLBAR -------------------------
 
 	public static const TOOLBAR_GO_BACK:String = "TOOLBAR_GO_BACK";
@@ -62,12 +68,9 @@ public class TileID {
 	public static const TOOLBAR_EXPANDED_LIST:String = "TOOLBAR_EXPANDED_LIST";
 	public static const TOOLBAR_COLLAPSED_LIST:String = "TOOLBAR_COLLAPSED_LIST";
 	public static const TOOLBAR_INVERSE_TRANSLATION:String = "TOOLBAR_INVERSE_TRANSLATION";
-	public static const TOOLBAR_PLAY_AUDIO:String = "TOOLBAR_PLAY_AUDIO";
 	public static const TOOLBAR_SHOW_ALL_TASK:String = "TOOLBAR_SHOW_ALL_TASK";
 	public static const TOOLBAR_SHOW_FAILED_TASK:String = "TOOLBAR_SHOW_FAILED_TASK";
 	public static const TOOLBAR_SET_TASK_AS_RIGHT:String = "TOOLBAR_SET_TASK_AS_RIGHT";
-	public static const TOOLBAR_NEXT:String = "TOOLBAR_NEXT";
-	public static const TOOLBAR_PREV:String = "TOOLBAR_PREV";
 
 	public static const TOOLBAR_ADD_LIGHT:String = "TOOLBAR_ADD_LIGHT";
 	public static const TOOLBAR_EDIT_LIGHT:String = "TOOLBAR_EDIT_LIGHT";
@@ -108,6 +111,15 @@ public class TileID {
 	public static const BTN_RECORD:String = "BTN_RECORD";
 	public static const BTN_STOP_RECORD:String = "BTN_STOP_RECORD";
 
+	public static const BTN_COLLAPSED_UP:String = "BTN_COLLAPSED_UP";
+	public static const BTN_COLLAPSED_DOWN:String = "BTN_COLLAPSED_DOWN";
+
+	public static const BTN_CHECKBOX_UP:String = "BTN_CHECKBOX_UP";
+	public static const BTN_CHECKBOX_DOWN:String = "BTN_CHECKBOX_DOWN";
+
+	public static const BTN_RADIO_UP:String = "BTN_RADIO_UP";
+	public static const BTN_RADIO_DOWN:String = "BTN_RADIO_DOWN";
+
 	//-------------------------------- ICON -------------------------
 
 	public static const FLAG_GB:String = "FLAG_GB";
@@ -137,6 +149,9 @@ public class TileID {
 	public static const WHITE_BG_ICON:String = "WHITE_BG_ICON";
 	public static const WHITE_BG_INVALID_ICON:String = "WHITE_BG_INVALID_ICON";
 	public static const MICROPHONE_ICON:String = "MICROPHONE_ICON";
-	public static const MICROPHONE_WAVES_ICON:String = "MICROPHONE_WAVES_ICON";
+	public static const MICROPHONE_REC_ICON:String = "MICROPHONE_REC_ICON";
+
+	public static const OPENED_LIST_ICON:String = "OPENED_LIST_ICON";
+	public static const CLOSED_LIST_ICON:String = "CLOSED_LIST_ICON";
 }
 }

@@ -2,12 +2,10 @@
 <view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
                 xmlns:core="de.dittner.testmyself.ui.common.view.*"
-                xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
-                xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                 xmlns:list2="de.dittner.testmyself.ui.common.list.*"
                 xmlns:form2="de.dittner.testmyself.ui.view.noteList.components.form.*"
-                xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
-                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+                xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                xmlns:common="de.dittner.testmyself.ui.common.*"
                 currentState="inactive"
                 horizontalCenter="0"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
@@ -15,13 +13,14 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.tag.Tag;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
+        import de.dittner.testmyself.ui.common.note.NoteRenderOptions;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
-        import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
-        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
-        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
         import de.dittner.testmyself.utils.Values;
 
         [Bindable]
@@ -37,7 +36,8 @@
             vm = ViewModelFactory.instance.lessonListVM;
             vm.lockView();
 
-            toolbar.visible = toolbar.includeInLayout = true;
+            toolbar.show();
+            actionMenu.hide();
             toolbar.revert()
         }
 
@@ -45,13 +45,14 @@
             vm.unlockView();
             vm.viewActivated(viewID);
             showLessonList();
-            toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
-            noteList.pageLayout = pageLayoutInfo;
+            noteContent.activate();
+            toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelected);
         }
 
         override protected function deactivate():void {
-            toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, toolActionSelected);
             vm.viewDeactivated();
+            noteContent.deactivate();
             setCurrentState("inactive");
         }
 
@@ -65,31 +66,27 @@
 
         private function showLessonContent():void {
             toolbar.addNoteBtn.enabled = true;
-            toolbar.editNoteBtn.enabled = noteList.selectedItem != null;
-            toolbar.removeNoteBtn.enabled = noteList.selectedItem != null;
+            toolbar.editNoteBtn.enabled = vm.selectedNote != null;
+            toolbar.removeNoteBtn.enabled = vm.selectedNote != null;
             toolbar.goBackBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
             toolbar.hideDetailsBtn.enabled = true;
-            toolbar.nextBtn.enabled = true;
-            toolbar.prevBtn.enabled = true;
             setCurrentState("lessonContent");
         }
 
         private function showAddLessonForm():void {
-            if (!addLessonForm.visible) {
-                addLessonForm.visible = true;
+            if (!SimplePopup.curContent != addLessonForm) {
                 addLessonForm.cancelBtn.addEventListener(MouseEvent.CLICK, cancelAddLessonClicked);
                 addLessonForm.applyBtn.addEventListener(MouseEvent.CLICK, applyAddLessonClicked);
+                SimplePopup.show(addLessonForm, true, null, AppColors.EDITOR_SHADOW, 0.5);
             }
         }
 
         private function hideAddLessonForm():void {
-            if (addLessonForm.visible) {
-                addLessonForm.visible = false;
-                addLessonForm.addLessonInput.text = "";
-                addLessonForm.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelAddLessonClicked);
-                addLessonForm.applyBtn.removeEventListener(MouseEvent.CLICK, applyAddLessonClicked);
-            }
+            SimplePopup.close();
+            addLessonForm.addLessonInput.text = "";
+            addLessonForm.cancelBtn.removeEventListener(MouseEvent.CLICK, cancelAddLessonClicked);
+            addLessonForm.applyBtn.removeEventListener(MouseEvent.CLICK, applyAddLessonClicked);
         }
 
         private function cancelAddLessonClicked(event:MouseEvent):void {
@@ -123,39 +120,16 @@
 
         private var needSelectFirstNote:Boolean = false;
         private var needSelectLastNote:Boolean = false;
-        private var pageLayoutInfo:PageLayout = new PageLayout();
-        private function toolActionSelectedHandler(event:ToolbarEvent):void {
+        private var renderOptions:NoteRenderOptions = new NoteRenderOptions();
+        private function toolActionSelected(event:ToolActionEvent):void {
             var op:IAsyncOperation;
-            switch (event.toolAction) {
+            switch (event.actionID) {
                 case(ToolAction.GO_BACK) :
-                    showLessonList();
-                    break;
-                case(ToolAction.NEXT_NOTE) :
-                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
-                        if (!noteList.selectedItem) {
-                            vm.selectedNote = noteList.dataProvider[0];
-                        }
-                        else if (noteList.selectedIndex < noteList.dataProvider.length - 1) {
-                            noteList.selectedIndex++;
-                        }
-                        else if (paginationBar.pageNum < paginationBar.totalPages - 1) {
-                            vm.page.number++;
-                            needSelectFirstNote = true;
-                        }
-                    }
-                    break;
-                case(ToolAction.PREV_NOTE) :
-                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
-                        if (!noteList.selectedItem) {
-                            noteList.selectedItem = noteList.dataProvider[0];
-                        }
-                        else if (noteList.selectedIndex > 0) {
-                            noteList.selectedIndex--;
-                        }
-                        else if (paginationBar.pageNum > 0) {
-                            vm.page.number--;
-                            needSelectLastNote = true;
-                        }
+                    if (noteContent.visible) {
+                        if (noteContent.isNoteCardShown)
+                            noteContent.hideNoteCard();
+                        else
+                            showLessonList();
                     }
                     break;
                 case(ToolAction.CREATE_NOTE) :
@@ -171,29 +145,13 @@
                     break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
-                    op = form.edit(noteList.selectedItem);
+                    op = form.edit(noteContent.selectedNote);
                     op.addCompleteCallback(noteEditComplete);
                     break;
                 case(ToolAction.REMOVE_NOTE) :
                     form.visible = true;
-                    op = form.remove(noteList.selectedItem);
+                    op = form.remove(noteContent.selectedNote);
                     op.addCompleteCallback(noteRemovedComplete);
-                    break;
-                case(ToolAction.INVERT) :
-                    pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
-                    noteList.invalidatePageLayout();
-                    break;
-                case(ToolAction.HIDE_DETAILS) :
-                    pageLayoutInfo.showDetails = false;
-                    noteList.invalidatePageLayout();
-                    break;
-                case(ToolAction.SHOW_DETAILS) :
-                    pageLayoutInfo.showDetails = true;
-                    noteList.invalidatePageLayout();
-                    break;
-                case(ToolAction.PLAY_AUDIO) :
-                    if (vm.selectedNote && vm.selectedNote.hasAudio)
-                        vm.selectedNote.loadAndPlayAudioComment();
                     break;
             }
         }
@@ -203,6 +161,7 @@
                 vm.page.allNotesAmount++;
                 vm.reloadPage();
                 form.selectedFilter = null;
+                noteContent.hideNoteCard();
             }
             form.visible = false;
         }
@@ -211,15 +170,13 @@
             if (op.isSuccess && op.result == FormOperationResult.OK) {
                 vm.page.allNotesAmount--;
                 vm.reloadPage();
+                noteContent.hideNoteCard();
             }
             form.visible = false;
         }
 
         private function noteEditComplete(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result == FormOperationResult.OK) {
-                vm.page.allNotesAmount--;
-                vm.reloadPage();
-            }
+            noteContent.updateSelectedItem();
             form.visible = false;
         }
 
@@ -229,26 +186,8 @@
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
             if (!isActive) return;
-            toolbar.editNoteBtn.enabled = noteList.selectedItem != null;
-            toolbar.removeNoteBtn.enabled = noteList.selectedItem != null;
-            toolbar.playCommentBtn.enabled = noteList.selectedItem != null && noteList.selectedItem.hasAudio;
-        }
-
-        private function noteList_dataProviderChangedHandler(event:Event):void {
-            if (!noteList.dataProvider || noteList.dataProvider.length == 0) {
-                needSelectFirstNote = false;
-                needSelectLastNote = false;
-                return;
-            }
-
-            if (needSelectFirstNote) {
-                needSelectFirstNote = false;
-                vm.selectedNote = noteList.dataProvider[0];
-            }
-            else if (needSelectLastNote) {
-                needSelectLastNote = false;
-                vm.selectedNote = noteList.dataProvider[noteList.dataProvider.length - 1];
-            }
+            toolbar.editNoteBtn.enabled = noteContent.selectedNote != null;
+            toolbar.removeNoteBtn.enabled = noteContent.selectedNote != null;
         }
         ]]></fx:Script>
 
@@ -258,76 +197,45 @@
         <s:State name="lessonList"/>
         <s:State name="lessonContent"/>
     </core:states>
+    <fx:Declarations>
+        <form2:AddLessonForm id="addLessonForm"
+                             top="{2*AppSizes.MENU_HEIGHT}"
+                             height="{Values.PT200}" width="100%"/>
+    </fx:Declarations>
 
-    <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
+    <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
 
-    <s:Scroller left="0" right="0" top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-                excludeFrom="inactive"
-                visible="false" visible.lessonContent="true"
-                horizontalScrollPolicy="off"
-                hasFocusableChildren="false">
-        <common:NoteList id="noteList"
-                         itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
-                         selectedItem="@{vm.selectedNote}"
-                         dataProvider="{vm.page.noteColl}"
-                         width="100%"
-                         contentBackgroundAlpha="0"
-                         deselectEnabled="true"
-                         selectedItemChange="noteList_selectedItemChangeHandler(event)"
-                         dataProviderChanged="noteList_dataProviderChangedHandler(event)">
-            <common:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </common:layout>
-        </common:NoteList>
-    </s:Scroller>
+    <note:NoteContent id="noteContent"
+                      visible="false"
+                      visible.lessonContent="true"
+                      width="{width}" height="100%"
+                      selectedItem="@{vm.selectedNote}"
+                      dataProvider="{vm.page.coll}"
+                      page="{vm.page}"
+                      toolbar="{toolbar}"
+                      actionMenu="{actionMenu}"
+                      selectedItemChange="noteList_selectedItemChangeHandler(event)"
+                      pageNumChanged="pageNumChanged(event)"/>
 
-    <s:Scroller left="0" right="0" top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-                excludeFrom="inactive"
-                visible="false" visible.lessonList="true"
-                horizontalScrollPolicy="off"
-                hasFocusableChildren="false">
-        <list2:SelectableDataGroup id="lessonList"
-                                   selectedItem="{vm.page.selectedTag}"
-                                   dataProvider="{vm.page.vocabulary.tagColl}"
-                                   width="100%"
-                                   visible="false" visible.lessonList="true"
-                                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.LessonTagRenderer"
-                                   selectedItemChange="lessonSelectedHandler(event)">
-            <list2:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="true"/>
-            </list2:layout>
-        </list2:SelectableDataGroup>
-    </s:Scroller>
+    <common:Container width="100%" height="100%"
+                      excludeFrom="inactive"
+                      visible="false"
+                      visible.lessonList="true"
+                      visible.inactive="true">
+        <s:Scroller width="100%" height="100%"
+                    horizontalScrollPolicy="off"
+                    hasFocusableChildren="false">
+            <list2:SelectableDataGroup id="lessonList"
+                                       selectedItem="{vm.page.selectedTag}"
+                                       dataProvider="{vm.page.vocabulary.tagColl}"
+                                       width="100%"
+                                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.LargeTagRenderer"
+                                       selectedItemChange="lessonSelectedHandler(event)">
+                <list2:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="true"/>
+                </list2:layout>
+            </list2:SelectableDataGroup>
+        </s:Scroller>
+    </common:Container>
 
-    <!--footer-->
-    <utils:BG percentWidth="100" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
-              fillColor="{AppColors.SCREEN_FOOTER_BG}"/>
-
-    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
-              verticalAlign="middle"
-              visible.lessonList="false" visible.lessonContent="true"
-              excludeFrom="inactive">
-        <mp3:MP3PlayerComponent id="mp3"
-                                visible="{mp3.isPlaying || mp3.isPaused}"
-                                width="50%"/>
-
-        <navigation:PaginationBar id="paginationBar"
-                                  allNotesAmount="{vm.page.allNotesAmount}"
-                                  notesOnCurPage="{vm.page.noteColl.length}"
-                                  pageSize="{vm.page.size}"
-                                  pageNum="@{vm.page.number}"
-                                  height="100%"
-                                  pageNumChanged="pageNumChanged(event)"/>
-
-        <s:Label id="tagsLbl"
-                 text="{vm.page.selectedTag.name}"
-                 height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
-                 fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="1"
-                 maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
-    </s:HGroup>
-
-    <form2:AddLessonForm id="addLessonForm"
-                         visible="false"
-                         height="100%" width="100%"/>
 </view:SmartView>

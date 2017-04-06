@@ -2,16 +2,17 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.async.utils.invalidateOf;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
-import de.dittner.testmyself.model.domain.audioComment.AudioComment;
-import de.dittner.testmyself.ui.common.menu.IMenuBoard;
+import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
+import de.dittner.testmyself.ui.common.menu.IActionMenu;
+import de.dittner.testmyself.ui.common.menu.NoteToolbar;
 import de.dittner.testmyself.ui.view.main.IMainView;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
-import de.dittner.testmyself.ui.view.noteList.components.toolbar.NoteToolbar;
 import de.dittner.testmyself.utils.Values;
 
 import flash.events.Event;
 import flash.utils.getQualifiedClassName;
 
+import mx.core.IUIComponent;
 import mx.core.mx_internal;
 import mx.events.FlexEvent;
 
@@ -72,10 +73,16 @@ public class ViewBase extends SkinnableContainer {
 	}
 
 	//--------------------------------------
-	//  menu
+	//  actionMenu
 	//--------------------------------------
 	[Bindable("mainViewChanged")]
-	public function get menu():IMenuBoard {return mainView.menu;}
+	public function get navigationMenu():IUIComponent {return mainView.navigationMenu;}
+
+	//--------------------------------------
+	//  actionMenu
+	//--------------------------------------
+	[Bindable("mainViewChanged")]
+	public function get actionMenu():IActionMenu {return mainView.actionMenu;}
 
 	//--------------------------------------
 	//  noteToolbar
@@ -130,7 +137,7 @@ public class ViewBase extends SkinnableContainer {
 				isActivateWaiting = false;
 				CLog.info(LogTag.UI, "View: " + fullName + " is deactivated");
 				dispatchEvent(new Event("isActiveChange"));
-				AudioComment.PLAYER.stop();
+				MP3Player.instance.stop();
 				deactivate();
 				break;
 		}

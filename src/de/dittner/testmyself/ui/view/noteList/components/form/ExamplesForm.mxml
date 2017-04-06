@@ -212,11 +212,19 @@
 
     </fx:Declarations>
 
-    <s:layout>
-        <s:HorizontalLayout/>
-    </s:layout>
+    <list:ListForm id="exampleList"
+                   width="100%" height="100%"
+                   dataProvider="{exampleColl}"
+                   title="{resourceManager.getString('app', 'Examples')}"
+                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.form.ExamplesFormRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
 
-    <s:VGroup id="toolsCont" width="{Values.PT113}" paddingLeft="{Values.PT5}" paddingTop="{Values.PT20}" horizontalAlign="center">
+    <s:HGroup id="toolsCont"
+              horizontalAlign="right"
+              left="0" right="{Values.PT5}" bottom="{Values.PT5}">
         <tile:FadeTileButton id="addBtn"
                              upTileID="{TileID.BTN_ADD_EXAMPLE}"
                              enabled="false" enabled.normal="true"
@@ -232,16 +240,5 @@
                              enabled="false" enabled.normal="{exampleList.selectedItem}"
                              click="deleteExample()"/>
 
-    </s:VGroup>
-
-    <list:ListForm id="exampleList"
-                   width="100%" height="100%"
-                   dataProvider="{exampleColl}"
-                   title="{resourceManager.getString('app', 'Examples')}"
-                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.form.ExamplesFormRenderer">
-        <list:layout>
-            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-        </list:layout>
-    </list:ListForm>
-
+    </s:HGroup>
 </s:Group>

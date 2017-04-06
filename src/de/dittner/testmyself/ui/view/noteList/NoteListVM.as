@@ -4,7 +4,7 @@ import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-import de.dittner.testmyself.ui.common.menu.MenuID;
+import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 
@@ -56,19 +56,6 @@ public class NoteListVM extends ViewModel {
 		}
 	}
 
-	//--------------------------------------
-	//  selectedExample
-	//--------------------------------------
-	private var _selectedExample:Note;
-	[Bindable("selectedExampleChanged")]
-	public function get selectedExample():Note {return _selectedExample;}
-	public function set selectedExample(value:Note):void {
-		if (_selectedExample != value) {
-			_selectedExample = value;
-			dispatchEvent(new Event("selectedExampleChanged"));
-		}
-	}
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -80,15 +67,15 @@ public class NoteListVM extends ViewModel {
 		selectedLang = appModel.selectedLanguage;
 		var vocabularyID:uint;
 		switch (viewID) {
-			case MenuID.WORD :
+			case ViewID.WORD :
 				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_WORD : VocabularyID.EN_WORD;
 				viewTitle = ResourceManager.getInstance().getString('app', 'DICTIONARY');
 				break;
-			case MenuID.VERB :
+			case ViewID.VERB :
 				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_VERB : VocabularyID.EN_VERB;
 				viewTitle = ResourceManager.getInstance().getString('app', 'IRREGULAR_VERBS');
 				break;
-			case MenuID.LESSON :
+			case ViewID.LESSON :
 				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_LESSON : VocabularyID.EN_LESSON;
 				viewTitle = ResourceManager.getInstance().getString('app', 'LESSONS');
 				break;
@@ -104,8 +91,7 @@ public class NoteListVM extends ViewModel {
 
 	public function reloadPage():void {
 		selectedNote = null;
-		selectedExample = null;
-		storage.loadNotePage(page);
+		if(page) storage.loadNotePage(page);
 	}
 }
 }

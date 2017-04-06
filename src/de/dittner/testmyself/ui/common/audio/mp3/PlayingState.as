@@ -23,13 +23,14 @@ public class PlayingState implements IPlayerState {
 		isPlaying = true;
 
 		var posInSec:int = context.playbackTime;
+		if (context.sound) {
+			soundChannel = context.sound.play(posInSec <= 0 ? 50 : posInSec * 1000);
+			if (!soundChannel) soundChannel = context.sound.play(0);
 
-		soundChannel = context.sound.play(posInSec <= 0 ? 50 : posInSec * 1000);
-		if (!soundChannel) soundChannel = context.sound.play(0);
-
-		soundChannel.addEventListener(Event.SOUND_COMPLETE, playingComplete);
-		playingTimer.reset();
-		playingTimer.start();
+			soundChannel.addEventListener(Event.SOUND_COMPLETE, playingComplete);
+			playingTimer.reset();
+			playingTimer.start();
+		}
 	}
 
 	public function updatePlayingPosition():void {
@@ -45,9 +46,11 @@ public class PlayingState implements IPlayerState {
 	}
 
 	private function stopPlaying():void {
-		soundChannel.removeEventListener(Event.SOUND_COMPLETE, playingComplete);
-		playingTimer.stop();
-		SoundMixer.stopAll();
+		if(soundChannel) {
+			soundChannel.removeEventListener(Event.SOUND_COMPLETE, playingComplete);
+			playingTimer.stop();
+			SoundMixer.stopAll();
+		}
 	}
 
 	public function stop():void {

@@ -1,13 +1,13 @@
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+<common:Container xmlns:fx="http://ns.adobe.com/mxml/2009"
+                  xmlns:s="library://ns.adobe.com/flex/spark"
+                  xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
+                  xmlns:common="de.dittner.testmyself.ui.common.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.test.Test;
         import de.dittner.testmyself.model.domain.test.TestID;
-        import de.dittner.testmyself.ui.common.menu.IMenuBoard;
+        import de.dittner.testmyself.ui.common.menu.IActionMenu;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -61,20 +61,24 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        private var menu:IMenuBoard;
-        public function activate(menu:IMenuBoard):void {
-            this.menu = menu;
+        private var actionMenu:IActionMenu;
+        public function activate(actionMenu:IActionMenu):void {
+            this.actionMenu = actionMenu;
             setErrorsNum(0);
             findTestView(vm.testPage.test);
-            activeTestView.activate(actionCallback, menu);
+            activeTestView.activate(actionCallback, actionMenu);
             activeTestView.visible = activeTestView.includeInLayout = true;
             loadTestTaskIDs();
+            visible = true;
         }
 
         public function deactivate():void {
-            activeTestView.deactivate();
-            activeTestView.visible = activeTestView.includeInLayout = false;
+            if (activeTestView) {
+                activeTestView.deactivate();
+                activeTestView.visible = activeTestView.includeInLayout = false;
+            }
             vm.selectedTestTask = null;
+            visible = false;
         }
 
         private var activeTestView:TestableView;
@@ -151,7 +155,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.WHITE}"/>
+    <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.WHITE}"/>
 
     <!--HEADER-->
     <s:Label text="{errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
@@ -226,4 +230,4 @@
                  maxDisplayedLines="1"
                  color="{AppColors.TEXT_BLACK}"/>
     </s:HGroup>
-</s:Group>
+</common:Container>

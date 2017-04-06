@@ -8,7 +8,7 @@ public class AppSizes {
 	public static const SCREEN_HEADER_HEIGHT:uint = Values.PT38;
 	public static const SCREEN_FOOTER_HEIGHT:uint = Values.PT38;
 
-	public static const MENU_WID:uint = Values.PT68;
+	public static const MENU_HEIGHT:uint = Values.PT55;
 
 }
 }

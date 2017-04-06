@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+         xmlns:common="de.dittner.testmyself.ui.common.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -29,9 +29,9 @@
                 target="{this}"/>
     </fx:Declarations>
 
-    <utils:BG percentWidth="100" percentHeight="100"
-              fillAlpha="0.75"
-              fillColor="{AppColors.PINK}"/>
+    <common:BG percentWidth="100" percentHeight="100"
+               fillAlpha="0.75"
+               fillColor="{AppColors.PINK}"/>
 
     <s:Label id="textDisplay"
              left="{PAD}" right="{PAD}" top="{PAD}" bottom="{PAD}"

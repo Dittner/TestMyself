@@ -251,8 +251,8 @@ public class Storage extends WalterProxy {
 		return op;
 	}
 
-	public function loadAudioComment(note:Note):IAsyncOperation {
-		var op:IAsyncCommand = new LoadAudioCommentCmd(this, note);
+	public function loadAudioComment(noteID:int):IAsyncOperation {
+		var op:IAsyncCommand = new LoadAudioCommentCmd(this, noteID);
 		deferredCommandManager.add(op);
 		return op;
 	}

@@ -47,7 +47,7 @@ public class CountTestTasksOperation extends StorageOperation implements IAsyncC
 		if (result.data && result.data.length > 0) {
 			var countData:Object = result.data[0];
 			for (var prop:String in countData) {
-				page.amountAllTasks = countData[prop] as int;
+				page.allNotesAmount = countData[prop] as int;
 				page.countAllNotes = false;
 				break;
 			}

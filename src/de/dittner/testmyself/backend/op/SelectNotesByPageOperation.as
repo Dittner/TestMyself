@@ -53,7 +53,7 @@ public class SelectNotesByPageOperation extends StorageOperation implements IAsy
 				notes.push(note);
 			}
 
-		page.noteColl = new ArrayCollection(notes);
+		page.coll = new ArrayCollection(notes);
 		dispatchSuccess(page);
 	}
 

@@ -1,28 +1,23 @@
 package de.dittner.testmyself.ui.view.noteList.components.renderer {
 import de.dittner.testmyself.model.Device;
-import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.note.DeWordArticle;
 import de.dittner.testmyself.model.domain.note.IrregularVerb;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.note.Word;
 import de.dittner.testmyself.model.domain.test.TestTask;
-import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+import de.dittner.testmyself.ui.common.note.NoteList;
+import de.dittner.testmyself.ui.common.note.NoteRenderOptions;
 import de.dittner.testmyself.ui.common.renderer.*;
-import de.dittner.testmyself.ui.common.tile.FadeTileButton;
 import de.dittner.testmyself.ui.common.tile.TileID;
+import de.dittner.testmyself.ui.common.tile.TileShape;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
-import de.dittner.testmyself.ui.view.noteList.components.NoteList;
-import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
+import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
-import flash.events.Event;
-import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
-
-import flashx.textLayout.formats.TextAlign;
 
 public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.TEXT_BLACK);
@@ -30,12 +25,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_RED);
 	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_YELLOW);
-	private static const FOOTER_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT11, AppColors.TEXT_GRAY, null, true, null, null, null, TextAlign.RIGHT);
 
 	protected static const TEXT_DEFAULT_OFFSET:uint = Values.PT1;
-	private static const DEF_PAGE_LAYOUT:PageLayout = new PageLayout();
-
-	protected var commentPlayBtn:FadeTileButton;
+	private static const DEF_RENDER_OPTIONS:NoteRenderOptions = new NoteRenderOptions();
 
 	public function NoteRenderer() {
 		super();
@@ -43,10 +35,11 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	}
 
 	protected var showSeparatorWhenSelected:Boolean = false;
-	protected var showWordArticle:Boolean = true;
 	protected var titleTf:TextField;
 	protected var descriptionTf:TextField;
-	private var footerTf:TextField;
+	private var audioIcon:TileShape;
+	private var pattern:RegExp;
+	private var searchText:String = "";
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -56,7 +49,8 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 	protected function get gap():uint {return Values.PT10;}
 
-	protected function get pad():uint {return Values.PT19;}
+	protected function get verticalPadding():uint {return Values.PT19;}
+	protected function get horizontalPadding():uint {return Values.PT19;}
 
 	protected function getTitleTextFormat():TextFormat {
 		return word || verb ? WORD_AND_VERB_TITLE_FORMAT : TITLE_FORMAT;
@@ -78,8 +72,8 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		return testTask && testTask.note is IrregularVerb ? testTask.note as IrregularVerb : data as IrregularVerb;
 	}
 
-	private function get pageLayout():PageLayout {
-		return parent is NoteList ? (parent as NoteList).pageLayout : DEF_PAGE_LAYOUT;
+	private function get options():NoteRenderOptions {
+		return parent is NoteList ? (parent as NoteList).renderOptions : DEF_RENDER_OPTIONS;
 	}
 
 	protected function hasAudioComment():Boolean {
@@ -109,25 +103,18 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = createMultilineTextField(TITLE_FORMAT, 80);
+			titleTf = TextFieldFactory.createMultiline(TITLE_FORMAT, 80);
 			addChild(titleTf);
 		}
-		if (!commentPlayBtn) {
-			commentPlayBtn = new FadeTileButton();
-			commentPlayBtn.upTileID = TileID.BTN_PLAY_AUDIO_UP;
-			commentPlayBtn.downTileID = TileID.BTN_PLAY_AUDIO_DOWN;
-			commentPlayBtn.visible = false;
-			commentPlayBtn.addEventListener(MouseEvent.CLICK, playComment);
-			addChild(commentPlayBtn);
-		}
-
-		if (!footerTf) {
-			footerTf = createTextField(FOOTER_FORMAT, 50);
-			addChild(footerTf);
+		if (!audioIcon) {
+			audioIcon = new TileShape(TileID.BTN_PLAY_AUDIO_UP);
+			audioIcon.alpha = 0.6;
+			audioIcon.visible = false;
+			addChild(audioIcon);
 		}
 	}
 
-	public function invalidateLayout():void {
+	public function invalidateOptions():void {
 		dataChanged = true;
 		invalidateProperties();
 		invalidateSize();
@@ -143,9 +130,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	}
 
 	protected function updateData():void {
-		if (note && pageLayout) {
-			titleTf.visible = pageLayout.showDetails || !pageLayout.inverted || selected;
-			descriptionTf.visible = pageLayout.showDetails || pageLayout.inverted || selected;
+		if (note && options) {
+			titleTf.visible = options.showDetails || !options.inverted || selected;
+			descriptionTf.visible = options.showDetails || options.inverted || selected;
 			updateText();
 		}
 		else {
@@ -160,7 +147,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			titleTf.htmlText = getTitle();
 			descriptionTf.htmlText = getDescription();
 
-			if (word && showWordArticle)
+			if (word && options.showWordArticle)
 				switch (word.article) {
 					case DeWordArticle.DIE :
 						titleTf.setTextFormat(DIE_FORMAT, 0, word.article.length);
@@ -193,28 +180,36 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	protected function getTitle():String {
 		var title:String = "";
 		if (word) {
-			if (word.article && showWordArticle)
+			if (word.article && options.showWordArticle)
 				title = word.article + " ";
 			title += word.title;
-			if (word.declension && (selected || pageLayout.showDetails)) title += ", " + word.declension;
+			if (word.declension && (selected || options.showDetails)) title += ", " + word.declension;
 		}
 		else if (verb) {
 			title = verb.title;
-			if (selected || pageLayout.showDetails) title += ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+			if (selected || options.showDetails) title += ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
 		}
 		else if (note) {
 			title = note.title;
 		}
 
-		return title;
+		if (options.searchText != searchText) {
+			searchText = options.searchText;
+			pattern = new RegExp(searchText, "gi");
+		}
+		return searchText ? title.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : title;
 	}
 
 	protected function getDescription():String {
-		return note ? note.description : "";
+		if (options.searchText != searchText) {
+			searchText = options.searchText;
+			pattern = new RegExp(searchText, "gi");
+		}
+		return note ? searchText ? note.description.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : note.description : "";
 	}
 
 	override protected function measure():void {
-		if (!note || !pageLayout || !parent) {
+		if (!note || !options || !parent) {
 			measuredWidth = measuredHeight = 0;
 			return;
 		}
@@ -222,16 +217,16 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		measuredWidth = parent.width;
 
 		if (titleTf.visible && descriptionTf.visible) {
-			titleTf.width = descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
-			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * pad + gap + footerTf.textHeight);
+			titleTf.width = descriptionTf.width = measuredWidth - horizontalPadding;
+			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * verticalPadding + gap);
 		}
 		else if (descriptionTf.visible) {
-			descriptionTf.width = measuredWidth - pad - commentPlayBtn.width;
-			measuredHeight = Math.ceil(descriptionTf.textHeight + 2 * pad);
+			descriptionTf.width = measuredWidth - horizontalPadding;
+			measuredHeight = Math.ceil(descriptionTf.textHeight + 2 * verticalPadding);
 		}
 		else {
-			titleTf.width = measuredWidth - pad - commentPlayBtn.width;
-			measuredHeight = Math.ceil(titleTf.textHeight + 2 * pad);
+			titleTf.width = measuredWidth - horizontalPadding - Values.PT5;
+			measuredHeight = Math.ceil(titleTf.textHeight + 2 * verticalPadding);
 		}
 	}
 
@@ -245,10 +240,9 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			invalidateDisplayList();
 		}
 
-		commentPlayBtn.x = w - commentPlayBtn.width;
-		commentPlayBtn.y = 72*Device.factor - commentPlayBtn.height >> 1;
-		commentPlayBtn.visible = hasAudioComment();
-		commentPlayBtn.enabled = selected;
+		audioIcon.x = w - audioIcon.measuredWidth;
+		audioIcon.y = 72 * Device.factor - audioIcon.height >> 1;
+		audioIcon.visible = hasAudioComment();
 
 		g.beginFill(AppColors.REN_SELECTED_BG, selected ? 1 : 0);
 		g.drawRect(0, 0, w, h);
@@ -256,81 +250,23 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 		if (!selected || showSeparatorWhenSelected) {
 			g.beginFill(AppColors.REN_SEP_COLOR);
-			g.drawRect(pad, showSeparatorWhenSelected ? h - 1 : h, w - 2 * pad, 1);
+			g.drawRect(horizontalPadding, showSeparatorWhenSelected ? h - 1 : h, w - 2 * horizontalPadding, 1);
 			g.endFill();
 		}
 
-		titleTf.x = pad - TEXT_DEFAULT_OFFSET;
-		descriptionTf.x = pad - TEXT_DEFAULT_OFFSET;
+		titleTf.x = horizontalPadding - TEXT_DEFAULT_OFFSET;
+		descriptionTf.x = horizontalPadding - TEXT_DEFAULT_OFFSET;
 
 		if (titleTf.visible && descriptionTf.visible) {
-			titleTf.y = pad - TEXT_DEFAULT_OFFSET;
-			descriptionTf.y = pad + titleTf.textHeight + gap - TEXT_DEFAULT_OFFSET;
+			titleTf.y = verticalPadding - TEXT_DEFAULT_OFFSET;
+			descriptionTf.y = verticalPadding + titleTf.textHeight + gap - TEXT_DEFAULT_OFFSET;
 		}
 		else if (descriptionTf.visible) {
-			descriptionTf.y = pad - TEXT_DEFAULT_OFFSET;
+			descriptionTf.y = verticalPadding - TEXT_DEFAULT_OFFSET;
 		}
 		else if (titleTf.visible) {
-			titleTf.y = pad - TEXT_DEFAULT_OFFSET;
+			titleTf.y = verticalPadding - TEXT_DEFAULT_OFFSET;
 		}
-
-		if (selected) {
-			footerTf.visible = true;
-			footerTf.text = getFooterText();
-			footerTf.x = pad;
-			footerTf.y = h - footerTf.textHeight - Values.PT5;
-			footerTf.width = w - footerTf.x - pad;
-		}
-		else {
-			footerTf.visible = false;
-		}
-	}
-
-	private function getFooterText():String {
-		var res:String = "";
-		if (note) {
-			res = getVocabularySymbol();
-			if (note.isExample) res += "  " + getExampleSymbol();
-			else if (note.tagIDs && note.tagIDs.length > 0)
-				res += "  " + note.tagsToStr();
-		}
-		return res;
-	}
-
-	private function getVocabularySymbol():String {
-		if (!note) return "";
-
-		switch (note.vocabulary.id) {
-			case VocabularyID.DE_WORD :
-			case VocabularyID.EN_WORD :
-				return "–W–";
-			case VocabularyID.DE_VERB :
-			case VocabularyID.EN_VERB :
-				return "–V–";
-			case VocabularyID.DE_LESSON :
-				return "–Ü–";
-			case VocabularyID.EN_LESSON :
-				return "–L–";
-			default :
-				return ""
-		}
-	}
-
-	private function getExampleSymbol():String {
-		if (note && note.vocabulary.lang.id == LanguageID.DE) {
-			return "Bsp.";
-		}
-		else if (note && note.vocabulary.lang.id == LanguageID.EN) {
-			return "e. g.";
-		}
-		return "";
-	}
-
-	private function playComment(e:Event):void {
-		if (!selected) return;
-		e.stopImmediatePropagation();
-		if (note && note.hasAudio)
-			note.loadAndPlayAudioComment();
 	}
 
 }

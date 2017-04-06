@@ -110,7 +110,7 @@ public class RawDataPlayer extends SkinnableComponent {
 	public function set comment(value:AudioComment):void {
 		if (_comment != value) {
 			_comment = value;
-			if (comment && comment.bytes) {
+			if (comment && comment.bytes && comment.bytes.length > 0) {
 				recorder.stopRecording();
 				recorder.pause();
 				recorder.recordedBytes = comment.bytes;

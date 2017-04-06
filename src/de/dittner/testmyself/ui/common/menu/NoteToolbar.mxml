@@ -4,7 +4,7 @@
          xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Metadata>
-        [Event(name="selected", type="de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent")]
+        [Event(name="selected", type="de.dittner.testmyself.ui.common.menu.ToolActionEvent")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
@@ -20,17 +20,22 @@
             hideDetailsBtn.enabled = false;
             transInvertBtn.enabled = false;
             filterBtn.enabled = false;
-            playCommentBtn.enabled = false;
             setTaskAsRightBtn.enabled = false;
             showFailedTasksBtn.enabled = false;
             hideDetailsBtn.selected = false;
             showFailedTasksBtn.selected = true;
-            nextBtn.enabled = false;
-            prevBtn.enabled = false;
         }
 
-        private function notifyToolAction(action:String):void {
-            dispatchEvent(new ToolbarEvent(ToolbarEvent.SELECTED, action));
+        public function show():void {
+            visible = includeInLayout = true;
+        }
+
+        public function hide():void {
+            visible = includeInLayout = false;
+        }
+
+        private function notifyToolAction(actionID:String):void {
+            dispatchEvent(new ToolActionEvent(ToolActionEvent.SELECTED, actionID));
         }
 
         override protected function updateDisplayList(w:Number, h:Number):void {
@@ -44,18 +49,22 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout id="verLayout"
-                          gap="{Values.PT5}" verticalAlign="top" horizontalAlign="center"/>
+        <s:HorizontalLayout id="verLayout"
+                            gap="{Values.PT10}" verticalAlign="middle"/>
     </s:layout>
 
     <tile:FadeTileButton id="goBackBtn"
                          visible="{goBackBtn.enabled}"
                          includeInLayout="{goBackBtn.enabled}"
                          upTileID="{TileID.TOOLBAR_GO_BACK}"
+                         paddingLeft="{Values.PT40}"
+                         paddingRight="0"
+                         fontSize="{Values.PT18}"
+                         textColor="0"
+                         title="{resourceManager.getString('app', 'GoBack')}"
                          click="notifyToolAction(ToolAction.GO_BACK)"/>
 
-    <s:Spacer height="30%"
-              visible="{goBackBtn.enabled}" includeInLayout="{goBackBtn.enabled}"/>
+    <s:Spacer width="100%"/>
 
     <tile:FadeTileButton id="addNoteBtn"
                          upTileID="{TileID.TOOLBAR_ADD}"
@@ -69,7 +78,7 @@
                          upTileID="{TileID.TOOLBAR_DELETE}"
                          click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
-    <s:Spacer height="30%"/>
+    <s:Spacer width="{Values.PT10}"/>
 
     <tile:FadeTileButton id="hideDetailsBtn"
                          isToggle="true"
@@ -107,28 +116,10 @@
                          upTileID="{TileID.TOOLBAR_SET_TASK_AS_RIGHT}"
                          click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
 
-    <s:Spacer height="30%"
-              visible="{prevBtn.enabled}"
-              includeInLayout="{prevBtn.enabled}"/>
+    <s:Spacer width="100%"/>
 
-    <tile:FadeTileButton id="prevBtn"
-                         visible="{prevBtn.enabled}"
-                         includeInLayout="{prevBtn.enabled}"
-                         upTileID="{TileID.TOOLBAR_PREV}"
-                         click="notifyToolAction(ToolAction.PREV_NOTE)"/>
-
-    <tile:FadeTileButton id="nextBtn"
-                         visible="{nextBtn.enabled}"
-                         includeInLayout="{nextBtn.enabled}"
-                         upTileID="{TileID.TOOLBAR_NEXT}"
-                         click="notifyToolAction(ToolAction.NEXT_NOTE)"/>
-
-    <s:Spacer height="30%"/>
-
-    <tile:FadeTileButton id="playCommentBtn"
-                         upTileID="{TileID.TOOLBAR_PLAY_AUDIO}"
-                         click="notifyToolAction(ToolAction.PLAY_AUDIO)"/>
-
-    <s:Spacer height="100%"/>
+    <s:Spacer width="{goBackBtn.width}"
+              visible="{goBackBtn.enabled}"
+              includeInLayout="{goBackBtn.enabled}"/>
 
 </s:Group>

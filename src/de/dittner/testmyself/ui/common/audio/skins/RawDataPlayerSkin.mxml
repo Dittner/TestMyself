@@ -27,13 +27,11 @@
                          visible.normal="true"
                          visible.recording="false"
                          visible.recorded="false"
-                         visible.playing="false"
-                         top="0"
-                         left="{Values.PT10}"/>
+                         visible.playing="false"/>
 
     <s:Label text="{resourceManager.getString('app', 'NoAudioRecord')}"
-             top="0" bottom="{Values.PT10}"
-             left="{Values.PT50}" width="{Values.PT100}"
+             bottom="{Values.PT10}"
+             left="{Values.PT40}" width="{Values.PT100}"
              verticalAlign="middle"
              visible.normal="true"
              visible.recording="false"
@@ -49,13 +47,11 @@
              visible.playing="false">
 
         <tile:FadeTileButton id="stopBtn"
-                             upTileID="{TileID.BTN_STOP_RECORD}"
-                             top="0"
-                             left="{Values.PT10}"/>
+                             upTileID="{TileID.BTN_STOP_RECORD}"/>
 
         <components2:MicrophoneIcon id="microphoneIcon"
-                                    areWavesShown="false" areWavesShown.recording="true"
-                                    right="{Values.PT5}" top="{-Values.PT7}"/>
+                                    right="0"
+                                    areWavesShown="false" areWavesShown.recording="true"/>
 
     </s:Group>
 
@@ -69,17 +65,13 @@
                              upTileID="{TileID.BTN_PLAY}"
                              visible="false"
                              visible.recorded="true"
-                             visible.playing="false"
-                             top="0"
-                             left="{Values.PT10}"/>
+                             visible.playing="false"/>
 
         <tile:FadeTileButton id="pauseBtn"
                              upTileID="{TileID.BTN_PAUSE}"
                              visible="false"
                              visible.recorded="false"
-                             visible.playing="true"
-                             top="0"
-                             left="{Values.PT10}"/>
+                             visible.playing="true"/>
 
         <components2:RewindingSlider id="rewindingSlider"
                                      minimum="0"
@@ -90,26 +82,26 @@
                                      snapInterval="1"
                                      liveDragging="true"
                                      top="{Values.PT3}"
-                                     left="{Values.PT100}"
-                                     right="{Values.PT100}"
+                                     left="{Values.PT90}"
+                                     right="{Values.PT90}"
                                      height="{Values.PT30}"
                                      skinClass="de.dittner.testmyself.ui.common.audio.skins.slider.RewindingSliderSkin"/>
 
         <tile:FadeTileButton id="removeRecordBtn"
                              upTileID="{TileID.BTN_DELETE_AUDIO}"
-                             top="0"
-                             right="{Values.PT10}"/>
+                             right="0"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
-                 top="{Values.PT10}" left="{Values.PT50}"
+                 left="{Values.PT40}" top="{Values.PT10}"
                  fontSize="{Values.PT14}"
                  color="{AppColors.TEXT_BLACK}"/>
 
     </s:Group>
     <s:Label visible="true" visible.normal="false"
              text="{hostComponent.recorder.timeLength}"
-             top="{Values.PT10}" right="{Values.PT50}"
-             left.recording="{Values.PT50}"
+             top="{Values.PT10}"
+             right="{Values.PT40}"
+             left.recording="{Values.PT40}"
              right.recording="auto"
              fontSize="{Values.PT14}"
              color="{AppColors.TEXT_BLACK}"/>

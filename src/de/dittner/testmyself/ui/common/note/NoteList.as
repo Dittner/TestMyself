@@ -1,4 +1,4 @@
-package de.dittner.testmyself.ui.view.noteList.components {
+package de.dittner.testmyself.ui.common.note {
 import de.dittner.async.utils.invalidateOf;
 import de.dittner.testmyself.ui.common.list.SelectableDataGroup;
 import de.dittner.testmyself.ui.common.renderer.IFlexibleRenderer;
@@ -11,27 +11,27 @@ public class NoteList extends SelectableDataGroup {
 	}
 
 	//--------------------------------------
-	//  pageLayout
+	//  renderOptions
 	//--------------------------------------
-	private var _pageLayout:PageLayout = new PageLayout();
-	[Bindable("pageLayoutChanged")]
-	public function get pageLayout():PageLayout {return _pageLayout;}
-	public function set pageLayout(value:PageLayout):void {
-		if (_pageLayout != value) {
-			_pageLayout = value;
-			invalidatePageLayout();
-			dispatchEvent(new Event("pageLayoutChanged"));
+	private var _renderOptions:NoteRenderOptions = new NoteRenderOptions();
+	[Bindable("renderOptionsChanged")]
+	public function get renderOptions():NoteRenderOptions {return _renderOptions;}
+	public function set renderOptions(value:NoteRenderOptions):void {
+		if (_renderOptions != value) {
+			_renderOptions = value;
+			invalidateRenderOptions();
+			dispatchEvent(new Event("renderOptionsChanged"));
 		}
 	}
 
-	public function invalidatePageLayout():void {
-		invalidateOf(validateLayout);
+	public function invalidateRenderOptions():void {
+		invalidateOf(validateRenderOptions);
 	}
 
-	private function validateLayout():void {
+	private function validateRenderOptions():void {
 		for (var i:int = 0; i < numElements; i++) {
 			var renderer:IFlexibleRenderer = getElementAt(i) as IFlexibleRenderer;
-			if (renderer) renderer.invalidateLayout();
+			if (renderer) renderer.invalidateOptions();
 		}
 	}
 

@@ -21,7 +21,7 @@ use namespace mx_internal;
 
 public class FadeTileButton extends UIComponent {
 
-	private const TITLE_FORMAT:TextFormat = new TextFormat(_font, _fontSize, _textColor, _isBold, null, null, null, null, TextAlign.CENTER);
+	private const TITLE_FORMAT:TextFormat = new TextFormat(_font, _fontSize, _textColor, _isBold, _isItalic, null, null, null, TextAlign.CENTER);
 
 	public function FadeTileButton() {
 		super();
@@ -276,7 +276,7 @@ public class FadeTileButton extends UIComponent {
 	public function get title():String {return _title;}
 	public function set title(value:String):void {
 		if (_title != value) {
-			_title = value;
+			_title = value || "";
 			invalidateProperties();
 			invalidateSize();
 			invalidateDisplayList();
@@ -329,6 +329,22 @@ public class FadeTileButton extends UIComponent {
 			invalidateSize();
 			invalidateDisplayList();
 			dispatchEvent(new Event("isBoldChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  isItalic
+	//--------------------------------------
+	private var _isItalic:Boolean = false;
+	[Bindable("isItalicChanged")]
+	public function get isItalic():Boolean {return _isItalic;}
+	public function set isItalic(value:Boolean):void {
+		if (_isItalic != value) {
+			_isItalic = value;
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
+			dispatchEvent(new Event("isItalicChanged"));
 		}
 	}
 
@@ -393,6 +409,7 @@ public class FadeTileButton extends UIComponent {
 			iconBg = new TileShape(iconTileID);
 			addChild(iconBg);
 		}
+		if(iconBg) iconBg.tileID = iconTileID;
 
 		if (title && !titleTf) {
 			titleTf = TextFieldFactory.create(TITLE_FORMAT);
@@ -403,6 +420,7 @@ public class FadeTileButton extends UIComponent {
 			TITLE_FORMAT.font = font;
 			TITLE_FORMAT.size = fontSize;
 			TITLE_FORMAT.bold = isBold;
+			TITLE_FORMAT.italic = isItalic;
 			TITLE_FORMAT.color = textColor;
 			titleTf.defaultTextFormat = TITLE_FORMAT;
 			titleTf.text = title;

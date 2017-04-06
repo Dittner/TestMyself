@@ -1,9 +1,11 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
-import de.dittner.testmyself.ui.common.menu.IMenuBoard;
-import de.dittner.testmyself.ui.common.menu.MenuBoardEvent;
-import de.dittner.testmyself.ui.common.menu.MenuID;
+import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
+import de.dittner.testmyself.ui.common.menu.IActionMenu;
+import de.dittner.testmyself.ui.common.menu.NavigationMenuEvent;
+import de.dittner.testmyself.ui.common.menu.ToolAction;
+import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
 import de.dittner.testmyself.ui.view.test.common.TestingAction;
 
 import flash.events.Event;
@@ -21,7 +23,7 @@ public class TestableView extends Group {
 	public var padding:uint = 0;
 
 	protected var actionCallback:Function;
-	protected var menu:IMenuBoard;
+	protected var actionMenu:IActionMenu;
 
 	//--------------------------------------
 	//  testTask
@@ -64,42 +66,42 @@ public class TestableView extends Group {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	public function activate(actionCallback:Function, menu:IMenuBoard):void {
+	public function activate(actionCallback:Function, actionMenu:IActionMenu):void {
 		if (!isActivating) {
 			setIsActivating(true);
 			this.actionCallback = actionCallback;
-			this.menu = menu;
-			menu.addEventListener(MenuBoardEvent.CLICKED, menuClicked);
-			menu.addEventListener("taskPriorityChanged", taskPriorityChanged);
+			this.actionMenu = actionMenu;
+			actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelected);
+			actionMenu.addEventListener("taskPriorityChanged", taskPriorityChanged);
 			showTestMenu();
 		}
 	}
 
 	protected function showTestMenu():void {
-		menu.showTestMenu();
+		actionMenu.showTestMenu();
 	}
 
 	public function deactivate():void {
 		if (isActivating) {
 			setIsActivating(false);
 			actionCallback = null;
-			menu.removeEventListener(MenuBoardEvent.CLICKED, menuClicked);
-			menu.removeEventListener("taskPriorityChanged", taskPriorityChanged);
-			menu.showPrevMenu();
-			menu = null;
+			actionMenu.removeEventListener(NavigationMenuEvent.CLICKED, actionSelected);
+			actionMenu.removeEventListener("taskPriorityChanged", taskPriorityChanged);
+			actionMenu.showPrevMenu();
+			actionMenu = null;
 			clear();
 		}
 	}
 
 	private function taskPriorityChanged(e:Event):void {
-		if (testTask) testTask.complexity = menu.taskPriority;
+		if (testTask) testTask.complexity = actionMenu.taskPriority;
 	}
 
-	private function menuClicked(e:MenuBoardEvent):void {
-		if (e.menuID == MenuID.TRUE) onTrueAnswered();
-		else if (e.menuID == MenuID.FALSE) onFalseAnswered();
-		else if (e.menuID == MenuID.ANSWER) showAnswer();
-		else if (e.menuID == MenuID.NEXT) requestNextTask();
+	private function actionSelected(e:ToolActionEvent):void {
+		if (e.actionID == ToolAction.TRUE) onTrueAnswered();
+		else if (e.actionID == ToolAction.FALSE) onFalseAnswered();
+		else if (e.actionID == ToolAction.ANSWER) showAnswer();
+		else if (e.actionID == ToolAction.NEXT_TASK) requestNextTask();
 	}
 
 	protected function onTrueAnswered():void {
@@ -121,7 +123,7 @@ public class TestableView extends Group {
 		if (testTaskChanged && isActivating) {
 			testTaskChanged = false;
 			if (note) {
-				menu.taskPriority = testTask.complexity;
+				actionMenu.taskPriority = testTask.complexity;
 				updateForm();
 			}
 			else {
@@ -135,7 +137,10 @@ public class TestableView extends Group {
 	protected function clear():void {}
 
 	protected function playAudioComment():void {
-		if (note && note.hasAudio) note.loadAndPlayAudioComment();
+		if (note && note.hasAudio) {
+			MP3Player.instance.comment = note.audioComment;
+			MP3Player.instance.play();
+		}
 	}
 
 	protected function requestNextTask():void {

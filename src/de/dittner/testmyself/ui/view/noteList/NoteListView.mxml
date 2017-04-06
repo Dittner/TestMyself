@@ -2,26 +2,22 @@
 <view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
                 xmlns:core="de.dittner.testmyself.ui.common.view.*"
-                xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
-                xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
-                xmlns:common="de.dittner.testmyself.ui.view.noteList.components.*"
                 xmlns:tag="de.dittner.testmyself.ui.view.noteList.components.tag.*"
-                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+                xmlns:note="de.dittner.testmyself.ui.common.note.*"
                 currentState="inactive">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-        import de.dittner.testmyself.ui.common.menu.MenuID;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
+        import de.dittner.testmyself.ui.common.menu.ViewID;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
-        import de.dittner.testmyself.ui.view.noteList.components.PageLayout;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
-        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolAction;
-        import de.dittner.testmyself.ui.view.noteList.components.toolbar.ToolbarEvent;
-        import de.dittner.testmyself.utils.Values;
 
         [Bindable]
         public var vm:NoteListVM;
@@ -33,86 +29,50 @@
         //----------------------------------------------------------------------------------------------
 
         override protected function activating():void {
-            if (viewID == MenuID.WORD)
+            if (viewID == ViewID.WORD)
                 vm = ViewModelFactory.instance.wordListVM;
-            else if (viewID == MenuID.VERB)
+            else if (viewID == ViewID.VERB)
                 vm = ViewModelFactory.instance.verbListVM;
             else
                 throw new Error("Unknown ViewID: " + viewID);
 
             vm.lockView();
-            toolbar.visible = toolbar.includeInLayout = true;
+            navigationMenu.visible = navigationMenu.includeInLayout = true;
+            toolbar.show();
             toolbar.revert();
+            actionMenu.hide();
         }
 
         override protected function activate():void {
+            currentState = "normal";
             vm.unlockView();
             vm.viewActivated(viewID);
             vm.reloadPage();
 
             toolbar.addNoteBtn.enabled = true;
-            toolbar.hideDetailsBtn.enabled = true;
-            toolbar.transInvertBtn.enabled = true;
+            toolbar.hideDetailsBtn.enabled = vm.page.vocabulary.id != VocabularyID.DE_VERB && vm.page.vocabulary.id != VocabularyID.EN_VERB;
+            toolbar.transInvertBtn.enabled = vm.page.vocabulary.id != VocabularyID.DE_VERB && vm.page.vocabulary.id != VocabularyID.EN_VERB;
             toolbar.filterBtn.enabled = true;
-            toolbar.nextBtn.enabled = true;
-            toolbar.prevBtn.enabled = true;
 
-            switch (vm.page.vocabulary.id) {
-                case VocabularyID.DE_WORD :
-                case VocabularyID.EN_WORD :
-                    setCurrentState("word");
-                    break;
-                case VocabularyID.DE_VERB :
-                case VocabularyID.EN_VERB :
-                    toolbar.hideDetailsBtn.enabled = false;
-                    toolbar.transInvertBtn.enabled = false;
-                    setCurrentState("verb");
-                    break;
-                default :
-                    throw Error("Unknown vocabulary: " + vm.page.vocabulary.id);
-            }
-            toolbar.addEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
-            noteList.pageLayout = pageLayoutInfo;
+            noteContent.activate();
+            toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
         }
 
         override protected function deactivate():void {
-            toolbar.removeEventListener(ToolbarEvent.SELECTED, toolActionSelectedHandler);
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
             vm.viewDeactivated();
+            noteContent.hideNoteCard();
+            noteContent.deactivate();
             setCurrentState("inactive");
         }
 
-        private var needSelectFirstNote:Boolean = false;
-        private var needSelectLastNote:Boolean = false;
-        private var pageLayoutInfo:PageLayout = new PageLayout();
-        private function toolActionSelectedHandler(event:ToolbarEvent):void {
+        private function toolActionSelectedHandler(event:ToolActionEvent):void {
             var op:IAsyncOperation;
-            switch (event.toolAction) {
-                case(ToolAction.NEXT_NOTE) :
-                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
-                        if (!noteList.selectedItem) {
-                            vm.selectedNote = noteList.dataProvider[0];
-                        }
-                        else if (noteList.selectedIndex < noteList.dataProvider.length - 1) {
-                            noteList.selectedIndex++;
-                        }
-                        else if (paginationBar.pageNum < paginationBar.totalPages - 1) {
-                            vm.page.number++;
-                            needSelectFirstNote = true;
-                        }
-                    }
-                    break;
-                case(ToolAction.PREV_NOTE) :
-                    if (noteList.dataProvider && noteList.dataProvider.length > 0) {
-                        if (!noteList.selectedItem) {
-                            noteList.selectedItem = noteList.dataProvider[0];
-                        }
-                        else if (noteList.selectedIndex > 0) {
-                            noteList.selectedIndex--;
-                        }
-                        else if (paginationBar.pageNum > 0) {
-                            vm.page.number--;
-                            needSelectLastNote = true;
-                        }
+            switch (event.actionID) {
+                case(ToolAction.GO_BACK) :
+                    if (noteContent.visible && noteContent.isNoteCardShown) {
+                        noteContent.hideNoteCard();
+                        toolbar.goBackBtn.enabled = false;
                     }
                     break;
                 case(ToolAction.CREATE_NOTE) :
@@ -122,32 +82,18 @@
                     break;
                 case(ToolAction.EDIT_NOTE) :
                     form.visible = true;
-                    op = form.edit(noteList.selectedItem);
+                    op = form.edit(noteContent.selectedNote);
                     op.addCompleteCallback(noteEditComplete);
                     break;
                 case(ToolAction.REMOVE_NOTE) :
                     form.visible = true;
-                    op = form.remove(noteList.selectedItem);
+                    op = form.remove(noteContent.selectedNote);
                     op.addCompleteCallback(noteRemovedComplete);
                     break;
                 case(ToolAction.FILTER) :
-                    if (!filter.visible) filter.visible = true;
-                    break;
-                case(ToolAction.INVERT) :
-                    pageLayoutInfo.inverted = !pageLayoutInfo.inverted;
-                    noteList.invalidatePageLayout();
-                    break;
-                case(ToolAction.HIDE_DETAILS) :
-                    pageLayoutInfo.showDetails = false;
-                    noteList.invalidatePageLayout();
-                    break;
-                case(ToolAction.SHOW_DETAILS) :
-                    pageLayoutInfo.showDetails = true;
-                    noteList.invalidatePageLayout();
-                    break;
-                case(ToolAction.PLAY_AUDIO) :
-                    if (vm.selectedNote && vm.selectedNote.hasAudio)
-                        vm.selectedNote.loadAndPlayAudioComment();
+                    if (!SimplePopup.curContent != filter) {
+                        SimplePopup.show(filter, true, null, AppColors.EDITOR_SHADOW, 0.5);
+                    }
                     break;
             }
         }
@@ -157,6 +103,7 @@
                 if (vm.page.selectedTag) vm.page.countAllNotes = true;
                 else vm.page.allNotesAmount++;
                 vm.reloadPage();
+                noteContent.hideNoteCard();
             }
             form.visible = false;
         }
@@ -165,16 +112,13 @@
             if (op.isSuccess && op.result == FormOperationResult.OK) {
                 vm.page.allNotesAmount--;
                 vm.reloadPage();
+                noteContent.hideNoteCard();
             }
             form.visible = false;
         }
 
         private function noteEditComplete(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result == FormOperationResult.OK) {
-                var selectedItem:* = noteList.selectedItem;
-                noteList.selectedItem = null;
-                noteList.selectedItem = selectedItem;
-            }
+            noteContent.updateSelectedItem();
             form.visible = false;
         }
 
@@ -187,110 +131,39 @@
             vm.page.number = 0;
             vm.page.countAllNotes = true;
             vm.reloadPage();
+            SimplePopup.close();
         }
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
             if (!isActive) return;
-            toolbar.editNoteBtn.enabled = noteList.selectedItem != null;
-            toolbar.removeNoteBtn.enabled = noteList.selectedItem != null;
-            toolbar.playCommentBtn.enabled = noteList.selectedItem != null && noteList.selectedItem.hasAudio;
-        }
-
-        private function noteList_dataProviderChangedHandler(event:Event):void {
-            if (!noteList.dataProvider || noteList.dataProvider.length == 0) {
-                needSelectFirstNote = false;
-                needSelectLastNote = false;
-                return;
-            }
-
-            if (needSelectFirstNote) {
-                needSelectFirstNote = false;
-                vm.selectedNote = noteList.dataProvider[0];
-            }
-            else if (needSelectLastNote) {
-                needSelectLastNote = false;
-                vm.selectedNote = noteList.dataProvider[noteList.dataProvider.length - 1];
-            }
+            toolbar.editNoteBtn.enabled = noteContent.selectedNote != null;
+            toolbar.removeNoteBtn.enabled = noteContent.selectedNote != null;
         }
         ]]></fx:Script>
 
     <core:states>
         <s:State name="disabled"/>
         <s:State name="inactive"/>
-        <s:State name="word"/>
-        <s:State name="verb"/>
+        <s:State name="normal"/>
     </core:states>
 
-    <utils:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
-
-    <s:Scroller width="50%" top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-                excludeFrom="inactive"
-                horizontalScrollPolicy="off"
-                hasFocusableChildren="false">
-        <common:NoteList id="noteList"
-                         selectedItem="@{vm.selectedNote}"
-                         dataProvider="{vm.page.noteColl}"
-                         width="100%"
-                         contentBackgroundAlpha="0"
-                         deselectEnabled="true"
-                         itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"
-                         selectedItemChange="noteList_selectedItemChangeHandler(event)"
-                         dataProviderChanged="noteList_dataProviderChangedHandler(event)">
-            <common:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-            </common:layout>
-        </common:NoteList>
-    </s:Scroller>
-
-    <common:ExampleList id="exampleList"
-                        selectedNote="@{vm.selectedExample}"
-                        dataProvider="{noteList.selectedItem.exampleColl}"
-                        width="50%" top="-1" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-                        right="0"
-                        excludeFrom="inactive"
-                        showTitle="false"
-                        hasFocusableChildren="false"/>
-
-    <!--footer-->
-    <utils:BG percentWidth="100" height="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-              bottom="0" fillColor="{AppColors.SCREEN_FOOTER_BG}"/>
-
-    <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
-              verticalAlign="middle"
-              opaqueBackground="{AppColors.SCREEN_FOOTER_BG}"
-              excludeFrom="inactive">
-        <mp3:MP3PlayerComponent id="mp3"
-                                visible="{mp3.isPlaying || mp3.isPaused}"
-                                width="50%"/>
-
-        <navigation:PaginationBar id="paginationBar"
-                                  allNotesAmount="{vm.page.allNotesAmount}"
-                                  notesOnCurPage="{vm.page.noteColl.length}"
-                                  pageSize="{vm.page.size}"
-                                  pageNum="@{vm.page.number}"
-                                  height="100%"
-                                  pageNumChanged="pageNumChanged(event)"/>
-        <s:Spacer width="50%"/>
-    </s:HGroup>
-
-    <s:Group width="100%" height="100%"
-             excludeFrom="inactive"
-             visible="{filter.visible}"
-             mouseEnabled="{filter.visible}">
-        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="{AppColors.EDITOR_SHADOW}" alpha=".5"/>
-            </s:fill>
-        </s:Rect>
-
+    <fx:Declarations>
         <tag:TagFilter id="filter"
                        selectedTag="@{vm.page.selectedTag}"
                        tags="{vm.page.vocabulary.tagColl}"
-                       width="{Values.PT350}"
-                       visible="false"
-                       right="0"
-                       height="100%"
-                       selectedTagChanged="filterChangedHandler(event)"/>
-    </s:Group>
+                       width="100%" top="{2*AppSizes.MENU_HEIGHT}" bottom="0"
+                       selectedTagChanged="filterChangedHandler(event)"
+                       canceled="SimplePopup.close()"/>
+    </fx:Declarations>
+
+    <note:NoteContent id="noteContent"
+                      width="{width}" height="100%"
+                      selectedItem="@{vm.selectedNote}"
+                      dataProvider="{vm.page.coll}"
+                      page="{vm.page}"
+                      toolbar="{toolbar}"
+                      actionMenu="{actionMenu}"
+                      selectedItemChange="noteList_selectedItemChangeHandler(event)"
+                      pageNumChanged="pageNumChanged(event)"/>
 
 </view:SmartView>

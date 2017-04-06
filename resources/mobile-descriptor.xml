@@ -12,7 +12,7 @@
         <visible>true</visible>
         <fullScreen>false</fullScreen>
         <autoOrients>true</autoOrients>
-        <aspectRatio>landscape</aspectRatio>
+        <aspectRatio>portrait</aspectRatio>
         <renderMode>gpu</renderMode>
     </initialWindow>
 

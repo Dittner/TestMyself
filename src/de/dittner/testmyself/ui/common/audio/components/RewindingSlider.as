@@ -37,5 +37,7 @@ public class RewindingSlider extends HSlider {
 		thumb.setLayoutBoundsPosition(Math.round(thumbPosParentX), thumb.getLayoutBoundsY());
 	}
 
+	override protected function system_mouseWheelHandler(event:MouseEvent):void {}
+
 }
 }

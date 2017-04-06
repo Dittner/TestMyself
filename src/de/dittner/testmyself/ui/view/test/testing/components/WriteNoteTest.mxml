@@ -104,7 +104,7 @@
         }
 
         override protected function showTestMenu():void {
-            menu.showTestMenu(false, false, true);
+            actionMenu.showTestMenu(false, false, true);
         }
 
         private function onCorrectAnswered():void {

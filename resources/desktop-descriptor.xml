@@ -13,10 +13,10 @@
         <minimizable>true</minimizable>
         <maximizable>true</maximizable>
         <resizable>true</resizable>
-        <width>1250</width>
-        <height>2000</height>
-        <minSize>1024 768</minSize>
-        <aspectRatio>landscape</aspectRatio>
+        <width>768</width>
+        <height>1536</height>
+        <minSize>768 900</minSize>
+        <aspectRatio>portrait</aspectRatio>
         <autoOrients>false</autoOrients>
         <fullScreen>true</fullScreen>
         <visible>true</visible>

@@ -3,7 +3,7 @@ import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.DeferredCommandManager;
-import de.dittner.testmyself.ui.common.menu.MenuID;
+import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.view.ViewModelFactory;
 import de.dittner.testmyself.ui.common.view.ViewNavigator;
 import de.dittner.testmyself.ui.view.langList.LangListVM;
@@ -74,7 +74,7 @@ public class Bootstrap extends Walter {
 
 		(FlexGlobals.topLevelApplication as Application).addElement(mainView);
 		mainView.activate();
-		viewNavigator.selectedViewID = MenuID.LANG_LIST;
+		viewNavigator.selectedViewID = ViewID.LANG_LIST;
 	}
 }
 }

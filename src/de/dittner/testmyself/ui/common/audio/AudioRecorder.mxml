@@ -5,7 +5,7 @@
          xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*">
+         xmlns:common="de.dittner.testmyself.ui.common.*">
     <fx:Metadata>
         [Event(name="loadRemoteMp3WithError", type="flash.events.Event")]
     </fx:Metadata>
@@ -22,11 +22,12 @@
         //--------------------------------------
         private var _comment:AudioComment;
         public function getComment():AudioComment {
-            if (_comment && _comment.bytes) return _comment;
+            if (_comment && _comment.isMp3 && _comment.hasBytes) return _comment;
             var ac:AudioComment = new AudioComment();
 
             if (rawDataPlayer.recorder.recordedBytes && rawDataPlayer.recorder.recordedBytes.length > 0) {
                 ac.bytes = rawDataPlayer.recorder.recordedBytes;
+                ac.isMp3 = false;
             }
             return ac;
         }
@@ -34,7 +35,7 @@
         public function setComment(value:AudioComment):void {
             if (_comment != value) {
                 _comment = value;
-                if (_comment && _comment.bytes) {
+                if (_comment && _comment.hasBytes) {
                     if (value.isMp3) {
                         mp3Player.comment = _comment;
                         showMP3Player();
@@ -156,7 +157,7 @@
         }
 
         private function loadLocalMp3BtnVisible(isRecording:Boolean, isRawDataPlayerVisible:Boolean, mp3PlayerComment:AudioComment, recordedBytes:ByteArray):Boolean {
-            return !isRecording && isRawDataPlayerVisible && !( (recordedBytes && recordedBytes.length > 0) || (mp3PlayerComment && mp3PlayerComment.bytes.length > 0) );
+            return !isRecording && isRawDataPlayerVisible && !( (recordedBytes && recordedBytes.length > 0) || (mp3PlayerComment && mp3PlayerComment.hasBytes) );
         }
 
         private function loadRemoteMp3():void {
@@ -206,19 +207,19 @@
                    text="{resourceManager.getString('app', 'AudioRecord')}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
-    <utils:BG percentWidth="100" top="{Values.PT20}" bottom="0"
-              fillAlpha="0" borderColor="{AppColors.INPUT_BORDER}" borderWeight="1"/>
+    <common:BG percentWidth="100" top="{Values.PT20}" bottom="0"
+               fillAlpha="0" borderColor="{AppColors.INPUT_BORDER}" borderWeight="1"/>
 
     <audio:RawDataPlayer id="rawDataPlayer"
+                         left="{Values.PT10}" right="{Values.PT10}"
                          top="{Values.PT32}" bottom="0"
-                         width="100%"
                          maxRecordSizeInMin="{maxRecordSizeInMin}"
                          removeCommentClick="mp3Player_removeCommentClickHandler(event)"
                          skinClass="de.dittner.testmyself.ui.common.audio.skins.RawDataPlayerSkin"/>
 
     <mp3:MP3PlayerComponent id="mp3Player"
+                            left="{Values.PT10}" right="{Values.PT10}"
                             top="{Values.PT22}" bottom="0"
-                            width="100%"
                             visible="false"
                             removeRecordEnabled="true"
                             removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>

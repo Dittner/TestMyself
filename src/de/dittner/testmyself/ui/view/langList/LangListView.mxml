@@ -18,8 +18,9 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.langListVM;
             vm.lockView();
-            toolbar.visible = toolbar.includeInLayout = false;
-            menu.visible = menu.includeInLayout = false;
+            navigationMenu.visible = navigationMenu.includeInLayout = false;
+            toolbar.hide();
+            actionMenu.hide();
         }
 
         override protected function activate():void {
@@ -27,38 +28,12 @@
             vm.viewActivated(viewID);
         }
 
-        override protected function deactivate():void {
-            menu.visible = menu.includeInLayout = true;
-        }
+        override protected function deactivate():void {}
         ]]></fx:Script>
 
-    <s:BitmapImage height="100%" width="100%" right="0" scaleMode="zoom" fillMode="scale"
-                   source="@Embed('/assets/london.png')"/>
-
-    <s:BitmapImage height="100%" width="100%" right="{width/2}" scaleMode="zoom" fillMode="scale"
+    <!--Deutsch-->
+    <s:BitmapImage height="70%" width="100%" scaleMode="zoom" fillMode="scale"
                    source="@Embed('/assets/koeln.jpg')"/>
-
-    <tile:FadeTileButton title="{resourceManager.getString('app', 'German')}"
-                         use9Scale="true"
-                         iconTileID="{TileID.FLAG_GERMANY}"
-                         upTileID="{TileID.BTN_LANG_UP}"
-                         downTileID="{TileID.BTN_LANG_DOWN}"
-                         left="{width/8}" width="{width/4}" bottom="20"
-                         paddingLeft="{Values.PT10}"
-                         textColor="#ffFFff"
-                         fontSize="{Values.PT30}"
-                         click="vm.selectLang(LanguageID.DE)"/>
-
-    <tile:FadeTileButton title="{resourceManager.getString('app', 'English')}"
-                         use9Scale="true"
-                         iconTileID="{TileID.FLAG_GB}"
-                         upTileID="{TileID.BTN_LANG_UP}"
-                         downTileID="{TileID.BTN_LANG_DOWN}"
-                         right="{width/8}" width="{width/4}" bottom="20"
-                         paddingLeft="{Values.PT10}"
-                         textColor="#ffFFff"
-                         fontSize="{Values.PT30}"
-                         click="vm.selectLang(LanguageID.EN)"/>
 
     <components:LanguageInfoBoard id="deInfoBoard"
                                   localeInfo="de_DE"
@@ -66,7 +41,22 @@
                                   wordVocabularyInfo="{vm.deWordVocabularyInfo}"
                                   verbVocabularyInfo="{vm.deVerbVocabularyInfo}"
                                   lessonVocabularyInfo="{vm.deLessonVocabularyInfo}"
-                                  top="20" width="{width/2}" left="0"/>
+                                  top="{Values.PT20}"/>
+
+    <tile:FadeTileButton title="{resourceManager.getString('app', 'German')}"
+                         use9Scale="true"
+                         iconTileID="{TileID.FLAG_GERMANY}"
+                         upTileID="{TileID.BTN_LANG_UP}"
+                         downTileID="{TileID.BTN_LANG_DOWN}"
+                         right="{Values.PT10}" width="{width/3}" top="{height/2 - Values.PT80}"
+                         paddingLeft="{Values.PT10}"
+                         textColor="#ffFFff"
+                         fontSize="{Values.PT30}"
+                         click="vm.selectLang(LanguageID.DE)"/>
+
+    <!--English-->
+    <s:BitmapImage height="50%" width="100%" bottom="0" scaleMode="zoom" fillMode="scale"
+                   source="@Embed('/assets/london.png')"/>
 
     <components:LanguageInfoBoard id="enInfoBoard"
                                   localeInfo="en_US"
@@ -74,6 +64,16 @@
                                   wordVocabularyInfo="{vm.enWordVocabularyInfo}"
                                   verbVocabularyInfo="{vm.enVerbVocabularyInfo}"
                                   lessonVocabularyInfo="{vm.enLessonVocabularyInfo}"
-                                  top="20" width="{width/2}" right="0"/>
+                                  top="{height/2 + Values.PT20}"/>
 
+    <tile:FadeTileButton title="{resourceManager.getString('app', 'English')}"
+                         use9Scale="true"
+                         iconTileID="{TileID.FLAG_GB}"
+                         upTileID="{TileID.BTN_LANG_UP}"
+                         downTileID="{TileID.BTN_LANG_DOWN}"
+                         right="{Values.PT10}" width="{width/3}" bottom="{Values.PT20}"
+                         paddingLeft="{Values.PT10}"
+                         textColor="#ffFFff"
+                         fontSize="{Values.PT30}"
+                         click="vm.selectLang(LanguageID.EN)"/>
 </view:SmartView>

@@ -90,7 +90,7 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="{Values.PT15}" paddingLeft="{Values.PT118}"/>
+        <s:VerticalLayout gap="{Values.PT5}"/>
     </s:layout>
 
     <input:TextInputForm id="infinitiveInput"

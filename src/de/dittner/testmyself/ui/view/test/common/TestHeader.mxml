@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
+         xmlns:common="de.dittner.testmyself.ui.common.*"
          height="{Values.PT40}">
 
     <fx:Script><![CDATA[
@@ -49,7 +49,7 @@
         }
         ]]></fx:Script>
 
-    <utils:BG percentWidth="100" percentHeight="100" fillColor="#0"/>
+    <common:BG percentWidth="100" percentHeight="100" fillColor="#0"/>
 
     <s:Label text="{title}"
              fontFamily="{FontName.MYRIAD}"

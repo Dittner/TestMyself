@@ -88,8 +88,8 @@
                           paddingLeft="{Values.PT5}" paddingBottom="{Values.PT5}" paddingTop="{Values.PT5}" paddingRight="{Values.PT5}"/>
     </s:layout>
 
-    <s:Label width="60%"
-             paddingLeft="{Values.PT5}"
+    <s:Label width="{Values.PT200}"
+             paddingLeft="0"
              fontFamily="{FontName.MYRIAD}"
              fontSize="{Values.PT24}"
              fontWeight="bold"
@@ -98,14 +98,14 @@
 
     <s:HGroup width="100%" gap="{Values.PT10}">
         <s:Label id="valuesLbl"
-                 width="40%"
+                 width="{Values.PT70}"
                  textAlign="right"
                  fontFamily="{FontName.MYRIAD}"
                  fontSize="{Values.PT18}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"/>
 
-        <s:Label width="60%"
+        <s:Label width="{Values.PT200}"
                  fontFamily="{FontName.MYRIAD}"
                  fontSize="{Values.PT18}"
                  fontWeight="bold"

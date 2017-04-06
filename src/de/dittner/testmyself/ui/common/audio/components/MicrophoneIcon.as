@@ -3,6 +3,7 @@ import com.greensock.TweenLite;
 
 import de.dittner.testmyself.ui.common.tile.TileID;
 import de.dittner.testmyself.ui.common.tile.TileShape;
+import de.dittner.testmyself.utils.Values;
 
 import flash.events.Event;
 
@@ -17,7 +18,7 @@ public class MicrophoneIcon extends UIComponent {
 	}
 
 	private var microphoneShape:TileShape;
-	private var wavesShape:TileShape;
+	private var recShape:TileShape;
 
 	//--------------------------------------
 	//  areWavesShown
@@ -40,9 +41,9 @@ public class MicrophoneIcon extends UIComponent {
 			addChild(microphoneShape);
 		}
 
-		if (!wavesShape) {
-			wavesShape = new TileShape(TileID.MICROPHONE_WAVES_ICON);
-			addChild(wavesShape);
+		if (!recShape) {
+			recShape = new TileShape(TileID.MICROPHONE_REC_ICON);
+			addChild(recShape);
 		}
 	}
 
@@ -53,16 +54,23 @@ public class MicrophoneIcon extends UIComponent {
 	}
 
 	override protected function measure():void {
-		measuredWidth = microphoneShape.measuredWidth;
-		measuredHeight = microphoneShape.measuredHeight;
+		measuredWidth = recShape.width + Values.PT5 + microphoneShape.measuredWidth;
+		measuredHeight = Math.max(microphoneShape.measuredHeight, recShape.measuredHeight);
+	}
+
+	override protected function updateDisplayList(w:Number, h:Number):void {
+		super.updateDisplayList(w, h);
+		recShape.x = 0;
+		recShape.y = h - recShape.measuredHeight >> 1;
+		microphoneShape.x = recShape.measuredWidth + Values.PT5;
 	}
 
 	private var isAnimating:Boolean = false;
 	private function startAlphaAnimation():void {
 		if (!isAnimating) {
 			isAnimating = true;
-			var alphaTo:Number = wavesShape.alpha == 0 ? 1 : 0;
-			TweenLite.to(wavesShape, ANIMATION_DURATION_IN_SEC, {alpha: alphaTo, onComplete: animationComplete});
+			var alphaTo:Number = recShape.alpha == 0 ? 1 : 0;
+			TweenLite.to(recShape, ANIMATION_DURATION_IN_SEC, {alpha: alphaTo, onComplete: animationComplete});
 		}
 	}
 

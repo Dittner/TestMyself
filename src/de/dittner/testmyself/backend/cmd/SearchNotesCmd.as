@@ -25,7 +25,7 @@ public class SearchNotesCmd extends StorageOperation implements IAsyncCommand {
 	public function execute():void {
 		if (!page.loadExamples && page.vocabularyIDs.length == 0) {
 			page.allNotesAmount = 0;
-			page.noteColl = new ArrayCollection();
+			page.coll = new ArrayCollection();
 			dispatchSuccess(page);
 			return;
 		}

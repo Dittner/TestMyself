@@ -27,7 +27,8 @@ public class ExamplesFormRenderer extends NoteRenderer {
 		super.createChildren();
 	}
 
-	override protected function get pad():uint {return Values.PT5;}
+	override protected function get verticalPadding():uint {return Values.PT5;}
+	override protected function get horizontalPadding():uint {return Values.PT5;}
 
 	override protected function get gap():uint {return Values.PT5;}
 

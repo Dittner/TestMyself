@@ -20,18 +20,10 @@
         //--------------------------------------
         //  player
         //--------------------------------------
-        private var _player:MP3Player = AudioComment.PLAYER;
-        [Bindable("playerChanged")]
-        public function get player():MP3Player {return _player;}
-        public function set player(value:MP3Player):void {
-            if (_player != value) {
-                _player = value;
-                dispatchEvent(new Event("playerChanged"));
-            }
-        }
+        public function get player():MP3Player {return MP3Player.instance;}
 
         [Bindable("commentChanged")]
-        public function get hasComment():Boolean {return comment && comment.bytes;}
+        public function get hasComment():Boolean {return comment && comment.hasBytes;}
 
         //--------------------------------------
         //  soundDuration in sec
@@ -148,21 +140,21 @@
     </s:states>
 
     <s:layout>
-        <s:HorizontalLayout gap="{Values.PT5}" verticalAlign="middle" paddingLeft="{Values.PT10}" paddingRight="{Values.PT10}"/>
+        <s:HorizontalLayout gap="{Values.PT5}" verticalAlign="middle"/>
     </s:layout>
 
     <tile:FadeTileButton id="playBtn"
                          upTileID="{TileID.BTN_PLAY}"
                          visible="true" visible.playing="false"
                          includeInLayout="true" includeInLayout.playing="false"
-                         enabled="true" enabled.normal="false"
-                         click="player.play()"/>
+                         enabled="true"
+                         click="play()"/>
 
     <tile:FadeTileButton id="pauseBtn"
                          upTileID="{TileID.BTN_PAUSE}"
                          visible="false" visible.playing="true"
                          includeInLayout="false" includeInLayout.playing="true"
-                         click="player.pause()"/>
+                         click="pause()"/>
 
     <s:Label text="{secToStr(player.playbackTime)}"
              fontSize="{Values.PT14}"

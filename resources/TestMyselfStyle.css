@@ -117,6 +117,7 @@ global {
     contentBackgroundAlpha: 0;
     backgroundColor: 0;
     backgroundAlpha: 0;
+    focusedTextSelectionColor: #ffbbb8;
 }
 
 s|Button {
@@ -172,13 +173,6 @@ s|Scroller {
 }
 
 /************************** OTHER COMPONENTS **************************/
-s|CheckBox {
-    skinClass: ClassReference("de.dittner.testmyself.ui.common.checkBox.CustomCheckBoxSkin");
-}
-
-s|RadioButton {
-    skinClass: ClassReference("de.dittner.testmyself.ui.common.radioButton.CustomRadioButtonSkin");
-}
 
 spinner|CustomSpinner {
     skin-class: ClassReference("de.dittner.testmyself.ui.common.spinner.CustomSpinnerSkin");

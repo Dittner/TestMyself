@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:utils="de.dittner.testmyself.ui.common.utils.*"
-         xmlns:list="de.dittner.testmyself.ui.view.noteList.components.*">
+         xmlns:note="de.dittner.testmyself.ui.common.note.*"
+         xmlns:common="de.dittner.testmyself.ui.common.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.Note;
@@ -65,8 +65,8 @@
         }
         ]]></fx:Script>
 
-    <utils:BG percentWidth="100" percentHeight="100"
-              fillColor="{AppColors.EXAMPLES_BG}"/>
+    <common:BG percentWidth="100" percentHeight="100"
+               fillColor="{AppColors.EXAMPLES_BG}"/>
 
     <s:Label text="{resourceManager.getString('app', 'Examples')}"
              fontFamily="{FontName.MYRIAD_COND}"
@@ -79,7 +79,7 @@
 
     <s:Scroller left="0" right="0" top="{showTitle ? Values.PT25 : 0}" bottom="0"
                 hasFocusableChildren="false">
-        <list:NoteList id="list"
+        <note:NoteList id="list"
                        selectedItem="{selectedNote}"
                        dataProvider="{dataProvider}"
                        visible="{shownList}"
@@ -87,9 +87,9 @@
                        deselectEnabled="true"
                        itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer"
                        selectedItemChange="selectedNote = list.selectedItem as Note">
-            <list:layout>
-                <s:VerticalLayout gap="0" useVirtualLayout="true"/>
-            </list:layout>
-        </list:NoteList>
+            <note:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </note:layout>
+        </note:NoteList>
     </s:Scroller>
 </s:Group>

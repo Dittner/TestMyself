@@ -69,8 +69,6 @@
         private function startSearch():void {
             if (searchInput.text.length <= 1) return;
 
-            FoundNoteRenderer.searchingText = searchInput.text;
-
             if (history.row != searchInput.text)
                 history.push(searchInput.text);
 
@@ -89,21 +87,21 @@
     </s:layout>
 
     <s:HGroup width="100%"
-              height="{Values.PT40}" paddingTop="{Values.PT20}"
+              height="{Values.PT40}" paddingTop="{Values.PT10}"
               gap="{Values.PT30}" horizontalAlign="center"
               visible="true" includeInLayout="true"
               visible.collapsed="false" includeInLayout.collapsed="false">
-        <s:CheckBox id="wordBox"
-                    label="{resourceManager.getString('app', 'Words')}" selected="true"/>
+        <tile:TileCheckboxButton id="wordBox"
+                                 title="{resourceManager.getString('app', 'Words')}" selected="true"/>
 
-        <s:CheckBox id="verbBox"
-                    label="{resourceManager.getString('app', 'IrregularVerbs')}" selected="true"/>
+        <tile:TileCheckboxButton id="verbBox"
+                                 title="{resourceManager.getString('app', 'IrregularVerbs')}" selected="true"/>
 
-        <s:CheckBox id="lessonBox"
-                    label="{resourceManager.getString('app', 'Lessons')}" selected="true"/>
+        <tile:TileCheckboxButton id="lessonBox"
+                                 title="{resourceManager.getString('app', 'Lessons')}" selected="true"/>
 
-        <s:CheckBox id="examplesBox"
-                    label="{resourceManager.getString('app', 'WithExamples')}" selected="true"/>
+        <tile:TileCheckboxButton id="examplesBox"
+                                 title="{resourceManager.getString('app', 'WithExamples')}" selected="true"/>
 
     </s:HGroup>
 

@@ -8,7 +8,7 @@ import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
-import de.dittner.testmyself.ui.common.menu.MenuID;
+import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.utils.HashList;
 
@@ -184,7 +184,7 @@ public class LangListVM extends ViewModel {
 				CLog.err(LogTag.SYSTEM, "Unknown LangID: " + langID);
 		}
 		if (appModel.selectedLanguage)
-			mainVM.viewNavigator.selectedViewID = MenuID.WORD;
+			mainVM.viewNavigator.selectedViewID = ViewID.WORD;
 	}
 
 	override protected function deactivate():void {}

@@ -86,7 +86,8 @@ public class Note extends EventDispatcher {
 	public function set audioComment(value:AudioComment):void {
 		if (_audioComment != value) {
 			_audioComment = value || new AudioComment();
-			setHasAudio(!_audioComment.isEmpty);
+			setHasAudio(_audioComment.hasBytes);
+			_audioComment.id = id;
 			dispatchEvent(new Event("audioCommentChanged"));
 		}
 	}
@@ -237,6 +238,8 @@ public class Note extends EventDispatcher {
 	public function deserialize(data:Object):void {
 		_originalData = data;
 		_id = data.id;
+		_audioComment.id = id;
+		_audioComment.isMp3 = data.hasAudio;
 		_parentID = data.parentID;
 		_title = data.title;
 		_description = data.description;
@@ -244,20 +247,6 @@ public class Note extends EventDispatcher {
 		_hasAudio = data.hasAudio;
 		options = data.options;
 		if (data.tags) _tagIDs = data.tags.split(Tag.DELIMITER);
-	}
-
-	public function loadAudioComment():IAsyncOperation {
-		return vocabulary.storage.loadAudioComment(this);
-	}
-
-	public function loadAndPlayAudioComment():void {
-		if (!hasAudio) return;
-		if (!audioComment.isEmpty) audioComment.play();
-		else loadAudioComment().addCompleteCallback(audioCommentLoaded);
-	}
-
-	private function audioCommentLoaded(op:IAsyncOperation):void {
-		audioComment.play();
 	}
 
 	public function validate():String {

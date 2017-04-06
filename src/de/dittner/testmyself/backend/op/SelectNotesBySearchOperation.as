@@ -75,7 +75,7 @@ public class SelectNotesBySearchOperation extends StorageOperation implements IA
 				notes.push(note);
 			}
 
-		page.noteColl = new ArrayCollection(notes);
+		page.coll = new ArrayCollection(notes);
 		dispatchSuccess(page);
 	}
 }
