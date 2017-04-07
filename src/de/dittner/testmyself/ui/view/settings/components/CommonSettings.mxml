@@ -130,31 +130,31 @@
              fontSize="{Values.PT18}"
              color="{AppColors.TEXT_BLACK}"/>
 
-        <input:TextInputForm id="hostInput"
-                             fontSize="{Values.PT18}"
-                             width="{Values.PT400}"
-                             title="{resourceManager.getString('app', 'Server')}"/>
+    <input:TextInputForm id="hostInput"
+                         fontSize="{Values.PT18}"
+                         width="{Values.PT400}"
+                         title="{resourceManager.getString('app', 'Server')}"/>
 
-        <input:TextInputForm id="userNameInput"
-                             fontSize="{Values.PT18}"
-                             width="{Values.PT400}"
-                             title="{resourceManager.getString('app', 'User')}"/>
+    <input:TextInputForm id="userNameInput"
+                         fontSize="{Values.PT18}"
+                         width="{Values.PT400}"
+                         title="{resourceManager.getString('app', 'User')}"/>
 
-        <input:TextInputForm id="portInput"
-                             fontSize="{Values.PT18}"
-                             width="{Values.PT400}"
-                             title="{resourceManager.getString('app', 'Port')}"/>
+    <input:TextInputForm id="pwdInput"
+                         fontSize="{Values.PT18}"
+                         displayAsPassword="true"
+                         width="{Values.PT400}"
+                         title="{resourceManager.getString('app', 'Passwort')}"/>
 
-        <input:TextInputForm id="pwdInput"
-                             fontSize="{Values.PT18}"
-                             displayAsPassword="true"
-                             width="{Values.PT400}"
-                             title="{resourceManager.getString('app', 'Passwort')}"/>
+    <input:TextInputForm id="remoteDirInput"
+                         fontSize="{Values.PT18}"
+                         width="{Values.PT400}"
+                         title="{resourceManager.getString('app', 'RemoteDirectory')}"/>
 
-        <input:TextInputForm id="remoteDirInput"
-                             fontSize="{Values.PT18}"
-                             width="{Values.PT400}"
-                             title="{resourceManager.getString('app', 'RemoteDirectory')}"/>
+    <input:TextInputForm id="portInput"
+                         fontSize="{Values.PT18}"
+                         width="{Values.PT400}"
+                         title="{resourceManager.getString('app', 'Port')}"/>
 
     <s:Spacer height="50%"/>
 

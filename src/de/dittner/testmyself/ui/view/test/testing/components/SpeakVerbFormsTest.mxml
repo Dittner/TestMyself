@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
                    xmlns:s="library://ns.adobe.com/flex/spark"
-                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*" xmlns:common="de.dittner.testmyself.ui.common.*">
+                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
+                   xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+                   xmlns:note="de.dittner.testmyself.ui.common.note.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.model.domain.note.Note;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.utils.Values;
+
+        import flashx.textLayout.formats.TextAlign;
 
         //--------------------------------------
         //  word
@@ -24,73 +28,46 @@
 
         override protected function updateForm():void {
             clear();
-
-            if (verb) {
-                titleLbl.text = verb.title;
+            if (verb)
                 translateBoard.text = verb.description;
-                verbsFormsLbl.text = verb.present + ", " + verb.past + ", " + verb.perfect;
-            }
         }
 
         override protected function clear():void {
             showDetails = false;
-            titleLbl.text = "";
             translateBoard.text = "";
-            verbsFormsLbl.text = "";
         }
 
-        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
-            return showDetails && options;
+        private function getTitle(note:Note, showDetails:Boolean):String {
+            var verb:IrregularVerb = note as IrregularVerb;
+            return verb && showDetails ? verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect : verb ? verb.title + ", ..?" : "";
         }
         ]]></fx:Script>
 
     <test:layout>
-        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="center"/>
+        <s:VerticalLayout gap="{Values.PT15}"/>
     </test:layout>
 
-    <s:Group width="{width - 2*padding}" height="{Values.PT100}">
-        <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.EDITOR_CONTENT_BG}"/>
-        <s:Label text="{resourceManager.getString('app', 'Infinitive')}"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 fontSize="{Values.PT20}"
-                 mouseChildren="false" mouseEnabled="false"
-                 left="{Values.PT5}" right="{Values.PT5}"
-                 color="{AppColors.TEXT_LIGHT}"/>
+    <s:Group width="100%">
+        <note:NoteLabel id="titleLbl"
+                        text="{getTitle(note, showDetails)}"
+                        textThickness="80"
+                        textAlign="{TextAlign.CENTER}"
+                        fontSize="{Values.PT30}"
+                        verPadding="{Values.PT5}"
+                        left="{padding}" right="{padding}"/>
 
-        <s:Label id="titleLbl"
-                 left="{padding}" right="{padding}" top="{padding}"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 textAlign="center"
-                 color="{AppColors.TEXT_BLACK}"
-                 fontSize="{Values.PT30}"/>
+        <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
+                             downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
+                             visible="{note.hasAudio}"
+                             verticalCenter="0"
+                             right="{Values.PT5}"
+                             click="playAudioComment()"/>
     </s:Group>
 
-    <s:Group width="{width - 2*padding}" height="{Values.PT100}">
-        <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.EDITOR_CONTENT_BG}"/>
-        <s:Label text="{resourceManager.getString('app', 'VerbForms')}"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 fontSize="{Values.PT20}"
-                 mouseChildren="false" mouseEnabled="false"
-                 left="{Values.PT5}" right="{Values.PT5}"
-                 color="{AppColors.TEXT_LIGHT}"/>
-
-        <s:Label id="verbsFormsLbl"
-                 visible="{showDetails}"
-                 left="{padding}" right="{padding}" top="{padding}"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 textAlign="center"
-                 color="{AppColors.TEXT_BLACK}"
-                 fontSize="{Values.PT30}"/>
-    </s:Group>
-
-    <test:TextBoard id="translateBoard"
-                    questionsIconEnabled="false"
-                    width="{width - 2*padding}" height="100%"
+    <test:TextPanel id="translateBoard"
+                    width="100%"
                     title="{resourceManager.getString('app', 'Translation')}"
-                    showText="{showDetails}"/>
+                    showText="{showDetails}"
+                    paddingLeft="{padding}" paddingRight="{padding}"/>
 
 </test:TestableView>

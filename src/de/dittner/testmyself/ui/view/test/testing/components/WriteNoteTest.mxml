@@ -4,18 +4,21 @@
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
                    xmlns:input="de.dittner.testmyself.ui.common.input.*"
-                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*" xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
+                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
+                   xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                   xmlns:panel="de.dittner.testmyself.ui.common.panel.*"
+                   xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.tile.TileID;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.utils.Values;
+
+        import flashx.textLayout.formats.TextAlign;
 
         //--------------------------------------
         //  isCorrectlyAnswered
@@ -66,12 +69,8 @@
         override protected function updateForm():void {
             clear();
             if (word) {
-                articleLbl.text = word.article;
-                if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
-
-                titleLbl.text = word.article ? " " + word.title : word.title;
+                titleLbl.text = word.title;
+                titleLbl.article = word.article;
 
                 titleLbl.text += word.declension ? ", " + word.declension : "";
                 translateBoard.text = word.description;
@@ -89,18 +88,24 @@
                 isBigText = true;
             }
 
-            if (Device.isDesktop) stage.focus = isBigText ? textArea.area : textInput;
-            playAudioComment();
+            if (note) {
+                if (Device.isDesktop) stage.focus = isBigText ? textArea.area : textInput;
+                mp3.comment = note.audioComment;
+                playAudioComment();
+            }
         }
 
         override protected function clear():void {
             isCorrectlyAnswered = true;
             showDetails = false;
-            articleLbl.text = "";
+            titleLbl.article = "";
             titleLbl.text = "";
             translateBoard.text = "";
             textInput.text = "";
             textArea.text = "";
+            translateBoard.isOpened = false;
+            audioPanel.isOpened = true;
+            titleBoard.isOpened = true;
         }
 
         override protected function showTestMenu():void {
@@ -113,7 +118,7 @@
         }
 
         private function onAnswered():void {
-            if (!isCorrectlyAnswered) return;
+            if (!isCorrectlyAnswered || !note) return;
             isCorrectlyAnswered = note.title.toLowerCase() == (isBigText ? textArea.text.toLowerCase() : textInput.text.toLowerCase());
             notifyAnswered();
         }
@@ -131,7 +136,7 @@
 
         private function showInvalidMsg():void {
             if (invalidNotifier && !SimplePopup.isShownInPopup(invalidNotifier)) {
-                SimplePopup.show(invalidNotifier, false);
+                SimplePopup.show(invalidNotifier, false, null, 0, 0);
                 invalidNotifier.show();
             }
         }
@@ -139,48 +144,49 @@
     <fx:Declarations>
         <form:InvalidNotifier id="invalidNotifier"
                               width="{Values.PT200}" height="{Values.PT31}"
-                              text="{resourceManager.getString('app', 'False!')}"
-                              bottom="{Values.PT50}" horizontalCenter="0"/>
+                              text="{resourceManager.getString('app', 'FALSE')}"
+                              bottom="{Values.PT100}" horizontalCenter="0"/>
     </fx:Declarations>
 
     <test:layout>
-        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="center"/>
+        <s:VerticalLayout gap="0" horizontalAlign="center"/>
     </test:layout>
 
-    <test:TextBoard id="titleBoard"
+    <test:TextPanel id="titleBoard"
                     visible="{isBigText}" includeInLayout="{isBigText}"
-                    width="{width - 2*padding}" height="100%"
+                    width="100%"
                     questionsIconEnabled="true"
                     title="{resourceManager.getString('app', 'TextInput')}"
                     showText="{showDetails}"/>
 
-    <s:HGroup visible="{!isBigText}" includeInLayout="{!isBigText}"
-              width="100%"
-              horizontalAlign="center" gap="0" height="{Values.PT60}" verticalAlign="bottom">
-        <s:Label id="articleLbl"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 visible="{showDetails}"
-                 includeInLayout="{showDetails}"
-                 fontSize="{Values.PT42}"/>
+    <s:Spacer height="{Values.PT15}"/>
 
-        <s:Label id="titleLbl"
-                 maxWidth="{0.75 * width}"
-                 maxDisplayedLines="2"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 color="{AppColors.TEXT_BLACK}"
-                 visible="{showDetails}"
-                 includeInLayout="{showDetails}"
-                 fontSize="{Values.PT42}"/>
+    <s:Group width="100%"
+             visible="{!isBigText}" includeInLayout="{!isBigText}">
+        <note:NoteLabel id="titleLbl"
+                        visible="{showDetails}"
+                        textThickness="80"
+                        textAlign="{TextAlign.CENTER}"
+                        fontSize="{Values.PT30}"
+                        verPadding="{Values.PT5}"
+                        left="{padding}" right="{padding}"/>
+
+        <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
+                             downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
+                             visible="{note.hasAudio}"
+                             verticalCenter="0"
+                             right="{Values.PT5}"
+                             click="playAudioComment()"/>
 
         <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
-                               visible="{!showDetails}"
-                               includeInLayout="{!showDetails}"/>
-    </s:HGroup>
+                        visible="{!showDetails}"
+                        verticalCenter="0" horizontalCenter="0"
+                        includeInLayout="{!showDetails}"/>
+    </s:Group>
 
-    <s:HGroup width="100%" gap="{Values.PT15}" paddingLeft="{padding}" paddingRight="{padding}" verticalAlign="bottom">
-
+    <s:VGroup width="100%"
+              gap="{Values.PT15}" paddingLeft="{padding}" paddingRight="{padding}" paddingBottom="{Values.PT15}"
+              horizontalAlign="center">
         <input:TextInputForm id="textInput"
                              fontSize="{Values.PT18}"
                              visible="{!isBigText}" includeInLayout="{!isBigText}"
@@ -191,20 +197,27 @@
 
         <input:TextAreaForm id="textArea"
                             visible="{isBigText}" includeInLayout="{isBigText}"
-                            width="100%" height="{height/2}"
+                            width="100%" height="{Values.PT300}"
                             maxChars="{Device.MAX_WORD_LENGTH}"
                             title="{resourceManager.getString('app', 'PleaseWriteText')}"/>
 
         <button:BlackButton id="validateBtn"
                             width="{Values.PT200}"
-                            enabled="{isActivating  &amp;&amp; isCorrectlyAnswered}"
+                            enabled="{isActivating  &amp;&amp; isCorrectlyAnswered &amp;&amp; note}"
                             title="{resourceManager.getString('app', 'Check')}"
                             click="onAnswered()"/>
-    </s:HGroup>
+    </s:VGroup>
 
-    <test:TextBoard id="translateBoard"
-                    width="{width - 2*padding}" height="{Values.PT300}"
-                    title="{resourceManager.getString('app', 'Translation')}"
-                    showText="{showDetails}"/>
+    <test:TextPanel id="translateBoard"
+                    width="100%"
+                    title="{resourceManager.getString('app', 'Translation')}"/>
+
+    <panel:CollapsedPanel id="audioPanel"
+                          width="100%"
+                          title="{resourceManager.getString('app', 'AudioRecord')}">
+        <mp3:MP3PlayerComponent id="mp3"
+                                width="100%"
+                                enabled="{note.hasAudio}"/>
+    </panel:CollapsedPanel>
 
 </test:TestableView>

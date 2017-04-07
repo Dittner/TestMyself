@@ -3,15 +3,19 @@
                    xmlns:s="library://ns.adobe.com/flex/spark"
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
-                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
+                   xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
+                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                   xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
+        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.utils.Values;
+
+        import flashx.textLayout.formats.TextAlign;
 
         private var isCorrectlyAnswered:Boolean = true;
 
@@ -30,27 +34,15 @@
 
         override protected function updateForm():void {
             clear();
-
-            if (word) {
-                articleLbl.text = word.article;
-                if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
-
-                titleLbl.text = word.article ? " " + word.title : word.title;
-
-                optionsLbl.text = word.declension ? ", " + word.declension : "";
-                translateBoard.text = word.description;
-            }
+            if (word)
+                translateBoard.text = word ? word.description : "";
         }
 
         override protected function clear():void {
-            articleLbl.text = "";
-            titleLbl.text = "";
-            optionsLbl.text = "";
             translateBoard.text = "";
             showDetails = false;
             isCorrectlyAnswered = true;
+            translateBoard.isOpened = false;
         }
 
         override protected function showTestMenu():void {
@@ -96,66 +88,76 @@
 
         private function showInvalidMsg():void {
             if (invalidNotifier && !SimplePopup.isShownInPopup(invalidNotifier)) {
-                SimplePopup.show(invalidNotifier, false);
+                SimplePopup.show(invalidNotifier, false, null, 0, 0);
                 invalidNotifier.show();
             }
+        }
+
+        private function getArticle(note:Note, showDetails:Boolean):String {
+            var word:Word = note as Word;
+            return word && showDetails ? word.article : "";
+        }
+
+        private function getTitle(note:Note, showDetails:Boolean):String {
+            var word:Word = note as Word;
+            return word && showDetails ? note.title + ", " + word.declension : word ? word.title : "";
         }
         ]]></fx:Script>
     <fx:Declarations>
         <form:InvalidNotifier id="invalidNotifier"
-                              width="{Values.PT200}" height="{Values.PT31}"
-                              text="{resourceManager.getString('app', 'False!')}"
-                              bottom="{Values.PT50}" horizontalCenter="0"/>
+                              width="{Values.PT150}" height="{Values.PT50}"
+                              text="{resourceManager.getString('app', 'FALSE')}"
+                              bottom="{Values.PT100}" horizontalCenter="0"/>
     </fx:Declarations>
 
     <test:layout>
-        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="right" paddingLeft="{padding}" paddingRight="{padding}"/>
+        <s:VerticalLayout gap="{Values.PT15}" paddingBottom="{Values.PT15}"/>
     </test:layout>
 
-    <s:HGroup width="100%" horizontalAlign="center" gap="0">
-        <s:Label id="articleLbl"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 fontSize="{Values.PT42}"
-                 includeInLayout="{showDetails}"
-                 visible="{showDetails}"/>
+    <s:Group width="100%">
+        <note:NoteLabel id="titleLbl"
+                        article="{getArticle(note, showDetails)}"
+                        text="{getTitle(note, showDetails)}"
+                        textThickness="80"
+                        textAlign="{TextAlign.CENTER}"
+                        fontSize="{Values.PT30}"
+                        verPadding="{Values.PT5}"
+                        left="{padding}" right="{padding}"/>
 
-        <s:Label id="titleLbl"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 color="{AppColors.TEXT_BLACK}"
-                 fontSize="{Values.PT42}"/>
+        <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
+                             downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
+                             visible="{note.hasAudio}"
+                             verticalCenter="0"
+                             right="{Values.PT5}"
+                             click="playAudioComment()"/>
+    </s:Group>
 
-        <s:Label id="optionsLbl"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 color="{AppColors.TEXT_BLACK}"
-                 fontSize="{Values.PT42}"
-                 visible="{showDetails}"
-                 includeInLayout="{optionsEnabled(showDetails, optionsLbl.text)}"/>
-    </s:HGroup>
-
-    <test:TextBoard id="translateBoard"
+    <test:TextPanel id="translateBoard"
                     width="100%" height="100%"
                     title="{resourceManager.getString('app', 'Translation')}"
                     showText="{showDetails}"/>
 
-    <button:BlackButton id="derBtn"
-                        width="{Values.PT150}" height="{Values.PT50}"
-                        enabled="{isActivating}"
-                        title="DER"
-                        click="onDerAnswered()"/>
+    <s:VGroup width="100%" horizontalAlign="right"
+              gap="{Values.PT15}" paddingRight="{Values.PT15}">
+        <button:BlackButton id="derBtn"
+                            width="{Values.PT100}" height="{Values.PT50}"
+                            enabled="{isActivating}"
+                            title="DER"
+                            isBold="true"
+                            click="onDerAnswered()"/>
 
-    <button:RedButton id="dieBtn"
-                      width="{Values.PT150}" height="{Values.PT50}"
-                      enabled="{isActivating}"
-                      title="DIE"
-                      click="onDieAnswered()"/>
+        <button:RedButton id="dieBtn"
+                          width="{Values.PT100}" height="{Values.PT50}"
+                          enabled="{isActivating}"
+                          title="DIE"
+                          isBold="true"
+                          click="onDieAnswered()"/>
 
-    <button:YellowButton id="dasBtn"
-                         width="{Values.PT150}" height="{Values.PT50}"
-                         enabled="{isActivating}"
-                         title="DAS"
-                         click="onDasAnswered()"/>
-
+        <button:YellowButton id="dasBtn"
+                             width="{Values.PT100}" height="{Values.PT50}"
+                             enabled="{isActivating}"
+                             title="DAS"
+                             isBold="true"
+                             click="onDasAnswered()"/>
+    </s:VGroup>
 </test:TestableView>

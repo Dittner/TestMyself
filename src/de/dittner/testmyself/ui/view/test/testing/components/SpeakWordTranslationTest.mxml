@@ -2,14 +2,15 @@
 <test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
                    xmlns:s="library://ns.adobe.com/flex/spark"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
-                   xmlns:note="de.dittner.testmyself.ui.common.note.*">
+                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                   xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.model.domain.note.Word;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.utils.Values;
+
+        import flashx.textLayout.formats.TextAlign;
 
         //--------------------------------------
         //  word
@@ -28,10 +29,7 @@
             clear();
 
             if (word) {
-                articleLbl.text = word.article;
-                if (word.article == DeWordArticle.DIE) articleLbl.setStyle("color", AppColors.TEXT_RED);
-                else if (word.article == DeWordArticle.DAS) articleLbl.setStyle("color", AppColors.TEXT_YELLOW);
-                else articleLbl.setStyle("color", AppColors.TEXT_BLACK);
+                titleLbl.article = word.article;
                 translateBoard.text = word.description;
                 updateTitle();
             }
@@ -39,9 +37,10 @@
 
         override protected function clear():void {
             showDetails = false;
-            articleLbl.text = "";
+            titleLbl.article = "";
             titleLbl.text = "";
             translateBoard.text = "";
+            translateBoard.isOpened = true;
         }
 
         private function updateTitle():void {
@@ -55,34 +54,36 @@
         ]]></fx:Script>
 
     <test:layout>
-        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="center"/>
+        <s:VerticalLayout gap="0"/>
     </test:layout>
 
-    <s:HGroup width="100%" horizontalAlign="center" gap="{Values.PT10}">
-        <s:Label id="articleLbl"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 fontSize="{Values.PT42}"/>
-        <s:Label id="titleLbl"
-                 maxWidth="{width - Values.PT100}"
-                 maxDisplayedLines="2"
-                 textAlign="center"
-                 fontFamily="{FontName.MYRIAD_COND}"
-                 fontWeight="bold"
-                 color="{AppColors.TEXT_BLACK}"
-                 fontSize="{Values.PT42}"/>
-    </s:HGroup>
+    <s:Group width="100%">
+        <note:NoteLabel id="titleLbl"
+                        textThickness="80"
+                        textAlign="{TextAlign.CENTER}"
+                        fontSize="{Values.PT30}"
+                        verPadding="{Values.PT5}"
+                        left="{padding}" right="{padding}"/>
 
-    <test:TextBoard id="translateBoard"
+        <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
+                             downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
+                             visible="{note.hasAudio}"
+                             verticalCenter="0"
+                             right="{Values.PT5}"
+                             click="playAudioComment()"/>
+    </s:Group>
+
+    <test:TextPanel id="translateBoard"
                     questionsIconEnabled="true"
-                    width="{width - 2*padding}" height="33%"
+                    width="100%"
                     title="{resourceManager.getString('app', 'Translation')}"
-                    showText="{showDetails}"/>
+                    showText="{showDetails}"
+                    paddingLeft="{padding}" paddingRight="{padding}"/>
 
-    <note:ExampleList id="exampleList"
-                      dataProvider="{note.exampleColl}"
-                      width="{width - 2*padding}" height="66%"
-                      shownList="{showDetails}"
-                      hasFocusableChildren="false"/>
+    <note:ExamplesPanel id="examplesPanel"
+                        width="100%"
+                        dataProvider="{note.exampleColl}"
+                        paddingTop="0" paddingBottom="0"
+                        paddingLeft="{padding}" paddingRight="{padding}"/>
 
 </test:TestableView>

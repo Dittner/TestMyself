@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<panel:CollapsedPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+                      xmlns:s="library://ns.adobe.com/flex/spark"
+                      xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                      xmlns:panel="de.dittner.testmyself.ui.common.panel.*"
+                      hasFocusableChildren="false">
+
+    <fx:Script><![CDATA[
+        import mx.collections.ArrayCollection;
+
+        //--------------------------------------
+        //  dataProvider
+        //--------------------------------------
+        private var _dataProvider:ArrayCollection;
+        [Bindable("dataProviderChanged")]
+        public function get dataProvider():ArrayCollection {return _dataProvider;}
+        public function set dataProvider(value:ArrayCollection):void {
+            if (_dataProvider != value) {
+                _dataProvider = value;
+                title = dataProvider ? dataProvider.length + ' ' + resourceManager.getString('app', 'Example(s)') : "";
+                dispatchEvent(new Event("dataProviderChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  padding
+        //--------------------------------------
+        private var _padding:Number = 0;
+        [Bindable("paddingChanged")]
+        public function get padding():Number {return _padding;}
+        public function set padding(value:Number):void {
+            if (_padding != value) {
+                _padding = value;
+                dispatchEvent(new Event("paddingChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  renderOptions
+        //--------------------------------------
+        private var _renderOptions:NoteRenderOptions = new NoteRenderOptions();
+        [Bindable("renderOptionsChanged")]
+        public function get renderOptions():NoteRenderOptions {return _renderOptions;}
+        public function set renderOptions(value:NoteRenderOptions):void {
+            if (_renderOptions != value) {
+                _renderOptions = value;
+                if (list) list.invalidateRenderOptions();
+                dispatchEvent(new Event("renderOptionsChanged"));
+            }
+        }
+        ]]></fx:Script>
+
+    <note:NoteList id="list"
+                   dataProvider="{dataProvider}"
+                   renderOptions="{renderOptions}"
+                   width="100%" height="100%"
+                   deselectEnabled="true"
+                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer">
+        <note:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </note:layout>
+    </note:NoteList>
+</panel:CollapsedPanel>

@@ -50,7 +50,7 @@
 
     <s:layout>
         <s:HorizontalLayout id="verLayout"
-                            gap="{Values.PT10}" verticalAlign="middle"/>
+                            gap="{Values.PT15}" verticalAlign="middle"/>
     </s:layout>
 
     <tile:FadeTileButton id="goBackBtn"
@@ -66,6 +66,8 @@
 
     <s:Spacer width="100%"/>
 
+    <s:Spacer width="{Values.PT15}"/>
+
     <tile:FadeTileButton id="addNoteBtn"
                          upTileID="{TileID.TOOLBAR_ADD}"
                          click="notifyToolAction(ToolAction.CREATE_NOTE)"/>
@@ -78,7 +80,7 @@
                          upTileID="{TileID.TOOLBAR_DELETE}"
                          click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
-    <s:Spacer width="{Values.PT10}"/>
+    <s:Spacer width="{Values.PT15}"/>
 
     <tile:FadeTileButton id="hideDetailsBtn"
                          isToggle="true"

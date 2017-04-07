@@ -36,9 +36,12 @@ public class AudioComment {
 
 	private var loadOp:IAsyncOperation;
 	public function loadMP3():IAsyncOperation {
-		if (!loadOp || !loadOp.isProcessing) {
-			loadOp = new AsyncOperation();
+		if(loadOp && loadOp.isProcessing) {
+			return loadOp;
+		}
+		else {
 			if (isMp3 && hasBytes) {
+				loadOp = new AsyncOperation();
 				loadOp.dispatchSuccess(bytes);
 			}
 			else if (isMp3) {
@@ -46,10 +49,11 @@ public class AudioComment {
 				loadOp.addCompleteCallback(mp3Loaded);
 			}
 			else {
+				loadOp = new AsyncOperation();
 				loadOp.dispatchError("AudioComment keeps raw data!");
 			}
+			return loadOp;
 		}
-		return loadOp;
 	}
 
 	private function mp3Loaded(op:IAsyncOperation):void {

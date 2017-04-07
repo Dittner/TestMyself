@@ -36,7 +36,6 @@
 
         override protected function deactivate():void {
             toolbar.removeEventListener(ToolActionEvent.SELECTED, toolActionSelected);
-            setCurrentState("inactive");
             vm.viewDeactivated();
         }
 

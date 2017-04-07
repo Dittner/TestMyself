@@ -31,10 +31,10 @@ public class FadeTileButton extends UIComponent {
 		addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
 	}
 
-	private var upBg:TileShape;
-	private var downBg:TileShape;
-	private var disabledBg:TileShape;
-	private var iconBg:TileShape;
+	protected var upBg:TileShape;
+	protected var downBg:TileShape;
+	protected var disabledBg:TileShape;
+	protected var iconBg:TileShape;
 
 	private var titleTf:TextField;
 
@@ -468,7 +468,7 @@ public class FadeTileButton extends UIComponent {
 
 			if (titleTf) {
 				titleTf.x = iconBg ? iconBg.x + iconBg.width + Values.PT5 : paddingLeft - Values.PT3;
-				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT1;
+				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT2;
 				titleTf.width = iconBg ? w - 2 * titleTf.x : w - titleTf.x - paddingRight + Values.PT3;
 				titleTf.height = h - titleTf.y;
 			}

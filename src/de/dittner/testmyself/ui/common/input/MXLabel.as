@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.input {
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
@@ -19,7 +20,6 @@ public class MXLabel extends UIComponent {
 
 	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, _color, _isBold, null, null, null, null, _textAlign);
 	private var titleTF:TextField;
-	private var pointsTF:TextField;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -39,6 +39,21 @@ public class MXLabel extends UIComponent {
 			invalidateSize();
 			invalidateDisplayList();
 			dispatchEvent(new Event("horPaddingChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  verPadding
+	//--------------------------------------
+	private var _verPadding:Number = 0;
+	[Bindable("verPaddingChanged")]
+	public function get verPadding():Number {return _verPadding;}
+	public function set verPadding(value:Number):void {
+		if (_verPadding != value) {
+			_verPadding = value;
+			invalidateSize();
+			invalidateDisplayList();
+			dispatchEvent(new Event("verPaddingChanged"));
 		}
 	}
 
@@ -127,13 +142,8 @@ public class MXLabel extends UIComponent {
 	override protected function createChildren():void {
 		super.createChildren();
 		if (!titleTF) {
-			titleTF = TextFieldFactory.create(TITLE_FORMAT);
+			titleTF = TextFieldFactory.createMultiline(TITLE_FORMAT);
 			addChild(titleTF);
-		}
-		if (!pointsTF) {
-			pointsTF = TextFieldFactory.create(TITLE_FORMAT);
-			pointsTF.visible = false;
-			addChild(pointsTF);
 		}
 	}
 
@@ -144,26 +154,22 @@ public class MXLabel extends UIComponent {
 		TITLE_FORMAT.color = color;
 		TITLE_FORMAT.align = textAlign;
 		titleTF.defaultTextFormat = TITLE_FORMAT;
-		pointsTF.defaultTextFormat = TITLE_FORMAT;
-		titleTF.text = text;
-		pointsTF.text = "...";
+		titleTF.htmlText = text;
 	}
 
 	override protected function measure():void {
 		super.measure();
+		titleTF.width = getExplicitOrMeasuredWidth() ? getExplicitOrMeasuredWidth() : Device.width;
 		measuredWidth = titleTF.textWidth + 2 * horPadding + Values.PT5;
-		measuredMinHeight = measuredHeight = titleTF.textHeight + Values.PT5;
+		measuredMinHeight = measuredHeight = titleTF.textHeight + Values.PT5 + 2 * verPadding;
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
-		pointsTF.x = w - horPadding - pointsTF.textWidth;
-		pointsTF.y = -Values.PT5;
-		pointsTF.visible = titleTF.textWidth > w - 2 * horPadding;
-
 		titleTF.x = horPadding - Values.PT2;
-		titleTF.y = -Values.PT2;
-		titleTF.width = pointsTF.visible ? w - 2 * horPadding - pointsTF.textWidth : w - 2 * horPadding;
+		titleTF.y = verPadding - Values.PT2;
+		titleTF.width = w - 2 * horPadding;
+		titleTF.height = h - 2 * verPadding;
 	}
 }
 }

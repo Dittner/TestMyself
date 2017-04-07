@@ -40,6 +40,19 @@ public class Separator extends SpriteVisualElement {
 			redraw();
 		}
 	}
+
+	//--------------------------------------
+	//  paddingRight
+	//--------------------------------------
+	private var _paddingRight:Number = 0;
+	public function get paddingRight():Number {return _paddingRight;}
+	public function set paddingRight(value:Number):void {
+		if (_paddingRight != value) {
+			_paddingRight = value;
+			redraw();
+		}
+	}
+
 	//--------------------------------------
 	//  paddingTop
 	//--------------------------------------
@@ -70,7 +83,7 @@ public class Separator extends SpriteVisualElement {
 		redraw();
 	}
 
-	private function redraw():void {
+	public function redraw():void {
 		var g:Graphics = graphics;
 		g.clear();
 		var isHorizontal:Boolean = width >= height;
@@ -81,11 +94,11 @@ public class Separator extends SpriteVisualElement {
 				g.lineStyle(1, colorItem);
 				if (isHorizontal) {
 					g.moveTo(paddingLeft, i + paddingTop);
-					g.lineTo(width, i - paddingBottom);
+					g.lineTo(width - paddingRight, i + paddingTop);
 				}
 				else {
 					g.moveTo(i + paddingLeft, paddingTop);
-					g.lineTo(i, height - paddingBottom);
+					g.lineTo(i + paddingLeft, height - paddingBottom);
 				}
 			}
 		}
@@ -93,11 +106,11 @@ public class Separator extends SpriteVisualElement {
 			g.lineStyle(1, color);
 			if (isHorizontal) {
 				g.moveTo(paddingLeft, paddingTop);
-				g.lineTo(width, -paddingBottom);
+				g.lineTo(width - paddingRight, paddingTop);
 			}
 			else {
 				g.moveTo(paddingLeft, paddingTop);
-				g.lineTo(0, height - paddingBottom);
+				g.lineTo(paddingLeft, height - paddingBottom);
 			}
 		}
 	}

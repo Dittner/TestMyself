@@ -5,7 +5,7 @@
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
                 xmlns:tag="de.dittner.testmyself.ui.view.noteList.components.tag.*"
                 xmlns:note="de.dittner.testmyself.ui.common.note.*"
-                currentState="inactive">
+                currentState="normal">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -44,7 +44,6 @@
         }
 
         override protected function activate():void {
-            currentState = "normal";
             vm.unlockView();
             vm.viewActivated(viewID);
             vm.reloadPage();
@@ -61,9 +60,7 @@
         override protected function deactivate():void {
             toolbar.removeEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
             vm.viewDeactivated();
-            noteContent.hideNoteCard();
             noteContent.deactivate();
-            setCurrentState("inactive");
         }
 
         private function toolActionSelectedHandler(event:ToolActionEvent):void {
@@ -128,6 +125,7 @@
 
         private function filterChangedHandler(event:Event):void {
             if (!isActive) return;
+            noteContent.hideNoteCard();
             vm.page.number = 0;
             vm.page.countAllNotes = true;
             vm.reloadPage();
@@ -143,7 +141,6 @@
 
     <core:states>
         <s:State name="disabled"/>
-        <s:State name="inactive"/>
         <s:State name="normal"/>
     </core:states>
 

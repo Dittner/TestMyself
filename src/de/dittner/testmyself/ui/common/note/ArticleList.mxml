@@ -146,7 +146,7 @@
                     width="100%"
                     fontSize="{Values.PT20}"
                     textAlign="{TextAlign.CENTER}"
-                    top="{Values.PT23}"
+                    top="{Values.PT24}"
                     horizontalCenter="0"/>
 
 </s:Group>

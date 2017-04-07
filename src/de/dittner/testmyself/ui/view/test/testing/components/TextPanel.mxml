@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<panel:CollapsedPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+                      xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+                      xmlns:input="de.dittner.testmyself.ui.common.input.*"
+                      xmlns:panel="de.dittner.testmyself.ui.common.panel.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.utils.Values;
+
+        //--------------------------------------
+        //  showText
+        //--------------------------------------
+        private var _showText:Boolean = true;
+        [Bindable("showTextChanged")]
+        public function get showText():Boolean {return _showText;}
+        public function set showText(value:Boolean):void {
+            if (_showText != value) {
+                _showText = value;
+                dispatchEvent(new Event("showTextChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  text
+        //--------------------------------------
+        private var _text:String = "";
+        [Bindable("textChanged")]
+        public function get text():String {return _text;}
+        public function set text(value:String):void {
+            if (_text != value) {
+                _text = value;
+                dispatchEvent(new Event("textChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  questionsIconEnabled
+        //--------------------------------------
+        private var _questionsIconEnabled:Boolean = false;
+        [Bindable("questionsIconEnabledChanged")]
+        public function get questionsIconEnabled():Boolean {return _questionsIconEnabled;}
+        public function set questionsIconEnabled(value:Boolean):void {
+            if (_questionsIconEnabled != value) {
+                _questionsIconEnabled = value;
+                dispatchEvent(new Event("questionsIconEnabledChanged"));
+            }
+        }
+
+        private function isShownQuestions(questionsIconEnabled:Boolean, showDetails:Boolean):Boolean {
+            return questionsIconEnabled && !showDetails;
+        }
+        ]]></fx:Script>
+
+    <input:MXLabel id="descriptionLbl"
+                   width="100%"
+                   visible="{showText}" includeInLayout="{showText}"
+                   text="{text}"
+                   color="{AppColors.TEXT_BLACK}"
+                   fontSize="{Values.PT22}"/>
+
+    <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
+                    visible="{isShownQuestions(questionsIconEnabled, showText)}"
+                    verticalCenter="0" horizontalCenter="0"/>
+</panel:CollapsedPanel>

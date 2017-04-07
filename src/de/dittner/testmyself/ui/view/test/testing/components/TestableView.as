@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
+import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
@@ -138,8 +139,19 @@ public class TestableView extends Group {
 
 	protected function playAudioComment():void {
 		if (note && note.hasAudio) {
-			MP3Player.instance.comment = note.audioComment;
-			MP3Player.instance.play();
+			if (note.audioComment.hasBytes) {
+				MP3Player.instance.comment = note.audioComment;
+				MP3Player.instance.play();
+			}
+			else if (note.audioComment.isMp3) {
+				note.audioComment.loadMP3().addCompleteCallback(mp3Loaded);
+			}
+		}
+	}
+
+	private function mp3Loaded(op:IAsyncOperation):void {
+		if (op.isSuccess) {
+			playAudioComment();
 		}
 	}
 

@@ -12,6 +12,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.tag.Tag;
         import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
@@ -79,6 +80,7 @@
                 addLessonForm.cancelBtn.addEventListener(MouseEvent.CLICK, cancelAddLessonClicked);
                 addLessonForm.applyBtn.addEventListener(MouseEvent.CLICK, applyAddLessonClicked);
                 SimplePopup.show(addLessonForm, true, null, AppColors.EDITOR_SHADOW, 0.5);
+                if (Device.isDesktop) stage.focus = addLessonForm.addLessonInput;
             }
         }
 

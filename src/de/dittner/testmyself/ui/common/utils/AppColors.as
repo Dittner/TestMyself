@@ -21,6 +21,7 @@ public class AppColors {
 	public static const TEXT_YELLOW:uint = 0xccAA00;
 	public static const TEXT_GRAY:uint = 0x80838d;
 	public static const TEXT_DARK_GRAY:uint = 0x40434d;
+	public static const TEXT_BOARD_COLOR:uint = 0xb5b5b6;
 
 	public static const LIST_ITEM_SELECTION:Array = [0x444455, 0];
 	public static const LIST_ITEM_HOVER:uint = 0xfafaff;
@@ -29,6 +30,7 @@ public class AppColors {
 	public static const INVALID_INPUT_BORDER:uint = 0xe33333;
 
 	public static const PINK:uint = 0xf70065;
+	public static const RED:uint = 0xff0000;
 	public static const WHITE:uint = 0xffFFff;
 
 }

@@ -26,6 +26,7 @@
                 titleBoard.text = translateFromNativeIntoForeign ? note.description : note.title;
                 translateBoard.text = translateFromNativeIntoForeign ? noteToTitle() : note.description;
             }
+
         }
 
         private function noteToTitle():String {
@@ -46,6 +47,8 @@
             showDetails = false;
             titleBoard.text = "";
             translateBoard.text = "";
+            titleBoard.isOpened = true;
+            translateBoard.isOpened = true;
         }
 
         private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
@@ -54,17 +57,16 @@
         ]]></fx:Script>
 
     <test:layout>
-        <s:VerticalLayout gap="15" horizontalAlign="center"/>
+        <s:VerticalLayout gap="0"/>
     </test:layout>
 
-    <test:TextBoard id="titleBoard"
-                    width="{width - 2*padding}" height="100%"
+    <test:TextPanel id="titleBoard"
+                    width="100%"
                     title="{resourceManager.getString('app', 'TextInput')}"/>
 
-    <test:TextBoard id="translateBoard"
+    <test:TextPanel id="translateBoard"
                     questionsIconEnabled="true"
-                    width="{width - 2*padding}" height="100%"
+                    width="100%"
                     title="{resourceManager.getString('app', 'Translation')}"
                     showText="{showDetails}"/>
-
 </test:TestableView>

@@ -175,22 +175,34 @@
             }
         }
 
+        //--------------------------------------
+        //  activated
+        //--------------------------------------
+        private var _activated:Boolean = false;
+        [Bindable("activatedChanged")]
+        public function get activated():Boolean {return _activated;}
+        private function setActivated(value:Boolean):void {
+            if (_activated != value) {
+                _activated = value;
+                dispatchEvent(new Event("activatedChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
         //
         //----------------------------------------------------------------------------------------------
 
-        private var activated:Boolean = false;
         private var renderOptions:NoteRenderOptions = new NoteRenderOptions();
         public function activate():void {
-            activated = true;
+            setActivated(true);
             noteList.renderOptions = renderOptions;
-            hideNoteCard();
         }
 
         public function deactivate():void {
-            activated = false;
+            setActivated(false);
+            hideNoteCard();
         }
 
         public function hideNoteCard():void {
@@ -209,10 +221,9 @@
                 else {
                     actionMenu.hide();
                 }
-
-                listCont.visible = !isNoteCardShown;
-                noteCard.visible = isNoteCardShown;
             }
+            listCont.visible = !isNoteCardShown;
+            noteCard.visible = isNoteCardShown;
         }
 
         private var needSelectFirstNote:Boolean = false;
@@ -351,7 +362,7 @@
                    width="{width}"
                    searchText="{searchText}"
                    height="100%"
-                   note="{selectedNote}"
+                   note="{activated ? selectedNote : null}"
                    moveDirectionWhenHiding="right"/>
 
 </common:Container>

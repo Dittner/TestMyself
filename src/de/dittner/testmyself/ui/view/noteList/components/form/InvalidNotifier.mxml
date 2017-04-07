@@ -31,10 +31,10 @@
 
     <common:BG percentWidth="100" percentHeight="100"
                fillAlpha="0.75"
-               fillColor="{AppColors.PINK}"/>
+               fillColor="{AppColors.RED}"/>
 
     <s:Label id="textDisplay"
-             left="{PAD}" right="{PAD}" top="{PAD}" bottom="{PAD}"
+             left="{PAD}" right="{PAD}" top="{PAD + Values.PT1}" bottom="{PAD}"
              textAlign="center" verticalAlign="middle"
              text="{text}"
              fontWeight="bold"

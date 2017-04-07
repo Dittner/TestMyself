@@ -114,10 +114,7 @@
                 audioPanel.visible = audioPanel.includeInLayout = !note.isExample && note.hasAudio;
             }
 
-            if (!exampleList.renderOptions)
-                exampleList.renderOptions = new NoteRenderOptions();
-
-            exampleList.renderOptions.searchText = searchText;
+            examplesPanel.renderOptions.searchText = searchText;
             titleLbl.searchText = searchText;
             descriptionLbl.text = note.description;
             descriptionLbl.searchText = searchText;
@@ -204,75 +201,59 @@
         }
         ]]></fx:Script>
 
-    <s:VGroup width="100%" height="100%" gap="0">
-        <panel:CollapsedPanel id="titlePanel"
-                              isOpened="true"
-                              width="100%"
-                              title="{noteNumber + 1 + '/' + totalNotes}">
+    <s:Scroller width="100%" height="100%"
+                horizontalScrollPolicy="off">
+        <s:VGroup width="100%" gap="0">
 
-            <note:NoteLabel id="titleLbl"
-                            textThickness="80"
-                            left="{Values.PT10}" right="{Values.PT10}"/>
+            <panel:CollapsedPanel id="titlePanel"
+                                  isOpened="true"
+                                  width="100%"
+                                  title="{noteNumber + 1 + '/' + totalNotes}">
+                <note:NoteLabel id="titleLbl"
+                                textThickness="80"
+                                left="{Values.PT10}" right="{Values.PT15}"/>
+                <s:Label id="tagsInfoLbl"
+                         width="100%"
+                         maxDisplayedLines="1"
+                         textAlign="right"
+                         bottom="{-Values.PT8}"
+                         fontFamily="{FontName.MYRIAD_COND}"
+                         fontStyle="italic"
+                         color="{AppColors.TEXT_GRAY}"
+                         fontSize="{Values.PT11}"/>
+                <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
+                                     downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
+                                     visible="{note.hasAudio}"
+                                     verticalCenter="0"
+                                     right="{-Values.PT10}"
+                                     click="playComment()"/>
+            </panel:CollapsedPanel>
 
-            <s:Label id="tagsInfoLbl"
-                     width="100%"
-                     maxDisplayedLines="1"
-                     textAlign="right"
-                     bottom="{-Values.PT18}"
-                     fontFamily="{FontName.MYRIAD_COND}"
-                     fontStyle="italic"
-                     color="{AppColors.TEXT_GRAY}"
-                     fontSize="{Values.PT11}"/>
+            <panel:CollapsedPanel id="descriptionPanel"
+                                  width="100%"
+                                  isOpened="true">
+                <note:NoteLabel id="descriptionLbl"
+                                width="100%"
+                                fontSize="{Values.PT22}"
+                                textColor="{AppColors.TEXT_DARK_GRAY}"/>
+            </panel:CollapsedPanel>
 
-            <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
-                                 downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
-                                 visible="{note.hasAudio}"
-                                 verticalCenter="0"
-                                 right="{-Values.PT10}"
-                                 click="playComment()"/>
+            <note:ExamplesPanel id="examplesPanel"
+                                width="100%"
+                                isOpened="true"
+                                dataProvider="{note.exampleColl}"
+                                paddingTop="0" paddingBottom="0"/>
 
-        </panel:CollapsedPanel>
+            <panel:CollapsedPanel id="audioPanel"
+                                  width="100%"
+                                  title="{resourceManager.getString('app', 'AudioRecord')}">
+                <mp3:MP3PlayerComponent id="mp3"
+                                        width="100%"
+                                        enabled="{note.hasAudio}"/>
+            </panel:CollapsedPanel>
 
-        <s:Scroller width="100%" height="100%"
-                    horizontalScrollPolicy="off">
-            <s:VGroup width="100%" gap="0">
-                <panel:CollapsedPanel id="descriptionPanel"
-                                      isOpened="true"
-                                      width="100%">
-                    <note:NoteLabel id="descriptionLbl"
-                                    width="100%"
-                                    fontSize="{Values.PT22}"
-                                    textColor="{AppColors.TEXT_DARK_GRAY}"/>
+        </s:VGroup>
 
-                </panel:CollapsedPanel>
-
-                <panel:CollapsedPanel id="examplesPanel"
-                                      isOpened="true"
-                                      width="100%"
-                                      paddingTop="0" paddingBottom="0"
-                                      title="{note.exampleColl.length + ' ' + resourceManager.getString('app', 'Example(s)')}">
-                    <note:NoteList id="exampleList"
-                                   dataProvider="{note.exampleColl}"
-                                   width="100%"
-                                   deselectEnabled="true"
-                                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer">
-                        <note:layout>
-                            <s:VerticalLayout gap="0" useVirtualLayout="true"/>
-                        </note:layout>
-                    </note:NoteList>
-                </panel:CollapsedPanel>
-            </s:VGroup>
-        </s:Scroller>
-
-        <panel:CollapsedPanel id="audioPanel"
-                              isOpened="false"
-                              width="100%"
-                              title="{resourceManager.getString('app', 'AudioRecord')}">
-            <mp3:MP3PlayerComponent id="mp3"
-                                    width="100%"
-                                    enabled="{note.hasAudio}"/>
-        </panel:CollapsedPanel>
-
-    </s:VGroup>
+    </s:Scroller>
 
 </common:Container>

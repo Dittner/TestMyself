@@ -141,6 +141,36 @@ public class NoteLabel extends UIComponent {
 		}
 	}
 
+	//--------------------------------------
+	//  horPadding
+	//--------------------------------------
+	private var _horPadding:Number = 0;
+	[Bindable("horPaddingChanged")]
+	public function get horPadding():Number {return _horPadding;}
+	public function set horPadding(value:Number):void {
+		if (_horPadding != value) {
+			_horPadding = value;
+			invalidateSize();
+			invalidateDisplayList();
+			dispatchEvent(new Event("horPaddingChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  verPadding
+	//--------------------------------------
+	private var _verPadding:Number = 0;
+	[Bindable("verPaddingChanged")]
+	public function get verPadding():Number {return _verPadding;}
+	public function set verPadding(value:Number):void {
+		if (_verPadding != value) {
+			_verPadding = value;
+			invalidateSize();
+			invalidateDisplayList();
+			dispatchEvent(new Event("verPaddingChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -211,15 +241,17 @@ public class NoteLabel extends UIComponent {
 
 	override protected function measure():void {
 		super.measure();
-		measuredWidth = titleTF.textWidth + Values.PT5;
-		measuredMinHeight = measuredHeight = titleTF.textHeight + Values.PT5;
+		titleTF.width = 3000;
+		titleTF.height = 3000;
+		measuredWidth = titleTF.textWidth + Values.PT5 + 2 * horPadding;
+		measuredMinHeight = measuredHeight = titleTF.textHeight + Values.PT5 + 2 * verPadding;
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
 
-		titleTF.x = -Values.PT2;
-		titleTF.y = -Values.PT2;
+		titleTF.x = horPadding - Values.PT2;
+		titleTF.y = verPadding - Values.PT2;
 		titleTF.width = w;
 		titleTF.height = h;
 	}

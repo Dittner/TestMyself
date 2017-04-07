@@ -176,40 +176,43 @@
 
     <!--BODY-->
 
-    <s:Group width="100%" top="{Values.PT50}" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT + Values.PT20}">
+    <s:Scroller width="100%" top="{Values.PT50}" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
+                horizontalScrollPolicy="off">
+        <s:Group width="100%">
 
-        <test:SpeakWordTranslationTest id="speakWordTranslationTest"
-                                       width="100%" height="100%"
-                                       visible="false" includeInLayout="false"
-                                       testTask="{vm.selectedTestTask}"
-                                       padding="{padding}"/>
+            <test:SpeakWordTranslationTest id="speakWordTranslationTest"
+                                           width="100%" height="100%"
+                                           visible="false" includeInLayout="false"
+                                           testTask="{vm.selectedTestTask}"
+                                           padding="{padding}"/>
 
-        <test:SelectArticleTest id="selectArticleTest"
+            <test:SelectArticleTest id="selectArticleTest"
+                                    width="100%" height="100%"
+                                    visible="false" includeInLayout="false"
+                                    testTask="{vm.selectedTestTask}"
+                                    padding="{padding}"/>
+
+            <test:WriteNoteTest id="writeNoteTest"
                                 width="100%" height="100%"
                                 visible="false" includeInLayout="false"
                                 testTask="{vm.selectedTestTask}"
                                 padding="{padding}"/>
 
-        <test:WriteNoteTest id="writeNoteTest"
-                            width="100%" height="100%"
-                            visible="false" includeInLayout="false"
-                            testTask="{vm.selectedTestTask}"
-                            padding="{padding}"/>
+            <test:SpeakNoteTranslationTest id="speakNoteTranslationTest"
+                                           width="100%" height="100%"
+                                           visible="false" includeInLayout="false"
+                                           translateFromNativeIntoForeign="{vm.testPage.test.translateFromNativeIntoForeign}"
+                                           testTask="{vm.selectedTestTask}"
+                                           padding="{padding}"/>
 
-        <test:SpeakNoteTranslationTest id="speakNoteTranslationTest"
-                                       width="100%" height="100%"
-                                       visible="false" includeInLayout="false"
-                                       translateFromNativeIntoForeign="{vm.testPage.test.translateFromNativeIntoForeign}"
-                                       testTask="{vm.selectedTestTask}"
-                                       padding="{padding}"/>
+            <test:SpeakVerbFormsTest id="speakVerbFormsTest"
+                                     width="100%" height="100%"
+                                     visible="false" includeInLayout="false"
+                                     testTask="{vm.selectedTestTask}"
+                                     padding="{padding}"/>
 
-        <test:SpeakVerbFormsTest id="speakVerbFormsTest"
-                                 width="100%" height="100%"
-                                 visible="false" includeInLayout="false"
-                                 testTask="{vm.selectedTestTask}"
-                                 padding="{padding}"/>
-
-    </s:Group>
+        </s:Group>
+    </s:Scroller>
 
     <!--footer-->
     <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}" bottom="0"

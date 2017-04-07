@@ -244,7 +244,10 @@
             showSelectedTags(note.tagIDs);
 
             if (note.hasAudio) {
-                audioRecorder.setComment(note.audioComment);
+                if (note.audioComment.isMp3 && !note.audioComment.hasBytes)
+                    note.audioComment.loadMP3().addCompleteCallback(updateAudioComment);
+                else
+                    updateAudioComment();
             }
 
             invalidateDisplayList();
@@ -253,6 +256,10 @@
             actionMenu.showFormMenu();
             actionMenu.addEventListener(ToolActionEvent.SELECTED, toolActionSelected);
             return curOperation;
+        }
+
+        private function updateAudioComment(op:IAsyncOperation = null):void {
+            audioRecorder.setComment(note.audioComment);
         }
 
         private function showSelectedTags(noteTagIDs:Array):void {
