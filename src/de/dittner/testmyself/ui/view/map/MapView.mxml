@@ -17,6 +17,7 @@
             vm = ViewModelFactory.instance.mapVM;
             vm.lockView();
             toolbar.hide();
+            actionMenu.hide();
         }
 
         override protected function activate():void {

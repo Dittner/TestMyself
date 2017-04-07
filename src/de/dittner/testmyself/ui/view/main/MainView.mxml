@@ -218,8 +218,12 @@
              mouseEnabled.normal="true" mouseChildren.normal="true"
              width="100%" height="100%"/>
 
+    <common:BG visible="{Device.verticalPadding}"
+               includeInLayout="{Device.verticalPadding}"
+               percentWidth="100" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" fillColor="0"/>
+
     <s:Group id="busyIndicatorLayer"
-             left="0" right="0" height="100%"
+             left="0" right="0" top="{-Device.verticalPadding}" bottom="0"
              mouseEnabled="false" mouseChildren="false"
              alpha.normal="0" alpha.lock="1">
         <s:Rect width="100%" height="100%"
@@ -232,8 +236,6 @@
 
     <s:Group id="logsLayer" width="100%" height="100%"/>
 
-    <common:BG visible="{Device.verticalPadding}"
-               includeInLayout="{Device.verticalPadding}"
-               percentWidth="100" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" fillColor="#3d3f4b"/>
+
 
 </s:Group>

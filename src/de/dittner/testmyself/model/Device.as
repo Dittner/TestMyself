@@ -24,7 +24,7 @@ public class Device {
 	public static function init(stage:Stage):void {
 		_stage = stage;
 		_factor = isDesktop ? 1 : Math.min(stage.fullScreenWidth, stage.fullScreenHeight) / 768;
-		if (_factor >= 0.9 && _factor <= 1.1) _factor = 1;
+		_factor = Math.ceil((_factor * 10)) / 10;
 
 		var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
 		var ns:Namespace = appDescriptor.namespace();

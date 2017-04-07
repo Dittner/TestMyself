@@ -25,6 +25,7 @@
             vm.lockView();
             toolbar.hide();
             toolbar.revert();
+            actionMenu.hide();
         }
 
         override protected function activate():void {

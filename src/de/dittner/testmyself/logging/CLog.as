@@ -101,6 +101,7 @@ public class CLog {
 		logTxt += "appID: " + appCopyright + "\n";
 		logTxt += "version: " + appVersion + "\n";
 		logTxt += "factor: " + Device.factor + "\n";
+		logTxt += "size: " + Device.width + "/" + Device.height + "\n";
 		info(LogTag.SYSTEM, logTxt);
 	}
 

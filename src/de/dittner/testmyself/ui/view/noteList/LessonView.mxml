@@ -38,8 +38,8 @@
             vm.lockView();
 
             toolbar.show();
-            actionMenu.hide();
             toolbar.revert()
+            actionMenu.hide();
         }
 
         override protected function activate():void {
