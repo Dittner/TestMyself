@@ -6,6 +6,7 @@ import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.utils.Values;
 
+import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
@@ -13,18 +14,21 @@ import flash.events.TimerEvent;
 import flash.utils.Timer;
 import flash.utils.getTimer;
 
-import mx.core.SpriteAsset;
 import mx.events.FlexEvent;
 import mx.preloaders.IPreloaderDisplay;
 import mx.preloaders.Preloader;
 
-public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay {
+public final class AppPreloader extends Sprite implements IPreloaderDisplay {
 
 	private static const MINIMUM_DISPLAY_TIME:uint = 7000;
 
 	public function AppPreloader(color:uint = 0xFFffFF):void {
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 	}
+
+	private var minDisplayTimer:Timer;
+	private var bg:AppBg;
+	private var progressBar:Shape;
 
 	private function addedToStage(event:Event):void {
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
@@ -36,8 +40,6 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 		CLog.info(LogTag.SYSTEM, "Device mode: " + (Device.stage.wmodeGPU ? "gpu" : "cpu"));
 		CLog.logMemoryAndFPS(true);
 	}
-
-	private var minDisplayTimer:Timer;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -138,7 +140,18 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 		visible = true;
 	}
 
-	protected function createChildren():void {}
+	protected function createChildren():void {
+		bg = Device.isDesktop ? new AppBg(Values.PT768, stage.fullScreenHeight) : new AppBg(Device.width, Device.height);
+		bg.x = 0;
+		bg.y = Device.verticalPadding;
+		addChild(bg);
+
+		progressBar = new Shape();
+		addChild(progressBar);
+
+		stageWidth = Values.PT768;
+		stageHeight = stage.fullScreenHeight;
+	}
 
 	private var _lastRes:Number = 0;
 	private function set setPercent(val:Number):void {
@@ -157,17 +170,17 @@ public final class AppPreloader extends SpriteAsset implements IPreloaderDisplay
 			_lastRes = res;
 		}
 
-		preloader.x = Device.stage.stageWidth - Values.PT200 >> 1;
-		preloader.y = Device.stage.stageHeight / 2;
-		preloader.graphics.clear();
+		progressBar.x = stageWidth - Values.PT300 >> 1;
+		progressBar.y = stageHeight / 2;
+		progressBar.graphics.clear();
 
-		preloader.graphics.beginFill(AppColors.WHITE);
-		preloader.graphics.drawRect(0, 0, Values.PT200, Values.PT2);
-		preloader.graphics.endFill();
+		progressBar.graphics.beginFill(AppColors.WHITE);
+		progressBar.graphics.drawRect(0, 0, Values.PT300, Values.PT2);
+		progressBar.graphics.endFill();
 
-		preloader.graphics.beginFill(AppColors.PINK);
-		preloader.graphics.drawRect(0, 0, res * Values.PT2, Values.PT2);
-		preloader.graphics.endFill();
+		progressBar.graphics.beginFill(AppColors.PINK);
+		progressBar.graphics.drawRect(0, 0, res * Values.PT2, Values.PT2);
+		progressBar.graphics.endFill();
 	}
 
 	protected function progressEventHandler(event:ProgressEvent):void {

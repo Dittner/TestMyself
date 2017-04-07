@@ -2,6 +2,7 @@ package de.dittner.testmyself.backend {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.async.ProgressCommand;
+import de.dittner.async.utils.doLaterInMSec;
 import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
 import de.dittner.testmyself.backend.cmd.LoadAllTagsCmd;
 import de.dittner.testmyself.backend.cmd.LoadAudioCommentCmd;
@@ -179,6 +180,7 @@ public class Storage extends WalterProxy {
 			CLog.err(LogTag.UI, "Tiles generating is failed! Details: " + op.error);
 			showMsg("GUI's generating is failed! Details: " + op.error);
 		}
+		doLaterInMSec(hideMsg, 500);
 	}
 
 	private function tileGeneratingProgress(value:Number):void {
@@ -202,6 +204,12 @@ public class Storage extends WalterProxy {
 		msgLabel.text = msg;
 		if (!msgLabel.parent) {
 			(FlexGlobals.topLevelApplication as Application).addElement(msgLabel);
+		}
+	}
+
+	private function hideMsg():void {
+		if (msgLabel.parent) {
+			(FlexGlobals.topLevelApplication as Application).removeElement(msgLabel);
 		}
 	}
 

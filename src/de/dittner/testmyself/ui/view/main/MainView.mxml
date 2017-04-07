@@ -158,8 +158,6 @@
         </s:Transition>
     </s:transitions>
 
-    <common:BG percentWidth="100" percentHeight="100" fillColor="#3d3f4b"/>
-
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"
              mouseEnabled.normal="true" mouseChildren.normal="true"
