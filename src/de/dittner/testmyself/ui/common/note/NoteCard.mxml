@@ -211,7 +211,7 @@
                                   title="{noteNumber + 1 + '/' + totalNotes}">
                 <note:NoteLabel id="titleLbl"
                                 textThickness="80"
-                                left="{Values.PT10}" right="{Values.PT15}"/>
+                                left="0" right="{Values.PT15}"/>
                 <s:Label id="tagsInfoLbl"
                          width="100%"
                          maxDisplayedLines="1"
@@ -233,7 +233,7 @@
                                   width="100%"
                                   isOpened="true">
                 <note:NoteLabel id="descriptionLbl"
-                                width="100%"
+                                width="100%" height="100%"
                                 fontSize="{Values.PT22}"
                                 textColor="{AppColors.TEXT_DARK_GRAY}"/>
             </panel:CollapsedPanel>

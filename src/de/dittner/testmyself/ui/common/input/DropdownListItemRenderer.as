@@ -45,8 +45,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : Values.PT50;
-		minHeight = Values.PT40;
-		measuredHeight = Math.ceil(tf.textHeight + Values.PT5 + 2 * verPad);
+		measuredHeight = Math.max(Math.ceil(tf.textHeight + Values.PT5 + 2 * verPad), Values.PT40);
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
@@ -56,7 +55,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 
 		if (selected) {
 			tf.alpha = 1;
-			g.beginFill(0, 0.00001);
+			g.beginFill(0);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}
@@ -87,6 +86,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 		tf.y = h - tf.textHeight >> 1;
 		tf.width = w - 2 * horPad;
 		tf.height = h - 2 * verPad;
+		tf.textColor  = selected ? AppColors.TEXT_WHITE : AppColors.TEXT_BLACK;
 	}
 
 }

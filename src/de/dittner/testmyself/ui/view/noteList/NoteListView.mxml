@@ -9,7 +9,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
         import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
         import de.dittner.testmyself.ui.common.menu.ViewID;
@@ -49,8 +48,8 @@
             vm.reloadPage();
 
             toolbar.addNoteBtn.enabled = true;
-            toolbar.hideDetailsBtn.enabled = vm.page.vocabulary.id != VocabularyID.DE_VERB && vm.page.vocabulary.id != VocabularyID.EN_VERB;
-            toolbar.transInvertBtn.enabled = vm.page.vocabulary.id != VocabularyID.DE_VERB && vm.page.vocabulary.id != VocabularyID.EN_VERB;
+            toolbar.hideDetailsBtn.enabled = true;
+            toolbar.transInvertBtn.enabled = true;
             toolbar.filterBtn.enabled = true;
 
             noteContent.activate();

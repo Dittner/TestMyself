@@ -68,7 +68,7 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	private var _selected:Boolean = false;
 	public function get selected():Boolean {return _selected;}
 	public function set selected(value:Boolean):void {
-		if (value != _selected) {
+		if (_selected != value) {
 			_selected = value;
 			invalidateDisplayList();
 		}

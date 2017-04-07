@@ -241,10 +241,9 @@ public class NoteLabel extends UIComponent {
 
 	override protected function measure():void {
 		super.measure();
-		titleTF.width = 3000;
-		titleTF.height = 3000;
-		measuredWidth = titleTF.textWidth + Values.PT5 + 2 * horPadding;
-		measuredMinHeight = measuredHeight = titleTF.textHeight + Values.PT5 + 2 * verPadding;
+		titleTF.width = (width > 0 ? width : Device.width) - 2 * horPadding;
+		measuredWidth = titleTF.textWidth + 2 * horPadding;
+		measuredHeight = titleTF.textHeight + Values.PT5 + 2 * verPadding;
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
@@ -252,8 +251,17 @@ public class NoteLabel extends UIComponent {
 
 		titleTF.x = horPadding - Values.PT2;
 		titleTF.y = verPadding - Values.PT2;
-		titleTF.width = w;
-		titleTF.height = h;
+		titleTF.width = w - 2 * horPadding;
+		titleTF.height = titleTF.textHeight + Values.PT5;
+
+		if (titleTF.textHeight > (h - 2 * verPadding)) {
+			invalidateSize();
+			invalidateDisplayList();
+		}
+		else if (titleTF.textHeight < (h - 2 * verPadding - Values.PT30)) {
+			invalidateSize();
+			invalidateDisplayList();
+		}
 	}
 }
 }

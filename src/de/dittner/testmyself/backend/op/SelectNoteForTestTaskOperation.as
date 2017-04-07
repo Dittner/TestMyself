@@ -5,6 +5,8 @@ import de.dittner.testmyself.backend.SQLLib;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
+import de.dittner.testmyself.logging.CLog;
+import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
 
@@ -74,7 +76,8 @@ public class SelectNoteForTestTaskOperation extends StorageOperation implements 
 	}
 
 	private function deleteTestTaskComplete(result:SQLResult):void {
-		dispatchError("Не удалось загрузить запись для тестовой задачи, данная задача удалена, попробуйте пеезагрузить тест");
+		CLog.err(LogTag.STORAGE, "Не удалось загрузить запись для тестовой задачи, поэтому удаляем данную задачу");
+		dispatchSuccess();
 	}
 
 }

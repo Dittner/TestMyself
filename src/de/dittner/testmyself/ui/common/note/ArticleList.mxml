@@ -92,6 +92,7 @@
         }
 
         private function selectedItemChangeHandler(event:Event):void {
+            selectedItem = list.selectedItem;
             SimplePopup.close();
         }
         ]]></fx:Script>
@@ -108,7 +109,6 @@
                 <common:SelectableDataGroup id="list"
                                             dataProvider="{dataProvider}"
                                             allowSelectLastItem="true"
-                                            selectedItem="@{selectedItem}"
                                             itemRenderer="de.dittner.testmyself.ui.common.input.DropdownListItemRenderer"
                                             selectedItemChange="selectedItemChangeHandler(event)"
                                             width="100%">
@@ -144,9 +144,9 @@
                     mouseEnabled="false"
                     mouseChildren="false"
                     width="100%"
-                    fontSize="{Values.PT20}"
+                    fontSize="{Values.PT18}"
                     textAlign="{TextAlign.CENTER}"
-                    top="{Values.PT24}"
+                    top="{Values.PT25}"
                     horizontalCenter="0"/>
 
 </s:Group>
