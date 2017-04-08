@@ -2,6 +2,7 @@
 @namespace input "de.dittner.testmyself.ui.common.input.*";
 @namespace list "de.dittner.testmyself.ui.common.list.*";
 @namespace spinner "de.dittner.testmyself.ui.common.spinner.*";
+@namespace scroller "de.dittner.testmyself.ui.common.scroller.*";
 
 @font-face {
     src: url("/fonts/vantathin.ttf");
@@ -166,6 +167,12 @@ list|ListForm {
 
 /************************** SCROLL **************************/
 s|Scroller {
+    interactionMode: mouse;
+    horizontalScrollPolicy: off;
+    verticalScrollPolicy: auto;
+    skinClass: ClassReference("de.dittner.testmyself.ui.common.scroller.CustomScrollerSkin");
+}
+scroller|CustomScroller {
     interactionMode: mouse;
     horizontalScrollPolicy: off;
     verticalScrollPolicy: auto;

@@ -5,7 +5,8 @@ public class ToolAction {
 	public static const CREATE_NOTE:String = "CREATE_NOTE";
 	public static const EDIT_NOTE:String = "EDIT_NOTE";
 	public static const REMOVE_NOTE:String = "REMOVE_NOTE";
-	public static const INVERT:String = "INVERT";
+	public static const APPLY_INVERT:String = "APPLY_INVERT";
+	public static const DENY_INVERT:String = "DENY_INVERT";
 	public static const FILTER:String = "FILTER";
 	public static const HIDE_DETAILS:String = "HIDE_DETAILS";
 	public static const SHOW_DETAILS:String = "SHOW_DETAILS";

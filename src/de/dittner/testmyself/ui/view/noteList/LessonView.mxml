@@ -6,6 +6,7 @@
                 xmlns:form2="de.dittner.testmyself.ui.view.noteList.components.form.*"
                 xmlns:note="de.dittner.testmyself.ui.common.note.*"
                 xmlns:common="de.dittner.testmyself.ui.common.*"
+                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
                 currentState="inactive"
                 horizontalCenter="0"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
@@ -46,7 +47,7 @@
             vm.unlockView();
             vm.viewActivated(viewID);
             showLessonList();
-            noteContent.activate();
+            noteContent.activate(toolbar, actionMenu);
             toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelected);
         }
 
@@ -71,7 +72,7 @@
             toolbar.removeNoteBtn.enabled = vm.selectedNote != null;
             toolbar.goBackBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
-            toolbar.hideDetailsBtn.enabled = true;
+            toolbar.showDetailsBtn.enabled = true;
             setCurrentState("lessonContent");
         }
 
@@ -214,8 +215,6 @@
                       selectedItem="@{vm.selectedNote}"
                       dataProvider="{vm.page.coll}"
                       page="{vm.page}"
-                      toolbar="{toolbar}"
-                      actionMenu="{actionMenu}"
                       selectedItemChange="noteList_selectedItemChangeHandler(event)"
                       pageNumChanged="pageNumChanged(event)"/>
 
@@ -224,9 +223,9 @@
                       visible="false"
                       visible.lessonList="true"
                       visible.inactive="true">
-        <s:Scroller width="100%" height="100%"
-                    horizontalScrollPolicy="off"
-                    hasFocusableChildren="false">
+        <scroller:CustomScroller width="100%" height="100%"
+                                 horizontalScrollPolicy="off"
+                                 hasFocusableChildren="false">
             <list2:SelectableDataGroup id="lessonList"
                                        selectedItem="{vm.page.selectedTag}"
                                        dataProvider="{vm.page.vocabulary.tagColl}"
@@ -237,7 +236,7 @@
                     <s:VerticalLayout gap="0" useVirtualLayout="true"/>
                 </list2:layout>
             </list2:SelectableDataGroup>
-        </s:Scroller>
+        </scroller:CustomScroller>
     </common:Container>
 
 </view:SmartView>

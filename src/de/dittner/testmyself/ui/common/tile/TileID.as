@@ -153,5 +153,7 @@ public class TileID {
 
 	public static const OPENED_LIST_ICON:String = "OPENED_LIST_ICON";
 	public static const CLOSED_LIST_ICON:String = "CLOSED_LIST_ICON";
+
+	public static const EXAMPLE_ICON:String = "EXAMPLE_ICON";
 }
 }

@@ -209,7 +209,7 @@
                         mouseEnabled="false" mouseChildren="false"
                         mouseEnabled.normal="true" mouseChildren.normal="true"
                         text="@{vm.commentsBoardText}"
-                        right="0" left="0" height="{Values.PT300}" top="0"/>
+                        right="0" left="0" height="{Values.PT600}" top="0"/>
 
     <s:Group id="popupLayer"
              mouseEnabled="false" mouseChildren="false"

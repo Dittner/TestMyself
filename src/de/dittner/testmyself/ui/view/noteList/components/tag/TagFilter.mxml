@@ -3,7 +3,8 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:list="de.dittner.testmyself.ui.common.list.*"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
-         xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
+         xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
+         xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
     <fx:Metadata>
         [Event(name="selectedTagChanged", type="flash.events.Event")]
         [Event(name="canceled", type="flash.events.Event")]
@@ -56,9 +57,9 @@
                    title="{resourceManager.getString('app', 'Filter')}"
                    mode="filter"/>
 
-    <s:Scroller width="100%"
-                top="{EditorBg.HEADER_HEIGHT}"
-                bottom="{Values.PT100}">
+    <scroller:CustomScroller width="100%"
+                             top="{EditorBg.HEADER_HEIGHT}"
+                             bottom="{Values.PT100}">
         <list:SelectableDataGroup id="tagList"
                                   selectedItem="@{selectedTag}"
                                   width="100%" height="100%"
@@ -69,7 +70,7 @@
                 <s:VerticalLayout gap="0" useVirtualLayout="false"/>
             </list:layout>
         </list:SelectableDataGroup>
-    </s:Scroller>
+    </scroller:CustomScroller>
 
     <button:WhiteButton id="cancelBtn"
                         width="{Values.PT250}" horizontalCenter="0" bottom="{Values.PT15}"

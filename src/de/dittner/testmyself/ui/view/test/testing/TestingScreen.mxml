@@ -1,7 +1,8 @@
 <common:Container xmlns:fx="http://ns.adobe.com/mxml/2009"
                   xmlns:s="library://ns.adobe.com/flex/spark"
                   xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
-                  xmlns:common="de.dittner.testmyself.ui.common.*">
+                  xmlns:common="de.dittner.testmyself.ui.common.*"
+                  xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -176,8 +177,8 @@
 
     <!--BODY-->
 
-    <s:Scroller width="100%" top="{Values.PT50}" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
-                horizontalScrollPolicy="off">
+    <scroller:CustomScroller width="100%" top="{Values.PT50}" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
+                             horizontalScrollPolicy="off">
         <s:Group width="100%">
 
             <test:SpeakWordTranslationTest id="speakWordTranslationTest"
@@ -212,7 +213,7 @@
                                      padding="{padding}"/>
 
         </s:Group>
-    </s:Scroller>
+    </scroller:CustomScroller>
 
     <!--footer-->
     <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}" bottom="0"
@@ -224,13 +225,13 @@
                  fontSize="{Values.PT14}"
                  paddingLeft="{Values.PT10}" paddingTop="{Values.PT1}"
                  maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
+                 color="{AppColors.BLACK}"/>
 
         <s:Label id="tagsLbl"
                  text="{vm.selectedNoteTags}"
                  height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
                  fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="{Values.PT1}"
                  maxDisplayedLines="1"
-                 color="{AppColors.TEXT_BLACK}"/>
+                 color="{AppColors.BLACK}"/>
     </s:HGroup>
 </common:Container>

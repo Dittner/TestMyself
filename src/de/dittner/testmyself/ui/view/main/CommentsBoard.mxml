@@ -100,7 +100,7 @@
                                fontSize="{Values.PT18}"
                                text="@{text}"
                                fontFamily="{FontName.MYRIAD}"
-                               color="{AppColors.TEXT_BLACK}"
+                               color="{AppColors.BLACK}"
                                left="{Values.PT15}" top="{Values.PT10}" right="{Values.PT15}" bottom="{Values.PT10}"/>
 
         <s:Group width="100" height="{THUMB_BTN_HEI}"

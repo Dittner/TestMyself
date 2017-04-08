@@ -159,7 +159,7 @@
     <s:Label text="{secToStr(player.playbackTime)}"
              fontSize="{Values.PT14}"
              paddingTop="1"
-             color="{AppColors.TEXT_BLACK}"/>
+             color="{AppColors.BLACK}"/>
 
     <components2:RewindingSlider id="rewindingSlider"
                                  width="100%"
@@ -177,7 +177,7 @@
              text.normal="00:00"
              fontSize="{Values.PT14}"
              paddingTop="1"
-             color="{AppColors.TEXT_BLACK}"/>
+             color="{AppColors.BLACK}"/>
 
     <tile:FadeTileButton id="removeRecordBtn"
                          upTileID="{TileID.BTN_DELETE_AUDIO}"

@@ -1,12 +1,14 @@
 package de.dittner.testmyself.ui.common.panel {
 import de.dittner.testmyself.ui.common.tile.FadeTileButton;
 import de.dittner.testmyself.ui.common.tile.TileID;
-import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.utils.Values;
 
 [Event(name="change", type="flash.events.Event")]
 
 public class CollapsedTileButton extends FadeTileButton {
+	public static const SELECTED_TEXT_COLOR:uint = 0xb5b5b6;
+	public static const TEXT_COLOR:uint = 0x858586;
+
 	public function CollapsedTileButton() {
 		super();
 		isToggle = true;
@@ -15,7 +17,7 @@ public class CollapsedTileButton extends FadeTileButton {
 		iconTileID = TileID.CLOSED_LIST_ICON;
 		fontSize = Values.PT18;
 		isBold = true;
-		textColor = AppColors.TEXT_BOARD_COLOR;
+		textColor = TEXT_COLOR;
 		use9Scale = true;
 		paddingRight = Values.PT20;
 		upBgAlpha = 1;
@@ -25,6 +27,7 @@ public class CollapsedTileButton extends FadeTileButton {
 		if (selected != value) {
 			super.selected = value;
 			iconTileID = selected ? TileID.OPENED_LIST_ICON : TileID.CLOSED_LIST_ICON;
+			textColor = selected ? SELECTED_TEXT_COLOR : TEXT_COLOR;
 		}
 	}
 

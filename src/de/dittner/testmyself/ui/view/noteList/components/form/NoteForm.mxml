@@ -647,7 +647,7 @@
              width="100%"
              textAlign="center"
              verticalCenter="{-Values.PT100}"
-             color="{AppColors.TEXT_BLACK}"
+             color="{AppColors.BLACK}"
              fontSize="{Values.PT24}"
              text="{getRemoveNotification(note)}"/>
 
@@ -655,7 +655,7 @@
              visible="{isRemoveMode}"
              width="100%"
              verticalCenter="0"
-             color="{AppColors.TEXT_BLACK}"
+             color="{AppColors.BLACK}"
              fontSize="{Values.PT18}"
              fontWeight="bold"
              textAlign="center" verticalAlign="middle"/>

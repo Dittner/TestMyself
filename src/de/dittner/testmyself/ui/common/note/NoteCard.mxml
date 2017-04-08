@@ -5,9 +5,11 @@
                   xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                   xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
-                  xmlns:common="de.dittner.testmyself.ui.common.*">
+                  xmlns:common="de.dittner.testmyself.ui.common.*"
+                  xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
+        import de.dittner.async.utils.invalidateOf;
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
         import de.dittner.testmyself.model.domain.note.Note;
@@ -82,12 +84,10 @@
 
         override protected function commitProperties():void {
             super.commitProperties();
-
             if (!note) {
                 titleLbl.article = "";
                 titleLbl.text = "";
                 descriptionLbl.text = "";
-                mp3.comment = null;
                 return;
             }
             if (note is Word) {
@@ -112,6 +112,7 @@
                 titleLbl.fontSize = Values.PT24;
                 titleLbl.textAlign = TextAlign.LEFT;
                 audioPanel.visible = audioPanel.includeInLayout = !note.isExample && note.hasAudio;
+                if (audioPanel.visible) loadComment();
             }
 
             examplesPanel.renderOptions.searchText = searchText;
@@ -123,27 +124,6 @@
             descriptionPanel.title = isLessonVocabulary ? resourceManager.getString('app', 'Content') : resourceManager.getString('app', 'Translation');
             examplesPanel.visible = examplesPanel.includeInLayout = !note.isExample && !isLessonVocabulary;
             tagsInfoLbl.text = getTagsInfo();
-
-            loadAudioComment();
-        }
-
-        private function loadAudioComment():void {
-            if (note && note.hasAudio) {
-                if (note.audioComment.isMp3 && note.audioComment.hasBytes) {
-                    mp3.comment = note.audioComment;
-                }
-                else {
-                    note.audioComment.loadMP3().addCompleteCallback(function (op:IAsyncOperation):void {
-                        if (op.isSuccess && note && note.audioComment.isMp3 && note.audioComment.hasBytes)
-                            mp3.comment = note.audioComment;
-                        else
-                            mp3.comment = null;
-                    });
-                }
-            }
-            else {
-                mp3.comment = null;
-            }
         }
 
         private function getTagsInfo():String {
@@ -195,19 +175,44 @@
             g.endFill();
         }
 
-        private function playComment():void {
-            if (note && note.hasAudio)
-                mp3.play();
+        private function loadComment(andPlay:Boolean = false):void {
+            if (note && note.hasAudio) {
+                if (note.audioComment.isMp3 && note.audioComment.hasBytes) {
+                    mp3.comment = note.audioComment;
+                    if (andPlay) mp3.play();
+                }
+                else {
+                    note.audioComment.loadMP3().addCompleteCallback(function (op:IAsyncOperation):void {
+                        if (op.isSuccess && note && note.audioComment.isMp3 && note.audioComment.hasBytes) {
+                            mp3.comment = note.audioComment;
+                            if (andPlay) mp3.play();
+                        }
+                        else {
+                            mp3.comment = null;
+                        }
+                    });
+                }
+            }
+            else {
+                mp3.comment = null;
+            }
+        }
+
+        private function ensureAudioPanelIsVisible():void {
+            if (audioPanel.isOpened && cont.contentHeight > height) {
+                scroller.verticalScrollBar.value = scroller.verticalScrollBar.maximum;
+            }
         }
         ]]></fx:Script>
 
-    <s:Scroller width="100%" height="100%"
-                horizontalScrollPolicy="off">
-        <s:VGroup width="100%" gap="0">
+    <scroller:CustomScroller id="scroller" width="100%" height="100%">
+        <s:VGroup id="cont" width="100%" gap="0">
 
             <panel:CollapsedPanel id="titlePanel"
                                   isOpened="true"
                                   width="100%"
+                                  paddingTop="{Values.PT20}"
+                                  paddingBottom="{Values.PT20}"
                                   title="{noteNumber + 1 + '/' + totalNotes}">
                 <note:NoteLabel id="titleLbl"
                                 textThickness="80"
@@ -216,7 +221,7 @@
                          width="100%"
                          maxDisplayedLines="1"
                          textAlign="right"
-                         bottom="{-Values.PT8}"
+                         bottom="{-Values.PT18}"
                          fontFamily="{FontName.MYRIAD_COND}"
                          fontStyle="italic"
                          color="{AppColors.TEXT_GRAY}"
@@ -226,7 +231,7 @@
                                      visible="{note.hasAudio}"
                                      verticalCenter="0"
                                      right="{-Values.PT10}"
-                                     click="playComment()"/>
+                                     click="loadComment(true)"/>
             </panel:CollapsedPanel>
 
             <panel:CollapsedPanel id="descriptionPanel"
@@ -246,7 +251,8 @@
 
             <panel:CollapsedPanel id="audioPanel"
                                   width="100%"
-                                  title="{resourceManager.getString('app', 'AudioRecord')}">
+                                  title="{resourceManager.getString('app', 'AudioRecord')}"
+                                  isOpenedChanged="invalidateOf(ensureAudioPanelIsVisible)">
                 <mp3:MP3PlayerComponent id="mp3"
                                         width="100%"
                                         enabled="{note.hasAudio}"/>
@@ -254,6 +260,6 @@
 
         </s:VGroup>
 
-    </s:Scroller>
+    </scroller:CustomScroller>
 
 </common:Container>

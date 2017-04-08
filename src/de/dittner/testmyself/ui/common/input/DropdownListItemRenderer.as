@@ -10,7 +10,7 @@ import flash.text.TextFormat;
 
 public class DropdownListItemRenderer extends ItemRendererBase {
 
-	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_BLACK);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.BLACK);
 	private static const VPAD:uint = Values.PT5;
 	private static const HPAD:uint = Values.PT5;
 
@@ -86,7 +86,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 		tf.y = h - tf.textHeight >> 1;
 		tf.width = w - 2 * horPad;
 		tf.height = h - 2 * verPad;
-		tf.textColor  = selected ? AppColors.TEXT_WHITE : AppColors.TEXT_BLACK;
+		tf.textColor  = selected ? AppColors.TEXT_WHITE : AppColors.BLACK;
 	}
 
 }

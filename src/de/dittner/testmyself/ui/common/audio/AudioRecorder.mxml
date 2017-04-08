@@ -204,6 +204,7 @@
     <input:MXLabel height="{Values.PT20}"
                    fontSize="{Values.PT15}"
                    mouseEnabled="false"
+                   multiline="false"
                    text="{resourceManager.getString('app', 'AudioRecord')}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>
 

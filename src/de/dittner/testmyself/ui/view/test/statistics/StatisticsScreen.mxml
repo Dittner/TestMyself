@@ -50,9 +50,7 @@
             vm.testPage.countAllNotes = true;
             vm.loadStatisticsPage();
             actionMenu.hide();
-            noteContent.toolbar = toolbar;
-            noteContent.actionMenu = actionMenu;
-            noteContent.activate();
+            noteContent.activate(toolbar, actionMenu);
             noteContent.showWordArticle = vm.testPage.test.id != TestID.DE_SELECT_ARTICLE;
             noteContent.showNotesInverted = vm.testPage.test.translateFromNativeIntoForeign;
             visible = true;

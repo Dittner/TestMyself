@@ -6,6 +6,7 @@ import flash.events.Event;
 
 import spark.components.SkinnableContainer;
 
+[Event(name="isOpenedChanged", type="flash.events.Event")]
 public class CollapsedPanel extends SkinnableContainer {
 	public function CollapsedPanel() {
 		super();
@@ -98,7 +99,7 @@ public class CollapsedPanel extends SkinnableContainer {
 	//--------------------------------------
 	//  paddingTop
 	//--------------------------------------
-	private var _paddingTop:Number = Values.PT10;
+	private var _paddingTop:Number = Values.PT20;
 	[Bindable("paddingTopChanged")]
 	public function get paddingTop():Number {return _paddingTop;}
 	public function set paddingTop(value:Number):void {

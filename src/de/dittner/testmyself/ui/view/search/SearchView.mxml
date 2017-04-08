@@ -40,9 +40,11 @@
 
         override protected function activate():void {
             setCurrentState("active");
-            toolbar.hideDetailsBtn.enabled = true;
+            noteContent.activate(toolbar, actionMenu);
+
+            toolbar.showDetailsBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
-            noteContent.activate();
+            toolbar.showDetailsBtn.selected = true;
 
             toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
             vm.unlockView();
@@ -157,8 +159,6 @@
                       dataProvider="{vm.page.coll}"
                       searchText="{}"
                       page="{vm.page}"
-                      toolbar="{toolbar}"
-                      actionMenu="{actionMenu}"
                       selectedItemChange="noteList_selectedItemChangeHandler(event)"
                       pageNumChanged="pageNumChanged()"/>
 

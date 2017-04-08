@@ -11,7 +11,7 @@ public class TileCheckboxButton extends FadeTileButton {
 		paddingLeft = Values.PT30;
 		paddingRight = 0;
 		fontSize = Values.PT20;
-		textColor = AppColors.TEXT_BLACK;
+		textColor = AppColors.BLACK;
 		isItalic = true;
 	}
 }

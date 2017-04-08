@@ -4,6 +4,7 @@
                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
                   xmlns:navigation="de.dittner.testmyself.ui.view.noteList.components.pagination.*"
                   xmlns:common="de.dittner.testmyself.ui.common.*"
+                  xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
                   moveDirectionWhenHiding="right">
     <fx:Metadata>
         [Event(name="selectedItemChange", type="flash.events.Event")]
@@ -90,7 +91,7 @@
         private var _toolbar:NoteToolbar;
         [Bindable("toolbarChanged")]
         public function get toolbar():NoteToolbar {return _toolbar;}
-        public function set toolbar(value:NoteToolbar):void {
+        private function setToolbar(value:NoteToolbar):void {
             if (_toolbar != value) {
                 if (_toolbar)  _toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
                 _toolbar = value;
@@ -105,7 +106,7 @@
         private var _actionMenu:IActionMenu;
         [Bindable("actionMenuChanged")]
         public function get actionMenu():IActionMenu {return _actionMenu;}
-        public function set actionMenu(value:IActionMenu):void {
+        private function setActionMenu(value:IActionMenu):void {
             if (_actionMenu != value) {
                 if (_actionMenu)  _actionMenu.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
                 _actionMenu = value;
@@ -195,7 +196,9 @@
         //----------------------------------------------------------------------------------------------
 
         private var renderOptions:NoteRenderOptions = new NoteRenderOptions();
-        public function activate():void {
+        public function activate(toolbar:NoteToolbar, actionMenu:IActionMenu):void {
+            setToolbar(toolbar);
+            setActionMenu(actionMenu);
             setActivated(true);
             noteList.renderOptions = renderOptions;
         }
@@ -259,8 +262,12 @@
                         }
                     }
                     break;
-                case(ToolAction.INVERT) :
-                    renderOptions.inverted = !renderOptions.inverted;
+                case(ToolAction.APPLY_INVERT) :
+                    renderOptions.inverted = true;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.DENY_INVERT) :
+                    renderOptions.inverted = false;
                     invalidateRenderOptions();
                     break;
                 case(ToolAction.HIDE_DETAILS) :
@@ -313,9 +320,10 @@
                       height="100%">
         <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
 
-        <s:Scroller width="100%" top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-                    horizontalScrollPolicy="off"
-                    hasFocusableChildren="false">
+        <scroller:CustomScroller width="100%"
+                                 top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
+                                 horizontalScrollPolicy="off"
+                                 hasFocusableChildren="false">
             <note:NoteList id="noteList"
                            selectedItem="@{selectedItem}"
                            dataProvider="{dataProvider}"
@@ -329,7 +337,7 @@
                     <s:VerticalLayout gap="0" useVirtualLayout="false"/>
                 </note:layout>
             </note:NoteList>
-        </s:Scroller>
+        </scroller:CustomScroller>
 
         <!--footer-->
         <common:BG percentWidth="100" height="{AppSizes.SCREEN_FOOTER_HEIGHT}"
@@ -353,7 +361,7 @@
                      height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
                      fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="1"
                      maxDisplayedLines="1"
-                     color="{AppColors.TEXT_BLACK}"/>
+                     color="{AppColors.BLACK}"/>
         </s:HGroup>
     </common:Container>
 

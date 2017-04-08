@@ -78,6 +78,7 @@
 
     <input:MXLabel id="titleLbl"
                    fontSize="{Values.PT15}"
+                   multiline="false"
                    mouseEnabled="false"
                    text="{hostComponent.title}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>

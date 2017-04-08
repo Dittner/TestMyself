@@ -57,7 +57,7 @@
                    width="100%" height="100%"
                    visible="{showText}" includeInLayout="{showText}"
                    text="{text}"
-                   color="{AppColors.TEXT_BLACK}"
+                   color="{AppColors.BLACK}"
                    fontSize="{Values.PT22}"/>
 
     <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"

@@ -237,7 +237,7 @@
                  width="100%"
                  paddingTop="{Values.PT20}"
                  fontFamily="{FontName.MYRIAD}"
-                 color="{AppColors.TEXT_BLACK}"
+                 color="{AppColors.BLACK}"
                  fontSize="{Values.PT16}"
                  visible="false" visible.removeTag="true"
                  includeInLayout="false" includeInLayout.removeTag="true"

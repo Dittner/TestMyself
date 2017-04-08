@@ -17,12 +17,12 @@
             addNoteBtn.enabled = false;
             editNoteBtn.enabled = false;
             removeNoteBtn.enabled = false;
-            hideDetailsBtn.enabled = false;
+            showDetailsBtn.enabled = false;
             transInvertBtn.enabled = false;
             filterBtn.enabled = false;
             setTaskAsRightBtn.enabled = false;
             showFailedTasksBtn.enabled = false;
-            hideDetailsBtn.selected = false;
+            showDetailsBtn.selected = false;
             showFailedTasksBtn.selected = true;
         }
 
@@ -82,20 +82,22 @@
 
     <s:Spacer width="{Values.PT15}"/>
 
-    <tile:FadeTileButton id="hideDetailsBtn"
+    <tile:FadeTileButton id="showDetailsBtn"
                          isToggle="true"
-                         visible="{hideDetailsBtn.enabled}"
-                         includeInLayout="{hideDetailsBtn.enabled}"
+                         visible="{showDetailsBtn.enabled}"
+                         includeInLayout="{showDetailsBtn.enabled}"
                          selected="false"
                          upTileID="{TileID.TOOLBAR_COLLAPSED_LIST}"
                          downTileID="{TileID.TOOLBAR_EXPANDED_LIST}"
-                         click="notifyToolAction(hideDetailsBtn.selected ? ToolAction.SHOW_DETAILS : ToolAction.HIDE_DETAILS)"/>
+                         selectedChange="notifyToolAction(showDetailsBtn.selected ? ToolAction.SHOW_DETAILS : ToolAction.HIDE_DETAILS)"
+                         click="notifyToolAction(showDetailsBtn.selected ? ToolAction.SHOW_DETAILS : ToolAction.HIDE_DETAILS)"/>
 
     <tile:FadeTileButton id="transInvertBtn"
+                         isToggle="true"
                          visible="{transInvertBtn.enabled}"
                          includeInLayout="{transInvertBtn.enabled}"
                          upTileID="{TileID.TOOLBAR_INVERSE_TRANSLATION}"
-                         click="notifyToolAction(ToolAction.INVERT)"/>
+                         click="notifyToolAction(transInvertBtn.selected ? ToolAction.APPLY_INVERT : ToolAction.DENY_INVERT)"/>
 
     <tile:FadeTileButton id="filterBtn"
                          visible="{filterBtn.enabled}"

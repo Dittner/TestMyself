@@ -8,7 +8,7 @@ import de.dittner.testmyself.utils.Values;
 import flash.text.TextFormat;
 
 public class VocabularyRenderer extends StringItemRenderer {
-	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_BLACK);
+	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.BLACK);
 	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_WHITE);
 
 	public function VocabularyRenderer() {

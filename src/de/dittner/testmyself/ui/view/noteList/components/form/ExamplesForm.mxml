@@ -174,14 +174,14 @@
                              width="100%"
                              includeIn="remove"
                              textAlign="center"
-                             color="{AppColors.TEXT_BLACK}"
+                             color="{AppColors.BLACK}"
                              fontSize="{Values.PT16}"
                              text="{resourceManager.getString('app', 'AreYouSureWantToDeleteThisExample?')}"/>
 
                     <s:Label id="removeNoteTitleLbl"
                              width="100%" height="100%"
                              includeIn="remove"
-                             color="{AppColors.TEXT_BLACK}"
+                             color="{AppColors.BLACK}"
                              fontSize="{Values.PT20}"
                              fontWeight="bold"
                              textAlign="center" verticalAlign="middle"

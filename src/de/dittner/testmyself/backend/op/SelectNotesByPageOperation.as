@@ -53,8 +53,26 @@ public class SelectNotesByPageOperation extends StorageOperation implements IAsy
 				notes.push(note);
 			}
 
+		setExamplesTo(notes);
 		page.coll = new ArrayCollection(notes);
 		dispatchSuccess(page);
+	}
+
+	private function setExamplesTo(notes:Array):void {
+		if (notes.length > 0) {
+			for each(var note:Note in notes) {
+				if (storage.exampleHash[note.id]) {
+					var examples:Array = [];
+					var example:Note;
+					for each(var exampleData:Object in storage.exampleHash[note.id]) {
+						example = note.createExample();
+						example.deserialize(exampleData);
+						examples.push(example);
+					}
+					note.exampleColl = new ArrayCollection(examples);
+				}
+			}
+		}
 	}
 
 }

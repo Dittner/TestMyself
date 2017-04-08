@@ -94,7 +94,7 @@
         <s:Label text="{hostComponent.recorder.playbackTime}"
                  left="{Values.PT40}" top="{Values.PT10}"
                  fontSize="{Values.PT14}"
-                 color="{AppColors.TEXT_BLACK}"/>
+                 color="{AppColors.BLACK}"/>
 
     </s:Group>
     <s:Label visible="true" visible.normal="false"
@@ -104,6 +104,6 @@
              left.recording="{Values.PT40}"
              right.recording="auto"
              fontSize="{Values.PT14}"
-             color="{AppColors.TEXT_BLACK}"/>
+             color="{AppColors.BLACK}"/>
 
 </s:SparkSkin>

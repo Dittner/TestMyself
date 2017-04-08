@@ -7,7 +7,7 @@ import de.dittner.testmyself.utils.Values;
 import flash.text.TextFormat;
 
 public class ExamplesFormRenderer extends NoteRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_DARK_GRAY);
 
 	public function ExamplesFormRenderer() {

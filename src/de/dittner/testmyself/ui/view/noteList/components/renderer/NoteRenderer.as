@@ -1,5 +1,4 @@
 package de.dittner.testmyself.ui.view.noteList.components.renderer {
-import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.DeWordArticle;
 import de.dittner.testmyself.model.domain.note.IrregularVerb;
 import de.dittner.testmyself.model.domain.note.Note;
@@ -20,8 +19,9 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.TEXT_BLACK);
-	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_BLACK);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.BLACK);
+	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT14, AppColors.BLACK);
+	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_RED);
 	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_YELLOW);
@@ -36,8 +36,10 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 	protected var showSeparatorWhenSelected:Boolean = false;
 	protected var titleTf:TextField;
+	protected var examplesNumTf:TextField;
 	protected var descriptionTf:TextField;
 	private var audioIcon:TileShape;
+	private var exampleIcon:TileShape;
 	private var pattern:RegExp;
 	private var searchText:String = "";
 
@@ -106,11 +108,23 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			titleTf = TextFieldFactory.createMultiline(TITLE_FORMAT, 80);
 			addChild(titleTf);
 		}
+		if (!examplesNumTf) {
+			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT);
+			examplesNumTf.alpha = 0.3;
+			addChild(examplesNumTf);
+		}
 		if (!audioIcon) {
 			audioIcon = new TileShape(TileID.BTN_PLAY_AUDIO_UP);
-			audioIcon.alpha = 0.6;
+			audioIcon.alpha = 0.3;
 			audioIcon.visible = false;
 			addChild(audioIcon);
+		}
+
+		if (!exampleIcon) {
+			exampleIcon = new TileShape(TileID.EXAMPLE_ICON);
+			exampleIcon.alpha = 0.3;
+			exampleIcon.visible = false;
+			addChild(exampleIcon);
 		}
 	}
 
@@ -146,6 +160,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			titleTf.defaultTextFormat = getTitleTextFormat();
 			titleTf.htmlText = getTitle();
 			descriptionTf.htmlText = getDescription();
+			examplesNumTf.text = note.exampleColl && note.exampleColl.length > 0 ? note.exampleColl.length.toString() : "";
 
 			if (word && options.showWordArticle)
 				switch (word.article) {
@@ -174,6 +189,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		else {
 			titleTf.htmlText = "";
 			descriptionTf.htmlText = "";
+			examplesNumTf.text = "";
 		}
 	}
 
@@ -217,15 +233,16 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		measuredWidth = parent.width;
 
 		if (titleTf.visible && descriptionTf.visible) {
-			titleTf.width = descriptionTf.width = measuredWidth - horizontalPadding;
+			titleTf.width = measuredWidth - 2 * horizontalPadding - audioIcon.width / 2;
+			descriptionTf.width = measuredWidth - 2 * horizontalPadding;
 			measuredHeight = Math.ceil(titleTf.textHeight + descriptionTf.textHeight + 2 * verticalPadding + gap);
 		}
 		else if (descriptionTf.visible) {
-			descriptionTf.width = measuredWidth - horizontalPadding;
+			descriptionTf.width = measuredWidth - 2 * horizontalPadding - audioIcon.width / 2;
 			measuredHeight = Math.ceil(descriptionTf.textHeight + 2 * verticalPadding);
 		}
 		else {
-			titleTf.width = measuredWidth - horizontalPadding - Values.PT5;
+			titleTf.width = measuredWidth - 2 * horizontalPadding - audioIcon.width / 2;
 			measuredHeight = Math.ceil(titleTf.textHeight + 2 * verticalPadding);
 		}
 	}
@@ -240,8 +257,14 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			invalidateDisplayList();
 		}
 
-		audioIcon.x = w - audioIcon.measuredWidth;
-		audioIcon.y = 72 * Device.factor - audioIcon.height >> 1;
+		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding;
+		exampleIcon.y = Values.PT7;
+		exampleIcon.visible = note.exampleColl && examplesNumTf.length > 0;
+		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT4;
+		examplesNumTf.y = Values.PT5;
+
+		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT10;
+		audioIcon.y = Values.PT18;
 		audioIcon.visible = hasAudioComment();
 
 		g.beginFill(AppColors.REN_SELECTED_BG, selected ? 1 : 0);
@@ -268,6 +291,5 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			titleTf.y = verticalPadding - TEXT_DEFAULT_OFFSET;
 		}
 	}
-
 }
 }

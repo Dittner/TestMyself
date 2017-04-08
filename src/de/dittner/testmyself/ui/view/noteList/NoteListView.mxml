@@ -48,11 +48,11 @@
             vm.reloadPage();
 
             toolbar.addNoteBtn.enabled = true;
-            toolbar.hideDetailsBtn.enabled = true;
+            toolbar.showDetailsBtn.enabled = true;
             toolbar.transInvertBtn.enabled = true;
             toolbar.filterBtn.enabled = true;
 
-            noteContent.activate();
+            noteContent.activate(toolbar, actionMenu);
             toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
         }
 
@@ -157,8 +157,6 @@
                       selectedItem="@{vm.selectedNote}"
                       dataProvider="{vm.page.coll}"
                       page="{vm.page}"
-                      toolbar="{toolbar}"
-                      actionMenu="{actionMenu}"
                       selectedItemChange="noteList_selectedItemChangeHandler(event)"
                       pageNumChanged="pageNumChanged(event)"/>
 

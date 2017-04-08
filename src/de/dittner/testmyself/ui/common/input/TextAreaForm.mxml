@@ -100,6 +100,7 @@
     <input:MXLabel height="{Values.PT20}"
                    fontSize="{Values.PT15}"
                    text="{title}"
+                   multiline="false"
                    visible="{showTitle}"
                    includeInLayout="{showTitle}"
                    color="{AppColors.TEXT_CONTROL_TITLE}"/>

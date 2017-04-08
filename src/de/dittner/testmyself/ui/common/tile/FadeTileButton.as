@@ -18,6 +18,7 @@ import mx.core.mx_internal;
 use namespace mx_internal;
 
 [Event(name="change", type="flash.events.Event")]
+[Event(name="selectedChange", type="flash.events.Event")]
 
 public class FadeTileButton extends UIComponent {
 

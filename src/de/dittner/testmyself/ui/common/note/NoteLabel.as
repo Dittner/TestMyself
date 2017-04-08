@@ -112,7 +112,7 @@ public class NoteLabel extends UIComponent {
 	//--------------------------------------
 	//  textColor
 	//--------------------------------------
-	private var _textColor:uint = AppColors.TEXT_BLACK;
+	private var _textColor:uint = AppColors.BLACK;
 	[Bindable("textColorChanged")]
 	public function get textColor():uint {return _textColor;}
 	public function set textColor(value:uint):void {

@@ -141,7 +141,7 @@ public final class AppPreloader extends Sprite implements IPreloaderDisplay {
 	}
 
 	protected function createChildren():void {
-		bg = Device.isDesktop ? new AppBg(Values.PT768, stage.fullScreenHeight) : new AppBg(Device.width, Device.height);
+		bg = Device.isDesktop ? new AppBg(Values.PT768, stage.fullScreenHeight) : new AppBg(stage.stageWidth, stage.stageHeight);
 		bg.x = 0;
 		bg.y = Device.verticalPadding;
 		addChild(bg);

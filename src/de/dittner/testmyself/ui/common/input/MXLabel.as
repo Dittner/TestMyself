@@ -133,6 +133,22 @@ public class MXLabel extends UIComponent {
 		}
 	}
 
+	//--------------------------------------
+	//  multiline
+	//--------------------------------------
+	private var _multiline:Boolean = true;
+	[Bindable("multilineChanged")]
+	public function get multiline():Boolean {return _multiline;}
+	public function set multiline(value:Boolean):void {
+		if (_multiline != value) {
+			_multiline = value;
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
+			dispatchEvent(new Event("multilineChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -153,13 +169,14 @@ public class MXLabel extends UIComponent {
 		TITLE_FORMAT.bold = isBold;
 		TITLE_FORMAT.color = color;
 		TITLE_FORMAT.align = textAlign;
+		titleTF.multiline = titleTF.wordWrap = multiline;
 		titleTF.defaultTextFormat = TITLE_FORMAT;
 		titleTF.htmlText = text;
 	}
 
 	override protected function measure():void {
 		super.measure();
-		titleTF.width = (width > 0 ? width : Device.width) - 2 * horPadding;
+		titleTF.width = multiline ? (width > 0 ? width : Device.width) - 2 * horPadding : titleTF.textWidth + Values.PT5;
 		measuredWidth = titleTF.textWidth + Values.PT5 + 2 * horPadding;
 		measuredHeight = titleTF.textHeight + Values.PT5 + 2 * verPadding;
 	}
