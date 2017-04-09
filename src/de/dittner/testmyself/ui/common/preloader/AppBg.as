@@ -1,4 +1,7 @@
 package de.dittner.testmyself.ui.common.preloader {
+import de.dittner.testmyself.logging.CLog;
+import de.dittner.testmyself.logging.LogTag;
+
 import flash.display.DisplayObject;
 
 import spark.core.SpriteVisualElement;
@@ -50,6 +53,7 @@ public class AppBg extends SpriteVisualElement {
 			bg.scaleX = bg.scaleY = sc;
 			bg.x = width - bgOriginWid * bg.scaleX >> 1;
 			bg.y = height - bgOriginHei * bg.scaleY >> 1;
+			CLog.info(LogTag.UI, "AppBg width/height/scale: " + width + "/" + height + "/" + sc);
 		}
 	}
 

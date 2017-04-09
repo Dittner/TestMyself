@@ -70,7 +70,7 @@ public class FadeTileButton extends UIComponent {
 	//--------------------------------------
 	//  animationDuration
 	//--------------------------------------
-	private var _animationDuration:Number = 0.5;
+	private var _animationDuration:Number = 0.4;
 	[Bindable("animationDurationChanged")]
 	public function get animationDuration():Number {return _animationDuration;}
 	public function set animationDuration(value:Number):void {
@@ -398,7 +398,6 @@ public class FadeTileButton extends UIComponent {
 		if (downBg) {
 			downBg.tileID = downTileID;
 			downBg.animationDuration = animationDuration;
-
 		}
 
 		if (disabledBg) {

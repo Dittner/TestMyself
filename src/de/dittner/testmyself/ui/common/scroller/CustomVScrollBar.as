@@ -27,7 +27,7 @@ public class CustomVScrollBar extends VScrollBar {
 		event.preventDefault();
 	}
 
-	private static const SPEED_COEFFICIENT:Number = 0.05;
+	private static const SPEED_COEFFICIENT:Number = 0.1;
 	override protected function setValue(newValue:Number):void {
 		if (!incrementButton || !decrementButton) {
 			super.setValue(newValue);

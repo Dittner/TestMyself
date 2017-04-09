@@ -200,7 +200,7 @@
 
         private function ensureAudioPanelIsVisible():void {
             if (audioPanel.isOpened && cont.contentHeight > height) {
-                scroller.verticalScrollBar.value = scroller.verticalScrollBar.maximum;
+                scroller.verticalScrollBar.value = cont.contentHeight - height;
             }
         }
         ]]></fx:Script>

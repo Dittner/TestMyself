@@ -39,7 +39,7 @@ public class TestmyselfAppSkin extends MobileSkin {
 
 		bg.y = Device.verticalPadding;
 		bg.width = Device.width;
-		bg.height = Device.stage.fullScreenHeight;
+		bg.height = Device.isDesktop ? Device.stage.fullScreenHeight : Device.stage.stageHeight;
 	}
 
 }

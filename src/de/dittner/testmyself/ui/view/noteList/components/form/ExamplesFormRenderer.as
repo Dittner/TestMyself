@@ -13,6 +13,7 @@ public class ExamplesFormRenderer extends NoteRenderer {
 	public function ExamplesFormRenderer() {
 		super();
 		showSeparatorWhenSelected = true;
+		cardViewMode = true;
 	}
 
 	override protected function createChildren():void {

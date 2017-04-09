@@ -8,7 +8,7 @@ import mx.events.FlexEvent;
 import spark.components.Group;
 
 public class Container extends Group {
-	private static const ANIMATION_DURATION:Number = 0.4;
+	private static const ANIMATION_DURATION:Number = 0.3;
 
 	public function Container() {
 		super();

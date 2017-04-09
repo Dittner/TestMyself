@@ -157,8 +157,9 @@
                          change="viewMenuBtnSelectedHandler(event)"/>
     </s:HGroup>
 
-    <tile:FadeTileButton left="{Values.PT2}" top="{Values.PT2}"
+    <tile:FadeTileButton left="{Values.PT3}" top="{Values.PT3}"
                          mouseEnabled="false"
+                         upBgAlpha="1"
                          visible="{hasNetworkConnection}"
                          upTileID="{TileID.NETWORK_ICON}"
                          disabledTileID="{TileID.NETWORK_RED_ICON}"

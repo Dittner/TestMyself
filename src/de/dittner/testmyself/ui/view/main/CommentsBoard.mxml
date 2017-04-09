@@ -17,7 +17,7 @@
 
         import mx.events.FlexEvent;
 
-        private static const THUMB_BTN_HEI:uint = Device.isDesktop ? Values.PT15 : Values.PT40;
+        private static const THUMB_BTN_HEI:uint = Device.isDesktop ? Values.PT15 : Values.PT50;
 
         //--------------------------------------
         //  text
@@ -103,7 +103,7 @@
                                color="{AppColors.BLACK}"
                                left="{Values.PT15}" top="{Values.PT10}" right="{Values.PT15}" bottom="{Values.PT10}"/>
 
-        <s:Group width="100" height="{THUMB_BTN_HEI}"
+        <s:Group width="{Values.PT100}" height="{THUMB_BTN_HEI}"
                  horizontalCenter="0"
                  bottom="{-THUMB_BTN_HEI}"
                  mouseDown="setCurrentState('down')"
@@ -112,7 +112,7 @@
                  mouseOut="setCurrentState('up')"
                  click="isOpened ? hide() : open()">
 
-            <s:Rect width="100%" height="{Values.PT15}"
+            <s:Rect width="100%" height="{Values.PT20}"
                     bottomLeftRadiusX="{Values.PT8}"
                     bottomLeftRadiusY="{Values.PT8}"
                     bottomRightRadiusX="{Values.PT8}"
@@ -125,9 +125,10 @@
                 </s:fill>
             </s:Rect>
             <s:Label color="#ffFFff"
+                     mouseEnabled="false" mouseChildren="false"
                      fontSize="{Values.PT14}"
                      fontFamily="{FontName.MYRIAD_COND}"
-                     top="1" horizontalCenter="0"
+                     top="{Values.PT2}" horizontalCenter="0"
                      text="{resourceManager.getString('app', 'BOARD')}"/>
         </s:Group>
 

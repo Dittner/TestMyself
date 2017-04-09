@@ -14,6 +14,7 @@ public class ExampleRenderer extends NoteRenderer {
 		percentWidth = 100;
 		minHeight = Values.PT30;
 		showSeparatorWhenSelected = true;
+		cardViewMode = true;
 	}
 
 	override protected function createChildren():void {

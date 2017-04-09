@@ -116,6 +116,7 @@
         <tile:FadeTileButton id="curPageBtn"
                              upTileID="{TileID.PAGE_WHITE_ICON}"
                              title="1"
+                             upBgAlpha="1"
                              isBold="true"
                              paddingLeft="0" paddingRight="0"
                              textColor="#0"

@@ -42,6 +42,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	private var exampleIcon:TileShape;
 	private var pattern:RegExp;
 	private var searchText:String = "";
+	protected var cardViewMode:Boolean = false;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -87,9 +88,11 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	override public function set selected(value:Boolean):void {
 		super.selected = value;
 		dataChanged = true;
-		invalidateProperties();
-		invalidateSize();
-		invalidateDisplayList();
+		if(cardViewMode) {
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
+		}
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -145,8 +148,8 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 	protected function updateData():void {
 		if (note && options) {
-			titleTf.visible = options.showDetails || !options.inverted || selected;
-			descriptionTf.visible = options.showDetails || options.inverted || selected;
+			titleTf.visible = options.showDetails || !options.inverted || (selected && cardViewMode);
+			descriptionTf.visible = options.showDetails || options.inverted || (selected && cardViewMode);
 			updateText();
 		}
 		else {
@@ -199,11 +202,11 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 			if (word.article && options.showWordArticle)
 				title = word.article + " ";
 			title += word.title;
-			if (word.declension && (selected || options.showDetails)) title += ", " + word.declension;
+			if (word.declension && ((selected && cardViewMode) || options.showDetails)) title += ", " + word.declension;
 		}
 		else if (verb) {
 			title = verb.title;
-			if (selected || options.showDetails) title += ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+			if ((selected && cardViewMode) || options.showDetails) title += ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
 		}
 		else if (note) {
 			title = note.title;
@@ -267,11 +270,11 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		audioIcon.y = Values.PT18;
 		audioIcon.visible = hasAudioComment();
 
-		g.beginFill(AppColors.REN_SELECTED_BG, selected ? 1 : 0);
+		g.beginFill(AppColors.REN_SELECTED_BG, (selected && cardViewMode) ? 1 : 0);
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		if (!selected || showSeparatorWhenSelected) {
+		if (!(selected && cardViewMode) || showSeparatorWhenSelected) {
 			g.beginFill(AppColors.REN_SEP_COLOR);
 			g.drawRect(horizontalPadding, showSeparatorWhenSelected ? h - 1 : h, w - 2 * horizontalPadding, 1);
 			g.endFill();
