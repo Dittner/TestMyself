@@ -1,13 +1,17 @@
 package de.dittner.testmyself.ui.common.note {
 import de.dittner.async.utils.invalidateOf;
 import de.dittner.testmyself.ui.common.list.SelectableDataGroup;
-import de.dittner.testmyself.ui.common.renderer.IFlexibleRenderer;
+import de.dittner.testmyself.ui.common.renderer.INoteRenderer;
 
 import flash.events.Event;
 
 public class NoteList extends SelectableDataGroup {
 	public function NoteList() {
 		super();
+	}
+
+	override public function set percentWidth(value:Number):void {
+		super.percentWidth = value;
 	}
 
 	//--------------------------------------
@@ -19,19 +23,19 @@ public class NoteList extends SelectableDataGroup {
 	public function set renderOptions(value:NoteRenderOptions):void {
 		if (_renderOptions != value) {
 			_renderOptions = value;
-			invalidateRenderOptions();
+			invalidateRenderView();
 			dispatchEvent(new Event("renderOptionsChanged"));
 		}
 	}
 
-	public function invalidateRenderOptions():void {
-		invalidateOf(validateRenderOptions);
+	public function invalidateRenderView():void {
+		invalidateOf(validateRenderView);
 	}
 
-	private function validateRenderOptions():void {
+	private function validateRenderView():void {
 		for (var i:int = 0; i < numElements; i++) {
-			var renderer:IFlexibleRenderer = getElementAt(i) as IFlexibleRenderer;
-			if (renderer) renderer.invalidateOptions();
+			var renderer:INoteRenderer = getElementAt(i) as INoteRenderer;
+			if (renderer) renderer.invalidatePropertiesSizeAndDisplayList();
 		}
 	}
 

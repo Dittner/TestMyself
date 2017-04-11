@@ -19,7 +19,7 @@ public class CollapsedTileButton extends FadeTileButton {
 		isBold = true;
 		textColor = TEXT_COLOR;
 		use9Scale = true;
-		paddingRight = Values.PT20;
+		paddingRight = Values.PT17;
 		upBgAlpha = 1;
 	}
 

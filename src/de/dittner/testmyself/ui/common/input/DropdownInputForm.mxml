@@ -112,7 +112,7 @@
 
     <fx:Declarations>
         <s:Group id="templateListCont"
-                 width="100%" maxHeight="{Values.PT600}">
+                 width="100%" maxHeight="{Values.PT650}">
 
             <common2:BG percentWidth="100" percentHeight="100"
                         fillColor="{AppColors.SCREEN_FOOTER_BG}"

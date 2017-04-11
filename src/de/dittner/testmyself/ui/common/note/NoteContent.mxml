@@ -20,6 +20,7 @@
         import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
         import de.dittner.testmyself.ui.common.page.INotePage;
+        import de.dittner.testmyself.ui.common.renderer.INoteRenderer;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.utils.Values;
@@ -47,6 +48,10 @@
 
         public function updateSelectedItem():void {
             if (noteCard) noteCard.invalidateProperties();
+            if (noteList) {
+                var selectedRenderer:INoteRenderer = noteList.getSelectedRenderer() as INoteRenderer;
+                if (selectedRenderer) selectedRenderer.invalidatePropertiesSizeAndDisplayList();
+            }
             dispatchEvent(new Event("selectedItemChanged"));
         }
 
@@ -200,6 +205,8 @@
         public function activate(toolbar:NoteToolbar, actionMenu:IActionMenu):void {
             setToolbar(toolbar);
             setActionMenu(actionMenu);
+            toolbar.transInvertBtn.selected = renderOptions.inverted;
+            toolbar.showDetailsBtn.selected = renderOptions.showDetails;
             setActivated(true);
             noteList.renderOptions = renderOptions;
         }
@@ -284,7 +291,7 @@
         }
 
         private function invalidateRenderOptions():void {
-            if (activated && noteList) noteList.invalidateRenderOptions();
+            if (activated && noteList) noteList.invalidateRenderView();
         }
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
@@ -329,7 +336,7 @@
             <note:NoteList id="noteList"
                            selectedItem="@{selectedItem}"
                            dataProvider="{dataProvider}"
-                           width="100%"
+                           width="{width}"
                            contentBackgroundAlpha="0"
                            deselectEnabled="true"
                            itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.NoteRenderer"

@@ -18,7 +18,7 @@ import flash.display.Graphics;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer {
+public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.BLACK);
 	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT14, AppColors.BLACK);
 	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.BLACK);
@@ -131,7 +131,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		}
 	}
 
-	public function invalidateOptions():void {
+	public function invalidatePropertiesSizeAndDisplayList():void {
 		dataChanged = true;
 		invalidateProperties();
 		invalidateSize();
@@ -228,6 +228,7 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 	}
 
 	override protected function measure():void {
+		super.measure();
 		if (!note || !options || !parent) {
 			measuredWidth = measuredHeight = 0;
 			return;
@@ -255,19 +256,19 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 		var g:Graphics = graphics;
 		g.clear();
 
-		if (w != measuredWidth) {
+		/*if (w != measuredWidth) {
 			invalidateSize();
 			invalidateDisplayList();
-		}
+		}*/
 
 		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding;
 		exampleIcon.y = Values.PT7;
 		exampleIcon.visible = note.exampleColl && examplesNumTf.length > 0;
 		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT4;
-		examplesNumTf.y = Values.PT5;
+		examplesNumTf.y = Values.PT4;
 
 		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT10;
-		audioIcon.y = Values.PT18;
+		audioIcon.y = Values.PT17;
 		audioIcon.visible = hasAudioComment();
 
 		g.beginFill(AppColors.REN_SELECTED_BG, (selected && cardViewMode) ? 1 : 0);
@@ -282,6 +283,8 @@ public class NoteRenderer extends ItemRendererBase implements IFlexibleRenderer 
 
 		titleTf.x = horizontalPadding - TEXT_DEFAULT_OFFSET;
 		descriptionTf.x = horizontalPadding - TEXT_DEFAULT_OFFSET;
+		titleTf.width = w - 2 * horizontalPadding - audioIcon.width / 2;
+		descriptionTf.width = w - 2 * horizontalPadding;
 
 		if (titleTf.visible && descriptionTf.visible) {
 			titleTf.y = verticalPadding - TEXT_DEFAULT_OFFSET;

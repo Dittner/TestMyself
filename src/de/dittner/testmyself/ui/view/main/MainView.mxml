@@ -234,6 +234,7 @@
 
     <s:Group id="logsLayer" width="100%" height="100%"/>
 
-
+    <!-- <skins:Separator left="{Values.PT20}" percentHeight="100" color="#ff0000"/>
+    <skins:Separator right="{Values.PT20}" percentHeight="100" color="#ff0000"/>-->
 
 </s:Group>

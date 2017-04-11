@@ -68,7 +68,7 @@
 
     <s:HGroup width="100%" height="100%"
               disabledAlpha="1"
-              paddingLeft="0" paddingRight="0" gap="{Values.PT10}"
+              paddingLeft="{Values.PT10}" paddingRight="{Values.PT10}" gap="{Values.PT10}"
               verticalAlign="middle">
         <menu:MenuButton id="langListViewBtn"
                          enabled="{enabled}"

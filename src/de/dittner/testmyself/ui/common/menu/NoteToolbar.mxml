@@ -50,6 +50,7 @@
 
     <s:layout>
         <s:HorizontalLayout id="verLayout"
+                            paddingLeft="{Values.PT5}" paddingRight="{Values.PT5}"
                             gap="{Values.PT15}" verticalAlign="middle"/>
     </s:layout>
 

@@ -44,7 +44,7 @@
         public function set renderOptions(value:NoteRenderOptions):void {
             if (_renderOptions != value) {
                 _renderOptions = value;
-                if (list) list.invalidateRenderOptions();
+                if (list) list.invalidateRenderView();
                 dispatchEvent(new Event("renderOptionsChanged"));
             }
         }

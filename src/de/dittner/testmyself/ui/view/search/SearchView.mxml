@@ -157,7 +157,6 @@
                       top="{noteContent.isNoteCardShown ? 0 : searchBoard.height}" bottom="0"
                       selectedItem="@{vm.selectedNote}"
                       dataProvider="{vm.page.coll}"
-                      searchText="{}"
                       page="{vm.page}"
                       selectedItemChange="noteList_selectedItemChangeHandler(event)"
                       pageNumChanged="pageNumChanged()"/>

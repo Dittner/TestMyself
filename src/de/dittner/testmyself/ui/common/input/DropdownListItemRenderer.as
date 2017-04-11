@@ -53,13 +53,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 		var g:Graphics = graphics;
 		g.clear();
 
-		if (selected) {
-			tf.alpha = 1;
-			g.beginFill(0);
-			g.drawRect(0, 0, w, h);
-			g.endFill();
-		}
-		else if (hovered) {
+		if (hovered) {
 			tf.alpha = 1;
 			g.beginFill(0, 0.00001);
 			g.drawRect(0, 0, w, h);
@@ -86,7 +80,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 		tf.y = h - tf.textHeight >> 1;
 		tf.width = w - 2 * horPad;
 		tf.height = h - 2 * verPad;
-		tf.textColor  = selected ? AppColors.TEXT_WHITE : AppColors.BLACK;
+		tf.textColor = AppColors.BLACK;
 	}
 
 }

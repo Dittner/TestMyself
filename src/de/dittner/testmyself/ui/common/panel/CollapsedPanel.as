@@ -116,7 +116,7 @@ public class CollapsedPanel extends SkinnableContainer {
 	//--------------------------------------
 	//  paddingBottom
 	//--------------------------------------
-	private var _paddingBottom:Number = Values.PT10;
+	private var _paddingBottom:Number = Values.PT20;
 	[Bindable("paddingBottomChanged")]
 	public function get paddingBottom():Number {return _paddingBottom;}
 	public function set paddingBottom(value:Number):void {
