@@ -3,7 +3,6 @@ import de.dittner.async.CompositeCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.async.ProgressCommand;
 import de.dittner.ftpClient.FtpClient;
-import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.language.Language;
@@ -37,12 +36,6 @@ public class SettingsVM extends ViewModel {
 	//  Properties
 	//
 	//----------------------------------------------------------------------------------------------
-
-	//--------------------------------------
-	//  settings
-	//--------------------------------------
-	private var _settings:SettingsInfo;
-	public function get settings():SettingsInfo {return _settings;}
 
 	//--------------------------------------
 	//  wordVocabulary
@@ -92,6 +85,15 @@ public class SettingsVM extends ViewModel {
 		}
 	}
 
+	//--------------------------------------
+	//  settings
+	//--------------------------------------
+	[Bindable("settingsChanged")]
+	public function get settings():SettingsInfo {return appModel.settings;}
+	public function storeSettings():void {
+		appModel.storeSettings();
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -103,7 +105,7 @@ public class SettingsVM extends ViewModel {
 		var lang:Language = appModel.selectedLanguage;
 		viewTitle = ResourceManager.getInstance().getString('app', 'SETTINGS');
 		if (!ftp) ftp = new FtpClient(Device.stage);
-		_settings = appModel.hash.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo();
+
 		if (lang.id == LanguageID.DE) {
 			setWordVocabulary(lang.vocabularyHash.read(VocabularyID.DE_WORD));
 			setVerbVocabulary(lang.vocabularyHash.read(VocabularyID.DE_VERB));
@@ -123,20 +125,15 @@ public class SettingsVM extends ViewModel {
 		allTestColl = new ArrayCollection(allTests);
 	}
 
-	public function storeSettings(s:SettingsInfo):void {
-		_settings = s;
-		appModel.hash.write(LocalStorageKey.SETTINGS_KEY, s);
-	}
-
 	//--------------------------------------
 	//  DB Upload
 	//--------------------------------------
 
-	public function uploadDB(info:SettingsInfo):ProgressCommand {
+	public function uploadDB():ProgressCommand {
 		lockView();
 		var noteDBFile:File = File.documentsDirectory.resolvePath(Device.noteDBPath);
 		var audioDBFile:File = File.documentsDirectory.resolvePath(Device.audioDBPath);
-		var uploadCmd:CompositeCommand = ftp.upload([noteDBFile, audioDBFile], info.backUpServerInfo);
+		var uploadCmd:CompositeCommand = ftp.upload([noteDBFile, audioDBFile], settings.backUpServerInfo);
 		uploadCmd.addCompleteCallback(uploadDBComplete);
 		return uploadCmd;
 	}
@@ -149,7 +146,7 @@ public class SettingsVM extends ViewModel {
 	//  DB Download
 	//--------------------------------------
 
-	public function downloadDB(info:SettingsInfo):ProgressCommand {
+	public function downloadDB():ProgressCommand {
 		lockView();
 		var tempFolder:File = File.documentsDirectory.resolvePath(Device.dbTempPath);
 		if (tempFolder.exists) tempFolder.deleteDirectory(true);
@@ -161,7 +158,7 @@ public class SettingsVM extends ViewModel {
 		var audioDBFile:File = tempFolder.resolvePath(Device.AUDIO_DB_NAME);
 		createFile(audioDBFile);
 
-		var downloadCmd:CompositeCommand = ftp.download([noteDBFile, audioDBFile], info.backUpServerInfo);
+		var downloadCmd:CompositeCommand = ftp.download([noteDBFile, audioDBFile], settings.backUpServerInfo);
 		downloadCmd.addCompleteCallback(downloadDBComplete);
 		return downloadCmd;
 	}

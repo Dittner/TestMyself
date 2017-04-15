@@ -3,6 +3,7 @@ import air.net.URLMonitor;
 
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.utils.HashData;
 import de.dittner.testmyself.logging.CLog;
@@ -10,6 +11,7 @@ import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.language.DeLang;
 import de.dittner.testmyself.model.domain.language.EnLang;
 import de.dittner.testmyself.model.domain.language.Language;
+import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 import de.dittner.walter.WalterProxy;
 
 import flash.events.Event;
@@ -93,6 +95,23 @@ public class AppModel extends WalterProxy {
 		}
 	}
 
+	//--------------------------------------
+	//  settings
+	//--------------------------------------
+	private var _settings:SettingsInfo;
+	[Bindable("settingsChanged")]
+	public function get settings():SettingsInfo {return _settings;}
+	private function setSettings(value:SettingsInfo):void {
+		if (_settings != value) {
+			_settings = value;
+			dispatchEvent(new Event("settingsChanged"));
+		}
+	}
+
+	public function storeSettings():void {
+		hash.write(LocalStorageKey.SETTINGS_KEY, settings);
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -143,6 +162,8 @@ public class AppModel extends WalterProxy {
 				hash = new HashData();
 				hash.key = "appHash";
 			}
+
+			setSettings(hash.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo());
 			initOp.dispatchSuccess();
 		});
 	}

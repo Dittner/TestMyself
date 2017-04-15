@@ -51,14 +51,10 @@
             currentState = tabBar.selectedItem.state;
         }
 
-        private function storeSettings():void {
-            vm.storeSettings(commonSettings.getSettings());
-        }
-
         override protected function deactivate():void {
             super.deactivate();
             vm.viewDeactivated();
-            storeSettings();
+            vm.storeSettings();
         }
         ]]></fx:Script>
 

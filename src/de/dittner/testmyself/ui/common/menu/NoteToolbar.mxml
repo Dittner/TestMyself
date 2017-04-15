@@ -115,14 +115,4 @@
                              click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
     </s:HGroup>
 
-    <tile:FadeTileButton id="dayModeBtn"
-                         isToggle="true"
-                         visible="{dayModeBtn.enabled}"
-                         right="{Values.PT5}"
-                         verticalCenter="0"
-                         selected="true"
-                         upTileID="{TileID.TOOLBAR_NIGHT_MODE}"
-                         downTileID="{TileID.TOOLBAR_DAY_MODE}"
-                         click="notifyToolAction(dayModeBtn.selected ? ToolAction.DAY_MODE_SELECTED : ToolAction.NIGHT_MODE_SELECTED)"/>
-
 </s:Group>

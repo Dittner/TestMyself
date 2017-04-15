@@ -175,7 +175,7 @@
     <common:BG id="bg"
                visible="{isBgShown}"
                percentWidth="100" percentHeight="100"
-               fillColor="{noteToolbar.dayModeBtn.selected ? AppColors.WHITE : AppColors.BG}"/>
+               fillColor="{vm.appModel.settings.isDayMode ? AppColors.WHITE : AppColors.BG}"/>
 
 
     <s:Group id="viewCont"

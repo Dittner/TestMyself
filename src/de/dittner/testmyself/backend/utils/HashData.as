@@ -12,7 +12,7 @@ public class HashData {
 	public var isStored:Boolean = false;
 
 	public function write(key:String, value:*):void {
-		if (data[key] != value) {
+		if (key) {
 			data[key] = value;
 			store();
 		}
@@ -38,7 +38,7 @@ public class HashData {
 	private function store():void {
 		if (!isNaN(lastStoreIndex))
 			clearDelay(lastStoreIndex);
-		lastStoreIndex = doLaterInSec(deferredStore, 3)
+		lastStoreIndex = doLaterInSec(deferredStore, 2)
 	}
 
 	private function deferredStore():void {

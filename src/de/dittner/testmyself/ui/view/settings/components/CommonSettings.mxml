@@ -37,7 +37,8 @@
             progressBar.visible = true;
             errorText = "";
             isDataBaseTransferOperationSuccess = false;
-            var cmd:ProgressCommand = vm.uploadDB(getSettings());
+            updateSettings();
+            var cmd:ProgressCommand = vm.uploadDB();
             cmd.addProgressCallback(uploadDBProgress);
             cmd.addCompleteCallback(uploadDBComplete);
         }
@@ -66,7 +67,8 @@
             progressBar.visible = true;
             errorText = "";
             isDataBaseTransferOperationSuccess = false;
-            var cmd:ProgressCommand = vm.downloadDB(getSettings());
+            updateSettings();
+            var cmd:ProgressCommand = vm.downloadDB();
             cmd.addCompleteCallback(downloadDBComplete);
             cmd.addProgressCallback(downloadProgress);
         }
@@ -86,15 +88,24 @@
             progressBar.visible = false;
         }
 
-        public function getSettings():SettingsInfo {
-            var info:SettingsInfo = new SettingsInfo();
-            info.maxAudioRecordDurationInMin = maxAudioRecordDurationSpinner.value;
-            info.backUpServerInfo.host = hostInput.text;
-            info.backUpServerInfo.port = int(portInput.text);
-            info.backUpServerInfo.user = userNameInput.text;
-            info.backUpServerInfo.password = pwdInput.text;
-            info.backUpServerInfo.remoteDirPath = remoteDirInput.text;
-            return info;
+        public function updateSettings():void {
+            vm.settings.maxAudioRecordDurationInMin = maxAudioRecordDurationSpinner.value;
+            vm.settings.backUpServerInfo.host = hostInput.text;
+            vm.settings.backUpServerInfo.port = int(portInput.text);
+            vm.settings.backUpServerInfo.user = userNameInput.text;
+            vm.settings.backUpServerInfo.password = pwdInput.text;
+            vm.settings.backUpServerInfo.remoteDirPath = remoteDirInput.text;
+            vm.storeSettings();
+        }
+
+        private function dayModeBtn_changeHandler(event:Event):void {
+            if (dayModeBtn.selected)
+                vm.settings.isDayMode = true;
+        }
+
+        private function nightModeBtn_changeHandler(event:Event):void {
+            if (nightModeBtn.selected)
+                vm.settings.isDayMode = false;
         }
         ]]></fx:Script>
 
@@ -106,6 +117,43 @@
     </s:layout>
 
     <s:VGroup width="{Values.PT400}" gap="{Values.PT10}">
+        <s:Label width="100%"
+                 text="{resourceManager.getString('app', 'BrightnessLevel')}"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontStyle="italic"
+                 fontSize="{Values.PT18}"
+                 color="{AppColors.BLACK}"/>
+
+        <s:HGroup width="100%" gap="{Values.PT20}" paddingBottom="{Values.PT20}">
+            <tile:FadeTileButton id="dayModeBtn"
+                                 isToggle="true"
+                                 upTileID="{TileID.BTN_BLACK}"
+                                 iconTileID="{TileID.SUN_ICON}"
+                                 use9Scale="true"
+                                 paddingLeft="{Values.PT10}"
+                                 paddingRight="{Values.PT10}"
+                                 textColor="#ffFFff"
+                                 selected="{vm.settings.isDayMode}"
+                                 width="{Values.PT190}"
+                                 deselectOnlyProgrammatically="true"
+                                 title="{resourceManager.getString('app', 'DayMode')}"
+                                 change="dayModeBtn_changeHandler(event)"/>
+
+            <tile:FadeTileButton id="nightModeBtn"
+                                 isToggle="true"
+                                 upTileID="{TileID.BTN_BLACK}"
+                                 iconTileID="{TileID.MOON_ICON}"
+                                 use9Scale="true"
+                                 paddingLeft="{Values.PT10}"
+                                 paddingRight="{Values.PT10}"
+                                 textColor="#ffFFff"
+                                 selected="{!vm.settings.isDayMode}"
+                                 width="{Values.PT190}"
+                                 deselectOnlyProgrammatically="true"
+                                 title="{resourceManager.getString('app', 'NightMode')}"
+                                 change="nightModeBtn_changeHandler(event)"/>
+        </s:HGroup>
+
         <s:Label width="100%"
                  text="{resourceManager.getString('app', 'AudioRecordSize')}"
                  fontFamily="{FontName.MYRIAD}"
@@ -123,7 +171,7 @@
         <!--<button:BlackButton label="DB Parsing from SO"
                             click="parseDBFromSO()"/>-->
 
-        <s:Spacer height="{Values.PT30}"/>
+        <s:Spacer height="{Values.PT20}"/>
 
         <s:Label text="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
                  width="100%"
@@ -160,7 +208,7 @@
 
     </s:VGroup>
 
-    <s:Spacer height="{Values.PT30}"/>
+    <s:Spacer height="{Values.PT20}"/>
 
     <s:Group width="100%">
 
@@ -192,7 +240,7 @@
                              click="uploadDB()"/>
     </s:Group>
 
-    <s:Spacer height="{Values.PT30}"/>
+    <s:Spacer height="{Values.PT20}"/>
 
     <progressbar:ProgressBar id="progressBar"
                              visible="false"

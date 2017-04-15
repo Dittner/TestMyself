@@ -16,9 +16,6 @@ public class ToolAction {
 	public static const SHOW_FAILED_TASK:String = "SHOW_FAILED_TASK";
 	public static const SHOW_ALL_TASK:String = "SHOW_ALL_TASK";
 
-	public static const DAY_MODE_SELECTED:String = "DAY_MODE_SELECTED";
-	public static const NIGHT_MODE_SELECTED:String = "NIGHT_MODE_SELECTED";
-
 	/*action bar*/
 	public static const APPLY:String = "APPLY";
 	public static const CANCEL:String = "CANCEL";

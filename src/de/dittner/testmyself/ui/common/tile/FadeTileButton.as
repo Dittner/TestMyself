@@ -409,7 +409,7 @@ public class FadeTileButton extends UIComponent {
 			iconBg = new TileShape(iconTileID);
 			addChild(iconBg);
 		}
-		if(iconBg) iconBg.tileID = iconTileID;
+		if (iconBg) iconBg.tileID = iconTileID;
 
 		if (title && !titleTf) {
 			titleTf = TextFieldFactory.create(TITLE_FORMAT);
@@ -431,6 +431,7 @@ public class FadeTileButton extends UIComponent {
 		super.measure();
 		measuredWidth = !use9Scale ? upBg.measuredWidth : 0;
 		measuredWidth = titleTf && titleTf.text ? Math.max(measuredWidth, (titleTf.textWidth + paddingLeft + paddingRight)) : upBg.measuredWidth;
+		if (iconBg) measuredWidth += 2 * (iconBg.width + Values.PT5 + paddingLeft);
 		measuredHeight = upBg.measuredHeight;
 	}
 
