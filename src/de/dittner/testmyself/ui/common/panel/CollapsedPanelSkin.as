@@ -54,9 +54,9 @@ public class CollapsedPanelSkin extends MobileSkin {
 	}
 
 	override protected function drawBackground(w:Number, h:Number):void {
-		graphics.beginFill(getStyle("backgroundColor"), getStyle("backgroundAlpha"));
+		/*graphics.beginFill(getStyle("backgroundColor"), getStyle("backgroundAlpha"));
 		graphics.drawRect(0, headerBtn.getExplicitOrMeasuredHeight(), w, h - headerBtn.getExplicitOrMeasuredHeight());
-		graphics.endFill();
+		graphics.endFill();*/
 	}
 }
 }

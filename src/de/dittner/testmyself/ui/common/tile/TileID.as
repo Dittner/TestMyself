@@ -77,6 +77,9 @@ public class TileID {
 	public static const TOOLBAR_DELETE_LIGHT:String = "TOOLBAR_DELETE_LIGHT";
 	public static const TOOLBAR_FILTER_LIGHT:String = "TOOLBAR_FILTER_LIGHT";
 
+	public static const TOOLBAR_DAY_MODE:String = "TOOLBAR_DAY_MODE";
+	public static const TOOLBAR_NIGHT_MODE:String = "TOOLBAR_NIGHT_MODE";
+
 	//-------------------------------- BUTTON -------------------------
 
 	public static const BTN_BLACK:String = "BTN_BLACK";

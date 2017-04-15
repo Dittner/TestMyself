@@ -5,7 +5,6 @@
                 xmlns:components="de.dittner.testmyself.ui.view.search.components.*"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
                 xmlns:note="de.dittner.testmyself.ui.common.note.*"
-                xmlns:common="de.dittner.testmyself.ui.common.*"
                 currentState="inactive"
                 horizontalCenter="0">
 
@@ -15,7 +14,6 @@
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
-        import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.utils.Values;
@@ -105,6 +103,7 @@
             if (op.isSuccess && op.result == FormOperationResult.OK) {
                 vm.page.countAllNotes = true;
                 noteContent.hideNoteCard();
+                toolbar.goBackBtn.enabled = false;
                 search();
             }
             else {
@@ -143,8 +142,6 @@
         <s:State name="inactive"/>
         <s:State name="active"/>
     </core:states>
-
-    <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
 
     <components:SearchBoard id="searchBoard"
                             visible="{!noteContent.isNoteCardShown}"

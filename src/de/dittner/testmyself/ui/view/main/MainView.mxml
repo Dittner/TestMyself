@@ -14,6 +14,7 @@
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.ui.common.menu.NavigationMenu;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -70,6 +71,19 @@
                 _viewLocked = value;
                 currentState = _viewLocked ? "lock" : "normal";
                 dispatchEvent(new Event("viewLockedChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  isBgShown
+        //--------------------------------------
+        private var _isBgShown:Boolean = true;
+        [Bindable("isBgShownChanged")]
+        public function get isBgShown():Boolean {return _isBgShown;}
+        public function set isBgShown(value:Boolean):void {
+            if (_isBgShown != value) {
+                _isBgShown = value;
+                dispatchEvent(new Event("isBgShownChanged"));
             }
         }
 
@@ -157,6 +171,12 @@
             </s:Parallel>
         </s:Transition>
     </s:transitions>
+
+    <common:BG id="bg"
+               visible="{isBgShown}"
+               percentWidth="100" percentHeight="100"
+               fillColor="{noteToolbar.dayModeBtn.selected ? AppColors.WHITE : AppColors.BG}"/>
+
 
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"

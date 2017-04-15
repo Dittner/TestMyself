@@ -72,13 +72,6 @@
         }
         ]]></fx:Script>
 
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:BitmapFill source="@Embed(source='/assets/screen_bg_pattern.png')"
-                          fillMode="repeat"/>
-        </s:fill>
-    </s:Rect>
-
     <list:ListForm id="vocabularyList"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"

@@ -9,5 +9,7 @@ public interface IMainView {
 	function get actionMenu():ActionMenu;
 	function get toolbar():NoteToolbar;
 	function get form():NoteForm;
+	function get isBgShown():Boolean;
+	function set isBgShown(value:Boolean):void;
 }
 }

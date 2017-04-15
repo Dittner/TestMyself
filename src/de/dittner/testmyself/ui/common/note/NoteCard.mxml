@@ -166,15 +166,6 @@
             return "";
         }
 
-        override protected function updateDisplayList(w:Number, h:Number):void {
-            super.updateDisplayList(w, h);
-            var g:Graphics = graphics;
-            g.clear();
-            g.beginFill(0xffFFff);
-            g.drawRect(0, 0, w, h);
-            g.endFill();
-        }
-
         private function loadComment(andPlay:Boolean = false):void {
             if (note && note.hasAudio) {
                 if (note.audioComment.isMp3 && note.audioComment.hasBytes) {
@@ -215,7 +206,7 @@
                                 textThickness="80"
                                 left="0" right="{Values.PT15}"/>
                 <s:Label id="tagsInfoLbl"
-                         width="{width}"
+                         width="100%"
                          maxDisplayedLines="1"
                          textAlign="right"
                          bottom="{-Values.PT18}"
@@ -237,7 +228,7 @@
                                   width="{width}"
                                   isOpened="true">
                 <note:NoteLabel id="descriptionLbl"
-                                width="{width}"
+                                width="100%"
                                 height="100%"
                                 fontSize="{Values.PT22}"
                                 textColor="{AppColors.TEXT_DARK_GRAY}"/>

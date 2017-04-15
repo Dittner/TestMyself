@@ -156,25 +156,24 @@
         }
         ]]></fx:Script>
 
-    <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.WHITE}"/>
-
     <!--HEADER-->
-    <s:Label text="{errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
-             right="{padding}" top="{padding}"
-             textAlign="right"
-             fontSize="{Values.PT20}"
-             maxDisplayedLines="1"
-             mouseChildren="false" mouseEnabled="false"
-             color="{AppColors.TEXT_LIGHT}"/>
-
     <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
-             fontFamily="{FontName.MYRIAD_COND}"
-             fontWeight="bold"
+             fontFamily="{FontName.MYRIAD}"
              fontSize="{Values.PT20}"
              mouseChildren="false" mouseEnabled="false"
              left="{padding}" top="{padding}"
-             color="{AppColors.TEXT_LIGHT}"/>
+             color="0"
+             alpha="0.6"/>
 
+    <s:Label text="{errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
+             right="{padding}" top="{padding}"
+             textAlign="right"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="{Values.PT20}"
+             maxDisplayedLines="1"
+             mouseChildren="false" mouseEnabled="false"
+             color="0"
+             alpha="0.6"/>
     <!--BODY-->
 
     <scroller:CustomScroller width="100%" top="{Values.PT50}" bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
@@ -217,7 +216,7 @@
 
     <!--footer-->
     <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}" bottom="0"
-              opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
+              opaqueBackground="{AppColors.TOOLBAR_BG}">
 
         <s:Label id="titleLbl"
                  text="{vm.selectedVocabulary.title.toUpperCase() + '. ' + vm.testPage.test.title}"

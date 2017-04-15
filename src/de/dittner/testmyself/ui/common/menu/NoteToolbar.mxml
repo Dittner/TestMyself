@@ -42,22 +42,18 @@
             super.updateDisplayList(w, h);
             var g:Graphics = graphics;
             g.clear();
-            g.beginFill(AppColors.SCREEN_FOOTER_BG);
+            g.beginFill(AppColors.TOOLBAR_BG);
             g.drawRect(0, 0, w, h);
             g.endFill();
         }
         ]]></fx:Script>
 
-    <s:layout>
-        <s:HorizontalLayout id="verLayout"
-                            paddingLeft="{Values.PT5}" paddingRight="{Values.PT5}"
-                            gap="{Values.PT15}" verticalAlign="middle"/>
-    </s:layout>
-
     <tile:FadeTileButton id="goBackBtn"
                          visible="{goBackBtn.enabled}"
                          includeInLayout="{goBackBtn.enabled}"
                          upTileID="{TileID.TOOLBAR_GO_BACK}"
+                         left="{Values.PT5}"
+                         verticalCenter="0"
                          paddingLeft="{Values.PT40}"
                          paddingRight="0"
                          fontSize="{Values.PT18}"
@@ -65,66 +61,68 @@
                          title="{resourceManager.getString('app', 'GoBack')}"
                          click="notifyToolAction(ToolAction.GO_BACK)"/>
 
-    <s:Spacer width="100%"/>
+    <s:HGroup horizontalCenter="0" verticalAlign="middle" gap="{Values.PT15}">
+        <tile:FadeTileButton id="addNoteBtn"
+                             upTileID="{TileID.TOOLBAR_ADD}"
+                             click="notifyToolAction(ToolAction.CREATE_NOTE)"/>
 
-    <s:Spacer width="{Values.PT15}"/>
+        <tile:FadeTileButton id="editNoteBtn"
+                             upTileID="{TileID.TOOLBAR_EDIT}"
+                             click="notifyToolAction(ToolAction.EDIT_NOTE)"/>
 
-    <tile:FadeTileButton id="addNoteBtn"
-                         upTileID="{TileID.TOOLBAR_ADD}"
-                         click="notifyToolAction(ToolAction.CREATE_NOTE)"/>
+        <tile:FadeTileButton id="removeNoteBtn"
+                             upTileID="{TileID.TOOLBAR_DELETE}"
+                             click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
-    <tile:FadeTileButton id="editNoteBtn"
-                         upTileID="{TileID.TOOLBAR_EDIT}"
-                         click="notifyToolAction(ToolAction.EDIT_NOTE)"/>
+        <s:Spacer width="{Values.PT15}"/>
 
-    <tile:FadeTileButton id="removeNoteBtn"
-                         upTileID="{TileID.TOOLBAR_DELETE}"
-                         click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
+        <tile:FadeTileButton id="showDetailsBtn"
+                             isToggle="true"
+                             visible="{showDetailsBtn.enabled}"
+                             includeInLayout="{showDetailsBtn.enabled}"
+                             selected="false"
+                             upTileID="{TileID.TOOLBAR_COLLAPSED_LIST}"
+                             downTileID="{TileID.TOOLBAR_EXPANDED_LIST}"
+                             selectedChange="notifyToolAction(showDetailsBtn.selected ? ToolAction.SHOW_DETAILS : ToolAction.HIDE_DETAILS)"
+                             click="notifyToolAction(showDetailsBtn.selected ? ToolAction.SHOW_DETAILS : ToolAction.HIDE_DETAILS)"/>
 
-    <s:Spacer width="{Values.PT15}"/>
+        <tile:FadeTileButton id="transInvertBtn"
+                             isToggle="true"
+                             visible="{transInvertBtn.enabled}"
+                             includeInLayout="{transInvertBtn.enabled}"
+                             upTileID="{TileID.TOOLBAR_INVERSE_TRANSLATION}"
+                             click="notifyToolAction(transInvertBtn.selected ? ToolAction.APPLY_INVERT : ToolAction.DENY_INVERT)"/>
 
-    <tile:FadeTileButton id="showDetailsBtn"
+        <tile:FadeTileButton id="filterBtn"
+                             visible="{filterBtn.enabled}"
+                             includeInLayout="{filterBtn.enabled}"
+                             upTileID="{TileID.TOOLBAR_FILTER}"
+                             click="notifyToolAction(ToolAction.FILTER)"/>
+
+        <tile:FadeTileButton id="showFailedTasksBtn"
+                             isToggle="true"
+                             visible="{showFailedTasksBtn.enabled}"
+                             includeInLayout="{showFailedTasksBtn.enabled}"
+                             selected="true"
+                             upTileID="{TileID.TOOLBAR_SHOW_ALL_TASK}"
+                             downTileID="{TileID.TOOLBAR_SHOW_FAILED_TASK}"
+                             click="notifyToolAction(showFailedTasksBtn.selected ? ToolAction.SHOW_FAILED_TASK : ToolAction.SHOW_ALL_TASK)"/>
+
+        <tile:FadeTileButton id="setTaskAsRightBtn"
+                             visible="{showFailedTasksBtn.enabled}"
+                             includeInLayout="{showFailedTasksBtn.enabled}"
+                             upTileID="{TileID.TOOLBAR_SET_TASK_AS_RIGHT}"
+                             click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
+    </s:HGroup>
+
+    <tile:FadeTileButton id="dayModeBtn"
                          isToggle="true"
-                         visible="{showDetailsBtn.enabled}"
-                         includeInLayout="{showDetailsBtn.enabled}"
-                         selected="false"
-                         upTileID="{TileID.TOOLBAR_COLLAPSED_LIST}"
-                         downTileID="{TileID.TOOLBAR_EXPANDED_LIST}"
-                         selectedChange="notifyToolAction(showDetailsBtn.selected ? ToolAction.SHOW_DETAILS : ToolAction.HIDE_DETAILS)"
-                         click="notifyToolAction(showDetailsBtn.selected ? ToolAction.SHOW_DETAILS : ToolAction.HIDE_DETAILS)"/>
-
-    <tile:FadeTileButton id="transInvertBtn"
-                         isToggle="true"
-                         visible="{transInvertBtn.enabled}"
-                         includeInLayout="{transInvertBtn.enabled}"
-                         upTileID="{TileID.TOOLBAR_INVERSE_TRANSLATION}"
-                         click="notifyToolAction(transInvertBtn.selected ? ToolAction.APPLY_INVERT : ToolAction.DENY_INVERT)"/>
-
-    <tile:FadeTileButton id="filterBtn"
-                         visible="{filterBtn.enabled}"
-                         includeInLayout="{filterBtn.enabled}"
-                         upTileID="{TileID.TOOLBAR_FILTER}"
-                         click="notifyToolAction(ToolAction.FILTER)"/>
-
-    <tile:FadeTileButton id="showFailedTasksBtn"
-                         isToggle="true"
-                         visible="{showFailedTasksBtn.enabled}"
-                         includeInLayout="{showFailedTasksBtn.enabled}"
+                         visible="{dayModeBtn.enabled}"
+                         right="{Values.PT5}"
+                         verticalCenter="0"
                          selected="true"
-                         upTileID="{TileID.TOOLBAR_SHOW_ALL_TASK}"
-                         downTileID="{TileID.TOOLBAR_SHOW_FAILED_TASK}"
-                         click="notifyToolAction(showFailedTasksBtn.selected ? ToolAction.SHOW_FAILED_TASK : ToolAction.SHOW_ALL_TASK)"/>
-
-    <tile:FadeTileButton id="setTaskAsRightBtn"
-                         visible="{showFailedTasksBtn.enabled}"
-                         includeInLayout="{showFailedTasksBtn.enabled}"
-                         upTileID="{TileID.TOOLBAR_SET_TASK_AS_RIGHT}"
-                         click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
-
-    <s:Spacer width="100%"/>
-
-    <s:Spacer width="{goBackBtn.width}"
-              visible="{goBackBtn.enabled}"
-              includeInLayout="{goBackBtn.enabled}"/>
+                         upTileID="{TileID.TOOLBAR_NIGHT_MODE}"
+                         downTileID="{TileID.TOOLBAR_DAY_MODE}"
+                         click="notifyToolAction(dayModeBtn.selected ? ToolAction.DAY_MODE_SELECTED : ToolAction.NIGHT_MODE_SELECTED)"/>
 
 </s:Group>

@@ -3,11 +3,11 @@ import de.dittner.testmyself.ui.common.tile.FadeTileButton;
 import de.dittner.testmyself.ui.common.tile.TileID;
 import de.dittner.testmyself.utils.Values;
 
+import flash.events.MouseEvent;
+
 [Event(name="change", type="flash.events.Event")]
 
 public class CollapsedTileButton extends FadeTileButton {
-	public static const SELECTED_TEXT_COLOR:uint = 0xb5b5b6;
-	public static const TEXT_COLOR:uint = 0x858586;
 
 	public function CollapsedTileButton() {
 		super();
@@ -17,7 +17,7 @@ public class CollapsedTileButton extends FadeTileButton {
 		iconTileID = TileID.CLOSED_LIST_ICON;
 		fontSize = Values.PT18;
 		isBold = true;
-		textColor = TEXT_COLOR;
+		textColor = 0x858586;
 		use9Scale = true;
 		paddingRight = Values.PT17;
 		upBgAlpha = 1;
@@ -27,7 +27,6 @@ public class CollapsedTileButton extends FadeTileButton {
 		if (selected != value) {
 			super.selected = value;
 			iconTileID = selected ? TileID.OPENED_LIST_ICON : TileID.CLOSED_LIST_ICON;
-			textColor = selected ? SELECTED_TEXT_COLOR : TEXT_COLOR;
 		}
 	}
 
@@ -50,6 +49,54 @@ public class CollapsedTileButton extends FadeTileButton {
 		if (iconBg) {
 			iconBg.x = w - paddingRight - iconBg.width;
 		}
+	}
+
+	override protected function mouseOverHandler(event:MouseEvent):void {
+		if (upBg)
+			upBg.alphaTo = enabled ? selected ? 0 : 1 : disabledBgAlpha;
+
+		if (downBg)
+			downBg.alphaTo = selected ? enabled ? 1 : disabledBgAlpha : 0;
+
+		if (disabledBg)
+			disabledBg.alphaTo = enabled ? 0 : 1;
+	}
+
+	override protected function mouseDownHandler(event:MouseEvent):void {
+		isDown = true;
+
+		if (upBg)
+			upBg.alphaTo = enabled ? selected ? 0 : 1 : disabledBgAlpha;
+
+		if (downBg)
+			downBg.alphaTo = enabled ? 1 : disabledBgAlpha;
+
+		if (disabledBg)
+			disabledBg.alphaTo = enabled ? 0 : 1;
+	}
+
+	override protected function mouseOutHandler(event:MouseEvent):void {
+		isDown = false;
+
+		if (upBg)
+			upBg.alphaTo = enabled ? selected ? 0 : upBgAlpha : disabledBgAlpha;
+
+		if (downBg)
+			downBg.alphaTo = selected ? enabled ? 1 : disabledBgAlpha : 0;
+
+		if (disabledBg)
+			disabledBg.alphaTo = enabled ? 0 : 1;
+	}
+
+	override protected function redrawBg():void {
+		if (upBg)
+			upBg.alphaTo = enabled ? selected ? 0 : upBgAlpha : disabledBgAlpha;
+
+		if (downBg)
+			downBg.alphaTo = selected ? enabled ? 1 : disabledBgAlpha : 0;
+
+		if (disabledBg)
+			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
 }

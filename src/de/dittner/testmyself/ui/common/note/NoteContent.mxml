@@ -327,7 +327,6 @@
     <common:Container id="listCont"
                       width="{width}"
                       height="100%">
-        <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.BG}"/>
 
         <scroller:CustomScroller width="100%"
                                  top="0" bottom="{AppSizes.SCREEN_FOOTER_HEIGHT}"
@@ -350,11 +349,10 @@
 
         <!--footer-->
         <common:BG percentWidth="100" height="{AppSizes.SCREEN_FOOTER_HEIGHT}"
-                   bottom="0" fillColor="{AppColors.SCREEN_FOOTER_BG}"/>
+                   bottom="0" fillColor="{AppColors.TOOLBAR_BG}"/>
 
         <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
-                  verticalAlign="middle"
-                  opaqueBackground="{AppColors.SCREEN_FOOTER_BG}">
+                  verticalAlign="middle">
             <s:Spacer width="50%"/>
 
             <navigation:PaginationBar id="paginationBar"

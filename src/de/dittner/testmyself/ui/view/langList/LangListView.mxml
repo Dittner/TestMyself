@@ -25,9 +25,12 @@
         override protected function activate():void {
             vm.unlockView();
             vm.viewActivated(viewID);
+            mainView.isBgShown = false;
         }
 
-        override protected function deactivate():void {}
+        override protected function deactivate():void {
+            mainView.isBgShown = true;
+        }
         ]]></fx:Script>
 
     <components:LanguageInfoBoard id="deInfoBoard"

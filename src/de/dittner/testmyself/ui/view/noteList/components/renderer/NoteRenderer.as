@@ -34,7 +34,6 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		percentWidth = 100;
 	}
 
-	protected var showSeparatorWhenSelected:Boolean = false;
 	protected var titleTf:TextField;
 	protected var examplesNumTf:TextField;
 	protected var descriptionTf:TextField;
@@ -88,7 +87,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	override public function set selected(value:Boolean):void {
 		super.selected = value;
 		dataChanged = true;
-		if(cardViewMode) {
+		if (cardViewMode) {
 			invalidateProperties();
 			invalidateSize();
 			invalidateDisplayList();
@@ -256,11 +255,6 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		var g:Graphics = graphics;
 		g.clear();
 
-		/*if (w != measuredWidth) {
-			invalidateSize();
-			invalidateDisplayList();
-		}*/
-
 		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding;
 		exampleIcon.y = Values.PT7;
 		exampleIcon.visible = note.exampleColl && examplesNumTf.length > 0;
@@ -271,15 +265,13 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		audioIcon.y = Values.PT17;
 		audioIcon.visible = hasAudioComment();
 
-		g.beginFill(AppColors.REN_SELECTED_BG, (selected && cardViewMode) ? 1 : 0);
+		g.beginFill(0, 0);
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		if (!(selected && cardViewMode) || showSeparatorWhenSelected) {
-			g.beginFill(AppColors.REN_SEP_COLOR);
-			g.drawRect(horizontalPadding, showSeparatorWhenSelected ? h - 1 : h, w - 2 * horizontalPadding, 1);
-			g.endFill();
-		}
+		g.beginFill(AppColors.REN_SEP_COLOR);
+		g.drawRect(horizontalPadding, h - 1, w - 2 * horizontalPadding, 1);
+		g.endFill();
 
 		titleTf.x = horizontalPadding - TEXT_DEFAULT_OFFSET;
 		descriptionTf.x = horizontalPadding - TEXT_DEFAULT_OFFSET;

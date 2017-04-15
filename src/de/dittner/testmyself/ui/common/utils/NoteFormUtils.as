@@ -39,6 +39,7 @@ public class NoteFormUtils {
 			txt = txt.replace(/(“)/gi, '"');
 			txt = txt.replace(/(«)/gi, '"');
 			txt = txt.replace(/(»)/gi, '"');
+			txt = txt.replace(/(")/gi, '"');
 			txt = txt.replace(/(–)/gi, "-");
 			txt = txt.replace(/( - )/gi, " – ");
 		}
@@ -145,6 +146,8 @@ public class NoteFormUtils {
 			txt = txt.replace(/(геогр )/gi, "геогр. ");
 			txt = txt.replace(/(воен )/gi, "воен. ");
 			txt = txt.replace(/(бот )/gi, "бот. ");
+			txt = txt.replace(/(напр )/gi, "напр. ");
+			txt = txt.replace(/(психол )/gi, "психол. ");
 
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");

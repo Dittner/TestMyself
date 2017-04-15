@@ -13,7 +13,6 @@ public class ExampleRenderer extends NoteRenderer {
 		super();
 		percentWidth = 100;
 		minHeight = Values.PT30;
-		showSeparatorWhenSelected = true;
 		cardViewMode = true;
 	}
 

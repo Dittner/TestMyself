@@ -6,12 +6,13 @@ public class AppColors {
 	public static const EDITOR_CONTENT_BG:uint = 0xf0F0f5;
 	public static const EXAMPLES_BG:uint = 0xffFFff;
 
-	public static const BG:uint = 0xf0F0f5;
+	public static const BG:uint = 0xeeEEf5;
 	public static const MENU_LIST_BG:uint = 0;
 
 	public static const EDITOR_BORDER:uint = 0;
 	public static const EDITOR_SHADOW:uint = 0x54545d;
-	public static const SCREEN_FOOTER_BG:uint = 0xceced6;
+	public static const DARK_LIST_BG:uint = 0xceced6;
+	public static const TOOLBAR_BG:uint = 0xadabb7;
 
 	public static const BLACK:uint = 0x000000;
 	public static const TEXT_CONTROL_TITLE:uint = 0x777780;

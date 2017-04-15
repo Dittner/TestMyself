@@ -100,7 +100,7 @@
     <fx:Declarations>
         <s:Group id="listCont">
             <common2:BG percentWidth="100" percentHeight="100"
-                        fillColor="{AppColors.SCREEN_FOOTER_BG}"
+                        fillColor="{AppColors.DARK_LIST_BG}"
                         borderColor="{AppColors.INPUT_BORDER}"
                         borderWeight="1"/>
                 <common:SelectableDataGroup id="list"

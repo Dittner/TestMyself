@@ -468,7 +468,7 @@ public class FadeTileButton extends UIComponent {
 
 			if (titleTf) {
 				titleTf.x = iconBg ? iconBg.x + iconBg.width + Values.PT5 : paddingLeft - Values.PT3;
-				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT2;
+				titleTf.y = (h - titleTf.textHeight >> 1) - Values.PT1;
 				titleTf.width = iconBg ? w - 2 * titleTf.x : w - titleTf.x - paddingRight + Values.PT3;
 				titleTf.height = h - titleTf.y;
 			}
@@ -496,7 +496,7 @@ public class FadeTileButton extends UIComponent {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private var isDown:Boolean = false;
+	protected var isDown:Boolean = false;
 
 	private function mouseUpHandler(event:MouseEvent):void {
 		if (isDown && isToggle) {
@@ -522,7 +522,7 @@ public class FadeTileButton extends UIComponent {
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	private function mouseOverHandler(event:MouseEvent):void {
+	protected function mouseOverHandler(event:MouseEvent):void {
 		if (upBg)
 			upBg.alphaTo = enabled ? 1 : disabledBgAlpha;
 
@@ -533,7 +533,7 @@ public class FadeTileButton extends UIComponent {
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	private function mouseDownHandler(event:MouseEvent):void {
+	protected function mouseDownHandler(event:MouseEvent):void {
 		isDown = true;
 
 		if (upBg)
@@ -546,7 +546,7 @@ public class FadeTileButton extends UIComponent {
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	private function mouseOutHandler(event:MouseEvent):void {
+	protected function mouseOutHandler(event:MouseEvent):void {
 		isDown = false;
 
 		if (upBg)
@@ -559,7 +559,7 @@ public class FadeTileButton extends UIComponent {
 			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
-	private function redrawBg():void {
+	protected function redrawBg():void {
 		if (upBg)
 			upBg.alphaTo = enabled ? (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
 
