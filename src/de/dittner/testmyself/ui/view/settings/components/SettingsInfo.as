@@ -1,5 +1,6 @@
 package de.dittner.testmyself.ui.view.settings.components {
 import de.dittner.ftpClient.utils.ServerInfo;
+import de.dittner.testmyself.ui.common.utils.AppColors;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -28,15 +29,15 @@ public class SettingsInfo extends EventDispatcher {
 	}
 
 	//--------------------------------------
-	//  isDayMode
+	//  appBgColor
 	//--------------------------------------
-	private var _isDayMode:Boolean = true;
-	[Bindable("isDayModeChanged")]
-	public function get isDayMode():Boolean {return _isDayMode;}
-	public function set isDayMode(value:Boolean):void {
-		if (_isDayMode != value) {
-			_isDayMode = value;
-			dispatchEvent(new Event("isDayModeChanged"));
+	private var _appBgColor:uint = AppColors.APP_BG_WHITE;
+	[Bindable("appBgColorChanged")]
+	public function get appBgColor():uint {return _appBgColor;}
+	public function set appBgColor(value:uint):void {
+		if (_appBgColor != value) {
+			_appBgColor = value;
+			dispatchEvent(new Event("appBgColorChanged"));
 		}
 	}
 

@@ -112,19 +112,19 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		}
 		if (!examplesNumTf) {
 			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT);
-			examplesNumTf.alpha = 0.3;
+			examplesNumTf.alpha = 0.4;
 			addChild(examplesNumTf);
 		}
 		if (!audioIcon) {
-			audioIcon = new TileShape(TileID.BTN_PLAY_AUDIO_UP);
-			audioIcon.alpha = 0.3;
+			audioIcon = new TileShape(TileID.PLAY_AUDIO_ICON);
+			audioIcon.alpha = 0.4;
 			audioIcon.visible = false;
 			addChild(audioIcon);
 		}
 
 		if (!exampleIcon) {
 			exampleIcon = new TileShape(TileID.EXAMPLE_ICON);
-			exampleIcon.alpha = 0.3;
+			exampleIcon.alpha = 0.4;
 			exampleIcon.visible = false;
 			addChild(exampleIcon);
 		}
@@ -259,10 +259,10 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		exampleIcon.y = Values.PT7;
 		exampleIcon.visible = note.exampleColl && examplesNumTf.length > 0;
 		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT4;
-		examplesNumTf.y = Values.PT4;
+		examplesNumTf.y = Values.PT5;
 
-		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT10;
-		audioIcon.y = Values.PT17;
+		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT3;
+		audioIcon.y = Values.PT22;
 		audioIcon.visible = hasAudioComment();
 
 		g.beginFill(0, 0);

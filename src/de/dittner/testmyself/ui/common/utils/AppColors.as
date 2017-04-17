@@ -6,7 +6,6 @@ public class AppColors {
 	public static const EDITOR_CONTENT_BG:uint = 0xf0F0f5;
 	public static const EXAMPLES_BG:uint = 0xffFFff;
 
-	public static const BG:uint = 0xeeEEf5;
 	public static const MENU_LIST_BG:uint = 0;
 
 	public static const EDITOR_BORDER:uint = 0;
@@ -32,6 +31,10 @@ public class AppColors {
 	public static const PINK:uint = 0xf70065;
 	public static const RED:uint = 0xff0000;
 	public static const WHITE:uint = 0xffFFff;
+
+	public static const APP_BG_WHITE:uint = 0xffFFff;
+	public static const APP_BG_GRAY:uint = 0xeeEEf5;
+	public static const APP_BG_DARK:uint = 0xd4d4df;
 
 }
 }

@@ -175,8 +175,7 @@
     <common:BG id="bg"
                visible="{isBgShown}"
                percentWidth="100" percentHeight="100"
-               fillColor="{vm.appModel.settings.isDayMode ? AppColors.WHITE : AppColors.BG}"/>
-
+               fillColor="{vm.appModel.settings.appBgColor}"/>
 
     <s:Group id="viewCont"
              mouseEnabled="false" mouseChildren="false"
@@ -254,7 +253,8 @@
 
     <s:Group id="logsLayer" width="100%" height="100%"/>
 
-    <!-- <skins:Separator left="{Values.PT20}" percentHeight="100" color="#ff0000"/>
+    <!--<skins:Separator left="{Values.PT20}" percentHeight="100" color="#ff0000"/>
+    <skins:Separator horizontalCenter="0" percentHeight="100" color="#ff0000"/>
     <skins:Separator right="{Values.PT20}" percentHeight="100" color="#ff0000"/>-->
 
 </s:Group>

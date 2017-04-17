@@ -514,7 +514,7 @@ public class FadeTileButton extends UIComponent {
 		}
 
 		if (upBg)
-			upBg.alphaTo = enabled ? Device.isDesktop ? 1 : upBgAlpha : disabledBgAlpha;
+			upBg.alphaTo = enabled ? Device.isDesktop || (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
 
 		if (downBg)
 			downBg.alphaTo = isToggle && selected ? 1 : 0;

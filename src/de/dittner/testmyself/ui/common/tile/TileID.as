@@ -120,6 +120,15 @@ public class TileID {
 	public static const BTN_RADIO_UP:String = "BTN_RADIO_UP";
 	public static const BTN_RADIO_DOWN:String = "BTN_RADIO_DOWN";
 
+	public static const BTN_WHITE_BG_UP:String = "BTN_WHITE_BG_UP";
+	public static const BTN_WHITE_BG_DOWN:String = "BTN_WHITE_BG_DOWN";
+
+	public static const BTN_GRAY_BG_UP:String = "BTN_GRAY_BG_UP";
+	public static const BTN_GRAY_BG_DOWN:String = "BTN_GRAY_BG_DOWN";
+
+	public static const BTN_DARK_BG_UP:String = "BTN_DARK_BG_UP";
+	public static const BTN_DARK_BG_DOWN:String = "BTN_DARK_BG_DOWN";
+
 	//-------------------------------- ICON -------------------------
 
 	public static const FLAG_GB:String = "FLAG_GB";
@@ -156,7 +165,7 @@ public class TileID {
 
 	public static const EXAMPLE_ICON:String = "EXAMPLE_ICON";
 
-	public static const SUN_ICON:String = "SUN_ICON";
-	public static const MOON_ICON:String = "MOON_ICON";
+	public static const PLAY_AUDIO_ICON:String = "PLAY_AUDIO_ICON";
+
 }
 }

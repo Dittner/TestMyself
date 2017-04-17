@@ -2,7 +2,6 @@ package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 
-import flash.display.Graphics;
 import flash.utils.getTimer;
 
 import mx.events.FlexEvent;
@@ -22,9 +21,6 @@ public class SmartView extends ViewBase {
 	//  Variables
 	//
 	//----------------------------------------------------------------------------------------------
-
-	public var bgColor:uint = 0xffFFff;
-	public var bgColorEnabled:Boolean = false;
 
 	protected var activationTriggered:Boolean = false;
 	protected var preinitTime:int;
@@ -65,17 +61,6 @@ public class SmartView extends ViewBase {
 	protected function logCreationTime(time:int):void {
 		var msg:String = fullName + " creation time:" + time + "ms";
 		CLog.info(LogTag.UI, "View: " + msg);
-	}
-
-	override protected function updateDisplayList(w:Number, h:Number):void {
-		super.updateDisplayList(w, h);
-		var g:Graphics = graphics;
-		g.clear();
-		if (bgColorEnabled) {
-			g.beginFill(bgColor);
-			g.drawRect(0, 0, w, h);
-			g.endFill();
-		}
 	}
 }
 }

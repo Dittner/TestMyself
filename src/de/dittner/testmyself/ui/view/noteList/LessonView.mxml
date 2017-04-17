@@ -179,7 +179,8 @@
         }
 
         private function noteEditComplete(op:IAsyncOperation):void {
-            noteContent.updateSelectedItem();
+            vm.reloadPage();
+            noteContent.hideNoteCard();
             form.visible = false;
         }
 

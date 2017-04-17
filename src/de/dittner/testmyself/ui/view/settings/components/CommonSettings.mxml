@@ -97,26 +97,16 @@
             vm.settings.backUpServerInfo.remoteDirPath = remoteDirInput.text;
             vm.storeSettings();
         }
-
-        private function dayModeBtn_changeHandler(event:Event):void {
-            if (dayModeBtn.selected)
-                vm.settings.isDayMode = true;
-        }
-
-        private function nightModeBtn_changeHandler(event:Event):void {
-            if (nightModeBtn.selected)
-                vm.settings.isDayMode = false;
-        }
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="{Values.PT10}"
+        <s:VerticalLayout gap="{Values.PT5}"
                           horizontalAlign="center"
                           paddingLeft="{Values.PT20}" paddingRight="{Values.PT20}"
                           paddingTop="{Values.PT20}" paddingBottom="{Values.PT20}"/>
     </s:layout>
 
-    <s:VGroup width="{Values.PT400}" gap="{Values.PT10}">
+    <s:VGroup width="{Values.PT400}" gap="{Values.PT5}">
         <s:Label width="100%"
                  text="{resourceManager.getString('app', 'BrightnessLevel')}"
                  fontFamily="{FontName.MYRIAD}"
@@ -125,33 +115,29 @@
                  color="{AppColors.BLACK}"/>
 
         <s:HGroup width="100%" gap="{Values.PT20}" paddingBottom="{Values.PT20}">
-            <tile:FadeTileButton id="dayModeBtn"
+            <tile:FadeTileButton id="whiteBgBtn"
                                  isToggle="true"
-                                 upTileID="{TileID.BTN_BLACK}"
-                                 iconTileID="{TileID.SUN_ICON}"
-                                 use9Scale="true"
-                                 paddingLeft="{Values.PT10}"
-                                 paddingRight="{Values.PT10}"
-                                 textColor="#ffFFff"
-                                 selected="{vm.settings.isDayMode}"
-                                 width="{Values.PT190}"
+                                 upTileID="{TileID.BTN_WHITE_BG_UP}"
+                                 downTileID="{TileID.BTN_WHITE_BG_DOWN}"
+                                 selected="{vm.settings.appBgColor == AppColors.APP_BG_WHITE}"
                                  deselectOnlyProgrammatically="true"
-                                 title="{resourceManager.getString('app', 'DayMode')}"
-                                 change="dayModeBtn_changeHandler(event)"/>
+                                 change="if(whiteBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_WHITE"/>
 
-            <tile:FadeTileButton id="nightModeBtn"
+            <tile:FadeTileButton id="grayBgBtn"
                                  isToggle="true"
-                                 upTileID="{TileID.BTN_BLACK}"
-                                 iconTileID="{TileID.MOON_ICON}"
-                                 use9Scale="true"
-                                 paddingLeft="{Values.PT10}"
-                                 paddingRight="{Values.PT10}"
-                                 textColor="#ffFFff"
-                                 selected="{!vm.settings.isDayMode}"
-                                 width="{Values.PT190}"
+                                 upTileID="{TileID.BTN_GRAY_BG_UP}"
+                                 downTileID="{TileID.BTN_GRAY_BG_DOWN}"
+                                 selected="{vm.settings.appBgColor == AppColors.APP_BG_GRAY}"
                                  deselectOnlyProgrammatically="true"
-                                 title="{resourceManager.getString('app', 'NightMode')}"
-                                 change="nightModeBtn_changeHandler(event)"/>
+                                 change="if(grayBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_GRAY"/>
+
+            <tile:FadeTileButton id="darkBgBtn"
+                                 isToggle="true"
+                                 upTileID="{TileID.BTN_DARK_BG_UP}"
+                                 downTileID="{TileID.BTN_DARK_BG_DOWN}"
+                                 selected="{vm.settings.appBgColor == AppColors.APP_BG_DARK}"
+                                 deselectOnlyProgrammatically="true"
+                                 change="if(darkBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_DARK"/>
         </s:HGroup>
 
         <s:Label width="100%"
@@ -171,7 +157,7 @@
         <!--<button:BlackButton label="DB Parsing from SO"
                             click="parseDBFromSO()"/>-->
 
-        <s:Spacer height="{Values.PT20}"/>
+        <s:Spacer height="{Values.PT15}"/>
 
         <s:Label text="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
                  width="100%"
@@ -208,7 +194,7 @@
 
     </s:VGroup>
 
-    <s:Spacer height="{Values.PT20}"/>
+    <s:Spacer height="{Values.PT15}"/>
 
     <s:Group width="100%">
 
@@ -240,7 +226,7 @@
                              click="uploadDB()"/>
     </s:Group>
 
-    <s:Spacer height="{Values.PT20}"/>
+    <s:Spacer height="{Values.PT15}"/>
 
     <progressbar:ProgressBar id="progressBar"
                              visible="false"

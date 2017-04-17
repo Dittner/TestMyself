@@ -185,6 +185,7 @@
                 }
             }
             else {
+                playCommentBtn.selected = false;
                 mp3.comment = null;
             }
         }
@@ -204,7 +205,7 @@
                                   title="{noteNumber + 1 + '/' + totalNotes}">
                 <note:NoteLabel id="titleLbl"
                                 textThickness="80"
-                                left="0" right="{Values.PT15}"/>
+                                left="0" right="0"/>
                 <s:Label id="tagsInfoLbl"
                          width="100%"
                          maxDisplayedLines="1"
@@ -216,12 +217,15 @@
                          alpha="{playCommentBtn.upBgAlpha}"
                          fontSize="{Values.PT11}"/>
                 <tile:FadeTileButton id="playCommentBtn"
+                                     isToggle="true"
                                      upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
                                      downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
                                      visible="{note.hasAudio}"
                                      verticalCenter="0"
-                                     right="{-Values.PT10}"
-                                     click="loadComment(true)"/>
+                                     right="{-Values.PT17}"
+                                     deselectOnlyProgrammatically="true"
+                                     selected="{mp3.isPlaying}"
+                                     change="if(playCommentBtn.selected) loadComment(true)"/>
             </panel:CollapsedPanel>
 
             <panel:CollapsedPanel id="descriptionPanel"

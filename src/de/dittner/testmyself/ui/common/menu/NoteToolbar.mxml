@@ -61,7 +61,7 @@
                          title="{resourceManager.getString('app', 'GoBack')}"
                          click="notifyToolAction(ToolAction.GO_BACK)"/>
 
-    <s:HGroup horizontalCenter="0" verticalAlign="middle" gap="{Values.PT15}">
+    <s:HGroup height="100%" horizontalCenter="0" verticalAlign="middle" gap="{Values.PT15}">
         <tile:FadeTileButton id="addNoteBtn"
                              upTileID="{TileID.TOOLBAR_ADD}"
                              click="notifyToolAction(ToolAction.CREATE_NOTE)"/>
@@ -73,8 +73,6 @@
         <tile:FadeTileButton id="removeNoteBtn"
                              upTileID="{TileID.TOOLBAR_DELETE}"
                              click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
-
-        <s:Spacer width="{Values.PT15}"/>
 
         <tile:FadeTileButton id="showDetailsBtn"
                              isToggle="true"

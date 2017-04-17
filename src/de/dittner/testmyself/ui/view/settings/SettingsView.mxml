@@ -66,15 +66,8 @@
         <s:State name="lesson"/>
         <s:State name="test"/>
     </core:states>
-    <!--content bg-->
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:BitmapFill source="@Embed(source='/assets/screen_bg_pattern.png')"
-                          fillMode="repeat"/>
-        </s:fill>
-    </s:Rect>
 
-    <common:BG percentWidth="100" top="{PADDING + TAB_BAR_HEI}" bottom="0" fillColor="#ffFFff"/>
+    <common:BG percentWidth="100" top="{TAB_BAR_HEI + PADDING}" height="{Values.PT5}" fillColor="0" alpha="0.6"/>
 
     <list:SelectableDataGroup id="tabBar"
                               excludeFrom="inactive"
