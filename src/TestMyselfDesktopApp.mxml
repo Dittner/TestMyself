@@ -20,6 +20,7 @@
         private function creationCompleteHandler(event:Event):void {
             var boot:Bootstrap = new Bootstrap();
             boot.start();
+            Mouse.cursor = "arrow";
         }
         ]]></fx:Script>
 

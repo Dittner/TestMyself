@@ -107,7 +107,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = TextFieldFactory.createMultiline(TITLE_FORMAT, 80);
+			titleTf = TextFieldFactory.createMultiline(TITLE_FORMAT, 60);
 			addChild(titleTf);
 		}
 		if (!examplesNumTf) {

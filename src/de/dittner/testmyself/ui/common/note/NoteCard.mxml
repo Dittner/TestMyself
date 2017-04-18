@@ -204,7 +204,7 @@
                                   width="{width}"
                                   title="{noteNumber + 1 + '/' + totalNotes}">
                 <note:NoteLabel id="titleLbl"
-                                textThickness="80"
+                                textThickness="60"
                                 left="0" right="0"/>
                 <s:Label id="tagsInfoLbl"
                          width="100%"

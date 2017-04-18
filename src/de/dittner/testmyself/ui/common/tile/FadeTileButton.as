@@ -500,27 +500,30 @@ public class FadeTileButton extends UIComponent {
 	protected var isDown:Boolean = false;
 
 	private function mouseUpHandler(event:MouseEvent):void {
-		if (isDown && isToggle) {
+		if (isDown) {
 			isDown = false;
-			if (denyInteractiveSelection) {
-				denyInteractiveSelection = false;
+
+			if (isToggle) {
+				if (denyInteractiveSelection) {
+					denyInteractiveSelection = false;
+				}
+				else {
+					var oldSelected:Boolean = selected;
+					selected = selected ? deselectOnlyProgrammatically : true;
+					if (selected != oldSelected)
+						dispatchEvent(new Event(Event.CHANGE));
+				}
 			}
-			else {
-				var oldSelected:Boolean = selected;
-				selected = selected ? deselectOnlyProgrammatically : true;
-				if (selected != oldSelected)
-					dispatchEvent(new Event(Event.CHANGE));
-			}
+
+			if (upBg)
+				upBg.alphaTo = enabled ? Device.isDesktop || (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
+
+			if (downBg)
+				downBg.alphaTo = isToggle && selected ? 1 : 0;
+
+			if (disabledBg)
+				disabledBg.alphaTo = enabled ? 0 : 1;
 		}
-
-		if (upBg)
-			upBg.alphaTo = enabled ? Device.isDesktop || (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = isToggle && selected ? 1 : 0;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
 	protected function mouseOverHandler(event:MouseEvent):void {
