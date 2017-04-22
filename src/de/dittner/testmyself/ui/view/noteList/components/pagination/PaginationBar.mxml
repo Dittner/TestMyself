@@ -8,8 +8,22 @@
     </fx:Metadata>
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.utils.Values;
+
+        //--------------------------------------
+        //  tagsInfo
+        //--------------------------------------
+        private var _tagsInfo:String = "";
+        [Bindable("tagsInfoChanged")]
+        public function get tagsInfo():String {return _tagsInfo;}
+        public function set tagsInfo(value:String):void {
+            if (_tagsInfo != value) {
+                _tagsInfo = value;
+                dispatchEvent(new Event("tagsInfoChanged"));
+            }
+        }
 
         //--------------------------------------
         //  unitsTotal
@@ -93,52 +107,61 @@
         }
         ]]></fx:Script>
 
-    <s:HGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" gap="{Values.PT10}">
+    <s:layout>
+        <s:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="{Values.PT10}"/>
+    </s:layout>
 
-        <tile:FadeTileButton id="prevPageBtn"
-                             upTileID="{TileID.PAGE_PREV_ICON}"
-                             enabled="false"
-                             click="prevPageBtnClickHandler(event)"/>
+    <s:Spacer width="50%"/>
 
-        <s:Spacer width="{Values.PT15}"/>
+    <tile:FadeTileButton id="prevPageBtn"
+                         upTileID="{TileID.PAGE_PREV_ICON}"
+                         enabled="false"
+                         click="prevPageBtnClickHandler(event)"/>
 
-        <tile:FadeTileButton id="firstPageBtn"
-                             upTileID="{TileID.PAGE_BLACK_ICON}"
-                             isBold="true"
-                             title="1"
-                             paddingLeft="0" paddingRight="0"
-                             enabled="false"
-                             textColor="#ffFFff"
-                             font="{FontName.MYRIAD_COND_MX}"
-                             fontSize="{Values.PT15}"
-                             click="firstPageBtnClickHandler(event)"/>
+    <s:Spacer width="{Values.PT15}"/>
 
-        <tile:FadeTileButton id="curPageBtn"
-                             upTileID="{TileID.PAGE_WHITE_ICON}"
-                             title="1"
-                             upBgAlpha="1"
-                             isBold="true"
-                             paddingLeft="0" paddingRight="0"
-                             textColor="#0"
-                             font="{FontName.MYRIAD_COND_MX}"
-                             fontSize="{Values.PT15}"/>
+    <tile:FadeTileButton id="firstPageBtn"
+                         upTileID="{TileID.PAGE_BLACK_ICON}"
+                         isBold="true"
+                         title="1"
+                         paddingLeft="0" paddingRight="0"
+                         enabled="false"
+                         textColor="#ffFFff"
+                         font="{FontName.MYRIAD_COND_MX}"
+                         fontSize="{Values.PT15}"
+                         click="firstPageBtnClickHandler(event)"/>
 
-        <tile:FadeTileButton id="lastPageBtn"
-                             upTileID="{TileID.PAGE_BLACK_ICON}"
-                             isBold="true"
-                             paddingLeft="0" paddingRight="0"
-                             enabled="false"
-                             textColor="#ffFFff"
-                             font="{FontName.MYRIAD_COND_MX}"
-                             fontSize="{Values.PT15}"
-                             click="lastPageBtnClickHandler(event)"/>
+    <tile:FadeTileButton id="curPageBtn"
+                         upTileID="{TileID.PAGE_WHITE_ICON}"
+                         title="1"
+                         mouseEnabled="false" mouseChildren="false"
+                         isBold="true"
+                         paddingLeft="0" paddingRight="0"
+                         textColor="#0"
+                         font="{FontName.MYRIAD_COND_MX}"
+                         fontSize="{Values.PT15}"/>
 
-        <s:Spacer width="{Values.PT15}"/>
+    <tile:FadeTileButton id="lastPageBtn"
+                         upTileID="{TileID.PAGE_BLACK_ICON}"
+                         isBold="true"
+                         paddingLeft="0" paddingRight="0"
+                         enabled="false"
+                         textColor="#ffFFff"
+                         font="{FontName.MYRIAD_COND_MX}"
+                         fontSize="{Values.PT15}"
+                         click="lastPageBtnClickHandler(event)"/>
 
-        <tile:FadeTileButton id="nextPageBtn"
-                             upTileID="{TileID.PAGE_NEXT_ICON}"
-                             enabled="false"
-                             click="nextPageBtnClickHandler(event)"/>
-    </s:HGroup>
+    <s:Spacer width="{Values.PT15}"/>
+
+    <tile:FadeTileButton id="nextPageBtn"
+                         upTileID="{TileID.PAGE_NEXT_ICON}"
+                         enabled="false"
+                         click="nextPageBtnClickHandler(event)"/>
+
+    <s:Label text="{tagsInfo}"
+             height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
+             fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="1"
+             maxDisplayedLines="1"
+             color="{AppColors.BLACK}"/>
 
 </s:Group>

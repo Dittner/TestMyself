@@ -4,15 +4,13 @@
                    xmlns:button="de.dittner.testmyself.ui.common.button.*"
                    xmlns:test="de.dittner.testmyself.ui.view.test.testing.components.*"
                    xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
-                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
-                   xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
+                   xmlns:note="de.dittner.testmyself.ui.common.note.*">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
-        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.utils.Values;
 
         import flashx.textLayout.formats.TextAlign;
@@ -114,28 +112,19 @@
         <s:VerticalLayout gap="{Values.PT15}" paddingBottom="{Values.PT15}"/>
     </test:layout>
 
-    <s:Group width="100%">
-        <note:NoteLabel id="titleLbl"
-                        article="{getArticle(note, showDetails)}"
-                        text="{getTitle(note, showDetails)}"
-                        textThickness="80"
-                        textAlign="{TextAlign.CENTER}"
-                        fontSize="{Values.PT30}"
-                        verPadding="{Values.PT5}"
-                        left="{padding}" right="{padding}"/>
-
-        <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
-                             downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
-                             visible="{note.hasAudio}"
-                             verticalCenter="0"
-                             right="{Values.PT5}"
-                             click="playAudioComment()"/>
-    </s:Group>
+    <note:NoteLabel id="titleLbl"
+                    width="100%"
+                    article="{getArticle(note, showDetails)}"
+                    text="{getTitle(note, showDetails)}"
+                    textThickness="60"
+                    textAlign="{TextAlign.CENTER}"
+                    fontSize="{Values.PT30}"
+                    verPadding="{Values.PT5}"
+                    horPadding="{padding}"/>
 
     <test:TextPanel id="translateBoard"
                     width="100%" height="100%"
-                    title="{resourceManager.getString('app', 'Translation')}"
-                    showText="{showDetails}"/>
+                    title="{resourceManager.getString('app', 'Translation')}"/>
 
     <s:VGroup width="100%" horizontalAlign="right"
               gap="{Values.PT15}" paddingRight="{Values.PT15}">

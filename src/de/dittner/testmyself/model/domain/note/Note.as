@@ -5,6 +5,7 @@ import de.dittner.testmyself.model.domain.audioComment.AudioComment;
 import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
 import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
 
 import flash.events.Event;
@@ -291,6 +292,25 @@ public class Note extends EventDispatcher {
 			exampleColl = reloadedNote.exampleColl;
 		}
 	}
+
+	public function playAudioComment():void {
+		if (hasAudio) {
+			if (audioComment.hasBytes) {
+				MP3Player.instance.comment = audioComment;
+				MP3Player.instance.play();
+			}
+			else if (audioComment.isMp3) {
+				audioComment.loadMP3().addCompleteCallback(mp3Loaded);
+			}
+		}
+	}
+
+	private function mp3Loaded(op:IAsyncOperation):void {
+		if (op.isSuccess) {
+			playAudioComment();
+		}
+	}
+
 
 }
 }

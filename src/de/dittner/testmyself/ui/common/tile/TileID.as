@@ -77,6 +77,10 @@ public class TileID {
 	public static const TOOLBAR_DELETE_LIGHT:String = "TOOLBAR_DELETE_LIGHT";
 	public static const TOOLBAR_FILTER_LIGHT:String = "TOOLBAR_FILTER_LIGHT";
 
+
+	public static const TOOLBAR_PLAY_AUDIO:String = "TOOLBAR_PLAY_AUDIO";
+	public static const TOOLBAR_PLAY_AUDIO_SELECTED:String = "TOOLBAR_PLAY_AUDIO_SELECTED";
+
 	//-------------------------------- BUTTON -------------------------
 
 	public static const BTN_BLACK:String = "BTN_BLACK";
@@ -88,9 +92,6 @@ public class TileID {
 
 	public static const BTN_LANG_UP:String = "BTN_LANG_UP";
 	public static const BTN_LANG_DOWN:String = "BTN_LANG_DOWN";
-
-	public static const BTN_PLAY_AUDIO_UP:String = "BTN_PLAY_AUDIO_UP";
-	public static const BTN_PLAY_AUDIO_DOWN:String = "BTN_PLAY_AUDIO_DOWN";
 
 	public static const BTN_ADD_TAG:String = "BTN_ADD_TAG";
 	public static const BTN_ADD_EXAMPLE:String = "BTN_ADD_EXAMPLE";

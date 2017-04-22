@@ -10,7 +10,6 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
-        import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.utils.Values;
 
@@ -62,7 +61,7 @@
 
         public function updateSearchInput():void {
             searchInput.text = history.row;
-            if (Device.isDesktop) Device.stage.focus = searchInput.input;
+            searchInput.input.setInputInFocus();
             searchInput.input.selectAll();
         }
 

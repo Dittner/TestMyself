@@ -1,4 +1,6 @@
 package de.dittner.testmyself.ui.common.input {
+import de.dittner.testmyself.model.Device;
+
 import flash.events.Event;
 
 public class TextInputForm extends HistoryTextInput {
@@ -49,6 +51,10 @@ public class TextInputForm extends HistoryTextInput {
 			dispatchEvent(new Event("isValidInputChanged"));
 			if (skin) skin.invalidateDisplayList();
 		}
+	}
+
+	public function setInputInFocus():void {
+		if (stage && Device.isDesktop) stage.focus = this;
 	}
 }
 }

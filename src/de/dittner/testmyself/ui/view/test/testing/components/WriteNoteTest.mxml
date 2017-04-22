@@ -91,7 +91,7 @@
             if (note) {
                 if (Device.isDesktop) stage.focus = isBigText ? textArea.area : textInput;
                 mp3.comment = note.audioComment;
-                playAudioComment();
+                note.playAudioComment();
             }
         }
 
@@ -165,18 +165,11 @@
              visible="{!isBigText}" includeInLayout="{!isBigText}">
         <note:NoteLabel id="titleLbl"
                         visible="{showDetails}"
-                        textThickness="80"
+                        textThickness="60"
                         textAlign="{TextAlign.CENTER}"
                         fontSize="{Values.PT30}"
                         verPadding="{Values.PT5}"
                         left="{padding}" right="{padding}"/>
-
-        <tile:FadeTileButton upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
-                             downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
-                             visible="{note.hasAudio}"
-                             verticalCenter="0"
-                             right="{Values.PT5}"
-                             click="playAudioComment()"/>
 
         <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
                         visible="{!showDetails}"

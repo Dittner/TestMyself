@@ -23,7 +23,6 @@
         import de.dittner.testmyself.ui.common.renderer.INoteRenderer;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
-        import de.dittner.testmyself.utils.Values;
 
         import mx.collections.IList;
 
@@ -36,12 +35,15 @@
         //--------------------------------------
         //  selectedItem
         //--------------------------------------
+        private var selectedItemChanged:Boolean = false;
         private var _selectedItem:*;
         [Bindable("selectedItemChanged")]
         public function get selectedItem():* {return _selectedItem;}
         public function set selectedItem(value:*):void {
             if (_selectedItem != value) {
                 _selectedItem = value;
+                selectedItemChanged = true;
+                invalidateProperties();
                 dispatchEvent(new Event("selectedItemChanged"));
             }
         }
@@ -102,6 +104,7 @@
                 if (_toolbar)  _toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
                 _toolbar = value;
                 if (_toolbar)  _toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+                invalidateProperties();
                 dispatchEvent(new Event("toolbarChanged"));
             }
         }
@@ -234,6 +237,12 @@
                     actionMenu.hide();
                 }
             }
+
+            if (selectedItemChanged && toolbar) {
+                selectedItemChanged = false;
+                toolbar.playCommentBtn.enabled = selectedNote && selectedNote.hasAudio;
+            }
+
             listCont.visible = !isNoteCardShown;
             noteCard.visible = isNoteCardShown;
         }
@@ -285,6 +294,10 @@
                     break;
                 case(ToolAction.SHOW_DETAILS) :
                     renderOptions.showDetails = true;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.PLAY_COMMENT) :
+                    noteCard.loadComment(true);
                     invalidateRenderOptions();
                     break;
             }
@@ -351,25 +364,17 @@
         <common:BG percentWidth="100" height="{AppSizes.SCREEN_FOOTER_HEIGHT}"
                    bottom="0" fillColor="{AppColors.TOOLBAR_BG}"/>
 
-        <s:HGroup width="100%" height="{AppSizes.SCREEN_FOOTER_HEIGHT}" bottom="0"
-                  verticalAlign="middle">
-            <s:Spacer width="50%"/>
+        <navigation:PaginationBar id="paginationBar"
+                                  width="100%"
+                                  height="{AppSizes.SCREEN_FOOTER_HEIGHT}"
+                                  bottom="0"
+                                  allNotesAmount="{page.allNotesAmount}"
+                                  notesOnCurPage="{page.coll.length}"
+                                  pageSize="{page.size}"
+                                  pageNum="@{page.number}"
+                                  tagsInfo="{page.selectedTag.name}"
+                                  pageNumChanged="pageNumChanged(event)"/>
 
-            <navigation:PaginationBar id="paginationBar"
-                                      allNotesAmount="{page.allNotesAmount}"
-                                      notesOnCurPage="{page.coll.length}"
-                                      pageSize="{page.size}"
-                                      pageNum="@{page.number}"
-                                      height="100%"
-                                      pageNumChanged="pageNumChanged(event)"/>
-
-            <s:Label id="tagsLbl"
-                     text="{page.selectedTag.name}"
-                     height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
-                     fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="1"
-                     maxDisplayedLines="1"
-                     color="{AppColors.BLACK}"/>
-        </s:HGroup>
     </common:Container>
 
     <note:NoteCard id="noteCard"

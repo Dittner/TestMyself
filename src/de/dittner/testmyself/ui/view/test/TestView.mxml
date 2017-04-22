@@ -153,6 +153,10 @@
                         statisticsScreen.noteContent.hideNoteCard();
                     }
                     break;
+                case(ToolAction.PLAY_COMMENT) :
+                    if (vm.selectedTestTask && vm.selectedTestTask.note.hasAudio)
+                        vm.selectedTestTask.note.playAudioComment();
+                    break;
             }
         }
 
@@ -211,6 +215,7 @@
 
                 toolbar.editNoteBtn.enabled = selectedNote;
                 toolbar.removeNoteBtn.enabled = selectedNote;
+                toolbar.playCommentBtn.enabled = selectedNote && selectedNote.hasAudio;
                 toolbar.setTaskAsRightBtn.enabled = currentState == "statistics" && vm.selectedTestTask && vm.selectedTestTask.isFailed;
 
                 dispatchEvent(new Event("selectedNoteChanged"));

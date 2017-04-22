@@ -80,6 +80,12 @@ public class MP3Player extends EventDispatcher implements IPlayerContext {
 	}
 
 	//--------------------------------------
+	//  isPlaying
+	//--------------------------------------
+	[Bindable("curStateChanged")]
+	public function get isPlaying():Boolean {return curState == playingState;}
+
+	//--------------------------------------
 	//  comment
 	//--------------------------------------
 	private var _comment:AudioComment;

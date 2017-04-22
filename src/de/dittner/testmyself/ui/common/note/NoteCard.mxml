@@ -3,7 +3,6 @@
                   xmlns:s="library://ns.adobe.com/flex/spark"
                   xmlns:panel="de.dittner.testmyself.ui.common.panel.*"
                   xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
-                  xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
                   xmlns:common="de.dittner.testmyself.ui.common.*"
                   xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
@@ -15,7 +14,6 @@
         import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.utils.Values;
@@ -166,7 +164,7 @@
             return "";
         }
 
-        private function loadComment(andPlay:Boolean = false):void {
+        public function loadComment(andPlay:Boolean = false):void {
             if (note && note.hasAudio) {
                 if (note.audioComment.isMp3 && note.audioComment.hasBytes) {
                     mp3.comment = note.audioComment;
@@ -185,7 +183,6 @@
                 }
             }
             else {
-                playCommentBtn.selected = false;
                 mp3.comment = null;
             }
         }
@@ -214,18 +211,8 @@
                          fontFamily="{FontName.MYRIAD_COND}"
                          fontStyle="italic"
                          color="0"
-                         alpha="{playCommentBtn.upBgAlpha}"
+                         alpha="0.6"
                          fontSize="{Values.PT11}"/>
-                <tile:FadeTileButton id="playCommentBtn"
-                                     isToggle="true"
-                                     upTileID="{TileID.BTN_PLAY_AUDIO_UP}"
-                                     downTileID="{TileID.BTN_PLAY_AUDIO_DOWN}"
-                                     visible="{note.hasAudio}"
-                                     verticalCenter="0"
-                                     right="{-Values.PT17}"
-                                     deselectOnlyProgrammatically="true"
-                                     selected="{mp3.isPlaying}"
-                                     change="if(playCommentBtn.selected) loadComment(true)"/>
             </panel:CollapsedPanel>
 
             <panel:CollapsedPanel id="descriptionPanel"

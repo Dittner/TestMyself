@@ -352,6 +352,7 @@
                 setMode("");
                 actionMenu.showPrevMenu();
                 actionMenu.removeEventListener(ToolActionEvent.SELECTED, toolActionSelected);
+                Mouse.cursor = "arrow";
             }
         }
 

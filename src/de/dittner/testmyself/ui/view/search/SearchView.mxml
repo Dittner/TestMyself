@@ -48,7 +48,6 @@
             vm.unlockView();
             vm.viewActivated(viewID);
             searchBoard.updateSearchInput();
-            if (stage && Device.isDesktop) stage.focus = searchBoard.searchInput.input;
             NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
 
@@ -73,6 +72,7 @@
                     if (noteContent.visible && noteContent.isNoteCardShown) {
                         noteContent.hideNoteCard();
                         toolbar.goBackBtn.enabled = false;
+                        searchBoard.updateSearchInput();
                     }
                     break;
                 case(ToolAction.EDIT_NOTE) :

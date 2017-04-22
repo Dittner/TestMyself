@@ -1,8 +1,6 @@
 package de.dittner.testmyself.ui.view.test.testing.components {
-import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.TestTask;
-import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
 import de.dittner.testmyself.ui.common.menu.IActionMenu;
 import de.dittner.testmyself.ui.common.menu.NavigationMenuEvent;
 import de.dittner.testmyself.ui.common.menu.ToolAction;
@@ -136,24 +134,6 @@ public class TestableView extends Group {
 	protected function updateForm():void {}
 
 	protected function clear():void {}
-
-	protected function playAudioComment():void {
-		if (note && note.hasAudio) {
-			if (note.audioComment.hasBytes) {
-				MP3Player.instance.comment = note.audioComment;
-				MP3Player.instance.play();
-			}
-			else if (note.audioComment.isMp3) {
-				note.audioComment.loadMP3().addCompleteCallback(mp3Loaded);
-			}
-		}
-	}
-
-	private function mp3Loaded(op:IAsyncOperation):void {
-		if (op.isSuccess) {
-			playAudioComment();
-		}
-	}
 
 	protected function requestNextTask():void {
 		if (isActivating && actionCallback != null) actionCallback(TestingAction.NEXT_TASK);

@@ -10,6 +10,7 @@ public class ToolAction {
 	public static const FILTER:String = "FILTER";
 	public static const HIDE_DETAILS:String = "HIDE_DETAILS";
 	public static const SHOW_DETAILS:String = "SHOW_DETAILS";
+	public static const PLAY_COMMENT:String = "PLAY_COMMENT";
 
 	public static const SET_TASK_AS_RIGHT:String = "SET_TASK_AS_RIGHT";
 
