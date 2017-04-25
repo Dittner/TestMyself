@@ -5,7 +5,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.ErrorCode;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.tag.Tag;
-import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
+import de.dittner.testmyself.ui.common.page.TestPage;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;

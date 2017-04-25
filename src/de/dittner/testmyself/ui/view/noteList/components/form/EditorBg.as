@@ -5,6 +5,7 @@ import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
+import de.dittner.testmyself.ui.view.form.components.FormMode;
 import de.dittner.testmyself.utils.Values;
 
 import flash.display.Graphics;
@@ -14,8 +15,8 @@ import flash.text.TextFormat;
 
 import mx.core.UIComponent;
 
-public class EditorBg extends UIComponent {
-	public function EditorBg() {
+public class EditorBG extends UIComponent {
+	public function EditorBG() {
 		super();
 		toolIcon = new TileShape();
 		addChild(toolIcon);
@@ -27,8 +28,6 @@ public class EditorBg extends UIComponent {
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
 	public static const PAD:uint = Values.PT15;
 	public static const GAP:uint = Values.PT5;
-	public static const VOFFSET:uint = 0;
-	public static const BORDER_THICKNESS:uint = 0;
 
 	//--------------------------------------
 	//  title
@@ -60,11 +59,25 @@ public class EditorBg extends UIComponent {
 		}
 	}
 
+	//--------------------------------------
+	//  bgColor
+	//--------------------------------------
+	private var _bgColor:uint = AppColors.APP_BG_WHITE;
+	[Bindable("bgColorChanged")]
+	public function get bgColor():uint {return _bgColor;}
+	public function set bgColor(value:uint):void {
+		if (_bgColor != value) {
+			_bgColor = value;
+			invalidateDisplayList();
+			dispatchEvent(new Event("bgColorChanged"));
+		}
+	}
+
 	private function createIcon():void {
-		if (mode == "add") toolIcon.tileID = TileID.TOOLBAR_ADD_LIGHT;
-		else if (mode == "edit") toolIcon.tileID = TileID.TOOLBAR_EDIT_LIGHT;
-		else if (mode == "remove") toolIcon.tileID = TileID.TOOLBAR_DELETE_LIGHT;
-		else if (mode == "filter") toolIcon.tileID = TileID.TOOLBAR_FILTER_LIGHT;
+		if (mode == FormMode.ADD) toolIcon.tileID = TileID.TOOLBAR_ADD_LIGHT;
+		else if (mode == FormMode.EDIT) toolIcon.tileID = TileID.TOOLBAR_EDIT_LIGHT;
+		else if (mode == FormMode.REMOVE) toolIcon.tileID = TileID.TOOLBAR_DELETE_LIGHT;
+		else if (mode == FormMode.FILTER) toolIcon.tileID = TileID.TOOLBAR_FILTER_LIGHT;
 	}
 
 	public var titleTf:TextField;
@@ -87,12 +100,12 @@ public class EditorBg extends UIComponent {
 		var xOffset:Number = PAD;
 		if (toolIcon) {
 			toolIcon.x = xOffset;
-			toolIcon.y = (HEADER_HEIGHT + VOFFSET - toolIcon.height >> 1);
+			toolIcon.y = (HEADER_HEIGHT - toolIcon.height >> 1);
 			xOffset += toolIcon.width + GAP;
 		}
 		titleTf.text = title;
 		titleTf.x = xOffset;
-		titleTf.y = (HEADER_HEIGHT + VOFFSET - titleTf.textHeight >> 1) - 2;
+		titleTf.y = (HEADER_HEIGHT - titleTf.textHeight >> 1) - 2;
 		titleTf.width = w - titleTf.x;
 	}
 
@@ -100,12 +113,12 @@ public class EditorBg extends UIComponent {
 		var g:Graphics = graphics;
 		g.clear();
 
-		g.beginFill(AppColors.EDITOR_BORDER, 1);
-		g.drawRect(0, VOFFSET, w, h - VOFFSET);
+		g.beginFill(bgColor);
+		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		g.beginFill(AppColors.EDITOR_CONTENT_BG, 1);
-		g.drawRect(BORDER_THICKNESS, HEADER_HEIGHT, w - 2 * BORDER_THICKNESS, h - HEADER_HEIGHT - BORDER_THICKNESS);
+		g.beginFill(0, 1);
+		g.drawRect(0, 0, w, HEADER_HEIGHT);
 		g.endFill();
 	}
 }

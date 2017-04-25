@@ -1,6 +1,8 @@
 package de.dittner.testmyself.ui.common.list {
 import flash.events.Event;
 
+import mx.collections.IList;
+
 import spark.components.List;
 
 public class ListForm extends List {
@@ -36,5 +38,13 @@ public class ListForm extends List {
 		}
 	}
 
+	[Inspectable(category="Data")]
+	override public function set dataProvider(value:IList):void {
+		super.dataProvider = value;
+		if(skin) {
+			skin.invalidateSize();
+			skin.invalidateDisplayList();
+		}
+	}
 }
 }

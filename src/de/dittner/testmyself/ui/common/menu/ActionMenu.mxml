@@ -2,21 +2,24 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
-         xmlns:components="de.dittner.testmyself.ui.view.test.testing.components.*"
+         xmlns:components="de.dittner.testmyself.ui.view.testing.components.*"
          implements="de.dittner.testmyself.ui.common.menu.IActionMenu"
-         currentState="navigation">
+         currentState="hide">
 
     <fx:Metadata>
         [Event(name="selected", type="de.dittner.testmyself.ui.common.menu.NavigationMenuEvent")]
-        [Event(name="clicked", type="de.dittner.testmyself.ui.common.menu.NavigationMenuEvent")]
         [Event(name="taskPriorityChanged", type="flash.events.Event")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.test.TestTaskPriority;
+        import de.dittner.testmyself.ui.common.page.NotePage;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.view.form.components.FormMode;
         import de.dittner.testmyself.utils.Values;
+
+        import mx.resources.ResourceManager;
 
         //--------------------------------------
         //  selectedActionID
@@ -72,17 +75,93 @@
         [Bindable("testBtnEnabledChanged")]
         public function get nextTaskBtnEnabled():Boolean {return _nextTaskBtnEnabled;}
 
-        public function showNavigationMenu():void {
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Note Navigation
+        //
+        //----------------------------------------------------------------------------------------------
+        private var _navigationNotePage:NotePage;
+        [Bindable("paginationBarPageChanged")]
+        public function get navigationNotePage():NotePage {return _navigationNotePage;}
+
+        public function showNavigationMenu(page:NotePage):void {
             visible = includeInLayout = true;
+            _navigationNotePage = page;
             stateStack.push("navigation");
             setCurrentState("navigation");
+            dispatchEvent(new Event("paginationBarPageChanged"));
         }
 
-        public function showFormMenu():void {
+        private function prevNoteEnabled(pageNum:int, noteNum:int):Boolean {
+            return noteNum > 0 || pageNum > 0;
+        }
+
+        private function nextNoteEnabled(pageNum:int, pageSize:int, noteNum:int, totalNotes:int):Boolean {
+            return (pageNum * pageSize + (noteNum || 0)) < totalNotes - 1;
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  FORM
+        //
+        //----------------------------------------------------------------------------------------------
+
+        private var _applyBtnTitle:String;
+        [Bindable("formModeChanged")]
+        public function get applyBtnTitle():String {return _applyBtnTitle;}
+
+        private var _applyBtnUpTileID:String = "";
+        [Bindable("formModeChanged")]
+        public function get applyBtnUpTileID():String {return _applyBtnUpTileID;}
+
+        private var _applyBtnDisabledTileID:String = "";
+        [Bindable("formModeChanged")]
+        public function get applyBtnDisabledTileID():String {return _applyBtnDisabledTileID;}
+
+        public function showFormMenu(formMode:String):void {
             visible = includeInLayout = true;
+            if (formMode == FormMode.ADD) {
+                _applyBtnTitle = ResourceManager.getInstance().getString("app", "Add");
+                _applyBtnUpTileID = TileID.MENU_FORM_ADD_ICON;
+                _applyBtnDisabledTileID = TileID.MENU_FORM_ADD_RED_ICON;
+            }
+            else if (formMode == FormMode.EDIT) {
+                _applyBtnTitle = ResourceManager.getInstance().getString("app", "Edit");
+                _applyBtnUpTileID = TileID.MENU_FORM_EDIT_ICON;
+                _applyBtnDisabledTileID = TileID.MENU_FORM_EDIT_RED_ICON;
+            }
+            else if (formMode == FormMode.REMOVE) {
+                _applyBtnTitle = ResourceManager.getInstance().getString("app", "Delete");
+                _applyBtnUpTileID = TileID.MENU_FORM_REMOVE_ICON;
+                _applyBtnDisabledTileID = TileID.MENU_FORM_REMOVE_RED_ICON;
+            }
             stateStack.push("form");
             setCurrentState("form");
+            dispatchEvent(new Event("formModeChanged"));
         }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  PAGINATION
+        //
+        //----------------------------------------------------------------------------------------------
+
+        private var _paginationBarPage:NotePage;
+        [Bindable("paginationBarPageChanged")]
+        public function get paginationBarPage():NotePage {return _paginationBarPage;}
+        public function showPaginationBar(page:NotePage):void {
+            this._paginationBarPage = page;
+            visible = includeInLayout = true;
+            stateStack.push("pagination");
+            setCurrentState("pagination");
+            dispatchEvent(new Event("paginationBarPageChanged"));
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  TEST
+        //
+        //----------------------------------------------------------------------------------------------
 
         public function showTestMenu(trueBtnEnabled:Boolean = true, falseBtnEnabled:Boolean = true, nextTaskBtnEnabled:Boolean = false):void {
             visible = includeInLayout = true;
@@ -110,7 +189,7 @@
 
         public function hide():void {
             stateStack.length = 0;
-            visible = includeInLayout = false;
+            setCurrentState("hide");
         }
 
         private function notifyAction(actionID:String, isSelected:Boolean = false):void {
@@ -119,9 +198,11 @@
         ]]></fx:Script>
 
     <s:states>
+        <s:State name="hide"/>
         <s:State name="navigation"/>
         <s:State name="form"/>
         <s:State name="test"/>
+        <s:State name="pagination"/>
     </s:states>
 
     <s:Rect width="100%" height="100%">
@@ -137,19 +218,20 @@
               gap="{Values.PT15}"
               verticalAlign="middle" horizontalAlign="center">
         <menu:MenuButton id="prevNoteBtn"
-                         upTileID="{TileID.MENU_PREV_NOTE_ICON}"
+                         upTileID="{prevNoteBtn.mouseEnabled ? TileID.MENU_PREV_NOTE_ICON : TileID.MENU_PREV_NOTE_DISABLED_ICON}"
                          disabledTileID="{TileID.MENU_PREV_NOTE_RED_ICON}"
                          enabled="{enabled}"
+                         mouseEnabled="{prevNoteEnabled(navigationNotePage.number, navigationNotePage.selectedItemIndex)}"
                          click="notifyAction(ToolAction.PREV_NOTE)"/>
 
         <s:Spacer width="20%"/>
 
         <menu:MenuButton id="nextNoteBtn"
-                         upTileID="{TileID.MENU_NEXT_NOTE_ICON}"
+                         upTileID="{nextNoteBtn.mouseEnabled ? TileID.MENU_NEXT_NOTE_ICON : TileID.MENU_NEXT_NOTE_DISABLED_ICON}"
                          disabledTileID="{TileID.MENU_NEXT_NOTE_RED_ICON}"
                          enabled="{enabled}"
+                         mouseEnabled="{nextNoteEnabled(navigationNotePage.number, navigationNotePage.size, navigationNotePage.selectedItemIndex, navigationNotePage.allNotesAmount)}"
                          click="notifyAction(ToolAction.NEXT_NOTE)"/>
-
     </s:HGroup>
 
     <!--Form Menu-->
@@ -159,17 +241,27 @@
               gap="{Values.PT15}"
               verticalAlign="middle" horizontalAlign="center">
         <menu:MenuButton id="cancelBtn"
-                         upTileID="{TileID.MENU_CANCEL_ICON}"
-                         disabledTileID="{TileID.MENU_CANCEL_RED_ICON}"
+                         upTileID="{TileID.MENU_FORM_CANCEL_ICON}"
+                         disabledTileID="{TileID.MENU_FORM_CANCEL_RED_ICON}"
                          enabled="{enabled}"
+                         textColor="0xffFFff"
+                         fontSize="{Values.PT18}"
+                         paddingLeft="{Values.PT40}"
+                         paddingRight="0"
+                         title="{resourceManager.getString('app', 'Cancel')}"
                          click="notifyAction(ToolAction.CANCEL)"/>
 
         <s:Spacer width="20%"/>
 
         <menu:MenuButton id="applyBtn"
-                         upTileID="{TileID.MENU_APPLY_ICON}"
-                         disabledTileID="{TileID.MENU_APPLY_RED_ICON}"
                          enabled="{enabled}"
+                         title="{applyBtnTitle}"
+                         upTileID="{applyBtnUpTileID}"
+                         disabledTileID="{applyBtnDisabledTileID}"
+                         textColor="0xffFFff"
+                         fontSize="{Values.PT18}"
+                         paddingLeft="{Values.PT40}"
+                         paddingRight="0"
                          click="notifyAction(ToolAction.APPLY)"/>
     </s:HGroup>
 
@@ -187,15 +279,15 @@
         <s:Spacer width="20%"/>
 
         <menu:MenuButton id="trueBtn"
-                         upTileID="{TileID.MENU_APPLY_ICON}"
-                         disabledTileID="{TileID.MENU_APPLY_RED_ICON}"
+                         upTileID="{TileID.MENU_TRUE_ICON}"
+                         disabledTileID="{TileID.MENU_TRUE_RED_ICON}"
                          visible="{trueBtnEnabled}" includeInLayout="{trueBtnEnabled}"
                          enabled="{enabled}"
                          click="notifyAction(ToolAction.TRUE)"/>
 
         <menu:MenuButton id="falseBtn"
-                         upTileID="{TileID.MENU_CANCEL_ICON}"
-                         disabledTileID="{TileID.MENU_CANCEL_RED_ICON}"
+                         upTileID="{TileID.MENU_FALSE_ICON}"
+                         disabledTileID="{TileID.MENU_FALSE_RED_ICON}"
                          visible="{falseBtnEnabled}" includeInLayout="{falseBtnEnabled}"
                          enabled="{enabled}"
                          click="notifyAction(ToolAction.FALSE)"/>
@@ -214,5 +306,13 @@
                          click="notifyAction(ToolAction.ANSWER)"/>
 
     </s:HGroup>
+
+    <menu:PaginationBar id="paginationBar"
+                        includeIn="pagination"
+                        disabledAlpha="1"
+                        width="100%" height="100%"
+                        enabled="{enabled}"
+                        page="{paginationBarPage}"
+                        pageNumChanged="notifyAction(ToolAction.PAGE_NUM_CHANGED)"/>
 
 </s:Group>

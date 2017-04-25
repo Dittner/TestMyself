@@ -1,13 +1,20 @@
 package de.dittner.testmyself.ui.common.page {
+import de.dittner.async.IAsyncOperation;
+import de.dittner.testmyself.backend.Storage;
+import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+import de.dittner.walter.Walter;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
 import mx.collections.ArrayCollection;
 
-public class NotePage extends EventDispatcher implements INotePage {
+[Event(name="noteChanged", type="flash.events.Event")]
+public class NotePage extends EventDispatcher {
+	public static const NOTE_CHANGED:String = "noteChanged";
+
 	public function NotePage() {}
 
 	//--------------------------------------
@@ -32,6 +39,7 @@ public class NotePage extends EventDispatcher implements INotePage {
 	public function set size(value:uint):void {
 		if (_size != value) {
 			_size = value;
+			setTotalPages(Math.ceil(allNotesAmount / size));
 			dispatchEvent(new Event("sizeChanged"));
 		}
 	}
@@ -45,7 +53,21 @@ public class NotePage extends EventDispatcher implements INotePage {
 	public function set allNotesAmount(value:int):void {
 		if (_allNotesAmount != value) {
 			_allNotesAmount = value;
+			setTotalPages(Math.ceil(allNotesAmount / size));
 			dispatchEvent(new Event("allNotesAmountChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  totalPages
+	//--------------------------------------
+	private var _totalPages:int;
+	[Bindable("totalPagesChanged")]
+	public function get totalPages():int {return _totalPages;}
+	private function setTotalPages(value:int):void {
+		if (_totalPages != value) {
+			_totalPages = value;
+			dispatchEvent(new Event("totalPagesChanged"));
 		}
 	}
 
@@ -99,6 +121,38 @@ public class NotePage extends EventDispatcher implements INotePage {
 			_selectedTag = value;
 			dispatchEvent(new Event("selectedTagChanged"));
 		}
+	}
+
+	//--------------------------------------
+	//  selectedNote
+	//--------------------------------------
+	[Bindable("noteChanged")]
+	public function get selectedNote():Note {return getNote();}
+
+	//--------------------------------------
+	//  selectedItemIndex
+	//--------------------------------------
+	private var _selectedItemIndex:int = 0;
+	[Bindable("selectedItemIndexChanged")]
+	public function get selectedItemIndex():int {return _selectedItemIndex;}
+	public function set selectedItemIndex(value:int):void {
+		if (_selectedItemIndex != value) {
+			_selectedItemIndex = value;
+			dispatchEvent(new Event("selectedItemIndexChanged"));
+			dispatchEvent(new Event("noteChanged"));
+		}
+	}
+
+	protected function getNote():Note {
+		return coll && coll.length > 0 && coll.length > selectedItemIndex ? coll[selectedItemIndex] : null;
+	}
+
+	protected function get storage():Storage {
+		return Walter.instance.getProxy("storage") as Storage;
+	}
+
+	public function load():IAsyncOperation {
+		return storage.loadNotePage(this);
 	}
 
 }

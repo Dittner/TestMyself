@@ -54,7 +54,7 @@ public class ListFormSkin extends ListSkin {
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
 		super.updateDisplayList(w, h);
-		if (w > 0 && h > 0){
+		if (w > 0 && h > 0) {
 			var bgVerOffset:Number = hostInput.showTitle ? TITLE_HEIGHT : 0;
 			bg.x = 0;
 			bg.y = bgVerOffset;

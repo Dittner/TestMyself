@@ -1,4 +1,6 @@
 package de.dittner.testmyself.ui.common.utils {
+import de.dittner.testmyself.ui.common.tile.FadeTextField;
+
 import flash.text.AntiAliasType;
 import flash.text.GridFitType;
 import flash.text.TextField;
@@ -9,28 +11,41 @@ public class TextFieldFactory {
 	public static var useEmbedFonts:Boolean = true;
 
 	public static function create(textFormat:TextFormat, thickness:Number = 10):TextField {
-		var textField:TextField = new TextField();
-		textField.width = 100000;
-		textField.height = 100000;
-		textField.selectable = false;
-		textField.multiline = false;
-		textField.wordWrap = false;
-		textField.mouseEnabled = false;
-		textField.mouseWheelEnabled = false;
-		textField.embedFonts = useEmbedFonts;
-		textField.antiAliasType = AntiAliasType.ADVANCED;
-		textField.gridFitType = GridFitType.PIXEL;
-		textField.sharpness = 0;
-		textField.thickness = thickness;
-		textField.defaultTextFormat = textFormat;
-		return textField;
+		var tf:TextField = new TextField();
+		setUpTextField(tf, thickness);
+		tf.defaultTextFormat = textFormat;
+		return tf;
 	}
 
 	public static function createMultiline(textFormat:TextFormat, thickness:Number = 20):TextField {
-		var textField:TextField = create(textFormat, thickness);
-		textField.multiline = true;
-		textField.wordWrap = true;
-		return textField;
+		var tf:TextField = new TextField();
+		setUpTextField(tf, thickness);
+		tf.defaultTextFormat = textFormat;
+		tf.multiline = true;
+		tf.wordWrap = true;
+		return tf;
+	}
+
+	public static function createFadeTextField(textFormat:TextFormat, thickness:Number = 10):FadeTextField {
+		var tf:FadeTextField = new FadeTextField();
+		setUpTextField(tf, thickness);
+		tf.defaultTextFormat = textFormat;
+		return tf;
+	}
+
+	private static function setUpTextField(tf:TextField, thickness:Number):void {
+		tf.width = 100000;
+		tf.height = 100000;
+		tf.selectable = false;
+		tf.multiline = false;
+		tf.wordWrap = false;
+		tf.mouseEnabled = false;
+		tf.mouseWheelEnabled = false;
+		tf.embedFonts = useEmbedFonts;
+		tf.antiAliasType = AntiAliasType.ADVANCED;
+		tf.gridFitType = GridFitType.PIXEL;
+		tf.sharpness = 0;
+		tf.thickness = thickness;
 	}
 
 }

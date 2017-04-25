@@ -2,11 +2,9 @@
 <view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
-                horizontalCenter="0"
-                currentState="load">
+                currentState="de">
 
     <fx:Script><![CDATA[
-        import de.dittner.async.utils.doLaterInMSec;
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
 
@@ -16,19 +14,19 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.mapVM;
             vm.lockView();
-            toolbar.hide();
-            actionMenu.hide();
+            currentState = vm.selectedLang && vm.selectedLang.id == LanguageID.EN ? "en" : "de";
         }
 
         override protected function activate():void {
             vm.unlockView();
-            vm.viewActivated(viewID);
-            currentState = vm.selectedLang && vm.selectedLang.id == LanguageID.EN ? "en" : "de";
-            doLaterInMSec(setMapInCenter, 100);
+            vm.viewActivated(viewInfo);
+            toolbar.hide();
+            actionMenu.hide();
+            setMapInCenter();
         }
 
         override protected function deactivate():void {
-            currentState = "load";
+            vm.viewDeactivated();
         }
 
         private var downPoint:Point;
@@ -61,7 +59,6 @@
         ]]></fx:Script>
 
     <view:states>
-        <s:State name="load"/>
         <s:State name="de"/>
         <s:State name="en"/>
     </view:states>
@@ -73,7 +70,6 @@
              mouseUp="map_mouseUpHandler(event)"
              mouseMove="map_mouseMoveHandler(event)">
         <s:BitmapImage id="map"
-                       visible.load="false"
                        source.en="@Embed('/assets/gb_map.jpg')"
                        source.de="@Embed('/assets/deutschlandkarte.jpg')"/>
     </s:Group>

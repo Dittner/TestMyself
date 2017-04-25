@@ -1,27 +1,18 @@
 package de.dittner.testmyself.ui.view.search {
-import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.language.LanguageID;
-import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.page.SearchPage;
+import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 
 import flash.events.Event;
-
-import mx.resources.ResourceManager;
 
 public class SearchVM extends ViewModel {
 
 	public function SearchVM() {
 		super();
 	}
-
-	[Inject]
-	public var storage:Storage;
-
-	[Bindable]
-	public var selectedLang:Language;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -42,66 +33,45 @@ public class SearchVM extends ViewModel {
 		}
 	}
 
-	//--------------------------------------
-	//  selectedNote
-	//--------------------------------------
-	private var _selectedNote:Note;
-	[Bindable("selectedNoteChanged")]
-	public function get selectedNote():Note {return _selectedNote;}
-	public function set selectedNote(value:Note):void {
-		if (_selectedNote != value) {
-			_selectedNote = value;
-			dispatchEvent(new Event("selectedNoteChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  selectedExample
-	//--------------------------------------
-	private var _selectedExample:Note;
-	[Bindable("selectedExampleChanged")]
-	public function get selectedExample():Note {return _selectedExample;}
-	public function set selectedExample(value:Note):void {
-		if (_selectedExample != value) {
-			_selectedExample = value;
-			dispatchEvent(new Event("selectedExampleChanged"));
-		}
-	}
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
 
-	override public function viewActivated(viewID:String):void {
-		super.viewActivated(viewID);
-		viewTitle = ResourceManager.getInstance().getString('app', 'Search');
-		selectedLang = appModel.selectedLanguage;
-		setPage(new SearchPage());
+	override public function viewActivated(viewInfo:ViewInfo):void {
+		super.viewActivated(viewInfo);
+		setPage(appModel.getSearchPage());
+		if (page.searchText) page.load();
 	}
 
 	public function loadPage(searchText:String, loadExamples:Boolean, loadWords:Boolean, loadVerbs:Boolean, loadLessons:Boolean):void {
-		selectedNote = null;
-		selectedExample = null;
-
-		page.lang = selectedLang;
 		page.searchText = searchText;
 		page.loadExamples = loadExamples;
 		page.vocabularyIDs = [];
 
-		if (selectedLang.id == LanguageID.DE) {
+		if (page.lang.id == LanguageID.DE) {
 			if (loadWords) page.vocabularyIDs.push(VocabularyID.DE_WORD);
 			if (loadVerbs) page.vocabularyIDs.push(VocabularyID.DE_VERB);
 			if (loadLessons) page.vocabularyIDs.push(VocabularyID.DE_LESSON);
 		}
-		else if (selectedLang.id == LanguageID.EN) {
+		else if (page.lang.id == LanguageID.EN) {
 			if (loadWords) page.vocabularyIDs.push(VocabularyID.EN_WORD);
 			if (loadVerbs) page.vocabularyIDs.push(VocabularyID.EN_VERB);
 			if (loadLessons) page.vocabularyIDs.push(VocabularyID.EN_LESSON);
 		}
 
-		storage.searchNotes(page);
+		page.load();
+	}
+
+	public function showNote(selectedNoteIndex:int):void {
+		if (page && selectedNoteIndex != -1) {
+			var info:ViewInfo = new ViewInfo();
+			info.viewID = ViewID.NOTE_VIEW;
+			info.page = page;
+			info.page.selectedItemIndex = selectedNoteIndex;
+			mainVM.viewNavigator.navigate(info);
+		}
 	}
 
 	override protected function deactivate():void {}

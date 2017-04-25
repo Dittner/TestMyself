@@ -5,7 +5,7 @@ import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.backend.utils.SQLUtils;
 import de.dittner.testmyself.model.domain.tag.Tag;
-import de.dittner.testmyself.model.domain.test.Test;
+import de.dittner.testmyself.ui.common.page.TestPage;
 
 import flash.data.SQLResult;
 import flash.data.SQLStatement;
@@ -13,27 +13,23 @@ import flash.net.Responder;
 
 public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
 
-	public function LoadTaskIDsCmd(storage:Storage, test:Test, selectedTag:Tag, taskComplexity:uint) {
+	public function LoadTaskIDsCmd(storage:Storage, page:TestPage) {
 		super();
 		this.storage = storage;
-		this.test = test;
-		this.selectedTag = selectedTag;
-		this.taskComplexity = taskComplexity;
+		this.page = page;
 	}
 
 	private var storage:Storage;
-	private var test:Test;
-	private var selectedTag:Tag;
-	private var taskComplexity:uint;
+	private var page:TestPage;
 
 	public function execute():void {
 		var sqlParams:Object = {};
-		sqlParams.selectedTestID = test.id;
-		sqlParams.complexity = taskComplexity;
+		sqlParams.selectedTestID = page.test.id;
+		sqlParams.complexity = page.taskComplexity;
 
 		var sql:String;
-		if (selectedTag) {
-			sqlParams.selectedTagID = "%" + Tag.DELIMITER + selectedTag.id + Tag.DELIMITER + "%";
+		if (page.selectedTag) {
+			sqlParams.selectedTagID = "%" + Tag.DELIMITER + page.selectedTag.id + Tag.DELIMITER + "%";
 			sql = SQLLib.SELECT_FILTERED_TEST_TASK_IDS_SQL;
 		}
 		else {
@@ -55,8 +51,7 @@ public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
 	override public function destroy():void {
 		super.destroy();
 		storage = null;
-		test = null;
-		selectedTag = null;
+		page = null;
 	}
 }
 }

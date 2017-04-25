@@ -55,7 +55,7 @@
                    renderOptions="{renderOptions}"
                    width="100%" height="100%"
                    deselectEnabled="true"
-                   itemRenderer="de.dittner.testmyself.ui.view.noteList.components.renderer.ExampleRenderer">
+                   itemRenderer="de.dittner.testmyself.ui.view.noteView.ExampleRenderer">
         <note:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </note:layout>

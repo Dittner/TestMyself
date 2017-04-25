@@ -9,6 +9,7 @@ import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
 import de.dittner.testmyself.ui.common.menu.ViewID;
+import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.utils.HashList;
 
@@ -119,8 +120,8 @@ public class LangListVM extends ViewModel {
 
 	override protected function activate():void {}
 
-	override public function viewActivated(viewID:String):void {
-		super.viewActivated(viewID);
+	override public function viewActivated(viewInfo:ViewInfo):void {
+		super.viewActivated(viewInfo);
 		var op:IAsyncOperation;
 		var enLangVocabularyHash:HashList = appModel.enLang.vocabularyHash;
 		var deLangVocabularyHash:HashList = appModel.deLang.vocabularyHash;
@@ -183,8 +184,12 @@ public class LangListVM extends ViewModel {
 			default :
 				CLog.err(LogTag.SYSTEM, "Unknown LangID: " + langID);
 		}
-		if (appModel.selectedLanguage)
-			mainVM.viewNavigator.selectedViewID = ViewID.WORD;
+		if (appModel.selectedLanguage) {
+			var info:ViewInfo = new ViewInfo();
+			info.viewID = ViewID.WORD_LIST;
+			mainVM.viewNavigator.clearViewStack();
+			mainVM.viewNavigator.navigate(info);
+		}
 	}
 
 	override protected function deactivate():void {}

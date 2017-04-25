@@ -1,0 +1,238 @@
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:test="de.dittner.testmyself.ui.view.testing.components.*"
+                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.domain.test.Test;
+        import de.dittner.testmyself.model.domain.test.TestID;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.ui.view.form.components.FormOperationResult;
+        import de.dittner.testmyself.ui.view.testing.components.TestableView;
+        import de.dittner.testmyself.ui.view.testing.components.TestingAction;
+        import de.dittner.testmyself.utils.Values;
+
+        private static const PAD:int = Values.PT20;
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        [Bindable]
+        public var vm:TestingVM;
+
+        override protected function activating():void {
+            vm = ViewModelFactory.instance.testingVM;
+            vm.lockView();
+        }
+
+        override protected function activate():void {
+            vm.unlockView();
+            vm.viewActivated(viewInfo);
+            navigationMenu.show();
+
+            findTestView(vm.testPage.test);
+            activeTestView.activate(actionCallback, actionMenu);
+            activeTestView.visible = activeTestView.includeInLayout = true;
+
+            toolbar.show();
+            toolbar.revert();
+            toolbar.enableGoBack();
+            toolbar.enableEditNote();
+            toolbar.enableRemoveNote();
+
+            toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+        }
+
+        override protected function deactivate():void {
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            if (activeTestView) {
+                activeTestView.deactivate();
+                activeTestView.visible = activeTestView.includeInLayout = false;
+            }
+            vm.viewDeactivated();
+        }
+
+        private function actionSelectedHandler(event:ToolActionEvent):void {
+            switch (event.actionID) {
+                case(ToolAction.GO_BACK) :
+                    vm.goBack();
+                    break;
+                case(ToolAction.EDIT_NOTE) :
+                    vm.editNote();
+                    break;
+                case(ToolAction.REMOVE_NOTE) :
+                    vm.removeNote();
+                    break;
+                case(ToolAction.PLAY_COMMENT) :
+                    if (vm.selectedTestTask && vm.selectedTestTask.note.hasAudio)
+                        vm.selectedTestTask.note.playAudioComment();
+                    break;
+            }
+        }
+
+        private function noteRemovedComplete(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                vm.loadNextTestTask();
+            }
+        }
+
+        private function noteEditComplete(op:IAsyncOperation):void {
+            if (op.isSuccess && op.result == FormOperationResult.OK) {
+                vm.loadNextTestTask();
+            }
+        }
+
+        private var activeTestView:TestableView;
+
+        private function findTestView(test:Test):void {
+            switch (test.id) {
+                case TestID.DE_TRANSLATE_WORD_FROM_GERMAN :
+                case TestID.EN_TRANSLATE_WORD_FROM_ENGLISH :
+                    activeTestView = speakWordTranslationTest;
+                    break;
+                case TestID.DE_SELECT_ARTICLE :
+                    activeTestView = selectArticleTest;
+                    break;
+                case TestID.DE_WRITE_WORD :
+                case TestID.DE_WRITE_VERB :
+                case TestID.DE_WRITE_LESSON :
+                case TestID.EN_WRITE_WORD :
+                case TestID.EN_WRITE_VERB :
+                case TestID.EN_WRITE_LESSON :
+                    activeTestView = writeNoteTest;
+                    break;
+                case TestID.DE_TRANSLATE_LESSON_FROM_GERMAN :
+                case TestID.DE_TRANSLATE_VERB_EXAMPLE_FROM_GERMAN :
+                case TestID.DE_TRANSLATE_WORD_EXAMPLE_FROM_GERMAN :
+                case TestID.DE_TRANSLATE_WORD_INTO_GERMAN :
+                case TestID.DE_TRANSLATE_LESSON_INTO_GERMAN :
+                case TestID.DE_TRANSLATE_VERB_EXAMPLE_INTO_GERMAN :
+                case TestID.DE_TRANSLATE_WORD_EXAMPLE_INTO_GERMAN :
+                case TestID.EN_TRANSLATE_LESSON_FROM_ENGLISH :
+                case TestID.EN_TRANSLATE_VERB_EXAMPLE_FROM_ENGLISH :
+                case TestID.EN_TRANSLATE_WORD_EXAMPLE_FROM_ENGLISH :
+                case TestID.EN_TRANSLATE_WORD_INTO_ENGLISH :
+                case TestID.EN_TRANSLATE_LESSON_INTO_ENGLISH :
+                case TestID.EN_TRANSLATE_VERB_EXAMPLE_INTO_ENGLISH :
+                case TestID.EN_TRANSLATE_WORD_EXAMPLE_INTO_ENGLISH :
+                    activeTestView = speakNoteTranslationTest;
+                    break;
+                case TestID.DE_DECLENSION_VERB_FORMS :
+                case TestID.EN_DECLENSION_VERB_FORMS :
+                    activeTestView = speakVerbFormsTest;
+                    break;
+                default:
+                    throw new Error("No Test found with id: " + test.id);
+            }
+        }
+
+        private function actionCallback(action:String):void {
+            if (!vm.selectedTestTask) return;
+            switch (action) {
+                case TestingAction.CORRECT_ANSWER :
+                    vm.selectedTestTask.isFailed = false;
+                    vm.selectedTestTask.store();
+                    break;
+                case TestingAction.INCORRECT_ANSWER :
+                    vm.errorsNum++;
+                    vm.selectedTestTask.isFailed = true;
+                    vm.selectedTestTask.store();
+                    break;
+                case TestingAction.NEXT_TASK :
+                    vm.loadNextTestTask();
+                    break;
+            }
+        }
+        ]]></fx:Script>
+
+    <!--HEADER-->
+    <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="{Values.PT20}"
+             mouseChildren="false" mouseEnabled="false"
+             left="{PAD}" top="{PAD}"
+             color="0"
+             alpha="0.6"/>
+
+    <s:Label text="{vm.errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
+             right="{PAD}" top="{PAD}"
+             textAlign="right"
+             fontFamily="{FontName.MYRIAD}"
+             fontSize="{Values.PT20}"
+             maxDisplayedLines="1"
+             mouseChildren="false" mouseEnabled="false"
+             color="0"
+             alpha="0.6"/>
+    <!--BODY-->
+
+    <scroller:CustomScroller width="100%" top="{Values.PT50}"
+                             bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
+                             horizontalScrollPolicy="off">
+        <s:Group width="100%">
+
+            <test:SpeakWordTranslationTest id="speakWordTranslationTest"
+                                           width="100%" height="100%"
+                                           visible="false" includeInLayout="false"
+                                           testTask="{vm.selectedTestTask}"
+                                           padding="{PAD}"/>
+
+            <test:SelectArticleTest id="selectArticleTest"
+                                    width="100%" height="100%"
+                                    visible="false" includeInLayout="false"
+                                    testTask="{vm.selectedTestTask}"
+                                    padding="{PAD}"/>
+
+            <test:WriteNoteTest id="writeNoteTest"
+                                width="100%" height="100%"
+                                visible="false" includeInLayout="false"
+                                testTask="{vm.selectedTestTask}"
+                                padding="{PAD}"/>
+
+            <test:SpeakNoteTranslationTest id="speakNoteTranslationTest"
+                                           width="100%" height="100%"
+                                           visible="false" includeInLayout="false"
+                                           translateFromNativeIntoForeign="{vm.testPage.test.translateFromNativeIntoForeign}"
+                                           testTask="{vm.selectedTestTask}"
+                                           padding="{PAD}"/>
+
+            <test:SpeakVerbFormsTest id="speakVerbFormsTest"
+                                     width="100%" height="100%"
+                                     visible="false" includeInLayout="false"
+                                     testTask="{vm.selectedTestTask}"
+                                     padding="{PAD}"/>
+
+        </s:Group>
+    </scroller:CustomScroller>
+
+    <!--footer-->
+    <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}" bottom="0"
+              opaqueBackground="{AppColors.TOOLBAR_BG}">
+
+        <s:Label id="titleLbl"
+                 text="{vm.testPage.vocabulary.title.toUpperCase() + '. ' + vm.testPage.test.title}"
+                 width="50%" height="100%" verticalAlign="middle"
+                 fontSize="{Values.PT14}"
+                 paddingLeft="{Values.PT10}" paddingTop="{Values.PT1}"
+                 maxDisplayedLines="1"
+                 color="{AppColors.BLACK}"/>
+
+        <s:Label id="tagsLbl"
+                 text="{vm.selectedNoteTags}"
+                 height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
+                 fontSize="{Values.PT14}" verticalAlign="middle" paddingTop="{Values.PT1}"
+                 maxDisplayedLines="1"
+                 color="{AppColors.BLACK}"/>
+    </s:HGroup>
+</view:SmartView>

@@ -13,14 +13,12 @@ public class MainVM extends WalterProxy {
 		super();
 	}
 
-	[Inject]
-	public var viewNavigator:ViewNavigator;
-
 	[Bindable]
 	[Inject]
 	public var appModel:AppModel;
 
-	public var mainView:MainView;
+	[Bindable]
+	public var viewNavigator:ViewNavigator;
 
 	//--------------------------------------
 	//  viewLocked
@@ -49,8 +47,8 @@ public class MainVM extends WalterProxy {
 		}
 	}
 
-	public function viewActivated(mainView:MainView):void {
-		this.mainView = mainView;
+	public function viewActivated(viewNavigator:ViewNavigator):void {
+		this.viewNavigator = viewNavigator;
 		listenProxy(appModel, AppModel.HASH_CHANGED_MSG, updateCommentsBoardText);
 		updateCommentsBoardText();
 	}

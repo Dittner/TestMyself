@@ -1,5 +1,6 @@
 package de.dittner.testmyself.ui.view.map {
 import de.dittner.testmyself.model.domain.language.Language;
+import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 
 public class MapVM extends ViewModel {
@@ -11,8 +12,8 @@ public class MapVM extends ViewModel {
 
 	override protected function activate():void {}
 
-	override public function viewActivated(viewID:String):void {
-		super.viewActivated(viewID);
+	override public function viewActivated(viewInfo:ViewInfo):void {
+		super.viewActivated(viewInfo);
 		selectedLang = appModel.selectedLanguage;
 	}
 

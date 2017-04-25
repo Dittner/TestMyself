@@ -2,17 +2,22 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
-         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+         implements="de.dittner.testmyself.ui.common.menu.INavigationMenu"
+         currentState="hide"
+         creationComplete="creationCompleteHandler(event)">
 
     <fx:Metadata>
         [Event(name="selected", type="de.dittner.testmyself.ui.common.menu.NavigationMenuEvent")]
-        [Event(name="clicked", type="de.dittner.testmyself.ui.common.menu.NavigationMenuEvent")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.view.ViewInfo;
         import de.dittner.testmyself.utils.Values;
+
+        import mx.events.FlexEvent;
 
         //--------------------------------------
         //  hasNetworkConnection
@@ -28,15 +33,20 @@
         }
 
         //--------------------------------------
-        //  selectedViewMenuID
+        //  selectedViewInfo
         //--------------------------------------
-        private var _selectedViewMenuID:String = "";
-        [Bindable("selectedViewMenuIDChanged")]
-        public function get selectedViewMenuID():String {return _selectedViewMenuID;}
-        public function set selectedViewMenuID(value:String):void {
-            if (_selectedViewMenuID != value) {
-                _selectedViewMenuID = value;
-                dispatchEvent(new Event("selectedViewMenuIDChanged"));
+        private var _selectedViewInfo:ViewInfo;
+        [Bindable("selectedViewInfoChanged")]
+        public function get selectedViewInfo():ViewInfo {return _selectedViewInfo;}
+        public function set selectedViewInfo(value:ViewInfo):void {
+            if (_selectedViewInfo != value) {
+                _selectedViewInfo = value;
+                if (selectedViewInfo && btnHash[selectedViewInfo.viewID]) {
+                    if (lastSelectedBtn) lastSelectedBtn.selected = false;
+                    btnHash[selectedViewInfo.viewID].selected = true;
+                    lastSelectedBtn = btnHash[selectedViewInfo.viewID];
+                }
+                dispatchEvent(new Event("selectedViewInfoChanged"));
             }
         }
 
@@ -46,19 +56,46 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        private function menuBtnClickHandler(e:Event):void {
-            var menuBtn:MenuButton = e.target as MenuButton;
-            if (menuBtn) dispatchEvent(new NavigationMenuEvent(NavigationMenuEvent.CLICKED, menuBtn.menuID));
+        public function show():void {
+            setCurrentState("show");
         }
 
+        public function hide():void {
+            setCurrentState("hide");
+        }
+
+        private var lastSelectedBtn:MenuButton;
         private function viewMenuBtnSelectedHandler(e:Event):void {
             var menuBtn:MenuButton = e.target as MenuButton;
-            if (menuBtn && menuBtn.selected) {
-                selectedViewMenuID = menuBtn.menuID;
+            if (menuBtn && menuBtn.selected && menuBtn != lastSelectedBtn) {
+                if (lastSelectedBtn) lastSelectedBtn.selected = false;
+                lastSelectedBtn = menuBtn;
                 dispatchEvent(new NavigationMenuEvent(NavigationMenuEvent.SELECTED, menuBtn.menuID));
             }
         }
+
+        private var btnHash:Object;
+        private function creationCompleteHandler(event:FlexEvent):void {
+            if (!btnHash) {
+                btnHash = {};
+                btnHash[ViewID.LANG_LIST] = langListViewBtn;
+                btnHash[ViewID.WORD_LIST] = wordViewBtn;
+                btnHash[ViewID.VERB_LIST] = verbViewBtn;
+                btnHash[ViewID.LESSON_TAG_LIST] = lessonViewBtn;
+                btnHash[ViewID.MAP] = mapViewBtn;
+                btnHash[ViewID.TEST_LIST] = testListViewBtn;
+                btnHash[ViewID.SEARCH] = searchViewBtn;
+                btnHash[ViewID.SETTINGS] = settingsViewBtn;
+                btnHash[ViewID.LANG_LIST] = langListViewBtn;
+                btnHash[ViewID.LANG_LIST] = langListViewBtn;
+            }
+        }
         ]]></fx:Script>
+
+    <s:states>
+        <s:State name="show"/>
+        <s:State name="hide"/>
+    </s:states>
 
     <s:Rect width="100%" height="100%">
         <s:fill>
@@ -67,6 +104,8 @@
     </s:Rect>
 
     <s:HGroup width="100%" height="100%"
+              visible.show="true"
+              visible.hide="false"
               disabledAlpha="1"
               paddingLeft="{Values.PT10}" paddingRight="{Values.PT10}" gap="{Values.PT10}"
               verticalAlign="middle">
@@ -77,7 +116,6 @@
                          menuID="{ViewID.LANG_LIST}"
                          upTileID="{TileID.MENU_INFO_ICON}"
                          disabledTileID="{TileID.MENU_INFO_RED_ICON}"
-                         selected="{selectedViewMenuID == ViewID.LANG_LIST}"
                          change="viewMenuBtnSelectedHandler(event)"/>
 
         <s:Spacer width="50%"/>
@@ -85,30 +123,27 @@
         <menu:MenuButton id="wordViewBtn"
                          isToggle="true"
                          deselectOnlyProgrammatically="true"
-                         menuID="{ViewID.WORD}"
+                         menuID="{ViewID.WORD_LIST}"
                          upTileID="{TileID.MENU_WORD_ICON}"
                          disabledTileID="{TileID.MENU_WORD_RED_ICON}"
-                         selected="{selectedViewMenuID == ViewID.WORD}"
                          enabled="{enabled}"
                          change="viewMenuBtnSelectedHandler(event)"/>
 
         <menu:MenuButton id="verbViewBtn"
                          isToggle="true"
                          deselectOnlyProgrammatically="true"
-                         menuID="{ViewID.VERB}"
+                         menuID="{ViewID.VERB_LIST}"
                          upTileID="{TileID.MENU_VERB_ICON}"
                          disabledTileID="{TileID.MENU_VERB_RED_ICON}"
-                         selected="{selectedViewMenuID == ViewID.VERB}"
                          enabled="{enabled}"
                          change="viewMenuBtnSelectedHandler(event)"/>
 
         <menu:MenuButton id="lessonViewBtn"
                          isToggle="true"
                          deselectOnlyProgrammatically="true"
-                         menuID="{ViewID.LESSON}"
+                         menuID="{ViewID.LESSON_TAG_LIST}"
                          upTileID="{resourceManager.getString('app', 'LESSON_MENU_ICON')}"
                          disabledTileID="{resourceManager.getString('app', 'LESSON_DISABLED_MENU_ICON')}"
-                         selected="{selectedViewMenuID == ViewID.LESSON}"
                          enabled="{enabled}"
                          change="viewMenuBtnSelectedHandler(event)"/>
 
@@ -121,16 +156,14 @@
                          menuID="{ViewID.MAP}"
                          upTileID="{TileID.MENU_MAP_ICON}"
                          disabledTileID="{TileID.MENU_MAP_RED_ICON}"
-                         selected="{selectedViewMenuID == ViewID.MAP}"
                          change="viewMenuBtnSelectedHandler(event)"/>
 
-        <menu:MenuButton id="testingViewBtn"
+        <menu:MenuButton id="testListViewBtn"
                          isToggle="true"
                          deselectOnlyProgrammatically="true"
-                         menuID="{ViewID.TEST}"
+                         menuID="{ViewID.TEST_LIST}"
                          upTileID="{TileID.MENU_TESTING_ICON}"
                          disabledTileID="{TileID.MENU_TESTING_RED_ICON}"
-                         selected="{selectedViewMenuID == ViewID.TEST}"
                          enabled="{enabled}"
                          change="viewMenuBtnSelectedHandler(event)"/>
 
@@ -140,7 +173,6 @@
                          menuID="{ViewID.SEARCH}"
                          upTileID="{TileID.MENU_SEARCH_ICON}"
                          disabledTileID="{TileID.MENU_SEARCH_RED_ICON}"
-                         selected="{selectedViewMenuID == ViewID.SEARCH}"
                          enabled="{enabled}"
                          change="viewMenuBtnSelectedHandler(event)"/>
 
@@ -152,15 +184,15 @@
                          menuID="{ViewID.SETTINGS}"
                          upTileID="{TileID.MENU_SETTINGS_ICON}"
                          disabledTileID="{TileID.MENU_SETTINGS_RED_ICON}"
-                         selected="{selectedViewMenuID == ViewID.SETTINGS}"
                          enabled="{enabled}"
                          change="viewMenuBtnSelectedHandler(event)"/>
     </s:HGroup>
 
     <tile:FadeTileButton left="{Values.PT3}" top="{Values.PT3}"
+                         visible.show="{hasNetworkConnection}"
+                         visible.hide="false"
                          mouseEnabled="false"
                          upBgAlpha="1"
-                         visible="{hasNetworkConnection}"
                          upTileID="{TileID.NETWORK_ICON}"
                          disabledTileID="{TileID.NETWORK_RED_ICON}"
                          enabled="{enabled}"

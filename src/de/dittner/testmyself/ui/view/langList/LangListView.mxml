@@ -3,7 +3,7 @@
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
                 xmlns:components="de.dittner.testmyself.ui.view.langList.components.*"
                 xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
-                horizontalCenter="0">
+                isBgShown="false">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.language.LanguageID;
@@ -17,19 +17,18 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.langListVM;
             vm.lockView();
-            navigationMenu.visible = navigationMenu.includeInLayout = false;
-            toolbar.hide();
-            actionMenu.hide();
         }
 
         override protected function activate():void {
+            navigationMenu.hide();
+            toolbar.hide();
+            actionMenu.hide();
             vm.unlockView();
-            vm.viewActivated(viewID);
-            mainView.isBgShown = false;
+            vm.viewActivated(viewInfo);
         }
 
         override protected function deactivate():void {
-            mainView.isBgShown = true;
+            vm.viewDeactivated();
         }
         ]]></fx:Script>
 

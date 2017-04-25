@@ -7,7 +7,6 @@ import de.dittner.testmyself.utils.Values;
 import flash.display.Graphics;
 import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.text.TextField;
 import flash.text.TextFormat;
 
 import flashx.textLayout.formats.TextAlign;
@@ -21,8 +20,7 @@ use namespace mx_internal;
 [Event(name="selectedChange", type="flash.events.Event")]
 
 public class FadeTileButton extends UIComponent {
-
-	private const TITLE_FORMAT:TextFormat = new TextFormat(_font, _fontSize, _textColor, _isBold, _isItalic, null, null, null, TextAlign.CENTER);
+	protected const TITLE_FORMAT:TextFormat = new TextFormat(_font, _fontSize, _textColor, _isBold, _isItalic, null, null, null, TextAlign.CENTER);
 
 	public function FadeTileButton() {
 		super();
@@ -37,7 +35,7 @@ public class FadeTileButton extends UIComponent {
 	protected var disabledBg:TileShape;
 	protected var iconBg:TileShape;
 
-	private var titleTf:TextField;
+	protected var titleTf:FadeTextField;
 
 	//--------------------------------------
 	//  upBgAlpha
@@ -203,25 +201,35 @@ public class FadeTileButton extends UIComponent {
 	override public function set enabled(value:Boolean):void {
 		if (super.enabled != value) {
 			super.enabled = value;
-			super.mouseEnabled = enabled && _mouseEnabled;
-			super.mouseChildren = enabled && _mouseChildren;
 			invalidateDisplayList();
 		}
 	}
 
+	//--------------------------------------
+	//  mouseEnabled
+	//--------------------------------------
 	private var _mouseEnabled:Boolean = true;
+	[Bindable("mouseEnabledChanged")]
+	override public function get mouseEnabled():Boolean {return _mouseEnabled;}
 	override public function set mouseEnabled(value:Boolean):void {
 		if (_mouseEnabled != value) {
 			_mouseEnabled = value;
-			super.mouseEnabled = enabled && _mouseEnabled;
+			super.mouseEnabled = _mouseEnabled;
+			dispatchEvent(new Event("mouseEnabledChanged"));
 		}
 	}
 
+	//--------------------------------------
+	//  mouseChildren
+	//--------------------------------------
 	private var _mouseChildren:Boolean = true;
+	[Bindable("mouseChildrenChanged")]
+	override public function get mouseChildren():Boolean {return _mouseChildren;}
 	override public function set mouseChildren(value:Boolean):void {
 		if (_mouseChildren != value) {
 			_mouseChildren = value;
-			super.mouseChildren = enabled && _mouseChildren;
+			super.mouseChildren = _mouseChildren;
+			dispatchEvent(new Event("mouseChildrenChanged"));
 		}
 	}
 
@@ -412,7 +420,7 @@ public class FadeTileButton extends UIComponent {
 		if (iconBg) iconBg.tileID = iconTileID;
 
 		if (title && !titleTf) {
-			titleTf = TextFieldFactory.create(TITLE_FORMAT);
+			titleTf = TextFieldFactory.createFadeTextField(TITLE_FORMAT);
 			addChild(titleTf);
 		}
 
@@ -498,12 +506,13 @@ public class FadeTileButton extends UIComponent {
 	//----------------------------------------------------------------------------------------------
 
 	protected var isDown:Boolean = false;
+	protected var isHover:Boolean = false;
 
 	private function mouseUpHandler(event:MouseEvent):void {
 		if (isDown) {
 			isDown = false;
 
-			if (isToggle) {
+			if (isToggle && enabled) {
 				if (denyInteractiveSelection) {
 					denyInteractiveSelection = false;
 				}
@@ -514,64 +523,57 @@ public class FadeTileButton extends UIComponent {
 						dispatchEvent(new Event(Event.CHANGE));
 				}
 			}
+			redrawBg();
+		}
+	}
 
+	private function mouseOverHandler(event:MouseEvent):void {
+		isHover = true;
+		redrawBg();
+	}
+
+	private function mouseDownHandler(event:MouseEvent):void {
+		isDown = true;
+		redrawBg();
+	}
+
+	private function mouseOutHandler(event:MouseEvent):void {
+		isHover = false;
+		isDown = false;
+		redrawBg();
+	}
+
+	protected function redrawBg():void {
+		if(isDown && enabled) {
 			if (upBg)
-				upBg.alphaTo = enabled ? Device.isDesktop || (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
+				upBg.alphaTo = 1;
+
+			if (downBg)
+				downBg.alphaTo = 1;
+
+			if (disabledBg)
+				disabledBg.alphaTo = 0;
+		}
+		else if(isHover && enabled){
+			if (upBg)
+				upBg.alphaTo = Device.isDesktop || (isToggle && selected) ? 1 : upBgAlpha;
 
 			if (downBg)
 				downBg.alphaTo = isToggle && selected ? 1 : 0;
 
 			if (disabledBg)
+				disabledBg.alphaTo = 0;
+		}
+		else {
+			if (upBg)
+				upBg.alphaTo = enabled ? (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
+
+			if (downBg)
+				downBg.alphaTo = isToggle && selected ? enabled ? 1 : disabledBgAlpha : 0;
+
+			if (disabledBg)
 				disabledBg.alphaTo = enabled ? 0 : 1;
 		}
-	}
-
-	protected function mouseOverHandler(event:MouseEvent):void {
-		if (upBg)
-			upBg.alphaTo = enabled ? 1 : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = isToggle && selected ? enabled ? 1 : disabledBgAlpha : 0;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
-	}
-
-	protected function mouseDownHandler(event:MouseEvent):void {
-		isDown = true;
-
-		if (upBg)
-			upBg.alphaTo = enabled ? 1 : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = enabled ? 1 : disabledBgAlpha;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
-	}
-
-	protected function mouseOutHandler(event:MouseEvent):void {
-		isDown = false;
-
-		if (upBg)
-			upBg.alphaTo = enabled ? (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = isToggle && selected ? enabled ? 1 : disabledBgAlpha : 0;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
-	}
-
-	protected function redrawBg():void {
-		if (upBg)
-			upBg.alphaTo = enabled ? (isToggle && selected) ? 1 : upBgAlpha : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = isToggle && selected ? enabled ? 1 : disabledBgAlpha : 0;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
 	}
 
 }

@@ -7,7 +7,7 @@ import de.dittner.testmyself.backend.op.CountTestTasksOperation;
 import de.dittner.testmyself.backend.op.SelectNotesByTestPageOperation;
 import de.dittner.testmyself.backend.op.SelectPageTestTasksOperation;
 import de.dittner.testmyself.backend.op.StorageOperation;
-import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
+import de.dittner.testmyself.ui.common.page.TestPage;
 
 public class LoadTestStatisticsCmd extends StorageOperation implements IAsyncCommand {
 

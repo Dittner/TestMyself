@@ -6,7 +6,7 @@ import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
-import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
+import de.dittner.testmyself.ui.view.form.components.NoteValidationErrorKey;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;

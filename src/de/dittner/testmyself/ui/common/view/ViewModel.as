@@ -29,22 +29,11 @@ public class ViewModel extends WalterProxy {
 		}
 	}
 
-	//--------------------------------------
-	//  viewTitle
-	//--------------------------------------
-	private var _viewTitle:String = "";
-	[Bindable("viewTitleChanged")]
-	public function get viewTitle():String {return _viewTitle;}
-	public function set viewTitle(value:String):void {
-		if (_viewTitle != value) {
-			_viewTitle = value;
-			dispatchEvent(new Event("viewTitleChanged"));
-		}
-	}
-
 	override protected function activate():void {}
 
-	public function viewActivated(viewID:String):void {
+	protected var viewInfo:ViewInfo;
+	public function viewActivated(viewInfo:ViewInfo):void {
+		this.viewInfo = viewInfo;
 		isActive = true;
 	}
 
@@ -58,6 +47,14 @@ public class ViewModel extends WalterProxy {
 
 	public function unlockView():void {
 		if (mainVM) mainVM.viewLocked = false;
+	}
+
+	public function goBack():void {
+		if (mainVM) mainVM.viewNavigator.goBack();
+	}
+
+	public function navigateTo(viewInfo:ViewInfo):void {
+		if (mainVM) mainVM.viewNavigator.navigate(viewInfo);
 	}
 }
 }

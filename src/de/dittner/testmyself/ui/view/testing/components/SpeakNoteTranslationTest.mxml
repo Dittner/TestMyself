@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                   xmlns:s="library://ns.adobe.com/flex/spark"
+                   xmlns:test="de.dittner.testmyself.ui.view.testing.components.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.note.Word;
+
+        //--------------------------------------
+        //  translateFromNativeIntoForeign
+        //--------------------------------------
+        private var _translateFromNativeIntoForeign:Boolean = false;
+        [Bindable("translateFromNativeIntoForeignChanged")]
+        public function get translateFromNativeIntoForeign():Boolean {return _translateFromNativeIntoForeign;}
+        public function set translateFromNativeIntoForeign(value:Boolean):void {
+            if (_translateFromNativeIntoForeign != value) {
+                _translateFromNativeIntoForeign = value;
+                dispatchEvent(new Event("translateFromNativeIntoForeignChanged"));
+            }
+        }
+
+        override protected function updateForm():void {
+            clear();
+
+            if (note) {
+                titleBoard.text = translateFromNativeIntoForeign ? note.description : note.title;
+                translateBoard.text = translateFromNativeIntoForeign ? noteToTitle() : note.description;
+            }
+        }
+
+        private function noteToTitle():String {
+            var res:String;
+            if (note is Word) {
+                var w:Word = note as Word;
+                res = w.article ? w.article + " " : "";
+                res += w.title;
+                res += w.declension ? ", " + w.declension : "";
+            }
+            else {
+                res = note ? note.title : ""
+            }
+            return res;
+        }
+
+        override protected function clear():void {
+            showDetails = false;
+            titleBoard.text = "";
+            translateBoard.text = "";
+            titleBoard.isOpened = true;
+            translateBoard.isOpened = true;
+        }
+
+        private function optionsEnabled(showDetails:Boolean, options:String):Boolean {
+            return showDetails && options;
+        }
+        ]]></fx:Script>
+
+    <test:layout>
+        <s:VerticalLayout gap="0"/>
+    </test:layout>
+
+    <test:TextPanel id="titleBoard"
+                    width="100%"
+                    title="{resourceManager.getString('app', 'TextInput')}"/>
+
+    <test:TextPanel id="translateBoard"
+                    questionsIconEnabled="true"
+                    width="100%"
+                    title="{resourceManager.getString('app', 'Translation')}"
+                    showText="{showDetails}"/>
+</test:TestableView>

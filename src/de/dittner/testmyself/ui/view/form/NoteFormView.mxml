@@ -1,0 +1,531 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:audio="de.dittner.testmyself.ui.common.audio.*"
+                xmlns:input="de.dittner.testmyself.ui.common.input.*"
+                xmlns:list="de.dittner.testmyself.ui.common.list.*"
+                xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+                xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                xmlns:components="de.dittner.testmyself.ui.view.form.components.*"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                currentState="normal">
+<fx:Script><![CDATA[
+    import de.dittner.async.IAsyncOperation;
+    import de.dittner.async.utils.invalidateOf;
+    import de.dittner.testmyself.model.Device;
+    import de.dittner.testmyself.model.domain.note.DeWordArticle;
+    import de.dittner.testmyself.model.domain.note.IrregularVerb;
+    import de.dittner.testmyself.model.domain.note.Note;
+    import de.dittner.testmyself.model.domain.note.Word;
+    import de.dittner.testmyself.model.domain.tag.Tag;
+    import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+    import de.dittner.testmyself.ui.common.menu.ToolAction;
+    import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
+    import de.dittner.testmyself.ui.common.popup.SimplePopup;
+    import de.dittner.testmyself.ui.common.tile.TileID;
+    import de.dittner.testmyself.ui.common.utils.AppColors;
+    import de.dittner.testmyself.ui.common.utils.AppSizes;
+    import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
+    import de.dittner.testmyself.ui.common.view.NoteFormViewInfo;
+    import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+    import de.dittner.testmyself.ui.view.form.components.FormMode;
+    import de.dittner.testmyself.ui.view.form.components.FormOperationResult;
+    import de.dittner.testmyself.ui.view.form.components.NoteValidationErrorKey;
+    import de.dittner.testmyself.utils.Values;
+
+    import mx.collections.ArrayCollection;
+
+    import spark.components.supportClasses.TextInputOperation;
+    import spark.events.TextOperationEvent;
+
+    [Bindable]
+    public var vm:NoteFormVM;
+
+    private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "-(e)s, -er", "-(e)s, sg", "-en, -en", "-n, -n", "-s, -e", "-s, -s", "-ses, -se", "-s, =", "-s, sg", "=, -en", "=, -n", "=, -se", "=, sg", "sub", "pl"];
+    private const HGAP:uint = Values.PT10;
+    private const VGAP:uint = Values.PT5;
+
+    //----------------------------------------------------------------------------------------------
+    //
+    //  Methods
+    //
+    //----------------------------------------------------------------------------------------------
+
+    override protected function activating():void {
+        vm = ViewModelFactory.instance.noteFormVM;
+        vm.lockView();
+        vm.viewActivated(viewInfo);
+    }
+
+    override protected function activate():void {
+        vm.unlockView();
+
+        navigationMenu.hide();
+        toolbar.hide();
+        actionMenu.showFormMenu((viewInfo as NoteFormViewInfo).formMode);
+        actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+
+        updateState();
+        start();
+    }
+
+    override protected function deactivating():void {
+        actionMenu.showPrevMenu();
+    }
+
+    override protected function deactivate():void {
+        actionMenu.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+        vm.viewDeactivated();
+        clear();
+    }
+
+    private function actionSelectedHandler(e:ToolActionEvent):void {
+        if (e.actionID == ToolAction.APPLY) apply();
+        else if (e.actionID == ToolAction.CANCEL) cancel();
+    }
+
+    private function updateState():void {
+        if (vm.note.isExample)
+            currentState = "normal";
+        else if (vm.note.vocabulary.id == VocabularyID.DE_WORD || vm.note.vocabulary.id == VocabularyID.EN_WORD)
+            currentState = "word";
+        else if (vm.note.vocabulary.id == VocabularyID.DE_VERB || vm.note.vocabulary.id == VocabularyID.EN_VERB)
+            currentState = "verb";
+        else if (vm.note.vocabulary.id == VocabularyID.DE_LESSON || vm.note.vocabulary.id == VocabularyID.EN_LESSON)
+            currentState = "lesson";
+        else
+            currentState = "normal";
+    }
+
+    private function start():void {
+        switch (vm.mode) {
+            case FormMode.ADD :
+                add();
+                break;
+            case FormMode.EDIT :
+                edit();
+                break;
+            case FormMode.REMOVE :
+                remove();
+                break;
+        }
+    }
+
+    private function add():void {
+        updateState();
+        tagList.dataProvider = vm.note.vocabulary.tagColl;
+        showSelectedTags(vm.note.tagIDs);
+        invalidateOf(focusTextInput);
+    }
+
+    private function edit():void {
+        updateState();
+
+        if (vm.note is Word) {
+            var word:Word = vm.note as Word;
+            articleBox.selectedItem = word.article;
+            wordInput.text = word.title;
+            wordOptionsInput.text = word.declension;
+        }
+        else if (vm.note is IrregularVerb) {
+            var verb:IrregularVerb = vm.note as IrregularVerb;
+            verbInputsForm.infinitive = verb.title;
+            verbInputsForm.present = verb.present;
+            verbInputsForm.past = verb.past;
+            verbInputsForm.perfect = verb.perfect;
+        }
+        else {
+            titleArea.text = vm.note.title;
+        }
+
+        descriptionArea.text = vm.note.description;
+        examplesForm.exampleColl = vm.note.exampleColl;
+        tagList.dataProvider = vm.note.vocabulary.tagColl;
+        showSelectedTags(vm.note.tagIDs);
+
+        if (vm.note.hasAudio) {
+            if (vm.note.audioComment.isMp3 && !vm.note.audioComment.hasBytes)
+                vm.note.audioComment.loadMP3().addCompleteCallback(updateAudioComment);
+            else
+                updateAudioComment();
+        }
+
+        invalidateDisplayList();
+        invalidateOf(focusTextInput);
+    }
+
+    private function updateAudioComment(op:IAsyncOperation = null):void {
+        audioRecorder.setComment(vm.note.audioComment);
+    }
+
+    private function showSelectedTags(noteTagIDs:Array):void {
+        if ((noteTagIDs.length == 0 && !vm.selectedFilter) || !tagList.dataProvider || tagList.dataProvider.length == 0) return;
+
+        var isSelectedTagHash:Object = {};
+        var selectedItems:Vector.<Object> = new Vector.<Object>();
+        for each(var noteTagID:int in noteTagIDs)
+            isSelectedTagHash[noteTagID] = true;
+        if (vm.selectedFilter)
+            isSelectedTagHash[vm.selectedFilter.id] = true;
+        for each(var tag:Tag in tagList.dataProvider)
+            if (isSelectedTagHash[tag.id]) selectedItems.push(tag);
+        tagList.selectedItems = selectedItems;
+    }
+
+    private function getSelectedTagIDs():Array {
+        var res:Array = [];
+        for each(var tag:Tag in tagList.selectedItems)
+            res.push(tag.id);
+        return res;
+    }
+
+    private function remove():void {
+        updateState();
+        removeNoteTitleLbl.text = '«' + vm.note.title + '»';
+    }
+
+    private function clear():void {
+        articleBox.selectedItem = "";
+        wordInput.text = "";
+        wordOptionsInput.text = "";
+        descriptionArea.text = "";
+        addTagInput.text = "";
+        titleArea.text = "";
+        audioRecorder.clear();
+        examplesForm.clear();
+        tagList.dataProvider = null;
+        verbInputsForm.clear();
+        wordInput.isValidInput = true;
+        titleArea.isValidInput = true;
+    }
+
+    private function focusTextInput():void {
+        if (stage && Device.isDesktop)
+            stage.focus = currentState == "lesson" || currentState == "normal" ? titleArea.area : wordInput;
+    }
+
+    private function cancel():void {
+        if (vm.isEditMode) {
+            vm.note.revertChanges().addCompleteCallback(noteRevertedAfterCancel);
+        }
+        else {
+            vm.operation.dispatchSuccess(FormOperationResult.CANCEL);
+            close();
+        }
+    }
+
+    private function noteRevertedAfterCancel(op:IAsyncOperation):void {
+        vm.operation.dispatchSuccess(FormOperationResult.CANCEL);
+        close();
+    }
+
+    private function close():void {
+        vm.goBack();
+    }
+
+    private function apply():void {
+        if (audioRecorder.isRecording) audioRecorder.clear();
+
+        if (vm.isAddMode || vm.isEditMode) {
+            fillNote();
+            var errKey:String = vm.note.validate();
+            if (errKey) {
+                showInvalidMsg(NoteValidationErrorKey.keyToString(errKey, vm.note.vocabulary.lang.id));
+            }
+            else {
+                storeChanges().addCompleteCallback(noteStoredAfterApply);
+            }
+        }
+        else {
+            storeChanges().addCompleteCallback(noteStoredAfterApply);
+        }
+    }
+
+    private function storeChanges():IAsyncOperation {
+        if (vm.isAddMode || vm.isEditMode)
+            return vm.note.store();
+        else if (vm.isRemoveMode)
+            return vm.note.remove();
+        else
+            throw Error("Unknown mode in NoteForm!");
+    }
+
+    private function noteStoredAfterApply(op:IAsyncOperation):void {
+        vm.operation.dispatchSuccess(FormOperationResult.OK);
+        close();
+    }
+
+    private function correct():void {
+        if (currentState == "word" || currentState == "verb") {
+            wordOptionsInput.text = NoteFormUtils.removeSpaces(wordOptionsInput.text);
+            wordInput.text = NoteFormUtils.removeSpaces(wordInput.text);
+            descriptionArea.text = NoteFormUtils.formatText(descriptionArea.text);
+        }
+        else {
+            titleArea.text = NoteFormUtils.capitalizeAndFormatText(titleArea.text);
+            descriptionArea.text = NoteFormUtils.capitalizeAndFormatText(descriptionArea.text);
+        }
+    }
+
+    private function fillNote():void {
+        if (vm.note is Word) {
+            var word:Word = vm.note as Word;
+            word.article = articleBox.selectedItem;
+            word.title = wordInput.text;
+            word.description = descriptionArea.text;
+            word.declension = wordOptionsInput.text;
+            word.audioComment = audioRecorder.getComment();
+            word.exampleColl = examplesForm.exampleColl;
+            word.tagIDs = getSelectedTagIDs();
+        }
+        else if (vm.note is IrregularVerb) {
+            var verb:IrregularVerb = vm.note as IrregularVerb;
+            verb.title = verbInputsForm.infinitiveInput.text;
+            verb.description = descriptionArea.text;
+            verb.audioComment = audioRecorder.getComment();
+            verb.present = verbInputsForm.presentInput.text;
+            verb.past = verbInputsForm.pastInput.text;
+            verb.perfect = verbInputsForm.perfectInput.text;
+            verb.exampleColl = examplesForm.exampleColl;
+            verb.tagIDs = getSelectedTagIDs();
+        }
+        else {
+            vm.note.title = titleArea.text;
+            vm.note.description = descriptionArea.text;
+            vm.note.audioComment = audioRecorder.getComment();
+            if (!vm.note.isExample)
+                vm.note.tagIDs = getSelectedTagIDs();
+        }
+    }
+
+    private function wordValidationHandler(event:TextOperationEvent):void {
+        if (event.operation is TextInputOperation) {
+            var inputOperation:TextInputOperation = event.operation as TextInputOperation;
+            var regexp:RegExp = NoteFormUtils.LETTERS;
+            var match:Object = regexp.exec(inputOperation.text);
+            if (match == null) event.preventDefault();
+        }
+    }
+
+    private function addTagBtnClickHandler(event:MouseEvent):void {
+        if (!addTagInput.text) return;
+
+        var tag:Tag = vm.note.vocabulary.createTag();
+        tag.name = addTagInput.text;
+        var errKey:String = tag.validate();
+        if (errKey) {
+            showInvalidMsg(NoteValidationErrorKey.keyToString(errKey, vm.note.vocabulary.lang.id));
+        }
+        else {
+            var op:IAsyncOperation = tag.store();
+            op.addCompleteCallback(newTagStored);
+
+            var selectedItems:Vector.<Object> = tagList.selectedItems || new Vector.<Object>();
+            selectedItems.push(tag);
+            if (!tagList.dataProvider) tagList.dataProvider = new ArrayCollection();
+            tagList.dataProvider.addItemAt(tag, 0);
+            tagList.selectedItems = selectedItems;
+            addTagInput.text = "";
+        }
+    }
+
+    private function newTagStored(op:IAsyncOperation):void {
+        (tagList.dataProvider as ArrayCollection).refresh();
+    }
+
+    private function getRemoveNotification(note:Note):String {
+        if (!note) return resourceManager.getString("app", "AreYouSureWantToDeleteThisNote?");
+        else if (note is Word) return resourceManager.getString("app", "AreYouSureWantToDeleteThisWord?");
+        else if (note is IrregularVerb) return resourceManager.getString("app", "AreYouSureWantToDeleteThisVerb?");
+        else if (note.isExample) return resourceManager.getString("app", "AreYouSureWantToDeleteThisExample?");
+        else return resourceManager.getString("app", "AreYouSureWantToDeleteThisNote?");
+    }
+
+    private function validateInputText(text:String):void {
+        vm.note.title = text;
+        var hasDuplicateErr:Boolean = vm.note.hasDuplicate();
+        wordInput.isValidInput = !hasDuplicateErr;
+        titleArea.isValidInput = !hasDuplicateErr;
+        verbInputsForm.infinitiveInput.isValidInput = !hasDuplicateErr;
+    }
+
+    private function getNoteTitle(connection:Boolean, wordTitle:String, verbTitle:String):String {
+        var title:String = vm.note is Word ? wordTitle : vm.note is IrregularVerb ? verbTitle : "";
+        return connection && title ? title : "";
+    }
+
+    private function showInvalidMsg(msg:String):void {
+        if (invalidNotifier && !SimplePopup.isShownInPopup(invalidNotifier)) {
+            invalidNotifier.text = msg;
+            SimplePopup.show(invalidNotifier, false);
+            invalidNotifier.show();
+        }
+    }
+
+    private function descriptionAreaChangeHandler(event:Event):void {
+        if (currentState == "lesson") {
+            titleArea.percentHeight = descriptionArea.text.length / titleArea.text.length > 5 ? 15 : 100;
+        }
+        else {
+            titleArea.percentHeight = 100;
+        }
+    }
+
+    override protected function resourcesChanged():void {
+        super.resourcesChanged();
+        if (vm) vm.notifyModeChanged();
+    }
+    ]]></fx:Script>
+
+    <view:states>
+        <s:State name="disabled"/>
+        <s:State name="normal"/>
+        <s:State name="word"/>
+        <s:State name="verb"/>
+        <s:State name="lesson"/>
+    </view:states>
+
+    <fx:Declarations>
+        <components:InvalidNotifier id="invalidNotifier"
+                                    width="{Values.PT500}" height="{Values.PT150}"
+                                    verticalCenter="0" horizontalCenter="0"/>
+    </fx:Declarations>
+
+    <button:TransparentWhiteButton id="formatBtn"
+                                   width="{Values.PT300}" right="{Values.PT15}" top="{-AppSizes.MENU_HEIGHT + Values.PT10}"
+                                   title="{resourceManager.getString('app', 'Formatting')}"
+                                   visible="{!vm.isRemoveMode}"
+                                   click="correct()"/>
+
+    <!--ADD EDIT MODE-->
+
+    <s:HGroup width="100%"
+              top="{Values.PT5}" bottom="{Values.PT20}"
+              gap="{HGAP}"
+              paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}"
+              visible="{!vm.isRemoveMode}" includeInLayout="{!vm.isRemoveMode}">
+        <s:VGroup width="100%" height="100%" gap="{VGAP}">
+            <input:TextAreaForm id="titleArea"
+                                fontSize.word="{Values.PT18}"
+                                fontSize.verb="{Values.PT18}"
+                                fontSize="{Values.PT22}"
+                                visible="true" includeInLayout="true"
+                                visible.word="false" includeInLayout.word="false"
+                                visible.verb="false" includeInLayout.verb="false"
+                                width="100%" height="100%"
+                                title="{resourceManager.getString('app', 'TextInput')}"
+                                maxChars="{Device.MAX_TEXT_LENGTH}"
+                                change="validateInputText(titleArea.text)"/>
+
+            <input:TextInputForm id="wordInput"
+                                 fontSize="{Values.PT18}"
+                                 visible="false" includeInLayout="false"
+                                 visible.word="true" includeInLayout.word="true"
+                                 width="100%"
+                                 maxChars="{Device.MAX_WORD_LENGTH}"
+                                 changing="wordValidationHandler(event)"
+                                 change="validateInputText(wordInput.text)"
+                                 title="{resourceManager.getString('app', 'WordInput')}"/>
+
+            <components:VerbInputsForm id="verbInputsForm"
+                                       width="100%"
+                                       visible="false" includeInLayout="false"
+                                       visible.word="false" includeInLayout.word="false"
+                                       visible.verb="true" includeInLayout.verb="true"
+                                       isPresentFormEnabled="{vm.isPresentVerbFormEnabled}"
+                                       change="validateInputText(verbInputsForm.infinitiveInput.text)"/>
+
+            <input:TextAreaForm id="descriptionArea"
+                                width="100%" height="100%"
+                                maxChars="{Device.MAX_TEXT_LENGTH}"
+                                title="{resourceManager.getString('app', 'Translation')}"
+                                fontSize.word="{Values.PT18}"
+                                fontSize.verb="{Values.PT18}"
+                                fontSize="{Values.PT22}"
+                                textChanged="descriptionAreaChangeHandler(event)"/>
+
+            <components:ExamplesForm id="examplesForm"
+                                     parentNote="{vm.note}"
+                                     width="100%" height="100%"
+                                     bgColor="{mainView.settings.appBgColor}"
+                                     visible="false" includeInLayout="false"
+                                     visible.word="true" includeInLayout.word="true"
+                                     visible.verb="true" includeInLayout.verb="true"
+                                     mainForm="{this}"/>
+
+            <audio:AudioRecorder id="audioRecorder"
+                                 isLoadMp3FileFromDudenEnabled="{vm.isLoadMp3FileFromDudenEnabled}"
+                                 noteTitleToLoadMp3="{getNoteTitle(vm.hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
+                                 height="{Values.PT72}" width="100%"
+                                 loadRemoteMp3WithError="showInvalidMsg(resourceManager.getString('app', 'FailedToLoadMp3File'))"/>
+        </s:VGroup>
+
+        <s:VGroup width="{Values.PT300}" height="100%" gap="{VGAP}"
+                  visible.normal="false" includeInLayout.normal="false"
+                  visible.lesson="{!vm.isAddMode}" includeInLayout.lesson="{!vm.isAddMode}"
+                  visible.word="true" includeInLayout.word="true"
+                  visible.verb="true" includeInLayout.verb="true">
+            <note:ArticleList id="articleBox"
+                              title="{resourceManager.getString('app', 'Article')}"
+                              visible="false" includeInLayout="false"
+                              visible.word="{vm.isArticleEnabled}" includeInLayout.word="{true}"
+                              visible.verb="false" includeInLayout.verb="false"
+                              width="100%"
+                              dataProvider="{new ArrayCollection(DeWordArticle.ARTICLES)}"/>
+
+            <input:DropdownInputForm id="wordOptionsInput"
+                                     isTemplatesEnabled="{vm.isOptionalTemplatesEnabled}"
+                                     visible="false" includeInLayout="false"
+                                     visible.word="true" includeInLayout.word="true"
+                                     width="100%"
+                                     inputTemplateColl="{new ArrayCollection(OPTIONS_TEMPLATES)}"
+                                     title="{resourceManager.getString('app', 'Options')}"/>
+
+            <list:ListForm id="tagList"
+                           depth="10"
+                           width="100%" height="100%"
+                           title="{resourceManager.getString('app', 'Tags')}"
+                           itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer"
+                           allowMultipleSelection.lesson="false"
+                           allowMultipleSelection="true">
+                <list:layout>
+                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+                </list:layout>
+            </list:ListForm>
+
+            <s:HGroup width="100%" height="{Values.PT72}" gap="{Values.PT1}" verticalAlign="bottom"
+                      visible.lesson="false" includeInLayout.lesson="false">
+                <input:TextInputForm id="addTagInput"
+                                     fontSize="{Values.PT18}"
+                                     width="100%"
+                                     maxChars="{Device.MAX_TAG_NAME_LENGTH}"
+                                     title="{resourceManager.getString('app', 'NewTagsName')}"/>
+
+                <tile:FadeTileButton id="addTagBtn"
+                                     upTileID="{TileID.BTN_ADD_TAG}"
+                                     click="addTagBtnClickHandler(event)"/>
+            </s:HGroup>
+        </s:VGroup>
+
+    </s:HGroup>
+
+    <!--REMOVE MODE-->
+
+    <s:Label id="removeTitleLbl"
+             visible="{vm.isRemoveMode}"
+             width="100%" height="40%" verticalAlign="bottom"
+             textAlign="center"
+             color="{AppColors.BLACK}"
+             fontSize="{Values.PT26}"
+             fontWeight="bold"
+             text="{getRemoveNotification(vm.note)}"/>
+
+    <s:Label id="removeNoteTitleLbl"
+             visible="{vm.isRemoveMode}"
+             width="100%" height="50%" bottom="0" maxDisplayedLines="5"
+             color="{AppColors.BLACK}"
+             fontSize="{Values.PT24}"
+             textAlign="center" verticalAlign="top"/>
+
+</view:SmartView>

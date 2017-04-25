@@ -1,22 +1,20 @@
 <?xml version="1.0"?>
 <view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
-                xmlns:core="de.dittner.testmyself.ui.common.view.*"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
                 xmlns:tag="de.dittner.testmyself.ui.view.noteList.components.tag.*"
                 xmlns:note="de.dittner.testmyself.ui.common.note.*"
-                currentState="normal">
+                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
         import de.dittner.testmyself.ui.common.menu.ViewID;
+        import de.dittner.testmyself.ui.common.note.NoteRenderOptions;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
-        import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
 
         [Bindable]
         public var vm:NoteListVM;
@@ -28,63 +26,75 @@
         //----------------------------------------------------------------------------------------------
 
         override protected function activating():void {
-            if (viewID == ViewID.WORD)
+            if (viewInfo.viewID == ViewID.WORD_LIST)
                 vm = ViewModelFactory.instance.wordListVM;
-            else if (viewID == ViewID.VERB)
+            else if (viewInfo.viewID == ViewID.VERB_LIST)
                 vm = ViewModelFactory.instance.verbListVM;
+            else if (viewInfo.viewID == ViewID.LESSON_LIST)
+                vm = ViewModelFactory.instance.lessonListVM;
             else
-                throw new Error("Unknown ViewID: " + viewID);
-
+                throw new Error("Unknown ViewID: " + viewInfo.viewID);
             vm.lockView();
-            navigationMenu.visible = navigationMenu.includeInLayout = true;
-            toolbar.show();
-            toolbar.revert();
-            actionMenu.hide();
+            vm.viewActivated(viewInfo);
+            vm.reloadPage();
         }
 
+        private var renderOptions:NoteRenderOptions = new NoteRenderOptions();
         override protected function activate():void {
             vm.unlockView();
-            vm.viewActivated(viewID);
-            vm.reloadPage();
 
-            toolbar.addNoteBtn.enabled = true;
-            toolbar.showDetailsBtn.enabled = true;
-            toolbar.transInvertBtn.enabled = true;
-            toolbar.filterBtn.enabled = true;
+            navigationMenu.show();
+            actionMenu.showPaginationBar(vm.page);
 
-            noteContent.activate(toolbar, actionMenu);
-            toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
+            toolbar.show();
+            toolbar.revert();
+            if (viewInfo.viewID == ViewID.LESSON_LIST) toolbar.enableGoBack();
+            toolbar.enableAddNote();
+            toolbar.enableShowDetails();
+            toolbar.enableTransInvert();
+            toolbar.enableFilter();
+            toolbar.selectTransInvert(renderOptions.inverted);
+            toolbar.selectShowDetails(renderOptions.showDetails);
+
+            noteList.renderOptions = renderOptions;
+
+            toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
         }
 
         override protected function deactivate():void {
-            toolbar.removeEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
             vm.viewDeactivated();
-            noteContent.deactivate();
         }
 
-        private function toolActionSelectedHandler(event:ToolActionEvent):void {
-            var op:IAsyncOperation;
+        private function actionSelectedHandler(event:ToolActionEvent):void {
+            if (!isActive) return;
             switch (event.actionID) {
                 case(ToolAction.GO_BACK) :
-                    if (noteContent.visible && noteContent.isNoteCardShown) {
-                        noteContent.hideNoteCard();
-                        toolbar.goBackBtn.enabled = false;
-                    }
+                    vm.goBack();
                     break;
                 case(ToolAction.CREATE_NOTE) :
-                    form.visible = true;
-                    op = form.add(vm.page.vocabulary.createNote());
-                    op.addCompleteCallback(noteAddedComplete);
+                    vm.createNote();
                     break;
-                case(ToolAction.EDIT_NOTE) :
-                    form.visible = true;
-                    op = form.edit(noteContent.selectedNote);
-                    op.addCompleteCallback(noteEditComplete);
+                case(ToolAction.APPLY_INVERT) :
+                    renderOptions.inverted = true;
+                    invalidateRenderOptions();
                     break;
-                case(ToolAction.REMOVE_NOTE) :
-                    form.visible = true;
-                    op = form.remove(noteContent.selectedNote);
-                    op.addCompleteCallback(noteRemovedComplete);
+                case(ToolAction.DENY_INVERT) :
+                    renderOptions.inverted = false;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.HIDE_DETAILS) :
+                    renderOptions.showDetails = false;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.SHOW_DETAILS) :
+                    renderOptions.showDetails = true;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.PAGE_NUM_CHANGED) :
+                    vm.reloadPage();
                     break;
                 case(ToolAction.FILTER) :
                     if (!SimplePopup.curContent != filter) {
@@ -94,70 +104,48 @@
             }
         }
 
-        private function noteAddedComplete(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result == FormOperationResult.OK) {
-                if (vm.page.selectedTag) vm.page.countAllNotes = true;
-                else vm.page.allNotesAmount++;
-                vm.reloadPage();
-                noteContent.hideNoteCard();
-            }
-            form.visible = false;
-        }
-
-        private function noteRemovedComplete(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result == FormOperationResult.OK) {
-                vm.page.allNotesAmount--;
-                vm.reloadPage();
-                noteContent.hideNoteCard();
-            }
-            form.visible = false;
-        }
-
-        private function noteEditComplete(op:IAsyncOperation):void {
-            noteContent.updateSelectedItem();
-            form.visible = false;
-        }
-
-        private function pageNumChanged(event:Event):void {
-            vm.reloadPage();
-        }
-
         private function filterChangedHandler(event:Event):void {
             if (!isActive) return;
-            noteContent.hideNoteCard();
             vm.page.number = 0;
             vm.page.countAllNotes = true;
+            vm.page.selectedTag = filter.selectedTag;
             vm.reloadPage();
             SimplePopup.close();
         }
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
-            if (!isActive) return;
-            toolbar.editNoteBtn.enabled = noteContent.selectedNote != null;
-            toolbar.removeNoteBtn.enabled = noteContent.selectedNote != null;
+            if (!isActive || !noteList.selectedItem) return;
+            vm.showNote(noteList.selectedIndex);
+        }
+
+        private function invalidateRenderOptions():void {
+            if (isActive && noteList) noteList.invalidateRenderView();
         }
         ]]></fx:Script>
 
-    <core:states>
-        <s:State name="disabled"/>
-        <s:State name="normal"/>
-    </core:states>
-
     <fx:Declarations>
         <tag:TagFilter id="filter"
-                       selectedTag="@{vm.page.selectedTag}"
+                       selectedTag="{vm.page.selectedTag}"
+                       bgColor="{mainView.settings.appBgColor}"
                        tags="{vm.page.vocabulary.tagColl}"
-                       width="100%" top="{2*AppSizes.MENU_HEIGHT}" bottom="0"
-                       selectedTagChanged="filterChangedHandler(event)"
-                       canceled="SimplePopup.close()"/>
+                       width="100%" top="{2*AppSizes.MENU_HEIGHT}" bottom="{AppSizes.MENU_HEIGHT}"
+                       selectedTagChanged="filterChangedHandler(event)"/>
     </fx:Declarations>
 
-    <note:NoteContent id="noteContent"
-                      width="{width}" height="100%"
-                      selectedItem="@{vm.selectedNote}"
-                      dataProvider="{vm.page.coll}"
-                      page="{vm.page}"
-                      selectedItemChange="noteList_selectedItemChangeHandler(event)"
-                      pageNumChanged="pageNumChanged(event)"/>
+    <scroller:CustomScroller width="100%" height="100%"
+                             horizontalScrollPolicy="off"
+                             hasFocusableChildren="false">
+        <note:NoteList id="noteList"
+                       dataProvider="{vm.page.coll}"
+                       width="100%"
+                       contentBackgroundAlpha="0"
+                       deselectEnabled="true"
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.NoteRenderer"
+                       selectedItemChange="noteList_selectedItemChangeHandler(event)">
+            <note:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </note:layout>
+        </note:NoteList>
+    </scroller:CustomScroller>
 
 </view:SmartView>

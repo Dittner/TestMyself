@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                   xmlns:s="library://ns.adobe.com/flex/spark"
+                   xmlns:test="de.dittner.testmyself.ui.view.testing.components.*"
+                   xmlns:note="de.dittner.testmyself.ui.common.note.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.note.Word;
+        import de.dittner.testmyself.utils.Values;
+
+        import flashx.textLayout.formats.TextAlign;
+
+        //--------------------------------------
+        //  word
+        //--------------------------------------
+        public function get word():Word {
+            return note as Word;
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        override protected function updateForm():void {
+            clear();
+
+            if (word) {
+                titleLbl.article = word.article;
+                translateBoard.text = word.description;
+                updateTitle();
+            }
+        }
+
+        override protected function clear():void {
+            showDetails = false;
+            titleLbl.article = "";
+            titleLbl.text = "";
+            translateBoard.text = "";
+            translateBoard.isOpened = true;
+        }
+
+        private function updateTitle():void {
+            titleLbl.text = word ? showDetails && word.declension ? word.title + ", " + word.declension : word.title : "";
+        }
+
+        override protected function showAnswer():void {
+            showDetails = true;
+            updateTitle();
+        }
+        ]]></fx:Script>
+
+    <test:layout>
+        <s:VerticalLayout gap="0"/>
+    </test:layout>
+
+    <note:NoteLabel id="titleLbl"
+                    textThickness="60"
+                    textAlign="{TextAlign.CENTER}"
+                    fontSize="{Values.PT30}"
+                    verPadding="{Values.PT5}"
+                    horPadding="{padding}"
+                    width="100%"/>
+
+    <test:TextPanel id="translateBoard"
+                    questionsIconEnabled="true"
+                    width="100%"
+                    title="{resourceManager.getString('app', 'Translation')}"
+                    showText="{showDetails}"
+                    paddingLeft="{padding}" paddingRight="{padding}"/>
+
+    <note:ExamplesPanel id="examplesPanel"
+                        width="100%"
+                        dataProvider="{note.exampleColl}"
+                        paddingTop="0" paddingBottom="0"
+                        paddingLeft="{padding}" paddingRight="{padding}"/>
+
+</test:TestableView>

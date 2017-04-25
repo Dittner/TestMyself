@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.utils.Values;
+
+        //--------------------------------------
+        //  lessonNameHash
+        //--------------------------------------
+        private var _lessonNameHash:Object = {};
+        [Bindable("lessonNameHashChanged")]
+        public function get lessonNameHash():Object {return _lessonNameHash;}
+        public function set lessonNameHash(value:Object):void {
+            if (_lessonNameHash != value) {
+                _lessonNameHash = value;
+                dispatchEvent(new Event("lessonNameHashChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  bgColor
+        //--------------------------------------
+        private var _bgColor:uint;
+        [Bindable("bgColorChanged")]
+        public function get bgColor():uint {return _bgColor;}
+        public function set bgColor(value:uint):void {
+            if (_bgColor != value) {
+                _bgColor = value;
+                dispatchEvent(new Event("bgColorChanged"));
+            }
+        }
+
+        private function applyEnabled(inputText:String):Boolean {
+            return inputText && lessonNameHash && !lessonNameHash[inputText];
+        }
+        ]]></fx:Script>
+
+    <form:EditorBG width="100%" height="100%"
+                   bgColor="{bgColor}"
+                   title="{resourceManager.getString('app', 'AddNewLesson')}"
+                   mode="{FormMode.ADD}"/>
+
+    <input:TextInputForm id="addLessonInput"
+                         fontSize="{Values.PT18}"
+                         top="{EditorBG.HEADER_HEIGHT+ Values.PT15}"
+                         width="50%"
+                         horizontalCenter="0"
+                         maxChars="{Device.MAX_TAG_NAME_LENGTH}"
+                         title="{resourceManager.getString('app', 'NewLessonName')}"/>
+
+    <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}"
+              bottom="{Values.PT15}" horizontalAlign="center"
+              paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}"
+              gap="{Values.PT15}">
+
+        <button:WhiteButton id="cancelBtn"
+                            width="{Values.PT250}"
+                            title="{resourceManager.getString('app', 'Cancel')}"/>
+
+        <button:BlackButton id="applyBtn"
+                            width="{Values.PT250}"
+                            enabled="{applyEnabled(addLessonInput.text)}"
+                            title="{resourceManager.getString('app', 'Apply')}"/>
+    </s:HGroup>
+
+</s:Group>

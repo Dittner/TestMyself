@@ -1,15 +1,13 @@
 package de.dittner.testmyself.ui.view.main {
-import de.dittner.testmyself.ui.common.menu.ActionMenu;
-import de.dittner.testmyself.ui.common.menu.NavigationMenu;
-import de.dittner.testmyself.ui.common.menu.NoteToolbar;
-import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
+import de.dittner.testmyself.ui.common.menu.IActionMenu;
+import de.dittner.testmyself.ui.common.menu.INavigationMenu;
+import de.dittner.testmyself.ui.common.menu.INoteToolbar;
+import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 
 public interface IMainView {
-	function get navigationMenu():NavigationMenu;
-	function get actionMenu():ActionMenu;
-	function get toolbar():NoteToolbar;
-	function get form():NoteForm;
-	function get isBgShown():Boolean;
-	function set isBgShown(value:Boolean):void;
+	function get navigationMenu():INavigationMenu;
+	function get actionMenu():IActionMenu;
+	function get toolbar():INoteToolbar;
+	function get settings():SettingsInfo;
 }
 }

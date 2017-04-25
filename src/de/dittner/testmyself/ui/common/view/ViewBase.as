@@ -1,26 +1,27 @@
 package de.dittner.testmyself.ui.common.view {
-import de.dittner.async.utils.invalidateOf;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
 import de.dittner.testmyself.ui.common.menu.IActionMenu;
-import de.dittner.testmyself.ui.common.menu.NoteToolbar;
+import de.dittner.testmyself.ui.common.menu.INavigationMenu;
+import de.dittner.testmyself.ui.common.menu.INoteToolbar;
+import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.view.main.IMainView;
-import de.dittner.testmyself.ui.view.noteList.components.form.NoteForm;
 import de.dittner.testmyself.utils.Values;
 
+import flash.display.Graphics;
 import flash.events.Event;
 import flash.utils.getQualifiedClassName;
 
-import mx.core.IUIComponent;
 import mx.core.mx_internal;
-import mx.events.FlexEvent;
 
 import spark.components.SkinnableContainer;
 
 use namespace mx_internal;
 
 public class ViewBase extends SkinnableContainer {
+
+	public const PADDING:uint = Values.PT20;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -31,7 +32,6 @@ public class ViewBase extends SkinnableContainer {
 	public function ViewBase() {
 		super();
 		fullName = getQualifiedClassName(this);
-		addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -41,21 +41,32 @@ public class ViewBase extends SkinnableContainer {
 	//----------------------------------------------------------------------------------------------
 
 	protected var fullName:String;
-	protected var isActivateWaiting:Boolean = false;
-
-	public var data:Object;
-	public const PADDING:uint = Values.PT20;
+	public var cacheable:Boolean = true;
 
 	//--------------------------------------
-	//  viewID
+	//  isBgShown
 	//--------------------------------------
-	private var _viewID:String = "";
-	[Bindable("viewIDChanged")]
-	public function get viewID():String {return _viewID;}
-	public function set viewID(value:String):void {
-		if (_viewID != value) {
-			_viewID = value;
-			dispatchEvent(new Event("viewIDChanged"));
+	private var _isBgShown:Boolean = true;
+	[Bindable("isBgShownChanged")]
+	public function get isBgShown():Boolean {return _isBgShown;}
+	public function set isBgShown(value:Boolean):void {
+		if (_isBgShown != value) {
+			_isBgShown = value;
+			invalidateDisplayList();
+			dispatchEvent(new Event("isBgShownChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  viewInfo
+	//--------------------------------------
+	private var _viewInfo:ViewInfo;
+	[Bindable("viewInfoChanged")]
+	public function get viewInfo():ViewInfo {return _viewInfo;}
+	public function set viewInfo(value:ViewInfo):void {
+		if (_viewInfo != value) {
+			_viewInfo = value;
+			dispatchEvent(new Event("viewInfoChanged"));
 		}
 	}
 
@@ -67,16 +78,22 @@ public class ViewBase extends SkinnableContainer {
 	public function get mainView():IMainView {return _mainView;}
 	public function set mainView(value:IMainView):void {
 		if (_mainView != value) {
+			if (mainView) mainView.settings.removeEventListener("appBgColorChanged", appBgColorChanged);
 			_mainView = value;
+			if (mainView) mainView.settings.addEventListener("appBgColorChanged", appBgColorChanged);
 			dispatchEvent(new Event("mainViewChanged"));
 		}
+	}
+
+	private function appBgColorChanged(e:Event):void {
+		invalidateDisplayList();
 	}
 
 	//--------------------------------------
 	//  actionMenu
 	//--------------------------------------
 	[Bindable("mainViewChanged")]
-	public function get navigationMenu():IUIComponent {return mainView.navigationMenu;}
+	public function get navigationMenu():INavigationMenu {return mainView.navigationMenu;}
 
 	//--------------------------------------
 	//  actionMenu
@@ -88,13 +105,7 @@ public class ViewBase extends SkinnableContainer {
 	//  noteToolbar
 	//--------------------------------------
 	[Bindable("mainViewChanged")]
-	public function get toolbar():NoteToolbar {return mainView.toolbar;}
-
-	//--------------------------------------
-	//  form
-	//--------------------------------------
-	[Bindable("mainViewChanged")]
-	public function get form():NoteForm {return mainView.form;}
+	public function get toolbar():INoteToolbar {return mainView.toolbar;}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -112,48 +123,74 @@ public class ViewBase extends SkinnableContainer {
 	//
 	//----------------------------------------------------------------------------------------------
 
+	private var _isActivating:Boolean = false;
+	[Bindable("isActivatingChange")]
+	public function get isActivating():Boolean {return _isActivating;}
+
+	protected var _isRemoving:Boolean = false;
+	[Bindable("isRemovingChange")]
+	public function get isRemoving():Boolean {return _isRemoving;}
+
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Methods
+	//
+	//----------------------------------------------------------------------------------------------
+
 	/*
 	 *  Life cycle abstract methods
 	 * */
 	protected function activating():void {}
 	protected function activate():void {}
+	protected function deactivating():void {}
 	protected function deactivate():void {}
 	protected function destroy():void {}
 
 	/*
 	 * invoke by navigator
 	 * */
-
 	internal function invalidate(navigationPhase:String):void {
 		switch (navigationPhase) {
-			case NavigationPhase.VIEW_ACTIVATE:
+			case NavigationPhase.VIEW_ACTIVATING:
+				_isActivating = true;
+				dispatchEvent(new Event("isActivatingChange"));
 				activating();
-				isActivateWaiting = true;
-				if (initialized)
-					invalidateOf(startActivation);
 				break;
-			case NavigationPhase.VIEW_REMOVE:
+			case NavigationPhase.VIEW_ACTIVATE:
+				_isActivating = false;
+				CLog.info(LogTag.UI, "View: " + fullName + " is activated");
+				dispatchEvent(new Event("isActivatingChange"));
+				_isActive = true;
+				dispatchEvent(new Event("isActiveChange"));
+				activate();
+				break;
+			case NavigationPhase.VIEW_REMOVING:
+				_isRemoving = true;
+				dispatchEvent(new Event("isRemovingChange"));
 				_isActive = false;
-				isActivateWaiting = false;
-				CLog.info(LogTag.UI, "View: " + fullName + " is deactivated");
 				dispatchEvent(new Event("isActiveChange"));
 				MP3Player.instance.stop();
+				deactivating();
+				break;
+			case NavigationPhase.VIEW_REMOVE:
+				_isRemoving = false;
+				_isRemoving = true;
+				CLog.info(LogTag.UI, "View: " + fullName + " is deactivated");
+				dispatchEvent(new Event("isRemovingChange"));
 				deactivate();
+				if (!cacheable) destroy();
 				break;
 		}
 	}
 
-	protected function creationCompleteHandler(event:FlexEvent):void {
-		if (isActivateWaiting) startActivation();
-	}
-
-	private function startActivation():void {
-		if (isActivateWaiting) {
-			isActivateWaiting = false;
-			_isActive = true;
-			CLog.info(LogTag.UI, "View: " + fullName + " is activated");
-			dispatchEvent(new Event("isActiveChange"));
-			activate();
+	override protected function updateDisplayList(w:Number, h:Number):void {
+		super.updateDisplayList(w, h);
+		var g:Graphics = graphics;
+		g.clear();
+		if (isBgShown) {
+			g.beginFill(mainView.settings ? mainView.settings.appBgColor : AppColors.APP_BG_WHITE);
+			g.drawRect(0, 0, w, h);
+			g.endFill();
 		}
 	}
 

@@ -25,6 +25,7 @@ public class ToolAction {
 	public static const FALSE:String = "FALSE";
 	public static const ANSWER:String = "ANSWER";
 	public static const NEXT_TASK:String = "NEXT_TASK";
+	public static const PAGE_NUM_CHANGED:String = "PAGE_NUM_CHANGED";
 
 	public static const PREV_NOTE:String = "PREV_NOTE";
 	public static const NEXT_NOTE:String = "NEXT_NOTE";

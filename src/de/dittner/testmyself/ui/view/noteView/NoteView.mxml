@@ -1,0 +1,293 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                xmlns:panel="de.dittner.testmyself.ui.common.panel.*"
+                xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+                xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.async.utils.invalidateOf;
+        import de.dittner.testmyself.model.domain.language.LanguageID;
+        import de.dittner.testmyself.model.domain.note.IrregularVerb;
+        import de.dittner.testmyself.model.domain.note.Note;
+        import de.dittner.testmyself.model.domain.note.Word;
+        import de.dittner.testmyself.model.domain.test.TestTask;
+        import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
+        import de.dittner.testmyself.ui.common.page.NotePage;
+        import de.dittner.testmyself.ui.common.page.SearchPage;
+        import de.dittner.testmyself.ui.common.page.TestPage;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.FontName;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.utils.Values;
+
+        import flashx.textLayout.formats.TextAlign;
+
+        [Bindable]
+        public var vm:NoteViewVM;
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        override protected function activating():void {
+            vm = ViewModelFactory.instance.noteViewVM;
+            vm.lockView();
+            vm.viewActivated(viewInfo);
+            updateNote();
+        }
+
+        override protected function activate():void {
+            navigationMenu.show();
+            actionMenu.showNavigationMenu(vm.page);
+
+            toolbar.show();
+            toolbar.revert();
+            toolbar.enableGoBack();
+            toolbar.enableEditNote();
+            toolbar.enableRemoveNote();
+            toolbar.enablePlayCommentBtn(vm.page.selectedNote && vm.page.selectedNote.hasAudio);
+            toolbar.enablesSetTaskAsRight(testTask && testTask.isFailed);
+
+            toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            vm.page.addEventListener(NotePage.NOTE_CHANGED, noteChangedHandler);
+
+            vm.unlockView();
+        }
+
+        private function noteChangedHandler(e:Event):void {
+            updateNote();
+        }
+
+        override protected function deactivate():void {
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            vm.page.removeEventListener(NotePage.NOTE_CHANGED, noteChangedHandler);
+            vm.viewDeactivated();
+        }
+
+        private function actionSelectedHandler(event:ToolActionEvent):void {
+            var op:IAsyncOperation;
+            switch (event.actionID) {
+                case(ToolAction.GO_BACK) :
+                    vm.goBack();
+                    break;
+                case(ToolAction.PREV_NOTE) :
+                    vm.showPrevNote();
+                    break;
+                case(ToolAction.NEXT_NOTE) :
+                    vm.showNextNote();
+                    break;
+                case(ToolAction.CREATE_NOTE) :
+                    vm.createNote();
+                    break;
+                case(ToolAction.EDIT_NOTE) :
+                    vm.editNote();
+                    break;
+                case(ToolAction.REMOVE_NOTE) :
+                    vm.removeNote();
+                    break;
+                case(ToolAction.SET_TASK_AS_RIGHT) :
+                    var task:TestTask = vm.page is TestPage ? (vm.page as TestPage).getTask() : null;
+                    if (task && task.isFailed) {
+                        task.isFailed = false;
+                        task.store();
+                        vm.page.countAllNotes = true;
+                        vm.reloadPage().addCompleteCallback(function (op:IAsyncOperation):void {
+                            updateNote();
+                        });
+                    }
+                    break;
+                case(ToolAction.PAGE_NUM_CHANGED) :
+                    vm.reloadPage();
+                    break;
+                case(ToolAction.PLAY_COMMENT) :
+                    loadComment(true);
+                    break;
+            }
+        }
+
+        private function get testTask():TestTask {
+            return vm.page is TestPage ? (vm.page as TestPage).selectedTask : null;
+        }
+
+        private function updateNote():void {
+            var selectedNote:Note = vm.page.selectedNote;
+
+            if (!selectedNote) {
+                titleLbl.article = "";
+                titleLbl.text = "";
+                descriptionLbl.text = "";
+                return;
+            }
+            if (selectedNote is Word) {
+                var word:Word = selectedNote as Word;
+                titleLbl.article = word.article;
+                titleLbl.text = word ? word.declension ? word.title + ", " + word.declension : word.title : "";
+                titleLbl.fontSize = Values.PT30;
+                titleLbl.textAlign = TextAlign.CENTER;
+                audioPanel.visible = audioPanel.includeInLayout = false;
+            }
+            else if (selectedNote is IrregularVerb) {
+                var verb:IrregularVerb = selectedNote as IrregularVerb;
+                titleLbl.article = "";
+                titleLbl.text = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+                titleLbl.fontSize = Values.PT30;
+                titleLbl.textAlign = TextAlign.CENTER;
+                audioPanel.visible = audioPanel.includeInLayout = false;
+            }
+            else {
+                titleLbl.article = "";
+                titleLbl.text = selectedNote.title;
+                titleLbl.fontSize = Values.PT24;
+                titleLbl.textAlign = TextAlign.LEFT;
+                audioPanel.visible = audioPanel.includeInLayout = !selectedNote.isExample && selectedNote.hasAudio;
+                if (audioPanel.visible) loadComment();
+            }
+
+            var searchText:String = viewInfo.page is SearchPage ? (viewInfo.page as SearchPage).searchText : "";
+            examplesPanel.renderOptions.searchText = searchText;
+            titleLbl.searchText = searchText;
+            descriptionLbl.text = selectedNote.description;
+            descriptionLbl.searchText = searchText;
+
+            var isLessonVocabulary:Boolean = selectedNote.vocabulary.id == VocabularyID.DE_LESSON || selectedNote.vocabulary.id == VocabularyID.EN_LESSON;
+            descriptionPanel.title = isLessonVocabulary ? resourceManager.getString('app', 'Content') : resourceManager.getString('app', 'Translation');
+            examplesPanel.visible = examplesPanel.includeInLayout = !selectedNote.isExample && !isLessonVocabulary;
+            tagsInfoLbl.text = getTagsInfo(selectedNote);
+
+            toolbar.enablesSetTaskAsRight(testTask && testTask.isFailed);
+            toolbar.enablePlayCommentBtn(selectedNote && selectedNote.hasAudio);
+        }
+
+        private function getTagsInfo(selectedNote:Note):String {
+            var res:String = "";
+            if (selectedNote) {
+                res = getVocabularySymbol(selectedNote);
+                if (selectedNote.isExample) res += "  " + getExampleSymbol(selectedNote);
+                else if (selectedNote.tagIDs && selectedNote.tagIDs.length > 0)
+                    res += "  " + selectedNote.tagsToStr();
+            }
+            return res;
+        }
+
+        private function getVocabularySymbol(selectedNote:Note):String {
+            if (!selectedNote) return "";
+
+            switch (selectedNote.vocabulary.id) {
+                case VocabularyID.DE_WORD :
+                case VocabularyID.EN_WORD :
+                    return "–W–";
+                case VocabularyID.DE_VERB :
+                case VocabularyID.EN_VERB :
+                    return "–V–";
+                case VocabularyID.DE_LESSON :
+                    return "–Ü–";
+                case VocabularyID.EN_LESSON :
+                    return "–L–";
+                default :
+                    return ""
+            }
+        }
+
+        private function getExampleSymbol(selectedNote:Note):String {
+            if (selectedNote && selectedNote.vocabulary.lang.id == LanguageID.DE) {
+                return "Bsp.";
+            }
+            else if (selectedNote && selectedNote.vocabulary.lang.id == LanguageID.EN) {
+                return "e. g.";
+            }
+            return "";
+        }
+
+        public function loadComment(andPlay:Boolean = false):void {
+            var note:Note = vm.page.selectedNote;
+            if (note && note.hasAudio) {
+                if (note.audioComment.isMp3 && note.audioComment.hasBytes) {
+                    mp3.comment = vm.page.selectedNote.audioComment;
+                    if (andPlay) mp3.play();
+                }
+                else {
+                    note.audioComment.loadMP3().addCompleteCallback(function (op:IAsyncOperation):void {
+                        if (op.isSuccess && note && note.audioComment.isMp3 && note.audioComment.hasBytes) {
+                            mp3.comment = note.audioComment;
+                            if (andPlay) mp3.play();
+                        }
+                        else {
+                            mp3.comment = null;
+                        }
+                    });
+                }
+            }
+            else {
+                mp3.comment = null;
+            }
+        }
+
+        private function ensureAudioPanelIsVisible():void {
+            if (audioPanel.isOpened && cont.contentHeight > height) {
+                scroller.verticalScrollBar.value = cont.contentHeight - height;
+            }
+        }
+
+        private function getTitle(pageNum:int, pageSize:int, noteNum:int, totalNotes:int):String {
+            return (pageNum * pageSize + (noteNum || 0)) + 1 + '/' + totalNotes;
+        }
+        ]]></fx:Script>
+
+    <scroller:CustomScroller id="scroller" width="100%" height="100%">
+        <s:VGroup id="cont" width="100%" gap="0">
+            <panel:CollapsedPanel id="titlePanel"
+                                  isOpened="true"
+                                  width="{width}"
+                                  title="{getTitle(vm.page.number, vm.page.size, vm.page.selectedItemIndex, vm.page.allNotesAmount)}">
+                <note:NoteLabel id="titleLbl"
+                                textThickness="60"
+                                left="0" right="0"/>
+                <s:Label id="tagsInfoLbl"
+                         width="100%"
+                         maxDisplayedLines="1"
+                         textAlign="right"
+                         bottom="{-Values.PT18}"
+                         fontFamily="{FontName.MYRIAD_COND}"
+                         fontStyle="italic"
+                         color="0"
+                         alpha="0.6"
+                         fontSize="{Values.PT11}"/>
+            </panel:CollapsedPanel>
+
+            <panel:CollapsedPanel id="descriptionPanel"
+                                  width="{width}"
+                                  isOpened="true">
+                <note:NoteLabel id="descriptionLbl"
+                                width="100%"
+                                height="100%"
+                                fontSize="{Values.PT22}"
+                                textColor="{AppColors.TEXT_DARK_GRAY}"/>
+            </panel:CollapsedPanel>
+
+            <note:ExamplesPanel id="examplesPanel"
+                                width="{width}"
+                                isOpened="true"
+                                dataProvider="{vm.page.selectedNote.exampleColl}"
+                                paddingTop="0" paddingBottom="0"/>
+
+            <panel:CollapsedPanel id="audioPanel"
+                                  width="{width}"
+                                  title="{resourceManager.getString('app', 'AudioRecord')}"
+                                  isOpenedChanged="invalidateOf(ensureAudioPanelIsVisible)">
+                <mp3:MP3PlayerComponent id="mp3"
+                                        width="100%"
+                                        enabled="{vm.page.selectedNote.hasAudio}"/>
+            </panel:CollapsedPanel>
+        </s:VGroup>
+    </scroller:CustomScroller>
+</view:SmartView>

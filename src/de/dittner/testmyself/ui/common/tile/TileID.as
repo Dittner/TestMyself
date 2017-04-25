@@ -31,11 +31,23 @@ public class TileID {
 	public static const MENU_SETTINGS_ICON:String = "MENU_SETTINGS_ICON";
 	public static const MENU_SETTINGS_RED_ICON:String = "MENU_SETTINGS_RED_ICON";
 
-	public static const MENU_APPLY_ICON:String = "MENU_APPLY_ICON";
-	public static const MENU_APPLY_RED_ICON:String = "MENU_APPLY_RED_ICON";
+	public static const MENU_FORM_CANCEL_ICON:String = "MENU_FORM_CANCEL_ICON";
+	public static const MENU_FORM_CANCEL_RED_ICON:String = "MENU_FORM_CANCEL_RED_ICON";
 
-	public static const MENU_CANCEL_ICON:String = "MENU_CANCEL_ICON";
-	public static const MENU_CANCEL_RED_ICON:String = "MENU_CANCEL_RED_ICON";
+	public static const MENU_FORM_ADD_ICON:String = "MENU_FORM_ADD_ICON";
+	public static const MENU_FORM_ADD_RED_ICON:String = "MENU_FORM_ADD_RED_ICON";
+
+	public static const MENU_FORM_EDIT_ICON:String = "MENU_FORM_EDIT_ICON";
+	public static const MENU_FORM_EDIT_RED_ICON:String = "MENU_FORM_EDIT_RED_ICON";
+
+	public static const MENU_FORM_REMOVE_ICON:String = "MENU_FORM_REMOVE_ICON";
+	public static const MENU_FORM_REMOVE_RED_ICON:String = "MENU_FORM_REMOVE_RED_ICON";
+
+	public static const MENU_TRUE_ICON:String = "MENU_TRUE_ICON";
+	public static const MENU_TRUE_RED_ICON:String = "MENU_TRUE_RED_ICON";
+
+	public static const MENU_FALSE_ICON:String = "MENU_FALSE_ICON";
+	public static const MENU_FALSE_RED_ICON:String = "MENU_FALSE_RED_ICON";
 
 	public static const MENU_NEXT_ICON:String = "MENU_NEXT_ICON";
 	public static const MENU_NEXT_RED_ICON:String = "MENU_NEXT_RED_ICON";
@@ -53,10 +65,24 @@ public class TileID {
 	public static const MENU_PRIORITY_HIGH_RED_ICON:String = "MENU_PRIORITY_HIGH_RED_ICON";
 
 	public static const MENU_NEXT_NOTE_ICON:String = "MENU_NEXT_NOTE_ICON";
+	public static const MENU_NEXT_NOTE_DISABLED_ICON:String = "MENU_NEXT_NOTE_DISABLED_ICON";
 	public static const MENU_NEXT_NOTE_RED_ICON:String = "MENU_NEXT_NOTE_RED_ICON";
 
 	public static const MENU_PREV_NOTE_ICON:String = "MENU_PREV_NOTE_ICON";
+	public static const MENU_PREV_NOTE_DISABLED_ICON:String = "MENU_PREV_NOTE_DISABLED_ICON";
 	public static const MENU_PREV_NOTE_RED_ICON:String = "MENU_PREV_NOTE_RED_ICON";
+
+	public static const MENU_PREV_PAGE_ICON:String = "MENU_PREV_PAGE_ICON";
+	public static const MENU_PREV_PAGE_DISABLED_ICON:String = "MENU_PREV_PAGE_DISABLED_ICON";
+	public static const MENU_PREV_PAGE_RED_ICON:String = "MENU_PREV_PAGE_RED_ICON";
+
+	public static const MENU_NEXT_PAGE_ICON:String = "MENU_NEXT_PAGE_ICON";
+	public static const MENU_NEXT_PAGE_DISABLED_ICON:String = "MENU_NEXT_PAGE_DISABLED_ICON";
+	public static const MENU_NEXT_PAGE_RED_ICON:String = "MENU_NEXT_PAGE_RED_ICON";
+
+	public static const MENU_PAGE_ICON:String = "MENU_PAGE_ICON";
+	public static const MENU_PAGE_DISABLED_ICON:String = "MENU_PAGE_DISABLED_ICON";
+	public static const MENU_PAGE_RED_ICON:String = "MENU_PAGE_RED_ICON";
 
 	//-------------------------------- TOOLBAR -------------------------
 
@@ -140,11 +166,6 @@ public class TileID {
 
 	public static const QUESTIONS_ICON:String = "QUESTIONS_ICON";
 	public static const CLOUD_ICON:String = "CLOUD_ICON";
-
-	public static const PAGE_BLACK_ICON:String = "PAGE_BLACK_ICON";
-	public static const PAGE_WHITE_ICON:String = "PAGE_WHITE_ICON";
-	public static const PAGE_PREV_ICON:String = "PAGE_PREV_ICON";
-	public static const PAGE_NEXT_ICON:String = "PAGE_NEXT_ICON";
 
 	public static const PANEL_COLLAPSE_ICON:String = "PANEL_COLLAPSE_ICON";
 	public static const PANEL_EXPAND_ICON:String = "PANEL_EXPAND_ICON";

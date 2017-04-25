@@ -42,9 +42,9 @@ import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.ui.common.input.MXLabel;
 import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.page.SearchPage;
+import de.dittner.testmyself.ui.common.page.TestPage;
 import de.dittner.testmyself.ui.common.tile.Tile;
 import de.dittner.testmyself.ui.common.utils.AppColors;
-import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
 import de.dittner.testmyself.utils.Values;
 import de.dittner.walter.WalterProxy;
 
@@ -319,8 +319,8 @@ public class Storage extends WalterProxy {
 		return op;
 	}
 
-	public function loadTaskIDs(test:Test, filter:Tag, taskComplexity:uint):IAsyncOperation {
-		var op:IAsyncCommand = new LoadTaskIDsCmd(this, test, filter, taskComplexity);
+	public function loadTaskIDs(page:TestPage):IAsyncOperation {
+		var op:IAsyncCommand = new LoadTaskIDsCmd(this, page);
 		deferredCommandManager.add(op);
 		return op;
 	}

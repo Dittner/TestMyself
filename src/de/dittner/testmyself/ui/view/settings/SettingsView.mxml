@@ -5,7 +5,6 @@
                 xmlns:list="de.dittner.testmyself.ui.common.list.*"
                 xmlns:components="de.dittner.testmyself.ui.view.settings.components.*"
                 xmlns:common="de.dittner.testmyself.ui.common.*"
-                horizontalCenter="0"
                 currentState="inactive"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*">
 
@@ -22,14 +21,15 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.settingsVM;
             vm.lockView();
-            toolbar.hide();
-            actionMenu.hide();
         }
 
         override protected function activate():void {
-            vm.unlockView();
-            vm.viewActivated(viewID);
             currentState = "common";
+            vm.unlockView();
+            vm.viewActivated(viewInfo);
+
+            toolbar.hide();
+            actionMenu.hide();
             tabBar.selectedIndex = 0;
             parseSettings(vm.settings);
         }

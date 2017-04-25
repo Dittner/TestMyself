@@ -1,28 +1,21 @@
 package de.dittner.testmyself.ui.view.noteList {
-import de.dittner.testmyself.backend.Storage;
-import de.dittner.testmyself.model.domain.language.Language;
-import de.dittner.testmyself.model.domain.language.LanguageID;
-import de.dittner.testmyself.model.domain.note.Note;
-import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+import de.dittner.async.AsyncOperation;
+import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.page.NotePage;
+import de.dittner.testmyself.ui.common.view.NoteFormViewInfo;
+import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
+import de.dittner.testmyself.ui.view.form.components.FormMode;
+import de.dittner.testmyself.ui.view.form.components.FormOperationResult;
 
 import flash.events.Event;
-
-import mx.resources.ResourceManager;
 
 public class NoteListVM extends ViewModel {
 
 	public function NoteListVM() {
 		super();
 	}
-
-	[Inject]
-	public var storage:Storage;
-
-	[Bindable]
-	public var selectedLang:Language;
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -43,55 +36,61 @@ public class NoteListVM extends ViewModel {
 		}
 	}
 
-	//--------------------------------------
-	//  selectedNote
-	//--------------------------------------
-	private var _selectedNote:Note;
-	[Bindable("selectedNoteChanged")]
-	public function get selectedNote():Note {return _selectedNote;}
-	public function set selectedNote(value:Note):void {
-		if (_selectedNote != value) {
-			_selectedNote = value;
-			dispatchEvent(new Event("selectedNoteChanged"));
-		}
-	}
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
 
-	override public function viewActivated(viewID:String):void {
-		super.viewActivated(viewID);
-		selectedLang = appModel.selectedLanguage;
-		var vocabularyID:uint;
-		switch (viewID) {
-			case ViewID.WORD :
-				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_WORD : VocabularyID.EN_WORD;
-				viewTitle = ResourceManager.getInstance().getString('app', 'DICTIONARY');
+	override public function viewActivated(viewInfo:ViewInfo):void {
+		super.viewActivated(viewInfo);
+		switch (viewInfo.viewID) {
+			case ViewID.WORD_LIST :
+				setPage(appModel.getWordPage());
 				break;
-			case ViewID.VERB :
-				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_VERB : VocabularyID.EN_VERB;
-				viewTitle = ResourceManager.getInstance().getString('app', 'IRREGULAR_VERBS');
+			case ViewID.VERB_LIST :
+				setPage(appModel.getVerbPage());
 				break;
-			case ViewID.LESSON :
-				vocabularyID = appModel.selectedLanguage.id == LanguageID.DE ? VocabularyID.DE_LESSON : VocabularyID.EN_LESSON;
-				viewTitle = ResourceManager.getInstance().getString('app', 'LESSONS');
+			case ViewID.LESSON_LIST :
+				setPage(appModel.getLessonPage());
 				break;
 			default :
-				throw new Error("Unsupported VM for view with ID = " + viewID);
+				throw new Error("Unsupported VM for view with ID = " + viewInfo.viewID);
 				break;
 		}
-
-		var p:NotePage = new NotePage();
-		p.vocabulary = appModel.selectedLanguage.vocabularyHash.read(vocabularyID);
-		setPage(p);
+		reloadPage();
 	}
 
 	public function reloadPage():void {
-		selectedNote = null;
-		if(page) storage.loadNotePage(page);
+		if (page) page.load();
+	}
+
+	public function showNote(selectedNoteIndex:int):void {
+		if (page && selectedNoteIndex != -1) {
+			var info:ViewInfo = new ViewInfo();
+			info.viewID = ViewID.NOTE_VIEW;
+			info.page = page;
+			info.page.selectedItemIndex = selectedNoteIndex;
+			mainVM.viewNavigator.navigate(info);
+		}
+	}
+
+	public function createNote():void {
+		var info:NoteFormViewInfo = new NoteFormViewInfo(ViewID.NOTE_FORM);
+		info.note = page.vocabulary.createNote();
+		info.filter = page.selectedTag;
+		info.formMode = FormMode.ADD;
+		info.callback = new AsyncOperation();
+		info.callback.addCompleteCallback(noteAddedComplete);
+		navigateTo(info);
+	}
+
+	private function noteAddedComplete(op:IAsyncOperation):void {
+		if (op.isSuccess && op.result == FormOperationResult.OK) {
+			if (page.selectedTag) page.countAllNotes = true;
+			else page.allNotesAmount++;
+			reloadPage();
+		}
 	}
 }
 }

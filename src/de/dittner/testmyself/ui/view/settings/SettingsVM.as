@@ -10,6 +10,7 @@ import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 
@@ -19,7 +20,6 @@ import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 
 import mx.collections.ArrayCollection;
-import mx.resources.ResourceManager;
 
 public class SettingsVM extends ViewModel {
 	private static var ftp:FtpClient;
@@ -100,10 +100,9 @@ public class SettingsVM extends ViewModel {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	override public function viewActivated(viewID:String):void {
-		super.viewActivated(viewID);
+	override public function viewActivated(viewInfo:ViewInfo):void {
+		super.viewActivated(viewInfo);
 		var lang:Language = appModel.selectedLanguage;
-		viewTitle = ResourceManager.getInstance().getString('app', 'SETTINGS');
 		if (!ftp) ftp = new FtpClient(Device.stage);
 
 		if (lang.id == LanguageID.DE) {

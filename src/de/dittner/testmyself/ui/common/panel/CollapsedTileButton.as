@@ -3,8 +3,6 @@ import de.dittner.testmyself.ui.common.tile.FadeTileButton;
 import de.dittner.testmyself.ui.common.tile.TileID;
 import de.dittner.testmyself.utils.Values;
 
-import flash.events.MouseEvent;
-
 [Event(name="change", type="flash.events.Event")]
 
 public class CollapsedTileButton extends FadeTileButton {
@@ -51,52 +49,37 @@ public class CollapsedTileButton extends FadeTileButton {
 		}
 	}
 
-	override protected function mouseOverHandler(event:MouseEvent):void {
-		if (upBg)
-			upBg.alphaTo = enabled ? selected ? 0 : 1 : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = selected ? enabled ? 1 : disabledBgAlpha : 0;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
-	}
-
-	override protected function mouseDownHandler(event:MouseEvent):void {
-		isDown = true;
-
-		if (upBg)
-			upBg.alphaTo = enabled ? selected ? 0 : 1 : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = enabled ? 1 : disabledBgAlpha;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
-	}
-
-	override protected function mouseOutHandler(event:MouseEvent):void {
-		isDown = false;
-
-		if (upBg)
-			upBg.alphaTo = enabled ? selected ? 0 : upBgAlpha : disabledBgAlpha;
-
-		if (downBg)
-			downBg.alphaTo = selected ? enabled ? 1 : disabledBgAlpha : 0;
-
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
-	}
-
 	override protected function redrawBg():void {
-		if (upBg)
-			upBg.alphaTo = enabled ? selected ? 0 : upBgAlpha : disabledBgAlpha;
+		if (isDown && enabled) {
+			if (upBg)
+				upBg.alphaTo = selected ? 0 : 1;
 
-		if (downBg)
-			downBg.alphaTo = selected ? enabled ? 1 : disabledBgAlpha : 0;
+			if (downBg)
+				downBg.alphaTo = 1;
 
-		if (disabledBg)
-			disabledBg.alphaTo = enabled ? 0 : 1;
+			if (disabledBg)
+				disabledBg.alphaTo = 0;
+		}
+		else if (isHover && enabled) {
+			if (upBg)
+				upBg.alphaTo = selected ? 0 : 1;
+
+			if (downBg)
+				downBg.alphaTo = selected ? 1 : 0;
+
+			if (disabledBg)
+				disabledBg.alphaTo = 0;
+		}
+		else {
+			if (upBg)
+				upBg.alphaTo = enabled ? selected ? 0 : upBgAlpha : disabledBgAlpha;
+
+			if (downBg)
+				downBg.alphaTo = selected ? enabled ? 1 : disabledBgAlpha : 0;
+
+			if (disabledBg)
+				disabledBg.alphaTo = enabled ? 0 : 1;
+		}
 	}
 
 }

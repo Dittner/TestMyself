@@ -1,16 +1,20 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+         implements="de.dittner.testmyself.ui.common.menu.INoteToolbar">
 
     <fx:Metadata>
         [Event(name="selected", type="de.dittner.testmyself.ui.common.menu.ToolActionEvent")]
     </fx:Metadata>
 
     <fx:Script><![CDATA[
+        import com.greensock.TweenLite;
+
         import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.utils.Values;
 
         public function revert():void {
@@ -29,12 +33,52 @@
             playCommentBtn.selected = false;
         }
 
+        //--------------------------------------
+        //  isShown
+        //--------------------------------------
+        private var _isShown:Boolean = false;
+        [Bindable("isShownChanged")]
+        public function get isShown():Boolean {return _isShown;}
+        private function setIsShown(value:Boolean):void {
+            if (_isShown != value) {
+                _isShown = value;
+                dispatchEvent(new Event("isShownChanged"));
+            }
+        }
+
+        private var isAnimating:Boolean = false;
+        private var hasPendingAnimation:Boolean = false;
+
         public function show():void {
-            visible = includeInLayout = true;
+            if (!isShown) {
+                setIsShown(true);
+                startAlphaAnimation();
+            }
         }
 
         public function hide():void {
-            visible = includeInLayout = false;
+            if (isShown) {
+                setIsShown(false);
+                startAlphaAnimation();
+            }
+        }
+
+        private function startAlphaAnimation():void {
+            if (isAnimating) {
+                hasPendingAnimation = true;
+            }
+            else {
+                isAnimating = true;
+                TweenLite.to(this, 0.3, {y: (isShown ? AppSizes.MENU_HEIGHT : 0), onComplete: animationComplete});
+            }
+        }
+
+        private function animationComplete():void {
+            isAnimating = false;
+            if (hasPendingAnimation) {
+                hasPendingAnimation = false;
+                startAlphaAnimation();
+            }
         }
 
         private function notifyToolAction(actionID:String):void {
@@ -48,6 +92,53 @@
             g.beginFill(AppColors.TOOLBAR_BG);
             g.drawRect(0, 0, w, h);
             g.endFill();
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Enable Buttons
+        //
+        //----------------------------------------------------------------------------------------------
+
+        public function enableGoBack(value:Boolean = true):void {
+            goBackBtn.enabled = value;
+        }
+        public function enableAddNote(value:Boolean = true):void {
+            addNoteBtn.enabled = value;
+        }
+        public function enableEditNote(value:Boolean = true):void {
+            editNoteBtn.enabled = value;
+        }
+        public function enableRemoveNote(value:Boolean = true):void {
+            removeNoteBtn.enabled = value;
+        }
+        public function enableShowDetails(value:Boolean = true):void {
+            showDetailsBtn.enabled = value;
+        }
+        public function enableTransInvert(value:Boolean = true):void {
+            transInvertBtn.enabled = value;
+        }
+        public function enableFilter(value:Boolean = true):void {
+            filterBtn.enabled = value;
+        }
+        public function enableShowFailedTasks(value:Boolean = true):void {
+            showFailedTasksBtn.enabled = value;
+        }
+        public function enablesSetTaskAsRight(value:Boolean = true):void {
+            setTaskAsRightBtn.enabled = value;
+        }
+        public function enablePlayCommentBtn(value:Boolean = true):void {
+            playCommentBtn.enabled = value;
+        }
+
+        public function selectTransInvert(value:Boolean = true):void {
+            transInvertBtn.selected = value;
+        }
+        public function selectShowDetails(value:Boolean = true):void {
+            showDetailsBtn.selected = value;
+        }
+        public function selectShowFailedTasks(value:Boolean = true):void {
+            showFailedTasksBtn.selected = value;
         }
         ]]></fx:Script>
 
@@ -110,8 +201,8 @@
                              click="notifyToolAction(showFailedTasksBtn.selected ? ToolAction.SHOW_FAILED_TASK : ToolAction.SHOW_ALL_TASK)"/>
 
         <tile:FadeTileButton id="setTaskAsRightBtn"
-                             visible="{showFailedTasksBtn.enabled}"
-                             includeInLayout="{showFailedTasksBtn.enabled}"
+                             visible="{setTaskAsRightBtn.enabled}"
+                             includeInLayout="{setTaskAsRightBtn.enabled}"
                              upTileID="{TileID.TOOLBAR_SET_TASK_AS_RIGHT}"
                              click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
     </s:HGroup>

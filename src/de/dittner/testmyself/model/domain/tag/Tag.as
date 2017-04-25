@@ -2,7 +2,7 @@ package de.dittner.testmyself.model.domain.tag {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
-import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
+import de.dittner.testmyself.ui.view.form.components.NoteValidationErrorKey;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;

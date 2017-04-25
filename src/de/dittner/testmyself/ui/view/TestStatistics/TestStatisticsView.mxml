@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.test.TestID;
+        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
+        import de.dittner.testmyself.ui.common.note.NoteRenderOptions;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.utils.Values;
+
+        private static const PAD:int = Values.PT20;
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        [Bindable]
+        public var vm:TestStatisticsVM;
+
+        override protected function activating():void {
+            vm = ViewModelFactory.instance.testStatisticsVM;
+            vm.lockView();
+            vm.viewActivated(viewInfo);
+        }
+
+        private var renderOptions:NoteRenderOptions = new NoteRenderOptions();
+        override protected function activate():void {
+            vm.unlockView();
+
+            toolbar.show();
+            toolbar.revert();
+            actionMenu.showPaginationBar(vm.testPage);
+
+            toolbar.enableGoBack();
+            toolbar.enableShowDetails();
+            toolbar.enableTransInvert();
+            toolbar.enableShowFailedTasks();
+            toolbar.selectShowFailedTasks(vm.testPage.loadOnlyFailedTestTask);
+            toolbar.selectTransInvert(renderOptions.inverted);
+            toolbar.selectShowDetails(renderOptions.showDetails);
+
+            renderOptions.showWordArticle = vm.testPage.test.id != TestID.DE_SELECT_ARTICLE;
+            renderOptions.inverted = vm.testPage.test.translateFromNativeIntoForeign;
+            noteList.renderOptions = renderOptions;
+
+            toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+        }
+
+        override protected function deactivate():void {
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            vm.viewDeactivated();
+        }
+
+        private function actionSelectedHandler(event:ToolActionEvent):void {
+            if (!isActive) return;
+            switch (event.actionID) {
+                case(ToolAction.GO_BACK) :
+                    vm.goBack();
+                    break;
+                case(ToolAction.APPLY_INVERT) :
+                    renderOptions.inverted = true;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.DENY_INVERT) :
+                    renderOptions.inverted = false;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.HIDE_DETAILS) :
+                    renderOptions.showDetails = false;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.SHOW_DETAILS) :
+                    renderOptions.showDetails = true;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.PAGE_NUM_CHANGED) :
+                    vm.reloadPage();
+                    break;
+                case(ToolAction.SHOW_FAILED_TASK) :
+                    vm.updateTestTaskList(true);
+                    break;
+                case(ToolAction.SHOW_ALL_TASK) :
+                    vm.updateTestTaskList(false);
+                    break;
+            }
+        }
+
+        private function setTaskAsRightBtnEnabled(selectedTask:*, isFailedTaskShown:Boolean):Boolean {
+            return selectedTask && isFailedTaskShown;
+        }
+
+        private function noteList_selectedItemChangeHandler(event:Event):void {
+            if (!isActive || !noteList.selectedItem) return;
+            vm.showTestTask(noteList.selectedIndex);
+        }
+
+        private function invalidateRenderOptions():void {
+            if (isActive && noteList) noteList.invalidateRenderView();
+        }
+        ]]></fx:Script>
+
+
+    <scroller:CustomScroller width="100%" height="100%"
+                             horizontalScrollPolicy="off"
+                             hasFocusableChildren="false">
+        <note:NoteList id="noteList"
+                       dataProvider="{vm.testPage.coll}"
+                       width="100%"
+                       contentBackgroundAlpha="0"
+                       deselectEnabled="true"
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.NoteRenderer"
+                       selectedItemChange="noteList_selectedItemChangeHandler(event)">
+            <note:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </note:layout>
+        </note:NoteList>
+    </scroller:CustomScroller>
+
+</view:SmartView>

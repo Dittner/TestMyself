@@ -2,7 +2,7 @@ package de.dittner.testmyself.model.domain.note {
 import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
-import de.dittner.testmyself.ui.view.noteList.components.form.NoteValidationErrorKey;
+import de.dittner.testmyself.ui.view.form.components.NoteValidationErrorKey;
 
 public class IrregularVerb extends Note {
 	public function IrregularVerb():void {}

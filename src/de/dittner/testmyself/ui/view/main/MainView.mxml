@@ -3,8 +3,8 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:main="de.dittner.testmyself.ui.view.main.*"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
-         xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*"
          xmlns:common="de.dittner.testmyself.ui.common.*"
+         xmlns:view="de.dittner.testmyself.ui.common.view.*"
          implements="de.dittner.testmyself.ui.view.main.IMainView"
          creationComplete="creationCompleteHandler(event)"
          currentState="normal">
@@ -12,14 +12,16 @@
         import de.dittner.testmyself.logging.CLog;
         import de.dittner.testmyself.logging.LogPanel;
         import de.dittner.testmyself.model.Device;
-        import de.dittner.testmyself.model.domain.language.LanguageID;
-        import de.dittner.testmyself.ui.common.menu.NavigationMenu;
-        import de.dittner.testmyself.ui.common.menu.ToolAction;
+        import de.dittner.testmyself.ui.common.menu.IActionMenu;
+        import de.dittner.testmyself.ui.common.menu.INavigationMenu;
+        import de.dittner.testmyself.ui.common.menu.INoteToolbar;
+        import de.dittner.testmyself.ui.common.menu.NavigationMenuEvent;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
-        import de.dittner.testmyself.ui.common.view.ViewBase;
+        import de.dittner.testmyself.ui.common.view.ViewInfo;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
         import de.dittner.testmyself.utils.TapEventKit;
         import de.dittner.testmyself.utils.Values;
 
@@ -30,35 +32,31 @@
         public var vm:MainVM;
 
         //--------------------------------------
+        //  settings
+        //--------------------------------------
+        private var _settings:SettingsInfo;
+        [Bindable("settingsChanged")]
+        public function get settings():SettingsInfo {return _settings;}
+        public function set settings(value:SettingsInfo):void {
+            if (_settings != value) {
+                _settings = value;
+                dispatchEvent(new Event("settingsChanged"));
+            }
+        }
+
+        //--------------------------------------
         //  interface
         //--------------------------------------
 
-        public function get navigationMenu():NavigationMenu {return navigationMenuComponent;}
-        public function get actionMenu():ActionMenu {return actionMenuComponent;}
-        public function get toolbar():NoteToolbar {return noteToolbar;}
-        public function get form():NoteForm {return noteForm;}
+        public function get navigationMenu():INavigationMenu {return navigationMenuComponent;}
+        public function get actionMenu():IActionMenu {return actionMenuComponent;}
+        public function get toolbar():INoteToolbar {return noteToolbar;}
 
         //--------------------------------------
         //  isActive
         //--------------------------------------
         private var _isActive:Boolean = false;
         public function get isActive():Boolean {return _isActive;}
-
-        //--------------------------------------
-        //  selectedView
-        //--------------------------------------
-        private var _selectedView:ViewBase;
-        private var selectedViewChanged:Boolean;
-        [Bindable("selectedViewChanged")]
-        public function get selectedView():ViewBase {return _selectedView;}
-        public function set selectedView(value:ViewBase):void {
-            if (_selectedView != value) {
-                _selectedView = value;
-                selectedViewChanged = true;
-                invalidateProperties();
-                dispatchEvent(new Event("selectedViewChanged"));
-            }
-        }
 
         //--------------------------------------
         //  viewLocked
@@ -74,19 +72,6 @@
             }
         }
 
-        //--------------------------------------
-        //  isBgShown
-        //--------------------------------------
-        private var _isBgShown:Boolean = true;
-        [Bindable("isBgShownChanged")]
-        public function get isBgShown():Boolean {return _isBgShown;}
-        public function set isBgShown(value:Boolean):void {
-            if (_isBgShown != value) {
-                _isBgShown = value;
-                dispatchEvent(new Event("isBgShownChanged"));
-            }
-        }
-
         //----------------------------------------------------------------------------------------------
         //
         //  Methods
@@ -97,18 +82,8 @@
             _isActive = true;
             if (!vm) {
                 vm = ViewModelFactory.instance.mainVM;
-                vm.viewActivated(this);
-            }
-        }
-
-        override protected function commitProperties():void {
-            super.commitProperties();
-            if (selectedViewChanged) {
-                selectedViewChanged = false;
-                if (selectedView) {
-                    viewCont.removeAllElements();
-                    viewCont.addElement(selectedView);
-                }
+                vm.viewActivated(viewNavigator);
+                settings = vm.appModel.settings;
             }
         }
 
@@ -149,14 +124,15 @@
             if (logPanel.parent) logPanel.refresh();
         }
 
-        private function viewContTopOffset(isNavigationMenuVisible:Boolean, isToolbarVisible:Boolean):Number {
-            var res:Number = 0;
-            if (isNavigationMenuVisible) res += AppSizes.MENU_HEIGHT;
-            if (isToolbarVisible) res += AppSizes.MENU_HEIGHT;
-            return res;
+        private function selectedViewChanged(event:NavigationMenuEvent):void {
+            viewNavigator.clearViewStack();
+            viewNavigator.navigate(new ViewInfo(event.viewID));
+        }
+
+        private function viewContHeight(noteToolbarYPos:Number, height:Number):Number {
+            return height - 2 * AppSizes.MENU_HEIGHT - noteToolbarYPos;
         }
         ]]></fx:Script>
-    <fx:Binding source="vm.viewNavigator.selectedView" destination="selectedView"/>
     <fx:Binding source="vm.viewLocked" destination="viewLocked"/>
 
     <s:states>
@@ -172,52 +148,30 @@
         </s:Transition>
     </s:transitions>
 
-    <common:BG id="bg"
-               visible="{isBgShown}"
-               percentWidth="100" percentHeight="100"
-               fillColor="{vm.appModel.settings.appBgColor}"/>
-
-    <s:Group id="viewCont"
-             mouseEnabled="false" mouseChildren="false"
-             mouseEnabled.normal="true" mouseChildren.normal="true"
-             width="100%"
-             top="{viewContTopOffset(navigationMenuComponent.visible, noteToolbar.visible)}"
-             bottom="{actionMenuComponent.visible ? AppSizes.MENU_HEIGHT : 0}"/>
+    <menu:NoteToolbar id="noteToolbar"
+                      width="100%" height="{AppSizes.MENU_HEIGHT}"
+                      disabledAlpha="1"
+                      enabled="false"
+                      enabled.normal="true"/>
 
     <menu:NavigationMenu id="navigationMenuComponent"
-                         visible="false"
-                         includeInLayout="false"
                          width="100%" height="{AppSizes.MENU_HEIGHT}"
-                         selectedViewMenuID="@{vm.viewNavigator.selectedViewID}"
+                         selectedViewInfo="{viewNavigator.selectedViewInfo}"
                          hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                          disabledAlpha="1"
                          enabled="false"
-                         enabled.normal="true"/>
+                         enabled.normal="true"
+                         selected="selectedViewChanged(event)"/>
 
-    <menu:NoteToolbar id="noteToolbar"
-                      visible="false"
-                      includeInLayout="false"
-                      top="{AppSizes.MENU_HEIGHT}"
-                      disabledAlpha="1"
-                      enabled="false"
-                      enabled.normal="true"
-                      width="100%" height="{AppSizes.MENU_HEIGHT}"
-                      right="0"/>
-
-    <form:NoteForm id="noteForm"
-                   width="100%"
-                   top="0" bottom="{AppSizes.MENU_HEIGHT}"
-                   visible="false"
-                   isArticleEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
-                   isPresentVerbFormEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
-                   isOptionalTemplatesEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
-                   isLoadMp3FileFromDudenEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
-                   actionMenu="{actionMenuComponent}"
-                   hasNetworkConnection="{vm.appModel.hasNetworkConnection}"/>
+    <view:ViewNavigator id="viewNavigator"
+                        mouseEnabled="false" mouseChildren="false"
+                        mouseEnabled.normal="true" mouseChildren.normal="true"
+                        width="{width}"
+                        mainView="{this}"
+                        y="{noteToolbar.y + AppSizes.MENU_HEIGHT}"
+                        height="{viewContHeight(noteToolbar.y, height)}"/>
 
     <menu:ActionMenu id="actionMenuComponent"
-                     visible="false"
-                     includeInLayout="false"
                      width="100%" height="{AppSizes.MENU_HEIGHT}"
                      bottom="0"
                      disabledAlpha="1"

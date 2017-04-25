@@ -4,7 +4,6 @@ import com.greensock.TweenLite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
-import mx.collections.IList;
 import mx.collections.ListCollectionView;
 import mx.core.IVisualElement;
 import mx.core.UIComponent;
@@ -76,12 +75,12 @@ public class SelectableDataGroup extends DataGroup {
 		notifySelectedItemChanged();
 	}
 
-	override public function set dataProvider(value:IList):void {
+	/*override public function set dataProvider(value:IList):void {
 		if (super.dataProvider != value) {
 			selectedItem = null;
 			super.dataProvider = value;
 		}
-	}
+	}*/
 
 	protected function notifySelectedItemChanged():void {
 		dispatchEvent(new Event("selectedItemChange"));

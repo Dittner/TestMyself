@@ -11,6 +11,11 @@ import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.domain.language.DeLang;
 import de.dittner.testmyself.model.domain.language.EnLang;
 import de.dittner.testmyself.model.domain.language.Language;
+import de.dittner.testmyself.model.domain.language.LanguageID;
+import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
+import de.dittner.testmyself.ui.common.page.NotePage;
+import de.dittner.testmyself.ui.common.page.SearchPage;
+import de.dittner.testmyself.ui.common.page.TestPage;
 import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 import de.dittner.walter.WalterProxy;
 
@@ -22,6 +27,7 @@ public class AppModel extends WalterProxy {
 	public static const HASH_CHANGED_MSG:String = "HASH_CHANGED_MSG";
 	public static const SELECTED_LANG_CHANGED_MSG:String = "SELECTED_LANG_CHANGED_MSG";
 	public static const SELECTED_VOCABULARY_CHANGED_MSG:String = "SELECTED_VOCABULARY_CHANGED_MSG";
+	public static const NETWORK_CONNECTION_CHANGED_MSG:String = "NETWORK_CONNECTION_CHANGED_MSG";
 
 	public function AppModel() {
 		super();
@@ -122,6 +128,7 @@ public class AppModel extends WalterProxy {
 	private function connectionStatusChanged(event:StatusEvent):void {
 		CLog.info(LogTag.CONNECTION, "Network status: " + event.code);
 		setHasNetworkConnection(networkStatusMonitor.available);
+		sendMessage(NETWORK_CONNECTION_CHANGED_MSG, networkStatusMonitor.available);
 	}
 
 	private var initOp:IAsyncOperation;
@@ -167,6 +174,83 @@ public class AppModel extends WalterProxy {
 			initOp.dispatchSuccess();
 		});
 	}
+
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Pages
+	//
+	//----------------------------------------------------------------------------------------------
+
+	private var _testPage:TestPage;
+	public function getTestPage():TestPage {
+		if(!_testPage) _testPage = new TestPage();
+		return _testPage;
+	}
+
+	private var _deWordPage:NotePage;
+	private var _enWordPage:NotePage;
+	public function getWordPage():NotePage {
+		if(selectedLanguage.id == LanguageID.DE) {
+			if(!_deWordPage) _deWordPage = new NotePage();
+			_deWordPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_WORD);
+			return _deWordPage;
+		}
+		else if(selectedLanguage.id == LanguageID.EN) {
+			if(!_enWordPage) _enWordPage = new NotePage();
+			_enWordPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_WORD);
+			return _enWordPage;
+		}
+		return null;
+	}
+
+	private var _deVerbPage:NotePage;
+	private var _enVerbPage:NotePage;
+	public function getVerbPage():NotePage {
+		if(selectedLanguage.id == LanguageID.DE) {
+			if(!_deVerbPage) _deVerbPage = new NotePage();
+			_deVerbPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_VERB);
+			return _deVerbPage;
+		}
+		else if(selectedLanguage.id == LanguageID.EN) {
+			if(!_enVerbPage) _enVerbPage = new NotePage();
+			_enVerbPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_VERB);
+			return _enVerbPage;
+		}
+		return null;
+	}
+
+	private var _deLessonPage:NotePage;
+	private var _enLessonPage:NotePage;
+	public function getLessonPage():NotePage {
+		if(selectedLanguage.id == LanguageID.DE) {
+			if(!_deLessonPage) _deLessonPage = new NotePage();
+			_deLessonPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_LESSON);
+			return _deLessonPage;
+		}
+		else if(selectedLanguage.id == LanguageID.EN) {
+			if(!_enLessonPage) _enLessonPage = new NotePage();
+			_enLessonPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_LESSON);
+			return _enLessonPage;
+		}
+		return null;
+	}
+
+	private var _deSearchPage:SearchPage;
+	private var _enSearchPage:SearchPage;
+	public function getSearchPage():SearchPage {
+		if(selectedLanguage.id == LanguageID.DE) {
+			if(!_deSearchPage) _deSearchPage = new SearchPage();
+			_deSearchPage.lang = deLang;
+			return _deSearchPage;
+		}
+		else if(selectedLanguage.id == LanguageID.EN) {
+			if(!_enSearchPage) _enSearchPage = new SearchPage();
+			_enSearchPage.lang = enLang;
+			return _enSearchPage;
+		}
+		return null;
+	}
+
 
 }
 }

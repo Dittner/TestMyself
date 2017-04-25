@@ -5,7 +5,7 @@ import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.test.TestTask;
-import de.dittner.testmyself.ui.view.test.testing.components.TestPage;
+import de.dittner.testmyself.ui.common.page.TestPage;
 
 import mx.collections.ArrayCollection;
 

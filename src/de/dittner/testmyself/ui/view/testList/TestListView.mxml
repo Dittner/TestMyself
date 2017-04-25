@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:list="de.dittner.testmyself.ui.common.list.*"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
+
+    <fx:Metadata>
+        [Event(name="testSelected", type="flash.events.Event")]
+    </fx:Metadata>
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.domain.test.Test;
+        import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.utils.Values;
+
+        import mx.collections.ArrayCollection;
+
+        import spark.events.IndexChangeEvent;
+
+        private static const PAD:int = Values.PT20;
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        [Bindable]
+        public var vm:TestListVM;
+
+        override protected function activating():void {
+            vm = ViewModelFactory.instance.testListVM;
+            vm.lockView();
+            vm.viewActivated(viewInfo);
+        }
+
+        override protected function activate():void {
+            actionMenu.hide();
+            toolbar.show();
+            toolbar.revert();
+            vm.unlockView();
+        }
+
+        override protected function deactivate():void {
+            vm.viewDeactivated();
+            testList.selectedItem = null;
+        }
+
+        private function getTestInfoList(vocabulary:Vocabulary):ArrayCollection {
+            return new ArrayCollection(vocabulary ? vocabulary.availableTests : []);
+        }
+
+        private function selectedTestHandler(event:IndexChangeEvent):void {
+            if (testList.selectedItem is Test && vocabularyList.selectedItem is Vocabulary) {
+                vm.showTestPresets(vocabularyList.selectedItem, testList.selectedItem);
+                dispatchEvent(new Event("testSelected"));
+            }
+        }
+        ]]></fx:Script>
+
+    <view:layout>
+        <s:VerticalLayout paddingTop="{PAD}" paddingRight="{PAD}" paddingLeft="{PAD}" paddingBottom="{PAD}" gap="{Values.PT15}"/>
+    </view:layout>
+    <list:ListForm id="vocabularyList"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="100%"
+                   dataProvider="{vm.vocabularyColl}"
+                   title="{resourceManager.getString('app', 'PleaseChooseTheDesiredNoteType')}"
+                   itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.VocabularyRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <list:ListForm id="testList"
+                   visible="{vocabularyList.selectedItem}"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="100%"
+                   dataProvider="{getTestInfoList(vocabularyList.selectedItem)}"
+                   title="{resourceManager.getString('app', 'PleaseChooseTheDesiredTest')}"
+                   itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.TestInfoRenderer"
+                   change="selectedTestHandler(event)">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+</view:SmartView>

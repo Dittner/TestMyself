@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<test:TestableView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                   xmlns:s="library://ns.adobe.com/flex/spark"
+                   xmlns:button="de.dittner.testmyself.ui.common.button.*"
+                   xmlns:test="de.dittner.testmyself.ui.view.testing.components.*"
+                   xmlns:input="de.dittner.testmyself.ui.common.input.*"
+                   xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+                   xmlns:note="de.dittner.testmyself.ui.common.note.*"
+                   xmlns:panel="de.dittner.testmyself.ui.common.panel.*"
+                   xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
+                   xmlns:components="de.dittner.testmyself.ui.view.form.components.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.note.IrregularVerb;
+        import de.dittner.testmyself.model.domain.note.Word;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.utils.Values;
+
+        import flashx.textLayout.formats.TextAlign;
+
+        //--------------------------------------
+        //  isCorrectlyAnswered
+        //--------------------------------------
+        private var _isCorrectlyAnswered:Boolean = true;
+        [Bindable("isCorrectlyAnsweredChanged")]
+        public function get isCorrectlyAnswered():Boolean {return _isCorrectlyAnswered;}
+        public function set isCorrectlyAnswered(value:Boolean):void {
+            if (_isCorrectlyAnswered != value) {
+                _isCorrectlyAnswered = value;
+                dispatchEvent(new Event("isCorrectlyAnsweredChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  isBigText
+        //--------------------------------------
+        private var _isBigText:Boolean = false;
+        [Bindable("isBigTextChanged")]
+        public function get isBigText():Boolean {return _isBigText;}
+        public function set isBigText(value:Boolean):void {
+            if (_isBigText != value) {
+                _isBigText = value;
+                dispatchEvent(new Event("isBigTextChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  word
+        //--------------------------------------
+        public function get word():Word {
+            return note as Word;
+        }
+
+        //--------------------------------------
+        //  verb
+        //--------------------------------------
+        public function get verb():IrregularVerb {
+            return note as IrregularVerb;
+        }
+
+        //----------------------------------------------------------------------------------------------
+        //
+        //  Methods
+        //
+        //----------------------------------------------------------------------------------------------
+
+        override protected function updateForm():void {
+            clear();
+            if (word) {
+                titleLbl.text = word.title;
+                titleLbl.article = word.article;
+
+                titleLbl.text += word.declension ? ", " + word.declension : "";
+                translateBoard.text = word.description;
+
+                isBigText = false;
+            }
+            else if (verb) {
+                titleLbl.text = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+                translateBoard.text = note.description;
+                isBigText = false;
+            }
+            else if (note) {
+                titleBoard.text = note.title;
+                translateBoard.text = note.description;
+                isBigText = true;
+            }
+
+            if (note) {
+                if (Device.isDesktop) stage.focus = isBigText ? textArea.area : textInput;
+                mp3.comment = note.audioComment;
+                note.playAudioComment();
+            }
+        }
+
+        override protected function clear():void {
+            isCorrectlyAnswered = true;
+            showDetails = false;
+            titleLbl.article = "";
+            titleLbl.text = "";
+            translateBoard.text = "";
+            textInput.text = "";
+            textArea.text = "";
+            translateBoard.isOpened = false;
+            audioPanel.isOpened = true;
+            titleBoard.isOpened = true;
+        }
+
+        override protected function showTestMenu():void {
+            actionMenu.showTestMenu(false, false, true);
+        }
+
+        private function onCorrectAnswered():void {
+            notifyTrueAnswer();
+            requestNextTask();
+        }
+
+        private function onAnswered():void {
+            if (!isCorrectlyAnswered || !note) return;
+            isCorrectlyAnswered = note.title.toLowerCase() == (isBigText ? textArea.text.toLowerCase() : textInput.text.toLowerCase());
+            notifyAnswered();
+        }
+
+        private function notifyAnswered():void {
+            if (isCorrectlyAnswered) {
+                notifyTrueAnswer();
+                requestNextTask();
+            }
+            else {
+                showInvalidMsg();
+                notifyFalseAnswer();
+            }
+        }
+
+        private function showInvalidMsg():void {
+            if (invalidNotifier && !SimplePopup.isShownInPopup(invalidNotifier)) {
+                SimplePopup.show(invalidNotifier, false, null, 0, 0);
+                invalidNotifier.show();
+            }
+        }
+        ]]></fx:Script>
+    <fx:Declarations>
+        <components:InvalidNotifier id="invalidNotifier"
+                                    width="{Values.PT200}" height="{Values.PT31}"
+                                    text="{resourceManager.getString('app', 'FALSE')}"
+                                    bottom="{Values.PT100}" horizontalCenter="0"/>
+    </fx:Declarations>
+
+    <test:layout>
+        <s:VerticalLayout gap="0" horizontalAlign="center"/>
+    </test:layout>
+
+    <test:TextPanel id="titleBoard"
+                    visible="{isBigText}" includeInLayout="{isBigText}"
+                    width="100%"
+                    questionsIconEnabled="true"
+                    title="{resourceManager.getString('app', 'TextInput')}"
+                    showText="{showDetails}"/>
+
+    <s:Spacer height="{Values.PT15}"/>
+
+    <s:Group width="100%"
+             visible="{!isBigText}" includeInLayout="{!isBigText}">
+        <note:NoteLabel id="titleLbl"
+                        visible="{showDetails}"
+                        textThickness="60"
+                        textAlign="{TextAlign.CENTER}"
+                        fontSize="{Values.PT30}"
+                        verPadding="{Values.PT5}"
+                        left="{padding}" right="{padding}"/>
+
+        <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
+                        visible="{!showDetails}"
+                        verticalCenter="0" horizontalCenter="0"
+                        includeInLayout="{!showDetails}"/>
+    </s:Group>
+
+    <s:VGroup width="100%"
+              gap="{Values.PT15}" paddingLeft="{padding}" paddingRight="{padding}" paddingBottom="{Values.PT15}"
+              horizontalAlign="center">
+        <input:TextInputForm id="textInput"
+                             fontSize="{Values.PT18}"
+                             visible="{!isBigText}" includeInLayout="{!isBigText}"
+                             width="100%"
+                             maxChars="{Device.MAX_WORD_LENGTH}"
+                             enter="onAnswered()"
+                             title="{resourceManager.getString('app', 'PleaseWriteText')}"/>
+
+        <input:TextAreaForm id="textArea"
+                            visible="{isBigText}" includeInLayout="{isBigText}"
+                            width="100%" height="{Values.PT300}"
+                            maxChars="{Device.MAX_WORD_LENGTH}"
+                            title="{resourceManager.getString('app', 'PleaseWriteText')}"/>
+
+        <button:BlackButton id="validateBtn"
+                            width="{Values.PT200}"
+                            enabled="{isActivating  &amp;&amp; isCorrectlyAnswered &amp;&amp; note}"
+                            title="{resourceManager.getString('app', 'Check')}"
+                            click="onAnswered()"/>
+    </s:VGroup>
+
+    <test:TextPanel id="translateBoard"
+                    width="100%"
+                    title="{resourceManager.getString('app', 'Translation')}"/>
+
+    <panel:CollapsedPanel id="audioPanel"
+                          width="100%"
+                          title="{resourceManager.getString('app', 'AudioRecord')}">
+        <mp3:MP3PlayerComponent id="mp3"
+                                width="100%"
+                                enabled="{note.hasAudio}"/>
+    </panel:CollapsedPanel>
+
+</test:TestableView>

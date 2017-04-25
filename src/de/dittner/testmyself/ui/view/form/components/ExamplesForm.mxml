@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:list="de.dittner.testmyself.ui.common.list.*"
+         xmlns:input="de.dittner.testmyself.ui.common.input.*"
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+         xmlns:form="de.dittner.testmyself.ui.view.noteList.components.form.*">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.model.domain.note.Note;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
+        import de.dittner.testmyself.ui.common.utils.NoteFormUtils;
+        import de.dittner.testmyself.utils.Values;
+
+        import mx.collections.ArrayCollection;
+        import mx.core.IVisualElementContainer;
+
+        //--------------------------------------
+        //  exampleColl
+        //--------------------------------------
+        private var _exampleColl:ArrayCollection;
+        [Bindable("exampleCollChanged")]
+        public function get exampleColl():ArrayCollection {return _exampleColl;}
+        public function set exampleColl(value:ArrayCollection):void {
+            if (_exampleColl != value) {
+                _exampleColl = value;
+                dispatchEvent(new Event("exampleCollChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  parentNote
+        //--------------------------------------
+        private var _parentNote:Note;
+        [Bindable("parentNoteChanged")]
+        public function get parentNote():Note {return _parentNote;}
+        public function set parentNote(value:Note):void {
+            if (_parentNote != value) {
+                _parentNote = value;
+                dispatchEvent(new Event("parentNoteChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  mainForm
+        //--------------------------------------
+        private var _mainForm:IVisualElementContainer;
+        [Bindable("mainFormChanged")]
+        public function get mainForm():IVisualElementContainer {return _mainForm;}
+        public function set mainForm(value:IVisualElementContainer):void {
+            if (_mainForm != value) {
+                _mainForm = value;
+                dispatchEvent(new Event("mainFormChanged"));
+            }
+        }
+
+        //--------------------------------------
+        //  bgColor
+        //--------------------------------------
+        private var _bgColor:uint;
+        [Bindable("bgColorChanged")]
+        public function get bgColor():uint {return _bgColor;}
+        public function set bgColor(value:uint):void {
+            if (_bgColor != value) {
+                _bgColor = value;
+                dispatchEvent(new Event("bgColorChanged"));
+            }
+        }
+
+        public function clear():void {
+            exampleColl = null;
+            back();
+        }
+
+        private function addExample():void {
+            setCurrentState("add");
+            showForm();
+        }
+
+        private function editExample():void {
+            var selectedNote:Note = exampleList.selectedItem as Note;
+            if (selectedNote) {
+                setCurrentState("edit");
+                titleArea.text = selectedNote.title;
+                descriptionArea.text = selectedNote.description;
+                showForm();
+            }
+        }
+
+        private function deleteExample():void {
+            setCurrentState("remove");
+            showForm();
+        }
+
+        private function showForm():void {
+            if (!SimplePopup.curContent != editFormCont) {
+                SimplePopup.show(editFormCont, true, null, AppColors.EDITOR_SHADOW, 0.5);
+            }
+        }
+
+        private function hideForm():void {
+            SimplePopup.close();
+        }
+
+        private function applyBtnEnabled(title:String, description:String):Boolean {
+            return title && description;
+        }
+
+        private function back():void {
+            hideForm();
+            titleArea.text = "";
+            descriptionArea.text = "";
+            exampleList.selectedItem = null;
+            setCurrentState("normal");
+        }
+
+        private function apply():void {
+            if (currentState == "add") {
+                correctText();
+                if (!exampleColl) exampleColl = new ArrayCollection();
+                var note:Note = parentNote.createExample();
+                note.title = titleArea.text;
+                note.description = descriptionArea.text;
+                exampleColl.addItem(note);
+                back();
+            }
+            else if (currentState == "edit") {
+                correctText();
+                var selectedNote:Note = exampleList.selectedItem as Note;
+                selectedNote.title = titleArea.text;
+                selectedNote.description = descriptionArea.text;
+                back();
+            }
+            else if (currentState == "remove") {
+                exampleColl.removeItemAt(exampleList.selectedIndex);
+                back();
+            }
+        }
+
+        private function correctText():void {
+            titleArea.text = NoteFormUtils.capitalizeAndFormatText(titleArea.text);
+            descriptionArea.text = NoteFormUtils.capitalizeAndFormatText(descriptionArea.text);
+        }
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="add"/>
+        <s:State name="edit"/>
+        <s:State name="remove"/>
+    </s:states>
+
+    <fx:Declarations>
+        <s:Group id="editFormCont"
+                 width="100%"
+                 height="50%" bottom="0">
+            <form:EditorBG width="100%" height="100%"
+                           bgColor="{bgColor}"
+                           title.add="{resourceManager.getString('app', 'AddNewExample')}"
+                           title.edit="{resourceManager.getString('app', 'EditExample')}"
+                           title.remove="{resourceManager.getString('app', 'DeleteExample')}"
+                           mode.add="{FormMode.ADD}"
+                           mode.edit="{FormMode.EDIT}"
+                           mode.remove="{FormMode.REMOVE}"/>
+
+            <s:VGroup left="{Values.PT15}" right="{Values.PT15}" bottom="0" top="{EditorBG.HEADER_HEIGHT + Values.PT10}">
+                <input:TextAreaForm id="titleArea"
+                                    width="100%"
+                                    height="50%"
+                                    title="{resourceManager.getString('app', 'WordInput')}"
+                                    visible.add="true" includeInLayout.add="true"
+                                    visible.edit="true" includeInLayout.edit="true"
+                                    visible="false" includeInLayout="false"
+                                    maxChars="{Device.MAX_TEXT_LENGTH}"/>
+
+                <input:TextAreaForm id="descriptionArea"
+                                    width="100%"
+                                    height="50%"
+                                    visible.add="true" includeInLayout.add="true"
+                                    visible.edit="true" includeInLayout.edit="true"
+                                    visible="false" includeInLayout="false"
+                                    maxChars="{Device.MAX_TEXT_LENGTH}"
+                                    title="{resourceManager.getString('app', 'Translation')}"/>
+
+                <s:Label id="removeTitleLbl"
+                         width="100%"
+                         includeIn="remove"
+                         textAlign="center"
+                         color="{AppColors.BLACK}"
+                         fontSize="{Values.PT16}"
+                         text="{resourceManager.getString('app', 'AreYouSureWantToDeleteThisExample?')}"/>
+
+                <s:Label id="removeNoteTitleLbl"
+                         width="100%" height="100%"
+                         includeIn="remove"
+                         color="{AppColors.BLACK}"
+                         fontSize="{Values.PT20}"
+                         fontWeight="bold"
+                         textAlign="center" verticalAlign="middle"
+                         text="{exampleList.selectedItem.title}"/>
+
+                <s:Spacer/>
+                <s:HGroup excludeFrom="normal" gap="{Values.PT10}"
+                          width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+                    <s:Spacer width="100%"/>
+
+                    <button:WhiteButton id="cancelBtn"
+                                        title="{resourceManager.getString('app', 'Cancel')}"
+                                        click="back()"/>
+
+                    <button:BlackButton id="applyBtn"
+                                        title.add="{resourceManager.getString('app', 'Add')}"
+                                        title.edit="{resourceManager.getString('app', 'Save')}"
+                                        title.remove="{resourceManager.getString('app', 'Delete')}"
+                                        enabled.remove="true"
+                                        enabled="{applyBtnEnabled(titleArea.text, descriptionArea.text)}"
+                                        click="apply()"/>
+                </s:HGroup>
+            </s:VGroup>
+        </s:Group>
+    </fx:Declarations>
+
+    <list:ListForm id="exampleList"
+                   width="100%" height="100%"
+                   dataProvider="{exampleColl}"
+                   title="{resourceManager.getString('app', 'Examples')}"
+                   itemRenderer="de.dittner.testmyself.ui.view.form.components.ExamplesFormRenderer">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <s:HGroup id="toolsCont"
+              horizontalAlign="right"
+              left="0" right="{Values.PT5}" bottom="{Values.PT5}">
+        <tile:FadeTileButton id="addBtn"
+                             upTileID="{TileID.BTN_ADD_EXAMPLE}"
+                             enabled="false" enabled.normal="true"
+                             click="addExample()"/>
+
+        <tile:FadeTileButton id="editBtn"
+                             upTileID="{TileID.BTN_EDIT_EXAMPLE}"
+                             enabled="false" enabled.normal="{exampleList.selectedItem}"
+                             click="editExample()"/>
+
+        <tile:FadeTileButton id="deleteBtn"
+                             upTileID="{TileID.BTN_DELETE_EXAMPLE}"
+                             enabled="false" enabled.normal="{exampleList.selectedItem}"
+                             click="deleteExample()"/>
+
+    </s:HGroup>
+</s:Group>

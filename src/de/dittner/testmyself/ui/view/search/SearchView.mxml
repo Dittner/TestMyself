@@ -1,21 +1,18 @@
 <?xml version="1.0"?>
 <view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
-                xmlns:core="de.dittner.testmyself.ui.common.view.*"
                 xmlns:components="de.dittner.testmyself.ui.view.search.components.*"
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
-                xmlns:note="de.dittner.testmyself.ui.common.note.*"
-                currentState="inactive"
-                horizontalCenter="0">
+                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
+                xmlns:note="de.dittner.testmyself.ui.common.note.*">
 
     <fx:Script><![CDATA[
-        import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.Device;
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
+        import de.dittner.testmyself.ui.common.note.NoteRenderOptions;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
-        import de.dittner.testmyself.ui.view.noteList.components.form.FormOperationResult;
         import de.dittner.testmyself.utils.Values;
 
         [Bindable]
@@ -30,23 +27,27 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.searchVM;
             vm.lockView();
+            vm.viewActivated(viewInfo);
+        }
+
+        private var renderOptions:NoteRenderOptions = new NoteRenderOptions();
+        override protected function activate():void {
+            vm.unlockView();
+
+            navigationMenu.show();
+            actionMenu.showPaginationBar(vm.page);
 
             toolbar.show();
             toolbar.revert();
-            actionMenu.hide();
-        }
+            toolbar.enableShowDetails();
+            toolbar.enableTransInvert();
+            toolbar.enableShowDetails();
+            toolbar.selectTransInvert(renderOptions.inverted);
+            toolbar.selectShowDetails(renderOptions.showDetails);
+            noteList.renderOptions = renderOptions;
+            toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
 
-        override protected function activate():void {
-            setCurrentState("active");
-            noteContent.activate(toolbar, actionMenu);
-
-            toolbar.showDetailsBtn.enabled = true;
-            toolbar.transInvertBtn.enabled = true;
-            toolbar.showDetailsBtn.selected = true;
-
-            toolbar.addEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
-            vm.unlockView();
-            vm.viewActivated(viewID);
             searchBoard.updateSearchInput();
             NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
@@ -56,61 +57,42 @@
         }
 
         override protected function deactivate():void {
-            toolbar.removeEventListener(ToolActionEvent.SELECTED, toolActionSelectedHandler);
+            toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+            actionMenu.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
+
             vm.viewDeactivated();
-            noteContent.deactivate();
-            setCurrentState("inactive");
             NativeApplication.nativeApplication.removeEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
         }
 
-        private var needSelectFirstNote:Boolean = false;
-        private var needSelectLastNote:Boolean = false;
-        private function toolActionSelectedHandler(event:ToolActionEvent):void {
-            var op:IAsyncOperation;
+        private function actionSelectedHandler(event:ToolActionEvent):void {
             switch (event.actionID) {
                 case(ToolAction.GO_BACK) :
-                    if (noteContent.visible && noteContent.isNoteCardShown) {
-                        noteContent.hideNoteCard();
-                        toolbar.goBackBtn.enabled = false;
-                        searchBoard.updateSearchInput();
-                    }
+                    vm.goBack();
                     break;
-                case(ToolAction.EDIT_NOTE) :
-                    form.visible = true;
-                    op = form.edit(noteContent.selectedNote);
-                    op.addCompleteCallback(noteEditComplete);
+                case(ToolAction.APPLY_INVERT) :
+                    renderOptions.inverted = true;
+                    invalidateRenderOptions();
                     break;
-                case(ToolAction.REMOVE_NOTE) :
-                    form.visible = true;
-                    op = form.remove(noteContent.selectedNote);
-                    op.addCompleteCallback(noteRemovedComplete);
+                case(ToolAction.DENY_INVERT) :
+                    renderOptions.inverted = false;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.HIDE_DETAILS) :
+                    renderOptions.showDetails = false;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.SHOW_DETAILS) :
+                    renderOptions.showDetails = true;
+                    invalidateRenderOptions();
+                    break;
+                case(ToolAction.PAGE_NUM_CHANGED) :
+                    search();
                     break;
             }
         }
 
-        private function noteRemovedComplete(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result == FormOperationResult.OK) {
-                vm.page.allNotesAmount--;
-                noteContent.hideNoteCard();
-                search();
-            }
-
-            searchBoard.updateSearchInput();
-            form.visible = false;
-        }
-
-        private function noteEditComplete(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result == FormOperationResult.OK) {
-                vm.page.countAllNotes = true;
-                noteContent.hideNoteCard();
-                toolbar.goBackBtn.enabled = false;
-                search();
-            }
-            else {
-                noteContent.updateSelectedItem();
-            }
-            searchBoard.updateSearchInput();
-            form.visible = false;
+        private function invalidateRenderOptions():void {
+            if (isActive && noteList) noteList.invalidateRenderView();
         }
 
         private function startSearchActivatedHandler(event:Event):void {
@@ -126,43 +108,43 @@
         private function search():void {
             var searchText:String = searchBoard.searchInput.text;
             if (searchText.length >= 1) {
-                noteContent.searchText = searchText;
+                renderOptions.searchText = searchText;
                 vm.loadPage(searchText, searchBoard.examplesBox.selected, searchBoard.wordBox.selected, searchBoard.verbBox.selected, searchBoard.lessonBox.selected);
             }
         }
 
         private function noteList_selectedItemChangeHandler(event:Event):void {
-            toolbar.editNoteBtn.enabled = noteContent.selectedNote != null;
-            toolbar.removeNoteBtn.enabled = noteContent.selectedNote != null;
+            if (!isActive || !noteList.selectedItem) return;
+            vm.showNote(noteList.selectedIndex);
         }
         ]]></fx:Script>
 
-    <core:states>
-        <s:State name="disabled"/>
-        <s:State name="inactive"/>
-        <s:State name="active"/>
-    </core:states>
-
     <components:SearchBoard id="searchBoard"
-                            visible="{!noteContent.isNoteCardShown}"
                             isTemplatesEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
                             width="100%"
                             startSearch="startSearchActivatedHandler(event)"/>
 
-    <note:NoteContent id="noteContent"
-                      width="{width}"
-                      top="{noteContent.isNoteCardShown ? 0 : searchBoard.height}" bottom="0"
-                      selectedItem="@{vm.selectedNote}"
-                      dataProvider="{vm.page.coll}"
-                      page="{vm.page}"
-                      selectedItemChange="noteList_selectedItemChangeHandler(event)"
-                      pageNumChanged="pageNumChanged()"/>
+    <scroller:CustomScroller width="100%"
+                             top="{searchBoard.height}" bottom="0"
+                             horizontalScrollPolicy="off"
+                             hasFocusableChildren="false">
+        <note:NoteList id="noteList"
+                       width="100%"
+                       dataProvider="{vm.page.coll}"
+                       contentBackgroundAlpha="0"
+                       deselectEnabled="true"
+                       itemRenderer="de.dittner.testmyself.ui.view.noteList.components.NoteRenderer"
+                       selectedItemChange="noteList_selectedItemChangeHandler(event)">
+            <note:layout>
+                <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+            </note:layout>
+        </note:NoteList>
+    </scroller:CustomScroller>
 
     <s:BitmapImage width="100%" height="{Values.PT7}"
                    top="{searchBoard.height}"
                    smooth="true"
                    alpha=".75"
-                   visible="{!noteContent.isNoteCardShown}"
                    source="@Embed(source='/assets/shadow.png')"/>
 
 </view:SmartView>
