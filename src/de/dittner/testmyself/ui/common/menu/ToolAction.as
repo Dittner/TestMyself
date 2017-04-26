@@ -2,6 +2,7 @@ package de.dittner.testmyself.ui.common.menu {
 public class ToolAction {
 
 	public static const GO_BACK:String = "GO_BACK";
+	public static const FORMAT_TEXT:String = "FORMAT_TEXT";
 	public static const CREATE_NOTE:String = "CREATE_NOTE";
 	public static const EDIT_NOTE:String = "EDIT_NOTE";
 	public static const REMOVE_NOTE:String = "REMOVE_NOTE";

@@ -11,6 +11,7 @@
     <fx:Script><![CDATA[
         import com.greensock.TweenLite;
 
+        import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -19,6 +20,7 @@
 
         public function revert():void {
             goBackBtn.enabled = false;
+            formatTextBtn.enabled = false;
             addNoteBtn.enabled = false;
             editNoteBtn.enabled = false;
             removeNoteBtn.enabled = false;
@@ -31,6 +33,7 @@
             showFailedTasksBtn.selected = true;
             playCommentBtn.enabled = false;
             playCommentBtn.selected = false;
+            articleBar.enabled = false;
         }
 
         //--------------------------------------
@@ -94,6 +97,10 @@
             g.endFill();
         }
 
+        private function formToolsVisible(addEnabled:Boolean, editEnabled:Boolean, removeEnabled:Boolean):Boolean {
+            return addEnabled || editEnabled || removeEnabled;
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  Enable Buttons
@@ -103,6 +110,10 @@
         public function enableGoBack(value:Boolean = true):void {
             goBackBtn.enabled = value;
         }
+        public function enableFormatText(value:Boolean = true):void {
+            formatTextBtn.enabled = value;
+        }
+
         public function enableAddNote(value:Boolean = true):void {
             addNoteBtn.enabled = value;
         }
@@ -130,6 +141,44 @@
         public function enablePlayCommentBtn(value:Boolean = true):void {
             playCommentBtn.enabled = value;
         }
+        public function enableArticleBar(value:Boolean = true, selectedArticle:String = ""):void {
+            articleBar.enabled = value;
+            derBtn.selected = dieBtn.selected = dasBtn.selected = false;
+            if (!selectedArticle) return;
+
+            if (selectedArticle == DeWordArticle.DER_DIE_DAS) {
+                derBtn.selected = dieBtn.selected = dasBtn.selected = true;
+            }
+            else if (selectedArticle == DeWordArticle.DER_DIE) {
+                derBtn.selected = dieBtn.selected = true;
+            }
+            else if (selectedArticle == DeWordArticle.DER_DAS) {
+                derBtn.selected = dasBtn.selected = true;
+            }
+            else if (selectedArticle == DeWordArticle.DIE_DAS) {
+                dieBtn.selected = dasBtn.selected = true;
+            }
+            else if (selectedArticle == DeWordArticle.DER) {
+                derBtn.selected = true;
+            }
+            else if (selectedArticle == DeWordArticle.DIE) {
+                dieBtn.selected = true;
+            }
+            else if (selectedArticle == DeWordArticle.DAS) {
+                dasBtn.selected = true;
+            }
+        }
+
+        public function getSelectedArticle():String {
+            if (derBtn.selected && dieBtn.selected && dasBtn.selected) return DeWordArticle.DER_DIE_DAS;
+            if (derBtn.selected && dieBtn.selected) return DeWordArticle.DER_DIE;
+            if (derBtn.selected && dasBtn.selected) return DeWordArticle.DER_DAS;
+            if (dieBtn.selected && dasBtn.selected) return DeWordArticle.DIE_DAS;
+            if (derBtn.selected) return DeWordArticle.DER;
+            if (dieBtn.selected) return DeWordArticle.DIE;
+            if (dasBtn.selected) return DeWordArticle.DAS;
+            return "";
+        }
 
         public function selectTransInvert(value:Boolean = true):void {
             transInvertBtn.selected = value;
@@ -155,17 +204,36 @@
                          title="{resourceManager.getString('app', 'GoBack')}"
                          click="notifyToolAction(ToolAction.GO_BACK)"/>
 
+    <tile:FadeTileButton id="formatTextBtn"
+                         visible="{formatTextBtn.enabled}"
+                         includeInLayout="{formatTextBtn.enabled}"
+                         upTileID="{TileID.TOOLBAR_FORMAT_TEXT}"
+                         left="{Values.PT5}"
+                         verticalCenter="0"
+                         paddingLeft="{Values.PT40}"
+                         paddingRight="0"
+                         fontSize="{Values.PT18}"
+                         textColor="0"
+                         title="{resourceManager.getString('app', 'Formatting')}"
+                         click="notifyToolAction(ToolAction.FORMAT_TEXT)"/>
+
     <s:HGroup height="100%" horizontalCenter="0" verticalAlign="middle" gap="{Values.PT15}">
         <tile:FadeTileButton id="addNoteBtn"
                              upTileID="{TileID.TOOLBAR_ADD}"
+                             visible="{formToolsVisible(addNoteBtn.enabled, editNoteBtn.enabled, removeNoteBtn.enabled)}"
+                             includeInLayout="{addNoteBtn.visible}"
                              click="notifyToolAction(ToolAction.CREATE_NOTE)"/>
 
         <tile:FadeTileButton id="editNoteBtn"
                              upTileID="{TileID.TOOLBAR_EDIT}"
+                             visible="{formToolsVisible(addNoteBtn.enabled, editNoteBtn.enabled, removeNoteBtn.enabled)}"
+                             includeInLayout="{editNoteBtn.visible}"
                              click="notifyToolAction(ToolAction.EDIT_NOTE)"/>
 
         <tile:FadeTileButton id="removeNoteBtn"
                              upTileID="{TileID.TOOLBAR_DELETE}"
+                             visible="{formToolsVisible(addNoteBtn.enabled, editNoteBtn.enabled, removeNoteBtn.enabled)}"
+                             includeInLayout="{removeNoteBtn.visible}"
                              click="notifyToolAction(ToolAction.REMOVE_NOTE)"/>
 
         <tile:FadeTileButton id="showDetailsBtn"
@@ -217,5 +285,44 @@
                          deselectOnlyProgrammatically="true"
                          selected="{MP3Player.instance.isPlaying}"
                          change="if(playCommentBtn.selected) notifyToolAction(ToolAction.PLAY_COMMENT)"/>
+
+    <s:HGroup id="articleBar"
+              gap="{Values.PT22}" right="{Values.PT15}" verticalCenter="0"
+              visible="{articleBar.enabled}"
+              includeInLayout="{articleBar.enabled}">
+        <tile:FadeTileButton id="derBtn"
+                             isToggle="true"
+                             use9Scale="true"
+                             upBgAlpha=".4"
+                             selected="false"
+                             upTileID="{TileID.BTN_BLACK}"
+                             textColor="{AppColors.TEXT_WHITE}"
+                             isBold="true"
+                             fontSize="{Values.PT15}"
+                             title="DER"/>
+
+        <tile:FadeTileButton id="dieBtn"
+                             isToggle="true"
+                             use9Scale="true"
+                             upBgAlpha=".3"
+                             selected="false"
+                             upTileID="{TileID.BTN_BLACK}"
+                             textColor="{dieBtn.selected ? AppColors.TEXT_RED : AppColors.TEXT_WHITE}"
+                             isBold="true"
+                             fontSize="{Values.PT15}"
+                             title="DIE"/>
+
+        <tile:FadeTileButton id="dasBtn"
+                             isToggle="true"
+                             use9Scale="true"
+                             upBgAlpha=".3"
+                             selected="false"
+                             upTileID="{TileID.BTN_BLACK}"
+                             textColor="{dasBtn.selected ? AppColors.TEXT_YELLOW : AppColors.TEXT_WHITE}"
+                             isBold="true"
+                             fontSize="{Values.PT15}"
+                             title="DAS"/>
+
+    </s:HGroup>
 
 </s:Group>

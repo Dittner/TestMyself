@@ -103,6 +103,8 @@ public class TileID {
 	public static const TOOLBAR_DELETE_LIGHT:String = "TOOLBAR_DELETE_LIGHT";
 	public static const TOOLBAR_FILTER_LIGHT:String = "TOOLBAR_FILTER_LIGHT";
 
+	public static const TOOLBAR_FORMAT_TEXT:String = "TOOLBAR_FORMAT_TEXT";
+
 
 	public static const TOOLBAR_PLAY_AUDIO:String = "TOOLBAR_PLAY_AUDIO";
 	public static const TOOLBAR_PLAY_AUDIO_SELECTED:String = "TOOLBAR_PLAY_AUDIO_SELECTED";

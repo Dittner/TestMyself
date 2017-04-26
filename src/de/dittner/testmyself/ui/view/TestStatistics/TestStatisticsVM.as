@@ -33,9 +33,6 @@ public class TestStatisticsVM extends ViewModel {
 	override public function viewActivated(viewInfo:ViewInfo):void {
 		super.viewActivated(viewInfo);
 		setTestPage(appModel.getTestPage());
-		testPage.loadOnlyFailedTestTask = true;
-		testPage.number = 0;
-		testPage.countAllNotes = true;
 		reloadPage();
 	}
 

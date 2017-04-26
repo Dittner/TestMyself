@@ -179,8 +179,8 @@ public class NoteFormVM extends ViewModel {
 
 			isArticleEnabled = appModel.selectedLanguage.id == LanguageID.DE;
 			isPresentVerbFormEnabled = appModel.selectedLanguage.id == LanguageID.DE;
-			isOptionalTemplatesEnabled = appModel.selectedLanguage.id == LanguageID.DE
-			isLoadMp3FileFromDudenEnabled = appModel.selectedLanguage.id == LanguageID.DE
+			isOptionalTemplatesEnabled = appModel.selectedLanguage.id == LanguageID.DE;
+			isLoadMp3FileFromDudenEnabled = appModel.selectedLanguage.id == LanguageID.DE;
 			hasNetworkConnection = appModel.hasNetworkConnection;
 			listenProxy(appModel, AppModel.NETWORK_CONNECTION_CHANGED_MSG, networkConnectionChanged);
 		}

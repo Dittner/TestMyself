@@ -7,6 +7,7 @@ public interface INoteToolbar extends IUIComponent {
 	function revert():void;
 
 	function enableGoBack(value:Boolean = true):void;
+	function enableFormatText(value:Boolean = true):void;
 	function enableAddNote(value:Boolean = true):void;
 	function enableEditNote(value:Boolean = true):void;
 	function enableRemoveNote(value:Boolean = true):void;
@@ -16,6 +17,8 @@ public interface INoteToolbar extends IUIComponent {
 	function enableShowFailedTasks(value:Boolean = true):void;
 	function enablesSetTaskAsRight(value:Boolean = true):void;
 	function enablePlayCommentBtn(value:Boolean = true):void;
+	function enableArticleBar(value:Boolean = true, selectedArticle:String = ""):void;
+	function getSelectedArticle():String;
 
 	function selectTransInvert(value:Boolean = true):void;
 	function selectShowDetails(value:Boolean = true):void;
