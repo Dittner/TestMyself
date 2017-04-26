@@ -106,7 +106,10 @@ public class NotePage extends EventDispatcher {
 	public function set coll(value:ArrayCollection):void {
 		if (_coll != value) {
 			_coll = value;
+			if(coll && coll.length <= selectedItemIndex)
+				selectedItemIndex = coll.length > 0 ? coll.length - 1 : 0;
 			dispatchEvent(new Event("collChanged"));
+			dispatchEvent(new Event("noteChanged"));
 		}
 	}
 

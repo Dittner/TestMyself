@@ -16,7 +16,7 @@ public class TestPage extends NotePage {
 	//--------------------------------------
 	//  loadOnlyFailedTestTask
 	//--------------------------------------
-	private var _loadOnlyFailedTestTask:Boolean = false;
+	private var _loadOnlyFailedTestTask:Boolean = true;
 	[Bindable("loadOnlyFailedTestTaskChanged")]
 	public function get loadOnlyFailedTestTask():Boolean {return _loadOnlyFailedTestTask;}
 	public function set loadOnlyFailedTestTask(value:Boolean):void {

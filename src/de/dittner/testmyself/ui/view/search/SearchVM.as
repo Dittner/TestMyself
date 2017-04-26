@@ -42,10 +42,12 @@ public class SearchVM extends ViewModel {
 	override public function viewActivated(viewInfo:ViewInfo):void {
 		super.viewActivated(viewInfo);
 		setPage(appModel.getSearchPage());
+		page.countAllNotes = true;
 		if (page.searchText) page.load();
 	}
 
 	public function loadPage(searchText:String, loadExamples:Boolean, loadWords:Boolean, loadVerbs:Boolean, loadLessons:Boolean):void {
+		page.countAllNotes = page.searchText != searchText;
 		page.searchText = searchText;
 		page.loadExamples = loadExamples;
 		page.vocabularyIDs = [];

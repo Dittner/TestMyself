@@ -74,8 +74,8 @@ public class NoteViewVM extends ViewModel {
 	}
 
 	public function showPrevNote():void {
-		if (page && page.coll && page.coll.length > 0) {
-			if (page.selectedItemIndex > 0) {
+		if (page && page.coll) {
+			if (page.coll.length > 0 && page.selectedItemIndex > 0) {
 				page.selectedItemIndex--;
 			}
 			else if (page.number > 0) {
@@ -117,6 +117,7 @@ public class NoteViewVM extends ViewModel {
 
 	private function noteEditComplete(op:IAsyncOperation):void {
 		if (op.isSuccess && op.result == FormOperationResult.OK) {
+			page.countAllNotes = true;
 			reloadPage();
 		}
 	}
@@ -133,7 +134,11 @@ public class NoteViewVM extends ViewModel {
 
 	private function noteRemovedComplete(op:IAsyncOperation):void {
 		if (op.isSuccess && op.result == FormOperationResult.OK) {
-			reloadPage();
+			page.countAllNotes = true;
+			if (page.selectedItemIndex == 0)
+				showPrevNote();
+			else
+				reloadPage();
 		}
 	}
 

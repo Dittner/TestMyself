@@ -72,6 +72,8 @@ public class TestableView extends Group {
 			actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelected);
 			actionMenu.addEventListener("taskPriorityChanged", taskPriorityChanged);
 			showTestMenu();
+			testTaskChanged = true;
+			invalidateProperties();
 		}
 	}
 

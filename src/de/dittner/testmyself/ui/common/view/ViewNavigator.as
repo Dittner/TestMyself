@@ -31,7 +31,7 @@ public class ViewNavigator extends Group {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	private static const TRANSITION_DURATION_IN_FRAMES:Number = 5;
+	private static const TRANSITION_DURATION_IN_FRAMES:Number = 8;
 
 	//----------------------------------------------------------------------------------------------
 	//

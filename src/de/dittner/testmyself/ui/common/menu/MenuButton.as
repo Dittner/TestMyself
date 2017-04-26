@@ -28,12 +28,26 @@ public class MenuButton extends FadeTileButton {
 		}
 	}
 
+	//--------------------------------------
+	//  useDisabledTextAnimation
+	//--------------------------------------
+	private var _useDisabledTextAnimation:Boolean = false;
+	[Bindable("useDisabledTextAnimationChanged")]
+	public function get useDisabledTextAnimation():Boolean {return _useDisabledTextAnimation;}
+	public function set useDisabledTextAnimation(value:Boolean):void {
+		if (_useDisabledTextAnimation != value) {
+			_useDisabledTextAnimation = value;
+			invalidateDisplayList();
+			dispatchEvent(new Event("useDisabledTextAnimationChanged"));
+		}
+	}
+
 	override public function set enabled(value:Boolean):void {
 		if (super.enabled != value) {
 			super.enabled = value;
 			if (titleTf && disabledTitleTf) {
-				titleTf.alphaTo = enabled ? 1 : 0;
-				disabledTitleTf.alphaTo = enabled ? 0 : 1;
+				titleTf.alphaTo = enabled || !useDisabledTextAnimation ? 1 : 0;
+				disabledTitleTf.alphaTo = enabled || !useDisabledTextAnimation ? 0 : 1;
 			}
 		}
 	}
@@ -41,7 +55,7 @@ public class MenuButton extends FadeTileButton {
 	private var disabledTitleTf:FadeTextField;
 	override protected function commitProperties():void {
 		super.commitProperties();
-		if (title && !disabledTitleTf) {
+		if (title && !disabledTitleTf && useDisabledTextAnimation) {
 			disabledTitleTf = TextFieldFactory.createFadeTextField(TITLE_FORMAT);
 			disabledTitleTf.alpha = enabled ? 0 : 1;
 			addChild(disabledTitleTf);
@@ -66,9 +80,12 @@ public class MenuButton extends FadeTileButton {
 
 	override protected function redrawBg():void {
 		super.redrawBg();
-		if (titleTf && disabledTitleTf) {
-			titleTf.animationDuration = disabledTitleTf.animationDuration = animationDuration;
-			titleTf.alphaTo = enabled ? upBg.alphaTo : 0;
+		if (disabledTitleTf) {
+			disabledTitleTf.animationDuration = animationDuration;
+		}
+		if (titleTf) {
+			titleTf.animationDuration = animationDuration;
+			titleTf.alphaTo = enabled || !useDisabledTextAnimation ? upBg.alphaTo : 0;
 		}
 	}
 

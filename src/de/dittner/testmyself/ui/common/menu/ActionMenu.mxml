@@ -248,6 +248,7 @@
                          fontSize="{Values.PT18}"
                          paddingLeft="{Values.PT40}"
                          paddingRight="0"
+                         useDisabledTextAnimation="true"
                          title="{resourceManager.getString('app', 'Cancel')}"
                          click="notifyAction(ToolAction.CANCEL)"/>
 
@@ -262,6 +263,7 @@
                          fontSize="{Values.PT18}"
                          paddingLeft="{Values.PT40}"
                          paddingRight="0"
+                         useDisabledTextAnimation="true"
                          click="notifyAction(ToolAction.APPLY)"/>
     </s:HGroup>
 

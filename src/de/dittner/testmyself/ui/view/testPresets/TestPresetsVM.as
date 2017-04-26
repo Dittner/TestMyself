@@ -53,6 +53,8 @@ public class TestPresetsVM extends ViewModel {
 	public function showStatistics(taskComplexity:uint, tag:Tag):void {
 		var info:ViewInfo = new ViewInfo();
 		info.viewID = ViewID.TEST_STATISTICS;
+		testPage.number = 0;
+		testPage.countAllNotes = true;
 		testPage.taskComplexity = taskComplexity;
 		testPage.selectedTag = tag;
 		navigateTo(info);

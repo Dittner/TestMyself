@@ -41,6 +41,7 @@
             vm = ViewModelFactory.instance.noteViewVM;
             vm.lockView();
             vm.viewActivated(viewInfo);
+            vm.page.addEventListener(NotePage.NOTE_CHANGED, noteChangedHandler);
             updateNote();
         }
 
@@ -58,7 +59,6 @@
 
             toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
             actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
-            vm.page.addEventListener(NotePage.NOTE_CHANGED, noteChangedHandler);
 
             vm.unlockView();
         }
@@ -75,7 +75,6 @@
         }
 
         private function actionSelectedHandler(event:ToolActionEvent):void {
-            var op:IAsyncOperation;
             switch (event.actionID) {
                 case(ToolAction.GO_BACK) :
                     vm.goBack();

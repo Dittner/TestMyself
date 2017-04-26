@@ -1,4 +1,6 @@
 package de.dittner.testmyself.ui.common.scroller {
+import de.dittner.testmyself.model.Device;
+
 import spark.components.Group;
 import spark.components.Scroller;
 
@@ -9,7 +11,8 @@ public class CustomScroller extends Scroller {
 
 	override protected function attachSkin():void {
 		super.attachSkin();
-		Group(skin).layout = new CustomScrollerLayout();
+		if(Device.isDesktop)
+			Group(skin).layout = new CustomScrollerLayout();
 	}
 }
 }

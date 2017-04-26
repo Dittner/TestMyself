@@ -259,7 +259,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		exampleIcon.y = Values.PT5;
 		exampleIcon.visible = note && note.exampleColl && examplesNumTf.length > 0;
 		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT1;
-		examplesNumTf.y = Values.PT4;
+		examplesNumTf.y = Values.PT5;
 
 		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT3;
 		audioIcon.y = Values.PT25;
