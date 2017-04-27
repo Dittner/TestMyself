@@ -17,6 +17,7 @@
 
         [Bindable]
         public var vm:SearchVM;
+        private var renderOptions:NoteRenderOptions;
 
         //----------------------------------------------------------------------------------------------
         //
@@ -25,12 +26,15 @@
         //----------------------------------------------------------------------------------------------
 
         override protected function activating():void {
+            if (!renderOptions) {
+                renderOptions = new NoteRenderOptions();
+                renderOptions.showDetails = true;
+            }
             vm = ViewModelFactory.instance.searchVM;
             vm.lockView();
             vm.viewActivated(viewInfo);
         }
 
-        private var renderOptions:NoteRenderOptions = new NoteRenderOptions();
         override protected function activate():void {
             vm.unlockView();
 

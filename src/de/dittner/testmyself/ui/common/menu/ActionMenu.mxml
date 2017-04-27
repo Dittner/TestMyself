@@ -52,7 +52,6 @@
         //  Methods
         //
         //----------------------------------------------------------------------------------------------
-        private var stateStack:Array = [];
 
         //--------------------------------------
         //  trueBtnEnabled
@@ -87,7 +86,6 @@
         public function showNavigationMenu(page:NotePage):void {
             visible = includeInLayout = true;
             _navigationNotePage = page;
-            stateStack.push("navigation");
             setCurrentState("navigation");
             dispatchEvent(new Event("paginationBarPageChanged"));
         }
@@ -135,7 +133,6 @@
                 _applyBtnUpTileID = TileID.MENU_FORM_REMOVE_ICON;
                 _applyBtnDisabledTileID = TileID.MENU_FORM_REMOVE_RED_ICON;
             }
-            stateStack.push("form");
             setCurrentState("form");
             dispatchEvent(new Event("formModeChanged"));
         }
@@ -152,7 +149,6 @@
         public function showPaginationBar(page:NotePage):void {
             this._paginationBarPage = page;
             visible = includeInLayout = true;
-            stateStack.push("pagination");
             setCurrentState("pagination");
             dispatchEvent(new Event("paginationBarPageChanged"));
         }
@@ -165,7 +161,6 @@
 
         public function showTestMenu(trueBtnEnabled:Boolean = true, falseBtnEnabled:Boolean = true, nextTaskBtnEnabled:Boolean = false):void {
             visible = includeInLayout = true;
-            stateStack.push("test");
             setCurrentState("test");
             _trueBtnEnabled = trueBtnEnabled;
             _falseBtnEnabled = falseBtnEnabled;
@@ -173,22 +168,7 @@
             dispatchEvent(new Event("testBtnEnabledChanged"));
         }
 
-        public function showPrevMenu():void {
-            visible = includeInLayout = true;
-
-            if (stateStack.length > 1) {
-                stateStack.pop();
-                var newState:String = stateStack.pop();
-                stateStack.push(newState);
-                setCurrentState(newState);
-            }
-            else {
-                hide();
-            }
-        }
-
         public function hide():void {
-            stateStack.length = 0;
             setCurrentState("hide");
         }
 

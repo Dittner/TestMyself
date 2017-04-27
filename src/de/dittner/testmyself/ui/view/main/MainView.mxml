@@ -182,7 +182,7 @@
                         mouseEnabled="false" mouseChildren="false"
                         mouseEnabled.normal="true" mouseChildren.normal="true"
                         text="@{vm.commentsBoardText}"
-                        right="0" left="0" height="{Values.PT600}" top="0"/>
+                        right="0" left="0" height="50%" top="0"/>
 
     <s:Group id="popupLayer"
              mouseEnabled="false" mouseChildren="false"
@@ -195,7 +195,7 @@
 
     <s:Group id="busyIndicatorLayer"
              left="0" right="0" top="{-Device.verticalPadding}" bottom="0"
-             mouseEnabled="false" mouseChildren="false"
+             mouseEnabled="true" mouseChildren="true"
              alpha.normal="0" alpha.lock="1">
         <s:Rect width="100%" height="100%"
                 visible="{busyIndicatorLayer.alpha != 0}">

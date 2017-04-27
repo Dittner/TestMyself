@@ -5,8 +5,8 @@
                 xmlns:list="de.dittner.testmyself.ui.common.list.*"
                 xmlns:components="de.dittner.testmyself.ui.view.settings.components.*"
                 xmlns:common="de.dittner.testmyself.ui.common.*"
-                currentState="inactive"
-                xmlns:view="de.dittner.testmyself.ui.common.view.*">
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                currentState="inactive">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
@@ -67,7 +67,8 @@
         <s:State name="test"/>
     </core:states>
 
-    <common:BG percentWidth="100" top="{TAB_BAR_HEI + PADDING}" height="{Values.PT5}" fillColor="0" alpha="0.6"/>
+    <common:BG excludeFrom="inactive"
+               percentWidth="100" top="{TAB_BAR_HEI + PADDING}" height="{Values.PT5}" fillColor="0" alpha="0.6"/>
 
     <list:SelectableDataGroup id="tabBar"
                               excludeFrom="inactive"

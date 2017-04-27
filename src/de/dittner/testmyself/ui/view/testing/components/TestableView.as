@@ -87,7 +87,6 @@ public class TestableView extends Group {
 			actionCallback = null;
 			actionMenu.removeEventListener(NavigationMenuEvent.CLICKED, actionSelected);
 			actionMenu.removeEventListener("taskPriorityChanged", taskPriorityChanged);
-			actionMenu.showPrevMenu();
 			actionMenu = null;
 		}
 	}

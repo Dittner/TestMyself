@@ -124,7 +124,7 @@
                                   alpha.down="1"/>
                 </s:fill>
             </s:Rect>
-            <s:Label color="#ffFFff"
+            <s:Label color="{AppColors.TEXT_WHITE}"
                      mouseEnabled="false" mouseChildren="false"
                      fontSize="{Values.PT14}"
                      fontFamily="{FontName.MYRIAD_COND}"

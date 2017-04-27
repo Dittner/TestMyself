@@ -42,22 +42,11 @@ public class MenuButton extends FadeTileButton {
 		}
 	}
 
-	override public function set enabled(value:Boolean):void {
-		if (super.enabled != value) {
-			super.enabled = value;
-			if (titleTf && disabledTitleTf) {
-				titleTf.alphaTo = enabled || !useDisabledTextAnimation ? 1 : 0;
-				disabledTitleTf.alphaTo = enabled || !useDisabledTextAnimation ? 0 : 1;
-			}
-		}
-	}
-
 	private var disabledTitleTf:FadeTextField;
 	override protected function commitProperties():void {
 		super.commitProperties();
 		if (title && !disabledTitleTf && useDisabledTextAnimation) {
 			disabledTitleTf = TextFieldFactory.createFadeTextField(TITLE_FORMAT);
-			disabledTitleTf.alpha = enabled ? 0 : 1;
 			addChild(disabledTitleTf);
 		}
 
@@ -80,12 +69,13 @@ public class MenuButton extends FadeTileButton {
 
 	override protected function redrawBg():void {
 		super.redrawBg();
-		if (disabledTitleTf) {
+		if (disabledBg && disabledTitleTf && useDisabledTextAnimation) {
 			disabledTitleTf.animationDuration = animationDuration;
+			disabledTitleTf.alphaTo = disabledBg.alphaTo;
 		}
 		if (titleTf) {
 			titleTf.animationDuration = animationDuration;
-			titleTf.alphaTo = enabled || !useDisabledTextAnimation ? upBg.alphaTo : 0;
+			titleTf.alphaTo = upBg.alphaTo;
 		}
 	}
 

@@ -98,7 +98,8 @@ public class ViewNavigator extends Group {
 	private var currentView:ViewBase;
 	private var pendingView:ViewBase;
 
-	private var navigatorAction:NavigatorAction;
+	private var curNavigatorAction:NavigatorAction;
+	private var pendingAction:NavigatorAction;
 	private var viewsTransDirection:String = "left";
 
 	//----------------------------------------------------------------------------------------------
@@ -222,21 +223,31 @@ public class ViewNavigator extends Group {
 	}
 
 	private function scheduleAction(viewInfo:ViewInfo, direction:String = ""):void {
-		if (!viewChanging && !navigatorAction) {
-			navigatorAction = new NavigatorAction();
-			navigatorAction.viewInfo = viewInfo;
-			navigatorAction.direction = direction;
-			setViewChanging(true);
-			addEventListener(Event.ENTER_FRAME, prepareAction);
+		if (!viewChanging && !curNavigatorAction) {
+			curNavigatorAction = new NavigatorAction();
+			curNavigatorAction.viewInfo = viewInfo;
+			curNavigatorAction.direction = direction;
+			executeCurNavigatorAction();
+		}
+		else {
+			pendingAction = new NavigatorAction();
+			pendingAction.viewInfo = viewInfo;
+			pendingAction.direction = direction;
 		}
 	}
 
-	private function prepareAction(event:Event = null):void {
-		if (event) removeEventListener(Event.ENTER_FRAME, prepareAction);
+	private function executeCurNavigatorAction():void {
+		setViewChanging(true);
+		addEventListener(Event.ENTER_FRAME, prepareView);
+	}
 
-		if (navigatorAction) {
-			executeAction(navigatorAction);
-			navigatorAction = null;
+	private function prepareView(event:Event = null):void {
+		if (event) removeEventListener(Event.ENTER_FRAME, prepareView);
+
+		if (curNavigatorAction) {
+			viewsTransDirection = curNavigatorAction.direction ? curNavigatorAction.direction : "left";
+			pendingView = createView(curNavigatorAction.viewInfo);
+			curNavigatorAction = null;
 
 			if (pendingView) {
 				addPendingViewToStage();
@@ -246,11 +257,6 @@ public class ViewNavigator extends Group {
 			else setViewChanging(false);
 		}
 		else setViewChanging(false);
-	}
-
-	private function executeAction(navigatorAction:NavigatorAction):void {
-		viewsTransDirection = navigatorAction.direction ? navigatorAction.direction : "left";
-		pendingView = createView(navigatorAction.viewInfo);
 	}
 
 	private function createView(viewInfo:ViewInfo):ViewBase {
@@ -278,11 +284,6 @@ public class ViewNavigator extends Group {
 		pendingView.width = width;
 		pendingView.width = width;
 		addElement(pendingView);
-	}
-
-	private function finishViewActivation(event:Event):void {
-		removeEventListener(Event.ENTER_FRAME, finishViewActivation);
-		currentView.invalidate(NavigationPhase.VIEW_ACTIVATE);
 	}
 
 	private function prepareViewTransition(event:Event = null):void {
@@ -324,7 +325,6 @@ public class ViewNavigator extends Group {
 	private function viewsTransitionComplete():void {
 		destroyCurrentView();
 		activatePendingView();
-		setViewChanging(false);
 	}
 
 	private function destroyCurrentView():void {
@@ -340,6 +340,17 @@ public class ViewNavigator extends Group {
 		currentView = pendingView;
 		pendingView = null;
 		addEventListener(Event.ENTER_FRAME, finishViewActivation);
+	}
+
+	private function finishViewActivation(event:Event):void {
+		removeEventListener(Event.ENTER_FRAME, finishViewActivation);
+		currentView.invalidate(NavigationPhase.VIEW_ACTIVATE);
+		setViewChanging(false);
+		if(pendingAction) {
+			curNavigatorAction = pendingAction;
+			pendingAction = null;
+			executeCurNavigatorAction();
+		}
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {

@@ -20,7 +20,7 @@ import flash.text.TextFormat;
 
 public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.BLACK);
-	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT14, AppColors.BLACK);
+	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT12, AppColors.BLACK);
 	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_RED);
@@ -112,19 +112,19 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		}
 		if (!examplesNumTf) {
 			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT);
-			examplesNumTf.alpha = 0.4;
+			examplesNumTf.alpha = 0.5;
 			addChild(examplesNumTf);
 		}
 		if (!audioIcon) {
 			audioIcon = new TileShape(TileID.PLAY_AUDIO_ICON);
-			audioIcon.alpha = 0.4;
+			audioIcon.alpha = 0.5;
 			audioIcon.visible = false;
 			addChild(audioIcon);
 		}
 
 		if (!exampleIcon) {
 			exampleIcon = new TileShape(TileID.EXAMPLE_ICON);
-			exampleIcon.alpha = 0.4;
+			exampleIcon.alpha = 0.5;
 			exampleIcon.visible = false;
 			addChild(exampleIcon);
 		}
@@ -255,10 +255,10 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		var g:Graphics = graphics;
 		g.clear();
 
-		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding + Values.PT4;
-		exampleIcon.y = Values.PT5;
+		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding;
+		exampleIcon.y = Values.PT6;
 		exampleIcon.visible = note && note.exampleColl && examplesNumTf.length > 0;
-		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT1;
+		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT3;
 		examplesNumTf.y = Values.PT5;
 
 		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT3;

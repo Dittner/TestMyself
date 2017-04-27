@@ -60,7 +60,7 @@
             navigationMenu.hide();
             toolbar.revert();
             toolbar.enableFormatText(!vm.isRemoveMode);
-            if (vm.isArticleEnabled && vm.note is Word)
+            if (vm.isArticleEnabled && vm.note is Word && !vm.isRemoveMode)
                 toolbar.enableArticleBar(true, (vm.note as Word).article);
             actionMenu.showFormMenu((viewInfo as NoteFormViewInfo).formMode);
             toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
@@ -71,7 +71,6 @@
         }
 
         override protected function deactivating():void {
-            actionMenu.showPrevMenu();
         }
 
         override protected function deactivate():void {

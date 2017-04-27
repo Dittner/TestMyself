@@ -56,7 +56,13 @@ public class NoteViewVM extends ViewModel {
 	}
 
 	public function reloadPage():IAsyncOperation {
-		return page.load();
+		var op:IAsyncOperation = page.load();
+		op.addCompleteCallback(pageReloaded);
+		return op;
+	}
+
+	private function pageReloaded(op:IAsyncOperation):void {
+		if(!page.selectedNote) goBack();
 	}
 
 	public function showNextNote():void {
@@ -135,7 +141,7 @@ public class NoteViewVM extends ViewModel {
 	private function noteRemovedComplete(op:IAsyncOperation):void {
 		if (op.isSuccess && op.result == FormOperationResult.OK) {
 			page.countAllNotes = true;
-			if (page.selectedItemIndex == 0)
+			if (page.selectedItemIndex == 0 && page.number > 0)
 				showPrevNote();
 			else
 				reloadPage();
