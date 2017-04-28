@@ -72,9 +72,8 @@ public class StringItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-
-			g.beginFill(AppColors.REN_SEP_COLOR);
-			g.drawRect(0, h-1, w, 1);
+			g.beginFill(0, 0.5);
+			g.drawRect(0, h - 1, w, 1);
 			g.endFill();
 		}
 		else {
@@ -85,8 +84,8 @@ public class StringItemRenderer extends ItemRendererBase {
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 
-			g.beginFill(AppColors.REN_SEP_COLOR);
-			g.drawRect(0, h-1, w, 1);
+			g.beginFill(0, 0.5);
+			g.drawRect(0, h - 1, w, 1);
 			g.endFill();
 		}
 

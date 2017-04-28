@@ -1,15 +1,9 @@
 package de.dittner.testmyself.ui.common.utils {
 public class AppColors {
 
-	public static const REN_SELECTED_BG:uint = 0xffFFff;
-	public static const REN_SEP_COLOR:uint = 0xa5a5ad;
-	public static const EDITOR_CONTENT_BG:uint = 0xf0F0f5;
-	public static const EXAMPLES_BG:uint = 0xffFFff;
-
 	public static const MENU_BTN_DISABLED:uint = 0x933d53;
 	public static const MENU_LIST_BG:uint = 0;
 
-	public static const EDITOR_BORDER:uint = 0;
 	public static const EDITOR_SHADOW:uint = 0x54545d;
 	public static const DARK_LIST_BG:uint = 0xceced6;
 	public static const TOOLBAR_BG:uint = 0xadabb7;

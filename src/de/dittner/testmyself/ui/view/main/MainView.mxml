@@ -178,16 +178,16 @@
                      enabled="false"
                      enabled.normal="true"/>
 
+    <s:Group id="popupLayer"
+             mouseEnabled="false" mouseChildren="false"
+             mouseEnabled.normal="true" mouseChildren.normal="true"
+             width="100%" height="100%"/>
+
     <main:CommentsBoard id="commentsBoard"
                         mouseEnabled="false" mouseChildren="false"
                         mouseEnabled.normal="true" mouseChildren.normal="true"
                         text="@{vm.commentsBoardText}"
                         right="0" left="0" height="50%" top="0"/>
-
-    <s:Group id="popupLayer"
-             mouseEnabled="false" mouseChildren="false"
-             mouseEnabled.normal="true" mouseChildren.normal="true"
-             width="100%" height="100%"/>
 
     <common:BG visible="{Device.verticalPadding}"
                includeInLayout="{Device.verticalPadding}"

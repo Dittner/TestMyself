@@ -269,7 +269,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		g.drawRect(0, 0, w, h);
 		g.endFill();
 
-		g.beginFill(AppColors.REN_SEP_COLOR);
+		g.beginFill(0, 0.5);
 		g.drawRect(horizontalPadding, h - 1, w - 2 * horizontalPadding, 1);
 		g.endFill();
 

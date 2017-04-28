@@ -195,7 +195,7 @@
 
     <s:HGroup width="100%" height="100%"
               includeIn="navigation"
-              gap="{Values.PT15}"
+              gap="{Values.PT25}"
               verticalAlign="middle" horizontalAlign="center">
         <menu:MenuButton id="prevNoteBtn"
                          upTileID="{prevNoteBtn.mouseEnabled ? TileID.MENU_PREV_NOTE_ICON : TileID.MENU_PREV_NOTE_DISABLED_ICON}"
@@ -218,7 +218,7 @@
 
     <s:HGroup width="100%" height="100%"
               includeIn="form"
-              gap="{Values.PT15}"
+              gap="{Values.PT25}"
               verticalAlign="middle" horizontalAlign="center">
         <menu:MenuButton id="cancelBtn"
                          upTileID="{TileID.MENU_FORM_CANCEL_ICON}"
@@ -251,7 +251,7 @@
 
     <s:HGroup width="100%" height="100%"
               includeIn="test"
-              gap="{Values.PT15}"
+              gap="{Values.PT25}"
               verticalAlign="middle" horizontalAlign="center">
 
         <components:TaskPriorityBoard id="taskPriorityBoard"

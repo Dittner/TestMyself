@@ -17,7 +17,12 @@
         public function set dataProvider(value:ArrayCollection):void {
             if (_dataProvider != value) {
                 _dataProvider = value;
-                title = dataProvider ? dataProvider.length + ' ' + resourceManager.getString('app', 'Example(s)') : "";
+                if (!dataProvider || dataProvider.length == 0)
+                    title = resourceManager.getString('app', 'NoExamples');
+                else if (dataProvider.length == 1)
+                    title = "1 " + resourceManager.getString('app', 'Example');
+                else
+                    title = dataProvider.length + " " + resourceManager.getString('app', 'Examples');
                 dispatchEvent(new Event("dataProviderChanged"));
             }
         }
