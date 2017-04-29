@@ -20,7 +20,7 @@ import flash.text.TextFormat;
 
 public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.BLACK);
-	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT12, AppColors.BLACK);
+	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT13, AppColors.BLACK);
 	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.BLACK);
 	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_RED);
@@ -111,7 +111,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			addChild(titleTf);
 		}
 		if (!examplesNumTf) {
-			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT);
+			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT, 40);
 			examplesNumTf.alpha = 0.5;
 			addChild(examplesNumTf);
 		}
@@ -255,11 +255,11 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		var g:Graphics = graphics;
 		g.clear();
 
-		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding;
+		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding + Values.PT1;
 		exampleIcon.y = Values.PT6;
 		exampleIcon.visible = note && note.exampleColl && examplesNumTf.length > 0;
 		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT3;
-		examplesNumTf.y = Values.PT5;
+		examplesNumTf.y = Values.PT4;
 
 		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT3;
 		audioIcon.y = Values.PT25;

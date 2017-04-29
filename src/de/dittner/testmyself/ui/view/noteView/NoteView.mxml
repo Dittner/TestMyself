@@ -163,6 +163,8 @@
             examplesPanel.visible = examplesPanel.includeInLayout = !selectedNote.isExample && !isLessonVocabulary;
             tagsInfoLbl.text = getTagsInfo(selectedNote);
 
+            examplesPanel.dataProvider = selectedNote.exampleColl;
+
             toolbar.enablesSetTaskAsRight(testTask && testTask.isFailed);
             toolbar.enablePlayCommentBtn(selectedNote && selectedNote.hasAudio);
         }
@@ -276,7 +278,6 @@
             <note:ExamplesPanel id="examplesPanel"
                                 width="{width}"
                                 isOpened="true"
-                                dataProvider="{vm.page.selectedNote.exampleColl}"
                                 paddingTop="0" paddingBottom="0"/>
 
             <panel:CollapsedPanel id="audioPanel"

@@ -201,7 +201,12 @@
 
         private function focusTextInput():void {
             if (stage && Device.isDesktop)
-                stage.focus = currentState == "lesson" || currentState == "normal" ? titleArea.area : wordInput;
+                if (currentState == "lesson" || currentState == "normal")
+                    stage.focus = titleArea.area;
+                else if (currentState == "verb")
+                    stage.focus = verbInputsForm.infinitiveInput;
+                else
+                    stage.focus = wordInput;
         }
 
         private function cancel():void {

@@ -72,7 +72,7 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="{Values.PT10}"/>
+        <s:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="{Values.PT5}"/>
     </s:layout>
 
     <s:Spacer width="50%"/>
@@ -135,10 +135,10 @@
                      click="nextPageBtnClickHandler(event)"/>
 
     <s:Label text="{page.selectedTag.name}"
-             height="100%" width="50%" textAlign="right" paddingRight="{Values.PT5}"
+             height="100%" width="50%" textAlign="right" paddingRight="{Values.PT10}"
              fontSize="{Values.PT13}" verticalAlign="middle" paddingTop="1"
              maxDisplayedLines="2"
-             alpha="0.7"
+             alpha="0.6"
              color="{AppColors.WHITE}"/>
 
 </s:Group>

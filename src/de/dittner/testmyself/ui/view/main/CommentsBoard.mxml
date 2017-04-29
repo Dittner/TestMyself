@@ -93,7 +93,7 @@
     </s:states>
 
     <s:Group id="cont" width="100%" height="{height}">
-        <common:BG percentWidth="100" percentHeight="100" fillColor="#ecdfa8"/>
+        <common:BG percentWidth="100" percentHeight="100" fillColor="#e4d2d9"/>
         <common:BG percentWidth="100" height="{Values.PT5}" bottom="0" fillColor="#0"/>
 
         <input:HistoryTextArea id="textArea"
@@ -112,23 +112,25 @@
                  mouseOut="setCurrentState('up')"
                  click="isOpened ? hide() : open()">
 
-            <s:Rect width="100%" height="{Values.PT20}"
+            <s:Rect width="100%" height="{Values.PT25}"
                     bottomLeftRadiusX="{Values.PT8}"
                     bottomLeftRadiusY="{Values.PT8}"
                     bottomRightRadiusX="{Values.PT8}"
                     bottomRightRadiusY="{Values.PT8}">
                 <s:fill>
-                    <s:SolidColor id="thumbBg" color="#0"
-                                  alpha.up="{isMoving || isOpened ? 1 : 0.3}"
-                                  alpha.over="0.75"
+                    <s:SolidColor id="thumbBg"
+                                  color="#272b2d"
+                                  color.down="#0"
+                                  alpha="0.8"
+                                  alpha.over="1"
                                   alpha.down="1"/>
                 </s:fill>
             </s:Rect>
-            <s:Label color="{AppColors.TEXT_WHITE}"
+            <s:Label color="{AppColors.TEXT_LIGHT}"
                      mouseEnabled="false" mouseChildren="false"
-                     fontSize="{Values.PT14}"
+                     fontSize="{Values.PT15}"
                      fontFamily="{FontName.MYRIAD_COND}"
-                     top="{Values.PT2}" horizontalCenter="0"
+                     top="{Values.PT6}" horizontalCenter="0"
                      text="{resourceManager.getString('app', 'BOARD')}"/>
         </s:Group>
 

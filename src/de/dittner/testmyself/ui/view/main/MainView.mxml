@@ -90,7 +90,7 @@
         private function creationCompleteHandler(event:FlexEvent):void {
             SimplePopup.container.percentHeight = 100;
             SimplePopup.container.percentWidth = 100;
-            logsLayer.addElement(SimplePopup.container);
+            popupLayer.addElement(SimplePopup.container);
             TapEventKit.registerLongTapListener(parent, showHideConsole, new Rectangle(0, 0, 3000, INTERACTION_AREA_HEI));
         }
 
