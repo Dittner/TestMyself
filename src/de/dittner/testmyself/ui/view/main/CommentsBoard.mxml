@@ -3,21 +3,19 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
          xmlns:common="de.dittner.testmyself.ui.common.*"
-         creationComplete="creationCompleteHandler(event)"
-         currentState="up">
+         xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
+         creationComplete="creationCompleteHandler(event)">
 
     <fx:Script><![CDATA[
         import com.greensock.TweenLite;
         import com.greensock.easing.Expo;
 
-        import de.dittner.testmyself.model.Device;
+        import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.utils.Values;
 
         import mx.events.FlexEvent;
-
-        private static const THUMB_BTN_HEI:uint = Device.isDesktop ? Values.PT15 : Values.PT50;
 
         //--------------------------------------
         //  text
@@ -86,12 +84,6 @@
         }
         ]]></fx:Script>
 
-    <s:states>
-        <s:State name="over"/>
-        <s:State name="up"/>
-        <s:State name="down"/>
-    </s:states>
-
     <s:Group id="cont" width="100%" height="{height}">
         <common:BG percentWidth="100" percentHeight="100" fillColor="#e4d2d9"/>
         <common:BG percentWidth="100" height="{Values.PT5}" bottom="0" fillColor="#0"/>
@@ -103,37 +95,23 @@
                                color="{AppColors.BLACK}"
                                left="{Values.PT15}" top="{Values.PT10}" right="{Values.PT15}" bottom="{Values.PT10}"/>
 
-        <s:Group width="{Values.PT100}" height="{THUMB_BTN_HEI}"
-                 horizontalCenter="0"
-                 bottom="{-THUMB_BTN_HEI}"
-                 mouseDown="setCurrentState('down')"
-                 mouseOver="setCurrentState('over')"
-                 mouseUp="setCurrentState('up')"
-                 mouseOut="setCurrentState('up')"
-                 click="isOpened ? hide() : open()">
-
-            <s:Rect width="100%" height="{Values.PT25}"
-                    bottomLeftRadiusX="{Values.PT8}"
-                    bottomLeftRadiusY="{Values.PT8}"
-                    bottomRightRadiusX="{Values.PT8}"
-                    bottomRightRadiusY="{Values.PT8}">
-                <s:fill>
-                    <s:SolidColor id="thumbBg"
-                                  color="#272b2d"
-                                  color.down="#0"
-                                  alpha="0.8"
-                                  alpha.over="1"
-                                  alpha.down="1"/>
-                </s:fill>
-            </s:Rect>
-            <s:Label color="{AppColors.TEXT_LIGHT}"
-                     mouseEnabled="false" mouseChildren="false"
-                     fontSize="{Values.PT15}"
-                     fontFamily="{FontName.MYRIAD_COND}"
-                     top="{Values.PT6}" horizontalCenter="0"
-                     text="{resourceManager.getString('app', 'BOARD')}"/>
-        </s:Group>
-
+        <menu:MenuButton id="openBtn"
+                         enabled="{enabled}"
+                         deselectOnlyProgrammatically="true"
+                         selected="{isMoving || isOpened}"
+                         isToggle="true"
+                         title="{resourceManager.getString('app', 'BOARD')}"
+                         upTileID="{TileID.BTN_COMMENT_BAR_UP}"
+                         downTileID="{TileID.BTN_COMMENT_BAR_DOWN}"
+                         textColor="#ffFFff"
+                         fontSize="{Values.PT12}"
+                         isBold="true"
+                         paddingLeft="0"
+                         paddingRight="0"
+                         useDisabledTextAnimation="true"
+                         bottom="{-openBtn.height + Values.PT15}"
+                         horizontalCenter="0"
+                         click="isOpened ? hide() : open()"/>
     </s:Group>
 
 </s:Group>

@@ -37,6 +37,7 @@ public class NoteFormUtils {
 			txt = txt.replace(/(\])/gi, ")");
 			txt = txt.replace(/(„)/gi, '"');
 			txt = txt.replace(/(“)/gi, '"');
+			txt = txt.replace(/(”)/gi, '"');
 			txt = txt.replace(/(«)/gi, '"');
 			txt = txt.replace(/(»)/gi, '"');
 			txt = txt.replace(/(")/gi, '"');

@@ -139,6 +139,15 @@ public class Note extends EventDispatcher {
 		return res;
 	}
 
+	public function isFavorite():Boolean {
+		for each(var tagID:int in tagIDs) {
+			var tag:Tag = vocabulary.tagHash[tagID];
+			if (tag && tag.name.toLowerCase().indexOf("favorite") != -1)
+				return true;
+		}
+		return false;
+	}
+
 	//--------------------------------------
 	//  isExample
 	//--------------------------------------
@@ -310,7 +319,6 @@ public class Note extends EventDispatcher {
 			playAudioComment();
 		}
 	}
-
 
 }
 }

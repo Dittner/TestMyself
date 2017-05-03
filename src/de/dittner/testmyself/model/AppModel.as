@@ -159,7 +159,7 @@ public class AppModel extends WalterProxy {
 		});
 	}
 
-	public function loadAppHash():void {
+	public function loadAppHash():IAsyncOperation {
 		var op:IAsyncOperation = storage.load("appHash");
 		op.addCompleteCallback(function (op:IAsyncOperation):void {
 			if (op.result is HashData) {
@@ -171,8 +171,9 @@ public class AppModel extends WalterProxy {
 			}
 
 			setSettings(hash.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo());
-			initOp.dispatchSuccess();
+			if(initOp) initOp.dispatchSuccess();
 		});
+		return op;
 	}
 
 	//----------------------------------------------------------------------------------------------

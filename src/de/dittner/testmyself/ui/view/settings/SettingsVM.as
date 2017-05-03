@@ -194,6 +194,7 @@ public class SettingsVM extends ViewModel {
 	}
 
 	private function initCompleteHandler(op:IAsyncOperation):void {
+		appModel.loadAppHash();
 		unlockView();
 	}
 

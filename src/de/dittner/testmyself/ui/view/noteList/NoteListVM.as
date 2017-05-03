@@ -62,7 +62,7 @@ public class NoteListVM extends ViewModel {
 	}
 
 	public function reloadPage():void {
-		if (page) page.load();
+		if (page) page.reload();
 	}
 
 	public function showNote(selectedNoteIndex:int):void {

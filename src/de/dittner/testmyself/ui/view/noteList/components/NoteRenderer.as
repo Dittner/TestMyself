@@ -39,6 +39,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	protected var descriptionTf:TextField;
 	private var audioIcon:TileShape;
 	private var exampleIcon:TileShape;
+	private var favoriteIcon:TileShape;
 	private var pattern:RegExp;
 	private var searchText:String = "";
 	protected var cardViewMode:Boolean = false;
@@ -127,6 +128,13 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			exampleIcon.alpha = 0.5;
 			exampleIcon.visible = false;
 			addChild(exampleIcon);
+		}
+
+		if (!favoriteIcon) {
+			favoriteIcon = new TileShape(TileID.FAVORITE_ICON);
+			favoriteIcon.alpha = 0.5;
+			favoriteIcon.visible = false;
+			addChild(favoriteIcon);
 		}
 	}
 
@@ -264,6 +272,10 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT3;
 		audioIcon.y = Values.PT25;
 		audioIcon.visible = hasAudioComment();
+
+		favoriteIcon.x = w - favoriteIcon.measuredWidth - horizontalPadding + Values.PT3;
+		favoriteIcon.y = Values.PT45;
+		favoriteIcon.visible = note && note.isFavorite();
 
 		g.beginFill(0, 0);
 		g.drawRect(0, 0, w, h);

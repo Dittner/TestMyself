@@ -184,14 +184,15 @@
              width="100%" height="100%"/>
 
     <main:CommentsBoard id="commentsBoard"
-                        mouseEnabled="false" mouseChildren="false"
-                        mouseEnabled.normal="true" mouseChildren.normal="true"
+                        disabledAlpha="1"
+                        enabled="false"
+                        enabled.normal="true"
                         text="@{vm.commentsBoardText}"
                         right="0" left="0" height="50%" top="0"/>
 
     <common:BG visible="{Device.verticalPadding}"
                includeInLayout="{Device.verticalPadding}"
-               percentWidth="100" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" fillColor="0"/>
+               percentWidth="100" height="{Device.verticalPadding}" top="{-Device.verticalPadding}" fillColor="#1c1c1f"/>
 
     <s:Group id="busyIndicatorLayer"
              left="0" right="0" top="{-Device.verticalPadding}" bottom="0"

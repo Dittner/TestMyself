@@ -43,7 +43,7 @@ public class SearchVM extends ViewModel {
 		super.viewActivated(viewInfo);
 		setPage(appModel.getSearchPage());
 		page.countAllNotes = true;
-		if (page.searchText) page.load();
+		if (page.searchText) page.reload();
 	}
 
 	public function loadPage(searchText:String, loadExamples:Boolean, loadWords:Boolean, loadVerbs:Boolean, loadLessons:Boolean):void {
@@ -63,7 +63,7 @@ public class SearchVM extends ViewModel {
 			if (loadLessons) page.vocabularyIDs.push(VocabularyID.EN_LESSON);
 		}
 
-		page.load();
+		page.reload();
 	}
 
 	public function showNote(selectedNoteIndex:int):void {

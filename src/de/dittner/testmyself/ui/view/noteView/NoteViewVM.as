@@ -56,7 +56,7 @@ public class NoteViewVM extends ViewModel {
 	}
 
 	public function reloadPage():IAsyncOperation {
-		var op:IAsyncOperation = page.load();
+		var op:IAsyncOperation = page.reload();
 		op.addCompleteCallback(pageReloaded);
 		return op;
 	}
@@ -65,33 +65,6 @@ public class NoteViewVM extends ViewModel {
 		if(!page.selectedNote) goBack();
 	}
 
-	public function showNextNote():void {
-		if (page.coll && page.coll.length > 0) {
-			if (page.selectedItemIndex < page.coll.length - 1) {
-				page.selectedItemIndex++;
-			}
-			else if (page.number < page.totalPages - 1) {
-				page.number++;
-				reloadPage().addCompleteCallback(function (op:IAsyncOperation):void {
-					page.selectedItemIndex = 0;
-				});
-			}
-		}
-	}
-
-	public function showPrevNote():void {
-		if (page && page.coll) {
-			if (page.coll.length > 0 && page.selectedItemIndex > 0) {
-				page.selectedItemIndex--;
-			}
-			else if (page.number > 0) {
-				page.number--;
-				reloadPage().addCompleteCallback(function (op:IAsyncOperation):void {
-					page.selectedItemIndex = page.coll && page.coll.length > 0 ? page.coll.length - 1 : 0;
-				});
-			}
-		}
-	}
 
 	public function createNote():void {
 		var info:NoteFormViewInfo = new NoteFormViewInfo(ViewID.NOTE_FORM);
@@ -142,7 +115,7 @@ public class NoteViewVM extends ViewModel {
 		if (op.isSuccess && op.result == FormOperationResult.OK) {
 			page.countAllNotes = true;
 			if (page.selectedItemIndex == 0 && page.number > 0)
-				showPrevNote();
+				page.showPrevNote();
 			else
 				reloadPage();
 		}

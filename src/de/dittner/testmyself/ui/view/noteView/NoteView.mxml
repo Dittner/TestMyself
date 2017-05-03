@@ -64,7 +64,7 @@
         }
 
         private function noteChangedHandler(e:Event):void {
-            updateNote();
+            invalidateOf(updateNote);
         }
 
         override protected function deactivate():void {
@@ -80,10 +80,10 @@
                     vm.goBack();
                     break;
                 case(ToolAction.PREV_NOTE) :
-                    vm.showPrevNote();
+                    if (vm.page) vm.page.showPrevNote();
                     break;
                 case(ToolAction.NEXT_NOTE) :
-                    vm.showNextNote();
+                    if (vm.page) vm.page.showNextNote();
                     break;
                 case(ToolAction.CREATE_NOTE) :
                     vm.createNote();
@@ -167,6 +167,8 @@
 
             toolbar.enablesSetTaskAsRight(testTask && testTask.isFailed);
             toolbar.enablePlayCommentBtn(selectedNote && selectedNote.hasAudio);
+
+            titlePanel.title = (vm.page.number * vm.page.size + (vm.page.selectedItemIndex || 0)) + 1 + '/' + vm.page.allNotesAmount;
         }
 
         private function getTagsInfo(selectedNote:Note):String {
@@ -238,18 +240,13 @@
                 scroller.verticalScrollBar.value = cont.contentHeight - height;
             }
         }
-
-        private function getTitle(pageNum:int, pageSize:int, noteNum:int, totalNotes:int):String {
-            return (pageNum * pageSize + (noteNum || 0)) + 1 + '/' + totalNotes;
-        }
         ]]></fx:Script>
 
     <scroller:CustomScroller id="scroller" width="100%" height="100%">
         <s:VGroup id="cont" width="100%" gap="0">
             <panel:CollapsedPanel id="titlePanel"
                                   isOpened="true"
-                                  width="{width}"
-                                  title="{getTitle(vm.page.number, vm.page.size, vm.page.selectedItemIndex, vm.page.allNotesAmount)}">
+                                  width="{width}">
                 <note:NoteLabel id="titleLbl"
                                 textThickness="60"
                                 left="0" right="0"/>

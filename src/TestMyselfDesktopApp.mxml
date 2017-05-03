@@ -3,7 +3,7 @@
                      frameRate="30"
                      usePreloader="true"
                      preloader="de.dittner.testmyself.ui.common.preloader.AppPreloader"
-                     backgroundColor="#0"
+                     backgroundColor="0"
                      creationComplete="creationCompleteHandler(event)"
                      xmlns:local="*"
                      skinClass="TestmyselfAppSkin"

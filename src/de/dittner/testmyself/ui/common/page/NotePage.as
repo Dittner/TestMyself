@@ -3,6 +3,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.tag.Tag;
+import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.walter.Walter;
 
@@ -16,6 +17,12 @@ public class NotePage extends EventDispatcher {
 	public static const NOTE_CHANGED:String = "noteChanged";
 
 	public function NotePage() {}
+
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Properties
+	//
+	//----------------------------------------------------------------------------------------------
 
 	//--------------------------------------
 	//  number
@@ -106,10 +113,6 @@ public class NotePage extends EventDispatcher {
 	public function set coll(value:ArrayCollection):void {
 		if (_coll != value) {
 			_coll = value;
-			if(coll && coll.length <= selectedItemIndex) {
-				selectedItemIndex = coll.length > 0 ? coll.length - 1 : 0;
-				dispatchEvent(new Event("noteChanged"));
-			}
 			dispatchEvent(new Event("collChanged"));
 		}
 	}
@@ -130,8 +133,22 @@ public class NotePage extends EventDispatcher {
 	//--------------------------------------
 	//  selectedNote
 	//--------------------------------------
+	private var _selectedNote:Note;
 	[Bindable("noteChanged")]
-	public function get selectedNote():Note {return getNote();}
+	public function get selectedNote():Note {return _selectedNote;}
+	private function updateSelectedNote():void {
+		var selectedItem:*;
+		if (coll && coll.length > 0) {
+			if (coll && coll.length <= selectedItemIndex)
+				_selectedItemIndex = coll.length > 0 ? coll.length - 1 : 0;
+			selectedItem = coll.length > _selectedItemIndex ? coll[selectedItemIndex] : null;
+		}
+		var note:Note = selectedItem is Note ? selectedItem as Note : selectedItem is TestTask ? (selectedItem as TestTask).note : null;
+		if (_selectedNote != note) {
+			_selectedNote = note;
+			dispatchEvent(new Event("noteChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  selectedItemIndex
@@ -142,21 +159,59 @@ public class NotePage extends EventDispatcher {
 	public function set selectedItemIndex(value:int):void {
 		if (_selectedItemIndex != value) {
 			_selectedItemIndex = value;
+			updateSelectedNote();
 			dispatchEvent(new Event("selectedItemIndexChanged"));
-			dispatchEvent(new Event("noteChanged"));
 		}
 	}
 
-	protected function getNote():Note {
-		return coll && coll.length > 0 && coll.length > selectedItemIndex ? coll[selectedItemIndex] : null;
-	}
+	//----------------------------------------------------------------------------------------------
+	//
+	//  Methods
+	//
+	//----------------------------------------------------------------------------------------------
 
 	protected function get storage():Storage {
 		return Walter.instance.getProxy("storage") as Storage;
 	}
 
-	public function load():IAsyncOperation {
+	protected function loadPage():IAsyncOperation {
 		return storage.loadNotePage(this);
+	}
+
+	public function reload():IAsyncOperation {
+		var op:IAsyncOperation = loadPage();
+		op.addCompleteCallback(function (op:IAsyncOperation):void {
+			updateSelectedNote();
+		});
+		return op;
+	}
+
+	public function showNextNote():void {
+		if (coll && coll.length > 0) {
+			if (selectedItemIndex < coll.length - 1) {
+				selectedItemIndex++;
+			}
+			else if (number < totalPages - 1) {
+				number++;
+				loadPage().addCompleteCallback(function (op:IAsyncOperation):void {
+					selectedItemIndex = 0;
+				});
+			}
+		}
+	}
+
+	public function showPrevNote():void {
+		if (coll) {
+			if (coll.length > 0 && selectedItemIndex > 0) {
+				selectedItemIndex--;
+			}
+			else if (number > 0) {
+				number--;
+				loadPage().addCompleteCallback(function (op:IAsyncOperation):void {
+					selectedItemIndex = coll && coll.length > 0 ? coll.length - 1 : 0;
+				});
+			}
+		}
 	}
 
 }

@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.common.page {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 
@@ -58,16 +57,11 @@ public class TestPage extends NotePage {
 	[Bindable("noteChanged")]
 	public function get selectedTask():TestTask {return getTask();}
 
-	protected override function getNote():Note {
-		var res:* = coll && coll.length > 0 && coll.length > selectedItemIndex ? coll[selectedItemIndex] : null;
-		return res is TestTask ? (res as TestTask).note : res as Note;
-	}
-
 	public function getTask():TestTask {
 		return coll && coll.length > 0 && coll.length > selectedItemIndex ? coll[selectedItemIndex] : null;
 	}
 
-	override public function load():IAsyncOperation {
+	override protected function loadPage():IAsyncOperation {
 		return storage.loadTestStatistics(this);
 	}
 }

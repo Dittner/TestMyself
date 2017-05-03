@@ -49,7 +49,7 @@ public class SearchPage extends NotePage {
 		}
 	}
 
-	override public function load():IAsyncOperation {
+	override protected function loadPage():IAsyncOperation {
 		return storage.searchNotes(this);
 	}
 

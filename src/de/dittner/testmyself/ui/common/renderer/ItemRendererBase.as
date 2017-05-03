@@ -1,5 +1,6 @@
 package de.dittner.testmyself.ui.common.renderer {
 import de.dittner.testmyself.model.Device;
+import de.dittner.testmyself.ui.common.list.SelectableDataGroup;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 
 import flash.events.Event;
@@ -7,9 +8,11 @@ import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
+import mx.collections.IList;
 import mx.core.UIComponent;
 
 import spark.components.IItemRenderer;
+import spark.components.List;
 
 public class ItemRendererBase extends UIComponent implements IItemRenderer {
 
@@ -48,6 +51,20 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	public function get itemIndex():int {return _itemIndex;}
 	public function set itemIndex(value:int):void {
 		_itemIndex = value;
+	}
+
+	//--------------------------------------
+	//  isLastItem
+	//--------------------------------------
+	public function get isLastItem():Boolean {
+		var dataProvider:IList;
+		if (parent is SelectableDataGroup) {
+			dataProvider = (parent as SelectableDataGroup).dataProvider;
+		}
+		else if (parent is List) {
+			dataProvider = (parent as List).dataProvider;
+		}
+		return dataProvider && dataProvider.length > 0 && data == dataProvider[dataProvider.length - 1];
 	}
 
 	//----------------------------------

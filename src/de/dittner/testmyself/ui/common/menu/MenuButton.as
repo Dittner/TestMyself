@@ -69,9 +69,9 @@ public class MenuButton extends FadeTileButton {
 
 	override protected function redrawBg():void {
 		super.redrawBg();
-		if (disabledBg && disabledTitleTf && useDisabledTextAnimation) {
+		if (disabledTitleTf) {
 			disabledTitleTf.animationDuration = animationDuration;
-			disabledTitleTf.alphaTo = disabledBg.alphaTo;
+			disabledTitleTf.alphaTo = useDisabledTextAnimation && !enabled ? 1 : 0;
 		}
 		if (titleTf) {
 			titleTf.animationDuration = animationDuration;
