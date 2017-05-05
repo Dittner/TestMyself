@@ -12,7 +12,6 @@ import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
-import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 
 import flash.events.Event;
 import flash.filesystem.File;
@@ -85,15 +84,6 @@ public class SettingsVM extends ViewModel {
 		}
 	}
 
-	//--------------------------------------
-	//  settings
-	//--------------------------------------
-	[Bindable("settingsChanged")]
-	public function get settings():SettingsInfo {return appModel.settings;}
-	public function storeSettings():void {
-		appModel.storeSettings();
-	}
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -132,7 +122,7 @@ public class SettingsVM extends ViewModel {
 		lockView();
 		var noteDBFile:File = File.documentsDirectory.resolvePath(Device.noteDBPath);
 		var audioDBFile:File = File.documentsDirectory.resolvePath(Device.audioDBPath);
-		var uploadCmd:CompositeCommand = ftp.upload([noteDBFile, audioDBFile], settings.backUpServerInfo);
+		var uploadCmd:CompositeCommand = ftp.upload([noteDBFile, audioDBFile], settings);
 		uploadCmd.addCompleteCallback(uploadDBComplete);
 		return uploadCmd;
 	}
@@ -157,7 +147,7 @@ public class SettingsVM extends ViewModel {
 		var audioDBFile:File = tempFolder.resolvePath(Device.AUDIO_DB_NAME);
 		createFile(audioDBFile);
 
-		var downloadCmd:CompositeCommand = ftp.download([noteDBFile, audioDBFile], settings.backUpServerInfo);
+		var downloadCmd:CompositeCommand = ftp.download([noteDBFile, audioDBFile], settings);
 		downloadCmd.addCompleteCallback(downloadDBComplete);
 		return downloadCmd;
 	}
@@ -175,13 +165,21 @@ public class SettingsVM extends ViewModel {
 	}
 
 	private function reloadDataBase():void {
-		var appDBFile:File = File.documentsDirectory.resolvePath(Device.APP_NAME);
-		if (Device.isDesktop)
-			appDBFile.moveToTrash();
-		else
-			appDBFile.deleteDirectory(true);
-		var tempDBFile:File = File.documentsDirectory.resolvePath(Device.TEMP_APP_NAME);
-		tempDBFile.moveTo(File.documentsDirectory.resolvePath(Device.APP_NAME));
+		var noteDBFile:File;
+		var audioDBFile:File;
+		if (Device.isDesktop) {
+			audioDBFile = File.documentsDirectory.resolvePath(Device.audioDBPath);
+			noteDBFile = File.documentsDirectory.resolvePath(Device.noteDBPath);
+			audioDBFile.moveToTrash();
+			noteDBFile.moveToTrash();
+		}
+
+		var tempFolder:File = File.documentsDirectory.resolvePath(Device.TEMP_APP_NAME);
+		noteDBFile = tempFolder.resolvePath(Device.NOTE_DB_NAME);
+		audioDBFile = tempFolder.resolvePath(Device.AUDIO_DB_NAME);
+
+		noteDBFile.moveTo(File.documentsDirectory.resolvePath(Device.noteDBPath), true);
+		audioDBFile.moveTo(File.documentsDirectory.resolvePath(Device.audioDBPath), true);
 
 		var op:IAsyncOperation = storage.reloadDataBase();
 		op.addCompleteCallback(dbReloaded);
@@ -194,7 +192,6 @@ public class SettingsVM extends ViewModel {
 	}
 
 	private function initCompleteHandler(op:IAsyncOperation):void {
-		appModel.loadAppHash();
 		unlockView();
 	}
 

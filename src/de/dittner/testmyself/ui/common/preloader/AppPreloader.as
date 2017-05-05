@@ -141,7 +141,7 @@ public final class AppPreloader extends Sprite implements IPreloaderDisplay {
 	}
 
 	protected function createChildren():void {
-		bg = Device.isDesktop ? new AppBg(Values.PT768, stage.fullScreenHeight) : new AppBg(stage.stageWidth, stage.stageHeight);
+		bg = Device.isDesktop ? new AppBg(Values.PT768, stage.fullScreenHeight) : new AppBg(Values.PT768, stage.stageHeight);
 		bg.x = 0;
 		bg.y = Device.verticalPadding;
 		addChild(bg);
@@ -181,6 +181,13 @@ public final class AppPreloader extends Sprite implements IPreloaderDisplay {
 		progressBar.graphics.beginFill(AppColors.PINK);
 		progressBar.graphics.drawRect(0, 0, res * Values.PT2, Values.PT2);
 		progressBar.graphics.endFill();
+
+		if(stage) {
+			bg.x = 0;
+			bg.y = Device.verticalPadding;
+			bg.width = Device.isDesktop ? Values.PT768 : stage.stageWidth;
+			bg.height = stage.fullScreenHeight;
+		}
 	}
 
 	protected function progressEventHandler(event:ProgressEvent):void {

@@ -21,7 +21,6 @@
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewInfo;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
-        import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
         import de.dittner.testmyself.utils.TapEventKit;
         import de.dittner.testmyself.utils.Values;
 
@@ -32,15 +31,15 @@
         public var vm:MainVM;
 
         //--------------------------------------
-        //  settings
+        //  appBgColor
         //--------------------------------------
-        private var _settings:SettingsInfo;
-        [Bindable("settingsChanged")]
-        public function get settings():SettingsInfo {return _settings;}
-        public function set settings(value:SettingsInfo):void {
-            if (_settings != value) {
-                _settings = value;
-                dispatchEvent(new Event("settingsChanged"));
+        private var _appBgColor:uint = AppColors.APP_BG_WHITE;
+        [Bindable("appBgColorChanged")]
+        public function get appBgColor():uint {return _appBgColor;}
+        public function set appBgColor(value:uint):void {
+            if (_appBgColor != value) {
+                _appBgColor = value;
+                dispatchEvent(new Event("appBgColorChanged"));
             }
         }
 
@@ -83,7 +82,6 @@
             if (!vm) {
                 vm = ViewModelFactory.instance.mainVM;
                 vm.viewActivated(viewNavigator);
-                settings = vm.appModel.settings;
             }
         }
 
@@ -134,6 +132,7 @@
         }
         ]]></fx:Script>
     <fx:Binding source="vm.viewLocked" destination="viewLocked"/>
+    <fx:Binding source="vm.appModel.settings.appBgColor" destination="appBgColor"/>
 
     <s:states>
         <s:State name="normal"/>

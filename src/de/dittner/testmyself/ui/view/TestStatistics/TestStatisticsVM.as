@@ -46,7 +46,7 @@ public class TestStatisticsVM extends ViewModel {
 	}
 
 	public function reloadPage():void {
-		if (testPage) testPage.load();
+		if (testPage) testPage.reload();
 	}
 
 	public function showTestTask(taskIndex:int):void {

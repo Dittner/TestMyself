@@ -28,6 +28,7 @@ public class AppModel extends WalterProxy {
 	public static const SELECTED_LANG_CHANGED_MSG:String = "SELECTED_LANG_CHANGED_MSG";
 	public static const SELECTED_VOCABULARY_CHANGED_MSG:String = "SELECTED_VOCABULARY_CHANGED_MSG";
 	public static const NETWORK_CONNECTION_CHANGED_MSG:String = "NETWORK_CONNECTION_CHANGED_MSG";
+	public static const SETTINGS_CHANGED_MSG:String = "SETTINGS_CHANGED_MSG";
 
 	public function AppModel() {
 		super();
@@ -111,11 +112,8 @@ public class AppModel extends WalterProxy {
 		if (_settings != value) {
 			_settings = value;
 			dispatchEvent(new Event("settingsChanged"));
+			sendMessage(SETTINGS_CHANGED_MSG, settings);
 		}
-	}
-
-	public function storeSettings():void {
-		hash.write(LocalStorageKey.SETTINGS_KEY, settings);
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -161,19 +159,21 @@ public class AppModel extends WalterProxy {
 
 	public function loadAppHash():IAsyncOperation {
 		var op:IAsyncOperation = storage.load("appHash");
-		op.addCompleteCallback(function (op:IAsyncOperation):void {
-			if (op.result is HashData) {
-				hash = op.result;
-			}
-			else {
-				hash = new HashData();
-				hash.key = "appHash";
-			}
-
-			setSettings(hash.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo());
-			if(initOp) initOp.dispatchSuccess();
-		});
+		op.addCompleteCallback(appHashLoaded);
 		return op;
+	}
+
+	private function appHashLoaded(op:IAsyncOperation):void {
+		if (op.result is HashData) {
+			hash = op.result;
+		}
+		else {
+			hash = new HashData();
+			hash.key = "appHash";
+		}
+
+		setSettings(hash.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo());
+		if(initOp) initOp.dispatchSuccess();
 	}
 
 	//----------------------------------------------------------------------------------------------

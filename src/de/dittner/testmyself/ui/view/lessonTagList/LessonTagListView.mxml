@@ -112,7 +112,7 @@
         <components:AddLessonForm id="addLessonForm"
                                   top="{2*AppSizes.MENU_HEIGHT}"
                                   height="{Values.PT200}" width="100%"
-                                  bgColor="{mainView.settings.appBgColor}"/>
+                                  bgColor="{mainView.appBgColor}"/>
     </fx:Declarations>
 
     <scroller:CustomScroller width="100%" height="100%"

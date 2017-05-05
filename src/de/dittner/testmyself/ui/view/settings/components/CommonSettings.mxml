@@ -37,7 +37,6 @@
             progressBar.visible = true;
             errorText = "";
             isDataBaseTransferOperationSuccess = false;
-            updateSettings();
             var cmd:ProgressCommand = vm.uploadDB();
             cmd.addProgressCallback(uploadDBProgress);
             cmd.addCompleteCallback(uploadDBComplete);
@@ -67,7 +66,6 @@
             progressBar.visible = true;
             errorText = "";
             isDataBaseTransferOperationSuccess = false;
-            updateSettings();
             var cmd:ProgressCommand = vm.downloadDB();
             cmd.addCompleteCallback(downloadDBComplete);
             cmd.addProgressCallback(downloadProgress);
@@ -86,16 +84,6 @@
                 isDataBaseTransferOperationSuccess = false;
             }
             progressBar.visible = false;
-        }
-
-        public function updateSettings():void {
-            vm.settings.maxAudioRecordDurationInMin = maxAudioRecordDurationSpinner.value;
-            vm.settings.backUpServerInfo.host = hostInput.text;
-            vm.settings.backUpServerInfo.port = int(portInput.text);
-            vm.settings.backUpServerInfo.user = userNameInput.text;
-            vm.settings.backUpServerInfo.password = pwdInput.text;
-            vm.settings.backUpServerInfo.remoteDirPath = remoteDirInput.text;
-            vm.storeSettings();
         }
         ]]></fx:Script>
 
@@ -148,11 +136,12 @@
                  color="{AppColors.BLACK}"/>
 
         <spinner:CustomSpinner id="maxAudioRecordDurationSpinner"
+                               value="@{vm.settings.maxAudioRecordDurationInMin}"
                                fontFamily="{FontName.MYRIAD}"
                                fontStyle="italic"
                                fontSize="{Values.PT20}"
                                color="{AppColors.BLACK}"
-                               minimum="1" maximum="30" value="1"/>
+                               minimum="1" maximum="30"/>
 
         <!--<button:BlackButton label="DB Parsing from SO"
                             click="parseDBFromSO()"/>-->
@@ -167,27 +156,32 @@
                  color="{AppColors.BLACK}"/>
 
         <input:TextInputForm id="hostInput"
+                             text="@{vm.settings.host}"
                              fontSize="{Values.PT18}"
                              width="100%"
                              title="{resourceManager.getString('app', 'Server')}"/>
 
         <input:TextInputForm id="userNameInput"
+                             text="@{vm.settings.user}"
                              fontSize="{Values.PT18}"
                              width="100%"
                              title="{resourceManager.getString('app', 'User')}"/>
 
         <input:TextInputForm id="pwdInput"
+                             text="@{vm.settings.password}"
                              fontSize="{Values.PT18}"
                              displayAsPassword="true"
                              width="100%"
                              title="{resourceManager.getString('app', 'Passwort')}"/>
 
         <input:TextInputForm id="remoteDirInput"
+                             text="@{vm.settings.remoteDirPath}"
                              fontSize="{Values.PT18}"
                              width="100%"
                              title="{resourceManager.getString('app', 'RemoteDirectory')}"/>
 
         <input:TextInputForm id="portInput"
+                             text="@{vm.settings.port}"
                              fontSize="{Values.PT18}"
                              width="100%"
                              title="{resourceManager.getString('app', 'Port')}"/>

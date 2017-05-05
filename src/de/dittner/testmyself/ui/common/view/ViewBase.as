@@ -78,9 +78,9 @@ public class ViewBase extends SkinnableContainer {
 	public function get mainView():IMainView {return _mainView;}
 	public function set mainView(value:IMainView):void {
 		if (_mainView != value) {
-			if (mainView) mainView.settings.removeEventListener("appBgColorChanged", appBgColorChanged);
+			if (mainView) mainView.removeEventListener("appBgColorChanged", appBgColorChanged);
 			_mainView = value;
-			if (mainView) mainView.settings.addEventListener("appBgColorChanged", appBgColorChanged);
+			if (mainView) mainView.addEventListener("appBgColorChanged", appBgColorChanged);
 			dispatchEvent(new Event("mainViewChanged"));
 		}
 	}
@@ -188,7 +188,7 @@ public class ViewBase extends SkinnableContainer {
 		var g:Graphics = graphics;
 		g.clear();
 		if (isBgShown) {
-			g.beginFill(mainView.settings ? mainView.settings.appBgColor : AppColors.APP_BG_WHITE);
+			g.beginFill(mainView ? mainView.appBgColor : AppColors.APP_BG_WHITE);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 		}

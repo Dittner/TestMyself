@@ -146,7 +146,6 @@ public class Storage extends WalterProxy {
 
 	private function removeOldTilesDB():void {
 		var dbFile:File = File.documentsDirectory.resolvePath(Device.tileDBPath);
-		var ver:String = Device.appVersion;
 		if (Device.appVersion != LocalStorage.read(APP_VERSION_KEY) && dbFile.exists) {
 			CLog.info(LogTag.UI, "Irrelevant Tiles DB is deleting...");
 			dbFile.deleteFile();

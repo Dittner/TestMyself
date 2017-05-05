@@ -1,7 +1,9 @@
 package de.dittner.testmyself.ui.common.view {
 import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.ui.view.main.MainVM;
+import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 import de.dittner.walter.WalterProxy;
+import de.dittner.walter.message.WalterMessage;
 
 import flash.events.Event;
 
@@ -17,6 +19,12 @@ public class ViewModel extends WalterProxy {
 	public var appModel:AppModel;
 
 	//--------------------------------------
+	//  settings
+	//--------------------------------------
+	[Bindable("settingsChanged")]
+	public function get settings():SettingsInfo {return appModel.settings;}
+
+	//--------------------------------------
 	//  isActive
 	//--------------------------------------
 	private var _isActive:Boolean = false;
@@ -29,7 +37,15 @@ public class ViewModel extends WalterProxy {
 		}
 	}
 
-	override protected function activate():void {}
+	override protected function activate():void {
+		listenProxy(appModel, AppModel.SETTINGS_CHANGED_MSG, settingsChanged);
+		dispatchEvent(new Event("settingsChanged"));
+	}
+
+	private function settingsChanged(msg:WalterMessage):void {
+		dispatchEvent(new Event("settingsChanged"));
+
+	}
 
 	protected var viewInfo:ViewInfo;
 	public function viewActivated(viewInfo:ViewInfo):void {

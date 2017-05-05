@@ -10,7 +10,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
-        import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
         import de.dittner.testmyself.utils.Values;
 
         [Bindable]
@@ -31,16 +30,6 @@
             toolbar.hide();
             actionMenu.hide();
             tabBar.selectedIndex = 0;
-            parseSettings(vm.settings);
-        }
-
-        private function parseSettings(settings:SettingsInfo):void {
-            commonSettings.maxAudioRecordDurationSpinner.value = settings.maxAudioRecordDurationInMin;
-            commonSettings.hostInput.text = settings.backUpServerInfo.host;
-            commonSettings.portInput.text = settings.backUpServerInfo.port.toString();
-            commonSettings.userNameInput.text = settings.backUpServerInfo.user;
-            commonSettings.pwdInput.text = settings.backUpServerInfo.password;
-            commonSettings.remoteDirInput.text = settings.backUpServerInfo.remoteDirPath;
         }
 
         public function clear():void {
@@ -54,7 +43,6 @@
         override protected function deactivate():void {
             super.deactivate();
             vm.viewDeactivated();
-            vm.storeSettings();
         }
         ]]></fx:Script>
 
