@@ -69,7 +69,7 @@
             if (searchInput.text.length <= 1) return;
 
             if (history.row != searchInput.text)
-                history.push(searchInput.text);
+                history.push(searchInput.text, searchInput.text.length);
 
             updateSearchInput();
             dispatchEvent(new Event("startSearch"));

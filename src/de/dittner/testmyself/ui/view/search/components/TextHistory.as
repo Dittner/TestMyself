@@ -8,6 +8,7 @@ public class TextHistory extends EventDispatcher {
 	public function TextHistory() {}
 
 	private var textRows:Array = [];
+	private var cursors:Array = [];
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -57,12 +58,17 @@ public class TextHistory extends EventDispatcher {
 
 	[Bindable("changed")]
 	public function get canUndo():Boolean {
-		return rollbackDepth < currentLength - 1;
+		return rollbackDepth < currentLength;
 	}
 
 	[Bindable("changed")]
 	public function get row():String {
-		return textRows.length > 0 ? textRows[textRows.length - 1 - rollbackDepth] : "";
+		return textRows.length > 0 ? textRows[textRows.length - 1 - rollbackDepth] || "" : "";
+	}
+
+	[Bindable("changed")]
+	public function get cursorPos():int {
+		return cursors.length > 0 ? cursors[cursors.length - 1 - rollbackDepth] || 0 : 0;
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -84,10 +90,12 @@ public class TextHistory extends EventDispatcher {
 		}
 	}
 
-	public function push(row:String):void {
-		if (this.row == row) return;
+	public function push(value:String, cursorPos:int):void {
+		if (this.row == value) return;
 		textRows.length = textRows.length - rollbackDepth;
-		textRows.push(row);
+		textRows.push(value);
+		cursors.length = cursors.length - rollbackDepth;
+		cursors.push(cursorPos);
 		setRollbackDepth(0);
 		normalizeQueue();
 		dispatchEvent(new Event("changed"));
@@ -96,6 +104,7 @@ public class TextHistory extends EventDispatcher {
 	public function clear():void {
 		setRollbackDepth(0);
 		textRows.length = 0;
+		cursors.length = 0;
 		dispatchEvent(new Event("changed"));
 	}
 

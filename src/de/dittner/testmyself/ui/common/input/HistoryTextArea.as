@@ -19,7 +19,6 @@ public class HistoryTextArea extends TextArea {
 		super.partAdded(partName, instance);
 
 		if (instance == textDisplay) {
-			addEventListener(TextOperationEvent.CHANGE, changeHandler);
 			addEventListener(TextOperationEvent.CHANGING, textChanging);
 			addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			addEventListener(KeyboardEvent.KEY_UP, keyUp);
@@ -29,7 +28,6 @@ public class HistoryTextArea extends TextArea {
 		super.partAdded(partName, instance);
 
 		if (instance == textDisplay) {
-			removeEventListener(TextOperationEvent.CHANGE, changeHandler);
 			removeEventListener(TextOperationEvent.CHANGING, textChanging);
 			removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			removeEventListener(KeyboardEvent.KEY_UP, keyUp);
@@ -43,12 +41,17 @@ public class HistoryTextArea extends TextArea {
 		if (text != value) {
 			super.text = value;
 			history.clear();
-			history.push(text);
+			history.push(text, 0);
 		}
 	}
 
-	private function changeHandler(event:TextOperationEvent):void {
-		history.push(text);
+	private function textChanging(event:TextOperationEvent):void {
+		if (isHistoryKeysPressed) event.preventDefault();
+	}
+
+	private function keyUp(event:KeyboardEvent):void {
+		isHistoryKeysPressed = (event.controlKey || event.commandKey) && (isZ(event.charCode) || isY(event.charCode));
+		history.push(text, textDisplay.selectionAnchorPosition);
 	}
 
 	private function keyDown(event:KeyboardEvent):void {
@@ -72,14 +75,6 @@ public class HistoryTextArea extends TextArea {
 		return charCode == 121 || charCode == 25;//y,н
 	}
 
-	private function keyUp(event:KeyboardEvent):void {
-		isHistoryKeysPressed = (event.controlKey || event.commandKey) && (isZ(event.charCode) || isY(event.charCode));
-	}
-
-	private function textChanging(event:TextOperationEvent):void {
-		if (isHistoryKeysPressed) event.preventDefault();
-	}
-
 	private function undoText():void {
 		history.undo();
 		updateTextFromHistory();
@@ -92,12 +87,12 @@ public class HistoryTextArea extends TextArea {
 
 	private function updateTextFromHistory():void {
 		super.text = history.row;
-		setCursorToEnd();
+		setCursorTo(history.cursorPos);
 		dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE));
 	}
 
-	private function setCursorToEnd():void {
-		if (textDisplay) textDisplay.selectRange(text.length, text.length);
+	private function setCursorTo(pos:int):void {
+		if (textDisplay) textDisplay.selectRange(pos, pos);
 	}
 }
 }
