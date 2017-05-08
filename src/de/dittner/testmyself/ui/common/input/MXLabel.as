@@ -149,6 +149,20 @@ public class MXLabel extends UIComponent {
 		}
 	}
 
+	//--------------------------------------
+	//  textSelectable
+	//--------------------------------------
+	private var _textSelectable:Boolean = false;
+	[Bindable("textSelectableChanged")]
+	public function get textSelectable():Boolean {return _textSelectable;}
+	public function set textSelectable(value:Boolean):void {
+		if (_textSelectable != value) {
+			_textSelectable = value;
+			invalidateProperties();
+			dispatchEvent(new Event("textSelectableChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -159,6 +173,7 @@ public class MXLabel extends UIComponent {
 		super.createChildren();
 		if (!titleTF) {
 			titleTF = TextFieldFactory.createMultiline(TITLE_FORMAT);
+			titleTF.selectable = textSelectable;
 			addChild(titleTF);
 		}
 	}
@@ -170,6 +185,8 @@ public class MXLabel extends UIComponent {
 		TITLE_FORMAT.color = color;
 		TITLE_FORMAT.align = textAlign;
 		titleTF.multiline = titleTF.wordWrap = multiline;
+		titleTF.selectable = textSelectable;
+		titleTF.mouseEnabled = textSelectable;
 		titleTF.defaultTextFormat = TITLE_FORMAT;
 		titleTF.htmlText = text;
 	}
