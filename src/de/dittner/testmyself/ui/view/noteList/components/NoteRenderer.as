@@ -113,26 +113,26 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		}
 		if (!examplesNumTf) {
 			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT, 40);
-			examplesNumTf.alpha = 0.5;
+			examplesNumTf.alpha = 0.4;
 			addChild(examplesNumTf);
 		}
 		if (!audioIcon) {
 			audioIcon = new TileShape(TileID.PLAY_AUDIO_ICON);
-			audioIcon.alpha = 0.5;
+			audioIcon.alpha = 0.4;
 			audioIcon.visible = false;
 			addChild(audioIcon);
 		}
 
 		if (!exampleIcon) {
 			exampleIcon = new TileShape(TileID.EXAMPLE_ICON);
-			exampleIcon.alpha = 0.5;
+			exampleIcon.alpha = 0.4;
 			exampleIcon.visible = false;
 			addChild(exampleIcon);
 		}
 
 		if (!favoriteIcon) {
 			favoriteIcon = new TileShape(TileID.FAVORITE_ICON);
-			favoriteIcon.alpha = 0.5;
+			favoriteIcon.alpha = 0.4;
 			favoriteIcon.visible = false;
 			addChild(favoriteIcon);
 		}
