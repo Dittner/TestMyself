@@ -109,7 +109,8 @@
         ]]></fx:Script>
 
 
-    <scroller:CustomScroller width="100%" height="100%"
+    <scroller:CustomScroller height="100%"
+                             width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
                              horizontalScrollPolicy="off"
                              hasFocusableChildren="false">
         <note:NoteList id="noteList"

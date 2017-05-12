@@ -56,10 +56,11 @@
     </core:states>
 
     <common:BG excludeFrom="inactive"
-               percentWidth="100" top="{TAB_BAR_HEI + PADDING}" height="{Values.PT5}" fillColor="0" alpha="0.6"/>
+               width="{Values.PT768}" horizontalCenter="0" top="{TAB_BAR_HEI + PADDING}" height="{Values.PT5}" fillColor="0" alpha="0.6"/>
 
     <list:SelectableDataGroup id="tabBar"
                               excludeFrom="inactive"
+                              maxWidth="{Values.PT768}" horizontalCenter="0"
                               left="{PADDING}" right="{PADDING}" height="{TAB_BAR_HEI}"
                               top="{PADDING}"
                               selectedItemChange="tabBar_selectedItemChangeHandler(event)"
@@ -78,7 +79,8 @@
         </list:layout>
     </list:SelectableDataGroup>
 
-    <s:Group left="{PADDING}" top="{2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}"
+    <s:Group maxWidth="{Values.PT768}" horizontalCenter="0"
+             left="{PADDING}" top="{2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}"
              excludeFrom="inactive">
 
         <components:CommonSettings id="commonSettings"

@@ -182,6 +182,22 @@ public class AppModel extends WalterProxy {
 	//
 	//----------------------------------------------------------------------------------------------
 
+	public function clearPages():void {
+		if(_testPage) _testPage.countAllNotes = true;
+
+		if(_deWordPage) _deWordPage.countAllNotes = true;
+		if(_enWordPage) _enWordPage.countAllNotes = true;
+
+		if(_deVerbPage) _deVerbPage.countAllNotes = true;
+		if(_enVerbPage) _enVerbPage.countAllNotes = true;
+
+		if(_deLessonPage) _deLessonPage.countAllNotes = true;
+		if(_enLessonPage) _enLessonPage.countAllNotes = true;
+
+		if(_deSearchPage) _deSearchPage.countAllNotes = true;
+		if(_enSearchPage) _enSearchPage.countAllNotes = true;
+	}
+
 	private var _testPage:TestPage;
 	public function getTestPage():TestPage {
 		if(!_testPage) _testPage = new TestPage();

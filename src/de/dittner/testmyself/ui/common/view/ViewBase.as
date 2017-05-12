@@ -21,7 +21,7 @@ use namespace mx_internal;
 
 public class ViewBase extends SkinnableContainer {
 
-	public const PADDING:uint = Values.PT20;
+	public const PADDING:uint = Values.PT15;
 
 	//----------------------------------------------------------------------------------------------
 	//

@@ -46,7 +46,7 @@ public class MenuButton extends FadeTileButton {
 	override protected function commitProperties():void {
 		super.commitProperties();
 		if (title && !disabledTitleTf && useDisabledTextAnimation) {
-			disabledTitleTf = TextFieldFactory.createFadeTextField(TITLE_FORMAT);
+			disabledTitleTf = TextFieldFactory.createFadeTextField(TITLE_FORMAT, 100);
 			addChild(disabledTitleTf);
 		}
 

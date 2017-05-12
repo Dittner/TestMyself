@@ -5,7 +5,8 @@
                 xmlns:panel="de.dittner.testmyself.ui.common.panel.*"
                 xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 xmlns:note="de.dittner.testmyself.ui.common.note.*"
-                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
+                xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
+                xmlns:input="de.dittner.testmyself.ui.common.input.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -118,8 +119,10 @@
             return vm.page is TestPage ? (vm.page as TestPage).selectedTask : null;
         }
 
+        private var keyWordsPattern:RegExp = /, /g;
         private function updateNote():void {
             var selectedNote:Note = vm.page.selectedNote;
+            var hasTitle:Boolean = true;
 
             if (!selectedNote) {
                 titleLbl.article = "";
@@ -131,25 +134,33 @@
                 var word:Word = selectedNote as Word;
                 titleLbl.article = word.article;
                 titleLbl.text = word ? word.declension ? word.title + ", " + word.declension : word.title : "";
-                titleLbl.fontSize = Values.PT30;
-                titleLbl.textAlign = TextAlign.CENTER;
                 audioPanel.visible = audioPanel.includeInLayout = false;
+                keyWordsPanel.visible = keyWordsPanel.includeInLayout = false;
             }
             else if (selectedNote is IrregularVerb) {
                 var verb:IrregularVerb = selectedNote as IrregularVerb;
                 titleLbl.article = "";
                 titleLbl.text = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
-                titleLbl.fontSize = Values.PT30;
-                titleLbl.textAlign = TextAlign.CENTER;
                 audioPanel.visible = audioPanel.includeInLayout = false;
+                keyWordsPanel.visible = keyWordsPanel.includeInLayout = false;
             }
             else {
                 titleLbl.article = "";
                 titleLbl.text = selectedNote.title;
-                titleLbl.fontSize = Values.PT24;
-                titleLbl.textAlign = TextAlign.LEFT;
+                hasTitle = selectedNote.title && selectedNote.title.length < 100 && selectedNote.description.length / selectedNote.title.length > 2;
                 audioPanel.visible = audioPanel.includeInLayout = !selectedNote.isExample && selectedNote.hasAudio;
                 if (audioPanel.visible) loadComment();
+                keyWordsPanel.visible = keyWordsPanel.includeInLayout = selectedNote.keyWords;
+                keyWordsLbl.text = selectedNote.keyWords ? selectedNote.keyWords.replace(keyWordsPattern, "  •  ") : "";
+            }
+
+            if (hasTitle) {
+                titleLbl.fontSize = Values.PT30;
+                titleLbl.textAlign = TextAlign.CENTER;
+            }
+            else {
+                titleLbl.fontSize = Values.PT24;
+                titleLbl.textAlign = TextAlign.LEFT;
             }
 
             var searchText:String = viewInfo.page is SearchPage ? (viewInfo.page as SearchPage).searchText : "";
@@ -169,6 +180,7 @@
             toolbar.enablePlayCommentBtn(selectedNote && selectedNote.hasAudio);
 
             titlePanel.title = (vm.page.number * vm.page.size + (vm.page.selectedItemIndex || 0)) + 1 + '/' + vm.page.allNotesAmount;
+            cont.verticalScrollPosition = 0;
         }
 
         private function getTagsInfo(selectedNote:Note):String {
@@ -242,11 +254,13 @@
         }
         ]]></fx:Script>
 
-    <scroller:CustomScroller id="scroller" width="100%" height="100%">
+    <scroller:CustomScroller id="scroller"
+                             width="{Values.PT768}" height="100%"
+                             horizontalCenter="0">
         <s:VGroup id="cont" width="100%" gap="0">
             <panel:CollapsedPanel id="titlePanel"
                                   isOpened="true"
-                                  width="{width}">
+                                  width="{Values.PT768}">
                 <note:NoteLabel id="titleLbl"
                                 textThickness="60"
                                 left="0" right="0"/>
@@ -262,8 +276,21 @@
                          fontSize="{Values.PT11}"/>
             </panel:CollapsedPanel>
 
+            <panel:CollapsedPanel id="keyWordsPanel"
+                                  title="{resourceManager.getString('app', 'KeyWords')}"
+                                  width="{Values.PT768}"
+                                  isOpened="true">
+                <input:MXLabel id="keyWordsLbl"
+                               color="0"
+                               width="100%"
+                               height="100%"
+                               isBold="true"
+                               selectable="true"
+                               fontSize="{Values.PT20}"/>
+            </panel:CollapsedPanel>
+
             <panel:CollapsedPanel id="descriptionPanel"
-                                  width="{width}"
+                                  width="{Values.PT768}"
                                   isOpened="true">
                 <note:NoteLabel id="descriptionLbl"
                                 width="100%"
@@ -273,12 +300,12 @@
             </panel:CollapsedPanel>
 
             <note:ExamplesPanel id="examplesPanel"
-                                width="{width}"
+                                width="{Values.PT768}"
                                 isOpened="true"
                                 paddingTop="0" paddingBottom="0"/>
 
             <panel:CollapsedPanel id="audioPanel"
-                                  width="{width}"
+                                  width="{Values.PT768}"
                                   title="{resourceManager.getString('app', 'AudioRecord')}"
                                   isOpenedChanged="invalidateOf(ensureAudioPanelIsVisible)">
                 <mp3:MP3PlayerComponent id="mp3"

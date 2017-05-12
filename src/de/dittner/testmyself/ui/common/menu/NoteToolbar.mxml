@@ -195,7 +195,7 @@
                          visible="{goBackBtn.enabled}"
                          includeInLayout="{goBackBtn.enabled}"
                          upTileID="{TileID.TOOLBAR_GO_BACK}"
-                         left="{Values.PT5}"
+                         left="0"
                          verticalCenter="0"
                          paddingLeft="{Values.PT40}"
                          paddingRight="0"
@@ -280,14 +280,14 @@
                          upTileID="{TileID.TOOLBAR_PLAY_AUDIO}"
                          downTileID="{TileID.TOOLBAR_PLAY_AUDIO_SELECTED}"
                          visible="{playCommentBtn.enabled}"
-                         right="{Values.PT2}"
+                         right="0"
                          verticalCenter="0"
                          deselectOnlyProgrammatically="true"
                          selected="{MP3Player.instance.isPlaying}"
                          change="if(playCommentBtn.selected) notifyToolAction(ToolAction.PLAY_COMMENT)"/>
 
     <s:HGroup id="articleBar"
-              gap="{Values.PT22}" right="{Values.PT15}" verticalCenter="0"
+              gap="{Values.PT22}" right="{Values.PT12}" verticalCenter="0"
               visible="{articleBar.enabled}"
               includeInLayout="{articleBar.enabled}">
         <tile:FadeTileButton id="derBtn"

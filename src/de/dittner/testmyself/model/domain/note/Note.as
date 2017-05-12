@@ -139,15 +139,6 @@ public class Note extends EventDispatcher {
 		return res;
 	}
 
-	public function isFavorite():Boolean {
-		for each(var tagID:int in tagIDs) {
-			var tag:Tag = vocabulary.tagHash[tagID];
-			if (tag && tag.name.toLowerCase().indexOf("favorite") != -1)
-				return true;
-		}
-		return false;
-	}
-
 	//--------------------------------------
 	//  isExample
 	//--------------------------------------
@@ -174,11 +165,34 @@ public class Note extends EventDispatcher {
 		}
 	}
 
+	//--------------------------------------
+	//  keyWords
+	//--------------------------------------
+	private var _keyWords:String = "";
+	[Bindable("keyWordsChanged")]
+	public function get keyWords():String {return _keyWords;}
+	public function set keyWords(value:String):void {
+		if (_keyWords != value) {
+			_keyWords = value;
+			dispatchEvent(new Event("keyWordsChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
+
+	public function isFavorite():Boolean {
+		for each(var tagID:int in tagIDs) {
+			var tag:Tag = vocabulary.tagHash[tagID];
+			if (tag && tag.name.toLowerCase().indexOf("favorite") != -1)
+				return true;
+		}
+		return false;
+	}
+
 
 	public function createExample():Note {
 		return Note.createExample(vocabulary, id);
@@ -224,6 +238,7 @@ public class Note extends EventDispatcher {
 		res.description = description;
 		res.isExample = isExample;
 		res.options = options;
+		res.options.keyWords = keyWords || null;
 		res.searchText = "+" + title + "+" + description + "+";
 		res.searchText = res.searchText.toLowerCase();
 		res.hasAudio = hasAudio;
@@ -255,6 +270,7 @@ public class Note extends EventDispatcher {
 		_description = data.description;
 		_isExample = data.isExample;
 		_hasAudio = data.hasAudio;
+		_keyWords = data.options.keyWords || "";
 		options = data.options;
 		if (data.tags) _tagIDs = data.tags.split(Tag.DELIMITER);
 	}

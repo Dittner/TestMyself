@@ -74,6 +74,20 @@ public class MXLabel extends UIComponent {
 	}
 
 	//--------------------------------------
+	//  selectable
+	//--------------------------------------
+	private var _selectable:Boolean = false;
+	[Bindable("selectableChanged")]
+	public function get selectable():Boolean {return _selectable;}
+	public function set selectable(value:Boolean):void {
+		if (_selectable != value) {
+			_selectable = value;
+			invalidateProperties();
+			dispatchEvent(new Event("selectableChanged"));
+		}
+	}
+
+	//--------------------------------------
 	//  fontSize
 	//--------------------------------------
 	private var _fontSize:Number = Values.PT17;
@@ -163,6 +177,34 @@ public class MXLabel extends UIComponent {
 		}
 	}
 
+	//--------------------------------------
+	//  bgEnabled
+	//--------------------------------------
+	private var _bgEnabled:Boolean = false;
+	[Bindable("bgEnabledChanged")]
+	public function get bgEnabled():Boolean {return _bgEnabled;}
+	public function set bgEnabled(value:Boolean):void {
+		if (_bgEnabled != value) {
+			_bgEnabled = value;
+			invalidateProperties();
+			dispatchEvent(new Event("bgEnabledChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  bgColor
+	//--------------------------------------
+	private var _bgColor:uint = 0;
+	[Bindable("bgColorChanged")]
+	public function get bgColor():uint {return _bgColor;}
+	public function set bgColor(value:uint):void {
+		if (_bgColor != value) {
+			_bgColor = value;
+			invalidateProperties();
+			dispatchEvent(new Event("bgColorChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -187,6 +229,10 @@ public class MXLabel extends UIComponent {
 		titleTF.multiline = titleTF.wordWrap = multiline;
 		titleTF.selectable = textSelectable;
 		titleTF.mouseEnabled = textSelectable;
+		titleTF.background = bgEnabled;
+		titleTF.backgroundColor = bgColor;
+		titleTF.selectable = selectable;
+		titleTF.mouseEnabled = selectable;
 		titleTF.defaultTextFormat = TITLE_FORMAT;
 		titleTF.htmlText = text;
 	}

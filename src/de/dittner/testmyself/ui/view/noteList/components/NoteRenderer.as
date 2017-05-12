@@ -53,7 +53,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	protected function get gap():uint {return Values.PT10;}
 
 	protected function get verticalPadding():uint {return Values.PT19;}
-	protected function get horizontalPadding():uint {return Values.PT19;}
+	protected function get horizontalPadding():uint {return Values.PT15;}
 
 	protected function getTitleTextFormat():TextFormat {
 		return word || verb ? WORD_AND_VERB_TITLE_FORMAT : TITLE_FORMAT;

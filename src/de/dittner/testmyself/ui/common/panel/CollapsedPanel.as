@@ -65,7 +65,7 @@ public class CollapsedPanel extends SkinnableContainer {
 	//--------------------------------------
 	//  paddingLeft
 	//--------------------------------------
-	private var _paddingLeft:Number = Values.PT20;
+	private var _paddingLeft:Number = Values.PT15;
 	[Bindable("paddingLeftChanged")]
 	public function get paddingLeft():Number {return _paddingLeft;}
 	public function set paddingLeft(value:Number):void {
@@ -82,7 +82,7 @@ public class CollapsedPanel extends SkinnableContainer {
 	//--------------------------------------
 	//  paddingRight
 	//--------------------------------------
-	private var _paddingRight:Number = Values.PT20;
+	private var _paddingRight:Number = Values.PT15;
 	[Bindable("paddingRightChanged")]
 	public function get paddingRight():Number {return _paddingRight;}
 	public function set paddingRight(value:Number):void {

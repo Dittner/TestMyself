@@ -38,14 +38,14 @@
                                   wordVocabularyInfo="{vm.deWordVocabularyInfo}"
                                   verbVocabularyInfo="{vm.deVerbVocabularyInfo}"
                                   lessonVocabularyInfo="{vm.deLessonVocabularyInfo}"
-                                  verticalCenter="0" left="0"/>
+                                  verticalCenter="0" horizontalCenter="{-Values.PT200}"/>
 
     <tile:FadeTileButton title="{resourceManager.getString('app', 'German')}"
                          use9Scale="true"
                          iconTileID="{TileID.FLAG_GERMANY}"
                          upTileID="{TileID.BTN_LANG_UP}"
                          downTileID="{TileID.BTN_LANG_DOWN}"
-                         left="{Values.PT30}"
+                         horizontalCenter="{-Values.PT200}"
                          width="{Values.PT300}"
                          verticalCenter="{Values.PT200}"
                          paddingLeft="{Values.PT10}"
@@ -59,14 +59,14 @@
                                   wordVocabularyInfo="{vm.enWordVocabularyInfo}"
                                   verbVocabularyInfo="{vm.enVerbVocabularyInfo}"
                                   lessonVocabularyInfo="{vm.enLessonVocabularyInfo}"
-                                  verticalCenter="0" right="0"/>
+                                  verticalCenter="0" horizontalCenter="{Values.PT200}"/>
 
     <tile:FadeTileButton title="{resourceManager.getString('app', 'English')}"
                          use9Scale="true"
                          iconTileID="{TileID.FLAG_GB}"
                          upTileID="{TileID.BTN_LANG_UP}"
                          downTileID="{TileID.BTN_LANG_DOWN}"
-                         right="{Values.PT30}"
+                         horizontalCenter="{Values.PT200}"
                          width="{Values.PT300}"
                          verticalCenter="{Values.PT200}"
                          paddingLeft="{Values.PT10}"

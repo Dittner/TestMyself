@@ -186,6 +186,7 @@ public class SettingsVM extends ViewModel {
 	}
 
 	private function dbReloaded(op:IAsyncOperation):void {
+		appModel.clearPages();
 		appModel.loadAppHash();
 		var initOp:IAsyncOperation = appModel.selectedLanguage.init();
 		initOp.addCompleteCallback(initCompleteHandler);

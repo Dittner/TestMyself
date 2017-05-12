@@ -5,7 +5,8 @@
                 xmlns:button="de.dittner.testmyself.ui.common.button.*"
                 xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
                 xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
-                xmlns:view="de.dittner.testmyself.ui.common.view.*">
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+>
     <fx:Metadata>
         [Event(name="startTest", type="flash.events.Event")]
         [Event(name="showStatistics", type="flash.events.Event")]
@@ -22,7 +23,7 @@
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.Values;
 
-        private static const PAD:int = Values.PT20;
+        private static const PAD:int = Values.PT15;
 
         //----------------------------------------------------------------------------------------------
         //
@@ -77,85 +78,85 @@
         }
         ]]></fx:Script>
 
-    <view:layout>
-        <s:VerticalLayout gap="{Values.PT15}"
-                          paddingLeft="{PAD}" paddingRight="{PAD}"
-                          paddingTop="{PAD}" paddingBottom="{PAD}"/>
-    </view:layout>
+    <s:VGroup width="100%" height="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
+              gap="{Values.PT15}"
+              paddingLeft="{PAD}" paddingRight="{PAD}"
+              paddingTop="{PAD}" paddingBottom="{PAD}">
+        <s:Label id="titleLbl"
+                 text="{vm.testPage.vocabulary.title.toUpperCase() + '. ' + vm.testPage.test.title}"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontWeight="bold"
+                 fontSize="{Values.PT20}"
+                 width="100%"
+                 color="{AppColors.BLACK}"/>
 
-    <s:Label id="titleLbl"
-             text="{vm.testPage.vocabulary.title.toUpperCase() + '. ' + vm.testPage.test.title}"
-             fontFamily="{FontName.MYRIAD}"
-             fontWeight="bold"
-             fontSize="{Values.PT20}"
-             width="100%"
-             color="{AppColors.BLACK}"/>
+        <s:Group width="100%" height="100%">
+            <tile:TileImage width="100%" top="{Values.PT20}" bottom="0"
+                            actualTileID="{TileID.WHITE_BG_ICON}"
+                            use9Scale="true"/>
 
-    <s:Group width="100%" height="100%">
-        <tile:TileImage width="100%" top="{Values.PT20}" bottom="0"
-                        actualTileID="{TileID.WHITE_BG_ICON}"
-                        use9Scale="true"/>
+            <s:Label width="100%"
+                     fontSize="{Values.PT16}"
+                     fontFamily="{FontName.MYRIAD}"
+                     color="{AppColors.BLACK}"
+                     text="{resourceManager.getString('app', 'ChooseTagToFilterTasks')}"/>
+
+            <scroller:CustomScroller width="100%"
+                                     top="{Values.PT20}" bottom="0"
+                                     horizontalScrollPolicy="off"
+                                     hasFocusableChildren="false">
+                <list:SelectableDataGroup id="tagsList"
+                                          deselectEnabled="true"
+                                          width="100%"
+                                          height="100%"
+                                          dataProvider="{vm.testPage.vocabulary.tagColl}"
+                                          itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer">
+                    <list:layout>
+                        <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+                    </list:layout>
+                </list:SelectableDataGroup>
+            </scroller:CustomScroller>
+        </s:Group>
 
         <s:Label width="100%"
                  fontSize="{Values.PT16}"
                  fontFamily="{FontName.MYRIAD}"
                  color="{AppColors.BLACK}"
-                 text="{resourceManager.getString('app', 'ChooseTagToFilterTasks')}"/>
+                 text="{resourceManager.getString('app', 'FilterOfTestTasks')}"/>
 
-        <scroller:CustomScroller width="100%"
-                                 top="{Values.PT20}" bottom="0"
-                                 horizontalScrollPolicy="off"
-                                 hasFocusableChildren="false">
-            <list:SelectableDataGroup id="tagsList"
-                                      deselectEnabled="true"
-                                      width="100%"
-                                      height="100%"
-                                      dataProvider="{vm.testPage.vocabulary.tagColl}"
-                                      itemRenderer="de.dittner.testmyself.ui.view.noteList.components.tag.TagRenderer">
-                <list:layout>
-                    <s:VerticalLayout gap="0" useVirtualLayout="false"/>
-                </list:layout>
-            </list:SelectableDataGroup>
-        </scroller:CustomScroller>
-    </s:Group>
+        <s:HGroup id="radioBar"
+                  width="100%" gap="0">
+            <tile:TileRadioButton id="highComplexityRadioBtn"
+                                  radioGroup="{radioBar}"
+                                  selected="true"
+                                  title="{resourceManager.getString('app', 'UnsortedTasks')}"/>
 
-    <s:Label width="100%"
-             fontSize="{Values.PT16}"
-             fontFamily="{FontName.MYRIAD}"
-             color="{AppColors.BLACK}"
-             text="{resourceManager.getString('app', 'FilterOfTestTasks')}"/>
+            <s:Spacer width="100%"/>
 
-    <s:HGroup id="radioBar"
-              width="100%" gap="0">
-        <tile:TileRadioButton id="highComplexityRadioBtn"
-                              radioGroup="{radioBar}"
-                              selected="true"
-                              title="{resourceManager.getString('app', 'UnsortedTasks')}"/>
+            <tile:TileRadioButton id="middleComplexityRadioBtn"
+                                  radioGroup="{radioBar}"
+                                  title="{resourceManager.getString('app', 'DifficultTasks')}"/>
 
-        <s:Spacer width="100%"/>
+            <s:Spacer width="100%"/>
 
-        <tile:TileRadioButton id="middleComplexityRadioBtn"
-                              radioGroup="{radioBar}"
-                              title="{resourceManager.getString('app', 'DifficultTasks')}"/>
+            <tile:TileRadioButton id="lowComplexityRadioBtn"
+                                  radioGroup="{radioBar}"
+                                  title="{resourceManager.getString('app', 'EasyTasks')}"/>
+        </s:HGroup>
 
-        <s:Spacer width="100%"/>
+        <s:Group width="100%">
 
-        <tile:TileRadioButton id="lowComplexityRadioBtn"
-                              radioGroup="{radioBar}"
-                              title="{resourceManager.getString('app', 'EasyTasks')}"/>
-    </s:HGroup>
+            <button:BlackButton id="showStatisticsBtn"
+                                width="{Values.PT250}"
+                                title="{resourceManager.getString('app', 'TestResults')}"
+                                click="showStatisticsBtnClickHandler(event)"/>
 
-    <s:Group width="100%">
+            <button:BlackButton id="startTestingBtn"
+                                width="{Values.PT250}"
+                                right="0"
+                                title="{resourceManager.getString('app', 'StartTest')}"
+                                click="startTestingBtnClickHandler(event)"/>
+        </s:Group>
+    </s:VGroup>
 
-        <button:BlackButton id="showStatisticsBtn"
-                            width="{Values.PT250}"
-                            title="{resourceManager.getString('app', 'TestResults')}"
-                            click="showStatisticsBtnClickHandler(event)"/>
-
-        <button:BlackButton id="startTestingBtn"
-                            width="{Values.PT250}"
-                            right="0"
-                            title="{resourceManager.getString('app', 'StartTest')}"
-                            click="startTestingBtnClickHandler(event)"/>
-    </s:Group>
 </view:SmartView>

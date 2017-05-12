@@ -13,7 +13,7 @@ import flash.text.TextFormat;
 import mx.core.UIComponent;
 
 public class NoteLabel extends UIComponent {
-	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, _textColor);
+	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, _textColor, _isBold);
 	private const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, AppColors.TEXT_RED);
 	private const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, AppColors.TEXT_YELLOW);
 
@@ -126,6 +126,22 @@ public class NoteLabel extends UIComponent {
 	}
 
 	//--------------------------------------
+	//  isBold
+	//--------------------------------------
+	private var _isBold:Boolean = false;
+	[Bindable("isBoldChanged")]
+	public function get isBold():Boolean {return _isBold;}
+	public function set isBold(value:Boolean):void {
+		if (_isBold != value) {
+			_isBold = value;
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
+			dispatchEvent(new Event("isBoldChanged"));
+		}
+	}
+
+	//--------------------------------------
 	//  textThickness
 	//--------------------------------------
 	private var _textThickness:Number = 20;
@@ -193,10 +209,13 @@ public class NoteLabel extends UIComponent {
 			formatChanged = false;
 			TITLE_FORMAT.color = textColor;
 			TITLE_FORMAT.size = fontSize;
+			TITLE_FORMAT.bold = isBold;
 			DIE_FORMAT.size = fontSize;
+			DIE_FORMAT.bold = isBold;
 			DAS_FORMAT.size = fontSize;
+			DAS_FORMAT.bold = isBold;
 			TITLE_FORMAT.align = textAlign;
-			titleTF.thickness = textThickness;
+			titleTF.thickness = isBold ? 0 : textThickness;
 			titleTF.defaultTextFormat = TITLE_FORMAT;
 		}
 

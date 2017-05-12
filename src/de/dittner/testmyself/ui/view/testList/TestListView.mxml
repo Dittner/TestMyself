@@ -18,7 +18,7 @@
 
         import spark.events.IndexChangeEvent;
 
-        private static const PAD:int = Values.PT20;
+        private static const PAD:int = Values.PT15;
 
         //----------------------------------------------------------------------------------------------
         //
@@ -59,13 +59,10 @@
         }
         ]]></fx:Script>
 
-    <view:layout>
-        <s:VerticalLayout paddingTop="{PAD}" paddingRight="{PAD}" paddingLeft="{PAD}" paddingBottom="{PAD}" gap="{Values.PT15}"/>
-    </view:layout>
     <list:ListForm id="vocabularyList"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"
-                   width="100%"
+                   top="{Values.PT20}" left="{PAD}" right="{PAD}" maxWidth="{Values.PT768}" horizontalCenter="0"
                    dataProvider="{vm.vocabularyColl}"
                    title="{resourceManager.getString('app', 'PleaseChooseTheDesiredNoteType')}"
                    itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.VocabularyRenderer">
@@ -78,7 +75,7 @@
                    visible="{vocabularyList.selectedItem}"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"
-                   width="100%"
+                   top="{Values.PT180}" left="{PAD}" right="{PAD}" maxWidth="{Values.PT768}" horizontalCenter="0"
                    dataProvider="{getTestInfoList(vocabularyList.selectedItem)}"
                    title="{resourceManager.getString('app', 'PleaseChooseTheDesiredTest')}"
                    itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.TestInfoRenderer"

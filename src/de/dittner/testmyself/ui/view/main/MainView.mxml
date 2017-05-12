@@ -147,14 +147,20 @@
         </s:Transition>
     </s:transitions>
 
+    <common:BG percentWidth="100" height="{AppSizes.MENU_HEIGHT}" fillColor="{appBgColor}" y="{noteToolbar.y}"/>
+    <common:BG percentWidth="100" height="{AppSizes.MENU_HEIGHT}" fillColor="0"/>
+    <common:BG percentWidth="100" height="{AppSizes.MENU_HEIGHT}" fillColor="0" bottom="0"/>
+
     <menu:NoteToolbar id="noteToolbar"
-                      width="100%" height="{AppSizes.MENU_HEIGHT}"
+                      width="{Values.PT768}" height="{AppSizes.MENU_HEIGHT}"
+                      horizontalCenter="0"
                       disabledAlpha="1"
                       enabled="false"
                       enabled.normal="true"/>
 
     <menu:NavigationMenu id="navigationMenuComponent"
-                         width="100%" height="{AppSizes.MENU_HEIGHT}"
+                         width="{Values.PT768}" height="{AppSizes.MENU_HEIGHT}"
+                         horizontalCenter="0"
                          selectedViewInfo="{viewNavigator.selectedViewInfo}"
                          hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                          disabledAlpha="1"
@@ -171,8 +177,8 @@
                         height="{viewContHeight(noteToolbar.y, height)}"/>
 
     <menu:ActionMenu id="actionMenuComponent"
-                     width="100%" height="{AppSizes.MENU_HEIGHT}"
-                     bottom="0"
+                     width="{Values.PT768}" height="{AppSizes.MENU_HEIGHT}"
+                     bottom="0" horizontalCenter="0"
                      disabledAlpha="1"
                      enabled="false"
                      enabled.normal="true"/>
@@ -187,7 +193,8 @@
                         enabled="false"
                         enabled.normal="true"
                         text="@{vm.commentsBoardText}"
-                        right="0" left="0" height="50%" top="0"/>
+                        width="{Values.PT768}" height="50%"
+                        horizontalCenter="0" top="0"/>
 
     <common:BG visible="{Device.verticalPadding}"
                includeInLayout="{Device.verticalPadding}"
@@ -207,8 +214,11 @@
 
     <s:Group id="logsLayer" width="100%" height="100%"/>
 
-    <!--<skins:Separator left="{Values.PT20}" percentHeight="100" color="#ff0000"/>
-    <skins:Separator horizontalCenter="0" percentHeight="100" color="#ff0000"/>
-    <skins:Separator right="{Values.PT20}" percentHeight="100" color="#ff0000"/>-->
-
+    <!--<s:Group width="{Values.PT768}" height="100%" horizontalCenter="0">
+        <skins:Separator left="0" percentHeight="100" color="#ff0000" alpha=".3"/>
+        <skins:Separator left="{Values.PT15}" percentHeight="100" color="#ff0000" alpha=".3"/>
+        <skins:Separator horizontalCenter="0" percentHeight="100" color="#ff0000" alpha=".3"/>
+        <skins:Separator right="{Values.PT15}" percentHeight="100" color="#ff0000" alpha=".3"/>
+        <skins:Separator right="0" percentHeight="100" color="#ff0000" alpha=".3"/>
+    </s:Group>-->
 </s:Group>

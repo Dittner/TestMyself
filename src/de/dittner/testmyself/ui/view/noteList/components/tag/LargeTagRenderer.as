@@ -21,6 +21,6 @@ public class LargeTagRenderer extends StringItemRenderer {
 
 	override protected function get format():TextFormat {return TEST_FORMAT;}
 	override protected function get selectedFormat():TextFormat {return TEST_SELECTED_FORMAT;}
-	override protected function get horPad():uint {return Values.PT20;}
+	override protected function get horPad():uint {return Values.PT15;}
 }
 }

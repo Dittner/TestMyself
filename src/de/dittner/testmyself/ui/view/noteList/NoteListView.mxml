@@ -15,6 +15,7 @@
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.utils.Values;
 
         [Bindable]
         public var vm:NoteListVM;
@@ -128,11 +129,13 @@
                        selectedTag="{vm.page.selectedTag}"
                        bgColor="{mainView.appBgColor}"
                        tags="{vm.page.vocabulary.tagColl}"
-                       width="100%" top="{2*AppSizes.MENU_HEIGHT}" bottom="{AppSizes.MENU_HEIGHT}"
+                       width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
+                       top="{2*AppSizes.MENU_HEIGHT}" bottom="{AppSizes.MENU_HEIGHT}"
                        selectedTagChanged="filterChangedHandler(event)"/>
     </fx:Declarations>
 
-    <scroller:CustomScroller width="100%" height="100%"
+    <scroller:CustomScroller width="100%" maxWidth="{Values.PT798}" height="100%"
+                             horizontalCenter="0"
                              horizontalScrollPolicy="off"
                              hasFocusableChildren="false">
         <note:NoteList id="noteList"

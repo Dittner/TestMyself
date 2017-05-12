@@ -35,6 +35,7 @@
 
         override protected function activate():void {
             currentState = "normal";
+            tagList.verticalScrollPosition = 0;
             vm.unlockView();
 
             toolbar.show();
@@ -111,11 +112,12 @@
     <fx:Declarations>
         <components:AddLessonForm id="addLessonForm"
                                   top="{2*AppSizes.MENU_HEIGHT}"
-                                  height="{Values.PT200}" width="100%"
+                                  height="{Values.PT200}" width="{Values.PT768}" horizontalCenter="0"
                                   bgColor="{mainView.appBgColor}"/>
     </fx:Declarations>
 
-    <scroller:CustomScroller width="100%" height="100%"
+    <scroller:CustomScroller width="{Values.PT768}" height="100%"
+                             horizontalCenter="0"
                              horizontalScrollPolicy="off"
                              hasFocusableChildren="false">
         <list2:SelectableDataGroup id="tagList"

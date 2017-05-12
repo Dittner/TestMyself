@@ -125,10 +125,11 @@
 
     <components:SearchBoard id="searchBoard"
                             isTemplatesEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
-                            width="100%"
+                            maxWidth="{Values.PT768}" horizontalCenter="0"
+                            left="{Values.PT15}" right="{Values.PT15}"
                             startSearch="startSearchActivatedHandler(event)"/>
 
-    <scroller:CustomScroller width="100%"
+    <scroller:CustomScroller width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
                              top="{searchBoard.height}" bottom="0"
                              horizontalScrollPolicy="off"
                              hasFocusableChildren="false">
@@ -145,7 +146,8 @@
         </note:NoteList>
     </scroller:CustomScroller>
 
-    <s:BitmapImage width="100%" height="{Values.PT7}"
+    <s:BitmapImage width="{Values.PT768}" height="{Values.PT7}"
+                   horizontalCenter="0"
                    top="{searchBoard.height}"
                    smooth="true"
                    alpha=".75"

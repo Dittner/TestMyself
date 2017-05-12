@@ -107,7 +107,7 @@
               visible.show="true"
               visible.hide="false"
               disabledAlpha="1"
-              paddingLeft="{Values.PT10}" paddingRight="{Values.PT10}" gap="{Values.PT10}"
+              paddingLeft="{Values.PT5}" paddingRight="{Values.PT5}" gap="{Values.PT10}"
               verticalAlign="middle">
         <menu:MenuButton id="langListViewBtn"
                          enabled="{enabled}"
