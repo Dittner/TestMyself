@@ -2,7 +2,7 @@ package de.dittner.testmyself.backend {
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.async.ProgressCommand;
-import de.dittner.async.utils.doLaterInMSec;
+import de.dittner.async.utils.doLaterInSec;
 import de.dittner.testmyself.backend.cmd.ClearTestHistoryCmd;
 import de.dittner.testmyself.backend.cmd.LoadAllTagsCmd;
 import de.dittner.testmyself.backend.cmd.LoadAudioCommentCmd;
@@ -173,13 +173,13 @@ public class Storage extends WalterProxy {
 	private function tileGeneratingComplete(op:IAsyncOperation):void {
 		if (op.isSuccess) {
 			CLog.info(LogTag.UI, "Графика загружена из БД");
-			showMsg("100%");
+			hideMsg();
 		}
 		else {
 			CLog.err(LogTag.UI, "Tiles generating is failed! Details: " + op.error);
 			showMsg("GUI's generating is failed! Details: " + op.error);
+			doLaterInSec(hideMsg, 20);
 		}
-		doLaterInMSec(hideMsg, 500);
 	}
 
 	private function tileGeneratingProgress(value:Number):void {
@@ -207,7 +207,7 @@ public class Storage extends WalterProxy {
 	}
 
 	private function hideMsg():void {
-		if (msgLabel.parent) {
+		if (msgLabel && msgLabel.parent) {
 			(FlexGlobals.topLevelApplication as Application).removeElement(msgLabel);
 		}
 	}

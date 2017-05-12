@@ -52,7 +52,7 @@ public class MenuButton extends FadeTileButton {
 
 		if (disabledTitleTf) {
 			disabledTitleTf.defaultTextFormat = TITLE_FORMAT;
-			disabledTitleTf.textColor = AppColors.MENU_BTN_DISABLED;
+			disabledTitleTf.textColor = AppColors.DISABLED;
 			disabledTitleTf.text = title;
 		}
 	}

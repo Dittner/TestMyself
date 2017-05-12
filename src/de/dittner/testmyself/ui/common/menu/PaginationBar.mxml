@@ -1,15 +1,18 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:menu="de.dittner.testmyself.ui.common.menu.*">
+         xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
+         xmlns:pageslider="de.dittner.testmyself.ui.common.menu.pageSlider.*">
 
     <fx:Metadata>
         [Event(name="pageNumChanged", type="flash.events.Event")]
     </fx:Metadata>
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.page.NotePage;
+        import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.utils.Values;
 
@@ -54,6 +57,13 @@
             }
         }
 
+        private function pageNumSelectedHandler(event:Event):void {
+            if (page.number != pageNumSelector.curPageNum) {
+                page.number = pageNumSelector.curPageNum;
+                dispatchEvent(new Event("pageNumChanged"));
+            }
+        }
+
         private function prevPageBtnEnabled(pageNum:int):Boolean {
             return pageNum > 0;
         }
@@ -69,7 +79,22 @@
         private function lastPageBtnEnabled(pageNum:int, totalPages:int):Boolean {
             return pageNum + 1 < totalPages;
         }
+
+        private function showPageNumSelector():void {
+            if (!SimplePopup.curContent != pageNumSelector) {
+                SimplePopup.show(pageNumSelector, true, null, AppColors.EDITOR_SHADOW, 0.5);
+            }
+        }
         ]]></fx:Script>
+
+    <fx:Declarations>
+        <pageslider:PageNumberSelector id="pageNumSelector"
+                                       curPageNum="{page.number}"
+                                       totalPages="{page.totalPages}"
+                                       width="{Values.PT700}" horizontalCenter="0"
+                                       bottom="{AppSizes.MENU_HEIGHT}"
+                                       pageNumSelected="pageNumSelectedHandler(event)"/>
+    </fx:Declarations>
 
     <s:layout>
         <s:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="{Values.PT5}"/>
@@ -104,13 +129,13 @@
                      disabledTileID="{TileID.MENU_PAGE_RED_ICON}"
                      upBgAlpha="0.8"
                      title="{page.number + 1}"
-                     mouseEnabled="false" mouseChildren="false"
                      isBold="true"
                      paddingLeft="0" paddingRight="0"
                      textColor="#0"
                      font="{FontName.MYRIAD_COND_MX}"
                      fontSize="{Values.PT15}"
-                     enabled="{enabled}"/>
+                     enabled="{enabled}"
+                     click="showPageNumSelector()"/>
 
     <menu:MenuButton id="lastPageBtn"
                      upTileID="{lastPageBtn.mouseEnabled ? TileID.MENU_PAGE_ICON : TileID.MENU_PAGE_DISABLED_ICON}"

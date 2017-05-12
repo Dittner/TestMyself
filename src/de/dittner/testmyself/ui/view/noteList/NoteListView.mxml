@@ -129,7 +129,7 @@
                        selectedTag="{vm.page.selectedTag}"
                        bgColor="{mainView.appBgColor}"
                        tags="{vm.page.vocabulary.tagColl}"
-                       width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
+                       width="{Values.PT768}" horizontalCenter="0"
                        top="{2*AppSizes.MENU_HEIGHT}" bottom="{AppSizes.MENU_HEIGHT}"
                        selectedTagChanged="filterChangedHandler(event)"/>
     </fx:Declarations>

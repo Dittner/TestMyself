@@ -121,6 +121,8 @@
 
         private var keyWordsPattern:RegExp = /, /g;
         private function updateNote():void {
+            if (!isActivating && !isActive) return;
+
             var selectedNote:Note = vm.page.selectedNote;
             var hasTitle:Boolean = true;
 

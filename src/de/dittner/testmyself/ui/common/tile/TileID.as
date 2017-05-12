@@ -34,6 +34,9 @@ public class TileID {
 	public static const MENU_FORM_CANCEL_ICON:String = "MENU_FORM_CANCEL_ICON";
 	public static const MENU_FORM_CANCEL_RED_ICON:String = "MENU_FORM_CANCEL_RED_ICON";
 
+	public static const MENU_FORM_APPLY_ICON:String = "MENU_FORM_APPLY_ICON";
+	public static const MENU_FORM_APPLY_RED_ICON:String = "MENU_FORM_APPLY_RED_ICON";
+
 	public static const MENU_FORM_ADD_ICON:String = "MENU_FORM_ADD_ICON";
 	public static const MENU_FORM_ADD_RED_ICON:String = "MENU_FORM_ADD_RED_ICON";
 
