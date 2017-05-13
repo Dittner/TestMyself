@@ -68,7 +68,7 @@
         ]]></fx:Script>
 
     <s:Label text="{rewindingSlider.value + 1}"
-             width="50%" horizontalCenter="0" textAlign="center" paddingRight="{Values.PT10}"
+             width="50%" horizontalCenter="0" textAlign="center"
              fontSize="{Values.PT20}" verticalAlign="middle" paddingTop="{Values.PT15}"
              maxDisplayedLines="1"
              color="{AppColors.WHITE}"/>

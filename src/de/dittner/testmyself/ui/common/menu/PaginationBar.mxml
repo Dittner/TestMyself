@@ -81,8 +81,8 @@
         }
 
         private function showPageNumSelector():void {
-            if (!SimplePopup.curContent != pageNumSelector) {
-                SimplePopup.show(pageNumSelector, true, null, AppColors.EDITOR_SHADOW, 0.5);
+            if (page && page.totalPages > 2 && !SimplePopup.curContent != pageNumSelector) {
+                SimplePopup.show(pageNumSelector, true, null, AppColors.EDITOR_SHADOW, 0);
             }
         }
         ]]></fx:Script>

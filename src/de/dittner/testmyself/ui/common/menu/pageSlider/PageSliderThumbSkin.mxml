@@ -2,7 +2,7 @@
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
              xmlns:s="library://ns.adobe.com/flex/spark"
              xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
-             width="{Values.PT25}"
+             width="{Values.PT20}"
              height="{Values.PT50}">
     <fx:Metadata>
         [HostComponent("spark.components.Button")]
@@ -20,9 +20,9 @@
     </s:states>
 
     <tile:TileImage id="bg"
-                    x="{-Values.PT12}"
-                    verticalCenter="0"
-                    actualTileID="{TileID.PLAYER_THUMB_ICON}"
+                    x="{-Values.PT15}"
+                    bottom="0"
+                    actualTileID="{TileID.PAGE_SLIDER_THUMB_ICON}"
                     width="100%"/>
 
 </s:SparkSkin>

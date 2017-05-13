@@ -72,7 +72,7 @@
             }
             else {
                 isAnimating = true;
-                TweenLite.to(this, 0.3, {y: (isShown ? AppSizes.MENU_HEIGHT : 0), onComplete: animationComplete});
+                TweenLite.to(this, 0.4, {y: (isShown ? AppSizes.MENU_HEIGHT : 0), onComplete: animationComplete});
             }
         }
 

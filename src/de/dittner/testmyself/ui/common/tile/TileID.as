@@ -197,5 +197,7 @@ public class TileID {
 	public static const PLAY_AUDIO_ICON:String = "PLAY_AUDIO_ICON";
 	public static const FAVORITE_ICON:String = "FAVORITE_ICON";
 
+	public static const PAGE_SLIDER_THUMB_ICON:String = "PAGE_SLIDER_THUMB_ICON";
+
 }
 }

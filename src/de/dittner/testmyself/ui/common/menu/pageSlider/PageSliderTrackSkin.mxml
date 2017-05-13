@@ -16,7 +16,7 @@
         <s:State name="up"/>
     </s:states>
 
-    <s:Rect width="100%" height="{Values.PT4}" verticalCenter="0" radiusX="{Values.PT4}" radiusY="{Values.PT4}">
+    <s:Rect width="100%" height="{Values.PT2}" bottom="0">
         <s:fill>
             <s:SolidColor color="#ffFFff"/>
         </s:fill>

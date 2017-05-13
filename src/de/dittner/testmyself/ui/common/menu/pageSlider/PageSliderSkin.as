@@ -1,24 +1,19 @@
 package de.dittner.testmyself.ui.common.menu.pageSlider {
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.ui.common.audio.components.RewindingSlider;
+import de.dittner.testmyself.utils.Values;
 
-import flash.events.Event;
-
-import mx.core.ClassFactory;
-import mx.core.IFactory;
+import flash.display.Graphics;
 
 import spark.components.Button;
-import spark.skins.mobile.supportClasses.HSliderDataTip;
 import spark.skins.mobile.supportClasses.MobileSkin;
 
 public class PageSliderSkin extends MobileSkin {
 
 	public function PageSliderSkin() {
 		super();
-
 		thumbSkinClass = PageSliderThumbSkin;
 		trackSkinClass = PageSliderTrackSkin;
-		barSkinClass = PageSliderBarSkin;
-		dataTipClass = HSliderDataTip;
 	}
 
 	public var hostComponent:RewindingSlider;
@@ -30,9 +25,7 @@ public class PageSliderSkin extends MobileSkin {
 	//--------------------------------------------------------------------------
 
 	public var track:Button;
-	private var bar:Button;
 	public var thumb:Button;
-	public var dataTip:IFactory;
 
 	//--------------------------------------------------------------------------
 	//
@@ -41,9 +34,7 @@ public class PageSliderSkin extends MobileSkin {
 	//--------------------------------------------------------------------------
 
 	protected var thumbSkinClass:Class;
-	protected var barSkinClass:Class;
 	protected var trackSkinClass:Class;
-	protected var dataTipClass:Class;
 
 	//--------------------------------------------------------------------------
 	//
@@ -66,32 +57,9 @@ public class PageSliderSkin extends MobileSkin {
 		track.setStyle("skinClass", trackSkinClass);
 		addChild(track);
 
-		bar = new Button();
-		bar.setStyle("skinClass", barSkinClass);
-		addChild(bar);
-
-		hostComponent.addEventListener(Event.CHANGE, updateBarOnChange);
-
 		thumb = new Button();
 		thumb.setStyle("skinClass", thumbSkinClass);
 		addChild(thumb);
-		thumb.addEventListener(Event.CHANGE, updateBarOnChange);
-		// Set up the class factory for the dataTip
-		dataTip = new ClassFactory();
-		ClassFactory(dataTip).generator = dataTipClass;
-	}
-
-	private function updateBarOnChange(event:Event = null):void {
-		var calculatedBarWidth:int = thumb.x + thumb.getPreferredBoundsWidth() / 2;
-		setElementSize(bar, calculatedBarWidth, bar.getPreferredBoundsHeight());
-		var calculatedSkinHeight:int = Math.max(Math.max(thumb.getPreferredBoundsHeight(), track.getPreferredBoundsHeight()), unscaledHeight);
-
-		// minimum width is no smaller than the thumb
-		var calculatedSkinWidth:int = Math.max(thumb.getPreferredBoundsWidth(), unscaledWidth);
-
-		var calculatedTrackY:int = Math.max(Math.round((calculatedSkinHeight - track.getPreferredBoundsHeight()) / 2), 0);
-
-		setElementPosition(bar, 0, calculatedTrackY);
 	}
 
 	override protected function measure():void {
@@ -102,14 +70,14 @@ public class PageSliderSkin extends MobileSkin {
 		measuredMinWidth = thumb.getPreferredBoundsWidth();
 	}
 
-	override protected function layoutContents(unscaledWidth:Number, unscaledHeight:Number):void {
-		super.layoutContents(unscaledWidth, unscaledHeight);
+	override protected function layoutContents(w:Number, h:Number):void {
+		super.layoutContents(w, h);
 
 		// minimum height is no smaller than the larger of the thumb or track
-		var calculatedSkinHeight:int = Math.max(Math.max(thumb.getPreferredBoundsHeight(), track.getPreferredBoundsHeight()), unscaledHeight);
+		var calculatedSkinHeight:int = Math.max(Math.max(thumb.getPreferredBoundsHeight(), track.getPreferredBoundsHeight()), h);
 
 		// minimum width is no smaller than the thumb
-		var calculatedSkinWidth:int = Math.max(thumb.getPreferredBoundsWidth(), unscaledWidth);
+		var calculatedSkinWidth:int = Math.max(thumb.getPreferredBoundsWidth(), w);
 
 		// once we know the skin height, center the thumb and track
 		thumb.y = 0;
@@ -120,8 +88,19 @@ public class PageSliderSkin extends MobileSkin {
 		//
 		setElementSize(track, calculatedSkinWidth, track.getPreferredBoundsHeight()); // note track is NOT scaled vertically
 		setElementPosition(track, 0, calculatedTrackY);
-		updateBarOnChange();
 
+		var g:Graphics = graphics;
+		g.clear();
+		g.lineStyle(1, 0xffFFff);
+		var totalLines:int = hostComponent.maximum - hostComponent.minimum;
+		if (totalLines > 100) totalLines = totalLines / 10;
+		var offset:Number = 7.5 * Device.factor;
+		var step:Number = (w - 2 * offset) / totalLines;
+
+		for (var i:Number = 0; i <= totalLines; i += hostComponent.stepSize) {
+			g.moveTo(i * step + offset, Values.PT5);
+			g.lineTo(i * step + offset, Values.PT20);
+		}
 	}
 }
 }
