@@ -3,11 +3,13 @@
                 xmlns:view="de.dittner.testmyself.ui.common.view.*"
                 xmlns:components="de.dittner.testmyself.ui.view.langList.components.*"
                 xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+                xmlns:s="library://ns.adobe.com/flex/spark"
                 isBgShown="false">
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.Values;
 
@@ -25,6 +27,11 @@
             actionMenu.hide();
             vm.unlockView();
             vm.viewActivated(viewInfo);
+
+            var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
+            var ns:Namespace = appDescriptor.namespace();
+            var appVersion:String = appDescriptor.ns::versionNumber;
+            versionLbl.text = "v. " + appVersion;
         }
 
         override protected function deactivate():void {
@@ -73,4 +80,10 @@
                          textColor="#ffFFff"
                          fontSize="{Values.PT30}"
                          click="vm.selectLang(LanguageID.EN)"/>
+
+    <s:Label id="versionLbl"
+             width="100%" textAlign="center"
+             fontSize="{Values.PT15}" bottom="{Values.PT5}"
+             fontWeight="bold"
+             color="{AppColors.WHITE}"/>
 </view:SmartView>
