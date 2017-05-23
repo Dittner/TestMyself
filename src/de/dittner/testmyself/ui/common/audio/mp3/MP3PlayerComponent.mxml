@@ -140,7 +140,7 @@
     </s:states>
 
     <s:layout>
-        <s:HorizontalLayout gap="{Values.PT5}" verticalAlign="middle"/>
+        <s:HorizontalLayout gap="{Values.PT9}" verticalAlign="middle"/>
     </s:layout>
 
     <tile:FadeTileButton id="playBtn"

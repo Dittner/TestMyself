@@ -201,6 +201,7 @@ public class FadeTileButton extends UIComponent {
 	override public function set enabled(value:Boolean):void {
 		if (super.enabled != value) {
 			super.enabled = value;
+			super.mouseEnabled = _mouseEnabled && super.enabled;
 			invalidateDisplayList();
 		}
 	}
@@ -214,7 +215,7 @@ public class FadeTileButton extends UIComponent {
 	override public function set mouseEnabled(value:Boolean):void {
 		if (_mouseEnabled != value) {
 			_mouseEnabled = value;
-			super.mouseEnabled = _mouseEnabled;
+			super.mouseEnabled = _mouseEnabled && super.enabled;
 			dispatchEvent(new Event("mouseEnabledChanged"));
 		}
 	}

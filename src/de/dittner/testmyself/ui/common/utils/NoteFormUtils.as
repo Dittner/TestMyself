@@ -126,6 +126,7 @@ public class NoteFormUtils {
 			txt = txt.replace(/(зоол )/gi, "зоол. ");
 			txt = txt.replace(/(анат )/gi, "анат. ");
 			txt = txt.replace(/(мед )/gi, "мед. ");
+			txt = txt.replace(/(информ )/gi, "инф. ");
 			txt = txt.replace(/(инф )/gi, "инф. ");
 			txt = txt.replace(/(вчт )/gi, "инф. ");
 			txt = txt.replace(/(фам )/gi, "фам. ");
@@ -156,6 +157,12 @@ public class NoteFormUtils {
 			txt = txt.replace(/(англ )/gi, "англ. ");
 			txt = txt.replace(/(фр )/gi, "фр. ");
 			txt = txt.replace(/(мор )/gi, "мор. ");
+			txt = txt.replace(/(библ )/gi, "библ. ");
+			txt = txt.replace(/(комп )/gi, "комп. ");
+			txt = txt.replace(/(полигр )/gi, "полигр. ");
+			txt = txt.replace(/(охот )/gi, "охот. ");
+			txt = txt.replace(/(фин )/gi, "фин. ");
+			txt = txt.replace(/(ком )/gi, "ком. ");
 
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");
@@ -168,8 +175,8 @@ public class NoteFormUtils {
 			txt = txt.replace(/(,;|;;|\n)/gi, ";");
 			txt = txt.replace(/(;)/gi, ";\n");
 			txt = txt.replace(/(, ;)/gi, ";");
-			txt = removeSpaces(txt);
-			res = setNumberingToText(txt);
+			txt = setNumberingToText(txt);
+			res = removeSpaces(txt);
 		}
 		return res;
 	}

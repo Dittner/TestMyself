@@ -91,15 +91,17 @@ public class PageSliderSkin extends MobileSkin {
 
 		var g:Graphics = graphics;
 		g.clear();
-		g.lineStyle(1, 0xffFFff);
+		g.lineStyle(0, 0xffFFff);
 		var totalLines:int = hostComponent.maximum - hostComponent.minimum;
 		if (totalLines > 100) totalLines = totalLines / 10;
 		var offset:Number = 7.5 * Device.factor;
 		var step:Number = (w - 2 * offset) / totalLines;
+		var pos:int = 0;
 
 		for (var i:Number = 0; i <= totalLines; i += hostComponent.stepSize) {
-			g.moveTo(i * step + offset, Values.PT5);
-			g.lineTo(i * step + offset, Values.PT20);
+			pos = i * step + offset;
+			g.moveTo(pos, Values.PT5);
+			g.lineTo(pos, Values.PT20);
 		}
 	}
 }

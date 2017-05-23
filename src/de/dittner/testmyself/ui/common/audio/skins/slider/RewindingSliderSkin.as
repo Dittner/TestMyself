@@ -92,7 +92,7 @@ public class RewindingSliderSkin extends MobileSkin {
 
 		var calculatedTrackY:int = Math.max(Math.round((calculatedSkinHeight - track.getPreferredBoundsHeight()) / 2), 0);
 
-		setElementPosition(bar, 1, calculatedTrackY - 1);
+		setElementPosition(bar, 1, calculatedTrackY + 1);
 	}
 
 	override protected function measure():void {
@@ -103,24 +103,23 @@ public class RewindingSliderSkin extends MobileSkin {
 		measuredMinWidth = thumb.getPreferredBoundsWidth();
 	}
 
-	override protected function layoutContents(unscaledWidth:Number, unscaledHeight:Number):void {
-		super.layoutContents(unscaledWidth, unscaledHeight);
+	override protected function layoutContents(w:Number, h:Number):void {
+		super.layoutContents(w, h);
 
 		// minimum height is no smaller than the larger of the thumb or track
-		var calculatedSkinHeight:int = Math.max(Math.max(thumb.getPreferredBoundsHeight(), track.getPreferredBoundsHeight()), unscaledHeight);
+		var calculatedSkinHeight:int = Math.max(Math.max(thumb.getPreferredBoundsHeight(), track.getPreferredBoundsHeight()), h);
 
 		// minimum width is no smaller than the thumb
-		var calculatedSkinWidth:int = Math.max(thumb.getPreferredBoundsWidth(), unscaledWidth);
+		var calculatedSkinWidth:int = Math.max(thumb.getPreferredBoundsWidth(), w);
 
 		// once we know the skin height, center the thumb and track
 		thumb.y = 0;
-		var calculatedTrackY:int = Math.max(Math.round((calculatedSkinHeight - track.getPreferredBoundsHeight()) / 2), 0);
+		var calculatedTrackY:int = Math.max(Math.round((h - track.getPreferredBoundsHeight()) / 2), 0);
 
 		// size and position
 		setElementSize(thumb, thumb.getPreferredBoundsWidth(), thumb.getPreferredBoundsHeight()); // thumb does NOT scale
-		//
 		setElementSize(track, calculatedSkinWidth, track.getPreferredBoundsHeight()); // note track is NOT scaled vertically
-		setElementPosition(track, 0, calculatedTrackY);
+		setElementPosition(track, 0, calculatedTrackY + 1);
 		updateBarOnChange();
 
 	}

@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<s:SparkSkin
-        xmlns:fx="http://ns.adobe.com/mxml/2009"
-        xmlns:s="library://ns.adobe.com/flex/spark"
-        xmlns:components2="de.dittner.testmyself.ui.common.audio.components.*"
-        xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark"
+             xmlns:components2="de.dittner.testmyself.ui.common.audio.components.*"
+             xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
 
     <fx:Metadata>
         [HostComponent("de.dittner.testmyself.ui.common.audio.RawDataPlayer")]
@@ -24,13 +23,14 @@
 
     <tile:FadeTileButton id="recordBtn"
                          upTileID="{TileID.BTN_RECORD}"
+                         verticalCenter="0"
                          visible.normal="true"
                          visible.recording="false"
                          visible.recorded="false"
                          visible.playing="false"/>
 
     <s:Label text="{resourceManager.getString('app', 'NoAudioRecord')}"
-             bottom="{Values.PT10}"
+             verticalCenter="1"
              left="{Values.PT40}" width="{Values.PT100}"
              verticalAlign="middle"
              visible.normal="true"
@@ -41,6 +41,7 @@
              color="{AppColors.TEXT_CONTROL_TITLE}"/>
 
     <s:Group width="100%"
+             verticalCenter="0"
              visible.normal="false"
              visible.recording="true"
              visible.recorded="false"
@@ -56,18 +57,21 @@
     </s:Group>
 
     <s:Group width="100%"
+             verticalCenter="0"
              visible.normal="false"
              visible.recording="false"
              visible.recorded="true"
              visible.playing="true">
 
         <tile:FadeTileButton id="playBtn"
+                             verticalCenter="0"
                              upTileID="{TileID.BTN_PLAY}"
                              visible="false"
                              visible.recorded="true"
                              visible.playing="false"/>
 
         <tile:FadeTileButton id="pauseBtn"
+                             verticalCenter="0"
                              upTileID="{TileID.BTN_PAUSE}"
                              visible="false"
                              visible.recorded="false"
@@ -81,25 +85,24 @@
                                      value="@{hostComponent.recorder.playbackFramesPosition}"
                                      snapInterval="1"
                                      liveDragging="true"
-                                     top="{Values.PT3}"
-                                     left="{Values.PT90}"
-                                     right="{Values.PT90}"
-                                     height="{Values.PT30}"
+                                     left="{Values.PT82}"
+                                     right="{Values.PT82}"
                                      skinClass="de.dittner.testmyself.ui.common.audio.skins.slider.RewindingSliderSkin"/>
 
         <tile:FadeTileButton id="removeRecordBtn"
+                             verticalCenter="0"
                              upTileID="{TileID.BTN_DELETE_AUDIO}"
                              right="0"/>
 
         <s:Label text="{hostComponent.recorder.playbackTime}"
-                 left="{Values.PT40}" top="{Values.PT10}"
+                 left="{Values.PT40}" verticalCenter="1"
                  fontSize="{Values.PT14}"
                  color="{AppColors.BLACK}"/>
 
     </s:Group>
     <s:Label visible="true" visible.normal="false"
              text="{hostComponent.recorder.timeLength}"
-             top="{Values.PT10}"
+             verticalCenter="1"
              right="{Values.PT40}"
              left.recording="{Values.PT40}"
              right.recording="auto"
