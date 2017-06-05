@@ -15,7 +15,6 @@ import mx.core.UIComponent;
 public class MXLabel extends UIComponent {
 	public function MXLabel() {
 		super();
-		mouseEnabled = false;
 	}
 
 	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, _color, _isBold, null, null, null, null, _textAlign);
@@ -70,20 +69,6 @@ public class MXLabel extends UIComponent {
 			invalidateSize();
 			invalidateDisplayList();
 			dispatchEvent(new Event("textChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  selectable
-	//--------------------------------------
-	private var _selectable:Boolean = false;
-	[Bindable("selectableChanged")]
-	public function get selectable():Boolean {return _selectable;}
-	public function set selectable(value:Boolean):void {
-		if (_selectable != value) {
-			_selectable = value;
-			invalidateProperties();
-			dispatchEvent(new Event("selectableChanged"));
 		}
 	}
 
@@ -164,20 +149,6 @@ public class MXLabel extends UIComponent {
 	}
 
 	//--------------------------------------
-	//  textSelectable
-	//--------------------------------------
-	private var _textSelectable:Boolean = false;
-	[Bindable("textSelectableChanged")]
-	public function get textSelectable():Boolean {return _textSelectable;}
-	public function set textSelectable(value:Boolean):void {
-		if (_textSelectable != value) {
-			_textSelectable = value;
-			invalidateProperties();
-			dispatchEvent(new Event("textSelectableChanged"));
-		}
-	}
-
-	//--------------------------------------
 	//  bgEnabled
 	//--------------------------------------
 	private var _bgEnabled:Boolean = false;
@@ -215,7 +186,9 @@ public class MXLabel extends UIComponent {
 		super.createChildren();
 		if (!titleTF) {
 			titleTF = TextFieldFactory.createMultiline(TITLE_FORMAT);
-			titleTF.selectable = textSelectable;
+			titleTF.selectable = Device.isDesktop;
+			titleTF.mouseEnabled = Device.isDesktop;
+			mouseEnabled = Device.isDesktop;
 			addChild(titleTF);
 		}
 	}
@@ -227,12 +200,8 @@ public class MXLabel extends UIComponent {
 		TITLE_FORMAT.color = color;
 		TITLE_FORMAT.align = textAlign;
 		titleTF.multiline = titleTF.wordWrap = multiline;
-		titleTF.selectable = textSelectable;
-		titleTF.mouseEnabled = textSelectable;
 		titleTF.background = bgEnabled;
 		titleTF.backgroundColor = bgColor;
-		titleTF.selectable = selectable;
-		titleTF.mouseEnabled = selectable;
 		titleTF.defaultTextFormat = TITLE_FORMAT;
 		titleTF.htmlText = text;
 	}

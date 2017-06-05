@@ -157,7 +157,7 @@
 
     <fx:Declarations>
         <s:Group id="editFormCont"
-                 width="100%"
+                 width="{Values.PT768}" horizontalCenter="0"
                  height="50%" bottom="0">
             <form:EditorBG width="100%" height="100%"
                            bgColor="{bgColor}"

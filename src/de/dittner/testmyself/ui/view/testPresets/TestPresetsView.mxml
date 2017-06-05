@@ -5,8 +5,7 @@
                 xmlns:button="de.dittner.testmyself.ui.common.button.*"
                 xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
                 xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
-                xmlns:view="de.dittner.testmyself.ui.common.view.*"
->
+                xmlns:view="de.dittner.testmyself.ui.common.view.*">
     <fx:Metadata>
         [Event(name="startTest", type="flash.events.Event")]
         [Event(name="showStatistics", type="flash.events.Event")]
@@ -107,6 +106,7 @@
                                      hasFocusableChildren="false">
                 <list:SelectableDataGroup id="tagsList"
                                           deselectEnabled="true"
+                                          selectedItem="@{vm.testPage.selectedTag}"
                                           width="100%"
                                           height="100%"
                                           dataProvider="{vm.testPage.vocabulary.tagColl}"

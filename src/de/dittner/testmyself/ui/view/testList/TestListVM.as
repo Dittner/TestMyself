@@ -57,6 +57,7 @@ public class TestListVM extends ViewModel {
 		super.viewActivated(viewInfo);
 		setTestPage(appModel.getTestPage());
 		testPage.loadOnlyFailedTestTask = true;
+		testPage.selectedTag = null;
 		vocabularyColl = new ArrayCollection(appModel.selectedLanguage.vocabularyHash.getList());
 	}
 
