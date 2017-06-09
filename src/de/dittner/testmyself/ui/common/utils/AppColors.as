@@ -1,7 +1,7 @@
 package de.dittner.testmyself.ui.common.utils {
 public class AppColors {
 
-	public static const DISABLED:uint = 0xAA3952;
+	public static const DISABLED:uint = 0xE26586;
 	public static const MENU_LIST_BG:uint = 0;
 
 	public static const EDITOR_SHADOW:uint = 0x54545d;
