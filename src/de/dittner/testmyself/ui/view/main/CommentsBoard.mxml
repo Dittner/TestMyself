@@ -93,7 +93,7 @@
                                text="@{text}"
                                fontFamily="{FontName.MYRIAD}"
                                color="{AppColors.BLACK}"
-                               left="{Values.PT15}" top="{Values.PT10}" right="{Values.PT15}" bottom="{Values.PT10}"/>
+                               left="{Values.PT15}" top="{Values.PT10}" right="{Values.PT5}" bottom="{Values.PT10}"/>
 
         <menu:MenuButton id="openBtn"
                          enabled="{enabled}"
