@@ -4,6 +4,7 @@
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
          xmlns:components="de.dittner.testmyself.ui.view.testing.components.*"
          implements="de.dittner.testmyself.ui.common.menu.IActionMenu"
+         addedToStage="addedToStageHandler(event)"
          currentState="hide">
 
     <fx:Metadata>
@@ -174,6 +175,21 @@
 
         private function notifyAction(actionID:String, isSelected:Boolean = false):void {
             dispatchEvent(new ToolActionEvent(ToolActionEvent.SELECTED, actionID, isSelected));
+        }
+
+        private function addedToStageHandler(event:Event):void {
+            stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+        }
+
+        override protected function keyUpHandler(event:KeyboardEvent):void {
+            if (enabled && currentState == "navigation") {
+                if (event.keyCode == 37 && prevNoteBtn.mouseEnabled) {
+                    notifyAction(ToolAction.PREV_NOTE)
+                }
+                else if (event.keyCode == 39 && nextNoteBtn.mouseEnabled) {
+                    notifyAction(ToolAction.NEXT_NOTE)
+                }
+            }
         }
         ]]></fx:Script>
 

@@ -330,7 +330,8 @@ public class ViewNavigator extends Group {
 	private function destroyCurrentView():void {
 		if (currentView) {
 			currentView.invalidate(NavigationPhase.VIEW_REMOVE);
-			removeElement(currentView);
+			if (currentView.parent == this)
+				removeElement(currentView);
 			currentView = null;
 		}
 	}
@@ -346,7 +347,7 @@ public class ViewNavigator extends Group {
 		removeEventListener(Event.ENTER_FRAME, finishViewActivation);
 		currentView.invalidate(NavigationPhase.VIEW_ACTIVATE);
 		setViewChanging(false);
-		if(pendingAction) {
+		if (pendingAction) {
 			curNavigatorAction = pendingAction;
 			pendingAction = null;
 			executeCurNavigatorAction();

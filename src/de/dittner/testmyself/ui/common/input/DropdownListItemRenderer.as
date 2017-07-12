@@ -9,8 +9,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class DropdownListItemRenderer extends ItemRendererBase {
-
-	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.BLACK);
+	private static const INDEX_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT15, AppColors.TEXT_GRAY);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_DARK_GRAY);
 	private static const VPAD:uint = Values.PT5;
 	private static const HPAD:uint = Values.PT5;
 
@@ -19,6 +19,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 		percentWidth = 100;
 	}
 
+	private var indexTf:TextField;
 	private var tf:TextField;
 
 	protected function get text():String {
@@ -27,13 +28,11 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 
 	override protected function createChildren():void {
 		super.createChildren();
-		tf = createMultilineTextField(format);
+		indexTf = createMultilineTextField(INDEX_FORMAT);
+		addChild(indexTf);
+		tf = createMultilineTextField(TITLE_FORMAT);
 		addChild(tf);
 	}
-
-	protected function get format():TextFormat {return FORMAT;}
-	protected function get verPad():uint {return VPAD;}
-	protected function get horPad():uint {return HPAD;}
 
 	override protected function commitProperties():void {
 		super.commitProperties();
@@ -45,7 +44,7 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 
 	override protected function measure():void {
 		measuredMinWidth = measuredWidth = parent ? parent.width : Values.PT50;
-		measuredHeight = Math.max(Math.ceil(tf.textHeight + Values.PT5 + 2 * verPad), Values.PT40);
+		measuredHeight = Math.max(Math.ceil(tf.textHeight + Values.PT5 + 2 * VPAD), Values.PT40);
 	}
 
 	override protected function updateDisplayList(w:Number, h:Number):void {
@@ -54,32 +53,28 @@ public class DropdownListItemRenderer extends ItemRendererBase {
 		g.clear();
 
 		if (hovered) {
-			tf.alpha = 1;
-			g.beginFill(0, 0.00001);
+			g.beginFill(0xffFFff, 0.25);
 			g.drawRect(0, 0, w, h);
-			g.endFill();
-
-			g.beginFill(0x666666, 0.75);
-			g.drawRect(HPAD, h - 1, w - 2 * HPAD, 1);
 			g.endFill();
 		}
 		else {
-			tf.alpha = 0.6;
-			tf.setTextFormat(format);
-
-			g.beginFill(0, 0.00001);
+			g.beginFill(0xffFFff, 0.00001);
 			g.drawRect(0, 0, w, h);
-			g.endFill();
-
-			g.beginFill(0x666666, 0.75);
-			g.drawRect(HPAD, h - 1, w - 2 * HPAD, 1);
 			g.endFill();
 		}
 
-		tf.x = horPad;
+		g.beginFill(0x666666, 0.75);
+		g.drawRect(HPAD, h - 1, w - 2 * HPAD, 1);
+		g.endFill();
+
+		indexTf.text = (itemIndex + 1) + ".";
+		indexTf.x = HPAD;
+		indexTf.y = h - indexTf.textHeight >> 1;
+
+		tf.x = HPAD + Values.PT30;
 		tf.y = h - tf.textHeight >> 1;
-		tf.width = w - 2 * horPad;
-		tf.height = h - 2 * verPad;
+		tf.width = w - 2 * HPAD;
+		tf.height = h - 2 * VPAD;
 		tf.textColor = AppColors.BLACK;
 	}
 
