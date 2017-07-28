@@ -1,4 +1,4 @@
-package de.dittner.testmyself.ui.view.search.components {
+package de.dittner.testmyself.ui.common.input {
 import flash.events.Event;
 import flash.events.EventDispatcher;
 

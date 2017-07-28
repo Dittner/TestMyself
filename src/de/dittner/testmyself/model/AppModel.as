@@ -98,7 +98,7 @@ public class AppModel extends WalterProxy {
 		if (_hash != value) {
 			_hash = value;
 			dispatchEvent(new Event("hashChanged"));
-			sendMessage(HASH_CHANGED_MSG, selectedLanguage);
+			sendMessage(HASH_CHANGED_MSG, hash);
 		}
 	}
 

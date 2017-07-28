@@ -19,7 +19,7 @@
         import de.dittner.testmyself.ui.view.testing.components.TestingAction;
         import de.dittner.testmyself.utils.Values;
 
-        private static const PAD:int = Values.PT20;
+        private static const PAD:int = Values.PT15;
 
         //----------------------------------------------------------------------------------------------
         //
@@ -158,26 +158,31 @@
         ]]></fx:Script>
 
     <!--HEADER-->
-    <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
-             fontFamily="{FontName.MYRIAD}"
-             fontSize="{Values.PT20}"
-             mouseChildren="false" mouseEnabled="false"
-             left="{PAD}" top="{PAD}"
-             color="0"
-             alpha="0.6"/>
+    <s:HGroup width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
+              gap="{PAD}" paddingLeft="{PAD}" paddingRight="{PAD}" paddingTop="{PAD}">
+        <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontSize="{Values.PT20}"
+                 width="50%"
+                 mouseChildren="false" mouseEnabled="false"
+                 color="0"
+                 alpha="0.6"/>
 
-    <s:Label text="{vm.errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
-             right="{PAD}" top="{PAD}"
-             textAlign="right"
-             fontFamily="{FontName.MYRIAD}"
-             fontSize="{Values.PT20}"
-             maxDisplayedLines="1"
-             mouseChildren="false" mouseEnabled="false"
-             color="0"
-             alpha="0.6"/>
+        <s:Label text="{vm.errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
+                 width="50%"
+                 textAlign="right"
+                 fontFamily="{FontName.MYRIAD}"
+                 fontSize="{Values.PT20}"
+                 maxDisplayedLines="1"
+                 mouseChildren="false" mouseEnabled="false"
+                 color="0"
+                 alpha="0.6"/>
+    </s:HGroup>
+
     <!--BODY-->
 
     <scroller:CustomScroller width="100%" top="{Values.PT50}"
+                             maxWidth="{Values.PT768}" horizontalCenter="0"
                              bottom="{AppSizes.EDITOR_FOOTER_HEIGHT}"
                              horizontalScrollPolicy="off">
         <s:Group width="100%">
@@ -217,7 +222,9 @@
     </scroller:CustomScroller>
 
     <!--footer-->
-    <s:HGroup width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}" bottom="0"
+    <s:HGroup width="100%"
+              maxWidth="{Values.PT768}" horizontalCenter="0"
+              height="{AppSizes.EDITOR_FOOTER_HEIGHT}" bottom="0"
               opaqueBackground="{AppColors.TOOLBAR_BG}">
 
         <s:Label id="titleLbl"

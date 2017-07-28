@@ -10,6 +10,7 @@
     </fx:Metadata>
 
     <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.input.TextHistory;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.utils.Values;
 

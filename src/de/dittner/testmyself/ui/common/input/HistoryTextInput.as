@@ -1,5 +1,4 @@
 package de.dittner.testmyself.ui.common.input {
-import de.dittner.testmyself.ui.view.search.components.TextHistory;
 
 import flash.events.KeyboardEvent;
 
