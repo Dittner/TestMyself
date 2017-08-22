@@ -125,7 +125,7 @@
                 _applyBtnDisabledTileID = TileID.MENU_FORM_ADD_RED_ICON;
             }
             else if (formMode == FormMode.EDIT) {
-                _applyBtnTitle = ResourceManager.getInstance().getString("app", "Edit");
+                _applyBtnTitle = ResourceManager.getInstance().getString("app", "Store");
                 _applyBtnUpTileID = TileID.MENU_FORM_EDIT_ICON;
                 _applyBtnDisabledTileID = TileID.MENU_FORM_EDIT_RED_ICON;
             }

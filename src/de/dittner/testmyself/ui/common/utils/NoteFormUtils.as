@@ -129,8 +129,10 @@ public class NoteFormUtils {
 			txt = txt.replace(/(информ )/gi, "инф. ");
 			txt = txt.replace(/(инф )/gi, "инф. ");
 			txt = txt.replace(/(вчт )/gi, "инф. ");
+			txt = txt.replace(/(комп )/gi, "инф. ");
 			txt = txt.replace(/(фам )/gi, "фам. ");
-			txt = txt.replace(/(геол )/gi, "фам. ");
+			txt = txt.replace(/(геол )/gi, "геол. ");
+			txt = txt.replace(/(социол )/gi, "социол. ");
 			txt = txt.replace(/(тех )/gi, "тех. ");
 			txt = txt.replace(/(рел )/gi, "рел. ");
 			txt = txt.replace(/(мат )/gi, "мат. ");
@@ -158,7 +160,6 @@ public class NoteFormUtils {
 			txt = txt.replace(/(фр )/gi, "фр. ");
 			txt = txt.replace(/(мор )/gi, "мор. ");
 			txt = txt.replace(/(библ )/gi, "библ. ");
-			txt = txt.replace(/(комп )/gi, "комп. ");
 			txt = txt.replace(/(полигр )/gi, "полигр. ");
 			txt = txt.replace(/(охот )/gi, "охот. ");
 			txt = txt.replace(/(фин )/gi, "фин. ");

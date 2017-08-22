@@ -6,7 +6,9 @@
                 xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 xmlns:note="de.dittner.testmyself.ui.common.note.*"
                 xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
-                xmlns:input="de.dittner.testmyself.ui.common.input.*">
+                xmlns:input="de.dittner.testmyself.ui.common.input.*"
+                addedToStage="addedToStageHandler(event)"
+                removedFromStage="removeFromStageHandler(event)">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -252,6 +254,21 @@
         private function ensureAudioPanelIsVisible():void {
             if (audioPanel.isOpened && cont.contentHeight > height) {
                 scroller.verticalScrollBar.value = cont.contentHeight - height;
+            }
+        }
+
+        private function addedToStageHandler(event:Event):void {
+            stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+        }
+
+        private function removeFromStageHandler(event:Event):void {
+            stage.removeEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+        }
+
+        override protected function keyUpHandler(event:KeyboardEvent):void {
+            if (isActive && mp3 && event.keyCode == 32) {
+                if (mp3.isPlaying) mp3.pause();
+                else loadComment(true);
             }
         }
         ]]></fx:Script>
