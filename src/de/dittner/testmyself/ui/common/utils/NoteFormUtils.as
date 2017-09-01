@@ -113,6 +113,7 @@ public class NoteFormUtils {
 			txt = txt.replace(/(разг\.)/gi, "umg.");
 			txt = txt.replace(/(перен )/gi, "перен. ");
 			txt = txt.replace(/(уст )/gi, "уст. ");
+			txt = txt.replace(/(устарев )/gi, "уст. ");
 			txt = txt.replace(/(физ )/gi, "физ. ");
 			txt = txt.replace(/(астр )/gi, "астр. ");
 			txt = txt.replace(/(хим )/gi, "хим. ");
@@ -164,6 +165,9 @@ public class NoteFormUtils {
 			txt = txt.replace(/(охот )/gi, "охот. ");
 			txt = txt.replace(/(фин )/gi, "фин. ");
 			txt = txt.replace(/(ком )/gi, "ком. ");
+			txt = txt.replace(/(филос )/gi, "филос. ");
+			txt = txt.replace(/(редк )/gi, "редк. ");
+			txt = txt.replace(/(книжн )/gi, "книжн. ");
 
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");

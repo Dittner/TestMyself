@@ -138,6 +138,7 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 
 	private function removedFromStageHandler(event:Event):void {
 		if (Device.isDesktop) {
+			hovered = false;
 			removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 			removeEventListener(MouseEvent.MOUSE_OVER, overHandler);
 			removeEventListener(MouseEvent.MOUSE_OUT, outHandler);

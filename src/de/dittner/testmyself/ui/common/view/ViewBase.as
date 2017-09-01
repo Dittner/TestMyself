@@ -165,6 +165,7 @@ public class ViewBase extends SkinnableContainer {
 				activate();
 				break;
 			case NavigationPhase.VIEW_REMOVING:
+				if (stage) stage.focus = null;
 				_isRemoving = true;
 				dispatchEvent(new Event("isRemovingChange"));
 				_isActive = false;

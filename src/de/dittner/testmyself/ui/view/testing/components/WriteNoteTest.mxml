@@ -69,17 +69,11 @@
         override protected function updateForm():void {
             clear();
             if (word) {
-                titleLbl.text = word.title;
-                titleLbl.article = word.article;
-
-                titleLbl.text += word.declension ? ", " + word.declension : "";
                 translateBoard.text = word.description;
-
                 isBigText = false;
             }
             else if (verb) {
-                titleLbl.text = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
-                translateBoard.text = note.description;
+                translateBoard.text = verb.description;
                 isBigText = false;
             }
             else if (note) {
@@ -98,8 +92,6 @@
         override protected function clear():void {
             isCorrectlyAnswered = true;
             showDetails = false;
-            titleLbl.article = "";
-            titleLbl.text = "";
             translateBoard.text = "";
             textInput.text = "";
             textArea.text = "";
@@ -164,6 +156,7 @@
     <s:Group width="100%"
              visible="{!isBigText}" includeInLayout="{!isBigText}">
         <note:NoteLabel id="titleLbl"
+                        note="{note}"
                         visible="{showDetails}"
                         textThickness="60"
                         textAlign="{TextAlign.CENTER}"

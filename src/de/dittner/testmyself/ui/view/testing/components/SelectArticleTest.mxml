@@ -8,7 +8,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
-        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.utils.Values;
@@ -90,16 +89,6 @@
                 invalidNotifier.show();
             }
         }
-
-        private function getArticle(note:Note, showDetails:Boolean):String {
-            var word:Word = note as Word;
-            return word && showDetails ? word.article : "";
-        }
-
-        private function getTitle(note:Note, showDetails:Boolean):String {
-            var word:Word = note as Word;
-            return word && showDetails ? note.title + ", " + word.declension : word ? word.title : "";
-        }
         ]]></fx:Script>
     <fx:Declarations>
         <components:InvalidNotifier id="invalidNotifier"
@@ -114,8 +103,8 @@
 
     <note:NoteLabel id="titleLbl"
                     width="100%"
-                    article="{getArticle(note, showDetails)}"
-                    text="{getTitle(note, showDetails)}"
+                    note="{note}"
+                    showDetails="{showDetails}"
                     textThickness="60"
                     textAlign="{TextAlign.CENTER}"
                     fontSize="{Values.PT30}"

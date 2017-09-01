@@ -6,9 +6,7 @@
                 xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
                 xmlns:note="de.dittner.testmyself.ui.common.note.*"
                 xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*"
-                xmlns:input="de.dittner.testmyself.ui.common.input.*"
-                addedToStage="addedToStageHandler(event)"
-                removedFromStage="removeFromStageHandler(event)">
+                xmlns:input="de.dittner.testmyself.ui.common.input.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -39,6 +37,19 @@
         //  Methods
         //
         //----------------------------------------------------------------------------------------------
+
+        //--------------------------------------
+        //  showNoteDetails
+        //--------------------------------------
+        private var _showNoteDetails:Boolean = true;
+        [Bindable("showNoteDetailsChanged")]
+        public function get showNoteDetails():Boolean {return _showNoteDetails;}
+        public function set showNoteDetails(value:Boolean):void {
+            if (_showNoteDetails != value) {
+                _showNoteDetails = value;
+                dispatchEvent(new Event("showNoteDetailsChanged"));
+            }
+        }
 
         override protected function activating():void {
             vm = ViewModelFactory.instance.noteViewVM;
@@ -88,6 +99,9 @@
                 case(ToolAction.NEXT_NOTE) :
                     if (vm.page) vm.page.showNextNote();
                     break;
+                case(ToolAction.SHOW_DETAILS) :
+                    showNoteDetails = !showNoteDetails;
+                    break;
                 case(ToolAction.CREATE_NOTE) :
                     vm.createNote();
                     break;
@@ -112,7 +126,10 @@
                     vm.reloadPage();
                     break;
                 case(ToolAction.PLAY_COMMENT) :
-                    loadComment(true);
+                    if (isActive && mp3 && mp3.isPlaying)
+                        mp3.pause();
+                    else
+                        loadComment(true);
                     break;
             }
         }
@@ -129,28 +146,17 @@
             var hasTitle:Boolean = true;
 
             if (!selectedNote) {
-                titleLbl.article = "";
-                titleLbl.text = "";
-                descriptionLbl.text = "";
                 return;
             }
             if (selectedNote is Word) {
-                var word:Word = selectedNote as Word;
-                titleLbl.article = word.article;
-                titleLbl.text = word ? word.declension ? word.title + ", " + word.declension : word.title : "";
                 audioPanel.visible = audioPanel.includeInLayout = false;
                 keyWordsPanel.visible = keyWordsPanel.includeInLayout = false;
             }
             else if (selectedNote is IrregularVerb) {
-                var verb:IrregularVerb = selectedNote as IrregularVerb;
-                titleLbl.article = "";
-                titleLbl.text = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
                 audioPanel.visible = audioPanel.includeInLayout = false;
                 keyWordsPanel.visible = keyWordsPanel.includeInLayout = false;
             }
             else {
-                titleLbl.article = "";
-                titleLbl.text = selectedNote.title;
                 hasTitle = selectedNote.title && selectedNote.title.length < 100 && selectedNote.description.length / selectedNote.title.length > 2;
                 audioPanel.visible = audioPanel.includeInLayout = !selectedNote.isExample && selectedNote.hasAudio;
                 if (audioPanel.visible) loadComment();
@@ -170,7 +176,6 @@
             var searchText:String = viewInfo.page is SearchPage ? (viewInfo.page as SearchPage).searchText : "";
             examplesPanel.renderOptions.searchText = searchText;
             titleLbl.searchText = searchText;
-            descriptionLbl.text = selectedNote.description;
             descriptionLbl.searchText = searchText;
 
             var isLessonVocabulary:Boolean = selectedNote.vocabulary.id == VocabularyID.DE_LESSON || selectedNote.vocabulary.id == VocabularyID.EN_LESSON;
@@ -256,21 +261,6 @@
                 scroller.verticalScrollBar.value = cont.contentHeight - height;
             }
         }
-
-        private function addedToStageHandler(event:Event):void {
-            stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
-        }
-
-        private function removeFromStageHandler(event:Event):void {
-            stage.removeEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
-        }
-
-        override protected function keyUpHandler(event:KeyboardEvent):void {
-            if (isActive && mp3 && event.keyCode == 32) {
-                if (mp3.isPlaying) mp3.pause();
-                else loadComment(true);
-            }
-        }
         ]]></fx:Script>
 
     <scroller:CustomScroller id="scroller"
@@ -281,6 +271,8 @@
                                   isOpened="true"
                                   width="{Values.PT768}">
                 <note:NoteLabel id="titleLbl"
+                                note="{vm.page.selectedNote}"
+                                showDetails="{showNoteDetails}"
                                 textThickness="60"
                                 left="0" right="0"/>
                 <s:Label id="tagsInfoLbl"
@@ -313,6 +305,8 @@
                 <note:NoteLabel id="descriptionLbl"
                                 width="100%"
                                 height="100%"
+                                note="{vm.page.selectedNote}"
+                                mode="description"
                                 fontSize="{Values.PT22}"
                                 textColor="{AppColors.TEXT_DARK_GRAY}"/>
             </panel:CollapsedPanel>

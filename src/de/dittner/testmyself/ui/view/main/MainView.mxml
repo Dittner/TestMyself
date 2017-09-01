@@ -156,7 +156,8 @@
                       horizontalCenter="0"
                       disabledAlpha="1"
                       enabled="false"
-                      enabled.normal="true"/>
+                      enabled.normal="true"
+                      keyboardEnabled="{!commentsBoard.isOpened}"/>
 
     <menu:NavigationMenu id="navigationMenuComponent"
                          width="{Values.PT768}" height="{AppSizes.MENU_HEIGHT}"
@@ -181,7 +182,8 @@
                      bottom="0" horizontalCenter="0"
                      disabledAlpha="1"
                      enabled="false"
-                     enabled.normal="true"/>
+                     enabled.normal="true"
+                     keyboardEnabled="{!commentsBoard.isOpened}"/>
 
     <s:Group id="popupLayer"
              mouseEnabled="false" mouseChildren="false"

@@ -1,6 +1,9 @@
 package de.dittner.testmyself.ui.common.note {
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.DeWordArticle;
+import de.dittner.testmyself.model.domain.note.IrregularVerb;
+import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.model.domain.note.Word;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
@@ -20,40 +23,39 @@ public class NoteLabel extends UIComponent {
 	public function NoteLabel() {
 		super();
 	}
+
 	private var titleTF:TextField;
 
 	//--------------------------------------
-	//  text
+	//  note
 	//--------------------------------------
-	private var textChanged:Boolean = false;
-	private var _text:String = "";
-	[Bindable("textChanged")]
-	public function get text():String {return _text;}
-	public function set text(value:String):void {
-		if (_text != value) {
-			_text = value;
-			textChanged = true;
+	private var _note:Note;
+	[Bindable("noteChanged")]
+	public function get note():Note {return _note;}
+	public function set note(value:Note):void {
+		if (_note != value) {
+			_note = value;
 			invalidateProperties();
 			invalidateSize();
 			invalidateDisplayList();
-			dispatchEvent(new Event("textChanged"));
+			dispatchEvent(new Event("noteChanged"));
 		}
 	}
 
 	//--------------------------------------
-	//  article
+	//  mode
 	//--------------------------------------
-	private var _article:String = "";
-	[Bindable("articleChanged")]
-	public function get article():String {return _article;}
-	public function set article(value:String):void {
-		if (_article != value) {
-			_article = value;
-			textChanged = true;
+	private var _mode:String = "title";
+	[Inspectable(defaultValue="title", enumeration="title,description")]
+	[Bindable("modeChanged")]
+	public function get mode():String {return _mode;}
+	public function set mode(value:String):void {
+		if (_mode != value) {
+			_mode = value;
 			invalidateProperties();
 			invalidateSize();
 			invalidateDisplayList();
-			dispatchEvent(new Event("articleChanged"));
+			dispatchEvent(new Event("modeChanged"));
 		}
 	}
 
@@ -67,7 +69,6 @@ public class NoteLabel extends UIComponent {
 	public function set searchText(value:String):void {
 		if (_searchText != value) {
 			_searchText = value;
-			textChanged = true;
 			pattern = new RegExp(searchText, "gi");
 			invalidateProperties();
 			dispatchEvent(new Event("searchTextChanged"));
@@ -85,7 +86,6 @@ public class NoteLabel extends UIComponent {
 		if (_fontSize != value) {
 			_fontSize = value;
 			formatChanged = true;
-			textChanged = true;
 			invalidateProperties();
 			invalidateSize();
 			invalidateDisplayList();
@@ -103,7 +103,6 @@ public class NoteLabel extends UIComponent {
 		if (_textAlign != value) {
 			_textAlign = value;
 			formatChanged = true;
-			textChanged = true;
 			invalidateProperties();
 			dispatchEvent(new Event("textAlignChanged"));
 		}
@@ -119,7 +118,6 @@ public class NoteLabel extends UIComponent {
 		if (_textColor != value) {
 			_textColor = value;
 			formatChanged = true;
-			textChanged = true;
 			invalidateProperties();
 			dispatchEvent(new Event("textColorChanged"));
 		}
@@ -151,7 +149,6 @@ public class NoteLabel extends UIComponent {
 		if (_textThickness != value) {
 			_textThickness = value;
 			formatChanged = true;
-			textChanged = true;
 			invalidateProperties();
 			dispatchEvent(new Event("textThicknessChanged"));
 		}
@@ -187,6 +184,22 @@ public class NoteLabel extends UIComponent {
 		}
 	}
 
+	//--------------------------------------
+	//  showDetails
+	//--------------------------------------
+	private var _showDetails:Boolean = true;
+	[Bindable("showDetailsChanged")]
+	public function get showDetails():Boolean {return _showDetails;}
+	public function set showDetails(value:Boolean):void {
+		if (_showDetails != value) {
+			_showDetails = value;
+			invalidateProperties();
+			invalidateSize();
+			invalidateDisplayList();
+			dispatchEvent(new Event("showDetailsChanged"));
+		}
+	}
+
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -219,42 +232,63 @@ public class NoteLabel extends UIComponent {
 			titleTF.defaultTextFormat = TITLE_FORMAT;
 		}
 
-		if (textChanged) {
-			textChanged = false;
+		titleTF.htmlText = getTitleText();
+		var article:String = note is Word ? (note as Word).article : "";
 
-			titleTF.htmlText = getTitleText();
-
-			if (article) {
-				switch (article) {
-					case DeWordArticle.DIE :
-						titleTF.setTextFormat(DIE_FORMAT, 0, article.length);
-						break;
-					case DeWordArticle.DAS :
-						titleTF.setTextFormat(DAS_FORMAT, 0, article.length);
-						break;
-					case DeWordArticle.DER_DIE :
-						titleTF.setTextFormat(DIE_FORMAT, 4, article.length);
-						break;
-					case DeWordArticle.DER_DAS :
-						titleTF.setTextFormat(DAS_FORMAT, 4, article.length);
-						break;
-					case DeWordArticle.DIE_DAS :
-						titleTF.setTextFormat(DIE_FORMAT, 0, 4);
-						titleTF.setTextFormat(DAS_FORMAT, 4, article.length);
-						break;
-					case DeWordArticle.DER_DIE_DAS :
-						titleTF.setTextFormat(DIE_FORMAT, 4, article.length);
-						titleTF.setTextFormat(DAS_FORMAT, 8, article.length);
-						break;
-				}
+		if (article && showDetails && mode == "title") {
+			switch (article) {
+				case DeWordArticle.DIE :
+					titleTF.setTextFormat(DIE_FORMAT, 0, article.length);
+					break;
+				case DeWordArticle.DAS :
+					titleTF.setTextFormat(DAS_FORMAT, 0, article.length);
+					break;
+				case DeWordArticle.DER_DIE :
+					titleTF.setTextFormat(DIE_FORMAT, 4, article.length);
+					break;
+				case DeWordArticle.DER_DAS :
+					titleTF.setTextFormat(DAS_FORMAT, 4, article.length);
+					break;
+				case DeWordArticle.DIE_DAS :
+					titleTF.setTextFormat(DIE_FORMAT, 0, 4);
+					titleTF.setTextFormat(DAS_FORMAT, 4, article.length);
+					break;
+				case DeWordArticle.DER_DIE_DAS :
+					titleTF.setTextFormat(DIE_FORMAT, 4, article.length);
+					titleTF.setTextFormat(DAS_FORMAT, 8, article.length);
+					break;
 			}
 		}
 	}
 
 	private function getTitleText():String {
+		if (!note) return "";
+
 		var title:String = "";
-		if (article) title = article + " ";
-		title += text;
+		if (mode == "description") {
+			title = note.description;
+		}
+		else {
+			if (showDetails) {
+				if (note is Word) {
+					var word:Word = note as Word;
+					title = word.article ? word.article + " " + word.title : word.title;
+					if (word.declension) title += ", " + word.declension;
+				}
+				else if (note is IrregularVerb) {
+					var verb:IrregularVerb = note as IrregularVerb;
+					title = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+				}
+				else {
+					title = note.title;
+				}
+
+			}
+			else {
+				title = note is Word || note is IrregularVerb ? "– " + note.title + " –" : note.title;
+			}
+		}
+
 		return searchText ? title.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : title;
 	}
 
@@ -282,5 +316,6 @@ public class NoteLabel extends UIComponent {
 			invalidateDisplayList();
 		}
 	}
+
 }
 }

@@ -6,7 +6,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
-        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.utils.Values;
 
         import flashx.textLayout.formats.TextAlign;
@@ -18,12 +17,6 @@
             return note as IrregularVerb;
         }
 
-        //----------------------------------------------------------------------------------------------
-        //
-        //  Methods
-        //
-        //----------------------------------------------------------------------------------------------
-
         override protected function updateForm():void {
             clear();
             if (verb)
@@ -34,11 +27,6 @@
             showDetails = false;
             translateBoard.text = "";
         }
-
-        private function getTitle(note:Note, showDetails:Boolean):String {
-            var verb:IrregularVerb = note as IrregularVerb;
-            return verb && showDetails ? verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect : verb ? verb.title + ", ..?" : "";
-        }
         ]]></fx:Script>
 
     <test:layout>
@@ -47,7 +35,8 @@
 
     <s:Group width="100%">
         <note:NoteLabel id="titleLbl"
-                        text="{getTitle(note, showDetails)}"
+                        note="{note}"
+                        showDetails="{showDetails}"
                         textThickness="60"
                         textAlign="{TextAlign.CENTER}"
                         fontSize="{Values.PT30}"

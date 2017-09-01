@@ -55,9 +55,6 @@ public class TileID {
 	public static const MENU_NEXT_ICON:String = "MENU_NEXT_ICON";
 	public static const MENU_NEXT_RED_ICON:String = "MENU_NEXT_RED_ICON";
 
-	public static const MENU_QUESTION_ICON:String = "MENU_QUESTION_ICON";
-	public static const MENU_QUESTION_RED_ICON:String = "MENU_QUESTION_RED_ICON";
-
 	public static const MENU_PRIORITY_LOW_ICON:String = "MENU_PRIORITY_LOW_ICON";
 	public static const MENU_PRIORITY_LOW_RED_ICON:String = "MENU_PRIORITY_LOW_RED_ICON";
 
@@ -70,6 +67,10 @@ public class TileID {
 	public static const MENU_NEXT_NOTE_ICON:String = "MENU_NEXT_NOTE_ICON";
 	public static const MENU_NEXT_NOTE_DISABLED_ICON:String = "MENU_NEXT_NOTE_DISABLED_ICON";
 	public static const MENU_NEXT_NOTE_RED_ICON:String = "MENU_NEXT_NOTE_RED_ICON";
+
+	public static const MENU_SHOW_DETAILS_ICON:String = "MENU_SHOW_DETAILS_ICON";
+	public static const MENU_SHOW_DETAILS_DISABLED_ICON:String = "MENU_SHOW_DETAILS_DISABLED_ICON";
+
 
 	public static const MENU_PREV_NOTE_ICON:String = "MENU_PREV_NOTE_ICON";
 	public static const MENU_PREV_NOTE_DISABLED_ICON:String = "MENU_PREV_NOTE_DISABLED_ICON";

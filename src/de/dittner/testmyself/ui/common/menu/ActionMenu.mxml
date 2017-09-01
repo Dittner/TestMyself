@@ -154,6 +154,19 @@
             dispatchEvent(new Event("paginationBarPageChanged"));
         }
 
+        //--------------------------------------
+        //  keyboardEnabled
+        //--------------------------------------
+        private var _keyboardEnabled:Boolean = true;
+        [Bindable("keyboardEnabledChanged")]
+        public function get keyboardEnabled():Boolean {return _keyboardEnabled;}
+        public function set keyboardEnabled(value:Boolean):void {
+            if (_keyboardEnabled != value) {
+                _keyboardEnabled = value;
+                dispatchEvent(new Event("keyboardEnabledChanged"));
+            }
+        }
+
         //----------------------------------------------------------------------------------------------
         //
         //  TEST
@@ -182,7 +195,7 @@
         }
 
         override protected function keyUpHandler(event:KeyboardEvent):void {
-            if (enabled && currentState == "navigation") {
+            if (enabled && keyboardEnabled && currentState == "navigation") {
                 if (event.keyCode == 37 && prevNoteBtn.mouseEnabled) {
                     notifyAction(ToolAction.PREV_NOTE)
                 }
@@ -211,7 +224,7 @@
 
     <s:HGroup width="100%" height="100%"
               includeIn="navigation"
-              gap="{Values.PT25}"
+              gap="{Values.PT120}"
               verticalAlign="middle" horizontalAlign="center">
         <menu:MenuButton id="prevNoteBtn"
                          upTileID="{prevNoteBtn.mouseEnabled ? TileID.MENU_PREV_NOTE_ICON : TileID.MENU_PREV_NOTE_DISABLED_ICON}"
@@ -220,7 +233,12 @@
                          mouseEnabled="{prevNoteEnabled(navigationNotePage.number, navigationNotePage.selectedItemIndex)}"
                          click="notifyAction(ToolAction.PREV_NOTE)"/>
 
-        <s:Spacer width="20%"/>
+        <menu:MenuButton id="showNoteDetailsBtn"
+                         upTileID="{TileID.MENU_SHOW_DETAILS_ICON}"
+                         disabledTileID="{TileID.MENU_SHOW_DETAILS_DISABLED_ICON}"
+                         enabled="{enabled}"
+                         click="notifyAction(ToolAction.SHOW_DETAILS)"/>
+
 
         <menu:MenuButton id="nextNoteBtn"
                          upTileID="{nextNoteBtn.mouseEnabled ? TileID.MENU_NEXT_NOTE_ICON : TileID.MENU_NEXT_NOTE_DISABLED_ICON}"
@@ -265,45 +283,45 @@
 
     <!--Test Menu-->
 
-    <s:HGroup width="100%" height="100%"
-              includeIn="test"
-              gap="{Values.PT25}"
-              verticalAlign="middle" horizontalAlign="center">
+    <s:Group width="100%" height="100%"
+              includeIn="test">
 
         <components:TaskPriorityBoard id="taskPriorityBoard"
                                       enabled="{enabled}"
+                                      left="{Values.PT25}"
                                       taskPriority="@{taskPriority}"/>
 
-        <s:Spacer width="20%"/>
-
-        <menu:MenuButton id="trueBtn"
-                         upTileID="{TileID.MENU_TRUE_ICON}"
-                         disabledTileID="{TileID.MENU_TRUE_RED_ICON}"
-                         visible="{trueBtnEnabled}" includeInLayout="{trueBtnEnabled}"
-                         enabled="{enabled}"
-                         click="notifyAction(ToolAction.TRUE)"/>
-
-        <menu:MenuButton id="falseBtn"
-                         upTileID="{TileID.MENU_FALSE_ICON}"
-                         disabledTileID="{TileID.MENU_FALSE_RED_ICON}"
-                         visible="{falseBtnEnabled}" includeInLayout="{falseBtnEnabled}"
-                         enabled="{enabled}"
-                         click="notifyAction(ToolAction.FALSE)"/>
-
-        <menu:MenuButton id="nextTaskBtn"
-                         upTileID="{TileID.MENU_NEXT_ICON}"
-                         disabledTileID="{TileID.MENU_NEXT_RED_ICON}"
-                         visible="{nextTaskBtnEnabled}" includeInLayout="{nextTaskBtnEnabled}"
-                         enabled="{enabled}"
-                         click="notifyAction(ToolAction.NEXT_TASK)"/>
 
         <menu:MenuButton id="answerBtn"
-                         upTileID="{TileID.MENU_QUESTION_ICON}"
-                         disabledTileID="{TileID.MENU_QUESTION_RED_ICON}"
+                         upTileID="{TileID.MENU_SHOW_DETAILS_ICON}"
+                         disabledTileID="{TileID.MENU_SHOW_DETAILS_DISABLED_ICON}"
                          enabled="{enabled}"
+                         horizontalCenter="0"
                          click="notifyAction(ToolAction.ANSWER)"/>
 
-    </s:HGroup>
+        <s:HGroup gap="{Values.PT25}" right="{Values.PT25}" verticalCenter="0">
+            <menu:MenuButton id="trueBtn"
+                             upTileID="{TileID.MENU_TRUE_ICON}"
+                             disabledTileID="{TileID.MENU_TRUE_RED_ICON}"
+                             visible="{trueBtnEnabled}"
+                             enabled="{enabled}"
+                             click="notifyAction(ToolAction.TRUE)"/>
+
+            <menu:MenuButton id="falseBtn"
+                             upTileID="{TileID.MENU_FALSE_ICON}"
+                             disabledTileID="{TileID.MENU_FALSE_RED_ICON}"
+                             visible="{falseBtnEnabled}" includeInLayout="{falseBtnEnabled}"
+                             enabled="{enabled}"
+                             click="notifyAction(ToolAction.FALSE)"/>
+
+            <menu:MenuButton id="nextTaskBtn"
+                             upTileID="{TileID.MENU_NEXT_ICON}"
+                             disabledTileID="{TileID.MENU_NEXT_RED_ICON}"
+                             visible="{nextTaskBtnEnabled}" includeInLayout="{nextTaskBtnEnabled}"
+                             enabled="{enabled}"
+                             click="notifyAction(ToolAction.NEXT_TASK)"/>
+        </s:HGroup>
+    </s:Group>
 
     <menu:PaginationBar id="paginationBar"
                         includeIn="pagination"

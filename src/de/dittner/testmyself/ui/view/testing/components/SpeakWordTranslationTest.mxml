@@ -27,27 +27,18 @@
             clear();
 
             if (word) {
-                titleLbl.article = word.article;
                 translateBoard.text = word.description;
-                updateTitle();
             }
         }
 
         override protected function clear():void {
             showDetails = false;
-            titleLbl.article = "";
-            titleLbl.text = "";
             translateBoard.text = "";
             translateBoard.isOpened = true;
         }
 
-        private function updateTitle():void {
-            titleLbl.text = word ? showDetails && word.declension ? word.title + ", " + word.declension : word.title : "";
-        }
-
         override protected function showAnswer():void {
             showDetails = true;
-            updateTitle();
         }
         ]]></fx:Script>
 
@@ -56,6 +47,7 @@
     </test:layout>
 
     <note:NoteLabel id="titleLbl"
+                    note="{note}"
                     textThickness="60"
                     textAlign="{TextAlign.CENTER}"
                     fontSize="{Values.PT30}"
