@@ -39,7 +39,6 @@
             translateBoard.text = "";
             showDetails = false;
             isCorrectlyAnswered = true;
-            translateBoard.isOpened = false;
         }
 
         override protected function showTestMenu():void {

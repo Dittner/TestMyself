@@ -209,7 +209,7 @@
         <s:Rect width="100%" height="100%"
                 visible="{busyIndicatorLayer.alpha != 0}">
             <s:fill>
-                <s:SolidColor color="{AppColors.PINK}" alpha="0.15"/>
+                <s:SolidColor color="{AppColors.DISABLED}" alpha="0.1"/>
             </s:fill>
         </s:Rect>
     </s:Group>
