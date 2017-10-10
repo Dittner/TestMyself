@@ -224,7 +224,7 @@
 
     <s:HGroup width="100%" height="100%"
               includeIn="navigation"
-              gap="{Values.PT120}"
+              gap="{Values.PT150}"
               verticalAlign="middle" horizontalAlign="center">
         <menu:MenuButton id="prevNoteBtn"
                          upTileID="{prevNoteBtn.mouseEnabled ? TileID.MENU_PREV_NOTE_ICON : TileID.MENU_PREV_NOTE_DISABLED_ICON}"
