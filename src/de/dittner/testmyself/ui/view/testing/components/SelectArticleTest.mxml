@@ -10,6 +10,7 @@
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.model.domain.note.Word;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.utils.Values;
 
         import flashx.textLayout.formats.TextAlign;
@@ -97,17 +98,17 @@
     </fx:Declarations>
 
     <test:layout>
-        <s:VerticalLayout gap="{Values.PT15}" paddingBottom="{Values.PT15}"/>
+        <s:VerticalLayout gap="0" paddingBottom="{Values.PT15}"/>
     </test:layout>
 
     <note:NoteLabel id="titleLbl"
                     width="100%"
                     note="{note}"
                     showDetails="{showDetails}"
-                    textThickness="60"
+                    isBold="true"
                     textAlign="{TextAlign.CENTER}"
-                    fontSize="{Values.PT30}"
-                    verPadding="{Values.PT5}"
+                    fontSize="{AppSizes.FONT_SIZE_SUPER_LARGE}"
+                    verPadding="{Values.PT10}"
                     horPadding="{padding}"/>
 
     <test:TextPanel id="translateBoard"

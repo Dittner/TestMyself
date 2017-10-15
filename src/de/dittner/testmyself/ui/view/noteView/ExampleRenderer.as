@@ -1,5 +1,6 @@
 package de.dittner.testmyself.ui.view.noteView {
 import de.dittner.testmyself.ui.common.utils.AppColors;
+import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.view.noteList.components.NoteRenderer;
 import de.dittner.testmyself.utils.Values;
@@ -7,8 +8,8 @@ import de.dittner.testmyself.utils.Values;
 import flash.text.TextFormat;
 
 public class ExampleRenderer extends NoteRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_SMALL, AppColors.BLACK, true);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_SMALL, AppColors.TEXT_DARK_GRAY);
 
 	public function ExampleRenderer() {
 		super();
@@ -23,7 +24,7 @@ public class ExampleRenderer extends NoteRenderer {
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = createMultilineTextField(TITLE_FORMAT, 50);
+			titleTf = createMultilineTextField(TITLE_FORMAT, 0);
 			addChild(titleTf);
 		}
 		super.createChildren();

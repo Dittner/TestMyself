@@ -10,6 +10,7 @@ import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.tile.TileID;
 import de.dittner.testmyself.ui.common.tile.TileShape;
 import de.dittner.testmyself.ui.common.utils.AppColors;
+import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
@@ -19,12 +20,12 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT24, AppColors.BLACK);
-	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT13, AppColors.BLACK);
-	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_DARK_GRAY);
-	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_RED);
-	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT26, AppColors.TEXT_YELLOW);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_LARGE, AppColors.BLACK, true);
+	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_LARGE, AppColors.BLACK, true);
+	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT14, AppColors.BLACK);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_MIDDLE, AppColors.TEXT_DARK_GRAY);
+	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_LARGE, AppColors.TEXT_RED, true);
+	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_LARGE, AppColors.TEXT_YELLOW, true);
 
 	protected static const TEXT_DEFAULT_OFFSET:uint = Values.PT1;
 	private static const DEF_RENDER_OPTIONS:NoteRenderOptions = new NoteRenderOptions();
@@ -108,11 +109,11 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = TextFieldFactory.createMultiline(TITLE_FORMAT, 60);
+			titleTf = TextFieldFactory.createMultiline(TITLE_FORMAT, AppSizes.FONT_TITLE_THICKNESS);
 			addChild(titleTf);
 		}
 		if (!examplesNumTf) {
-			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT, 40);
+			examplesNumTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT);
 			examplesNumTf.alpha = 0.4;
 			addChild(examplesNumTf);
 		}
@@ -168,6 +169,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	protected function updateText():void {
 		if (note) {
 			titleTf.defaultTextFormat = getTitleTextFormat();
+			titleTf.thickness = titleTf.defaultTextFormat.bold ? 0 : AppSizes.FONT_TITLE_THICKNESS;
 			titleTf.htmlText = getTitle();
 			descriptionTf.htmlText = getDescription();
 			examplesNumTf.text = note.exampleColl && note.exampleColl.length > 0 ? note.exampleColl.length.toString() : "";

@@ -10,11 +10,10 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.test.Test;
-        import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.Values;
-
-        import mx.collections.ArrayCollection;
 
         import spark.events.IndexChangeEvent;
 
@@ -44,40 +43,64 @@
 
         override protected function deactivate():void {
             vm.viewDeactivated();
-            testList.selectedItem = null;
-        }
-
-        private function getTestInfoList(vocabulary:Vocabulary):ArrayCollection {
-            return new ArrayCollection(vocabulary ? vocabulary.availableTests : []);
+            wordTestList.selectedItem = null;
+            verbTestList.selectedItem = null;
+            lessonTestList.selectedItem = null;
         }
 
         private function selectedTestHandler(event:IndexChangeEvent):void {
-            if (testList.selectedItem is Test && vocabularyList.selectedItem is Vocabulary) {
-                vm.showTestPresets(vocabularyList.selectedItem, testList.selectedItem);
+            var list:ListForm = event.currentTarget as ListForm;
+            if (list && list.selectedItem is Test) {
+                vm.showTestPresets(list.selectedItem);
                 dispatchEvent(new Event("testSelected"));
             }
         }
         ]]></fx:Script>
 
-    <list:ListForm id="vocabularyList"
+    <view:layout>
+        <s:VerticalLayout gap="{PAD}" paddingLeft="{PAD}" paddingRight="{PAD}" paddingTop="{PAD}"
+                          horizontalAlign="center"/>
+    </view:layout>
+
+    <s:Label width="100%" maxWidth="{Values.PT768}"
+             text="{resourceManager.getString('app', 'PleaseChooseTheDesiredTest')}"
+             fontFamily="{FontName.MYRIAD}"
+             fontStyle="italic"
+             fontSize="{Values.PT18}"
+             color="{AppColors.BLACK}"/>
+
+    <list:ListForm id="wordTestList"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"
-                   top="{Values.PT20}" left="{PAD}" right="{PAD}" maxWidth="{Values.PT768}" horizontalCenter="0"
-                   dataProvider="{vm.vocabularyColl}"
-                   title="{resourceManager.getString('app', 'PleaseChooseTheDesiredNoteType')}"
-                   itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.VocabularyRenderer">
+                   width="100%" maxWidth="{Values.PT768}"
+                   dataProvider="{vm.wordVocabularyTestColl}"
+                   title="{resourceManager.getString('app', 'Words')}"
+                   itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.TestInfoRenderer"
+                   change="selectedTestHandler(event)">
         <list:layout>
             <s:VerticalLayout gap="0" useVirtualLayout="false"/>
         </list:layout>
     </list:ListForm>
 
-    <list:ListForm id="testList"
-                   visible="{vocabularyList.selectedItem}"
+    <list:ListForm id="verbTestList"
                    verticalScrollPolicy="off"
                    horizontalScrollPolicy="off"
-                   top="{Values.PT180}" left="{PAD}" right="{PAD}" maxWidth="{Values.PT768}" horizontalCenter="0"
-                   dataProvider="{getTestInfoList(vocabularyList.selectedItem)}"
-                   title="{resourceManager.getString('app', 'PleaseChooseTheDesiredTest')}"
+                   width="100%" maxWidth="{Values.PT768}"
+                   dataProvider="{vm.verbVocabularyTestColl}"
+                   title="{resourceManager.getString('app', 'IrregularVerbs')}"
+                   itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.TestInfoRenderer"
+                   change="selectedTestHandler(event)">
+        <list:layout>
+            <s:VerticalLayout gap="0" useVirtualLayout="false"/>
+        </list:layout>
+    </list:ListForm>
+
+    <list:ListForm id="lessonTestList"
+                   verticalScrollPolicy="off"
+                   horizontalScrollPolicy="off"
+                   width="100%" maxWidth="{Values.PT768}"
+                   dataProvider="{vm.lessonVocabularyTestColl}"
+                   title="{resourceManager.getString('app', 'Lessons')}"
                    itemRenderer="de.dittner.testmyself.ui.view.testList.renderer.TestInfoRenderer"
                    change="selectedTestHandler(event)">
         <list:layout>

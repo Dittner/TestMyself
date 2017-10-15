@@ -10,8 +10,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class StringItemRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT16, AppColors.BLACK);
-	private static const SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT16, AppColors.TEXT_WHITE);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.BLACK);
+	private static const SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.TEXT_WHITE);
 	private static const VPAD:uint = Values.PT8;
 	private static const HPAD:uint = Values.PT5;
 

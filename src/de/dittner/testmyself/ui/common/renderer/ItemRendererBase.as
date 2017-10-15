@@ -111,11 +111,11 @@ public class ItemRendererBase extends UIComponent implements IItemRenderer {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	protected function createTextField(textFormat:TextFormat, thickness:Number = 20):TextField {
+	protected function createTextField(textFormat:TextFormat, thickness:Number = 40):TextField {
 		return TextFieldFactory.create(textFormat, thickness);
 	}
 
-	protected function createMultilineTextField(textFormat:TextFormat, thickness:Number = 20):TextField {
+	protected function createMultilineTextField(textFormat:TextFormat, thickness:Number = 40):TextField {
 		return TextFieldFactory.createMultiline(textFormat, thickness);
 	}
 

@@ -10,14 +10,14 @@ public class TextFieldFactory {
 
 	public static var useEmbedFonts:Boolean = true;
 
-	public static function create(textFormat:TextFormat, thickness:Number = 10):TextField {
+	public static function create(textFormat:TextFormat, thickness:Number = 40):TextField {
 		var tf:TextField = new TextField();
 		setUpTextField(tf, thickness);
 		tf.defaultTextFormat = textFormat;
 		return tf;
 	}
 
-	public static function createMultiline(textFormat:TextFormat, thickness:Number = 20):TextField {
+	public static function createMultiline(textFormat:TextFormat, thickness:Number = 40):TextField {
 		var tf:TextField = new TextField();
 		setUpTextField(tf, thickness);
 		tf.defaultTextFormat = textFormat;
@@ -26,7 +26,7 @@ public class TextFieldFactory {
 		return tf;
 	}
 
-	public static function createFadeTextField(textFormat:TextFormat, thickness:Number = 10):FadeTextField {
+	public static function createFadeTextField(textFormat:TextFormat, thickness:Number = 40):FadeTextField {
 		var tf:FadeTextField = new FadeTextField();
 		setUpTextField(tf, thickness);
 		tf.defaultTextFormat = textFormat;

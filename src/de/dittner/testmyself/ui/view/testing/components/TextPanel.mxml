@@ -7,7 +7,7 @@
     <fx:Script><![CDATA[
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
-        import de.dittner.testmyself.utils.Values;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
 
         //--------------------------------------
         //  showText
@@ -58,7 +58,7 @@
                    visible="{showText}" includeInLayout="{showText}"
                    text="{text}"
                    color="{AppColors.BLACK}"
-                   fontSize="{Values.PT22}"/>
+                   fontSize="{AppSizes.FONT_SIZE_MIDDLE}"/>
 
     <tile:TileImage actualTileID="{TileID.QUESTIONS_ICON}"
                     visible="{isShownQuestions(questionsIconEnabled, showText)}"

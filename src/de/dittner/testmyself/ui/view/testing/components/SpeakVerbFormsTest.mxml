@@ -6,6 +6,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.IrregularVerb;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.utils.Values;
 
         import flashx.textLayout.formats.TextAlign;
@@ -30,17 +31,17 @@
         ]]></fx:Script>
 
     <test:layout>
-        <s:VerticalLayout gap="{Values.PT15}"/>
+        <s:VerticalLayout gap="0"/>
     </test:layout>
 
     <s:Group width="100%">
         <note:NoteLabel id="titleLbl"
                         note="{note}"
                         showDetails="{showDetails}"
-                        textThickness="60"
+                        isBold="true"
                         textAlign="{TextAlign.CENTER}"
-                        fontSize="{Values.PT30}"
-                        verPadding="{Values.PT5}"
+                        fontSize="{AppSizes.FONT_SIZE_SUPER_LARGE}"
+                        verPadding="{Values.PT10}"
                         left="{padding}" right="{padding}"/>
     </s:Group>
 

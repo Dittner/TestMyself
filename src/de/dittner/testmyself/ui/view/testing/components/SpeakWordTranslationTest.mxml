@@ -6,6 +6,7 @@
 
     <fx:Script><![CDATA[
         import de.dittner.testmyself.model.domain.note.Word;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.utils.Values;
 
         import flashx.textLayout.formats.TextAlign;
@@ -48,10 +49,10 @@
 
     <note:NoteLabel id="titleLbl"
                     note="{note}"
-                    textThickness="60"
+                    isBold="true"
                     textAlign="{TextAlign.CENTER}"
-                    fontSize="{Values.PT30}"
-                    verPadding="{Values.PT5}"
+                    fontSize="{AppSizes.FONT_SIZE_SUPER_LARGE}"
+                    verPadding="{Values.PT10}"
                     horPadding="{padding}"
                     width="100%"/>
 

@@ -23,6 +23,7 @@
         import de.dittner.testmyself.ui.common.page.SearchPage;
         import de.dittner.testmyself.ui.common.page.TestPage;
         import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.utils.AppSizes;
         import de.dittner.testmyself.ui.common.utils.FontName;
         import de.dittner.testmyself.ui.common.view.ViewModelFactory;
         import de.dittner.testmyself.utils.Values;
@@ -165,11 +166,11 @@
             }
 
             if (hasTitle) {
-                titleLbl.fontSize = Values.PT30;
+                titleLbl.fontSize = AppSizes.FONT_SIZE_SUPER_LARGE;
                 titleLbl.textAlign = TextAlign.CENTER;
             }
             else {
-                titleLbl.fontSize = Values.PT24;
+                titleLbl.fontSize = AppSizes.FONT_SIZE_LARGE;
                 titleLbl.textAlign = TextAlign.LEFT;
             }
 
@@ -274,7 +275,7 @@
                 <note:NoteLabel id="titleLbl"
                                 note="{vm.page.selectedNote}"
                                 showDetails="{showNoteDetails}"
-                                textThickness="60"
+                                isBold="true"
                                 left="0" right="0"/>
                 <s:Label id="tagsInfoLbl"
                          width="100%"
@@ -308,7 +309,7 @@
                                 height="100%"
                                 note="{vm.page.selectedNote}"
                                 mode="description"
-                                fontSize="{Values.PT22}"
+                                fontSize="{AppSizes.FONT_SIZE_MIDDLE}"
                                 textColor="{AppColors.TEXT_DARK_GRAY}"/>
             </panel:CollapsedPanel>
 

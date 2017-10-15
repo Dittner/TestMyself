@@ -59,7 +59,7 @@ public class RunDataBaseCmd extends StorageOperation implements IAsyncCommand {
 	}
 
 	private function errorHandler(event:SQLErrorEvent):void {
-		dispatchError(error.toString());
+		dispatchError(event.toString());
 	}
 
 }

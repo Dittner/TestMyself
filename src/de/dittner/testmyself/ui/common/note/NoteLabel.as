@@ -5,6 +5,7 @@ import de.dittner.testmyself.model.domain.note.IrregularVerb;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.note.Word;
 import de.dittner.testmyself.ui.common.utils.AppColors;
+import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.ui.common.utils.TextFieldFactory;
 import de.dittner.testmyself.utils.Values;
@@ -79,7 +80,7 @@ public class NoteLabel extends UIComponent {
 	//  fontSize
 	//--------------------------------------
 	private var formatChanged:Boolean = false;
-	private var _fontSize:Number = Values.PT24;
+	private var _fontSize:Number = AppSizes.FONT_SIZE_SMALL;
 	[Bindable("fontSizeChanged")]
 	public function get fontSize():Number {return _fontSize;}
 	public function set fontSize(value:Number):void {
@@ -142,7 +143,7 @@ public class NoteLabel extends UIComponent {
 	//--------------------------------------
 	//  textThickness
 	//--------------------------------------
-	private var _textThickness:Number = 20;
+	private var _textThickness:Number = AppSizes.FONT_DESCRIPTION_THICKNESS;
 	[Bindable("textThicknessChanged")]
 	public function get textThickness():Number {return _textThickness;}
 	public function set textThickness(value:Number):void {
