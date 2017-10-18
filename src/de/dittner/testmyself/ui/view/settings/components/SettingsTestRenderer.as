@@ -8,8 +8,8 @@ import de.dittner.testmyself.utils.Values;
 import flash.text.TextFormat;
 
 public class SettingsTestRenderer extends StringItemRenderer {
-	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.BLACK, null, true);
-	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_WHITE, null, true);
+	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT20, AppColors.BLACK, null, true);
+	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT20, AppColors.TEXT_WHITE, null, true);
 
 	public function SettingsTestRenderer() {
 		super();

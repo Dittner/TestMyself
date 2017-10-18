@@ -38,7 +38,7 @@
              textAlign="center" verticalAlign="middle"
              text="{text}"
              fontWeight="bold"
-             fontFamily="{FontName.MYRIAD}"
+             fontFamily="{FontName.BASIC}"
              fontSize="{Values.PT20}"
              color="#ffFFff"/>
 

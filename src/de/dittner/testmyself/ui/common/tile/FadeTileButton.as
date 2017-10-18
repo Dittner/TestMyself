@@ -297,7 +297,7 @@ public class FadeTileButton extends UIComponent {
 	//--------------------------------------
 	//  font
 	//--------------------------------------
-	private var _font:String = FontName.MYRIAD_MX;
+	private var _font:String = FontName.BASIC_MX;
 	[Bindable("fontChanged")]
 	public function get font():String {return _font;}
 	public function set font(value:String):void {
@@ -477,9 +477,9 @@ public class FadeTileButton extends UIComponent {
 			}
 
 			if (titleTf) {
-				titleTf.x = iconBg ? iconBg.x + iconBg.width + Values.PT5 : paddingLeft - Values.PT3;
-				titleTf.y = Math.ceil(h - titleTf.textHeight >> 1) - 2;
-				titleTf.width = iconBg ? w - 2 * titleTf.x : w - titleTf.x - paddingRight + Values.PT3;
+				titleTf.x = iconBg ? iconBg.x + iconBg.width + Values.PT5 : paddingLeft - Values.PT2;
+				titleTf.y = Math.ceil(h - titleTf.textHeight >> 1) - 1;
+				titleTf.width = iconBg ? w - 2 * titleTf.x : w - titleTf.x - paddingRight + Values.PT2;
 				titleTf.height = h - titleTf.y;
 			}
 

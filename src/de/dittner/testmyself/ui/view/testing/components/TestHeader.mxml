@@ -52,7 +52,7 @@
     <common:BG percentWidth="100" percentHeight="100" fillColor="#0"/>
 
     <s:Label text="{title}"
-             fontFamily="{FontName.MYRIAD}"
+             fontFamily="{FontName.BASIC}"
              fontSize="{Values.PT16}"
              mouseChildren="false" mouseEnabled="false"
              width="70%" height="100%" verticalAlign="middle"
@@ -60,7 +60,7 @@
              color="{AppColors.WHITE}"/>
 
     <s:Label text="{description}"
-             fontFamily="{FontName.MYRIAD}"
+             fontFamily="{FontName.BASIC}"
              fontSize="{Values.PT16}"
              height="100%" verticalAlign="middle"
              mouseChildren="false" mouseEnabled="false"

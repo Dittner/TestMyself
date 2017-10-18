@@ -17,7 +17,7 @@ public class MXLabel extends UIComponent {
 		super();
 	}
 
-	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, _color, _isBold, null, null, null, null, _textAlign);
+	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, _fontSize, _color, _isBold, null, null, null, null, _textAlign);
 	private var titleTF:TextField;
 
 	//----------------------------------------------------------------------------------------------

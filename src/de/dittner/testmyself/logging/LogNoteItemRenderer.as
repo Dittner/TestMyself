@@ -17,7 +17,7 @@ public class LogNoteItemRenderer extends ItemRendererBase {
 	private var tf:TextField;
 	override protected function createChildren():void {
 		super.createChildren();
-		tf = createTextField(new TextFormat(FontName.MYRIAD_MX, Values.PT16, 0x565656));
+		tf = createTextField(new TextFormat(FontName.BASIC_MX, Values.PT16, 0x565656));
 		addChild(tf);
 	}
 

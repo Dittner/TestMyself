@@ -13,8 +13,8 @@ import flashx.textLayout.formats.TextAlign;
 import mx.core.UIComponent;
 
 public class ProgressBar extends UIComponent {
-	private static const TITTLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT16, AppColors.BLACK);
-	private static const PROGRESS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT16, AppColors.BLACK);
+	private static const TITTLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT16, AppColors.BLACK);
+	private static const PROGRESS_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT16, AppColors.BLACK);
 	private static const VGAP:uint = Values.PT10;
 	private static const BAR_HEI:uint = Values.PT5;
 

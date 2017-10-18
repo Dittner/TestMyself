@@ -5,89 +5,73 @@
 @namespace scroller "de.dittner.testmyself.ui.common.scroller.*";
 
 @font-face {
-    src: url("/fonts/vantathin.ttf");
-    font-family: VantaThin;
-    embedAsCFF: true;
-}
-
-@font-face {
     src: url("/fonts/DeutschGothic.ttf");
     font-family: DeutschGothic;
     embedAsCFF: true;
 }
 
 @font-face {
-    src: url("/fonts/MyriadPro-It.otf");
-    font-family: MyriadPro;
+    src: url("/fonts/OpenSans-Regular.ttf");
+    font-family: Basic;
+    embedAsCFF: true;
+}
+
+@font-face {
+    src: url("/fonts/OpenSans-Italic.ttf");
+    font-family: Basic;
     fontStyle: italic;
     embedAsCFF: true;
 }
 
 @font-face {
-    src: url("/fonts/MyriadPro-Regular.otf");
-    font-family: MyriadPro;
-    embedAsCFF: true;
-}
-
-@font-face {
-    src: url("/fonts/MyriadPro-Semibold.otf");
-    font-family: MyriadPro;
+    src: url("/fonts/OpenSans-Semibold.ttf");
+    font-family: Basic;
     fontWeight: bold;
     embedAsCFF: true;
 }
 
 @font-face {
-    src: url("/fonts/MyriadPro-Cond.otf");
-    font-family: MyriadProCond;
-    embedAsCFF: true;
-}
-
-@font-face {
-    src: url("/fonts/MyriadPro-BoldCond.otf");
-    font-family: MyriadProCond;
-    font-weight: bold;
+    src: url("/fonts/OpenSans-SemiboldItalic.ttf");
+    font-family: Basic;
+    fontWeight: bold;
+    fontStyle: italic;
     embedAsCFF: true;
 }
 
 /**************************** MX **************************/
 
 @font-face {
-    src: url("/fonts/MyriadPro-Regular.otf");
-    font-family: MyriadProMX;
+    src: url("/fonts/OpenSans-Regular.ttf");
+    font-family: BasicMX;
     embedAsCFF: false;
 }
 
 @font-face {
-    src: url("/fonts/MyriadPro-It.otf");
-    font-family: MyriadProMX;
+    src: url("/fonts/OpenSans-Italic.ttf");
+    font-family: BasicMX;
     fontStyle: italic;
     embedAsCFF: false;
 }
 
 @font-face {
-    src: url("/fonts/MyriadPro-Semibold.otf");
-    font-family: MyriadProMX;
+    src: url("/fonts/OpenSans-Semibold.ttf");
+    font-family: BasicMX;
     fontWeight: bold;
     embedAsCFF: false;
 }
 
 @font-face {
-    src: url("/fonts/MyriadPro-Cond.otf");
-    font-family: MyriadProCondMX;
-    embedAsCFF: false;
-}
-
-@font-face {
-    src: url("/fonts/MyriadPro-BoldCond.otf");
-    font-family: MyriadProCondMX;
-    font-weight: bold;
+    src: url("/fonts/OpenSans-SemiboldItalic.ttf");
+    font-family: BasicMX;
+    fontWeight: bold;
+    fontStyle: italic;
     embedAsCFF: false;
 }
 
 /***********************************************************/
 
 global {
-    fontFamily: MyriadProMX;
+    fontFamily: BasicMX;
     fontWeight: normal;
     contentBackgroundAlpha: 0;
     backgroundColor: 0;
@@ -96,12 +80,12 @@ global {
 }
 
 s|Button {
-    fontFamily: MyriadPro;
+    fontFamily: Basic;
     fontWeight: normal;
 }
 
 s|Label {
-    fontFamily: MyriadPro;
+    fontFamily: Basic;
     fontWeight: normal;
 }
 
@@ -111,7 +95,7 @@ input|TextInputForm {
     skinClass: ClassReference("de.dittner.testmyself.ui.common.input.MobileTextInputFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: MyriadProMX;
+    fontFamily: BasicMX;
     focusedTextSelectionColor: #ffbbb8;
     color: #333333;
 }
@@ -122,7 +106,7 @@ s|TextArea {
     skinClass: ClassReference("spark.skins.mobile.StageTextAreaSkin");
     horizontalScrollPolicy: off;
     focusedTextSelectionColor: #ffbbb8;
-    fontFamily: MyriadPro;
+    fontFamily: Basic;
     color: #333333;
 }
 
@@ -135,7 +119,7 @@ list|ListForm {
     skinClass: ClassReference("de.dittner.testmyself.ui.common.list.ListFormSkin");
     borderVisible: false;
     focusSkin: ClassReference("mx.core.UIComponent");
-    fontFamily: MyriadProMX;
+    fontFamily: BasicMX;
     color: #333333;
 }
 
@@ -153,5 +137,5 @@ scroller|CustomScroller {
 spinner|CustomSpinner {
     skin-class: ClassReference("de.dittner.testmyself.ui.common.spinner.CustomSpinnerSkin");
     color: #4e4f61;
-    fontFamily: MyriadPro;
+    fontFamily: Basic;
 }

@@ -9,8 +9,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class DropdownListItemRenderer extends ItemRendererBase {
-	private static const INDEX_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT15, AppColors.TEXT_GRAY);
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_DARK_GRAY);
+	private static const INDEX_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT15, AppColors.TEXT_GRAY);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT20, AppColors.TEXT_DARK_GRAY);
 	private static const VPAD:uint = Values.PT5;
 	private static const HPAD:uint = Values.PT5;
 

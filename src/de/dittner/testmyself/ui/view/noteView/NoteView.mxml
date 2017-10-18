@@ -282,7 +282,7 @@
                          maxDisplayedLines="1"
                          textAlign="right"
                          bottom="{-Values.PT18}"
-                         fontFamily="{FontName.MYRIAD_COND}"
+                         fontFamily="{FontName.BASIC}"
                          fontStyle="italic"
                          color="0"
                          alpha="0.6"

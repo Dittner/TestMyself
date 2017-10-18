@@ -2,14 +2,15 @@ package de.dittner.testmyself.ui.view.noteList.components.tag {
 import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.ui.common.renderer.*;
 import de.dittner.testmyself.ui.common.utils.AppColors;
+import de.dittner.testmyself.ui.common.utils.AppSizes;
 import de.dittner.testmyself.ui.common.utils.FontName;
 import de.dittner.testmyself.utils.Values;
 
 import flash.text.TextFormat;
 
 public class LargeTagRenderer extends StringItemRenderer {
-	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.BLACK, null, true);
-	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT22, AppColors.TEXT_WHITE, null, true);
+	private static const TEST_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_SMALL, AppColors.BLACK, null, true);
+	private static const TEST_SELECTED_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_SMALL, AppColors.TEXT_WHITE, null, true);
 
 	public function LargeTagRenderer() {
 		super();

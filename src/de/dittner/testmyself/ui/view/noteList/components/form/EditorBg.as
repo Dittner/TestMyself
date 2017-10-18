@@ -24,7 +24,7 @@ public class EditorBG extends UIComponent {
 
 	private var toolIcon:TileShape;
 
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT16, AppColors.TEXT_LIGHT);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT16, AppColors.TEXT_LIGHT);
 	public static const HEADER_HEIGHT:uint = AppSizes.SCREEN_HEADER_HEIGHT;
 	public static const PAD:uint = Values.PT15;
 	public static const GAP:uint = Values.PT5;

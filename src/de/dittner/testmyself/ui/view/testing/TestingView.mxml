@@ -161,7 +161,7 @@
     <s:HGroup width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
               gap="{PAD}" paddingLeft="{PAD}" paddingRight="{PAD}" paddingTop="{PAD}">
         <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontSize="{Values.PT20}"
                  width="50%"
                  mouseChildren="false" mouseEnabled="false"
@@ -171,7 +171,7 @@
         <s:Label text="{vm.errorsNum + ' ' + resourceManager.getString('app', 'Errors')}"
                  width="50%"
                  textAlign="right"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontSize="{Values.PT20}"
                  maxDisplayedLines="1"
                  mouseChildren="false" mouseEnabled="false"

@@ -13,7 +13,7 @@ import flashx.textLayout.formats.TextAlign;
 import spark.components.DataGroup;
 
 public class SettingsItemRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT20, AppColors.TEXT_DARK_GRAY, true, null, null, null, null, TextAlign.CENTER);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT20, AppColors.TEXT_DARK_GRAY, true, null, null, null, null, TextAlign.CENTER);
 
 	public function SettingsItemRenderer() {
 		super();

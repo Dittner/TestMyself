@@ -10,30 +10,30 @@ public class TextFieldFactory {
 
 	public static var useEmbedFonts:Boolean = true;
 
-	public static function create(textFormat:TextFormat, thickness:Number = 40):TextField {
+	public static function create(textFormat:TextFormat):TextField {
 		var tf:TextField = new TextField();
-		setUpTextField(tf, thickness);
+		setUpTextField(tf);
 		tf.defaultTextFormat = textFormat;
 		return tf;
 	}
 
-	public static function createMultiline(textFormat:TextFormat, thickness:Number = 40):TextField {
+	public static function createMultiline(textFormat:TextFormat):TextField {
 		var tf:TextField = new TextField();
-		setUpTextField(tf, thickness);
+		setUpTextField(tf);
 		tf.defaultTextFormat = textFormat;
 		tf.multiline = true;
 		tf.wordWrap = true;
 		return tf;
 	}
 
-	public static function createFadeTextField(textFormat:TextFormat, thickness:Number = 40):FadeTextField {
+	public static function createFadeTextField(textFormat:TextFormat):FadeTextField {
 		var tf:FadeTextField = new FadeTextField();
-		setUpTextField(tf, thickness);
+		setUpTextField(tf);
 		tf.defaultTextFormat = textFormat;
 		return tf;
 	}
 
-	private static function setUpTextField(tf:TextField, thickness:Number):void {
+	private static function setUpTextField(tf:TextField):void {
 		tf.width = 100000;
 		tf.height = 100000;
 		tf.selectable = false;
@@ -45,7 +45,7 @@ public class TextFieldFactory {
 		tf.antiAliasType = AntiAliasType.ADVANCED;
 		tf.gridFitType = GridFitType.PIXEL;
 		tf.sharpness = 0;
-		tf.thickness = thickness;
+		tf.thickness = 0;
 	}
 
 }

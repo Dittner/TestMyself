@@ -31,7 +31,7 @@
 
     <s:Label text="{resourceManager.getString('app', 'NoAudioRecord')}"
              verticalCenter="1"
-             left="{Values.PT40}" width="{Values.PT100}"
+             left="{Values.PT40}" width="{Values.PT110}"
              verticalAlign="middle"
              visible.normal="true"
              visible.recording="false"

@@ -110,7 +110,7 @@
                            text="@{text}"
                            color="#333333"
                            fontSize="{Values.PT18}"
-                           fontFamily="{FontName.MYRIAD}"
+                           fontFamily="{FontName.BASIC}"
                            focusSkin="{UIComponent}"
                            borderVisible="false"
                            change="area_changeHandler(event)"/>

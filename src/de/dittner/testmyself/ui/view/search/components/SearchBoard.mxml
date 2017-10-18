@@ -109,7 +109,7 @@
               gap="{Values.PT20}" verticalAlign="bottom">
 
         <input:DropdownInputForm id="searchInput"
-                                 width="{width/2-Values.PT20}"
+                                 width="{Values.PT300}"
                                  isTemplatesEnabled="{isTemplatesEnabled}"
                                  title="{resourceManager.getString('app', 'EnterTheTextThatYouWantToSearch')}"
                                  inputTemplateColl="{new ArrayCollection(SEARCH_TEMPLATES)}"

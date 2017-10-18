@@ -105,6 +105,7 @@
     <menu:MenuButton id="prevPageBtn"
                      upTileID="{prevPageBtn.mouseEnabled ? TileID.MENU_PREV_PAGE_ICON : TileID.MENU_PREV_PAGE_DISABLED_ICON}"
                      disabledTileID="{TileID.MENU_PREV_PAGE_RED_ICON}"
+                     upBgAlpha="0.7"
                      mouseEnabled="{prevPageBtnEnabled(page.number)}"
                      click="prevPageBtnClickHandler(event)"
                      enabled="{enabled}"/>
@@ -115,25 +116,26 @@
                      upTileID="{firstPageBtn.mouseEnabled ? TileID.MENU_PAGE_ICON : TileID.MENU_PAGE_DISABLED_ICON}"
                      disabledTileID="{TileID.MENU_PAGE_RED_ICON}"
                      isBold="true"
+                     upBgAlpha="0.7"
                      title="{firstPageBtn.mouseEnabled ? '1' : ''}"
                      paddingLeft="0" paddingRight="0"
                      mouseEnabled="{firstPageBtnEnabled(page.number)}"
                      textColor="#0"
-                     font="{FontName.MYRIAD_COND_MX}"
-                     fontSize="{Values.PT15}"
+                     font="{FontName.BASIC_MX}"
+                     fontSize="{Values.PT12}"
                      click="firstPageBtnClickHandler(event)"
                      enabled="{enabled}"/>
 
     <menu:MenuButton id="curPageBtn"
                      upTileID="{TileID.MENU_PAGE_ICON}"
                      disabledTileID="{TileID.MENU_PAGE_RED_ICON}"
-                     upBgAlpha="0.8"
+                     upBgAlpha="1"
                      title="{page.number + 1}"
                      isBold="true"
                      paddingLeft="0" paddingRight="0"
                      textColor="#0"
-                     font="{FontName.MYRIAD_COND_MX}"
-                     fontSize="{Values.PT15}"
+                     font="{FontName.BASIC_MX}"
+                     fontSize="{Values.PT12}"
                      enabled="{enabled}"
                      click="showPageNumSelector()"/>
 
@@ -141,12 +143,13 @@
                      upTileID="{lastPageBtn.mouseEnabled ? TileID.MENU_PAGE_ICON : TileID.MENU_PAGE_DISABLED_ICON}"
                      disabledTileID="{TileID.MENU_PAGE_RED_ICON}"
                      isBold="true"
+                     upBgAlpha="0.7"
                      paddingLeft="0" paddingRight="0"
                      mouseEnabled="{lastPageBtnEnabled(page.number, page.totalPages)}"
                      textColor="#0"
                      title="{lastPageBtn.mouseEnabled ? page.totalPages.toString() : ''}"
-                     font="{FontName.MYRIAD_COND_MX}"
-                     fontSize="{Values.PT15}"
+                     font="{FontName.BASIC_MX}"
+                     fontSize="{Values.PT12}"
                      enabled="{enabled}"
                      click="lastPageBtnClickHandler(event)"/>
 
@@ -155,6 +158,7 @@
     <menu:MenuButton id="nextPageBtn"
                      upTileID="{nextPageBtn.mouseEnabled ? TileID.MENU_NEXT_PAGE_ICON : TileID.MENU_NEXT_PAGE_DISABLED_ICON}"
                      disabledTileID="{TileID.MENU_NEXT_PAGE_RED_ICON}"
+                     upBgAlpha="0.7"
                      mouseEnabled="{nextPageBtnEnabled(page.number, page.totalPages)}"
                      enabled="{enabled}"
                      click="nextPageBtnClickHandler(event)"/>

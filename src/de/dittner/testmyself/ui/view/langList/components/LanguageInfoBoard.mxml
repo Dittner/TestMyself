@@ -91,7 +91,7 @@
 
     <s:Label width="{Values.PT250}"
              paddingLeft="0"
-             fontFamily="{FontName.MYRIAD}"
+             fontFamily="{FontName.BASIC}"
              fontSize="{Values.PT30}"
              fontWeight="bold"
              color="{AppColors.TEXT_WHITE}"
@@ -101,13 +101,13 @@
         <s:Label id="valuesLbl"
                  width="{Values.PT130}"
                  textAlign="right"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontSize="{Values.PT22}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"/>
 
         <s:Label width="{Values.PT250}"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontSize="{Values.PT22}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"

@@ -17,9 +17,9 @@ import flash.text.TextFormat;
 import mx.core.UIComponent;
 
 public class NoteLabel extends UIComponent {
-	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, _textColor, _isBold);
-	private const DIE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, AppColors.TEXT_RED);
-	private const DAS_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, _fontSize, AppColors.TEXT_YELLOW);
+	private const TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, _fontSize, _textColor, _isBold);
+	private const DIE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, _fontSize, AppColors.TEXT_RED);
+	private const DAS_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, _fontSize, AppColors.TEXT_YELLOW);
 
 	public function NoteLabel() {
 		super();
@@ -141,21 +141,6 @@ public class NoteLabel extends UIComponent {
 	}
 
 	//--------------------------------------
-	//  textThickness
-	//--------------------------------------
-	private var _textThickness:Number = AppSizes.FONT_DESCRIPTION_THICKNESS;
-	[Bindable("textThicknessChanged")]
-	public function get textThickness():Number {return _textThickness;}
-	public function set textThickness(value:Number):void {
-		if (_textThickness != value) {
-			_textThickness = value;
-			formatChanged = true;
-			invalidateProperties();
-			dispatchEvent(new Event("textThicknessChanged"));
-		}
-	}
-
-	//--------------------------------------
 	//  horPadding
 	//--------------------------------------
 	private var _horPadding:Number = 0;
@@ -210,7 +195,7 @@ public class NoteLabel extends UIComponent {
 	override protected function createChildren():void {
 		super.createChildren();
 		if (!titleTF) {
-			titleTF = TextFieldFactory.createMultiline(TITLE_FORMAT, textThickness);
+			titleTF = TextFieldFactory.createMultiline(TITLE_FORMAT);
 			titleTF.selectable = Device.isDesktop;
 			titleTF.mouseEnabled = Device.isDesktop;
 			addChild(titleTF);
@@ -229,7 +214,6 @@ public class NoteLabel extends UIComponent {
 			DAS_FORMAT.size = fontSize;
 			DAS_FORMAT.bold = isBold;
 			TITLE_FORMAT.align = textAlign;
-			titleTF.thickness = isBold ? 0 : textThickness;
 			titleTF.defaultTextFormat = TITLE_FORMAT;
 		}
 

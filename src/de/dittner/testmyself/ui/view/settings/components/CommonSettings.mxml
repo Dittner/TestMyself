@@ -97,7 +97,7 @@
     <s:VGroup width="{Values.PT400}" gap="{Values.PT5}">
         <s:Label width="100%"
                  text="{resourceManager.getString('app', 'BrightnessLevel')}"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontStyle="italic"
                  fontSize="{Values.PT18}"
                  color="{AppColors.BLACK}"/>
@@ -130,14 +130,14 @@
 
         <s:Label width="100%"
                  text="{resourceManager.getString('app', 'AudioRecordSize')}"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontStyle="italic"
                  fontSize="{Values.PT18}"
                  color="{AppColors.BLACK}"/>
 
         <spinner:CustomSpinner id="maxAudioRecordDurationSpinner"
                                value="@{vm.settings.maxAudioRecordDurationInMin}"
-                               fontFamily="{FontName.MYRIAD}"
+                               fontFamily="{FontName.BASIC}"
                                fontStyle="italic"
                                fontSize="{Values.PT20}"
                                color="{AppColors.BLACK}"
@@ -150,7 +150,7 @@
 
         <s:Label text="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
                  width="100%"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontStyle="italic"
                  fontSize="{Values.PT18}"
                  color="{AppColors.BLACK}"/>
@@ -201,7 +201,7 @@
                              paddingLeft="{Values.PT10}"
                              paddingRight="{Values.PT10}"
                              enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
-                             width="35%" top="0" right="0"
+                             width="40%" top="0" right="0"
                              textColor="#0"
                              click="downloadDB()"/>
 
@@ -215,7 +215,7 @@
                              paddingLeft="{Values.PT10}"
                              paddingRight="{Values.PT10}"
                              enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
-                             width="35%" bottom="0" left="0"
+                             width="40%" bottom="0" left="0"
                              textColor="#ffFFff"
                              click="uploadDB()"/>
     </s:Group>
@@ -227,7 +227,7 @@
                              title="{isUploading ? resourceManager.getString('app', 'DatabaseIsUploading') : resourceManager.getString('app', 'DatabaseIsUpdating')}"
                              width="{Values.PT400}"/>
 
-    <s:Label fontFamily="{FontName.MYRIAD}"
+    <s:Label fontFamily="{FontName.BASIC}"
              fontWeight="bold"
              visible="{errorText}"
              fontSize="{Values.PT18}"
@@ -237,7 +237,7 @@
              maxDisplayedLines="5"
              text="{errorText}"/>
 
-    <s:Label fontFamily="{FontName.MYRIAD}"
+    <s:Label fontFamily="{FontName.BASIC}"
              fontWeight="bold"
              visible="{isDataBaseTransferOperationSuccess}"
              color="{AppColors.BLACK}"

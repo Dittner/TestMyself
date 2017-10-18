@@ -11,7 +11,7 @@
             super.createChildren();
 
             var lbl:LabelCard;
-            lbl = new LabelCard("TESTMYSELF", Values.PT15, Values.PT22, Values.PT2, 90, 0xffFFff, Values.PT10, FontName.MYRIAD_MX);
+            lbl = new LabelCard("TESTMYSELF", Values.PT15, Values.PT22, Values.PT2, 90, 0xffFFff, Values.PT10, FontName.BASIC_MX);
             addElement(lbl);
         }
         ]]></fx:Script>

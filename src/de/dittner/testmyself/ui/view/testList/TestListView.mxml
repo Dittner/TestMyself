@@ -64,9 +64,9 @@
 
     <s:Label width="100%" maxWidth="{Values.PT768}"
              text="{resourceManager.getString('app', 'PleaseChooseTheDesiredTest')}"
-             fontFamily="{FontName.MYRIAD}"
-             fontStyle="italic"
-             fontSize="{Values.PT18}"
+             fontWeight="bold"
+             fontSize="{Values.PT20}"
+             fontFamily="{FontName.BASIC}"
              color="{AppColors.BLACK}"/>
 
     <list:ListForm id="wordTestList"

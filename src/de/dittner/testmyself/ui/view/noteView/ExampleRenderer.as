@@ -8,8 +8,8 @@ import de.dittner.testmyself.utils.Values;
 import flash.text.TextFormat;
 
 public class ExampleRenderer extends NoteRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_SMALL, AppColors.BLACK, true);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, AppSizes.FONT_SIZE_SMALL, AppColors.TEXT_DARK_GRAY);
+	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_SMALL, AppColors.BLACK, true);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_SMALL, AppColors.TEXT_DARK_GRAY);
 
 	public function ExampleRenderer() {
 		super();
@@ -24,7 +24,7 @@ public class ExampleRenderer extends NoteRenderer {
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = createMultilineTextField(TITLE_FORMAT, 0);
+			titleTf = createMultilineTextField(TITLE_FORMAT);
 			addChild(titleTf);
 		}
 		super.createChildren();

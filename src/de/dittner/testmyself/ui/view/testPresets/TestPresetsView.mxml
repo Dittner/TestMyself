@@ -83,7 +83,7 @@
               paddingTop="{PAD}" paddingBottom="{PAD}">
         <s:Label id="titleLbl"
                  text="{vm.testPage.vocabulary.title.toUpperCase() + '. ' + vm.testPage.test.title}"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  fontWeight="bold"
                  fontSize="{Values.PT20}"
                  width="100%"
@@ -96,7 +96,7 @@
 
             <s:Label width="100%"
                      fontSize="{Values.PT16}"
-                     fontFamily="{FontName.MYRIAD}"
+                     fontFamily="{FontName.BASIC}"
                      color="{AppColors.BLACK}"
                      text="{resourceManager.getString('app', 'ChooseTagToFilterTasks')}"/>
 
@@ -120,7 +120,7 @@
 
         <s:Label width="100%"
                  fontSize="{Values.PT16}"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  color="{AppColors.BLACK}"
                  text="{resourceManager.getString('app', 'FilterOfTestTasks')}"/>
 

@@ -10,7 +10,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class KeyWordRenderer extends ItemRendererBase {
-	private static const FORMAT:TextFormat = new TextFormat(FontName.MYRIAD_MX, Values.PT18, AppColors.WHITE, true);
+	private static const FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT18, AppColors.WHITE, true);
 	private static const VPAD:uint = Values.PT5;
 	private static const HPAD:uint = Values.PT5;
 

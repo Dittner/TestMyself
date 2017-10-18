@@ -213,7 +213,7 @@
         </list:ListForm>
     </s:VGroup>
 
-    <s:Label fontFamily="{FontName.MYRIAD}"
+    <s:Label fontFamily="{FontName.BASIC}"
              fontSize="{Values.PT25}"
              fontWeight="bold"
              color="{AppColors.TEXT_GRAY}"
@@ -236,7 +236,7 @@
         <s:Label id="notifyLbl"
                  width="100%"
                  paddingTop="{Values.PT20}"
-                 fontFamily="{FontName.MYRIAD}"
+                 fontFamily="{FontName.BASIC}"
                  color="{AppColors.BLACK}"
                  fontSize="{Values.PT16}"
                  visible="false" visible.removeTag="true"
