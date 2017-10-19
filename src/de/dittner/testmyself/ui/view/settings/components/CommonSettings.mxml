@@ -4,7 +4,10 @@
          xmlns:spinner="de.dittner.testmyself.ui.common.spinner.*"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
          xmlns:progressbar="de.dittner.testmyself.ui.common.progressBar.*"
-         xmlns:tile="de.dittner.testmyself.ui.common.tile.*">
+         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+         xmlns:button="de.dittner.testmyself.ui.common.button.*"
+         xmlns:panel="de.dittner.testmyself.ui.common.panel.*"
+         xmlns:scroller="de.dittner.testmyself.ui.common.scroller.*">
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
@@ -87,163 +90,208 @@
         }
         ]]></fx:Script>
 
-    <s:layout>
-        <s:VerticalLayout gap="{Values.PT5}"
-                          horizontalAlign="center"
-                          paddingLeft="{Values.PT20}" paddingRight="{Values.PT20}"
-                          paddingTop="{Values.PT20}" paddingBottom="{Values.PT20}"/>
-    </s:layout>
+    <scroller:CustomScroller id="scroller"
+                             width="{Values.PT768}" height="100%"
+                             horizontalCenter="0">
+        <s:VGroup width="100%" gap="0">
 
-    <s:VGroup width="{Values.PT400}" gap="{Values.PT5}">
-        <s:Label width="100%"
-                 text="{resourceManager.getString('app', 'BrightnessLevel')}"
-                 fontFamily="{FontName.BASIC}"
-                 fontStyle="italic"
-                 fontSize="{Values.PT18}"
-                 color="{AppColors.BLACK}"/>
+            <!--UI-->
 
-        <s:HGroup width="100%" gap="{Values.PT20}" paddingBottom="{Values.PT20}">
-            <tile:FadeTileButton id="whiteBgBtn"
-                                 isToggle="true"
-                                 upTileID="{TileID.BTN_WHITE_BG_UP}"
-                                 downTileID="{TileID.BTN_WHITE_BG_DOWN}"
-                                 selected="{vm.settings.appBgColor == AppColors.APP_BG_WHITE}"
-                                 deselectOnlyProgrammatically="true"
-                                 change="if(whiteBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_WHITE"/>
+            <panel:CollapsedPanel id="uiPanel"
+                                  title="UI"
+                                  isOpened="false"
+                                  width="{Values.PT768}">
+                <panel:layout>
+                    <s:VerticalLayout gap="{Values.PT5}" horizontalAlign="center"/>
+                </panel:layout>
 
-            <tile:FadeTileButton id="grayBgBtn"
-                                 isToggle="true"
-                                 upTileID="{TileID.BTN_GRAY_BG_UP}"
-                                 downTileID="{TileID.BTN_GRAY_BG_DOWN}"
-                                 selected="{vm.settings.appBgColor == AppColors.APP_BG_GRAY}"
-                                 deselectOnlyProgrammatically="true"
-                                 change="if(grayBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_GRAY"/>
+                <s:Label width="50%"
+                         text="{resourceManager.getString('app', 'BrightnessLevel')}"
+                         fontFamily="{FontName.BASIC}"
+                         fontStyle="italic"
+                         fontSize="{Values.PT18}"
+                         color="{AppColors.BLACK}"/>
 
-            <tile:FadeTileButton id="darkBgBtn"
-                                 isToggle="true"
-                                 upTileID="{TileID.BTN_DARK_BG_UP}"
-                                 downTileID="{TileID.BTN_DARK_BG_DOWN}"
-                                 selected="{vm.settings.appBgColor == AppColors.APP_BG_DARK}"
-                                 deselectOnlyProgrammatically="true"
-                                 change="if(darkBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_DARK"/>
-        </s:HGroup>
+                <s:HGroup width="50%" gap="{Values.PT20}" paddingBottom="{Values.PT20}">
+                    <tile:FadeTileButton id="whiteBgBtn"
+                                         isToggle="true"
+                                         upTileID="{TileID.BTN_WHITE_BG_UP}"
+                                         downTileID="{TileID.BTN_WHITE_BG_DOWN}"
+                                         selected="{vm.settings.appBgColor == AppColors.APP_BG_WHITE}"
+                                         deselectOnlyProgrammatically="true"
+                                         change="if(whiteBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_WHITE"/>
 
-        <s:Label width="100%"
-                 text="{resourceManager.getString('app', 'AudioRecordSize')}"
-                 fontFamily="{FontName.BASIC}"
-                 fontStyle="italic"
-                 fontSize="{Values.PT18}"
-                 color="{AppColors.BLACK}"/>
+                    <tile:FadeTileButton id="grayBgBtn"
+                                         isToggle="true"
+                                         upTileID="{TileID.BTN_GRAY_BG_UP}"
+                                         downTileID="{TileID.BTN_GRAY_BG_DOWN}"
+                                         selected="{vm.settings.appBgColor == AppColors.APP_BG_GRAY}"
+                                         deselectOnlyProgrammatically="true"
+                                         change="if(grayBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_GRAY"/>
 
-        <spinner:CustomSpinner id="maxAudioRecordDurationSpinner"
-                               value="@{vm.settings.maxAudioRecordDurationInMin}"
-                               fontFamily="{FontName.BASIC}"
-                               fontStyle="italic"
-                               fontSize="{Values.PT20}"
-                               color="{AppColors.BLACK}"
-                               minimum="1" maximum="30"/>
+                    <tile:FadeTileButton id="darkBgBtn"
+                                         isToggle="true"
+                                         upTileID="{TileID.BTN_DARK_BG_UP}"
+                                         downTileID="{TileID.BTN_DARK_BG_DOWN}"
+                                         selected="{vm.settings.appBgColor == AppColors.APP_BG_DARK}"
+                                         deselectOnlyProgrammatically="true"
+                                         change="if(darkBgBtn.selected) vm.settings.appBgColor = AppColors.APP_BG_DARK"/>
+                </s:HGroup>
 
-        <!--<button:BlackButton label="DB Parsing from SO"
-                            click="parseDBFromSO()"/>-->
+                <s:Label width="50%"
+                         text="{resourceManager.getString('app', 'AudioRecordSize')}"
+                         fontFamily="{FontName.BASIC}"
+                         fontStyle="italic"
+                         fontSize="{Values.PT18}"
+                         color="{AppColors.BLACK}"/>
 
-        <s:Spacer height="{Values.PT15}"/>
+                <spinner:CustomSpinner id="maxAudioRecordDurationSpinner"
+                                       value="@{vm.settings.maxAudioRecordDurationInMin}"
+                                       fontFamily="{FontName.BASIC}"
+                                       width="50%"
+                                       fontStyle="italic"
+                                       fontSize="{Values.PT20}"
+                                       color="{AppColors.BLACK}"
+                                       minimum="1" maximum="30"/>
+            </panel:CollapsedPanel>
 
-        <s:Label text="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
-                 width="100%"
-                 fontFamily="{FontName.BASIC}"
-                 fontStyle="italic"
-                 fontSize="{Values.PT18}"
-                 color="{AppColors.BLACK}"/>
+            <!--backUp-->
 
-        <input:TextInputForm id="hostInput"
-                             text="@{vm.settings.host}"
-                             fontSize="{Values.PT18}"
-                             width="100%"
-                             title="{resourceManager.getString('app', 'Server')}"/>
+            <panel:CollapsedPanel id="backUpPanel"
+                                  title="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
+                                  isOpened="false"
+                                  width="{Values.PT768}">
+                <panel:layout>
+                    <s:VerticalLayout gap="{Values.PT5}" horizontalAlign="center"/>
+                </panel:layout>
 
-        <input:TextInputForm id="userNameInput"
-                             text="@{vm.settings.user}"
-                             fontSize="{Values.PT18}"
-                             width="100%"
-                             title="{resourceManager.getString('app', 'User')}"/>
+                <!--<button:BlackButton label="DB Parsing from SO"
+                                    click="parseDBFromSO()"/>-->
 
-        <input:TextInputForm id="pwdInput"
-                             text="@{vm.settings.password}"
-                             fontSize="{Values.PT18}"
-                             displayAsPassword="true"
-                             width="100%"
-                             title="{resourceManager.getString('app', 'Passwort')}"/>
+                <input:TextInputForm id="hostInput"
+                                     text="@{vm.settings.host}"
+                                     fontSize="{Values.PT18}"
+                                     width="50%"
+                                     title="{resourceManager.getString('app', 'Server')}"/>
 
-        <input:TextInputForm id="remoteDirInput"
-                             text="@{vm.settings.remoteDirPath}"
-                             fontSize="{Values.PT18}"
-                             width="100%"
-                             title="{resourceManager.getString('app', 'RemoteDirectory')}"/>
+                <input:TextInputForm id="userNameInput"
+                                     text="@{vm.settings.user}"
+                                     fontSize="{Values.PT18}"
+                                     width="50%"
+                                     title="{resourceManager.getString('app', 'User')}"/>
 
-        <input:TextInputForm id="portInput"
-                             text="@{vm.settings.port}"
-                             fontSize="{Values.PT18}"
-                             width="100%"
-                             title="{resourceManager.getString('app', 'Port')}"/>
+                <input:TextInputForm id="pwdInput"
+                                     text="@{vm.settings.password}"
+                                     fontSize="{Values.PT18}"
+                                     displayAsPassword="true"
+                                     width="50%"
+                                     title="{resourceManager.getString('app', 'Passwort')}"/>
 
-    </s:VGroup>
+                <input:TextInputForm id="remoteDirInput"
+                                     text="@{vm.settings.remoteDirPath}"
+                                     fontSize="{Values.PT18}"
+                                     width="50%"
+                                     title="{resourceManager.getString('app', 'RemoteDirectory')}"/>
 
-    <s:Spacer height="{Values.PT15}"/>
+                <input:TextInputForm id="portInput"
+                                     text="@{vm.settings.port}"
+                                     fontSize="{Values.PT18}"
+                                     width="50%"
+                                     title="{resourceManager.getString('app', 'Port')}"/>
 
-    <s:Group width="100%">
+                <s:Spacer height="{Values.PT15}"/>
 
-        <tile:FadeTileButton id="downloadBtn"
-                             upTileID="{TileID.BTN_WHITE_UP}"
-                             downTileID="{TileID.BTN_WHITE_DOWN}"
-                             iconTileID="{TileID.DOWNLOAD_ICON}"
-                             title="{resourceManager.getString('app', 'UpdateFromTheServer')}"
-                             use9Scale="true"
-                             paddingLeft="{Values.PT10}"
-                             paddingRight="{Values.PT10}"
-                             enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
-                             width="40%" top="0" right="0"
-                             textColor="#0"
-                             click="downloadDB()"/>
+                <s:Group width="100%">
 
-        <tile:TileImage actualTileID="{TileID.CLOUD_ICON}" horizontalCenter="0"/>
+                    <tile:FadeTileButton id="downloadBtn"
+                                         upTileID="{TileID.BTN_WHITE_UP}"
+                                         downTileID="{TileID.BTN_WHITE_DOWN}"
+                                         iconTileID="{TileID.DOWNLOAD_ICON}"
+                                         title="{resourceManager.getString('app', 'UpdateFromTheServer')}"
+                                         use9Scale="true"
+                                         paddingLeft="{Values.PT10}"
+                                         paddingRight="{Values.PT10}"
+                                         enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                                         width="40%" top="0" right="0"
+                                         textColor="#0"
+                                         click="downloadDB()"/>
 
-        <tile:FadeTileButton id="uploadBtn"
-                             upTileID="{TileID.BTN_BLACK}"
-                             iconTileID="{TileID.UPLOAD_ICON}"
-                             title="{resourceManager.getString('app', 'ExportToTheServer')}"
-                             use9Scale="true"
-                             paddingLeft="{Values.PT10}"
-                             paddingRight="{Values.PT10}"
-                             enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
-                             width="40%" bottom="0" left="0"
-                             textColor="#ffFFff"
-                             click="uploadDB()"/>
-    </s:Group>
+                    <tile:TileImage actualTileID="{TileID.CLOUD_ICON}" horizontalCenter="0"/>
 
-    <s:Spacer height="{Values.PT15}"/>
+                    <tile:FadeTileButton id="uploadBtn"
+                                         upTileID="{TileID.BTN_BLACK}"
+                                         iconTileID="{TileID.UPLOAD_ICON}"
+                                         title="{resourceManager.getString('app', 'ExportToTheServer')}"
+                                         use9Scale="true"
+                                         paddingLeft="{Values.PT10}"
+                                         paddingRight="{Values.PT10}"
+                                         enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                                         width="40%" bottom="0" left="0"
+                                         textColor="#ffFFff"
+                                         click="uploadDB()"/>
+                </s:Group>
 
-    <progressbar:ProgressBar id="progressBar"
-                             visible="false"
-                             title="{isUploading ? resourceManager.getString('app', 'DatabaseIsUploading') : resourceManager.getString('app', 'DatabaseIsUpdating')}"
-                             width="{Values.PT400}"/>
+                <s:Spacer height="{Values.PT15}"/>
 
-    <s:Label fontFamily="{FontName.BASIC}"
-             fontWeight="bold"
-             visible="{errorText}"
-             fontSize="{Values.PT18}"
-             color="{AppColors.INVALID_INPUT_BORDER}"
-             width="100%"
-             textAlign="center"
-             maxDisplayedLines="5"
-             text="{errorText}"/>
+                <progressbar:ProgressBar id="progressBar"
+                                         visible="false"
+                                         title="{isUploading ? resourceManager.getString('app', 'DatabaseIsUploading') : resourceManager.getString('app', 'DatabaseIsUpdating')}"
+                                         width="50%"/>
 
-    <s:Label fontFamily="{FontName.BASIC}"
-             fontWeight="bold"
-             visible="{isDataBaseTransferOperationSuccess}"
-             color="{AppColors.BLACK}"
-             width="100%"
-             fontSize="{Values.PT16}"
-             textAlign="center"
-             text="{isUploading ? resourceManager.getString('app', 'DatabaseHasBeenUploaded') : resourceManager.getString('app', 'DatabaseHasBeenUpdated')}"/>
+                <s:Label fontFamily="{FontName.BASIC}"
+                         fontWeight="bold"
+                         visible="{errorText}"
+                         includeInLayout="{errorText}"
+                         fontSize="{Values.PT18}"
+                         color="{AppColors.INVALID_INPUT_BORDER}"
+                         width="100%"
+                         textAlign="center"
+                         maxDisplayedLines="5"
+                         text="{errorText}"/>
+
+                <s:Label fontFamily="{FontName.BASIC}"
+                         fontWeight="bold"
+                         visible="{isDataBaseTransferOperationSuccess}"
+                         includeInLayout="{isDataBaseTransferOperationSuccess}"
+                         color="{AppColors.BLACK}"
+                         width="100%"
+                         fontSize="{Values.PT16}"
+                         textAlign="center"
+                         text="{isUploading ? resourceManager.getString('app', 'DatabaseHasBeenUploaded') : resourceManager.getString('app', 'DatabaseHasBeenUpdated')}"/>
+
+            </panel:CollapsedPanel>
+
+            <!--Replace-->
+
+            <panel:CollapsedPanel id="replacePanel"
+                                  title="{resourceManager.getString('app', 'FindAndReplace')}"
+                                  isOpened="false"
+                                  width="{Values.PT768}">
+                <panel:layout>
+                    <s:VerticalLayout gap="{Values.PT5}" horizontalAlign="center"/>
+                </panel:layout>
+
+
+                <input:TextInputForm id="textToFindInput"
+                                     fontSize="{Values.PT18}"
+                                     width="50%"
+                                     title="{resourceManager.getString('app', 'TextToFind')}"/>
+
+                <input:TextInputForm id="replaceWithInput"
+                                     fontSize="{Values.PT18}"
+                                     width="50%"
+                                     title="{resourceManager.getString('app', 'ReplaceWith')}"/>
+
+                <s:Spacer height="{Values.PT15}"/>
+
+                <button:BlackButton id="replaceBtn"
+                                    width="50%"
+                                    title="{resourceManager.getString('app', 'Replace')}"
+                                    click=" vm.replaceText(textToFindInput.text, replaceWithInput.text)"/>
+            </panel:CollapsedPanel>
+
+        </s:VGroup>
+
+    </scroller:CustomScroller>
 
 </s:Group>

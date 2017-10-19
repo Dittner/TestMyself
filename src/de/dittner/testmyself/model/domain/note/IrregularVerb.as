@@ -45,9 +45,12 @@ public class IrregularVerb extends Note {
 		res.options.present = present || null;
 		res.options.past = past || null;
 		res.options.perfect = perfect || null;
-		res.searchText = "+" + title + "+" + present + "+" + past + "+" + perfect + "+" + description + "+";
-		res.searchText = res.searchText.toLowerCase();
+		res.searchText = toSearchText(title, present, past, perfect, description);
 		return res;
+	}
+
+	public static function toSearchText(title:String, present:String, past:String, perfect:String, description:String):String {
+		return ("+" + title + "+" + present + "+" + past + "+" + perfect + "+" + description + "+").toLocaleLowerCase();
 	}
 
 	override public function deserialize(data:Object):void {

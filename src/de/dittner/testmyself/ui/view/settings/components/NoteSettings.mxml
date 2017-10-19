@@ -188,7 +188,8 @@
     </s:states>
 
     <s:layout>
-        <s:HorizontalLayout gap="{Values.PT15}"/>
+        <s:HorizontalLayout gap="{Values.PT15}"
+                            paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}" paddingTop="{Values.PT15}" paddingBottom="{Values.PT15}"/>
     </s:layout>
 
     <s:VGroup width="50%" height="100%"

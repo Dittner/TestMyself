@@ -80,7 +80,7 @@
     </list:SelectableDataGroup>
 
     <s:Group maxWidth="{Values.PT768}" horizontalCenter="0"
-             left="{PADDING}" top="{2*PADDING + TAB_BAR_HEI}" right="{PADDING}" bottom="{PADDING}"
+             left="0" top="{PADDING + TAB_BAR_HEI + Values.PT5}" right="0" bottom="0"
              excludeFrom="inactive">
 
         <components:CommonSettings id="commonSettings"

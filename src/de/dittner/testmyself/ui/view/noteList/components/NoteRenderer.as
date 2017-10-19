@@ -51,7 +51,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	protected function get gap():uint {return Values.PT10;}
+	protected function get gap():uint {return Values.PT5;}
 
 	protected function get verticalPadding():uint {return Values.PT19;}
 	protected function get horizontalPadding():uint {return Values.PT15;}

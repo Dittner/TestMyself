@@ -193,7 +193,6 @@ public class Note extends EventDispatcher {
 		return false;
 	}
 
-
 	public function createExample():Note {
 		return Note.createExample(vocabulary, id);
 	}
@@ -239,11 +238,14 @@ public class Note extends EventDispatcher {
 		res.isExample = isExample;
 		res.options = options;
 		res.options.keyWords = keyWords || null;
-		res.searchText = "+" + title + "+" + description + "+";
-		res.searchText = res.searchText.toLowerCase();
+		res.searchText = toSearchText(title, description);
 		res.hasAudio = hasAudio;
 		res.tags = tagIdsToString(tagIDs);
 		return res;
+	}
+
+	public static function toSearchText(title:String, description:String):String {
+		return ("+" + title + "+" + description + "+").toLocaleLowerCase();
 	}
 
 	public static function tagIdsToString(ids:Array):String {

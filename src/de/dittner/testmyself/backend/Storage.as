@@ -17,6 +17,7 @@ import de.dittner.testmyself.backend.cmd.MergeTagsCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNoteCmd;
 import de.dittner.testmyself.backend.cmd.RemoveNotesByTagCmd;
 import de.dittner.testmyself.backend.cmd.RemoveTagCmd;
+import de.dittner.testmyself.backend.cmd.ReplaceTextInNoteTblCmd;
 import de.dittner.testmyself.backend.cmd.RunDataBaseCmd;
 import de.dittner.testmyself.backend.cmd.SearchNotesCmd;
 import de.dittner.testmyself.backend.cmd.SelectAllNotesTitlesCmd;
@@ -298,6 +299,12 @@ public class Storage extends WalterProxy {
 
 	public function searchNotes(page:SearchPage):IAsyncOperation {
 		var op:IAsyncCommand = new SearchNotesCmd(this, page);
+		deferredCommandManager.add(op);
+		return op;
+	}
+
+	public function replaceTextInNoteTable(srcText:String, destText:String, langID:uint):IAsyncOperation {
+		var op:IAsyncCommand = new ReplaceTextInNoteTblCmd(this, srcText, destText, langID);
 		deferredCommandManager.add(op);
 		return op;
 	}

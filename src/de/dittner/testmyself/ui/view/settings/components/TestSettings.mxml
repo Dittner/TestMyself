@@ -32,7 +32,8 @@
         ]]></fx:Script>
 
     <s:layout>
-        <s:VerticalLayout gap="{Values.PT20}" horizontalAlign="right"/>
+        <s:VerticalLayout gap="{Values.PT15}" horizontalAlign="right"
+                          paddingLeft="{Values.PT15}" paddingRight="{Values.PT15}" paddingTop="{Values.PT15}" paddingBottom="{Values.PT15}"/>
     </s:layout>
 
     <list:ListForm id="testList"

@@ -34,12 +34,20 @@ public class Word extends Note {
 		var res:Object = super.serialize();
 		res.options.article = article || null;
 		res.options.declension = declension || null;
-		if (declension)
-			res.searchText = "+" + title + "+" + declension + "+" + description + "+";
-		if (article)
-			res.searchText = "+" + article + res.searchText;
-		res.searchText = res.searchText.toLowerCase();
+		res.searchText = toSearchText(article, title, declension, description);
 		return res;
+	}
+
+	public static function toSearchText(article:String, title:String, declension:String, description:String):String {
+		var res:String = "";
+		if (declension)
+			res = "+" + title + "+" + declension + "+" + description + "+";
+		else
+			res = "+" + title + "+" + description + "+";
+
+		if (article)
+			res = "+" + article + res;
+		return res.toLocaleLowerCase();
 	}
 
 	override public function deserialize(data:Object):void {
@@ -54,9 +62,9 @@ public class Word extends Note {
 		}
 		else {
 			var verbVocabulary:Vocabulary;
-			if(vocabulary.lang.id == LanguageID.DE)
+			if (vocabulary.lang.id == LanguageID.DE)
 				verbVocabulary = vocabulary.lang.vocabularyHash.read(VocabularyID.DE_VERB);
-			else if(vocabulary.lang.id == LanguageID.EN)
+			else if (vocabulary.lang.id == LanguageID.EN)
 				verbVocabulary = vocabulary.lang.vocabularyHash.read(VocabularyID.EN_VERB);
 			return verbVocabulary.noteTitleHash.has(title);
 		}

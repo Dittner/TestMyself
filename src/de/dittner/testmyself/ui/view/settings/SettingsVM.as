@@ -196,5 +196,10 @@ public class SettingsVM extends ViewModel {
 		unlockView();
 	}
 
+	public function replaceText(srcText:String, destText:String):void {
+		if (srcText && destText)
+			storage.replaceTextInNoteTable(srcText, destText, appModel.selectedLanguage.id);
+	}
+
 }
 }
