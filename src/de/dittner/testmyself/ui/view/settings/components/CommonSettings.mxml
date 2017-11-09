@@ -286,6 +286,7 @@
 
                 <button:BlackButton id="replaceBtn"
                                     width="50%"
+                                    enabled="{textToFindInput.text}"
                                     title="{resourceManager.getString('app', 'Replace')}"
                                     click=" vm.replaceText(textToFindInput.text, replaceWithInput.text)"/>
             </panel:CollapsedPanel>

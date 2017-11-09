@@ -197,7 +197,7 @@ public class SettingsVM extends ViewModel {
 	}
 
 	public function replaceText(srcText:String, destText:String):void {
-		if (srcText && destText)
+		if (srcText)
 			storage.replaceTextInNoteTable(srcText, destText, appModel.selectedLanguage.id);
 	}
 

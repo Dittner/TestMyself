@@ -18,7 +18,7 @@ public class ReplaceTextInNoteTblCmd extends StorageOperation implements IAsyncC
 		super();
 		this.storage = storage;
 		this.srcText = srcText;
-		this.destText = destText;
+		this.destText = destText || "";
 		this.langID = langID;
 		this.pattern = new RegExp(srcText, "g");
 	}
@@ -34,7 +34,7 @@ public class ReplaceTextInNoteTblCmd extends StorageOperation implements IAsyncC
 	}
 
 	private function searchNotes():void {
-		if (!srcText || !destText) {
+		if (!srcText) {
 			dispatchSuccess();
 			return;
 		}

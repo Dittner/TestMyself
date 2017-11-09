@@ -30,7 +30,7 @@ public class ExamplesFormRenderer extends NoteRenderer {
 	override protected function get verticalPadding():uint {return Values.PT5;}
 	override protected function get horizontalPadding():uint {return Values.PT5;}
 
-	override protected function get gap():uint {return Values.PT5;}
+	override protected function get gap():uint {return 0;}
 
 	override protected function getTitleTextFormat():TextFormat {
 		return TITLE_FORMAT;

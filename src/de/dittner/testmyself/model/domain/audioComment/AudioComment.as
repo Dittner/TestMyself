@@ -36,7 +36,7 @@ public class AudioComment {
 
 	private var loadOp:IAsyncOperation;
 	public function loadMP3():IAsyncOperation {
-		if(loadOp && loadOp.isProcessing) {
+		if (loadOp && loadOp.isProcessing) {
 			return loadOp;
 		}
 		else {
@@ -60,6 +60,7 @@ public class AudioComment {
 		if (op.isSuccess && op.result is ByteArray) {
 			bytes = op.result as ByteArray;
 			isMp3 = true;
+			//FileLocalStorage.store(bytes, "audio.mp3");
 		}
 	}
 }
