@@ -144,21 +144,22 @@
             if (!isActivating && !isActive) return;
 
             var selectedNote:Note = vm.page.selectedNote;
-            var hasTitle:Boolean = true;
+            var hasTitle:Boolean = false;
 
             if (!selectedNote) {
                 return;
             }
             if (selectedNote is Word) {
+                hasTitle = true;
                 audioPanel.visible = audioPanel.includeInLayout = false;
                 keyWordsPanel.visible = keyWordsPanel.includeInLayout = false;
             }
             else if (selectedNote is IrregularVerb) {
+                hasTitle = true;
                 audioPanel.visible = audioPanel.includeInLayout = false;
                 keyWordsPanel.visible = keyWordsPanel.includeInLayout = false;
             }
             else {
-                hasTitle = selectedNote.title && selectedNote.title.length < 100 && selectedNote.description.length / selectedNote.title.length > 2;
                 audioPanel.visible = audioPanel.includeInLayout = !selectedNote.isExample && selectedNote.hasAudio;
                 if (audioPanel.visible) loadComment();
                 keyWordsPanel.visible = keyWordsPanel.includeInLayout = selectedNote.keyWords;
@@ -168,15 +169,17 @@
             if (hasTitle) {
                 titleLbl.fontSize = AppSizes.FONT_SIZE_SUPER_LARGE;
                 titleLbl.textAlign = TextAlign.CENTER;
+                titleLbl.isBold = true;
             }
             else {
                 titleLbl.fontSize = AppSizes.FONT_SIZE_LARGE;
                 titleLbl.textAlign = TextAlign.LEFT;
+                titleLbl.isBold = false;
             }
 
             var searchText:String = viewInfo.page is SearchPage ? (viewInfo.page as SearchPage).searchText : "";
             searchText = searchText.replace(/\+/g, "");
-            examplesPanel.renderOptions.searchText = searchText;
+            examplesPanel.renderOptions.searchText = searchText.toLowerCase();
             titleLbl.searchText = searchText;
             descriptionLbl.searchText = searchText;
 
@@ -275,7 +278,6 @@
                 <note:NoteLabel id="titleLbl"
                                 note="{vm.page.selectedNote}"
                                 showDetails="{showNoteDetails}"
-                                isBold="true"
                                 left="0" right="0"/>
                 <s:Label id="tagsInfoLbl"
                          width="100%"

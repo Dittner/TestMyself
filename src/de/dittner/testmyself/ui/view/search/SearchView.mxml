@@ -112,7 +112,7 @@
         private function search():void {
             var searchText:String = searchBoard.searchInput.text;
             if (searchText.length >= 1) {
-                renderOptions.searchText = searchText.replace(/\+/g, "");
+                renderOptions.searchText = searchText.replace(/\+/g, "").toLowerCase();
                 vm.loadPage(searchBoard.searchInput.text, searchBoard.examplesBox.selected, searchBoard.wordBox.selected, searchBoard.verbBox.selected, searchBoard.lessonBox.selected);
             }
         }

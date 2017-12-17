@@ -196,10 +196,10 @@
 
         override protected function keyUpHandler(event:KeyboardEvent):void {
             if (enabled && keyboardEnabled && currentState == "navigation") {
-                if (event.keyCode == 37 && prevNoteBtn.mouseEnabled) {
+                if (event.keyCode == Keyboard.LEFT && prevNoteBtn.mouseEnabled) {
                     notifyAction(ToolAction.PREV_NOTE)
                 }
-                else if (event.keyCode == 39 && nextNoteBtn.mouseEnabled) {
+                else if (event.keyCode == Keyboard.RIGHT && nextNoteBtn.mouseEnabled) {
                     notifyAction(ToolAction.NEXT_NOTE)
                 }
             }

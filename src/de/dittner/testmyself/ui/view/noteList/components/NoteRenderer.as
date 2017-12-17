@@ -156,6 +156,10 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 
 	protected function updateData():void {
 		if (note && options) {
+			if (options.searchText != searchText) {
+				searchText = options.searchText;
+				pattern = new RegExp(searchText, "gi");
+			}
 			titleTf.visible = options.showDetails || !options.inverted || (selected && cardViewMode);
 			descriptionTf.visible = options.showDetails || options.inverted || (selected && cardViewMode);
 			updateText();
@@ -220,19 +224,40 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			title = note.title;
 		}
 
-		if (options.searchText != searchText) {
-			searchText = options.searchText;
-			pattern = new RegExp(searchText, "gi");
-		}
+
 		return searchText ? title.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : title;
 	}
 
 	protected function getDescription():String {
+		if (!note) return "";
+
 		if (options.searchText != searchText) {
 			searchText = options.searchText;
 			pattern = new RegExp(searchText, "gi");
 		}
-		return note ? searchText ? note.description.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : note.description : "";
+
+		if (searchText) {
+			if (note.description.length > 300 && !(note is Word || note is IrregularVerb)) {
+				var txt:String = note.description;
+				txt = txt.replace(/(<b>)/gi, "");
+				txt = txt.replace(/(<\/b>)/gi, "");
+				txt = txt.replace(/(<i>)/gi, "");
+				txt = txt.replace(/(<\/i>)/gi, "");
+
+				var sentences:Array = txt.split(/\.|!|\?|\n/gi);
+				var res:String = "";
+				for each(var s:String in sentences)
+					if (s.length >= searchText.length && s.toLowerCase().indexOf(searchText) != -1)
+						res += "&lt;...&gt; " + (s.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') + "...\n");
+				return res.replace(/(  )/gi, " ");
+			}
+			else {
+				return note.description.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>');
+			}
+		}
+		else {
+			return note.description;
+		}
 	}
 
 	override protected function measure():void {

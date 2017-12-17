@@ -209,9 +209,10 @@
         }
 
         override protected function keyUpHandler(event:KeyboardEvent):void {
-            if (keyboardEnabled && playCommentBtn && playCommentBtn.enabled && event.keyCode == 32) {
+            if (keyboardEnabled && playCommentBtn && playCommentBtn.enabled && event.keyCode == Keyboard.SPACE)
                 notifyToolAction(ToolAction.PLAY_COMMENT)
-            }
+            else if (keyboardEnabled && goBackBtn && goBackBtn.enabled && event.keyCode == Keyboard.BACKSPACE)
+                notifyToolAction(ToolAction.GO_BACK)
         }
         ]]></fx:Script>
 
