@@ -20,10 +20,11 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
-	private static const TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_MIDDLE, AppColors.BLACK, true);
+	private static const LESSONS_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_MIDDLE, AppColors.BLACK, true);
+	private static const EXAMPLES_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_MIDDLE, AppColors.BLACK, true);
 	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_LARGE, AppColors.BLACK, true);
-	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT14, AppColors.BLACK);
-	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_SMALL, AppColors.TEXT_DARK_GRAY);
+	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT14, AppColors.BLACK, false);
+	private static const DESCRIPTION_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_SMALL, AppColors.TEXT_DARK_GRAY, false);
 	private static const DIE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_LARGE, AppColors.TEXT_RED, true);
 	private static const DAS_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_LARGE, AppColors.TEXT_YELLOW, true);
 
@@ -57,7 +58,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	protected function get horizontalPadding():uint {return Values.PT15;}
 
 	protected function getTitleTextFormat():TextFormat {
-		return word || verb ? WORD_AND_VERB_TITLE_FORMAT : TITLE_FORMAT;
+		return word || verb ? WORD_AND_VERB_TITLE_FORMAT : example ? EXAMPLES_FORMAT : LESSONS_FORMAT;
 	}
 
 	protected function get testTask():TestTask {
@@ -74,6 +75,10 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 
 	protected function get verb():IrregularVerb {
 		return testTask && testTask.note is IrregularVerb ? testTask.note as IrregularVerb : data as IrregularVerb;
+	}
+
+	protected function get example():Note {
+		return note && note.isExample ? note : null;
 	}
 
 	private function get options():NoteRenderOptions {
@@ -109,7 +114,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			addChild(descriptionTf);
 		}
 		if (!titleTf) {
-			titleTf = TextFieldFactory.createMultiline(TITLE_FORMAT);
+			titleTf = TextFieldFactory.createMultiline(LESSONS_FORMAT);
 			addChild(titleTf);
 		}
 		if (!examplesNumTf) {
@@ -223,7 +228,6 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		else if (note) {
 			title = note.title;
 		}
-
 
 		return searchText ? title.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : title;
 	}

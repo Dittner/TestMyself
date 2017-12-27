@@ -65,11 +65,6 @@ public class RawDataPlayer extends SkinnableComponent {
 	//
 	//----------------------------------------------------------------------------------------------
 
-	[Bindable]
-	public var recorder:VoiceRecorder = new VoiceRecorder();
-	[Bindable]
-	public var recording:Boolean = false;
-
 	private var animation:MovieClip;
 	public var maxRecordSizeInMin:Number = 0.2;
 	private var recordingTimer:Timer;
@@ -100,6 +95,32 @@ public class RawDataPlayer extends SkinnableComponent {
 	//  Properties
 	//
 	//----------------------------------------------------------------------------------------------
+
+	//--------------------------------------
+	//  recorder
+	//--------------------------------------
+	private var _recorder:VoiceRecorder = new VoiceRecorder();
+	[Bindable("recorderChanged")]
+	public function get recorder():VoiceRecorder {return _recorder;}
+	public function set recorder(value:VoiceRecorder):void {
+		if (_recorder != value) {
+			_recorder = value;
+			dispatchEvent(new Event("recorderChanged"));
+		}
+	}
+
+	//--------------------------------------
+	//  recording
+	//--------------------------------------
+	private var _recording:Boolean = false;
+	[Bindable("recordingChanged")]
+	public function get recording():Boolean {return _recording;}
+	public function set recording(value:Boolean):void {
+		if (_recording != value) {
+			_recording = value;
+			dispatchEvent(new Event("recordingChanged"));
+		}
+	}
 
 	//--------------------------------------
 	//  comment

@@ -4,8 +4,8 @@
     <id>ru.idecide.air.sapientia</id>
     <filename>TestMyself</filename>
     <name>TestMyself</name>
-    <versionNumber>6.68</versionNumber>
-    <versionLabel>6.68</versionLabel>
+    <versionNumber>6.71</versionNumber>
+    <versionLabel>6.71</versionLabel>
 
     <initialWindow>
         <content>TestMyself.swf</content>
