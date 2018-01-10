@@ -99,12 +99,13 @@
 
         private function showForm():void {
             if (!SimplePopup.curContent != editFormCont) {
-                SimplePopup.show(editFormCont, true, null, AppColors.EDITOR_SHADOW, 0.5);
+                SimplePopup.show(editFormCont, true, hideForm, AppColors.EDITOR_SHADOW, 0.5);
             }
         }
 
         private function hideForm():void {
             SimplePopup.close();
+            setCurrentState("normal");
         }
 
         private function applyBtnEnabled(title:String, description:String):Boolean {
@@ -116,7 +117,6 @@
             titleArea.text = "";
             descriptionArea.text = "";
             exampleList.selectedItem = null;
-            setCurrentState("normal");
         }
 
         private function apply():void {

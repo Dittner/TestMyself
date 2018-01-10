@@ -172,7 +172,10 @@ public class NoteFormUtils {
 			txt = txt.replace(/(кино )/gi, "кино. ");
 			txt = txt.replace(/(с-х )/gi, "с-х. ");
 			txt = txt.replace(/(поэт )/gi, "поэт. ");
-			txt = txt.replace(/(неотд )/gi, "поэт. ");
+			txt = txt.replace(/(неотд )/gi, "неотд. ");
+			txt = txt.replace(/(арх )/gi, "арх. ");
+			txt = txt.replace(/(архит )/gi, "арх. ");
+			txt = txt.replace(/(горн )/gi, "горн. ");
 
 			txt = txt.replace(/(  )/gi, " ");
 			txt = txt.replace(/(  )/gi, " ");
