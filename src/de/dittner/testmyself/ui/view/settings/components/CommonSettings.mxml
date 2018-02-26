@@ -93,7 +93,7 @@
     <scroller:CustomScroller id="scroller"
                              width="{Values.PT768}" height="100%"
                              horizontalCenter="0">
-        <s:VGroup width="100%" gap="0">
+        <s:VGroup width="100%" gap="0" horizontalAlign="center">
 
             <!--UI-->
 
@@ -290,6 +290,18 @@
                                     title="{resourceManager.getString('app', 'Replace')}"
                                     click=" vm.replaceText(textToFindInput.text, replaceWithInput.text)"/>
             </panel:CollapsedPanel>
+
+            <s:Spacer height="{Values.PT20}"/>
+
+            <tile:FadeTileButton id="compressBtn"
+                                 upTileID="{TileID.BTN_BLACK}"
+                                 title="{resourceManager.getString('app', 'CompressDatabase')}"
+                                 use9Scale="true"
+                                 paddingLeft="{Values.PT10}"
+                                 paddingRight="{Values.PT10}"
+                                 width="40%"
+                                 textColor="#ffFFff"
+                                 click="vm.compressDB()"/>
 
         </s:VGroup>
 

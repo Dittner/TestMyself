@@ -26,6 +26,7 @@ import de.dittner.testmyself.backend.cmd.StoreNoteCmd;
 import de.dittner.testmyself.backend.cmd.StoreTagCmd;
 import de.dittner.testmyself.backend.cmd.StoreTestTaskCmd;
 import de.dittner.testmyself.backend.deferredOperation.IDeferredCommandManager;
+import de.dittner.testmyself.backend.op.CompressDBCmd;
 import de.dittner.testmyself.backend.op.LoadAllExamplesOperation;
 import de.dittner.testmyself.backend.tileStorage.GenerateTilesCommand;
 import de.dittner.testmyself.backend.tileStorage.TileSQLLib;
@@ -215,6 +216,12 @@ public class Storage extends WalterProxy {
 
 	public function loadVocabularyInfo(v:Vocabulary):IAsyncOperation {
 		var op:IAsyncCommand = new LoadVocabularyInfoCmd(this, v);
+		deferredCommandManager.add(op);
+		return op;
+	}
+
+	public function compressDB():IAsyncOperation {
+		var op:IAsyncCommand = new CompressDBCmd(this);
 		deferredCommandManager.add(op);
 		return op;
 	}

@@ -114,6 +114,15 @@ public class SettingsVM extends ViewModel {
 		allTestColl = new ArrayCollection(allTests);
 	}
 
+	public function compressDB():void {
+		lockView();
+		storage.compressDB().addCompleteCallback(compressDBComplete);
+	}
+
+	private function compressDBComplete(op:IAsyncOperation):void {
+		unlockView();
+	}
+
 	//--------------------------------------
 	//  DB Upload
 	//--------------------------------------
