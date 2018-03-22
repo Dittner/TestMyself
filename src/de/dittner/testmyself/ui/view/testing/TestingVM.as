@@ -142,14 +142,18 @@ public class TestingVM extends ViewModel {
 		}
 	}
 
-	public function loadNextTestTask():void {
+	public function loadNextTestTask():IAsyncOperation {
+		var op:IAsyncOperation;
 		if (curTaskNumber >= testTaskIDs.length) {
 			selectedTestTask = null;
+			op = new AsyncOperation();
+			op.dispatchSuccess();
 		}
 		else {
-			var op:IAsyncOperation = storage.loadTestTask(testPage.test, testTaskIDs[curTaskNumber++]);
+			op = storage.loadTestTask(testPage.test, testTaskIDs[curTaskNumber++]);
 			op.addCompleteCallback(testTaskLoaded);
 		}
+		return op;
 	}
 
 	private function testTaskLoaded(op:IAsyncOperation):void {

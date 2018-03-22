@@ -13,8 +13,7 @@ import flash.net.URLRequest;
 import flash.utils.ByteArray;
 
 public class LoadRemoteMp3Cmd extends AsyncCommand {
-
-	public static const SERVER:String = "http://www.duden.de/rechtschreibung/";
+	private static const SERVER:String = "https://www.duden.de/rechtschreibung/";
 
 	public function LoadRemoteMp3Cmd(noteTitleToLoad:String) {
 		super();
@@ -84,7 +83,7 @@ public class LoadRemoteMp3Cmd extends AsyncCommand {
 		if (!html) return "";
 		var mp3UrlEndInd:int = html.indexOf(".mp3");
 		if (mp3UrlEndInd != -1) {
-			var mp3UrlStartInd:int = html.lastIndexOf("http:", mp3UrlEndInd);
+			var mp3UrlStartInd:int = html.lastIndexOf("https:", mp3UrlEndInd);
 			if (mp3UrlStartInd != -1) {
 				var res:String = html.substring(mp3UrlStartInd, mp3UrlEndInd);
 				return res;

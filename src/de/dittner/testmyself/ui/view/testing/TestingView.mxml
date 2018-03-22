@@ -6,8 +6,10 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.test.Test;
         import de.dittner.testmyself.model.domain.test.TestID;
+        import de.dittner.testmyself.model.domain.test.TestTask;
         import de.dittner.testmyself.ui.common.menu.ToolAction;
         import de.dittner.testmyself.ui.common.menu.ToolActionEvent;
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -151,8 +153,15 @@
                     vm.selectedTestTask.store();
                     break;
                 case TestingAction.NEXT_TASK :
-                    vm.loadNextTestTask();
+                    vm.loadNextTestTask().addCompleteCallback(testTaskLoaded);
                     break;
+            }
+        }
+
+        private function testTaskLoaded(op:IAsyncOperation):void {
+            if(op.isSuccess && op.result is TestTask) {
+                var note:Note = (op.result as TestTask).note;
+                toolbar.enablePlayCommentBtn(note && note.hasAudio);
             }
         }
         ]]></fx:Script>
