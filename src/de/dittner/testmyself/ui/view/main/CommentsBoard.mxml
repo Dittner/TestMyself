@@ -89,6 +89,7 @@
         <common:BG percentWidth="100" height="{Values.PT5}" bottom="0" fillColor="#0"/>
 
         <input:HistoryTextArea id="textArea"
+                               visible="{isMoving || isOpened}" includeInLayout="{isMoving || isOpened}"
                                fontSize="{Values.PT18}"
                                text="@{text}"
                                fontFamily="{FontName.BASIC}"
