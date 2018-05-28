@@ -14,6 +14,10 @@ public class SQLLib {
 		return [CREATE_AUDIO_TBL_SQL];
 	}
 
+	public static function getEnRuDicDBTables():Array {
+		return [CREATE_RU_EN_TBL_SQL];
+	}
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/CreateNoteTbl.sql", mimeType="application/octet-stream")]
 	private static const CreateNoteTblClass:Class;
 	public static const CREATE_NOTE_TBL_SQL:String = new CreateNoteTblClass();
@@ -29,6 +33,10 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/CreateAudioTbl.sql", mimeType="application/octet-stream")]
 	private static const CreateAudioTblClass:Class;
 	public static const CREATE_AUDIO_TBL_SQL:String = new CreateAudioTblClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/CreateEnRuDicTbl.sql", mimeType="application/octet-stream")]
+	private static const CreateEnRuDicTblClass:Class;
+	public static const CREATE_RU_EN_TBL_SQL:String = new CreateEnRuDicTblClass();
 
 	[Embed(source="/de/dittner/testmyself/backend/sql/CreateHashTbl.sql", mimeType="application/octet-stream")]
 	private static const CreateHashTblClass:Class;
@@ -178,6 +186,10 @@ public class SQLLib {
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectHashData.sql", mimeType="application/octet-stream")]
 	private static const SelectHashDataClass:Class;
 	public static const SELECT_HASH_DATA_SQL:String = new SelectHashDataClass();
+
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectEnRuDicNote.sql", mimeType="application/octet-stream")]
+	private static const SelectEnRuDicNoteClass:Class;
+	public static const SELECT_EN_RU_DIC_NOTE_SQL:String = new SelectEnRuDicNoteClass();
 
 	//--------------------------------------
 	//  delete

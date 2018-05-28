@@ -36,7 +36,6 @@ public class NoteFormVM extends ViewModel {
 		}
 	}
 
-
 	//--------------------------------------
 	//  selectedFilter
 	//--------------------------------------
@@ -150,19 +149,6 @@ public class NoteFormVM extends ViewModel {
 		}
 	}
 
-	//--------------------------------------
-	//  isLoadMp3FileFromDudenEnabled
-	//--------------------------------------
-	private var _isLoadMp3FileFromDudenEnabled:Boolean = true;
-	[Bindable("isLoadMp3FileFromDudenEnabledChanged")]
-	public function get isLoadMp3FileFromDudenEnabled():Boolean {return _isLoadMp3FileFromDudenEnabled;}
-	public function set isLoadMp3FileFromDudenEnabled(value:Boolean):void {
-		if (_isLoadMp3FileFromDudenEnabled != value) {
-			_isLoadMp3FileFromDudenEnabled = value;
-			dispatchEvent(new Event("isLoadMp3FileFromDudenEnabledChanged"));
-		}
-	}
-
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Methods
@@ -180,7 +166,6 @@ public class NoteFormVM extends ViewModel {
 			isArticleEnabled = appModel.selectedLanguage.id == LanguageID.DE;
 			isPresentVerbFormEnabled = appModel.selectedLanguage.id == LanguageID.DE;
 			isOptionalTemplatesEnabled = appModel.selectedLanguage.id == LanguageID.DE;
-			isLoadMp3FileFromDudenEnabled = appModel.selectedLanguage.id == LanguageID.DE;
 			hasNetworkConnection = appModel.hasNetworkConnection;
 			listenProxy(appModel, AppModel.NETWORK_CONNECTION_CHANGED_MSG, networkConnectionChanged);
 		}
@@ -192,7 +177,6 @@ public class NoteFormVM extends ViewModel {
 	private function networkConnectionChanged(msg:WalterMessage):void {
 		hasNetworkConnection = msg.data;
 	}
-
 
 }
 }

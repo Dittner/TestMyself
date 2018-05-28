@@ -262,7 +262,10 @@ public class NoteLabel extends UIComponent {
 				}
 				else if (note is IrregularVerb) {
 					var verb:IrregularVerb = note as IrregularVerb;
-					title = verb.title + ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+					title = verb.title;
+					title += verb.present ? ", " + verb.present : "";
+					title += verb.past ? ", " + verb.past : "";
+					title += verb.perfect ? ", " + verb.perfect : "";
 				}
 				else {
 					title = note.title;

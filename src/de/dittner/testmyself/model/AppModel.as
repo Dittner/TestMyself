@@ -12,6 +12,8 @@ import de.dittner.testmyself.model.domain.language.DeLang;
 import de.dittner.testmyself.model.domain.language.EnLang;
 import de.dittner.testmyself.model.domain.language.Language;
 import de.dittner.testmyself.model.domain.language.LanguageID;
+import de.dittner.testmyself.model.domain.tag.Tag;
+import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.ui.common.page.NotePage;
 import de.dittner.testmyself.ui.common.page.SearchPage;
@@ -146,6 +148,12 @@ public class AppModel extends WalterProxy {
 	private function initDeLang():void {
 		var op:IAsyncOperation = deLang.init();
 		op.addCompleteCallback(function (op:IAsyncOperation):void {
+			var deWordVoc:Vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_WORD);
+			if(deWordVoc.tagColl.length == 0) {
+				var tag:Tag = deWordVoc.createTag();
+				tag.name = "Favorites";
+				tag.store();
+			}
 			initEnLang();
 		});
 	}
@@ -153,6 +161,65 @@ public class AppModel extends WalterProxy {
 	private function initEnLang():void {
 		var op:IAsyncOperation = enLang.init();
 		op.addCompleteCallback(function (op:IAsyncOperation):void {
+			var enWordVoc:Vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_WORD);
+			var tag:Tag;
+
+			if(enWordVoc.tagColl.length == 0) {
+				tag = enWordVoc.createTag();
+				tag.name = "Favorites";
+				tag.store();
+
+				tag = enWordVoc.createTag();
+				tag.name = "A1: Beginner level";
+				tag.store();
+
+				tag = enWordVoc.createTag();
+				tag.name = "A2: Elementary level";
+				tag.store();
+
+				tag = enWordVoc.createTag();
+				tag.name = "B1: Intermediate level";
+				tag.store();
+
+				tag = enWordVoc.createTag();
+				tag.name = "B2: Upper-Intermediate level";
+				tag.store();
+
+				tag = enWordVoc.createTag();
+				tag.name = "C1: Advanced level";
+				tag.store();
+
+				tag = enWordVoc.createTag();
+				tag.name = "C2: Proficiency level";
+				tag.store();
+			}
+
+			var enVerbVoc:Vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_VERB);
+			if(enVerbVoc.tagColl.length == 0) {
+				tag = enVerbVoc.createTag();
+				tag.name = "A1: Beginner level";
+				tag.store();
+
+				tag = enVerbVoc.createTag();
+				tag.name = "A2: Elementary level";
+				tag.store();
+
+				tag = enVerbVoc.createTag();
+				tag.name = "B1: Intermediate level";
+				tag.store();
+
+				tag = enVerbVoc.createTag();
+				tag.name = "B2: Upper-Intermediate level";
+				tag.store();
+
+				tag = enVerbVoc.createTag();
+				tag.name = "C1: Advanced level";
+				tag.store();
+
+				tag = enVerbVoc.createTag();
+				tag.name = "C2: Proficiency level";
+				tag.store();
+			}
 			loadAppHash();
 		});
 	}
@@ -173,7 +240,7 @@ public class AppModel extends WalterProxy {
 		}
 
 		setSettings(hash.read(LocalStorageKey.SETTINGS_KEY) || new SettingsInfo());
-		if(initOp) initOp.dispatchSuccess();
+		if (initOp) initOp.dispatchSuccess();
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -183,37 +250,37 @@ public class AppModel extends WalterProxy {
 	//----------------------------------------------------------------------------------------------
 
 	public function clearPages():void {
-		if(_testPage) _testPage.countAllNotes = true;
+		if (_testPage) _testPage.countAllNotes = true;
 
-		if(_deWordPage) _deWordPage.countAllNotes = true;
-		if(_enWordPage) _enWordPage.countAllNotes = true;
+		if (_deWordPage) _deWordPage.countAllNotes = true;
+		if (_enWordPage) _enWordPage.countAllNotes = true;
 
-		if(_deVerbPage) _deVerbPage.countAllNotes = true;
-		if(_enVerbPage) _enVerbPage.countAllNotes = true;
+		if (_deVerbPage) _deVerbPage.countAllNotes = true;
+		if (_enVerbPage) _enVerbPage.countAllNotes = true;
 
-		if(_deLessonPage) _deLessonPage.countAllNotes = true;
-		if(_enLessonPage) _enLessonPage.countAllNotes = true;
+		if (_deLessonPage) _deLessonPage.countAllNotes = true;
+		if (_enLessonPage) _enLessonPage.countAllNotes = true;
 
-		if(_deSearchPage) _deSearchPage.countAllNotes = true;
-		if(_enSearchPage) _enSearchPage.countAllNotes = true;
+		if (_deSearchPage) _deSearchPage.countAllNotes = true;
+		if (_enSearchPage) _enSearchPage.countAllNotes = true;
 	}
 
 	private var _testPage:TestPage;
 	public function getTestPage():TestPage {
-		if(!_testPage) _testPage = new TestPage();
+		if (!_testPage) _testPage = new TestPage();
 		return _testPage;
 	}
 
 	private var _deWordPage:NotePage;
 	private var _enWordPage:NotePage;
 	public function getWordPage():NotePage {
-		if(selectedLanguage.id == LanguageID.DE) {
-			if(!_deWordPage) _deWordPage = new NotePage();
+		if (selectedLanguage.id == LanguageID.DE) {
+			if (!_deWordPage) _deWordPage = new NotePage();
 			_deWordPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_WORD);
 			return _deWordPage;
 		}
-		else if(selectedLanguage.id == LanguageID.EN) {
-			if(!_enWordPage) _enWordPage = new NotePage();
+		else if (selectedLanguage.id == LanguageID.EN) {
+			if (!_enWordPage) _enWordPage = new NotePage();
 			_enWordPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_WORD);
 			return _enWordPage;
 		}
@@ -223,13 +290,13 @@ public class AppModel extends WalterProxy {
 	private var _deVerbPage:NotePage;
 	private var _enVerbPage:NotePage;
 	public function getVerbPage():NotePage {
-		if(selectedLanguage.id == LanguageID.DE) {
-			if(!_deVerbPage) _deVerbPage = new NotePage();
+		if (selectedLanguage.id == LanguageID.DE) {
+			if (!_deVerbPage) _deVerbPage = new NotePage();
 			_deVerbPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_VERB);
 			return _deVerbPage;
 		}
-		else if(selectedLanguage.id == LanguageID.EN) {
-			if(!_enVerbPage) _enVerbPage = new NotePage();
+		else if (selectedLanguage.id == LanguageID.EN) {
+			if (!_enVerbPage) _enVerbPage = new NotePage();
 			_enVerbPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_VERB);
 			return _enVerbPage;
 		}
@@ -239,13 +306,13 @@ public class AppModel extends WalterProxy {
 	private var _deLessonPage:NotePage;
 	private var _enLessonPage:NotePage;
 	public function getLessonPage():NotePage {
-		if(selectedLanguage.id == LanguageID.DE) {
-			if(!_deLessonPage) _deLessonPage = new NotePage();
+		if (selectedLanguage.id == LanguageID.DE) {
+			if (!_deLessonPage) _deLessonPage = new NotePage();
 			_deLessonPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_LESSON);
 			return _deLessonPage;
 		}
-		else if(selectedLanguage.id == LanguageID.EN) {
-			if(!_enLessonPage) _enLessonPage = new NotePage();
+		else if (selectedLanguage.id == LanguageID.EN) {
+			if (!_enLessonPage) _enLessonPage = new NotePage();
 			_enLessonPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_LESSON);
 			return _enLessonPage;
 		}
@@ -255,19 +322,18 @@ public class AppModel extends WalterProxy {
 	private var _deSearchPage:SearchPage;
 	private var _enSearchPage:SearchPage;
 	public function getSearchPage():SearchPage {
-		if(selectedLanguage.id == LanguageID.DE) {
-			if(!_deSearchPage) _deSearchPage = new SearchPage();
+		if (selectedLanguage.id == LanguageID.DE) {
+			if (!_deSearchPage) _deSearchPage = new SearchPage();
 			_deSearchPage.lang = deLang;
 			return _deSearchPage;
 		}
-		else if(selectedLanguage.id == LanguageID.EN) {
-			if(!_enSearchPage) _enSearchPage = new SearchPage();
+		else if (selectedLanguage.id == LanguageID.EN) {
+			if (!_enSearchPage) _enSearchPage = new SearchPage();
 			_enSearchPage.lang = enLang;
 			return _enSearchPage;
 		}
 		return null;
 	}
-
 
 }
 }

@@ -83,8 +83,11 @@ public class Vocabulary extends EventDispatcher {
 		if (_tagColl != value) {
 			_tagColl = value;
 			_tagHash = {};
-			for each(var tag:Tag in value)
+			for each(var tag:Tag in value) {
 				_tagHash[tag.id] = tag;
+				_tagNameHash[tag.name] = tag;
+			}
+
 			dispatchEvent(new Event("tagCollChanged"));
 		}
 	}
@@ -95,6 +98,13 @@ public class Vocabulary extends EventDispatcher {
 	private var _tagHash:Object = {};
 	[Bindable("tagCollChanged")]
 	public function get tagHash():Object {return _tagHash;}
+
+	//--------------------------------------
+	//  tagNameHash
+	//--------------------------------------
+	private var _tagNameHash:Object = {};
+	[Bindable("tagCollChanged")]
+	public function get tagNameHash():Object {return _tagNameHash;}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -148,6 +158,7 @@ public class Vocabulary extends EventDispatcher {
 	public function addTag(t:Tag):void {
 		if (!tagHash[t.id]) {
 			tagHash[t.id] = t;
+			tagNameHash[t.name] = t;
 			tagColl.addItem(t);
 		}
 	}
@@ -155,6 +166,7 @@ public class Vocabulary extends EventDispatcher {
 	public function removeTag(t:Tag):void {
 		if (tagHash[t.id]) {
 			delete tagHash[t.id];
+			delete tagNameHash[t.name];
 			tagColl.removeItem(t);
 		}
 	}

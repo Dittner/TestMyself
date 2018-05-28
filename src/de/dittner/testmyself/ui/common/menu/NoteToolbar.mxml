@@ -22,6 +22,7 @@
         public function revert():void {
             goBackBtn.enabled = false;
             formatTextBtn.enabled = false;
+            internetSearchBtn.enabled = false;
             addNoteBtn.enabled = false;
             editNoteBtn.enabled = false;
             removeNoteBtn.enabled = false;
@@ -111,8 +112,13 @@
         public function enableGoBack(value:Boolean = true):void {
             goBackBtn.enabled = value;
         }
+
         public function enableFormatText(value:Boolean = true):void {
             formatTextBtn.enabled = value;
+        }
+
+        public function enableInternetSearch(value:Boolean = true):void {
+            internetSearchBtn.enabled = value;
         }
 
         public function enableAddNote(value:Boolean = true):void {
@@ -241,6 +247,19 @@
                          textColor="0"
                          title="{resourceManager.getString('app', 'Formatting')}"
                          click="notifyToolAction(ToolAction.FORMAT_TEXT)"/>
+
+    <tile:FadeTileButton id="internetSearchBtn"
+                         visible="{internetSearchBtn.enabled}"
+                         includeInLayout="{internetSearchBtn.enabled}"
+                         upTileID="{TileID.TOOLBAR_SEARCH_ON_THE_INTERNET}"
+                         left="{Values.PT160}"
+                         verticalCenter="0"
+                         paddingLeft="{Values.PT40}"
+                         paddingRight="0"
+                         fontSize="{Values.PT18}"
+                         textColor="0"
+                         title="{resourceManager.getString('app', 'InternetSearch')}"
+                         click="notifyToolAction(ToolAction.SEARCH)"/>
 
     <s:HGroup height="100%" horizontalCenter="0" verticalAlign="middle" gap="{Values.PT15}">
         <tile:FadeTileButton id="addNoteBtn"

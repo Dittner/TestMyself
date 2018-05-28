@@ -4,8 +4,8 @@
     <id>#domainId</id>
     <filename>#fileString</filename>
     <name>#nameString</name>
-    <versionNumber>#versionString</versionNumber>
-    <versionLabel>#versionString</versionLabel>
+    <versionNumber>#versionCode</versionNumber>
+    <versionLabel>#versionName</versionLabel>
 
     <initialWindow>
         <content>#swfFile</content>
@@ -19,15 +19,18 @@
     <supportedProfiles>mobileDevice</supportedProfiles>
 
     <icon>
-        <image29x29>/icons/logo29.png</image29x29>
-        <image60x60>/icons/logo60.png</image60x60>
-        <image72x72>/icons/logo72.png</image72x72>
-        <image128x128>/icons/logo128.png</image128x128>
-        <image512x512>/icons/logo512.png</image512x512>
+        <image29x29>icons/logo29.png</image29x29>
+        <image60x60>icons/logo60.png</image60x60>
+        <image72x72>icons/logo72.png</image72x72>
+        <image128x128>icons/logo128.png</image128x128>
+        <image512x512>icons/logo512.png</image512x512>
     </icon>
 
     <iPhone>
         <InfoAdditions><![CDATA[
+                <key>MinimumOSVersion</key>
+                <string>8.0</string>
+
                 <key>UIDeviceFamily</key>
                 <array>
                     <string>2</string>

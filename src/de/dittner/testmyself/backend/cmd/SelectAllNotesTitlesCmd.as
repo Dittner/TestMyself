@@ -11,7 +11,6 @@ import flash.data.SQLStatement;
 import flash.net.Responder;
 
 public class SelectAllNotesTitlesCmd extends StorageOperation implements IAsyncCommand {
-
 	public function SelectAllNotesTitlesCmd(storage:Storage, vocabulary:Vocabulary) {
 		super();
 		this.storage = storage;

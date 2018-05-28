@@ -28,6 +28,8 @@
         import de.dittner.testmyself.ui.view.form.components.FormMode;
         import de.dittner.testmyself.ui.view.form.components.FormOperationResult;
         import de.dittner.testmyself.ui.view.form.components.NoteValidationErrorKey;
+        import de.dittner.testmyself.ui.view.form.search.WebSearchAPI;
+        import de.dittner.testmyself.ui.view.form.search.WebSearchResult;
         import de.dittner.testmyself.utils.Values;
 
         import mx.collections.ArrayCollection;
@@ -60,6 +62,7 @@
             navigationMenu.hide();
             toolbar.revert();
             toolbar.enableFormatText(!vm.isRemoveMode);
+            toolbar.enableInternetSearch(!vm.isRemoveMode);
             if (vm.isArticleEnabled && vm.note is Word && !vm.isRemoveMode)
                 toolbar.enableArticleBar(true, (vm.note as Word).article);
             actionMenu.showFormMenu((viewInfo as NoteFormViewInfo).formMode);
@@ -84,6 +87,7 @@
             if (e.actionID == ToolAction.APPLY) apply();
             else if (e.actionID == ToolAction.CANCEL) cancel();
             else if (e.actionID == ToolAction.FORMAT_TEXT) formatText();
+            else if (e.actionID == ToolAction.SEARCH) searchOnTheInternet();
         }
 
         private function updateState():void {
@@ -276,6 +280,48 @@
             }
         }
 
+        private function searchOnTheInternet():void {
+            var noteTitle:String = vm.note is Word ? wordInput.text : vm.note is IrregularVerb ? verbInputsForm.infinitiveInput.text : "";
+            if (noteTitle) {
+                vm.lockView();
+                WebSearchAPI.search(noteTitle, vm.note.vocabulary.lang).addCompleteCallback(searchComplete);
+            }
+        }
+
+        private function searchComplete(op:IAsyncOperation):void {
+            vm.unlockView();
+            if (op.isSuccess && op.result is WebSearchResult) {
+                var res:WebSearchResult = op.result as WebSearchResult;
+
+                if (!descriptionArea.text) descriptionArea.text = res.description;
+
+                if (res.tagName) {
+                    res.tagName = res.tagName.toLowerCase();
+                    var selectedItems:Vector.<Object> = tagList.selectedItems || new Vector.<Object>();
+                    for each(var tag:Tag in tagList.dataProvider)
+                        if (tag.name.toLowerCase() == res.tagName) {
+                            selectedItems.push(tag);
+                            tagList.selectedItems = selectedItems;
+                            break
+                        }
+                }
+
+                if ((!examplesForm.exampleColl || examplesForm.exampleColl.length == 0) && (res.examples && res.examples.length > 0)) {
+                    var exampleColl:ArrayCollection = new ArrayCollection();
+                    for each(var item:Object in res.examples) {
+                        var note:Note = vm.note.createExample();
+                        note.title = item.en;
+                        note.description = item.ru;
+                        exampleColl.addItem(note);
+                    }
+                    examplesForm.exampleColl = exampleColl;
+                }
+
+                if (res.audioComment && !audioRecorder.isRecording && !audioRecorder.hasComment)
+                    audioRecorder.setComment(res.audioComment);
+            }
+        }
+
         private function fillNote():void {
             if (vm.note is Word) {
                 var word:Word = vm.note as Word;
@@ -332,8 +378,10 @@
 
                 var selectedItems:Vector.<Object> = tagList.selectedItems || new Vector.<Object>();
                 selectedItems.push(tag);
-                if (!tagList.dataProvider) tagList.dataProvider = new ArrayCollection();
-                tagList.dataProvider.addItemAt(tag, 0);
+                if (!tagList.dataProvider) {
+                    tagList.dataProvider = new ArrayCollection();
+                    tagList.dataProvider.addItemAt(tag, 0);
+                }
                 tagList.selectedItems = selectedItems;
                 addTagInput.text = "";
             }
@@ -471,10 +519,7 @@
                                 maxChars="{Device.MAX_TEXT_LENGTH}"/>
 
             <audio:AudioRecorder id="audioRecorder"
-                                 isLoadMp3FileFromDudenEnabled="{vm.isLoadMp3FileFromDudenEnabled}"
-                                 noteTitleToLoadMp3="{getNoteTitle(vm.hasNetworkConnection, wordInput.text, verbInputsForm.infinitiveInput.text)}"
-                                 height="{Values.PT72}" width="100%"
-                                 loadRemoteMp3WithError="showInvalidMsg(resourceManager.getString('app', 'FailedToLoadMp3File'))"/>
+                                 height="{Values.PT72}" width="100%"/>
         </s:VGroup>
 
         <s:VGroup width="{Values.PT300}" height="100%" gap="{VGAP}"

@@ -6,9 +6,7 @@
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
          xmlns:common="de.dittner.testmyself.ui.common.*">
-    <fx:Metadata>
-        [Event(name="loadRemoteMp3WithError", type="flash.events.Event")]
-    </fx:Metadata>
+
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.testmyself.model.domain.audioComment.AudioComment;
@@ -31,6 +29,8 @@
             }
             return ac;
         }
+
+        public function get hasComment():Boolean {return _comment && _comment.hasBytes;}
 
         public function setComment(value:AudioComment):void {
             if (_comment != value) {
@@ -76,19 +76,6 @@
         }
 
         //--------------------------------------
-        //  noteTitleToLoadMp3
-        //--------------------------------------
-        private var _noteTitleToLoadMp3:String = "";
-        [Bindable("noteTitleToLoadMp3Changed")]
-        public function get noteTitleToLoadMp3():String {return _noteTitleToLoadMp3;}
-        public function set noteTitleToLoadMp3(value:String):void {
-            if (_noteTitleToLoadMp3 != value) {
-                _noteTitleToLoadMp3 = value;
-                dispatchEvent(new Event("noteTitleToLoadMp3Changed"));
-            }
-        }
-
-        //--------------------------------------
         //  isMp3Loading
         //--------------------------------------
         private var _isMp3Loading:Boolean = false;
@@ -98,19 +85,6 @@
             if (_isMp3Loading != value) {
                 _isMp3Loading = value;
                 dispatchEvent(new Event("isMp3LoadingChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  isLoadMp3FileFromDudenEnabled
-        //--------------------------------------
-        private var _isLoadMp3FileFromDudenEnabled:Boolean = true;
-        [Bindable("isLoadMp3FileFromDudenEnabledChanged")]
-        public function get isLoadMp3FileFromDudenEnabled():Boolean {return _isLoadMp3FileFromDudenEnabled;}
-        public function set isLoadMp3FileFromDudenEnabled(value:Boolean):void {
-            if (_isLoadMp3FileFromDudenEnabled != value) {
-                _isLoadMp3FileFromDudenEnabled = value;
-                dispatchEvent(new Event("isLoadMp3FileFromDudenEnabledChanged"));
             }
         }
 
@@ -152,31 +126,8 @@
         //  load mp3 from website
         //--------------------------------------
 
-        private function loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled:Boolean, mp3FromSiteUrl:String, isRecording:Boolean, isRawDataPlayerVisible:Boolean, recordedBytes:ByteArray):Boolean {
-            return isLoadMp3FileFromDudenEnabled && mp3FromSiteUrl && !isRecording && isRawDataPlayerVisible && !(recordedBytes && recordedBytes.length > 0);
-        }
-
         private function loadLocalMp3BtnVisible(isRecording:Boolean, isRawDataPlayerVisible:Boolean, mp3PlayerComment:AudioComment, recordedBytes:ByteArray):Boolean {
             return !isRecording && isRawDataPlayerVisible && !( (recordedBytes && recordedBytes.length > 0) || (mp3PlayerComment && mp3PlayerComment.hasBytes) );
-        }
-
-        private function loadRemoteMp3():void {
-            if (isMp3Loading) return;
-
-            if (noteTitleToLoadMp3) {
-                isMp3Loading = true;
-                var cmd:LoadRemoteMp3Cmd = new LoadRemoteMp3Cmd(noteTitleToLoadMp3);
-                cmd.addCompleteCallback(remoteMp3Loaded);
-                cmd.execute();
-            }
-        }
-
-        private function remoteMp3Loaded(op:IAsyncOperation):void {
-            if (op.isSuccess && op.result)
-                setComment(op.result);
-
-            if (!op.isSuccess) dispatchEvent(new Event("loadRemoteMp3WithError"));
-            isMp3Loading = false;
         }
 
         private static const BROWSE_FILE_FILTERS:Array = [new FileFilter("MP3-file", "*.mp3")];
@@ -224,16 +175,6 @@
                             visible="false"
                             removeRecordEnabled="true"
                             removeCommentClick="mp3Player_removeCommentClickHandler(event)"/>
-
-    <button:WhiteButton id="loadRemoteMp3Btn"
-                        verticalCenter="{Values.PT11}"
-                        paddingLeft="{Values.PT10}"
-                        paddingRight="{Values.PT10}"
-                        right="{Values.PT170}"
-                        title="Duden"
-                        enabled="{!isMp3Loading}"
-                        visible="{loadRemoteMp3BtnVisible(isLoadMp3FileFromDudenEnabled, noteTitleToLoadMp3, rawDataPlayer.recording, rawDataPlayer.visible, rawDataPlayer.recorder.recordedBytes)}"
-                        click="loadRemoteMp3()"/>
 
     <button:WhiteButton id="loadLocalMp3Btn"
                         verticalCenter="{Values.PT11}"

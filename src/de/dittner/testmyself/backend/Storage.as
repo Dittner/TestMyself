@@ -19,6 +19,7 @@ import de.dittner.testmyself.backend.cmd.RemoveNotesByTagCmd;
 import de.dittner.testmyself.backend.cmd.RemoveTagCmd;
 import de.dittner.testmyself.backend.cmd.ReplaceTextInNoteTblCmd;
 import de.dittner.testmyself.backend.cmd.RunDataBaseCmd;
+import de.dittner.testmyself.backend.cmd.SearchNoteInEnRuDicCmd;
 import de.dittner.testmyself.backend.cmd.SearchNotesCmd;
 import de.dittner.testmyself.backend.cmd.SelectAllNotesTitlesCmd;
 import de.dittner.testmyself.backend.cmd.StoreHashDataCmd;
@@ -35,6 +36,7 @@ import de.dittner.testmyself.backend.tileStorage.cmd.StoreTileCmd;
 import de.dittner.testmyself.backend.utils.HashData;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
+import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.tag.Tag;
@@ -52,6 +54,8 @@ import de.dittner.walter.WalterProxy;
 
 import flash.data.SQLConnection;
 import flash.display.BitmapData;
+import flash.events.SQLErrorEvent;
+import flash.events.SQLEvent;
 import flash.filesystem.File;
 
 import flashx.textLayout.formats.TextAlign;
@@ -67,9 +71,10 @@ public class Storage extends WalterProxy {
 	public function Storage() {
 		super();
 		_hasTiles = LocalStorage.read(STORAGE_HAS_TILES_KEY);
-
 	}
 
+	[Inject]
+	public var appModel:AppModel;
 	[Inject]
 	public var deferredCommandManager:IDeferredCommandManager;
 
@@ -81,6 +86,9 @@ public class Storage extends WalterProxy {
 
 	private var _audioSqlConnection:SQLConnection;
 	public function get audioSqlConnection():SQLConnection {return _audioSqlConnection;}
+
+	private var _enRuDicSqlConnection:SQLConnection;
+	public function get enRuDicSqlConnection():SQLConnection {return _enRuDicSqlConnection;}
 
 	private var _tileSqlConnection:SQLConnection;
 	public function get tileSqlConnection():SQLConnection {return _tileSqlConnection;}
@@ -111,20 +119,18 @@ public class Storage extends WalterProxy {
 	public function reloadDataBase():IAsyncOperation {
 		exampleHash = {};
 
-		if (sqlConnection) {
+		if (sqlConnection)
 			sqlConnection.close();
-		}
 
-		if (audioSqlConnection) {
+		if (audioSqlConnection)
 			audioSqlConnection.close();
-		}
+
+		if (enRuDicSqlConnection)
+			enRuDicSqlConnection.close();
 
 		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.noteDBPath, SQLLib.getNoteDBTables());
 		cmd.addCompleteCallback(dataBaseReadyHandler);
 		cmd.execute();
-
-		/*var changeNoteCmd:TransferNoteAudioToOtherTblCmd = new TransferNoteAudioToOtherTblCmd(this);
-		 deferredCommandManager.add(changeNoteCmd);*/
 
 		return cmd;
 	}
@@ -140,6 +146,20 @@ public class Storage extends WalterProxy {
 	private function audioDataBaseReadyHandler(opEvent:*):void {
 		_audioSqlConnection = opEvent.result as SQLConnection;
 
+		_enRuDicSqlConnection = new SQLConnection();
+		var dbFile:File = File.applicationDirectory.resolvePath("dictionary/EN_RU_DIC.db");
+		if (!dbFile.exists) throw new Error("Не обнаружена база данных EN_RU_DIC по адресу: " + dbFile.nativePath);
+
+		_enRuDicSqlConnection.addEventListener(SQLEvent.OPEN, enRuDicDataBaseReadyHandler);
+		_enRuDicSqlConnection.addEventListener(SQLErrorEvent.ERROR, enRuDicDBErrorHandler);
+		_enRuDicSqlConnection.openAsync(dbFile);
+	}
+
+	private function enRuDicDBErrorHandler(event:SQLErrorEvent):void {
+		throw new Error("Не удалось открыть базу данных EN_RU_DIC: " + event.error);
+	}
+
+	private function enRuDicDataBaseReadyHandler(opEvent:*):void {
 		removeOldTilesDB();
 		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.tileDBPath, [TileSQLLib.CREATE_TILE_TBL]);
 		cmd.addCompleteCallback(tileDataBaseReadyHandler);
@@ -393,6 +413,16 @@ public class Storage extends WalterProxy {
 
 	public function load(hashDataKey:String):IAsyncOperation {
 		var cmd:IAsyncCommand = new LoadHashDataCmd(this, hashDataKey);
+		cmd.execute();
+		return cmd;
+	}
+
+	//--------------------------------------
+	//  en-ru dictionary
+	//--------------------------------------
+
+	public function searchInEnRuDic(noteTitle:String):IAsyncOperation {
+		var cmd:IAsyncCommand = new SearchNoteInEnRuDicCmd(this, noteTitle);
 		cmd.execute();
 		return cmd;
 	}

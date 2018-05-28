@@ -223,7 +223,11 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		}
 		else if (verb) {
 			title = verb.title;
-			if ((selected && cardViewMode) || options.showDetails) title += ", " + verb.present + ", " + verb.past + ", " + verb.perfect;
+			if ((selected && cardViewMode) || options.showDetails) {
+				title += verb.present ? ", " + verb.present : "";
+				title += verb.past ? ", " + verb.past : "";
+				title += verb.perfect ? ", " + verb.perfect : "";
+			}
 		}
 		else if (note) {
 			title = note.title;
@@ -253,7 +257,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 				for each(var s:String in sentences)
 					if (s.length >= searchText.length && s.toLowerCase().indexOf(searchText) != -1)
 						res += "&lt;...&gt; " + (s.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') + "...\n");
-				return res.replace(/(  )/gi, " ");
+				return res.replace(/( {2,})/gi, " ");
 			}
 			else {
 				return note.description.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>');

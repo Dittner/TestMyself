@@ -79,7 +79,9 @@ public class Values {
 	public static const PT250:Number = 250 * Device.factor;
 	public static const PT280:Number = 280 * Device.factor;
 	public static const PT300:Number = 300 * Device.factor;
+	public static const PT320:Number = 320 * Device.factor;
 	public static const PT330:Number = 330 * Device.factor;
+	public static const PT340:Number = 340 * Device.factor;
 	public static const PT350:Number = 350 * Device.factor;
 	public static const PT400:Number = 400 * Device.factor;
 	public static const PT420:Number = 420 * Device.factor;

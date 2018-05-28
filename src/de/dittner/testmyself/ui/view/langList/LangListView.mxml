@@ -7,6 +7,8 @@
                 isBgShown="false">
 
     <fx:Script><![CDATA[
+        import de.dittner.async.IAsyncOperation;
+        import de.dittner.testmyself.backend.utils.AddEnglishWordsToDBFromFileCmd;
         import de.dittner.testmyself.model.domain.language.LanguageID;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
@@ -34,10 +36,41 @@
             versionLbl.text = "v. " + appVersion;
         }
 
+        /*private var addEnglishWordsCmd:AddEnglishWordsToDBFromFileCmd;
+        private function addEnglishWords():void {
+            if (!addEnglishWordsCmd) {
+                addEnglishWordsCmd = new AddEnglishWordsToDBFromFileCmd(vm.appModel.storage, vm.appModel.enLang);
+                //addEnglishWordsCmd = new FillDBWithWordsFromEnglishRussianDictionaryCmd();
+                addEnglishWordsCmd.addProgressCallback(progressHandler);
+                addEnglishWordsCmd.addCompleteCallback(addEnglishWordsComplete);
+                addEnglishWordsCmd.execute();
+            }
+        }*/
+
+        private function progressHandler(value:Number):void {
+            /*if (value < 1) {
+                info.text = Math.floor(value * 100) + "%";
+                if (addEnglishWordsCmd.curNote)
+                    info.text += "\n" + addEnglishWordsCmd.curNote.title;
+            }*/
+        }
+
+        private function addEnglishWordsComplete(op:IAsyncOperation):void {
+            //info.text = "100%";
+        }
+
         override protected function deactivate():void {
             vm.viewDeactivated();
         }
         ]]></fx:Script>
+
+    <!--<s:Button label="Add English words"
+              click="addEnglishWords()"
+              horizontalCenter="0" top="10"/>
+
+    <s:Label id="info"
+             left="20" right="20" top="50" textAlign="center"
+             fontSize="20" color="#FFFF00"/>-->
 
     <components:LanguageInfoBoard id="deInfoBoard"
                                   localeInfo="de_DE"
@@ -47,7 +80,7 @@
                                   lessonVocabularyInfo="{vm.deLessonVocabularyInfo}"
                                   verticalCenter="0" horizontalCenter="{-Values.PT200}"/>
 
-    <tile:FadeTileButton title="{resourceManager.getString('app', 'German')}"
+    <tile:FadeTileButton title="Deutsch"
                          use9Scale="true"
                          iconTileID="{TileID.FLAG_GERMANY}"
                          upTileID="{TileID.BTN_LANG_UP}"
@@ -68,7 +101,7 @@
                                   lessonVocabularyInfo="{vm.enLessonVocabularyInfo}"
                                   verticalCenter="0" horizontalCenter="{Values.PT200}"/>
 
-    <tile:FadeTileButton title="{resourceManager.getString('app', 'English')}"
+    <tile:FadeTileButton title="English"
                          use9Scale="true"
                          iconTileID="{TileID.FLAG_GB}"
                          upTileID="{TileID.BTN_LANG_UP}"

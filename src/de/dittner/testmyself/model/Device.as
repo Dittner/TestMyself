@@ -9,6 +9,7 @@ public class Device {
 	public static const APP_NAME:String = "TestMyself";
 	public static const TEMP_APP_NAME:String = "TestMyself_temp";
 	public static const NOTE_DB_NAME:String = "note.db";
+	public static const ENGLISH_DIC_DB_NAME:String = "EN_RU_DIC.db";
 	public static const AUDIO_DB_NAME:String = "audio.db";
 	public static const SQL_TILE_STORAGE_DB_NAME:String = "tileStorage.db";
 
@@ -74,6 +75,10 @@ public class Device {
 
 	public static function get noteDBPath():String {
 		return APP_NAME + File.separator + NOTE_DB_NAME;
+	}
+
+	public static function get englishDicDBPath():String {
+		return APP_NAME + File.separator + ENGLISH_DIC_DB_NAME;
 	}
 
 	public static function get tileDBPath():String {

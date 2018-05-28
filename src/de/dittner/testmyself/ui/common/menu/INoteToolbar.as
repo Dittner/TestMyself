@@ -8,6 +8,7 @@ public interface INoteToolbar extends IUIComponent {
 
 	function enableGoBack(value:Boolean = true):void;
 	function enableFormatText(value:Boolean = true):void;
+	function enableInternetSearch(value:Boolean = true):void;
 	function enableAddNote(value:Boolean = true):void;
 	function enableEditNote(value:Boolean = true):void;
 	function enableRemoveNote(value:Boolean = true):void;

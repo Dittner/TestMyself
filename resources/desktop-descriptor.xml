@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/28.0">
+<application xmlns="http://ns.adobe.com/air/application/29.0">
 
     <id>TestMyself</id>
     <filename>TestMyself</filename>
     <name>TestMyself</name>
 
-    <versionNumber>6.78</versionNumber>
-    <versionLabel>6.78</versionLabel>
+    <versionNumber>7.01</versionNumber>
+    <versionLabel>7.01</versionLabel>
 
     <initialWindow>
         <content></content>

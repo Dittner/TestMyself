@@ -10,17 +10,18 @@ import flash.events.EventDispatcher;
 
 public class Language extends EventDispatcher {
 	public function Language(id:uint, storage:Storage) {
-		this.storage = storage;
+		_storage = storage;
 		_id = id;
 	}
-
-	protected var storage:Storage;
 
 	//----------------------------------------------------------------------------------------------
 	//
 	//  Properties
 	//
 	//----------------------------------------------------------------------------------------------
+
+	protected var _storage:Storage;
+	public function get storage():Storage {return _storage;}
 
 	//--------------------------------------
 	//  id

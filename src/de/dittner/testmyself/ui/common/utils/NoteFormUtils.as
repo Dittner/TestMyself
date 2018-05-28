@@ -9,8 +9,7 @@ public class NoteFormUtils {
 
 	public static function removeSpaces(str:String):String {
 		if (str) {
-			str = str.replace(/(  )/gi, " ");
-			str = str.replace(/(  )/gi, " ");
+			str = str.replace(/( {2,})/gi, " ");
 			while (str.length > 0 && (str.charAt(0) == " " || str.charAt(0) == "\n" || str.charAt(0) == "\r")) {
 				str = str.substring(1, str.length);
 			}
@@ -60,25 +59,17 @@ public class NoteFormUtils {
 		var res:String = "";
 		if (txt) {
 			txt = removeSpaces(txt);
+			txt = txt.replace(/_([А-Яа-яёЁ].)/gi, "$1");
 			txt = txt.replace(/(\[)/gi, "");
 			txt = txt.replace(/(\])/gi, "");
 			txt = txt.replace(/(\()/gi, "");
-			txt = txt.replace(/(0\))/gi, "0]");
-			txt = txt.replace(/(1\))/gi, "1]");
-			txt = txt.replace(/(2\))/gi, "2]");
-			txt = txt.replace(/(3\))/gi, "3]");
-			txt = txt.replace(/(4\))/gi, "4]");
-			txt = txt.replace(/(5\))/gi, "5]");
-			txt = txt.replace(/(6\))/gi, "6]");
-			txt = txt.replace(/(7\))/gi, "7]");
-			txt = txt.replace(/(8\))/gi, "8]");
-			txt = txt.replace(/(9\))/gi, "9]");
+			txt = txt.replace(/(\d+\) ?)/gi, "");
 			txt = txt.replace(/(\))/gi, "");
-			txt = txt.replace(/(\])/gi, ")");
 			txt = txt.replace(/(„)/gi, '"');
 			txt = txt.replace(/(“)/gi, '"');
 			txt = txt.replace(/(«)/gi, '"');
 			txt = txt.replace(/(»)/gi, '"');
+			txt = txt.replace(/( - )/gi, " – ");
 
 			txt = txt.replace(/(\r)/gi, "\n");
 			txt = txt.replace(/(\t)/gi, "\n");
@@ -177,17 +168,16 @@ public class NoteFormUtils {
 			txt = txt.replace(/(архит )/gi, "арх. ");
 			txt = txt.replace(/(горн )/gi, "горн. ");
 
-			txt = txt.replace(/(  )/gi, " ");
-			txt = txt.replace(/(  )/gi, " ");
-			txt = txt.replace(/(;;)/gi, ";");
+			txt = txt.replace(/( {2,})/gi, " ");
+			txt = txt.replace(/(;{2,})/gi, ";");
 			txt = txt.replace(/(;)/gi, ",");
-			txt = txt.replace(/(,,)/gi, ",");
+			txt = txt.replace(/(,{2,})/gi, ",");
 			txt = txt.replace(/(,\n)/gi, "\n");
-			if (txt && (txt.charAt(txt.length - 1) == "\n" || txt.charAt(txt.length - 1) == "." || txt.charAt(txt.length - 1) == "," || txt.charAt(txt.length - 1) == ";"))
+			if (txt && (txt.charAt(txt.length - 1) == "\n" || txt.charAt(txt.length - 1) == ":" || txt.charAt(txt.length - 1) == "," || txt.charAt(txt.length - 1) == ";"))
 				txt = txt.substr(0, txt.length - 1);
-			txt = txt.replace(/(,;|;;|\n)/gi, ";");
+			txt = txt.replace(/(,;|:;|;;|\n)/gi, ";");
 			txt = txt.replace(/(;)/gi, ";\n");
-			txt = txt.replace(/(, ;)/gi, ";");
+			txt = txt.replace(/((,|:|;)+ *;)/gi, ";");
 			txt = setNumberingToText(txt);
 			res = removeSpaces(txt);
 		}
@@ -199,14 +189,15 @@ public class NoteFormUtils {
 		var rows:Array = txt.split("\n");
 		if (rows && rows.length > 1) {
 			for (var i:int = 0; i < rows.length; i++) {
-				var row:String = rows[i];
+				var row:String = rows[i].replace(/(\d+\) )/i, "");
+
+				if (row && (row.charAt(row.length - 1) == "," || row.charAt(row.length - 1) == ":" || row.charAt(row.length - 1) == ";"))
+					row = row.substr(0, row.length - 1);
+
 				var number:String = (i + 1) + ")";
-				if (row.indexOf(number) == 0)
-					res += row;
-				else
-					res += number + " " + row;
+				res += number + " " + row;
 				if (i < rows.length - 1)
-					res += "\n";
+					res += ";\n";
 			}
 		}
 		else {
