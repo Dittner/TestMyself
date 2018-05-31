@@ -2,7 +2,6 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:menu="de.dittner.testmyself.ui.common.menu.*"
-         xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
          implements="de.dittner.testmyself.ui.common.menu.INavigationMenu"
          currentState="hide"
          creationComplete="creationCompleteHandler(event)">
@@ -78,7 +77,7 @@
         private function creationCompleteHandler(event:FlexEvent):void {
             if (!btnHash) {
                 btnHash = {};
-                btnHash[ViewID.LANG_LIST] = langListViewBtn;
+                btnHash[ViewID.INFO] = infoViewBtn;
                 btnHash[ViewID.WORD_LIST] = wordViewBtn;
                 btnHash[ViewID.VERB_LIST] = verbViewBtn;
                 btnHash[ViewID.LESSON_TAG_LIST] = lessonViewBtn;
@@ -86,8 +85,6 @@
                 btnHash[ViewID.TEST_LIST] = testListViewBtn;
                 btnHash[ViewID.SEARCH] = searchViewBtn;
                 btnHash[ViewID.SETTINGS] = settingsViewBtn;
-                btnHash[ViewID.LANG_LIST] = langListViewBtn;
-                btnHash[ViewID.LANG_LIST] = langListViewBtn;
             }
         }
         ]]></fx:Script>
@@ -109,11 +106,12 @@
               disabledAlpha="1"
               paddingLeft="{Values.PT5}" paddingRight="{Values.PT5}" gap="{Values.PT10}"
               verticalAlign="middle">
-        <menu:MenuButton id="langListViewBtn"
+
+        <menu:MenuButton id="infoViewBtn"
                          enabled="{enabled}"
                          isToggle="true"
                          deselectOnlyProgrammatically="true"
-                         menuID="{ViewID.LANG_LIST}"
+                         menuID="{ViewID.INFO}"
                          upTileID="{TileID.MENU_INFO_ICON}"
                          disabledTileID="{TileID.MENU_INFO_RED_ICON}"
                          change="viewMenuBtnSelectedHandler(event)"/>
@@ -188,13 +186,11 @@
                          change="viewMenuBtnSelectedHandler(event)"/>
     </s:HGroup>
 
-    <tile:FadeTileButton left="{Values.PT3}" top="{Values.PT3}"
-                         visible.show="{hasNetworkConnection}"
-                         visible.hide="false"
-                         mouseEnabled="false"
-                         upBgAlpha="1"
-                         upTileID="{TileID.NETWORK_ICON}"
-                         disabledTileID="{TileID.NETWORK_RED_ICON}"
-                         enabled="{enabled}"
-                         animationDuration="{langListViewBtn.animationDuration}"/>
+    <s:Label id="langLbl"
+             text="{'— '+CONFIG::LANGUAGE+' —'}"
+             horizontalCenter="0"
+             bottom="{Values.PT5}"
+             fontWeight="bold"
+             fontSize="{Values.PT10}" color="{CONFIG::LANGUAGE == 'DE' ? AppColors.TEXT_YELLOW : AppColors.TEXT_RED}" alpha="0.65"/>
+
 </s:Group>

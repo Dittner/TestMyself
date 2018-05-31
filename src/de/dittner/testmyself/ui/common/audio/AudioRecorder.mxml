@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:audio="de.dittner.testmyself.ui.common.audio.*"
          xmlns:mp3="de.dittner.testmyself.ui.common.audio.mp3.*"
          xmlns:button="de.dittner.testmyself.ui.common.button.*"
          xmlns:input="de.dittner.testmyself.ui.common.input.*"
@@ -18,20 +17,16 @@
         //--------------------------------------
         //  comment
         //--------------------------------------
-        private var _comment:AudioComment;
-        public function getComment():AudioComment {
-            if (_comment && _comment.isMp3 && _comment.hasBytes) return _comment;
-            var ac:AudioComment = new AudioComment();
-
-            if (rawDataPlayer.recorder.recordedBytes && rawDataPlayer.recorder.recordedBytes.length > 0) {
-                ac.bytes = rawDataPlayer.recorder.recordedBytes;
-                ac.isMp3 = false;
-            }
-            return ac;
-        }
-
+        [Bindable("isMp3LoadingChanged")]
         public function get hasComment():Boolean {return _comment && _comment.hasBytes;}
 
+        //--------------------------------------
+        //  comment
+        //--------------------------------------
+        private var _comment:AudioComment;
+        public function getComment():AudioComment {
+            return _comment && _comment.isMp3 && _comment.hasBytes ? _comment : new AudioComment();
+        }
         public function setComment(value:AudioComment):void {
             if (_comment != value) {
                 _comment = value;
@@ -41,37 +36,11 @@
                         showMP3Player();
                     }
                     else {
-                        rawDataPlayer.comment = _comment;
-                        showRawDataRecorder();
+                        hideMp3Player();
                     }
                 }
-                else showRawDataRecorder();
-            }
-        }
-
-        //--------------------------------------
-        //  recording
-        //--------------------------------------
-        private var _recording:Boolean;
-        [Bindable("recordingChanged")]
-        public function get isRecording():Boolean {return _recording;}
-        private function set recording(value:Boolean):void {
-            if (_recording != value) {
-                _recording = value;
-                dispatchEvent(new Event("recordingChanged"));
-            }
-        }
-
-        //--------------------------------------
-        //  maxRecordSizeInMin
-        //--------------------------------------
-        private var _maxRecordSizeInMin:Number = 30;
-        [Bindable("maxRecordSizeInMinChanged")]
-        public function get maxRecordSizeInMin():Number {return _maxRecordSizeInMin;}
-        public function set maxRecordSizeInMin(value:Number):void {
-            if (_maxRecordSizeInMin != value) {
-                _maxRecordSizeInMin = value;
-                dispatchEvent(new Event("maxRecordSizeInMinChanged"));
+                else hideMp3Player();
+                dispatchEvent(new Event("isMp3LoadingChanged"));
             }
         }
 
@@ -94,40 +63,28 @@
         //
         //----------------------------------------------------------------------------------------------
 
-        private function showRawDataRecorder():void {
+        private function hideMp3Player():void {
             mp3Player.visible = false;
-            rawDataPlayer.visible = true;
         }
 
         private function showMP3Player():void {
             mp3Player.visible = true;
-            rawDataPlayer.visible = false;
         }
 
         public function clear():void {
             clearBytes();
-            rawDataPlayer.clear();
             mp3Player.clear();
-            showRawDataRecorder();
+            hideMp3Player();
         }
 
         private function mp3Player_removeCommentClickHandler(event:VoiceCommentEvent):void {
             clearBytes();
-            showRawDataRecorder();
+            hideMp3Player();
         }
 
         private function clearBytes():void {
-            rawDataPlayer.comment = null;
             mp3Player.comment = null;
             _comment = null;
-        }
-
-        //--------------------------------------
-        //  load mp3 from website
-        //--------------------------------------
-
-        private function loadLocalMp3BtnVisible(isRecording:Boolean, isRawDataPlayerVisible:Boolean, mp3PlayerComment:AudioComment, recordedBytes:ByteArray):Boolean {
-            return !isRecording && isRawDataPlayerVisible && !( (recordedBytes && recordedBytes.length > 0) || (mp3PlayerComment && mp3PlayerComment.hasBytes) );
         }
 
         private static const BROWSE_FILE_FILTERS:Array = [new FileFilter("MP3-file", "*.mp3")];
@@ -150,7 +107,6 @@
             }
         }
         ]]></fx:Script>
-    <fx:Binding source="rawDataPlayer.recording" destination="recording"/>
 
     <input:MXLabel height="{Values.PT20}"
                    fontSize="{Values.PT15}"
@@ -161,13 +117,6 @@
 
     <common:BG percentWidth="100" top="{Values.PT20}" bottom="0"
                fillAlpha="0" borderColor="{AppColors.INPUT_BORDER}" borderWeight="1"/>
-
-    <audio:RawDataPlayer id="rawDataPlayer"
-                         left="{Values.PT10}" right="{Values.PT10}"
-                         top="{Values.PT20}" bottom="0"
-                         maxRecordSizeInMin="{maxRecordSizeInMin}"
-                         removeCommentClick="mp3Player_removeCommentClickHandler(event)"
-                         skinClass="de.dittner.testmyself.ui.common.audio.skins.RawDataPlayerSkin"/>
 
     <mp3:MP3PlayerComponent id="mp3Player"
                             left="{Values.PT10}" right="{Values.PT10}"
@@ -183,6 +132,6 @@
                         right="{Values.PT10}"
                         title="{resourceManager.getString('app', 'ChooseMp3File')}"
                         enabled="{!isMp3Loading}"
-                        visible="{loadLocalMp3BtnVisible(rawDataPlayer.recording, rawDataPlayer.visible, mp3Player.comment, rawDataPlayer.recorder.recordedBytes)}"
+                        visible="{!mp3Player.visible}"
                         click="loadLocalMp3()"/>
 </s:Group>

@@ -87,14 +87,14 @@ public class TestListVM extends ViewModel {
 		setTestPage(appModel.getTestPage());
 		testPage.loadOnlyFailedTestTask = true;
 		testPage.selectedTag = null;
-		var vocHash:HashList = appModel.selectedLanguage.vocabularyHash;
+		var vocHash:HashList = appModel.lang.vocabularyHash;
 
-		if (appModel.selectedLanguage.id == LanguageID.DE) {
+		if (appModel.lang.id == LanguageID.DE) {
 			wordVocabularyTestColl = new ArrayCollection( (vocHash.read(VocabularyID.DE_WORD) as Vocabulary).availableTests);
 			verbVocabularyTestColl = new ArrayCollection( (vocHash.read(VocabularyID.DE_VERB) as Vocabulary).availableTests);
 			lessonVocabularyTestColl = new ArrayCollection( (vocHash.read(VocabularyID.DE_LESSON) as Vocabulary).availableTests);
 		}
-		else if (appModel.selectedLanguage.id == LanguageID.EN) {
+		else if (appModel.lang.id == LanguageID.EN) {
 			wordVocabularyTestColl = new ArrayCollection( (vocHash.read(VocabularyID.EN_WORD) as Vocabulary).availableTests);
 			verbVocabularyTestColl = new ArrayCollection( (vocHash.read(VocabularyID.EN_VERB) as Vocabulary).availableTests);
 			lessonVocabularyTestColl = new ArrayCollection( (vocHash.read(VocabularyID.EN_LESSON) as Vocabulary).availableTests);

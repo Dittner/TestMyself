@@ -1,13 +1,14 @@
 package de.dittner.testmyself.model {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
+import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.backend.deferredOperation.DeferredCommandManager;
 import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModelFactory;
 import de.dittner.testmyself.ui.view.form.NoteFormVM;
-import de.dittner.testmyself.ui.view.langList.LangListVM;
+import de.dittner.testmyself.ui.view.info.InfoVM;
 import de.dittner.testmyself.ui.view.lessonTagList.LessonTagListVM;
 import de.dittner.testmyself.ui.view.main.MainVM;
 import de.dittner.testmyself.ui.view.main.MainView;
@@ -34,23 +35,14 @@ public class Bootstrap extends Walter {
 	}
 
 	private var mainView:MainView;
-	private var initOp:IAsyncOperation;
+	private var storage:Storage;
+	private var appModel:AppModel;
 
-	public function start():IAsyncOperation {
-		if (initOp && initOp.isProcessing) {
-			return initOp;
-		}
-		else if (initOp && !initOp.isProcessing) {
-			initOp = new AsyncOperation();
-			initOp.dispatchSuccess();
-			return initOp;
-		}
-
-		initOp = new AsyncOperation();
-		var storage:Storage = new Storage();
+	public function start():void {
+		storage = new Storage();
 		registerProxy("storage", storage);
 
-		var appModel:AppModel = new AppModel();
+		appModel = new AppModel();
 		registerProxy("appModel", appModel);
 
 		registerProxy("deferredCommandManager", new DeferredCommandManager());
@@ -58,7 +50,7 @@ public class Bootstrap extends Walter {
 
 		registerProxy("mainVM", new MainVM());
 
-		registerProxy("langListVM", new LangListVM());
+		registerProxy("infoVM", new InfoVM());
 		registerProxy("mapVM", new MapVM());
 
 		registerProxy("noteViewVM", new NoteViewVM());
@@ -76,9 +68,17 @@ public class Bootstrap extends Walter {
 		registerProxy("searchVM", new SearchVM());
 		registerProxy("settingsVM", new SettingsVM());
 
+		reloadStorage();
+	}
+
+	private function reloadStorage():void{
+		var op:IAsyncOperation = storage.reloadDataBase();
+		op.addCompleteCallback(storageReady);
+	}
+
+	private function storageReady(op:IAsyncOperation):void{
 		var op:IAsyncOperation = appModel.init();
 		op.addCompleteCallback(modelInitialized);
-		return op;
 	}
 
 	private function modelInitialized(op:IAsyncOperation):void {
@@ -89,7 +89,7 @@ public class Bootstrap extends Walter {
 
 		(FlexGlobals.topLevelApplication as Application).addElement(mainView);
 		mainView.activate();
-		mainView.viewNavigator.navigate(new ViewInfo(ViewID.LANG_LIST));
+		mainView.viewNavigator.navigate(new ViewInfo(ViewID.INFO));
 	}
 
 	private function onResize(event:Event):void {

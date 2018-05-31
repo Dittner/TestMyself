@@ -1,6 +1,6 @@
 package de.dittner.testmyself.ui.common.menu {
 public class ViewID {
-	public static const LANG_LIST:String = "LANG_LIST";
+	public static const INFO:String = "INFO";
 	public static const MAP:String = "MAP";
 
 	public static const WORD_LIST:String = "WORD_LIST";

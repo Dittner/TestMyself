@@ -54,7 +54,7 @@ public class RunDataBaseCmd extends StorageOperation implements IAsyncCommand {
 	}
 
 	private function createResult(event:SQLEvent):void {
-		CLog.info(LogTag.STORAGE, "SQL DB " + Device.APP_NAME + " has been created and launched");
+		CLog.info(LogTag.STORAGE, "SQL DB " + Device.appName + " has been created and launched");
 		dispatchSuccess(conn);
 	}
 

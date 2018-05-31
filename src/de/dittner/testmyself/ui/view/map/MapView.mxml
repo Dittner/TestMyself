@@ -14,7 +14,7 @@
         override protected function activating():void {
             vm = ViewModelFactory.instance.mapVM;
             vm.lockView();
-            currentState = vm.selectedLang && vm.selectedLang.id == LanguageID.EN ? "en" : "de";
+            currentState = vm.lang && vm.lang.id == LanguageID.EN ? "en" : "de";
         }
 
         override protected function activate():void {

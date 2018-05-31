@@ -13,6 +13,11 @@
             <value>true</value>
         </define>
 
+        <define append="true">
+            <name>CONFIG::LANGUAGE</name>
+            <value>"DE"</value>
+        </define>
+
         <debug>true</debug>
 
         <keep-as3-metadata append="true">

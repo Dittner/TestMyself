@@ -1,0 +1,197 @@
+group 'ru.idecide.fk'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.4.0'
+    }
+}
+
+apply plugin: 'gradlefx'
+apply plugin: 'ide'
+apply plugin: 'ideafx'
+
+def versionCode = "7.02"
+def domain = "de.dittner.tm.de"
+def nameString = "TestMyself"
+def flexSdkVersion = "4.16.1"
+def airSdkVersion = "29.0"
+def iconsFolderName = "de/icons"
+
+
+
+srcDirs = ['src/', 'resources/']
+resourceDirs = ['resources/', 'src/locales/en_US', 'src/locales/de_DE']
+mainClass = 'TestMyselfMobileApp'
+locales = ['en_US', 'de_DE']
+localeDir = 'src/locales'
+type = 'mobile'
+flexHome = '/Users/dittner/Documents/FLEX/SDK/apache16_1air29'
+output = 'TestMyself'
+
+def iosPathIPA = "$projectDir/build/${output}.ipa"
+def androidPathAPK = "$projectDir/build/${output}.apk"
+def pathAppDescriptor = "$projectDir/build/appdescriptor.xml"
+
+
+
+def os
+def extflex
+def extair
+if (System.properties['os.name'].toLowerCase().contains('windows')) {
+    os = "win"
+    extflex = "zip"
+    extair = "zip"
+    println "is  Windows"
+} else {
+    os = "mac"
+    extflex = "tar.gz"
+    extair = "tbz2"
+    println "it's not Windows"
+}
+
+//flexHome = "/Users/soul/sdk/air18-flex14.1"
+frameworkLinkage = 'merged'
+repositories {
+    ivy {
+        name 'Apache'
+        artifactPattern 'http://archive.apache.org/dist/flex/[revision]/binaries/[module]-[revision]-bin.[ext]'
+    }
+    ivy {
+        name 'Adobe Air SDK' //для windows заменить mac на win
+        artifactPattern "http://download.macromedia.com/air/$os/download/[revision]/[module].[ext]"
+    }
+}
+sdkAutoInstall {
+    showPrompts = true
+}
+
+
+dependencies {
+    merged fileTree(dir: 'libs/')
+}
+
+gradle.taskGraph.whenReady { copyresources ->
+
+    additionalCompilerOptions = [
+            "-load-config+=$projectDir/build/de/de-mobile-release-config.xml"
+    ]
+    println "::additionalCompilerOptions: flexHome is $flexHome"
+}
+
+task updateProperties(dependsOn: 'compileFlex') {
+    if (project.hasProperty("ver")) {
+        println ":ver ${ver}"
+        versionCode = ver
+    }
+    doLast {
+//        def gitMessage = new ByteArrayOutputStream()
+//        exec {
+//            commandLine "git", "log", "-1", "--pretty=%B"
+//            workingDir project.projectDir
+//            standardOutput = gitMessage;
+//        }
+        def f
+        def contents
+        f = new File("$pathAppDescriptor");
+        contents = f.getText('UTF-8');
+        contents = contents.replaceAll('#versionCode', versionCode)
+        contents = contents.replaceAll('#versionName', versionCode)
+        contents = contents.replaceAll('#airSdkVersion', airSdkVersion)
+        contents = contents.replaceAll('#swfFile', output + ".swf")
+        contents = contents.replaceAll('#domainId', domain)
+        contents = contents.replaceAll('#nameString', nameString)
+        contents = contents.replaceAll('#fileString', output)
+        contents = contents.replaceAll('#iconsFolderName', iconsFolderName)
+        f.write(contents);
+    }
+}
+
+task compileIOS(dependsOn: 'updateProperties') {
+    doLast {
+        exec {
+            commandLine "java", "-jar",
+                    "$flexHome/lib/adt.jar",
+                    "-package", "-target", "ipa-ad-hoc",
+                    "-storetype", "PKCS12",
+                    "-keystore", "$projectDir/keys/ios-123.p12",
+                    "-storepass", "123",
+                    "-provisioning-profile", "$projectDir/keys/tm.mobileprovision",
+                    "$iosPathIPA",
+                    "$pathAppDescriptor",
+                    "-C", "$projectDir/build", "${output}.swf", "icons", "de", "fonts", "swf", "dictionary/EN_RU_DIC.db",
+                    "-C", "$projectDir/build/de", "icons",
+                    "Default-Portrait.png", "Default-Portrait@2x.png", "Default-PortraitUpsideDown.png", "Default-PortraitUpsideDown@2x.png", "Default-LandscapeLeft.png", "Default-LandscapeLeft@2x.png", "Default-LandscapeRight.png", "Default-LandscapeRight@2x.png",
+                    "-extdir", "$projectDir/libs"
+            def stdOut = new ByteArrayOutputStream()
+            standardOutput = stdOut
+            println stdOut.toString()
+        }
+    }
+}
+task compileAndroid(dependsOn: 'updateProperties') {
+    doLast {
+        exec {
+            commandLine "java", "-jar",
+                    "$flexHome/lib/adt.jar",
+                    "-package", "-target", "apk-captive-runtime",
+                    "-storetype", "pkcs12",
+                    "-keystore", "$projectDir/keys/android-qwe123.p12",
+                    "-storepass", "qwe123",
+                    "$androidPathAPK",
+                    "$pathAppDescriptor",
+                    "-C", "$projectDir/build", "${output}.swf", "icons", "de", "fonts", "swf", "dictionary/EN_RU_DIC.db",
+                    "-C", "$projectDir/build/de", "icons",
+                    "-extdir", "$projectDir/libs"
+            workingDir project.projectDir
+            def stdOut = new ByteArrayOutputStream();
+            standardOutput = stdOut
+            println stdOut.toString();
+        }
+    }
+}
+
+configurations {
+    ftpAntTask
+}
+
+dependencies {
+    ftpAntTask("org.apache.ant:ant-commons-net:1.8.4") {
+        module("commons-net:commons-net:1.4.1") {
+            dependencies "oro:oro:2.0.8:jar"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+import java.text.SimpleDateFormat;
+
+task deployBuild << {
+    def created = new SimpleDateFormat("dd.MM.yyyy HH:mm")
+    created.setTimeZone(TimeZone.getTimeZone("GMT+3"));
+
+    def f = new File("$projectDir/build/build.html")
+    def contents = f.getText('UTF-8')
+    contents = contents.replaceAll('#date', created.format(new Date()))
+    contents = contents.replaceAll('#buildNumber', versionCode)
+    f.write(contents)
+    ant {
+        taskdef(name: 'ftp',
+                classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
+                classpath: configurations.ftpAntTask.asPath)
+        ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/TestMyselfDe") {
+            fileset(file: "build/${output}.ipa")
+            fileset(file: "build/${output}.apk")
+            fileset(file: "build/build.html")
+        }
+    }
+}
+
+
+defaultTasks 'clean', 'copyresources', 'compileFlex', 'compileIOS', 'deployBuild'

@@ -19,11 +19,30 @@
     <supportedProfiles>mobileDevice</supportedProfiles>
 
     <icon>
-        <image29x29>icons/logo29.png</image29x29>
-        <image60x60>icons/logo60.png</image60x60>
-        <image72x72>icons/logo72.png</image72x72>
-        <image128x128>icons/logo128.png</image128x128>
-        <image512x512>icons/logo512.png</image512x512>
+        <image29x29>#iconsFolderName/AppIcon29x29.png</image29x29>
+        <image36x36>#iconsFolderName/AppIcon36x36.png</image36x36>
+        <image40x40>#iconsFolderName/AppIcon40x40.png</image40x40>
+        <image48x48>#iconsFolderName/AppIcon48x48.png</image48x48>
+        <image50x50>#iconsFolderName/AppIcon50x50.png</image50x50>
+        <image57x57>#iconsFolderName/AppIcon57x57.png</image57x57>
+        <image58x58>#iconsFolderName/AppIcon58x58.png</image58x58>
+        <image60x60>#iconsFolderName/AppIcon60x60.png</image60x60>
+        <image72x72>#iconsFolderName/AppIcon72x72.png</image72x72>
+        <image75x75>#iconsFolderName/AppIcon75x75.png</image75x75>
+        <image76x76>#iconsFolderName/AppIcon76x76.png</image76x76>
+        <image80x80>#iconsFolderName/AppIcon80x80.png</image80x80>
+        <image87x87>#iconsFolderName/AppIcon87x87.png</image87x87>
+        <image96x96>#iconsFolderName/AppIcon96x96.png</image96x96>
+        <image100x100>#iconsFolderName/AppIcon100x100.png</image100x100>
+        <image114x114>#iconsFolderName/AppIcon114x114.png</image114x114>
+        <image120x120>#iconsFolderName/AppIcon120x120.png</image120x120>
+        <image144x144>#iconsFolderName/AppIcon144x144.png</image144x144>
+        <image152x152>#iconsFolderName/AppIcon152x152.png</image152x152>
+        <image167x167>#iconsFolderName/AppIcon167x167.png</image167x167>
+        <image180x180>#iconsFolderName/AppIcon180x180.png</image180x180>
+        <image192x192>#iconsFolderName/AppIcon192x192.png</image192x192>
+        <image512x512>#iconsFolderName/AppIcon512x512.png</image512x512>
+        <image1024x1024>#iconsFolderName/AppIcon1024x1024.png</image1024x1024>
     </icon>
 
     <iPhone>
@@ -33,6 +52,7 @@
 
                 <key>UIDeviceFamily</key>
                 <array>
+                    <string>1</string>
                     <string>2</string>
                 </array>
 

@@ -8,13 +8,13 @@ public class MapVM extends ViewModel {
 		super();
 	}
 
-	public var selectedLang:Language;
+	public var lang:Language;
 
 	override protected function activate():void {}
 
 	override public function viewActivated(viewInfo:ViewInfo):void {
 		super.viewActivated(viewInfo);
-		selectedLang = appModel.selectedLanguage;
+		lang = appModel.lang;
 	}
 
 	override protected function deactivate():void {}

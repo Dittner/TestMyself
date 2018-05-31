@@ -124,7 +124,7 @@
         ]]></fx:Script>
 
     <components:SearchBoard id="searchBoard"
-                            isTemplatesEnabled="{vm.appModel.selectedLanguage.id == LanguageID.DE}"
+                            isTemplatesEnabled="{vm.appModel.lang.id == LanguageID.DE}"
                             maxWidth="{Values.PT768}" horizontalCenter="0"
                             left="{Values.PT15}" right="{Values.PT15}"
                             startSearch="startSearchActivatedHandler(event)"/>

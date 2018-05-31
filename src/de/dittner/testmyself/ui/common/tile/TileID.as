@@ -123,8 +123,10 @@ public class TileID {
 	public static const BTN_YELLOW:String = "BTN_YELLOW";
 	public static const BTN_RED:String = "BTN_RED";
 
-	public static const BTN_LANG_UP:String = "BTN_LANG_UP";
-	public static const BTN_LANG_DOWN:String = "BTN_LANG_DOWN";
+	public static const BTN_BIG_RED_UP:String = "BTN_BIG_RED_UP";
+	public static const BTN_BIG_RED_DOWN:String = "BTN_BIG_RED_DOWN";
+	public static const BTN_BIG_YELLOW_UP:String = "BTN_BIG_YELLOW_UP";
+	public static const BTN_BIG_YELLOW_DOWN:String = "BTN_BIG_YELLOW_DOWN";
 
 	public static const BTN_ADD_TAG:String = "BTN_ADD_TAG";
 	public static const BTN_ADD_EXAMPLE:String = "BTN_ADD_EXAMPLE";
@@ -167,9 +169,6 @@ public class TileID {
 	public static const BTN_COMMENT_BAR_DOWN:String = "BTN_COMMENT_BAR_DOWN";
 
 	//-------------------------------- ICON -------------------------
-
-	public static const FLAG_GB:String = "FLAG_GB";
-	public static const FLAG_GERMANY:String = "FLAG_GERMANY";
 
 	public static const NETWORK_ICON:String = "NETWORK_ICON";
 	public static const NETWORK_RED_ICON:String = "NETWORK_RED_ICON";

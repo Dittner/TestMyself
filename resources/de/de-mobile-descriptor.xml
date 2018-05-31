@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/29.0">
+    <id>de.dittner.tm.de</id>
+    <filename>TestMyself-DE</filename>
+    <name>TestMyself-DE</name>
+    <versionNumber>7.07</versionNumber>
+    <versionLabel>7.07</versionLabel>
+
+    <initialWindow>
+        <content>TestMyself.swf</content>
+        <visible>true</visible>
+        <fullScreen>false</fullScreen>
+        <autoOrients>true</autoOrients>
+        <aspectRatio>portrait</aspectRatio>
+        <renderMode>gpu</renderMode>
+    </initialWindow>
+
+    <supportedProfiles>mobileDevice</supportedProfiles>
+
+    <icon>
+        <image29x29>de/icons/AppIcon29x29.png</image29x29>
+        <image36x36>de/icons/AppIcon36x36.png</image36x36>
+        <image40x40>de/icons/AppIcon40x40.png</image40x40>
+        <image48x48>de/icons/AppIcon48x48.png</image48x48>
+        <image50x50>de/icons/AppIcon50x50.png</image50x50>
+        <image57x57>de/icons/AppIcon57x57.png</image57x57>
+        <image58x58>de/icons/AppIcon58x58.png</image58x58>
+        <image60x60>de/icons/AppIcon60x60.png</image60x60>
+        <image72x72>de/icons/AppIcon72x72.png</image72x72>
+        <image75x75>de/icons/AppIcon75x75.png</image75x75>
+        <image76x76>de/icons/AppIcon76x76.png</image76x76>
+        <image80x80>de/icons/AppIcon80x80.png</image80x80>
+        <image87x87>de/icons/AppIcon87x87.png</image87x87>
+        <image96x96>de/icons/AppIcon96x96.png</image96x96>
+        <image100x100>de/icons/AppIcon100x100.png</image100x100>
+        <image114x114>de/icons/AppIcon114x114.png</image114x114>
+        <image120x120>de/icons/AppIcon120x120.png</image120x120>
+        <image144x144>de/icons/AppIcon144x144.png</image144x144>
+        <image152x152>de/icons/AppIcon152x152.png</image152x152>
+        <image167x167>de/icons/AppIcon167x167.png</image167x167>
+        <image180x180>de/icons/AppIcon180x180.png</image180x180>
+        <image192x192>de/icons/AppIcon192x192.png</image192x192>
+        <image512x512>de/icons/AppIcon512x512.png</image512x512>
+        <image1024x1024>de/icons/AppIcon1024x1024.png</image1024x1024>
+    </icon>
+
+    <iPhone>
+        <InfoAdditions><![CDATA[
+                <key>MinimumOSVersion</key>
+                <string>8.0</string>
+
+                <key>UIDeviceFamily</key>
+                <array>
+                    <string>1</string>
+                    <string>2</string>
+                </array>
+
+                <key>UIRequiredDeviceCapabilities</key>
+                <array>
+                    <string>microphone</string>
+                </array>
+
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleLightContent</string>
+
+                <key>UIPrerenderedIcon</key>
+                <true/>
+
+                <key>UIFileSharingEnabled</key>
+                <true/>
+
+                ]]></InfoAdditions>
+        <requestedDisplayResolution>standard</requestedDisplayResolution>
+    </iPhone>
+
+    <android>
+        <manifestAdditions><![CDATA[
+			<manifest android:installLocation="auto">
+				<uses-permission android:name="android.permission.INTERNET"/>
+                <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+                <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
+                <!--<uses-permission android:name="android.permission.VIBRATE"/>-->
+                <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+                <!--<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>-->
+                <!--<uses-permission android:name="android.permission.WAKE_LOCK"/>-->
+                <!--<uses-permission android:name="android.permission.CAMERA"/>-->
+                <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+                <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+                <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+				<!--<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>-->
+                <application android:enabled="true">
+                    <activity android:excludeFromRecents="false">
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN"/>
+                            <category android:name="android.intent.category.LAUNCHER"/>
+                        </intent-filter>
+                    </activity>
+                </application>
+
+			</manifest>
+		]]></manifestAdditions>
+    </android>
+</application>
+

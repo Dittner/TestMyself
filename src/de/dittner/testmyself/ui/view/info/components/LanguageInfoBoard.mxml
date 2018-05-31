@@ -68,19 +68,6 @@
 
             valuesLbl.text = infoText;
         }
-
-        //--------------------------------------
-        //  localeInfo
-        //--------------------------------------
-        private var _localeInfo:String = "";
-        [Bindable("localeInfoChanged")]
-        public function get localeInfo():String {return _localeInfo;}
-        public function set localeInfo(value:String):void {
-            if (_localeInfo != value) {
-                _localeInfo = value;
-                dispatchEvent(new Event("localeInfoChanged"));
-            }
-        }
         ]]></fx:Script>
 
     <s:layout>
@@ -95,7 +82,7 @@
              fontSize="{Values.PT30}"
              fontWeight="bold"
              color="{AppColors.TEXT_WHITE}"
-             text="{resourceManager.getString('app', 'Statistics', null, localeInfo)}"/>
+             text="{resourceManager.getString('app', 'Statistics')}"/>
 
     <s:HGroup width="100%" gap="{Values.PT10}">
         <s:Label id="valuesLbl"
@@ -111,7 +98,7 @@
                  fontSize="{Values.PT22}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"
-                 text="{resourceManager.getString('app', 'statisticsHeaders', null, localeInfo)}"/>
+                 text="{resourceManager.getString('app', 'statisticsHeaders')}"/>
     </s:HGroup>
 
 </s:Group>

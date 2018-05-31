@@ -3,7 +3,7 @@ import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.view.form.NoteFormView;
-import de.dittner.testmyself.ui.view.langList.LangListView;
+import de.dittner.testmyself.ui.view.info.InfoView;
 import de.dittner.testmyself.ui.view.lessonTagList.LessonTagListView;
 import de.dittner.testmyself.ui.view.main.MainView;
 import de.dittner.testmyself.ui.view.map.MapView;
@@ -47,7 +47,7 @@ public class ViewNavigator extends Group {
 
 	private var viewClassHash:Object = {};
 	private function fillViewMap():void {
-		viewClassHash[ViewID.LANG_LIST] = LangListView;
+		viewClassHash[ViewID.INFO] = InfoView;
 		viewClassHash[ViewID.MAP] = MapView;
 
 		viewClassHash[ViewID.NOTE_VIEW] = NoteView;
@@ -69,7 +69,7 @@ public class ViewNavigator extends Group {
 
 	private var viewPosHash:Object = {};
 	private function fillViewPosMap():void {
-		viewPosHash[ViewID.LANG_LIST] = 1;
+		viewPosHash[ViewID.INFO] = 1;
 
 		viewPosHash[ViewID.WORD_LIST] = 2;
 		viewPosHash[ViewID.VERB_LIST] = 3;

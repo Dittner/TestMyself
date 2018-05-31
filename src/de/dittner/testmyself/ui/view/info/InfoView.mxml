@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<view:SmartView xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:view="de.dittner.testmyself.ui.common.view.*"
+                xmlns:components="de.dittner.testmyself.ui.view.info.components.*"
+                xmlns:tile="de.dittner.testmyself.ui.common.tile.*"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                isBgShown="false">
+
+    <fx:Script><![CDATA[
+        import de.dittner.testmyself.ui.common.tile.TileID;
+        import de.dittner.testmyself.ui.common.utils.AppColors;
+        import de.dittner.testmyself.ui.common.view.ViewModelFactory;
+        import de.dittner.testmyself.utils.Values;
+
+        [Bindable]
+        public var vm:InfoVM;
+
+        override protected function activating():void {
+            vm = ViewModelFactory.instance.infoVM;
+            vm.lockView();
+        }
+
+        override protected function activate():void {
+            navigationMenu.hide();
+            toolbar.hide();
+            actionMenu.hide();
+            vm.unlockView();
+            vm.viewActivated(viewInfo);
+
+            var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
+            var ns:Namespace = appDescriptor.namespace();
+            var appVersion:String = appDescriptor.ns::versionNumber;
+            versionLbl.text = "v. " + appVersion;
+        }
+
+        override protected function deactivate():void {
+            vm.viewDeactivated();
+        }
+        ]]></fx:Script>
+
+    <components:LanguageInfoBoard id="infoBoard"
+                                  mouseEnabled="false" mouseChildren="false"
+                                  wordVocabularyInfo="{vm.wordVocabularyInfo}"
+                                  verbVocabularyInfo="{vm.verbVocabularyInfo}"
+                                  lessonVocabularyInfo="{vm.lessonVocabularyInfo}"
+                                  verticalCenter="0" horizontalCenter="0"/>
+
+    <tile:FadeTileButton title="{resourceManager.getString('app', 'Start')}"
+                         use9Scale="true"
+                         upTileID="{CONFIG::LANGUAGE == 'DE' ? TileID.BTN_BIG_YELLOW_UP : TileID.BTN_BIG_RED_UP}"
+                         downTileID="{CONFIG::LANGUAGE == 'DE' ? TileID.BTN_BIG_YELLOW_DOWN : TileID.BTN_BIG_RED_DOWN}"
+                         horizontalCenter="0"
+                         width="{Values.PT300}"
+                         verticalCenter="{Values.PT200}"
+                         textColor="#ffFFff"
+                         isBold="true"
+                         fontSize="{Values.PT30}"
+                         click="vm.navigateToWordList()"/>
+
+    <s:Label id="versionLbl"
+             width="100%" textAlign="center"
+             fontSize="{Values.PT15}" bottom="{Values.PT5}"
+             fontWeight="bold"
+             color="{AppColors.WHITE}"/>
+</view:SmartView>

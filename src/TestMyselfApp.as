@@ -1,6 +1,4 @@
 package {
-import de.dittner.testmyself.backend.LocalStorage;
-import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 
@@ -18,7 +16,7 @@ public class TestMyselfApp extends Application {
 	}
 
 	private function initializeHandler(event:FlexEvent):void {
-		resourceManager.localeChain = [LocalStorage.read(LocalStorageKey.SELECTED_LANG) || "en_US"];
+		resourceManager.localeChain = [CONFIG::LANGUAGE == "DE" ? "de_DE" : "en_US"];
 	}
 
 	private function uncaughtErrorHandler(event:UncaughtErrorEvent):void {

@@ -6,7 +6,7 @@ import de.dittner.testmyself.backend.Storage;
 import flash.events.SQLEvent;
 import flash.net.Responder;
 
-public class CompressDBCmd extends StorageOperation implements IAsyncCommand  {
+public class CompressDBCmd extends StorageOperation implements IAsyncCommand {
 	public function CompressDBCmd(storage:Storage) {
 		this.storage = storage;
 	}
@@ -14,11 +14,22 @@ public class CompressDBCmd extends StorageOperation implements IAsyncCommand  {
 	private var storage:Storage;
 
 	public function execute():void {
-		storage.audioSqlConnection.compact(new Responder(executeComplete, executeError));
+		storage.sqlConnection.compact(new Responder(noteDBCompressed, executeError));
+		storage.audioSqlConnection.compact(new Responder(audioDBCompressed, executeError));
 	}
 
-	private function executeComplete(event:SQLEvent):void {
-		dispatchSuccess();
+	private var isAudioDBCompressed:Boolean = false;
+	private function audioDBCompressed(event:SQLEvent):void {
+		isAudioDBCompressed = true;
+		if (isAudioDBCompressed && isNoteDBCompressed)
+			dispatchSuccess();
+	}
+
+	private var isNoteDBCompressed:Boolean = false;
+	private function noteDBCompressed(event:SQLEvent):void {
+		isNoteDBCompressed = true;
+		if (isAudioDBCompressed && isNoteDBCompressed)
+			dispatchSuccess();
 	}
 
 	override public function destroy():void {

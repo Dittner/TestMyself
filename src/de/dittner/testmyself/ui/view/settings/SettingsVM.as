@@ -92,7 +92,7 @@ public class SettingsVM extends ViewModel {
 
 	override public function viewActivated(viewInfo:ViewInfo):void {
 		super.viewActivated(viewInfo);
-		var lang:Language = appModel.selectedLanguage;
+		var lang:Language = appModel.lang;
 		if (!ftp) ftp = new FtpClient(Device.stage);
 
 		if (lang.id == LanguageID.DE) {
@@ -183,7 +183,7 @@ public class SettingsVM extends ViewModel {
 			noteDBFile.moveToTrash();
 		}
 
-		var tempFolder:File = File.documentsDirectory.resolvePath(Device.TEMP_APP_NAME);
+		var tempFolder:File = File.documentsDirectory.resolvePath(Device.tempFolderName);
 		noteDBFile = tempFolder.resolvePath(Device.NOTE_DB_NAME);
 		audioDBFile = tempFolder.resolvePath(Device.AUDIO_DB_NAME);
 
@@ -197,7 +197,7 @@ public class SettingsVM extends ViewModel {
 	private function dbReloaded(op:IAsyncOperation):void {
 		appModel.clearPages();
 		appModel.loadAppHash();
-		var initOp:IAsyncOperation = appModel.selectedLanguage.init();
+		var initOp:IAsyncOperation = appModel.lang.init();
 		initOp.addCompleteCallback(initCompleteHandler);
 	}
 
@@ -207,7 +207,7 @@ public class SettingsVM extends ViewModel {
 
 	public function replaceText(srcText:String, destText:String):void {
 		if (srcText)
-			storage.replaceTextInNoteTable(srcText, destText, appModel.selectedLanguage.id);
+			storage.replaceTextInNoteTable(srcText, destText, appModel.lang.id);
 	}
 
 }

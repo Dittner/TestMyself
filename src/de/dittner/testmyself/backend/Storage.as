@@ -1,4 +1,5 @@
 package de.dittner.testmyself.backend {
+import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncCommand;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.async.ProgressCommand;
@@ -34,6 +35,7 @@ import de.dittner.testmyself.backend.tileStorage.TileSQLLib;
 import de.dittner.testmyself.backend.tileStorage.cmd.LoadAllTilesCmd;
 import de.dittner.testmyself.backend.tileStorage.cmd.StoreTileCmd;
 import de.dittner.testmyself.backend.utils.HashData;
+import de.dittner.testmyself.backend.utils.RemoveDeutschDictionaryCmd;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.AppModel;
@@ -113,10 +115,13 @@ public class Storage extends WalterProxy {
 
 	override protected function activate():void {
 		deferredCommandManager.stop();
-		reloadDataBase();
 	}
 
+	private var reloadDataBaseOp:IAsyncOperation;
 	public function reloadDataBase():IAsyncOperation {
+		if(reloadDataBaseOp && reloadDataBaseOp.isProcessing) return reloadDataBaseOp;
+		reloadDataBaseOp = new AsyncOperation();
+
 		exampleHash = {};
 
 		if (sqlConnection)
@@ -132,7 +137,7 @@ public class Storage extends WalterProxy {
 		cmd.addCompleteCallback(dataBaseReadyHandler);
 		cmd.execute();
 
-		return cmd;
+		return reloadDataBaseOp;
 	}
 
 	private function dataBaseReadyHandler(opEvent:*):void {
@@ -160,18 +165,23 @@ public class Storage extends WalterProxy {
 	}
 
 	private function enRuDicDataBaseReadyHandler(opEvent:*):void {
-		removeOldTilesDB();
-		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.tileDBPath, [TileSQLLib.CREATE_TILE_TBL]);
-		cmd.addCompleteCallback(tileDataBaseReadyHandler);
-		cmd.execute();
+		runTileDB();
 	}
 
-	private function removeOldTilesDB():void {
+	private function runTileDB():void{
 		var dbFile:File = File.documentsDirectory.resolvePath(Device.tileDBPath);
 		if (Device.appVersion != LocalStorage.read(APP_VERSION_KEY) && dbFile.exists) {
 			CLog.info(LogTag.UI, "Irrelevant Tiles DB is deleting...");
 			dbFile.deleteFile();
+			hasTiles = false;
 		}
+		else if(!dbFile.exists) {
+			hasTiles = false;
+		}
+
+		var cmd:IAsyncCommand = new RunDataBaseCmd(Device.tileDBPath, [TileSQLLib.CREATE_TILE_TBL]);
+		cmd.addCompleteCallback(tileDataBaseReadyHandler);
+		cmd.execute();
 	}
 
 	private function tileDataBaseReadyHandler(opEvent:*):void {
@@ -196,11 +206,13 @@ public class Storage extends WalterProxy {
 		if (op.isSuccess) {
 			CLog.info(LogTag.UI, "Графика загружена из БД");
 			hideMsg();
+			reloadDataBaseOp.dispatchSuccess();
 		}
 		else {
 			CLog.err(LogTag.UI, "Tiles generating is failed! Details: " + op.error);
 			showMsg("GUI's generating is failed! Details: " + op.error);
 			doLaterInSec(hideMsg, 20);
+			reloadDataBaseOp.dispatchError();
 		}
 	}
 

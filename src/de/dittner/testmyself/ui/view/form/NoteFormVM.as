@@ -163,9 +163,9 @@ public class NoteFormVM extends ViewModel {
 			setSelectedFilter((viewInfo as NoteFormViewInfo).filter);
 			setOperation((viewInfo as NoteFormViewInfo).callback);
 
-			isArticleEnabled = appModel.selectedLanguage.id == LanguageID.DE;
-			isPresentVerbFormEnabled = appModel.selectedLanguage.id == LanguageID.DE;
-			isOptionalTemplatesEnabled = appModel.selectedLanguage.id == LanguageID.DE;
+			isArticleEnabled = appModel.lang.id == LanguageID.DE;
+			isPresentVerbFormEnabled = appModel.lang.id == LanguageID.DE;
+			isOptionalTemplatesEnabled = appModel.lang.id == LanguageID.DE;
 			hasNetworkConnection = appModel.hasNetworkConnection;
 			listenProxy(appModel, AppModel.NETWORK_CONNECTION_CHANGED_MSG, networkConnectionChanged);
 		}

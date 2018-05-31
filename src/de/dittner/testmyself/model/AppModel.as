@@ -27,8 +27,6 @@ import flash.net.URLRequest;
 
 public class AppModel extends WalterProxy {
 	public static const HASH_CHANGED_MSG:String = "HASH_CHANGED_MSG";
-	public static const SELECTED_LANG_CHANGED_MSG:String = "SELECTED_LANG_CHANGED_MSG";
-	public static const SELECTED_VOCABULARY_CHANGED_MSG:String = "SELECTED_VOCABULARY_CHANGED_MSG";
 	public static const NETWORK_CONNECTION_CHANGED_MSG:String = "NETWORK_CONNECTION_CHANGED_MSG";
 	public static const SETTINGS_CHANGED_MSG:String = "SETTINGS_CHANGED_MSG";
 
@@ -50,32 +48,10 @@ public class AppModel extends WalterProxy {
 	//----------------------------------------------------------------------------------------------
 
 	//--------------------------------------
-	//  deLang
+	//  lang
 	//--------------------------------------
-	private var _deLang:Language;
-	[Bindable("deLangChanged")]
-	public function get deLang():Language {return _deLang;}
-
-	//--------------------------------------
-	//  enLang
-	//--------------------------------------
-	private var _enLang:Language;
-	[Bindable("enLangChanged")]
-	public function get enLang():Language {return _enLang;}
-
-	//--------------------------------------
-	//  selectedLanguage
-	//--------------------------------------
-	private var _selectedLanguage:Language;
-	[Bindable("selectedLanguageChanged")]
-	public function get selectedLanguage():Language {return _selectedLanguage;}
-	public function set selectedLanguage(value:Language):void {
-		if (_selectedLanguage != value) {
-			_selectedLanguage = value;
-			dispatchEvent(new Event("selectedLanguageChanged"));
-			sendMessage(SELECTED_LANG_CHANGED_MSG, selectedLanguage);
-		}
-	}
+	private var _lang:Language;
+	public function get lang():Language {return _lang;}
 
 	//--------------------------------------
 	//  hasNetworkConnection
@@ -136,35 +112,40 @@ public class AppModel extends WalterProxy {
 		if (!initOp) {
 			CLog.info(LogTag.SYSTEM, "AppModel initialization is started");
 
-			_deLang = new DeLang(storage);
-			_enLang = new EnLang(storage);
+			if (CONFIG::LANGUAGE == "DE") {
+				_lang = new DeLang(storage);
+				initDeLang(_lang);
+			}
+			else {
+				_lang = new EnLang(storage);
+				initEnLang(_lang);
+			}
 
 			initOp = new AsyncOperation();
-			initDeLang();
 		}
 		return initOp;
 	}
 
-	private function initDeLang():void {
-		var op:IAsyncOperation = deLang.init();
+	private function initDeLang(lang:Language):void {
+		var op:IAsyncOperation = lang.init();
 		op.addCompleteCallback(function (op:IAsyncOperation):void {
-			var deWordVoc:Vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_WORD);
-			if(deWordVoc.tagColl.length == 0) {
+			var deWordVoc:Vocabulary = lang.vocabularyHash.read(VocabularyID.DE_WORD);
+			if (deWordVoc.tagColl.length == 0) {
 				var tag:Tag = deWordVoc.createTag();
 				tag.name = "Favorites";
 				tag.store();
 			}
-			initEnLang();
+			loadAppHash();
 		});
 	}
 
-	private function initEnLang():void {
-		var op:IAsyncOperation = enLang.init();
+	private function initEnLang(lang:Language):void {
+		var op:IAsyncOperation = lang.init();
 		op.addCompleteCallback(function (op:IAsyncOperation):void {
-			var enWordVoc:Vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_WORD);
+			var enWordVoc:Vocabulary = lang.vocabularyHash.read(VocabularyID.EN_WORD);
 			var tag:Tag;
 
-			if(enWordVoc.tagColl.length == 0) {
+			if (enWordVoc.tagColl.length == 0) {
 				tag = enWordVoc.createTag();
 				tag.name = "Favorites";
 				tag.store();
@@ -194,8 +175,8 @@ public class AppModel extends WalterProxy {
 				tag.store();
 			}
 
-			var enVerbVoc:Vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_VERB);
-			if(enVerbVoc.tagColl.length == 0) {
+			var enVerbVoc:Vocabulary = lang.vocabularyHash.read(VocabularyID.EN_VERB);
+			if (enVerbVoc.tagColl.length == 0) {
 				tag = enVerbVoc.createTag();
 				tag.name = "A1: Beginner level";
 				tag.store();
@@ -251,18 +232,10 @@ public class AppModel extends WalterProxy {
 
 	public function clearPages():void {
 		if (_testPage) _testPage.countAllNotes = true;
-
-		if (_deWordPage) _deWordPage.countAllNotes = true;
-		if (_enWordPage) _enWordPage.countAllNotes = true;
-
-		if (_deVerbPage) _deVerbPage.countAllNotes = true;
-		if (_enVerbPage) _enVerbPage.countAllNotes = true;
-
-		if (_deLessonPage) _deLessonPage.countAllNotes = true;
-		if (_enLessonPage) _enLessonPage.countAllNotes = true;
-
-		if (_deSearchPage) _deSearchPage.countAllNotes = true;
-		if (_enSearchPage) _enSearchPage.countAllNotes = true;
+		if (_wordPage) _wordPage.countAllNotes = true;
+		if (_verbPage) _verbPage.countAllNotes = true;
+		if (_lessonPage) _lessonPage.countAllNotes = true;
+		if (_searchPage) _searchPage.countAllNotes = true;
 	}
 
 	private var _testPage:TestPage;
@@ -271,66 +244,62 @@ public class AppModel extends WalterProxy {
 		return _testPage;
 	}
 
-	private var _deWordPage:NotePage;
-	private var _enWordPage:NotePage;
+	private var _wordPage:NotePage;
 	public function getWordPage():NotePage {
-		if (selectedLanguage.id == LanguageID.DE) {
-			if (!_deWordPage) _deWordPage = new NotePage();
-			_deWordPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_WORD);
-			return _deWordPage;
+		if (lang.id == LanguageID.DE) {
+			if (!_wordPage) _wordPage = new NotePage();
+			_wordPage.vocabulary = lang.vocabularyHash.read(VocabularyID.DE_WORD);
+			return _wordPage;
 		}
-		else if (selectedLanguage.id == LanguageID.EN) {
-			if (!_enWordPage) _enWordPage = new NotePage();
-			_enWordPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_WORD);
-			return _enWordPage;
+		else if (lang.id == LanguageID.EN) {
+			if (!_wordPage) _wordPage = new NotePage();
+			_wordPage.vocabulary = lang.vocabularyHash.read(VocabularyID.EN_WORD);
+			return _wordPage;
 		}
 		return null;
 	}
 
-	private var _deVerbPage:NotePage;
-	private var _enVerbPage:NotePage;
+	private var _verbPage:NotePage;
 	public function getVerbPage():NotePage {
-		if (selectedLanguage.id == LanguageID.DE) {
-			if (!_deVerbPage) _deVerbPage = new NotePage();
-			_deVerbPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_VERB);
-			return _deVerbPage;
+		if (lang.id == LanguageID.DE) {
+			if (!_verbPage) _verbPage = new NotePage();
+			_verbPage.vocabulary = lang.vocabularyHash.read(VocabularyID.DE_VERB);
+			return _verbPage;
 		}
-		else if (selectedLanguage.id == LanguageID.EN) {
-			if (!_enVerbPage) _enVerbPage = new NotePage();
-			_enVerbPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_VERB);
-			return _enVerbPage;
+		else if (lang.id == LanguageID.EN) {
+			if (!_verbPage) _verbPage = new NotePage();
+			_verbPage.vocabulary = lang.vocabularyHash.read(VocabularyID.EN_VERB);
+			return _verbPage;
 		}
 		return null;
 	}
 
-	private var _deLessonPage:NotePage;
-	private var _enLessonPage:NotePage;
+	private var _lessonPage:NotePage;
 	public function getLessonPage():NotePage {
-		if (selectedLanguage.id == LanguageID.DE) {
-			if (!_deLessonPage) _deLessonPage = new NotePage();
-			_deLessonPage.vocabulary = deLang.vocabularyHash.read(VocabularyID.DE_LESSON);
-			return _deLessonPage;
+		if (lang.id == LanguageID.DE) {
+			if (!_lessonPage) _lessonPage = new NotePage();
+			_lessonPage.vocabulary = lang.vocabularyHash.read(VocabularyID.DE_LESSON);
+			return _lessonPage;
 		}
-		else if (selectedLanguage.id == LanguageID.EN) {
-			if (!_enLessonPage) _enLessonPage = new NotePage();
-			_enLessonPage.vocabulary = enLang.vocabularyHash.read(VocabularyID.EN_LESSON);
-			return _enLessonPage;
+		else if (lang.id == LanguageID.EN) {
+			if (!_lessonPage) _lessonPage = new NotePage();
+			_lessonPage.vocabulary = lang.vocabularyHash.read(VocabularyID.EN_LESSON);
+			return _lessonPage;
 		}
 		return null;
 	}
 
-	private var _deSearchPage:SearchPage;
-	private var _enSearchPage:SearchPage;
+	private var _searchPage:SearchPage;
 	public function getSearchPage():SearchPage {
-		if (selectedLanguage.id == LanguageID.DE) {
-			if (!_deSearchPage) _deSearchPage = new SearchPage();
-			_deSearchPage.lang = deLang;
-			return _deSearchPage;
+		if (lang.id == LanguageID.DE) {
+			if (!_searchPage) _searchPage = new SearchPage();
+			_searchPage.lang = lang;
+			return _searchPage;
 		}
-		else if (selectedLanguage.id == LanguageID.EN) {
-			if (!_enSearchPage) _enSearchPage = new SearchPage();
-			_enSearchPage.lang = enLang;
-			return _enSearchPage;
+		else if (lang.id == LanguageID.EN) {
+			if (!_searchPage) _searchPage = new SearchPage();
+			_searchPage.lang = lang;
+			return _searchPage;
 		}
 		return null;
 	}

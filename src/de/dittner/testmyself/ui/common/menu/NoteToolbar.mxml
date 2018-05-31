@@ -252,7 +252,7 @@
                          visible="{internetSearchBtn.enabled}"
                          includeInLayout="{internetSearchBtn.enabled}"
                          upTileID="{TileID.TOOLBAR_SEARCH_ON_THE_INTERNET}"
-                         left="{Values.PT160}"
+                         left="{Values.PT180}"
                          verticalCenter="0"
                          paddingLeft="{Values.PT40}"
                          paddingRight="0"

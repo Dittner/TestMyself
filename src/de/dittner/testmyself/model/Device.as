@@ -5,13 +5,10 @@ import flash.filesystem.File;
 import flash.system.Capabilities;
 
 public class Device {
-
-	public static const APP_NAME:String = "TestMyself";
-	public static const TEMP_APP_NAME:String = "TestMyself_temp";
-	public static const NOTE_DB_NAME:String = "note.db";
 	public static const ENGLISH_DIC_DB_NAME:String = "EN_RU_DIC.db";
-	public static const AUDIO_DB_NAME:String = "audio.db";
 	public static const SQL_TILE_STORAGE_DB_NAME:String = "tileStorage.db";
+	public static const NOTE_DB_NAME:String = "note.db";
+	public static const AUDIO_DB_NAME:String = "audio.db";
 
 	public static const MAX_TEXT_LENGTH:uint = 5000;
 	public static const MAX_TAG_NAME_LENGTH:uint = 100;
@@ -30,6 +27,14 @@ public class Device {
 		var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
 		var ns:Namespace = appDescriptor.namespace();
 		_appVersion = appDescriptor.ns::versionNumber;
+	}
+
+	public static function get appName():String {
+		return CONFIG::LANGUAGE == "DE" ? "TestMyselfDe" : "TestMyselfEn";
+	}
+
+	public static function get tempFolderName():String {
+		return CONFIG::LANGUAGE == "DE" ? "TestMyselfDeTemp" : "TestMyselfEnTemp";
 	}
 
 	public static function get isPortraitOrientation():Boolean {
@@ -70,27 +75,27 @@ public class Device {
 	}
 
 	public static function get dbRootPath():String {
-		return APP_NAME + File.separator;
+		return appName + File.separator;
 	}
 
 	public static function get noteDBPath():String {
-		return APP_NAME + File.separator + NOTE_DB_NAME;
+		return appName + File.separator + NOTE_DB_NAME;
 	}
 
 	public static function get englishDicDBPath():String {
-		return APP_NAME + File.separator + ENGLISH_DIC_DB_NAME;
+		return appName + File.separator + ENGLISH_DIC_DB_NAME;
 	}
 
 	public static function get tileDBPath():String {
-		return APP_NAME + File.separator + SQL_TILE_STORAGE_DB_NAME;
+		return appName + File.separator + SQL_TILE_STORAGE_DB_NAME;
 	}
 
 	public static function get audioDBPath():String {
-		return APP_NAME + File.separator + AUDIO_DB_NAME;
+		return appName + File.separator + AUDIO_DB_NAME;
 	}
 
 	public static function get dbTempPath():String {
-		return TEMP_APP_NAME + File.separator;
+		return tempFolderName + File.separator;
 	}
 
 	public static function get isWIN():Boolean {

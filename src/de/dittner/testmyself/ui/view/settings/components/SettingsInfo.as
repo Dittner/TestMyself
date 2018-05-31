@@ -4,6 +4,7 @@ import de.dittner.testmyself.backend.LocalStorageKey;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.AppModel;
+import de.dittner.testmyself.model.Device;
 import de.dittner.testmyself.ui.common.utils.AppColors;
 import de.dittner.walter.Walter;
 
@@ -109,7 +110,7 @@ public class SettingsInfo extends EventDispatcher implements IServerInfo {
 	//--------------------------------------
 	//  remoteDirPath
 	//--------------------------------------
-	private var _remoteDirPath:String = "dittner.bget.ru/public_html/testmyself";
+	private var _remoteDirPath:String = "dittner.bget.ru/public_html/" + Device.appName;
 	[Bindable("remoteDirPathChanged")]
 	public function get remoteDirPath():String {return _remoteDirPath;}
 	public function set remoteDirPath(value:String):void {

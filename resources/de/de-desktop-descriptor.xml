@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <application xmlns="http://ns.adobe.com/air/application/29.0">
+    <id>de.dittner.tm.de</id>
+    <filename>TestMyself-DE</filename>
+    <name>TestMyself-DE</name>
 
-    <id>TestMyself</id>
-    <filename>TestMyself</filename>
-    <name>TestMyself</name>
-
-    <versionNumber>7.01</versionNumber>
-    <versionLabel>7.01</versionLabel>
+    <versionNumber>7.07</versionNumber>
+    <versionLabel>7.07</versionLabel>
 
     <initialWindow>
         <content></content>
@@ -27,9 +26,9 @@
     <supportedProfiles>desktop</supportedProfiles>
 
     <icon>
-        <image60x60>/icons/logo60.png</image60x60>
-        <image128x128>/icons/logo128.png</image128x128>
-        <image512x512>/icons/logo512.png</image512x512>
+        <image60x60>de/icons/AppIcon60x60.png</image60x60>
+        <image128x128>de/icons/AppIcon128x128.png</image128x128>
+        <image512x512>de/icons/AppIcon512x512.png</image512x512>
     </icon>
 
 </application>

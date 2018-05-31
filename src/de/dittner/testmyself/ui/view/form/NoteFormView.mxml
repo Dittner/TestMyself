@@ -62,7 +62,7 @@
             navigationMenu.hide();
             toolbar.revert();
             toolbar.enableFormatText(!vm.isRemoveMode);
-            toolbar.enableInternetSearch(!vm.isRemoveMode);
+            toolbar.enableInternetSearch(!vm.isRemoveMode && (vm.note is Word || vm.note is IrregularVerb));
             if (vm.isArticleEnabled && vm.note is Word && !vm.isRemoveMode)
                 toolbar.enableArticleBar(true, (vm.note as Word).article);
             actionMenu.showFormMenu((viewInfo as NoteFormViewInfo).formMode);
@@ -235,8 +235,6 @@
         }
 
         private function apply():void {
-            if (audioRecorder.isRecording) audioRecorder.clear();
-
             if (vm.isAddMode || vm.isEditMode) {
                 fillNote();
                 var errKey:String = vm.note.validate();
@@ -317,7 +315,7 @@
                     examplesForm.exampleColl = exampleColl;
                 }
 
-                if (res.audioComment && !audioRecorder.isRecording && !audioRecorder.hasComment)
+                if (res.audioComment && !audioRecorder.hasComment)
                     audioRecorder.setComment(res.audioComment);
             }
         }

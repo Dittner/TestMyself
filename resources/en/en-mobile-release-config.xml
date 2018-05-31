@@ -2,15 +2,14 @@
     <compiler>
         <mobile>true</mobile>
 
-        <theme>
-            <filename>${flexlib}/themes/Mobile/mobile.swc</filename>
-        </theme>
-
-        <preloader>dittner.testmyself.ui.view.common.preloader.ClockPreloader</preloader>
-
         <define>
             <name>CONFIG::debug</name>
             <value>false</value>
+        </define>
+
+        <define append="true">
+            <name>CONFIG::LANGUAGE</name>
+            <value>"EN"</value>
         </define>
 
         <debug>false</debug>
@@ -19,10 +18,6 @@
             <name>Inject</name>
             <name>PostConstruct</name>
         </keep-as3-metadata>
-
-        <external-library-path>
-            <path-element>${flexlib}/libs/air/airglobal.swc</path-element>
-        </external-library-path>
 
         <locale>
             <locale-element>en_US</locale-element>

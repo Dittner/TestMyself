@@ -91,6 +91,7 @@ public class CLog {
 
 		var logTxt:String = "";
 		logTxt += "TM client's log\n";
+		logTxt += "Lang: " + CONFIG::LANGUAGE + "\n";
 		logTxt += Capabilities.os + "\n";
 		logTxt += Capabilities.version + "\n";
 		logTxt += "pixelAspectRatio: " + Capabilities.pixelAspectRatio + "\n";

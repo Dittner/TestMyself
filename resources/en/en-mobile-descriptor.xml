@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <application xmlns="http://ns.adobe.com/air/application/29.0">
-    <id>ru.lanit.flex.tm</id>
-    <filename>TestMyself</filename>
-    <name>TestMyself</name>
-    <versionNumber>7.01</versionNumber>
-    <versionLabel>7.01</versionLabel>
-
-    <extensions>
-        <extensionID>ru.lanit.ane.ICalendarANE</extensionID>
-    </extensions>
+    <id>de.dittner.tm.en</id>
+    <filename>TestMyself-EN</filename>
+    <name>TestMyself-EN</name>
+    <versionNumber>7.07</versionNumber>
+    <versionLabel>7.07</versionLabel>
 
     <initialWindow>
         <content>TestMyself.swf</content>
@@ -22,11 +18,30 @@
     <supportedProfiles>mobileDevice</supportedProfiles>
 
     <icon>
-        <image29x29>icons/logo29.png</image29x29>
-        <image60x60>icons/logo60.png</image60x60>
-        <image72x72>icons/logo72.png</image72x72>
-        <image128x128>icons/logo128.png</image128x128>
-        <image512x512>icons/logo512.png</image512x512>
+        <image29x29>en/icons/AppIcon29x29.png</image29x29>
+        <image36x36>en/icons/AppIcon36x36.png</image36x36>
+        <image40x40>en/icons/AppIcon40x40.png</image40x40>
+        <image48x48>en/icons/AppIcon48x48.png</image48x48>
+        <image50x50>en/icons/AppIcon50x50.png</image50x50>
+        <image57x57>en/icons/AppIcon57x57.png</image57x57>
+        <image58x58>en/icons/AppIcon58x58.png</image58x58>
+        <image60x60>en/icons/AppIcon60x60.png</image60x60>
+        <image72x72>en/icons/AppIcon72x72.png</image72x72>
+        <image75x75>en/icons/AppIcon75x75.png</image75x75>
+        <image76x76>en/icons/AppIcon76x76.png</image76x76>
+        <image80x80>en/icons/AppIcon80x80.png</image80x80>
+        <image87x87>en/icons/AppIcon87x87.png</image87x87>
+        <image96x96>en/icons/AppIcon96x96.png</image96x96>
+        <image100x100>en/icons/AppIcon100x100.png</image100x100>
+        <image114x114>en/icons/AppIcon114x114.png</image114x114>
+        <image120x120>en/icons/AppIcon120x120.png</image120x120>
+        <image144x144>en/icons/AppIcon144x144.png</image144x144>
+        <image152x152>en/icons/AppIcon152x152.png</image152x152>
+        <image167x167>en/icons/AppIcon167x167.png</image167x167>
+        <image180x180>en/icons/AppIcon180x180.png</image180x180>
+        <image192x192>en/icons/AppIcon192x192.png</image192x192>
+        <image512x512>en/icons/AppIcon512x512.png</image512x512>
+        <image1024x1024>en/icons/AppIcon1024x1024.png</image1024x1024>
     </icon>
 
     <iPhone>

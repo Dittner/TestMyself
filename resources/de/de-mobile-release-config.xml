@@ -1,0 +1,28 @@
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+    <compiler>
+        <mobile>true</mobile>
+
+        <define>
+            <name>CONFIG::debug</name>
+            <value>false</value>
+        </define>
+
+        <define append="true">
+            <name>CONFIG::LANGUAGE</name>
+            <value>"DE"</value>
+        </define>
+
+        <debug>false</debug>
+
+        <keep-as3-metadata append="true">
+            <name>Inject</name>
+            <name>PostConstruct</name>
+        </keep-as3-metadata>
+
+        <locale>
+            <locale-element>en_US</locale-element>
+            <locale-element>de_DE</locale-element>
+        </locale>
+    </compiler>
+
+</flex-config>
