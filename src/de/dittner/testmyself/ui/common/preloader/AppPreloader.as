@@ -33,7 +33,8 @@ public final class AppPreloader extends Sprite implements IPreloaderDisplay {
 	private function addedToStage(event:Event):void {
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		Device.init(stage);
-		if (stage.nativeWindow) stage.nativeWindow.x = 0;
+		if (stage.nativeWindow)
+			stage.nativeWindow.x = CONFIG::LANGUAGE == "DE" ? 0 : stage.fullScreenWidth - stage.nativeWindow.width;
 		AsyncCallbacksLib.fps = 30;
 		AsyncCallbacksLib.stage = stage;
 		CLog.run();

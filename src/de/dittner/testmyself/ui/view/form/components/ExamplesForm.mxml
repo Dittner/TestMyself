@@ -93,8 +93,9 @@
         }
 
         private function deleteExample():void {
-            setCurrentState("remove");
-            showForm();
+            exampleColl.removeItemAt(exampleList.selectedIndex);
+            /*setCurrentState("remove");
+            showForm();*/
         }
 
         private function showForm():void {
@@ -121,7 +122,6 @@
 
         private function apply():void {
             if (currentState == "add") {
-                correctText();
                 if (!exampleColl) exampleColl = new ArrayCollection();
                 var note:Note = parentNote.createExample();
                 note.title = titleArea.text;
@@ -130,7 +130,6 @@
                 back();
             }
             else if (currentState == "edit") {
-                correctText();
                 var selectedNote:Note = exampleList.selectedItem as Note;
                 selectedNote.title = titleArea.text;
                 selectedNote.description = descriptionArea.text;
@@ -142,7 +141,7 @@
             }
         }
 
-        private function correctText():void {
+        private function capitalizeText():void {
             titleArea.text = NoteFormUtils.capitalizeAndFormatText(titleArea.text);
             descriptionArea.text = NoteFormUtils.capitalizeAndFormatText(descriptionArea.text);
         }
@@ -207,6 +206,10 @@
                 <s:Spacer/>
                 <s:HGroup excludeFrom="normal" gap="{Values.PT10}"
                           width="100%" height="{AppSizes.EDITOR_FOOTER_HEIGHT}">
+
+                    <button:WhiteButton id="capitalizeTextBtn"
+                                        title="{resourceManager.getString('app', 'Capitalize')}"
+                                        click="capitalizeText()"/>
 
                     <s:Spacer width="100%"/>
 

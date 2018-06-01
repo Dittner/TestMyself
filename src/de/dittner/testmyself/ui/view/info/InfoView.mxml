@@ -50,6 +50,7 @@
                          upTileID="{CONFIG::LANGUAGE == 'DE' ? TileID.BTN_BIG_YELLOW_UP : TileID.BTN_BIG_RED_UP}"
                          downTileID="{CONFIG::LANGUAGE == 'DE' ? TileID.BTN_BIG_YELLOW_DOWN : TileID.BTN_BIG_RED_DOWN}"
                          horizontalCenter="0"
+                         upBgAlpha="0.75"
                          width="{Values.PT300}"
                          verticalCenter="{Values.PT200}"
                          textColor="#ffFFff"

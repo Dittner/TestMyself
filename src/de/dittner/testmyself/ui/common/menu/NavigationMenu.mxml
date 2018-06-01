@@ -191,6 +191,6 @@
              horizontalCenter="0"
              bottom="{Values.PT5}"
              fontWeight="bold"
-             fontSize="{Values.PT10}" color="{CONFIG::LANGUAGE == 'DE' ? AppColors.TEXT_YELLOW : AppColors.TEXT_RED}" alpha="0.65"/>
+             fontSize="{Values.PT10}" color="{CONFIG::LANGUAGE == 'DE' ? AppColors.TEXT_YELLOW : 0xff5b9e}" alpha="0.65"/>
 
 </s:Group>

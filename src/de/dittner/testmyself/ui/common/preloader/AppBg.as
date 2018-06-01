@@ -15,8 +15,11 @@ public class AppBg extends SpriteVisualElement {
 		createBg();
 	}
 
-	[Embed(source="/assets/koeln.jpg")]
-	private var BgClass:Class;
+	[Embed(source="/assets/deAppBg.jpg")]
+	private var DeBgClass:Class;
+
+	[Embed(source="/assets/enAppBg.jpg")]
+	private var EnBgClass:Class;
 
 	private var bg:DisplayObject;
 	private var bgOriginWid:Number = 0;
@@ -41,7 +44,7 @@ public class AppBg extends SpriteVisualElement {
 	}
 
 	private function createBg():void {
-		bg = new BgClass();
+		bg = CONFIG::LANGUAGE == "DE" ? new DeBgClass() : new EnBgClass();
 		bgOriginWid = bg.width;
 		bgOriginHei = bg.height;
 		addChild(bg);
@@ -54,7 +57,7 @@ public class AppBg extends SpriteVisualElement {
 			bg.scaleX = bg.scaleY = sc;
 			bg.x = width - bgOriginWid * bg.scaleX >> 1;
 			bg.y = height - bgOriginHei * bg.scaleY >> 1;
-			if(!Device.isDesktop)
+			if (!Device.isDesktop)
 				CLog.info(LogTag.UI, "AppBg width/height/scale: " + width + "/" + height + "/" + sc);
 		}
 	}

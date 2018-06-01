@@ -16,11 +16,11 @@ apply plugin: 'ide'
 apply plugin: 'ideafx'
 
 def versionCode = "7.11"
-def domain = "de.dittner.tm.de"
+def domain = "de.dittner.tm.en"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.16.1"
 def airSdkVersion = "29.0"
-def iconsFolderName = "de/icons"
+def iconsFolderName = "en/icons"
 
 
 
@@ -78,7 +78,7 @@ dependencies {
 gradle.taskGraph.whenReady { copyresources ->
 
     additionalCompilerOptions = [
-            "-load-config+=$projectDir/build/de/de-mobile-release-config.xml"
+            "-load-config+=$projectDir/build/en/en-mobile-release-config.xml"
     ]
     println "::additionalCompilerOptions: flexHome is $flexHome"
 }
@@ -120,12 +120,12 @@ task compileIOS(dependsOn: 'updateProperties') {
                     "-storetype", "PKCS12",
                     "-keystore", "$projectDir/keys/ios-123.p12",
                     "-storepass", "123",
-                    "-provisioning-profile", "$projectDir/keys/tm-de.mobileprovision",
+                    "-provisioning-profile", "$projectDir/keys/tm-en.mobileprovision",
                     "$iosPathIPA",
                     "$pathAppDescriptor",
-                    "-C", "$projectDir/build", "${output}.swf", "de", "fonts", "swf", "dictionary/EN_RU_DIC.db",
+                    "-C", "$projectDir/build", "${output}.swf", "en", "fonts", "swf", "dictionary/EN_RU_DIC.db",
                     "Default-Portrait.png", "Default-Portrait@2x.png", "Default-PortraitUpsideDown.png", "Default-PortraitUpsideDown@2x.png", "Default-LandscapeLeft.png", "Default-LandscapeLeft@2x.png", "Default-LandscapeRight.png", "Default-LandscapeRight@2x.png",
-                    "-C", "$projectDir/build/de", "icons",
+                    "-C", "$projectDir/build/en", "icons",
                     "-extdir", "$projectDir/libs"
             def stdOut = new ByteArrayOutputStream()
             standardOutput = stdOut
@@ -144,8 +144,8 @@ task compileAndroid(dependsOn: 'updateProperties') {
                     "-storepass", "qwe123",
                     "$androidPathAPK",
                     "$pathAppDescriptor",
-                    "-C", "$projectDir/build", "${output}.swf", "de", "fonts", "swf", "dictionary/EN_RU_DIC.db",
-                    "-C", "$projectDir/build/de", "icons",
+                    "-C", "$projectDir/build", "${output}.swf", "ende", "fonts", "swf", "dictionary/EN_RU_DIC.db",
+                    "-C", "$projectDir/build/en", "icons",
                     "-extdir", "$projectDir/libs"
             workingDir project.projectDir
             def stdOut = new ByteArrayOutputStream();
@@ -185,7 +185,7 @@ task deployBuild << {
         taskdef(name: 'ftp',
                 classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
                 classpath: configurations.ftpAntTask.asPath)
-        ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself/de") {
+        ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself/en") {
             fileset(file: "build/${output}.ipa")
         }
         ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {

@@ -110,7 +110,7 @@ public class SettingsInfo extends EventDispatcher implements IServerInfo {
 	//--------------------------------------
 	//  remoteDirPath
 	//--------------------------------------
-	private var _remoteDirPath:String = "dittner.bget.ru/public_html/" + Device.appName;
+	private var _remoteDirPath:String = "dittner.bget.ru/public_html/testmyself/" + (CONFIG::LANGUAGE).toLowerCase();
 	[Bindable("remoteDirPathChanged")]
 	public function get remoteDirPath():String {return _remoteDirPath;}
 	public function set remoteDirPath(value:String):void {
