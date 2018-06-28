@@ -3,6 +3,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.domain_internal;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
+import de.dittner.testmyself.utils.ActualDate;
 
 use namespace domain_internal;
 
@@ -77,7 +78,7 @@ public class Test {
 
 	private static const MSEC_INS_HOURS:Number = 5 * 60 * 60 * 1000;
 	public function calcTaskRate():Number {
-		return (new Date).time + Math.round(Math.random() * MSEC_INS_HOURS);
+		return ActualDate.time + Math.round(Math.random() * MSEC_INS_HOURS);
 	}
 
 	public function createTestTask():TestTask {

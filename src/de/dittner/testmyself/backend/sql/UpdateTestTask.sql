@@ -4,4 +4,4 @@ SET
 	complexity = :complexity,
 	isFailed = :isFailed,
 	lastTestedDate = :lastTestedDate
-WHERE testID = :testID
+WHERE id = :taskID

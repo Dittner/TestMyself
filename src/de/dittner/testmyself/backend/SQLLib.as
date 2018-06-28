@@ -143,6 +143,10 @@ public class SQLLib {
 	private static const SelectTestTaskIDsClass:Class;
 	public static const SELECT_TEST_TASK_IDS_SQL:String = new SelectTestTaskIDsClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectAllTestTaskIDs.sql", mimeType="application/octet-stream")]
+	private static const SelectAllTestTaskIDsClass:Class;
+	public static const SELECT_ALL_TEST_TASK_IDS_SQL:String = new SelectAllTestTaskIDsClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectTestTaskByID.sql", mimeType="application/octet-stream")]
 	private static const SelectTestTaskByIdClass:Class;
 	public static const SELECT_TEST_TASK_BY_ID_SQL:String = new SelectTestTaskByIdClass();

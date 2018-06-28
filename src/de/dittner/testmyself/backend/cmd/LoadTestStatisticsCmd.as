@@ -10,7 +10,6 @@ import de.dittner.testmyself.backend.op.StorageOperation;
 import de.dittner.testmyself.ui.common.page.TestPage;
 
 public class LoadTestStatisticsCmd extends StorageOperation implements IAsyncCommand {
-
 	public function LoadTestStatisticsCmd(storage:Storage, page:TestPage) {
 		super();
 		this.storage = storage;

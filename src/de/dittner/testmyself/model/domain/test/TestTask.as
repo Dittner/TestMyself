@@ -1,12 +1,12 @@
 package de.dittner.testmyself.model.domain.test {
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.note.Note;
+import de.dittner.testmyself.utils.ActualDate;
 
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
 public class TestTask extends EventDispatcher {
-
 	public function TestTask() {}
 
 	//--------------------------------------
@@ -104,7 +104,7 @@ public class TestTask extends EventDispatcher {
 		res.rate = test.calcTaskRate();
 		res.complexity = complexity;
 		res.isFailed = isFailed;
-		res.lastTestedDate = (new Date()).time;
+		res.lastTestedDate = ActualDate.time;
 		return res;
 	}
 

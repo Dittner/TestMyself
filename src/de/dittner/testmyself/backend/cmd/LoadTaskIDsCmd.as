@@ -12,7 +12,6 @@ import flash.data.SQLStatement;
 import flash.net.Responder;
 
 public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
-
 	public function LoadTaskIDsCmd(storage:Storage, page:TestPage) {
 		super();
 		this.storage = storage;
@@ -24,7 +23,7 @@ public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
 
 	public function execute():void {
 		var sqlParams:Object = {};
-		sqlParams.selectedTestID = page.test.id;
+		sqlParams.testID = page.test.id;
 		sqlParams.complexity = page.taskComplexity;
 
 		var sql:String;

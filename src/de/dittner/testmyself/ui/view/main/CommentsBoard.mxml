@@ -85,7 +85,7 @@
         ]]></fx:Script>
 
     <s:Group id="cont" width="100%" height="{height}">
-        <common:BG percentWidth="100" percentHeight="100" fillColor="#e4d2d9"/>
+        <common:BG percentWidth="100" percentHeight="100" fillColor="{AppColors.COMMENTS_BOARD_BG}"/>
         <common:BG percentWidth="100" height="{Values.PT5}" bottom="0" fillColor="#0"/>
 
         <input:HistoryTextArea id="textArea"

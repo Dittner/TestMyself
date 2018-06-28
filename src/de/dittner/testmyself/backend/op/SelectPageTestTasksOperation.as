@@ -13,7 +13,6 @@ import flash.data.SQLStatement;
 import flash.net.Responder;
 
 public class SelectPageTestTasksOperation extends StorageOperation implements IAsyncCommand {
-
 	public function SelectPageTestTasksOperation(storage:Storage, page:TestPage) {
 		super();
 		this.storage = storage;

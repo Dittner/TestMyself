@@ -13,7 +13,6 @@ import flash.data.SQLStatement;
 import flash.net.Responder;
 
 public class ClearTestHistoryCmd extends StorageOperation implements IAsyncCommand {
-
 	public function ClearTestHistoryCmd(storage:Storage, test:Test) {
 		this.storage = storage;
 		this.test = test;
@@ -28,8 +27,38 @@ public class ClearTestHistoryCmd extends StorageOperation implements IAsyncComma
 			return;
 		}
 
+		selectAllTaskIDs();
+	}
+
+	private function selectAllTaskIDs():void {
+		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.SELECT_ALL_TEST_TASK_IDS_SQL, {testID: test.id});
+		statement.sqlConnection = storage.sqlConnection;
+		statement.execute(-1, new Responder(executeComplete, executeError));
+	}
+
+	private var taskIDsToUpdate:Array = [];
+	private function executeComplete(result:SQLResult):void {
+		for each(var obj:Object in result.data)
+			if (obj.id)
+				taskIDsToUpdate.push(obj.id);
+
+		updateNextTask();
+	}
+
+	private var curTaskID:uint;
+	private function updateNextTask(result:SQLResult = null):void {
+		if (taskIDsToUpdate.length > 0) {
+			curTaskID = taskIDsToUpdate.pop();
+			updateTask(curTaskID);
+		}
+		else {
+			dispatchSuccess()
+		}
+	}
+
+	private function updateTask(id:uint):void {
 		var sqlParams:Object = {};
-		sqlParams.testID = test.id;
+		sqlParams.taskID = id;
 		sqlParams.rate = test.calcTaskRate();
 		sqlParams.complexity = TestTaskPriority.HIGH;
 		sqlParams.isFailed = 0;
@@ -37,11 +66,7 @@ public class ClearTestHistoryCmd extends StorageOperation implements IAsyncComma
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(SQLLib.UPDATE_TEST_TASK_SQL, sqlParams);
 		statement.sqlConnection = storage.sqlConnection;
-		statement.execute(-1, new Responder(executeComplete, executeError));
-	}
-
-	private function executeComplete(result:SQLResult):void {
-		dispatchSuccess();
+		statement.execute(-1, new Responder(updateNextTask, executeError));
 	}
 
 	override public function destroy():void {

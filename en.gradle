@@ -15,13 +15,12 @@ apply plugin: 'gradlefx'
 apply plugin: 'ide'
 apply plugin: 'ideafx'
 
-def versionCode = "7.11"
+def versionCode = "7.15"
 def domain = "de.dittner.tm.en"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.16.1"
 def airSdkVersion = "29.0"
 def iconsFolderName = "en/icons"
-
 
 
 srcDirs = ['src/', 'resources/']
@@ -36,7 +35,6 @@ output = 'TestMyself'
 def iosPathIPA = "$projectDir/build/${output}.ipa"
 def androidPathAPK = "$projectDir/build/${output}.apk"
 def pathAppDescriptor = "$projectDir/build/appdescriptor.xml"
-
 
 
 def os

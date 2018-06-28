@@ -1,5 +1,5 @@
 SELECT id
 FROM testTask
-WHERE testID = :selectedTestID
+WHERE testID = :testID
 AND complexity = :complexity
 ORDER BY rate

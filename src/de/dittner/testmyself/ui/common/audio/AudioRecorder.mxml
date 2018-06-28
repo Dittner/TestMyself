@@ -134,4 +134,11 @@
                         enabled="{!isMp3Loading}"
                         visible="{!mp3Player.visible}"
                         click="loadLocalMp3()"/>
+
+    <s:Label text="{resourceManager.getString('app', 'NoAudioRecord')}"
+             verticalCenter="{Values.PT10}"
+             left="{Values.PT10}" width="{Values.PT200}"
+             visible="{!mp3Player.visible}"
+             fontSize="{Values.PT14}"
+             color="{AppColors.TEXT_CONTROL_TITLE}"/>
 </s:Group>

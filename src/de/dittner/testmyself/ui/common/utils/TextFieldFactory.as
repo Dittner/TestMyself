@@ -47,6 +47,5 @@ public class TextFieldFactory {
 		tf.sharpness = 0;
 		tf.thickness = 0;
 	}
-
 }
 }

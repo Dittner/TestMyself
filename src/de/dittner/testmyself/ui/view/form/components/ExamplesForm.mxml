@@ -124,15 +124,15 @@
             if (currentState == "add") {
                 if (!exampleColl) exampleColl = new ArrayCollection();
                 var note:Note = parentNote.createExample();
-                note.title = titleArea.text;
-                note.description = descriptionArea.text;
+                note.title = NoteFormUtils.removeSpaces(titleArea.text);
+                note.description = NoteFormUtils.removeSpaces(descriptionArea.text);
                 exampleColl.addItem(note);
                 back();
             }
             else if (currentState == "edit") {
                 var selectedNote:Note = exampleList.selectedItem as Note;
-                selectedNote.title = titleArea.text;
-                selectedNote.description = descriptionArea.text;
+                selectedNote.title = NoteFormUtils.removeSpaces(titleArea.text);
+                selectedNote.description = NoteFormUtils.removeSpaces(descriptionArea.text);
                 back();
             }
             else if (currentState == "remove") {
