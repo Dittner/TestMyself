@@ -79,7 +79,7 @@
     <s:Label width="{Values.PT250}"
              paddingLeft="0"
              fontFamily="{FontName.BASIC}"
-             fontSize="{Values.PT30}"
+             fontSize="{Values.PT35}"
              fontWeight="bold"
              color="{AppColors.TEXT_WHITE}"
              text="{resourceManager.getString('app', 'Statistics')}"/>
@@ -89,13 +89,13 @@
                  width="{Values.PT130}"
                  textAlign="right"
                  fontFamily="{FontName.BASIC}"
-                 fontSize="{Values.PT22}"
+                 fontSize="{Values.PT25}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"/>
 
         <s:Label width="{Values.PT250}"
                  fontFamily="{FontName.BASIC}"
-                 fontSize="{Values.PT22}"
+                 fontSize="{Values.PT25}"
                  fontWeight="bold"
                  color="{AppColors.TEXT_WHITE}"
                  text="{resourceManager.getString('app', 'statisticsHeaders')}"/>

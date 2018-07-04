@@ -15,7 +15,7 @@ apply plugin: 'gradlefx'
 apply plugin: 'ide'
 apply plugin: 'ideafx'
 
-def versionCode = "7.15"
+def versionCode = "7.16"
 def domain = "de.dittner.tm.en"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.16.1"
@@ -122,7 +122,7 @@ task compileIOS(dependsOn: 'updateProperties') {
                     "$iosPathIPA",
                     "$pathAppDescriptor",
                     "-C", "$projectDir/build", "${output}.swf", "en", "fonts", "swf", "dictionary/EN_RU_DIC.db",
-                    "Default-Portrait.png", "Default-Portrait@2x.png", "Default-PortraitUpsideDown.png", "Default-PortraitUpsideDown@2x.png", "Default-LandscapeLeft.png", "Default-LandscapeLeft@2x.png", "Default-LandscapeRight.png", "Default-LandscapeRight@2x.png",
+                    "-C", "$projectDir/build/en/splash", "Default~iphone.png", "Default@2x~iphone.png", "Default-568h@2x~iphone.png", "Default-375w-667h@2x~iphone.png", "Default-414w-736h@3x~iphone.png", "Default-Landscape-414w-736h@3x~iphone.png", "Default-812h@3x~iphone.png", "Default-Landscape-812h@3x~iphone.png", "Default-Portrait~ipad.png", "Default-PortraitUpsideDown~ipad.png", "Default-Landscape~ipad.png", "Default-LandscapeRight~ipad.png", "Default-Portrait@2x~ipad.png", "Default-PortraitUpsideDown@2x~ipad.png", "Default-LandscapeLeft@2x~ipad.png", "Default-LandscapeRight@2x~ipad.png", "Default-Portrait-1112h@2x.png", "Default-Landscape-1112h@2x.png", "Default-Portrait@2x.png", "Default-Landscape@2x.png",
                     "-C", "$projectDir/build/en", "icons",
                     "-extdir", "$projectDir/libs"
             def stdOut = new ByteArrayOutputStream()
