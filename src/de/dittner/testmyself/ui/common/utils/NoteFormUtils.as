@@ -51,7 +51,7 @@ public class NoteFormUtils {
 	public static function addDot(str:String):String {
 		if (str) {
 			var endChar:String = str.charAt(str.length - 1);
-			if (endChar != "." && endChar != "!" && endChar != "?" && endChar != '"')
+			if (endChar != "." && endChar != "!" && endChar != "?")
 				str += ".";
 		}
 		return str;
@@ -173,7 +173,9 @@ public class NoteFormUtils {
 			txt = txt.replace(/(\W)(архит )/gi, "$1арх. ");
 			txt = txt.replace(/(\W)(горн )/gi, "$1горн. ");
 			txt = txt.replace(/(\W)(авт )/gi, "$1авт. ");
+			txt = txt.replace(/(\W)(косм )/gi, "$1косм. ");
 
+			txt = txt.replace(/( и т\. п\.)/gi, "");
 			txt = txt.replace(/( {2,})/gi, " ");
 			txt = txt.replace(/(;{2,})/gi, ";");
 			txt = txt.replace(/(;)/gi, ",");

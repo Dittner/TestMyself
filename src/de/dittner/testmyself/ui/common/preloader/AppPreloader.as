@@ -19,8 +19,7 @@ import mx.preloaders.IPreloaderDisplay;
 import mx.preloaders.Preloader;
 
 public final class AppPreloader extends Sprite implements IPreloaderDisplay {
-
-	private static const MINIMUM_DISPLAY_TIME:uint = 3000;
+	private static const MINIMUM_DISPLAY_TIME:uint = 1000;
 
 	public function AppPreloader(color:uint = 0xFFffFF):void {
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
