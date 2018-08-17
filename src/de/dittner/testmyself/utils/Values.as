@@ -91,6 +91,7 @@ public class Values {
 	public static const PT600:Number = 600 * Device.factor;
 	public static const PT650:Number = 650 * Device.factor;
 	public static const PT700:Number = 700 * Device.factor;
+	public static const PT750:Number = 750 * Device.factor;
 	public static const PT768:Number = 768 * Device.factor;
 	public static const PT798:Number = 798 * Device.factor;
 	public static const PT1024:Number = 1024 * Device.factor;

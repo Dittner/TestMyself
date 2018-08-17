@@ -40,7 +40,7 @@
         [Bindable]
         public var vm:NoteFormVM;
 
-        private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "-(e)s, -er", "-(e)s, sg", "-en, -en", "-n, -n", "-s, -e", "-s, -s", "-ses, -se", "-s, =", "-s, sg", "=, -en", "=, -n", "=, -se", "=, sg", "sub", "pl"];
+        private static const OPTIONS_TEMPLATES:Array = ["-(e)s, -e", "-(e)s, -er", "-(e)s, sg", "-es, -e", "-es, sg", "-en, -en", "-n, -n", "-s, -e", "-s, -s", "-ses, -se", "-s, =", "-s, sg", "=, -en", "=, -n", "=, -se", "=, sg", "sub", "pl"];
         private const HGAP:uint = Values.PT10;
         private const VGAP:uint = Values.PT5;
 

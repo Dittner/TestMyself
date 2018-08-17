@@ -159,7 +159,7 @@
 
             <panel:CollapsedPanel id="backUpPanel"
                                   title="{resourceManager.getString('app', 'CopyOrUpdateDataBase')}"
-                                  isOpened="false"
+                                  isOpened="true"
                                   width="{Values.PT768}">
                 <panel:layout>
                     <s:VerticalLayout gap="{Values.PT5}" horizontalAlign="center"/>

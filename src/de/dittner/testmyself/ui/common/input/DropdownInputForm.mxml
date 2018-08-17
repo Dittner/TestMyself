@@ -112,7 +112,7 @@
 
     <fx:Declarations>
         <s:Group id="templateListCont"
-                 width="100%" maxHeight="{Values.PT650}">
+                 width="100%" maxHeight="{Values.PT750}">
 
             <common2:BG percentWidth="100" percentHeight="100"
                         fillColor="{AppColors.DARK_LIST_BG}"

@@ -11,7 +11,6 @@ public class MenuButton extends FadeTileButton {
 		super();
 		upBgAlpha = 0.6;
 		disabledBgAlpha = 0.6;
-		animationDuration = 0.6;
 		textColor = 0;
 	}
 

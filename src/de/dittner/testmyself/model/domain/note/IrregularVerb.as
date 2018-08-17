@@ -50,7 +50,7 @@ public class IrregularVerb extends Note {
 	}
 
 	public static function toSearchText(title:String, present:String, past:String, perfect:String, description:String):String {
-		return ("+" + title + "+" + present + "+" + past + "+" + perfect + "+" + description + "+").toLocaleLowerCase();
+		return (SEARCH_DELIMITER + title + SEARCH_DELIMITER + present + SEARCH_DELIMITER + past + SEARCH_DELIMITER + perfect + SEARCH_DELIMITER + description + SEARCH_DELIMITER).toLocaleLowerCase();
 	}
 
 	override public function deserialize(data:Object):void {

@@ -41,12 +41,12 @@ public class Word extends Note {
 	public static function toSearchText(article:String, title:String, declension:String, description:String):String {
 		var res:String = "";
 		if (declension)
-			res = "+" + title + "+" + declension + "+" + description + "+";
+			res = SEARCH_DELIMITER + title + SEARCH_DELIMITER + declension + SEARCH_DELIMITER + description + SEARCH_DELIMITER;
 		else
-			res = "+" + title + "+" + description + "+";
+			res = SEARCH_DELIMITER + title + SEARCH_DELIMITER + description + SEARCH_DELIMITER;
 
 		if (article)
-			res = "+" + article + res;
+			res = SEARCH_DELIMITER + article + res;
 		return res.toLocaleLowerCase();
 	}
 

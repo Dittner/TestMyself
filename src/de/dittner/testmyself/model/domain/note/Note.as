@@ -14,6 +14,7 @@ import flash.events.EventDispatcher;
 import mx.collections.ArrayCollection;
 
 public class Note extends EventDispatcher {
+	public static const SEARCH_DELIMITER:String = "+";
 	public function Note() {
 		super();
 	}
@@ -245,7 +246,7 @@ public class Note extends EventDispatcher {
 	}
 
 	public static function toSearchText(title:String, description:String):String {
-		return ("+" + title + "+" + description + "+").toLocaleLowerCase();
+		return (SEARCH_DELIMITER + title + SEARCH_DELIMITER + description + SEARCH_DELIMITER).toLocaleLowerCase();
 	}
 
 	public static function tagIdsToString(ids:Array):String {

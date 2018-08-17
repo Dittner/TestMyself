@@ -174,6 +174,8 @@ public class NoteFormUtils {
 			txt = txt.replace(/(\W)(горн )/gi, "$1горн. ");
 			txt = txt.replace(/(\W)(авт )/gi, "$1авт. ");
 			txt = txt.replace(/(\W)(косм )/gi, "$1косм. ");
+			txt = txt.replace(/(\W)(грам )/gi, "$1грам. ");
+			txt = txt.replace(/(\W)(миф )/gi, "$1миф. ");
 
 			txt = txt.replace(/( и т\. п\.)/gi, "");
 			txt = txt.replace(/( {2,})/gi, " ");

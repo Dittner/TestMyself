@@ -14,7 +14,6 @@ import flash.net.Responder;
 import mx.collections.ArrayCollection;
 
 public class SelectNotesByPageOperation extends StorageOperation implements IAsyncCommand {
-
 	public function SelectNotesByPageOperation(storage:Storage, page:NotePage) {
 		super();
 		this.storage = storage;

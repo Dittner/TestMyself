@@ -20,7 +20,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
-	private static const LESSONS_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_MIDDLE, AppColors.BLACK, true);
+	private static const LESSONS_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_MIDDLE, AppColors.BLACK, false);
 	private static const EXAMPLES_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_MIDDLE, AppColors.BLACK, true);
 	private static const WORD_AND_VERB_TITLE_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, AppSizes.FONT_SIZE_LARGE, AppColors.BLACK, true);
 	private static const EXAMPLES_NUM_FORMAT:TextFormat = new TextFormat(FontName.BASIC_MX, Values.PT14, AppColors.BLACK, false);
