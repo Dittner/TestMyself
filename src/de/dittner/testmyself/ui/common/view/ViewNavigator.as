@@ -146,6 +146,9 @@ public class ViewNavigator extends Group {
 		}
 	}
 
+	//--------------------------------------
+	//  width
+	//--------------------------------------
 	override public function set width(value:Number):void {
 		if (super.width != value) {
 			super.width = value;
@@ -153,12 +156,20 @@ public class ViewNavigator extends Group {
 		}
 	}
 
+	//--------------------------------------
+	//  height
+	//--------------------------------------
 	override public function set height(value:Number):void {
 		if (super.height != value) {
 			super.height = value;
 			invalidateDisplayList();
 		}
 	}
+
+	//--------------------------------------
+	//  canGoBack
+	//--------------------------------------
+	public function get canGoBack():Boolean {return viewInfoStack.length > 1;}
 
 	//----------------------------------------------------------------------------------------------
 	//
@@ -174,8 +185,10 @@ public class ViewNavigator extends Group {
 	}
 
 	public function goBack():void {
-		if (viewInfoStack.length > 1)
-			navigateTo(popViewInfo(), ViewTransitionDirection.RIGHT);
+		if (canGoBack) {
+			var viewInfo:ViewInfo = popViewInfo();
+			navigateTo(viewInfo, ViewTransitionDirection.RIGHT);
+		}
 	}
 
 	public function clearViewStack():void {
@@ -190,7 +203,8 @@ public class ViewNavigator extends Group {
 	//----------------------------------------------------------------------------------------------
 
 	private function navigateTo(viewInfo:ViewInfo, direction:String = ""):void {
-		if (viewInfo && getCurViewInfo() && viewInfo.viewID == getCurViewInfo().viewID) return;
+		var curViewInfo:ViewInfo = getCurViewInfo();
+		if (viewInfo && curViewInfo && viewInfo.viewID == curViewInfo.viewID) return;
 
 		if (viewClassHash[viewInfo.viewID]) {
 			addToHistory(viewInfo);

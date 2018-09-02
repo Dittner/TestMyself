@@ -112,6 +112,7 @@ public class TestListVM extends ViewModel {
 
 		var info:ViewInfo = new ViewInfo();
 		info.viewID = ViewID.TEST_PRESETS;
+		info.menuViewID = viewInfo.menuViewID;
 		info.page = testPage;
 		navigateTo(info);
 	}

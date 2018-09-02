@@ -69,6 +69,7 @@ public class NoteListVM extends ViewModel {
 		if (page && selectedNoteIndex != -1) {
 			var info:ViewInfo = new ViewInfo();
 			info.viewID = ViewID.NOTE_VIEW;
+			info.menuViewID = viewInfo.menuViewID;
 			info.page = page;
 			info.page.selectedItemIndex = selectedNoteIndex;
 			mainVM.viewNavigator.navigate(info);

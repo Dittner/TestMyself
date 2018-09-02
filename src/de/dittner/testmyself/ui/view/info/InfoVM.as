@@ -3,6 +3,7 @@ import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyInfo;
+import de.dittner.testmyself.ui.common.menu.MenuViewID;
 import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
@@ -119,6 +120,7 @@ public class InfoVM extends ViewModel {
 	public function navigateToWordList():void {
 		var info:ViewInfo = new ViewInfo();
 		info.viewID = ViewID.WORD_LIST;
+		info.menuViewID = MenuViewID.WORD;
 		mainVM.viewNavigator.clearViewStack();
 		mainVM.viewNavigator.navigate(info);
 	}

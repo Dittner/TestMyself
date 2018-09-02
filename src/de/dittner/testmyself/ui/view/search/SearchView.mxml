@@ -43,6 +43,7 @@
 
             toolbar.show();
             toolbar.revert();
+            toolbar.enableGoBack(vm.canGoBack);
             toolbar.enableShowDetails();
             toolbar.enableTransInvert();
             toolbar.enableShowDetails();

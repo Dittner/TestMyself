@@ -169,7 +169,7 @@
     <!--HEADER-->
     <s:HGroup width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
               gap="{PAD}" paddingLeft="{PAD}" paddingRight="{PAD}" paddingTop="{PAD}">
-        <s:Label text="{vm.curTaskNumber + '/' + vm.testTaskIDs.length}"
+        <s:Label text="{(vm.curTaskNumber + 1) + '/' + vm.testTaskIDs.length}"
                  fontFamily="{FontName.BASIC}"
                  fontSize="{Values.PT20}"
                  width="50%"

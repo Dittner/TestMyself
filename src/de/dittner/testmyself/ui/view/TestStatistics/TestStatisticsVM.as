@@ -53,6 +53,7 @@ public class TestStatisticsVM extends ViewModel {
 		if (testPage) {
 			var info:ViewInfo = new ViewInfo();
 			info.viewID = ViewID.NOTE_VIEW;
+			info.menuViewID = viewInfo.menuViewID;
 			info.page = testPage;
 			info.page.selectedItemIndex = taskIndex != -1 ? taskIndex : 0;
 			mainVM.viewNavigator.navigate(info);

@@ -2,6 +2,8 @@ package de.dittner.testmyself.ui.view.testing {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
+import de.dittner.testmyself.model.domain.tag.Tag;
+import de.dittner.testmyself.model.domain.test.Test;
 import de.dittner.testmyself.model.domain.test.TestTask;
 import de.dittner.testmyself.ui.common.menu.ViewID;
 import de.dittner.testmyself.ui.common.page.TestPage;
@@ -97,7 +99,7 @@ public class TestingVM extends ViewModel {
 	//--------------------------------------
 	//  curTaskNumber
 	//--------------------------------------
-	private var _curTaskNumber:int = 0;
+	private var _curTaskNumber:int = -1;
 	[Bindable("curTaskNumberChanged")]
 	public function get curTaskNumber():int {return _curTaskNumber;}
 	public function set curTaskNumber(value:int):void {
@@ -114,16 +116,27 @@ public class TestingVM extends ViewModel {
 	//----------------------------------------------------------------------------------------------
 
 	private var formEditing:Boolean = false;
+	private var curTest:Test;
+	private var curSelectedTag:Tag;
+	private var curTaskComplexity:int = -1;
 	override public function viewActivated(viewInfo:ViewInfo):void {
 		super.viewActivated(viewInfo);
-		if(formEditing) {
+		if (formEditing) {
 			formEditing = false;
 		}
 		else {
 			setTestPage(appModel.getTestPage());
-			selectedTestTask = null;
-			errorsNum = 0;
-			loadTaskIDsForTest();
+			if (testPage.test != curTest || testPage.taskComplexity != curTaskComplexity || testPage.selectedTag != curSelectedTag) {
+				curTest = testPage.test;
+				curTaskComplexity = testPage.taskComplexity;
+				curSelectedTag = testPage.selectedTag;
+				selectedTestTask = null;
+				errorsNum = 0;
+				loadTaskIDsForTest();
+			}
+			else {
+				storage.loadTestTask(testPage.test, testTaskIDs[curTaskNumber]).addCompleteCallback(testTaskLoaded);
+			}
 		}
 	}
 
@@ -136,7 +149,7 @@ public class TestingVM extends ViewModel {
 
 	private function taskIDsLoaded(op:IAsyncOperation):void {
 		if (op.isSuccess) {
-			curTaskNumber = 0;
+			curTaskNumber = -1;
 			testTaskIDs = op.result || [];
 			loadNextTestTask();
 		}
@@ -144,20 +157,27 @@ public class TestingVM extends ViewModel {
 
 	public function loadNextTestTask():IAsyncOperation {
 		var op:IAsyncOperation;
+		curTaskNumber++;
 		if (curTaskNumber >= testTaskIDs.length) {
 			selectedTestTask = null;
 			op = new AsyncOperation();
 			op.dispatchSuccess();
 		}
 		else {
-			op = storage.loadTestTask(testPage.test, testTaskIDs[curTaskNumber++]);
+			op = storage.loadTestTask(testPage.test, testTaskIDs[curTaskNumber]);
 			op.addCompleteCallback(testTaskLoaded);
 		}
 		return op;
 	}
 
 	private function testTaskLoaded(op:IAsyncOperation):void {
-		selectedTestTask = op.isSuccess ? op.result : null;
+		if (op.isSuccess && op.result) {
+			selectedTestTask = op.result;
+		}
+		else {
+			curTest = null;
+			goBack();
+		}
 	}
 
 	public function editNote():void {

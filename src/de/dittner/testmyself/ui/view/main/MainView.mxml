@@ -16,6 +16,7 @@
         import de.dittner.testmyself.ui.common.menu.INavigationMenu;
         import de.dittner.testmyself.ui.common.menu.INoteToolbar;
         import de.dittner.testmyself.ui.common.menu.NavigationMenuEvent;
+        import de.dittner.testmyself.ui.common.menu.ViewID;
         import de.dittner.testmyself.ui.common.popup.SimplePopup;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.AppSizes;
@@ -123,8 +124,9 @@
         }
 
         private function selectedViewChanged(event:NavigationMenuEvent):void {
-            viewNavigator.clearViewStack();
-            viewNavigator.navigate(new ViewInfo(event.viewID));
+            if(event.viewID != ViewID.SEARCH)
+                viewNavigator.clearViewStack();
+            viewNavigator.navigate(new ViewInfo(event.viewID, null, event.viewID));
         }
 
         private function viewContHeight(noteToolbarYPos:Number, height:Number):Number {
@@ -157,7 +159,7 @@
                       disabledAlpha="1"
                       enabled="false"
                       enabled.normal="true"
-                      keyboardEnabled="{!commentsBoard.isOpened}"/>
+                      keyboardEnabled="{!commentsBoard.isOpened &amp;&amp; viewNavigator.selectedViewInfo.viewID != ViewID.SEARCH}"/>
 
     <menu:NavigationMenu id="navigationMenuComponent"
                          width="{Values.PT768}" height="{AppSizes.MENU_HEIGHT}"

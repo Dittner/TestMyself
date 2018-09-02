@@ -25,6 +25,11 @@ public class ViewModel extends WalterProxy {
 	public function get settings():SettingsInfo {return appModel.settings;}
 
 	//--------------------------------------
+	//  canGoBack
+	//--------------------------------------
+	public function get canGoBack():Boolean {return mainVM && mainVM.viewNavigator.canGoBack;}
+
+	//--------------------------------------
 	//  isActive
 	//--------------------------------------
 	private var _isActive:Boolean = false;

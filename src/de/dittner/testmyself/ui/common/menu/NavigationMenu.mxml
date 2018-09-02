@@ -40,10 +40,11 @@
         public function set selectedViewInfo(value:ViewInfo):void {
             if (_selectedViewInfo != value) {
                 _selectedViewInfo = value;
-                if (selectedViewInfo && btnHash[selectedViewInfo.viewID]) {
+                var menuViewID:String = selectedViewInfo.menuViewID || selectedViewInfo.viewID;
+                if (selectedViewInfo && btnHash[menuViewID]) {
                     if (lastSelectedBtn) lastSelectedBtn.selected = false;
-                    btnHash[selectedViewInfo.viewID].selected = true;
-                    lastSelectedBtn = btnHash[selectedViewInfo.viewID];
+                    btnHash[menuViewID].selected = true;
+                    lastSelectedBtn = btnHash[menuViewID];
                 }
                 dispatchEvent(new Event("selectedViewInfoChanged"));
             }

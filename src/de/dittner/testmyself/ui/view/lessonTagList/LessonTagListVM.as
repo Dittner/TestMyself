@@ -49,6 +49,7 @@ public class LessonTagListVM extends ViewModel {
 		page.countAllNotes = true;
 		var info:ViewInfo = new ViewInfo();
 		info.viewID = ViewID.LESSON_LIST;
+		info.menuViewID = viewInfo.menuViewID;
 		info.page = page;
 		info.page.selectedTag = selectedTag;
 		navigateTo(info);
