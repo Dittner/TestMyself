@@ -15,11 +15,11 @@ apply plugin: 'gradlefx'
 apply plugin: 'ide'
 apply plugin: 'ideafx'
 
-def versionCode = "7.21"
+def versionCode = "7.25"
 def domain = "de.dittner.tm.de"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.16.1"
-def airSdkVersion = "29.0"
+def airSdkVersion = "31.0"
 def iconsFolderName = "de/icons"
 
 
@@ -30,7 +30,7 @@ mainClass = 'TestMyselfMobileApp'
 locales = ['en_US', 'de_DE']
 localeDir = 'src/locales'
 type = 'mobile'
-flexHome = '/Users/dittner/Documents/FLEX/SDK/apache16_1air29'
+flexHome = '/Users/dittner/Documents/FLEX/SDK/apache16_1air31'
 output = 'TestMyself'
 
 def iosPathIPA = "$projectDir/build/${output}.ipa"
@@ -125,7 +125,7 @@ task compileIOS(dependsOn: 'updateProperties') {
                     "$pathAppDescriptor",
                     "-C", "$projectDir/build", "${output}.swf", "de", "fonts", "swf", "dictionary/EN_RU_DIC.db",
                     "-C", "$projectDir/build/de/splash", "Default~iphone.png", "Default@2x~iphone.png", "Default-568h@2x~iphone.png", "Default-375w-667h@2x~iphone.png", "Default-414w-736h@3x~iphone.png", "Default-Landscape-414w-736h@3x~iphone.png", "Default-812h@3x~iphone.png", "Default-Landscape-812h@3x~iphone.png", "Default-Portrait~ipad.png", "Default-PortraitUpsideDown~ipad.png", "Default-Landscape~ipad.png", "Default-LandscapeRight~ipad.png", "Default-Portrait@2x~ipad.png", "Default-PortraitUpsideDown@2x~ipad.png", "Default-LandscapeLeft@2x~ipad.png", "Default-LandscapeRight@2x~ipad.png", "Default-Portrait-1112h@2x.png", "Default-Landscape-1112h@2x.png", "Default-Portrait@2x.png", "Default-Landscape@2x.png",
-                    "-C", "$projectDir/build/de", "icons",
+                    "-C", "$projectDir/build/de", "icons", "Assets.car",
                     "-extdir", "$projectDir/libs"
             def stdOut = new ByteArrayOutputStream()
             standardOutput = stdOut

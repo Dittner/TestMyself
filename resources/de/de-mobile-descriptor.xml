@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/29.0">
+<application xmlns="http://ns.adobe.com/air/application/31.0">
     <id>de.dittner.tm.de</id>
     <filename>TestMyself-DE</filename>
     <name>TestMyself-DE</name>
-    <versionNumber>7.22</versionNumber>
-    <versionLabel>7.22</versionLabel>
+    <versionNumber>7.25</versionNumber>
+    <versionLabel>7.25</versionLabel>
 
     <initialWindow>
         <content>TestMyself.swf</content>
@@ -53,11 +53,6 @@
                 <array>
                     <string>1</string>
                     <string>2</string>
-                </array>
-
-                <key>UIRequiredDeviceCapabilities</key>
-                <array>
-                    <string>microphone</string>
                 </array>
 
                 <key>UIStatusBarStyle</key>

@@ -63,6 +63,7 @@ public class NoteFormUtils {
 			txt = removeSpaces(txt);
 			txt = "#" + txt;
 			txt = txt.replace(/_([А-Яа-яёЁ].)/gi, "$1");
+			txt = txt.replace(/(vi \(s\))/gi, "vi, sein:");
 			txt = txt.replace(/(ё)/gi, "е");
 			txt = txt.replace(/(Ё)/gi, "Е");
 			txt = txt.replace(/(\[)/gi, "");
@@ -176,6 +177,15 @@ public class NoteFormUtils {
 			txt = txt.replace(/(\W)(косм )/gi, "$1косм. ");
 			txt = txt.replace(/(\W)(грам )/gi, "$1грам. ");
 			txt = txt.replace(/(\W)(миф )/gi, "$1миф. ");
+			txt = txt.replace(/(\W)(ирон )/gi, "$1ирон. ");
+			txt = txt.replace(/(\W)(дип )/gi, "$1дип. ");
+			txt = txt.replace(/(\W)(швейц )/gi, "$1швейц. ");
+			txt = txt.replace(/(\W)(офиц )/gi, "$1офиц. ");
+			txt = txt.replace(/(\W)(шахм )/gi, "$1шахм. ");
+			txt = txt.replace(/(\W)(ю-нем )/gi, "$1ю-нем. ");
+			txt = txt.replace(/(\W)(австр )/gi, "$1австр. ");
+			txt = txt.replace(/(\W)(церк )/gi, "$1церк. ");
+			txt = txt.replace(/(\W)(сокр )/gi, "$1сокр. ");
 
 			txt = txt.replace(/( и т\. п\.)/gi, "");
 			txt = txt.replace(/( {2,})/gi, " ");
