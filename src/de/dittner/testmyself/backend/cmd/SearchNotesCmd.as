@@ -12,7 +12,6 @@ import de.dittner.testmyself.ui.common.page.SearchPage;
 import mx.collections.ArrayCollection;
 
 public class SearchNotesCmd extends StorageOperation implements IAsyncCommand {
-
 	public function SearchNotesCmd(storage:Storage, page:SearchPage) {
 		super();
 		this.storage = storage;

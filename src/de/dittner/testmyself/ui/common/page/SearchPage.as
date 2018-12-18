@@ -49,6 +49,19 @@ public class SearchPage extends NotePage {
 		}
 	}
 
+	//--------------------------------------
+	//  originalSearchText
+	//--------------------------------------
+	private var _originalSearchText:String = "";
+	[Bindable("originalSearchTextChanged")]
+	public function get originalSearchText():String {return _originalSearchText;}
+	public function set originalSearchText(value:String):void {
+		if (_originalSearchText != value) {
+			_originalSearchText = value;
+			dispatchEvent(new Event("originalSearchTextChanged"));
+		}
+	}
+
 	override protected function loadPage():IAsyncOperation {
 		return storage.searchNotes(this);
 	}

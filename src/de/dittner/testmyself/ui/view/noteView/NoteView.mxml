@@ -177,7 +177,7 @@
                 titleLbl.isBold = false;
             }
 
-            var searchText:String = viewInfo.page is SearchPage ? (viewInfo.page as SearchPage).searchText : "";
+            var searchText:String = viewInfo.page is SearchPage ? (viewInfo.page as SearchPage).originalSearchText : "";
             searchText = searchText.replace(/\+/g, "");
             examplesPanel.renderOptions.searchText = searchText.toLowerCase();
             titleLbl.searchText = searchText;

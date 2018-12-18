@@ -4,8 +4,8 @@
     <filename>TestMyself-EN</filename>
     <name>TestMyself-EN</name>
 
-    <versionNumber>7.25</versionNumber>
-    <versionLabel>7.25</versionLabel>
+    <versionNumber>7.26</versionNumber>
+    <versionLabel>7.26</versionLabel>
 
     <initialWindow>
         <content></content>
@@ -19,7 +19,7 @@
         <autoOrients>false</autoOrients>
         <fullScreen>true</fullScreen>
         <visible>true</visible>
-        <renderMode>gpu</renderMode>
+        <renderMode>cpu</renderMode>
         <softKeyboardBehavior>none</softKeyboardBehavior>
     </initialWindow>
 

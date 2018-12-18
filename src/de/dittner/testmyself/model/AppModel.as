@@ -32,8 +32,8 @@ public class AppModel extends WalterProxy {
 
 	public function AppModel() {
 		super();
-		networkStatusMonitor = new URLMonitor(new URLRequest("https://www.google.com"));
-		networkStatusMonitor.pollInterval = 10000;
+		networkStatusMonitor = new URLMonitor(new URLRequest("https://www.apple.com"));
+		networkStatusMonitor.pollInterval = 30000;
 		networkStatusMonitor.addEventListener(StatusEvent.STATUS, connectionStatusChanged);
 		networkStatusMonitor.start();
 	}

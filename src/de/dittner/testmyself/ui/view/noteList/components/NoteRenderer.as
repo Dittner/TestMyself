@@ -42,7 +42,8 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	private var audioIcon:TileShape;
 	private var exampleIcon:TileShape;
 	private var favoriteIcon:TileShape;
-	private var pattern:RegExp;
+	private var pattern1:RegExp;
+	private var pattern2:RegExp;
 	private var searchText:String = "";
 	protected var cardViewMode:Boolean = false;
 
@@ -163,7 +164,8 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		if (note && options) {
 			if (options.searchText != searchText) {
 				searchText = options.searchText;
-				pattern = new RegExp(searchText, "gi");
+				pattern1 = new RegExp(searchText, "gi");
+				pattern2 = new RegExp(searchText.replace(/(ё)/gi, "е"));
 			}
 			titleTf.visible = options.showDetails || !options.inverted || (selected && cardViewMode);
 			descriptionTf.visible = options.showDetails || options.inverted || (selected && cardViewMode);
@@ -233,7 +235,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			title = note.title;
 		}
 
-		return searchText ? title.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : title;
+		return searchText ? colorizeSearchText(title) : title;
 	}
 
 	protected function getDescription():String {
@@ -241,7 +243,8 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 
 		if (options.searchText != searchText) {
 			searchText = options.searchText;
-			pattern = new RegExp(searchText, "gi");
+			pattern1 = new RegExp(searchText, "gi");
+			pattern2 = new RegExp(searchText, "gi");
 		}
 
 		if (searchText) {
@@ -256,16 +259,20 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 				var res:String = "";
 				for each(var s:String in sentences)
 					if (s.length >= searchText.length && s.toLowerCase().indexOf(searchText) != -1)
-						res += "&lt;...&gt; " + (s.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') + "...\n");
+						res += "&lt;...&gt; " + colorizeSearchText(s) + "...\n";
 				return res.replace(/( {2,})/gi, " ");
 			}
 			else {
-				return note.description.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>');
+				return colorizeSearchText(note.description);
 			}
 		}
 		else {
 			return note.description;
 		}
+	}
+
+	private function colorizeSearchText(str:String):String {
+		return str.replace(pattern1, '<font color = "#ff5883">' + "$&" + '</font>').replace(pattern2, '<font color = "#ff5883">' + "$&" + '</font>');
 	}
 
 	override protected function measure():void {

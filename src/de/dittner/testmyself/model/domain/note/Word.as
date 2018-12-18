@@ -47,7 +47,7 @@ public class Word extends Note {
 
 		if (article)
 			res = SEARCH_DELIMITER + article + res;
-		return res.toLocaleLowerCase();
+		return correctSearchText(res.toLocaleLowerCase());
 	}
 
 	override public function deserialize(data:Object):void {

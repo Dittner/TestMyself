@@ -39,7 +39,8 @@ public class ReplaceTextInNoteTblCmd extends StorageOperation implements IAsyncC
 			return;
 		}
 
-		var sql:String = "SELECT * FROM note WHERE langID = " + langID + " AND searchText LIKE " + "'%" + srcText.toLowerCase() + "%'";
+		var searchText:String = srcText.toLowerCase().replace(/(ё)/g, "е");
+		var sql:String = "SELECT * FROM note WHERE langID = " + langID + " AND searchText LIKE " + "'%" + searchText + "%'";
 
 		var statement:SQLStatement = SQLUtils.createSQLStatement(sql);
 		statement.sqlConnection = storage.sqlConnection;

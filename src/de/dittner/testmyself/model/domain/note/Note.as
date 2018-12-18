@@ -246,7 +246,11 @@ public class Note extends EventDispatcher {
 	}
 
 	public static function toSearchText(title:String, description:String):String {
-		return (SEARCH_DELIMITER + title + SEARCH_DELIMITER + description + SEARCH_DELIMITER).toLocaleLowerCase();
+		return correctSearchText(SEARCH_DELIMITER + title + SEARCH_DELIMITER + description + SEARCH_DELIMITER).toLocaleLowerCase();
+	}
+
+	protected static function correctSearchText(str:String):String {
+		return str.replace(/(ё|Ё)/gi, "е");
 	}
 
 	public static function tagIdsToString(ids:Array):String {

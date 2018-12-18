@@ -12,7 +12,6 @@ import flash.events.SQLEvent;
 import flash.filesystem.File;
 
 public class RunDataBaseCmd extends StorageOperation implements IAsyncCommand {
-
 	public function RunDataBaseCmd(dbPath:String, createTableStatements:Array) {
 		super();
 		this.dbPath = dbPath;
@@ -54,7 +53,7 @@ public class RunDataBaseCmd extends StorageOperation implements IAsyncCommand {
 	}
 
 	private function createResult(event:SQLEvent):void {
-		CLog.info(LogTag.STORAGE, "SQL DB " + Device.appName + " has been created and launched");
+		CLog.info(LogTag.STORAGE, "SQL DB " + dbPath + " has been created and launched");
 		dispatchSuccess(conn);
 	}
 

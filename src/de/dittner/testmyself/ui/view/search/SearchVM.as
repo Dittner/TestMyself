@@ -48,7 +48,8 @@ public class SearchVM extends ViewModel {
 
 	public function loadPage(searchText:String, loadExamples:Boolean, loadWords:Boolean, loadVerbs:Boolean, loadLessons:Boolean):void {
 		page.countAllNotes = page.searchText != searchText;
-		page.searchText = searchText;
+		page.originalSearchText = searchText;
+		page.searchText = searchText.replace(/(ё)/gi, "е").replace(/(Ё)/gi, "Е");
 		page.loadExamples = loadExamples;
 		page.vocabularyIDs = [];
 

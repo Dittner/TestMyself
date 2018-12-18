@@ -63,14 +63,16 @@ public class NoteLabel extends UIComponent {
 	//--------------------------------------
 	//  searchText
 	//--------------------------------------
-	private var pattern:RegExp;
+	private var pattern1:RegExp;
+	private var pattern2:RegExp;
 	private var _searchText:String = "";
 	[Bindable("searchTextChanged")]
 	public function get searchText():String {return _searchText;}
 	public function set searchText(value:String):void {
 		if (_searchText != value) {
 			_searchText = value;
-			pattern = new RegExp(searchText, "gi");
+			pattern1 = new RegExp(searchText, "gi");
+			pattern2 = new RegExp(searchText.replace(/(ё)/gi, "е").replace(/(Ё)/gi, "Е"), "gi");
 			invalidateProperties();
 			dispatchEvent(new Event("searchTextChanged"));
 		}
@@ -277,7 +279,11 @@ public class NoteLabel extends UIComponent {
 			}
 		}
 
-		return searchText ? title.replace(pattern, '<font color = "#ff5883">' + "$&" + '</font>') : title;
+		return searchText ? colorizeSearchText(title) : title;
+	}
+
+	private function colorizeSearchText(str:String):String {
+		return str.replace(pattern1, '<font color = "#ff5883">' + "$&" + '</font>').replace(pattern2, '<font color = "#ff5883">' + "$&" + '</font>');
 	}
 
 	override protected function measure():void {

@@ -32,8 +32,6 @@ public class NoteFormUtils {
 
 	public static function changeSymbols(txt:String):String {
 		if (txt) {
-			txt = txt.replace(/(ё)/gi, "е");
-			txt = txt.replace(/(Ё)/gi, "Е");
 			txt = txt.replace(/(\[)/gi, "(");
 			txt = txt.replace(/(\])/gi, ")");
 			txt = txt.replace(/(„)/gi, '"');
@@ -64,8 +62,6 @@ public class NoteFormUtils {
 			txt = "#" + txt;
 			txt = txt.replace(/_([А-Яа-яёЁ].)/gi, "$1");
 			txt = txt.replace(/(vi \(s\))/gi, "vi, sein:");
-			txt = txt.replace(/(ё)/gi, "е");
-			txt = txt.replace(/(Ё)/gi, "Е");
 			txt = txt.replace(/(\[)/gi, "");
 			txt = txt.replace(/(\])/gi, "");
 			txt = txt.replace(/(\()/gi, "");
