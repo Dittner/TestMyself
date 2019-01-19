@@ -12,6 +12,8 @@
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
         import de.dittner.async.ProgressCommand;
+        import de.dittner.testmyself.logging.CLog;
+        import de.dittner.testmyself.logging.LogTag;
         import de.dittner.testmyself.ui.common.tile.TileID;
         import de.dittner.testmyself.ui.common.utils.AppColors;
         import de.dittner.testmyself.ui.common.utils.FontName;
@@ -27,8 +29,8 @@
         [Bindable]
         public var isUploading:Boolean = false;
 
-        private function loadEnabled(connection:Boolean, hostText:String, portText:String, pwdText:String, userName:String):Boolean {
-            return connection && hostText && portText && pwdText && userName;
+        private function loadEnabled(hostText:String, portText:String, pwdText:String, userName:String):Boolean {
+            return hostText && portText && pwdText && userName;
         }
 
         //--------------------------------------
@@ -54,7 +56,8 @@
                 isDataBaseTransferOperationSuccess = true;
             }
             else {
-                errorText = "Error: " + op.error;
+                CLog.err(LogTag.LOAD, "upload failed: " + op.error);
+                errorText = resourceManager.getString('app', 'UploadError');
                 isDataBaseTransferOperationSuccess = false;
             }
             progressBar.visible = false;
@@ -83,7 +86,8 @@
                 isDataBaseTransferOperationSuccess = true;
             }
             else {
-                errorText = "Error: " + op.error;
+                CLog.err(LogTag.LOAD, "download failed: " + op.error);
+                errorText = resourceManager.getString('app', 'DownloadError');
                 isDataBaseTransferOperationSuccess = false;
             }
             progressBar.visible = false;
@@ -211,7 +215,7 @@
                                          use9Scale="true"
                                          paddingLeft="{Values.PT10}"
                                          paddingRight="{Values.PT10}"
-                                         enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                                         enabled="{loadEnabled(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
                                          width="40%" top="0" right="0"
                                          textColor="#0"
                                          click="downloadDB()"/>
@@ -225,7 +229,7 @@
                                          use9Scale="true"
                                          paddingLeft="{Values.PT10}"
                                          paddingRight="{Values.PT10}"
-                                         enabled="{loadEnabled(vm.appModel.hasNetworkConnection, hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
+                                         enabled="{loadEnabled(hostInput.text, portInput.text, pwdInput.text, userNameInput.text)}"
                                          width="40%" bottom="0" left="0"
                                          textColor="#ffFFff"
                                          click="uploadDB()"/>

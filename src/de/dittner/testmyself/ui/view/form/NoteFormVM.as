@@ -1,6 +1,5 @@
 package de.dittner.testmyself.ui.view.form {
 import de.dittner.async.IAsyncOperation;
-import de.dittner.testmyself.model.AppModel;
 import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.note.Note;
 import de.dittner.testmyself.model.domain.tag.Tag;
@@ -8,7 +7,6 @@ import de.dittner.testmyself.ui.common.view.NoteFormViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewInfo;
 import de.dittner.testmyself.ui.common.view.ViewModel;
 import de.dittner.testmyself.ui.view.form.components.FormMode;
-import de.dittner.walter.message.WalterMessage;
 
 import flash.events.Event;
 
@@ -59,19 +57,6 @@ public class NoteFormVM extends ViewModel {
 		if (_operation != value) {
 			_operation = value;
 			dispatchEvent(new Event("operationChanged"));
-		}
-	}
-
-	//--------------------------------------
-	//  hasNetworkConnection
-	//--------------------------------------
-	private var _hasNetworkConnection:Boolean = false;
-	[Bindable("hasNetworkConnectionChanged")]
-	public function get hasNetworkConnection():Boolean {return _hasNetworkConnection;}
-	public function set hasNetworkConnection(value:Boolean):void {
-		if (_hasNetworkConnection != value) {
-			_hasNetworkConnection = value;
-			dispatchEvent(new Event("hasNetworkConnectionChanged"));
 		}
 	}
 
@@ -166,17 +151,10 @@ public class NoteFormVM extends ViewModel {
 			isArticleEnabled = appModel.lang.id == LanguageID.DE;
 			isPresentVerbFormEnabled = appModel.lang.id == LanguageID.DE;
 			isOptionalTemplatesEnabled = appModel.lang.id == LanguageID.DE;
-			hasNetworkConnection = appModel.hasNetworkConnection;
-			listenProxy(appModel, AppModel.NETWORK_CONNECTION_CHANGED_MSG, networkConnectionChanged);
 		}
 		else {
 			throw new Error("Expected NoteFormViewInfo, but received: " + viewInfo);
 		}
 	}
-
-	private function networkConnectionChanged(msg:WalterMessage):void {
-		hasNetworkConnection = msg.data;
-	}
-
 }
 }

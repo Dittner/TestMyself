@@ -1,6 +1,4 @@
 package de.dittner.testmyself.model {
-import air.net.URLMonitor;
-
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.LocalStorageKey;
@@ -22,20 +20,13 @@ import de.dittner.testmyself.ui.view.settings.components.SettingsInfo;
 import de.dittner.walter.WalterProxy;
 
 import flash.events.Event;
-import flash.events.StatusEvent;
-import flash.net.URLRequest;
 
 public class AppModel extends WalterProxy {
 	public static const HASH_CHANGED_MSG:String = "HASH_CHANGED_MSG";
-	public static const NETWORK_CONNECTION_CHANGED_MSG:String = "NETWORK_CONNECTION_CHANGED_MSG";
 	public static const SETTINGS_CHANGED_MSG:String = "SETTINGS_CHANGED_MSG";
 
 	public function AppModel() {
 		super();
-		networkStatusMonitor = new URLMonitor(new URLRequest("https://www.apple.com"));
-		networkStatusMonitor.pollInterval = 30000;
-		networkStatusMonitor.addEventListener(StatusEvent.STATUS, connectionStatusChanged);
-		networkStatusMonitor.start();
 	}
 
 	[Inject]
@@ -52,19 +43,6 @@ public class AppModel extends WalterProxy {
 	//--------------------------------------
 	private var _lang:Language;
 	public function get lang():Language {return _lang;}
-
-	//--------------------------------------
-	//  hasNetworkConnection
-	//--------------------------------------
-	private var _hasNetworkConnection:Boolean = false;
-	[Bindable("hasNetworkConnectionChanged")]
-	public function get hasNetworkConnection():Boolean {return _hasNetworkConnection;}
-	private function setHasNetworkConnection(value:Boolean):void {
-		if (_hasNetworkConnection != value) {
-			_hasNetworkConnection = value;
-			dispatchEvent(new Event("hasNetworkConnectionChanged"));
-		}
-	}
 
 	//--------------------------------------
 	//  hash
@@ -99,13 +77,6 @@ public class AppModel extends WalterProxy {
 	//  Methods
 	//
 	//----------------------------------------------------------------------------------------------
-
-	private var networkStatusMonitor:URLMonitor;
-	private function connectionStatusChanged(event:StatusEvent):void {
-		CLog.info(LogTag.CONNECTION, "Network status: " + event.code);
-		setHasNetworkConnection(networkStatusMonitor.available);
-		sendMessage(NETWORK_CONNECTION_CHANGED_MSG, networkStatusMonitor.available);
-	}
 
 	private var initOp:IAsyncOperation;
 	public function init():IAsyncOperation {

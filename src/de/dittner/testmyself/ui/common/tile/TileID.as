@@ -101,6 +101,7 @@ public class TileID {
 	public static const TOOLBAR_SHOW_ALL_TASK:String = "TOOLBAR_SHOW_ALL_TASK";
 	public static const TOOLBAR_SHOW_FAILED_TASK:String = "TOOLBAR_SHOW_FAILED_TASK";
 	public static const TOOLBAR_SET_TASK_AS_RIGHT:String = "TOOLBAR_SET_TASK_AS_RIGHT";
+	public static const TOOLBAR_MOVE_TASK_TO_START:String = "TOOLBAR_MOVE_TASK_TO_START";
 
 	public static const TOOLBAR_ADD_LIGHT:String = "TOOLBAR_ADD_LIGHT";
 	public static const TOOLBAR_EDIT_LIGHT:String = "TOOLBAR_EDIT_LIGHT";

@@ -17,6 +17,7 @@ public interface INoteToolbar extends IUIComponent {
 	function enableFilter(value:Boolean = true):void;
 	function enableShowFailedTasks(value:Boolean = true):void;
 	function enablesSetTaskAsRight(value:Boolean = true):void;
+	function enablesMoveTaskToStart(value:Boolean = true):void;
 	function enablePlayCommentBtn(value:Boolean = true):void;
 	function enableArticleBar(value:Boolean = true, selectedArticle:String = ""):void;
 	function getSelectedArticle():String;

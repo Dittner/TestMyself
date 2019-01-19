@@ -71,6 +71,7 @@
             toolbar.enableRemoveNote();
             toolbar.enablePlayCommentBtn(vm.page.selectedNote && vm.page.selectedNote.hasAudio);
             toolbar.enablesSetTaskAsRight(testTask && testTask.isFailed);
+            toolbar.enablesMoveTaskToStart(testTask && testTask.isFailed);
 
             toolbar.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
             actionMenu.addEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
@@ -118,6 +119,16 @@
                         task.isFailed = false;
                         task.store();
                         vm.page.countAllNotes = true;
+                        vm.reloadPage().addCompleteCallback(function (op:IAsyncOperation):void {
+                            updateNote();
+                        });
+                    }
+                    break;
+                case(ToolAction.MOVE_TASK_TO_START) :
+                    var task:TestTask = vm.page is TestPage ? (vm.page as TestPage).getTask() : null;
+                    if (task && task.isFailed) {
+                        task.store();
+                        vm.page.countAllNotes = false;
                         vm.reloadPage().addCompleteCallback(function (op:IAsyncOperation):void {
                             updateNote();
                         });
@@ -191,6 +202,7 @@
             examplesPanel.dataProvider = selectedNote.exampleColl;
 
             toolbar.enablesSetTaskAsRight(testTask && testTask.isFailed);
+            toolbar.enablesMoveTaskToStart(testTask && testTask.isFailed);
             toolbar.enablePlayCommentBtn(selectedNote && selectedNote.hasAudio);
 
             titlePanel.title = (vm.page.number * vm.page.size + (vm.page.selectedItemIndex || 0)) + 1 + '/' + vm.page.allNotesAmount;

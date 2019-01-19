@@ -30,6 +30,7 @@
             transInvertBtn.enabled = false;
             filterBtn.enabled = false;
             setTaskAsRightBtn.enabled = false;
+            moveTaskToStartBtn.enabled = false;
             showFailedTasksBtn.enabled = false;
             showDetailsBtn.selected = false;
             showFailedTasksBtn.selected = true;
@@ -144,6 +145,9 @@
         }
         public function enablesSetTaskAsRight(value:Boolean = true):void {
             setTaskAsRightBtn.enabled = value;
+        }
+        public function enablesMoveTaskToStart(value:Boolean = true):void {
+            moveTaskToStartBtn.enabled = value;
         }
         public function enablePlayCommentBtn(value:Boolean = true):void {
             playCommentBtn.enabled = value;
@@ -317,6 +321,12 @@
                              includeInLayout="{setTaskAsRightBtn.enabled}"
                              upTileID="{TileID.TOOLBAR_SET_TASK_AS_RIGHT}"
                              click="notifyToolAction(ToolAction.SET_TASK_AS_RIGHT)"/>
+
+        <tile:FadeTileButton id="moveTaskToStartBtn"
+                             visible="{moveTaskToStartBtn.enabled}"
+                             includeInLayout="{moveTaskToStartBtn.enabled}"
+                             upTileID="{TileID.TOOLBAR_MOVE_TASK_TO_START}"
+                             click="notifyToolAction(ToolAction.MOVE_TASK_TO_START)"/>
     </s:HGroup>
 
     <tile:FadeTileButton id="playCommentBtn"

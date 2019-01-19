@@ -165,7 +165,6 @@
                          width="{Values.PT768}" height="{AppSizes.MENU_HEIGHT}"
                          horizontalCenter="0"
                          selectedViewInfo="{viewNavigator.selectedViewInfo}"
-                         hasNetworkConnection="{vm.appModel.hasNetworkConnection}"
                          disabledAlpha="1"
                          enabled="false"
                          enabled.normal="true"

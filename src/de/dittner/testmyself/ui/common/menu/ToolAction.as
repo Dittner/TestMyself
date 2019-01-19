@@ -15,6 +15,7 @@ public class ToolAction {
 	public static const PLAY_COMMENT:String = "PLAY_COMMENT";
 
 	public static const SET_TASK_AS_RIGHT:String = "SET_TASK_AS_RIGHT";
+	public static const MOVE_TASK_TO_START:String = "MOVE_TASK_TO_START";
 
 	public static const SHOW_FAILED_TASK:String = "SHOW_FAILED_TASK";
 	public static const SHOW_ALL_TASK:String = "SHOW_ALL_TASK";

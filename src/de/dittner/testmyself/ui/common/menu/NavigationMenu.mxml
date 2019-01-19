@@ -19,19 +19,6 @@
         import mx.events.FlexEvent;
 
         //--------------------------------------
-        //  hasNetworkConnection
-        //--------------------------------------
-        private var _hasNetworkConnection:Boolean = false;
-        [Bindable("hasNetworkConnectionChanged")]
-        public function get hasNetworkConnection():Boolean {return _hasNetworkConnection;}
-        public function set hasNetworkConnection(value:Boolean):void {
-            if (_hasNetworkConnection != value) {
-                _hasNetworkConnection = value;
-                dispatchEvent(new Event("hasNetworkConnectionChanged"));
-            }
-        }
-
-        //--------------------------------------
         //  selectedViewInfo
         //--------------------------------------
         private var _selectedViewInfo:ViewInfo;
