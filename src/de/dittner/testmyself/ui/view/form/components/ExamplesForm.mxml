@@ -93,9 +93,12 @@
         }
 
         private function deleteExample():void {
-            exampleColl.removeItemAt(exampleList.selectedIndex);
+            var selectedIndex:int = exampleList.selectedIndex;
+            exampleColl.removeItemAt(selectedIndex);
+            if (selectedIndex < exampleList.dataProvider.length)
+                exampleList.selectedIndex = selectedIndex;
             /*setCurrentState("remove");
-            showForm();*/
+             showForm();*/
         }
 
         private function showForm():void {

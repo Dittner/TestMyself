@@ -232,14 +232,17 @@ class CambridgeSearchOperation extends AsyncOperation {
 		dispatchError();
 	}
 
+	private static const MP3_TAG:String = 'data-src-mp3="';
 	private function getMp3Url(html:String):String {
 		if (!html) return "";
-		var mp3UrlEndInd:int = html.indexOf(".mp3");
-		if (mp3UrlEndInd != -1) {
-			var mp3UrlStartInd:int = html.lastIndexOf("https:", mp3UrlEndInd);
-			if (mp3UrlStartInd != -1) {
-				var res:String = html.substring(mp3UrlStartInd, mp3UrlEndInd) + ".mp3";
-				return res;
+		var mp3UrlStartInd:int = html.indexOf(MP3_TAG);
+		if (mp3UrlStartInd != -1) {
+			html = html.substring(mp3UrlStartInd);
+			var mp3UrlEndInd:int = html.indexOf(".mp3");
+			if (mp3UrlEndInd != -1) {
+				var res:String = html.substring(MP3_TAG.length, mp3UrlEndInd) + ".mp3";
+				if(res.indexOf("https") == 0) return res;
+				else return "https://dictionary.cambridge.org" + res;
 			}
 		}
 		return "";

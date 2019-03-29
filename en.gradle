@@ -15,7 +15,7 @@ apply plugin: 'gradlefx'
 apply plugin: 'ide'
 apply plugin: 'ideafx'
 
-def versionCode = "7.28"
+def versionCode = "7.31"
 def domain = "de.dittner.tm.en"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.16.1"
@@ -153,6 +153,9 @@ task deployBuild << {
     def created = new SimpleDateFormat("dd.MM.yyyy HH:mm")
     created.setTimeZone(TimeZone.getTimeZone("GMT+3"));
 
+    def pwdFile = new File("$projectDir/build/serverPassword.txt")
+    def pwd = pwdFile.getText('UTF-8')
+
     def f = new File("$projectDir/build/index.html")
     def contents = f.getText('UTF-8')
     contents = contents.replaceAll('#date', created.format(new Date()))
@@ -162,10 +165,10 @@ task deployBuild << {
         taskdef(name: 'ftp',
                 classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
                 classpath: configurations.ftpAntTask.asPath)
-        ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself/en") {
+        ftp(server: "dittner.bget.ru", userid: "dittner", password: pwd, passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself/en") {
             fileset(file: "build/${output}.ipa")
         }
-        ftp(server: "dittner.bget.ru", userid: "dittner", password: "qRr9MGZF", passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {
+        ftp(server: "dittner.bget.ru", userid: "dittner", password: pwd, passive: "yes", remotedir: "dittner.bget.ru/public_html/testmyself") {
             fileset(file: "build/index.html")
         }
     }

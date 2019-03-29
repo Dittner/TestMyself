@@ -6,7 +6,6 @@
 
     <fx:Script><![CDATA[
         import de.dittner.async.IAsyncOperation;
-        import de.dittner.testmyself.model.domain.note.Note;
         import de.dittner.testmyself.model.domain.test.Test;
         import de.dittner.testmyself.model.domain.test.TestID;
         import de.dittner.testmyself.model.domain.test.TestTask;
@@ -153,26 +152,36 @@
                     vm.selectedTestTask.store();
                     break;
                 case TestingAction.NEXT_TASK :
-                    vm.loadNextTestTask().addCompleteCallback(testTaskLoaded);
+                    vm.loadNextTestTask();
                     break;
             }
         }
 
-        private function testTaskLoaded(op:IAsyncOperation):void {
-            if(op.isSuccess && op.result is TestTask) {
-                var note:Note = (op.result as TestTask).note;
-                toolbar.enablePlayCommentBtn(note && note.hasAudio);
+        private function set selectedTestTask(t:TestTask):void {
+            if (t) {
+                toolbar.enablePlayCommentBtn(t.note && t.note.hasAudio);
+                failedStatusLbl.visible = t.isFailed;
             }
         }
         ]]></fx:Script>
+    <fx:Binding source="vm.selectedTestTask" destination="selectedTestTask"/>
 
     <!--HEADER-->
-    <s:HGroup width="100%" maxWidth="{Values.PT798}" horizontalCenter="0"
+    <s:HGroup width="100%" maxWidth="{Values.PT798}" horizontalCenter="0" verticalAlign="bottom"
               gap="{PAD}" paddingLeft="{PAD}" paddingRight="{PAD}" paddingTop="{PAD}">
         <s:Label text="{(vm.curTaskNumber + 1) + '/' + vm.testTaskIDs.length}"
                  fontFamily="{FontName.BASIC}"
                  fontSize="{Values.PT20}"
                  width="50%"
+                 mouseChildren="false" mouseEnabled="false"
+                 color="0"
+                 alpha="0.6"/>
+
+        <s:Label id="failedStatusLbl"
+                 text="F"
+                 visible="false"
+                 fontFamily="{FontName.BASIC}"
+                 fontSize="{Values.PT20}"
                  mouseChildren="false" mouseEnabled="false"
                  color="0"
                  alpha="0.6"/>

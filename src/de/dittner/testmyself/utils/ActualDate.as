@@ -25,7 +25,7 @@ public class ActualDate {
 
 	public static function get time():Number {
 		if(!curDate) createDate();
-		return curDate.time;
+		return curDate.time++;
 	}
 
 	public static function get fullYear():Number {
