@@ -31,7 +31,8 @@ public class AppColors {
 	public static const APP_BG_GRAY:uint = 0xeeEEf5;
 	public static const APP_BG_DARK:uint = 0xd4d4df;
 
-	public static const COMMENTS_BOARD_BG:uint = CONFIG::LANGUAGE == "DE" ? 0xe7e2cc : 0xe4d2d9;
+	public static const COMMENTS_BOARD_BG:uint = 0xdcdae3;
+	public static const COMMENTS_BOARD_TEXT_COLOR:uint = 0;
 
 }
 }

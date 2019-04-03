@@ -207,7 +207,7 @@ public class AddEnglishWordsToDBFromFileCmd extends ProgressCommand {
 			if (result.tagName && curNote.vocabulary.tagNameHash[result.tagName])
 				curNote.tagIDs = [(curNote.vocabulary.tagNameHash[result.tagName] as Tag).id];
 
-			if (result.examples) {
+			if (result.examples && result.examples.length > 0) {
 				for each(var example:Object in result.examples) {
 					var note:Note = curVocabulary.createNote();
 					note.isExample = true;

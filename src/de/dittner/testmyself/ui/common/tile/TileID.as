@@ -133,6 +133,7 @@ public class TileID {
 	public static const BTN_ADD_EXAMPLE:String = "BTN_ADD_EXAMPLE";
 	public static const BTN_EDIT_EXAMPLE:String = "BTN_EDIT_EXAMPLE";
 	public static const BTN_DELETE_EXAMPLE:String = "BTN_DELETE_EXAMPLE";
+	public static const BTN_DELETE_ALL_EXAMPLES:String = "BTN_DELETE_ALL_EXAMPLES";
 
 	public static const BTN_INCREMENT:String = "BTN_INCREMENT";
 	public static const BTN_DROPDOWN:String = "BTN_DROPDOWN";

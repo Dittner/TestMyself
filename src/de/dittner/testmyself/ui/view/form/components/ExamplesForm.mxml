@@ -101,6 +101,10 @@
              showForm();*/
         }
 
+        private function deleteAllExamples():void {
+            exampleColl = new ArrayCollection();
+        }
+
         private function showForm():void {
             if (!SimplePopup.curContent != editFormCont) {
                 SimplePopup.show(editFormCont, true, hideForm, AppColors.EDITOR_SHADOW, 0.5);
@@ -261,4 +265,12 @@
                              click="deleteExample()"/>
 
     </s:HGroup>
+
+    <tile:FadeTileButton id="deleteAllBtn"
+                         upTileID="{TileID.BTN_DELETE_ALL_EXAMPLES}"
+                         enabled="{exampleColl.length > 0}"
+                         right="{Values.PT5}"
+                         top="{Values.PT25}"
+                         click="deleteAllExamples()"/>
+
 </s:Group>

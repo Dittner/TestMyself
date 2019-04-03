@@ -182,6 +182,7 @@ public class NoteFormUtils {
 			txt = txt.replace(/(\W)(австр )/gi, "$1австр. ");
 			txt = txt.replace(/(\W)(церк )/gi, "$1церк. ");
 			txt = txt.replace(/(\W)(сокр )/gi, "$1сокр. ");
+			txt = txt.replace(/(\W)(физиол )/gi, "$1физиол. ");
 
 			txt = txt.replace(/( и т\. п\.)/gi, "");
 			txt = txt.replace(/( {2,})/gi, " ");

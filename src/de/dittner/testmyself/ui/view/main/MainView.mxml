@@ -196,7 +196,7 @@
                         enabled="false"
                         enabled.normal="true"
                         text="@{vm.commentsBoardText}"
-                        width="{Values.PT768}" height="50%"
+                        width="{Values.PT768}" height="{Values.PT500}"
                         horizontalCenter="0" top="0"/>
 
     <common:BG visible="{Device.verticalPadding}"
