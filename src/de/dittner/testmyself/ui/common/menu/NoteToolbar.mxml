@@ -203,6 +203,7 @@
 
         private function addedToStageHandler(event:Event):void {
             stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
         }
 
         //--------------------------------------
@@ -219,10 +220,21 @@
         }
 
         override protected function keyUpHandler(event:KeyboardEvent):void {
-            if (keyboardEnabled && playCommentBtn && playCommentBtn.enabled && event.keyCode == Keyboard.SPACE)
+            if (!keyboardEnabled) return;
+
+            if (playCommentBtn && playCommentBtn.enabled && event.keyCode == Keyboard.SPACE)
                 notifyToolAction(ToolAction.PLAY_COMMENT)
-            else if (keyboardEnabled && goBackBtn && goBackBtn.enabled && event.keyCode == Keyboard.BACKSPACE)
+            else if (goBackBtn && goBackBtn.enabled && event.keyCode == Keyboard.BACKSPACE)
                 notifyToolAction(ToolAction.GO_BACK)
+        }
+
+        override protected function keyDownHandler(event:KeyboardEvent):void {
+            if (!keyboardEnabled) return;
+
+            if (editNoteBtn && editNoteBtn.enabled && event.keyCode == Keyboard.E && event.commandKey)
+                notifyToolAction(ToolAction.EDIT_NOTE)
+            else if (removeNoteBtn && removeNoteBtn.enabled && event.keyCode == Keyboard.D && event.commandKey)
+                notifyToolAction(ToolAction.REMOVE_NOTE)
         }
         ]]></fx:Script>
 

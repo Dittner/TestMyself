@@ -42,6 +42,7 @@ public class NoteFormUtils {
 			txt = txt.replace(/(")/gi, '"');
 			txt = txt.replace(/(–)/gi, "-");
 			txt = txt.replace(/( - )/gi, " – ");
+			txt = txt.replace(/( — )/gi, " – ");
 		}
 		return txt;
 	}
@@ -221,7 +222,7 @@ public class NoteFormUtils {
 		else {
 			res = txt;
 		}
-		return res;
+		return res.replace(/( ;)/gi, ";");
 	}
 
 }

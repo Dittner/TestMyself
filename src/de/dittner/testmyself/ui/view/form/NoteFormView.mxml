@@ -73,8 +73,7 @@
             start();
         }
 
-        override protected function deactivating():void {
-        }
+        override protected function deactivating():void {}
 
         override protected function deactivate():void {
             toolbar.removeEventListener(ToolActionEvent.SELECTED, actionSelectedHandler);
@@ -180,8 +179,13 @@
 
         private function getSelectedTagIDs():Array {
             var res:Array = [];
+            var hash:Object = {};
             for each(var tag:Tag in tagList.selectedItems)
-                res.push(tag.id);
+                if (!hash[tag.id]) {
+                    hash[tag.id] = true;
+                    res.push(tag.id);
+                }
+
             return res;
         }
 
@@ -304,8 +308,8 @@
                         }
                 }
 
-                if ((!examplesForm.exampleColl || examplesForm.exampleColl.length == 0) && (res.examples && res.examples.length > 0)) {
-                    var exampleColl:ArrayCollection = new ArrayCollection();
+                if (res.examples && res.examples.length > 0) {
+                    var exampleColl:ArrayCollection = examplesForm.exampleColl || new ArrayCollection();
                     for each(var item:Object in res.examples) {
                         var note:Note = vm.note.createExample();
                         note.title = item.en;
@@ -315,7 +319,7 @@
                     examplesForm.exampleColl = exampleColl;
                 }
 
-                if (res.audioComment && !audioRecorder.hasComment)
+                if (res.audioComment)
                     audioRecorder.setComment(res.audioComment);
             }
         }
