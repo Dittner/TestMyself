@@ -155,6 +155,10 @@ public class SQLLib {
 	private static const SelectFilteredTestTaskIDsClass:Class;
 	public static const SELECT_FILTERED_TEST_TASK_IDS_SQL:String = new SelectFilteredTestTaskIDsClass();
 
+	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredTestTaskIDsForExamples.sql", mimeType="application/octet-stream")]
+	private static const SelectFilteredTestTaskIDsForExamplesClass:Class;
+	public static const SELECT_FILTERED_TEST_TASK_IDS_FOR_EXAMPLES_SQL:String = new SelectFilteredTestTaskIDsForExamplesClass();
+
 	[Embed(source="/de/dittner/testmyself/backend/sql/SelectFilteredPageTestTasks.sql", mimeType="application/octet-stream")]
 	private static const SelectFilteredPageTestTasksClass:Class;
 	public static const SELECT_FILTERED_PAGE_TEST_TASKS_SQL:String = new SelectFilteredPageTestTasksClass();

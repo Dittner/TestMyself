@@ -115,7 +115,7 @@ class DudenSearchOperation extends AsyncOperation {
 		if (mp3UrlEndInd != -1) {
 			var mp3UrlStartInd:int = html.lastIndexOf("https:", mp3UrlEndInd);
 			if (mp3UrlStartInd != -1) {
-				var res:String = html.substring(mp3UrlStartInd, mp3UrlEndInd);
+				var res:String = html.substring(mp3UrlStartInd, mp3UrlEndInd) + ".mp3";
 				return res;
 			}
 		}

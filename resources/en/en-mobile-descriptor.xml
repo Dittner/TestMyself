@@ -3,8 +3,8 @@
     <id>de.dittner.tm.en</id>
     <filename>TestMyself-EN</filename>
     <name>TestMyself-EN</name>
-    <versionNumber>7.35</versionNumber>
-    <versionLabel>7.35</versionLabel>
+    <versionNumber>7.37</versionNumber>
+    <versionLabel>7.37</versionLabel>
 
     <initialWindow>
         <content>TestMyself.swf</content>

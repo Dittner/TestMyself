@@ -29,7 +29,7 @@ public class LoadTaskIDsCmd extends StorageOperation implements IAsyncCommand {
 		var sql:String;
 		if (page.selectedTag) {
 			sqlParams.selectedTagID = "%" + Tag.DELIMITER + page.selectedTag.id + Tag.DELIMITER + "%";
-			sql = SQLLib.SELECT_FILTERED_TEST_TASK_IDS_SQL;
+			sql = page.test.useExamples ? SQLLib.SELECT_FILTERED_TEST_TASK_IDS_FOR_EXAMPLES_SQL : SQLLib.SELECT_FILTERED_TEST_TASK_IDS_SQL;
 		}
 		else {
 			sql = SQLLib.SELECT_TEST_TASK_IDS_SQL;
