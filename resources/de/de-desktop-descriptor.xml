@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <application xmlns="http://ns.adobe.com/air/application/31.0">
-    <id>de.dittner.tm.de</id>
+    <id>de.dittner.testmyself.de</id>
     <filename>TestMyself-DE</filename>
     <name>TestMyself-DE</name>
 
-    <versionNumber>7.37</versionNumber>
-    <versionLabel>7.37</versionLabel>
+    <versionNumber>7.39</versionNumber>
+    <versionLabel>7.39</versionLabel>
 
     <initialWindow>
         <content></content>

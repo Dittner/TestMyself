@@ -2,6 +2,7 @@ package de.dittner.testmyself.model.domain.note {
 import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.model.domain.audioComment.AudioComment;
+import de.dittner.testmyself.model.domain.language.LanguageID;
 import de.dittner.testmyself.model.domain.tag.Tag;
 import de.dittner.testmyself.model.domain.vocabulary.Vocabulary;
 import de.dittner.testmyself.model.domain.vocabulary.VocabularyID;
@@ -192,6 +193,17 @@ public class Note extends EventDispatcher {
 				return true;
 		}
 		return false;
+	}
+
+	public function geyCategory():String {
+		if (vocabulary.lang.id == LanguageID.EN) {
+			for each(var tagID:int in tagIDs) {
+				var tag:Tag = vocabulary.tagHash[tagID];
+				if (tag && tag.getCategory())
+					return tag.getCategory();
+			}
+		}
+		return "";
 	}
 
 	public function createExample():Note {

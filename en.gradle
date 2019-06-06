@@ -15,8 +15,8 @@ apply plugin: 'gradlefx'
 apply plugin: 'ide'
 apply plugin: 'ideafx'
 
-def versionCode = "7.37"
-def domain = "de.dittner.tm.en"
+def versionCode = "7.39"
+def domain = "de.dittner.testmyself.en"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.16.1"
 def airSdkVersion = "31.0"
@@ -116,7 +116,7 @@ task compileIOS(dependsOn: 'updateProperties') {
                     "$flexHome/lib/adt.jar",
                     "-package", "-target", "ipa-ad-hoc",
                     "-storetype", "PKCS12",
-                    "-keystore", "$projectDir/keys/ios-123.p12",
+                    "-keystore", "$projectDir/keys/iosDittnerDistributionProfile-123.p12",
                     "-storepass", "123",
                     "-provisioning-profile", "$projectDir/keys/tm-en.mobileprovision",
                     "$iosPathIPA",

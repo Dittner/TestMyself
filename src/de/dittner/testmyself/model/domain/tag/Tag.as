@@ -42,6 +42,19 @@ public class Tag extends EventDispatcher {
 	}
 
 	//--------------------------------------
+	//  category
+	//--------------------------------------
+	private static const categoryReg:RegExp = /(A|B|C)(1|2).*/i;
+	public function getCategory():String {
+		if (categoryReg.test(name)) {
+			var regRes:Array = categoryReg.exec(name);
+			if (regRes.length > 2)
+				return regRes[1] + regRes[2];
+		}
+		return ""
+	}
+
+	//--------------------------------------
 	//  vocabulary
 	//--------------------------------------
 	private var _vocabulary:Vocabulary;

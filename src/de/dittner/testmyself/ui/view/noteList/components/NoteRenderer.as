@@ -39,6 +39,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 	protected var titleTf:TextField;
 	protected var examplesNumTf:TextField;
 	protected var descriptionTf:TextField;
+	protected var categoryTf:TextField;
 	private var audioIcon:TileShape;
 	private var exampleIcon:TileShape;
 	private var favoriteIcon:TileShape;
@@ -123,6 +124,11 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			examplesNumTf.alpha = 0.4;
 			addChild(examplesNumTf);
 		}
+		if (!categoryTf) {
+			categoryTf = TextFieldFactory.create(EXAMPLES_NUM_FORMAT);
+			categoryTf.alpha = 0.4;
+			addChild(categoryTf);
+		}
 		if (!audioIcon) {
 			audioIcon = new TileShape(TileID.PLAY_AUDIO_ICON);
 			audioIcon.alpha = 0.4;
@@ -183,6 +189,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			titleTf.htmlText = getTitle();
 			descriptionTf.htmlText = getDescription();
 			examplesNumTf.text = note.exampleColl && note.exampleColl.length > 0 ? note.exampleColl.length.toString() : "";
+			categoryTf.text = note.geyCategory();
 
 			if (word && options.showWordArticle)
 				switch (word.article) {
@@ -212,6 +219,7 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 			titleTf.htmlText = "";
 			descriptionTf.htmlText = "";
 			examplesNumTf.text = "";
+			categoryTf.text = "";
 		}
 	}
 
@@ -304,19 +312,50 @@ public class NoteRenderer extends ItemRendererBase implements INoteRenderer {
 		var g:Graphics = graphics;
 		g.clear();
 
-		exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding + Values.PT1;
-		exampleIcon.y = Values.PT6;
-		exampleIcon.visible = note && note.exampleColl && examplesNumTf.length > 0;
-		examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT3;
-		examplesNumTf.y = Values.PT2;
+		const offsetStep:int = Values.PT20;
+		var offset:int = Values.PT5;
+		if (note && note.exampleColl && examplesNumTf.length > 0) {
+			exampleIcon.x = w - exampleIcon.measuredWidth - horizontalPadding + Values.PT1;
+			exampleIcon.y = Values.PT6;
+			exampleIcon.visible = true;
+			examplesNumTf.x = exampleIcon.x - examplesNumTf.textWidth - Values.PT3;
+			examplesNumTf.y = Values.PT2;
+			examplesNumTf.visible = true;
+			offset += offsetStep;
+		}
+		else {
+			exampleIcon.visible = false;
+			examplesNumTf.visible = false;
+		}
 
-		audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT3;
-		audioIcon.y = Values.PT25;
-		audioIcon.visible = hasAudioComment();
+		if (hasAudioComment()) {
+			audioIcon.x = w - audioIcon.measuredWidth - horizontalPadding + Values.PT3;
+			audioIcon.y = offset;
+			audioIcon.visible = true;
+			offset += offsetStep;
+		}
+		else {
+			audioIcon.visible = false;
+		}
 
-		favoriteIcon.x = w - favoriteIcon.measuredWidth - horizontalPadding + Values.PT3;
-		favoriteIcon.y = Values.PT45;
-		favoriteIcon.visible = note && note.isFavorite();
+		if (categoryTf.text) {
+			categoryTf.x = w - categoryTf.textWidth - horizontalPadding;
+			categoryTf.y = offset - Values.PT2;
+			categoryTf.visible = true;
+			offset += offsetStep;
+		}
+		else {
+			categoryTf.visible = false;
+		}
+
+		if (note && note.isFavorite()) {
+			favoriteIcon.x = categoryTf.visible ? w - favoriteIcon.measuredWidth - horizontalPadding - categoryTf.textWidth + Values.PT3 : w - favoriteIcon.measuredWidth - horizontalPadding + Values.PT3;
+			favoriteIcon.y = categoryTf.visible ? offset - offsetStep : offset;
+			favoriteIcon.visible = true;
+		}
+		else {
+			favoriteIcon.visible = false;
+		}
 
 		g.beginFill(0, 0);
 		g.drawRect(0, 0, w, h);
