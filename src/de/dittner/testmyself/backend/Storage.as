@@ -36,6 +36,7 @@ import de.dittner.testmyself.backend.tileStorage.cmd.LoadAllTilesCmd;
 import de.dittner.testmyself.backend.tileStorage.cmd.StoreTileCmd;
 import de.dittner.testmyself.backend.utils.HashData;
 import de.dittner.testmyself.backend.utils.RemoveDeutschDictionaryCmd;
+import de.dittner.testmyself.backend.utils.RemoveExamplesCmd;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
 import de.dittner.testmyself.model.AppModel;
@@ -264,6 +265,12 @@ public class Storage extends WalterProxy {
 
 	public function storeNote(note:Note):IAsyncOperation {
 		var op:IAsyncCommand = new StoreNoteCmd(this, note);
+		deferredCommandManager.add(op);
+		return op;
+	}
+
+	public function removeExamples():IAsyncOperation {
+		var op:IAsyncCommand = new RemoveExamplesCmd(this);
 		deferredCommandManager.add(op);
 		return op;
 	}

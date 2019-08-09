@@ -121,6 +121,8 @@
             tagList.dataProvider = vm.note.vocabulary.tagColl;
             showSelectedTags(vm.note.tagIDs);
             invalidateOf(focusTextInput);
+            if(currentState == "lesson")
+                titleArea.text = "<b></b>"
         }
 
         private function edit():void {

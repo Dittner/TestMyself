@@ -1,4 +1,5 @@
 package de.dittner.testmyself.ui.common.page {
+import de.dittner.async.AsyncOperation;
 import de.dittner.async.IAsyncOperation;
 import de.dittner.testmyself.backend.Storage;
 import de.dittner.testmyself.model.domain.note.Note;
@@ -200,18 +201,24 @@ public class NotePage extends EventDispatcher {
 		}
 	}
 
-	public function showPrevNote():void {
+	public function showPrevNote():IAsyncOperation {
+		var op:IAsyncOperation = new AsyncOperation();
 		if (coll) {
 			if (coll.length > 0 && selectedItemIndex > 0) {
 				selectedItemIndex--;
+				op.dispatchSuccess();
 			}
 			else if (number > 0) {
 				number--;
 				loadPage().addCompleteCallback(function (op:IAsyncOperation):void {
 					selectedItemIndex = coll && coll.length > 0 ? coll.length - 1 : 0;
+					op.dispatchSuccess();
 				});
 			}
+		} else {
+			op.dispatchSuccess()
 		}
+		return op;
 	}
 
 }

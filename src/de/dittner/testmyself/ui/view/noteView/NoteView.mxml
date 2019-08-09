@@ -119,9 +119,16 @@
                         task.isFailed = false;
                         task.store();
                         vm.page.countAllNotes = true;
-                        vm.reloadPage().addCompleteCallback(function (op:IAsyncOperation):void {
-                            updateNote();
-                        });
+                        if(vm.page.coll.length <= 1 && vm.page.number > 0) {
+                            vm.page.showPrevNote().addCompleteCallback(function (op:IAsyncOperation):void {
+                                updateNote();
+                            });
+                        } else {
+                            vm.reloadPage().addCompleteCallback(function (op:IAsyncOperation):void {
+                                updateNote();
+                            });
+                        }
+
                     }
                     break;
                 case(ToolAction.MOVE_TASK_TO_START) :

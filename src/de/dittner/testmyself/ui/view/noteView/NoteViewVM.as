@@ -62,9 +62,9 @@ public class NoteViewVM extends ViewModel {
 	}
 
 	private function pageReloaded(op:IAsyncOperation):void {
-		if(!page.selectedNote) goBack();
+		if (!page.selectedNote)
+			goBack();
 	}
-
 
 	public function createNote():void {
 		var info:NoteFormViewInfo = new NoteFormViewInfo(ViewID.NOTE_FORM);
