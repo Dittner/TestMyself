@@ -35,7 +35,6 @@ import de.dittner.testmyself.backend.tileStorage.TileSQLLib;
 import de.dittner.testmyself.backend.tileStorage.cmd.LoadAllTilesCmd;
 import de.dittner.testmyself.backend.tileStorage.cmd.StoreTileCmd;
 import de.dittner.testmyself.backend.utils.HashData;
-import de.dittner.testmyself.backend.utils.RemoveDeutschDictionaryCmd;
 import de.dittner.testmyself.backend.utils.RemoveExamplesCmd;
 import de.dittner.testmyself.logging.CLog;
 import de.dittner.testmyself.logging.LogTag;
@@ -120,7 +119,7 @@ public class Storage extends WalterProxy {
 
 	private var reloadDataBaseOp:IAsyncOperation;
 	public function reloadDataBase():IAsyncOperation {
-		if(reloadDataBaseOp && reloadDataBaseOp.isProcessing) return reloadDataBaseOp;
+		if (reloadDataBaseOp && reloadDataBaseOp.isProcessing) return reloadDataBaseOp;
 		reloadDataBaseOp = new AsyncOperation();
 
 		exampleHash = {};
@@ -153,12 +152,18 @@ public class Storage extends WalterProxy {
 		_audioSqlConnection = opEvent.result as SQLConnection;
 
 		_enRuDicSqlConnection = new SQLConnection();
-		var dbFile:File = File.applicationDirectory.resolvePath("dictionary/EN_RU_DIC.db");
-		if (!dbFile.exists) throw new Error("Не обнаружена база данных EN_RU_DIC по адресу: " + dbFile.nativePath);
 
-		_enRuDicSqlConnection.addEventListener(SQLEvent.OPEN, enRuDicDataBaseReadyHandler);
-		_enRuDicSqlConnection.addEventListener(SQLErrorEvent.ERROR, enRuDicDBErrorHandler);
-		_enRuDicSqlConnection.openAsync(dbFile);
+		if (CONFIG::LANGUAGE == "EN") {
+			var dbFile:File = File.applicationDirectory.resolvePath("dictionary/EN_RU_DIC.db");
+			if (!dbFile.exists) throw new Error("Не обнаружена база данных EN_RU_DIC по адресу: " + dbFile.nativePath);
+
+			_enRuDicSqlConnection.addEventListener(SQLEvent.OPEN, enRuDicDataBaseReadyHandler);
+			_enRuDicSqlConnection.addEventListener(SQLErrorEvent.ERROR, enRuDicDBErrorHandler);
+			_enRuDicSqlConnection.openAsync(dbFile);
+		}
+		else {
+			runTileDB();
+		}
 	}
 
 	private function enRuDicDBErrorHandler(event:SQLErrorEvent):void {
@@ -169,14 +174,14 @@ public class Storage extends WalterProxy {
 		runTileDB();
 	}
 
-	private function runTileDB():void{
+	private function runTileDB():void {
 		var dbFile:File = File.documentsDirectory.resolvePath(Device.tileDBPath);
 		if (Device.appVersion != LocalStorage.read(APP_VERSION_KEY) && dbFile.exists) {
 			CLog.info(LogTag.UI, "Irrelevant Tiles DB is deleting...");
 			dbFile.deleteFile();
 			hasTiles = false;
 		}
-		else if(!dbFile.exists) {
+		else if (!dbFile.exists) {
 			hasTiles = false;
 		}
 

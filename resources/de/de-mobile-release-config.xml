@@ -4,7 +4,7 @@
 
         <define>
             <name>CONFIG::debug</name>
-            <value>false</value>
+            <value>true</value>
         </define>
 
         <define append="true">
@@ -12,7 +12,7 @@
             <value>"DE"</value>
         </define>
 
-        <debug>false</debug>
+        <debug>true</debug>
 
         <keep-as3-metadata append="true">
             <name>Inject</name>

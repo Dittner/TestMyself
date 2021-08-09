@@ -13,7 +13,6 @@ import flash.data.SQLStatement;
 import flash.net.Responder;
 
 public class ReplaceTextInNoteTblCmd extends StorageOperation implements IAsyncCommand {
-
 	public function ReplaceTextInNoteTblCmd(storage:Storage, srcText:String, destText:String, langID:uint) {
 		super();
 		this.storage = storage;

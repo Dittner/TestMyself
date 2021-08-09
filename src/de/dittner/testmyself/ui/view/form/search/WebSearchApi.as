@@ -253,8 +253,8 @@ class EnSearchOperation extends AsyncOperation {
 		dispatchError();
 	}
 
-	private static const MP3_TAG:String = 'data-src-mp3="';
-	private static const UK_MP3_TAG:String = 'data-src-mp3="/media/english/uk_pron';
+	private static const MP3_TAG:String = 'src="';
+	private static const UK_MP3_TAG:String = 'src="/media/english/uk_pron';
 	private function getMp3Url(html:String):String {
 		if (!html) return "";
 		var mp3UrlStartInd:int = html.indexOf(UK_MP3_TAG);

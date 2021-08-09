@@ -12,6 +12,8 @@
     <fx:Script><![CDATA[
         import com.greensock.TweenLite;
 
+        import de.dittner.testmyself.model.Device;
+
         import de.dittner.testmyself.model.domain.note.DeWordArticle;
         import de.dittner.testmyself.ui.common.audio.mp3.MP3Player;
         import de.dittner.testmyself.ui.common.tile.TileID;
@@ -221,10 +223,11 @@
 
         override protected function keyUpHandler(event:KeyboardEvent):void {
             if (!keyboardEnabled) return;
+            const hasTextInputFocus:Boolean = stage && Device.isDesktop && stage.focus
 
             if (playCommentBtn && playCommentBtn.enabled && event.keyCode == Keyboard.SPACE)
                 notifyToolAction(ToolAction.PLAY_COMMENT)
-            else if (goBackBtn && goBackBtn.enabled && event.keyCode == Keyboard.BACKSPACE)
+            else if (goBackBtn && goBackBtn.enabled && event.keyCode == Keyboard.BACKSPACE && !hasTextInputFocus)
                 notifyToolAction(ToolAction.GO_BACK)
         }
 

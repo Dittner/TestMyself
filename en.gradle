@@ -15,7 +15,7 @@ apply plugin: 'gradlefx'
 apply plugin: 'ide'
 apply plugin: 'ideafx'
 
-def versionCode = "7.39"
+def versionCode = "7.42"
 def domain = "de.dittner.testmyself.en"
 def nameString = "TestMyself"
 def flexSdkVersion = "4.16.1"
